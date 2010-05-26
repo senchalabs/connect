@@ -1,0 +1,26 @@
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <title><%=title%></title>
+    <link rel="stylesheet" type="text/css" href="/style.css" />
+    <script src="/lib/prototype-1.6.1.js" type="text/javascript"></script>
+    <script src="/Map.js" type="text/javascript"></script>
+    <script src="/Editor.js" type="text/javascript"></script>
+    <script type="text/javascript">
+      window.level_owner = <%=JSON.stringify(user)%>;
+      window.level_name = <%=JSON.stringify(name)%>;
+      window.map_data = <%=JSON.stringify(level)%>;
+    </script>
+    <link href="/favicon.ico" rel="icon" type="image/x-icon" />
+  </head>
+  <body>
+    <div id="frame">
+      <canvas id="backdrop"></canvas>
+      <canvas id="map"></canvas>
+      <canvas id="secrets"></canvas>
+      <canvas id="highlight"></canvas>
+    </div>
+    <canvas id="player" style="width:40px;height:40px;border:4px dotted #fff;"></canvas>
+    <div id="description"></div>
+  </body>
+</html>
+
