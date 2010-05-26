@@ -1,0 +1,37 @@
+#frame {
+	position:absolute;
+	left:0px;
+	top:0px;
+	right:0px;
+	bottom:0;
+	margin:0;
+	padding:0;
+	background-color:#111;
+	overflow:hidden;
+}
+canvas {
+	position:absolute;
+}
+#player {
+	left:50%;
+	top:50%;
+	margin:-24px 0 0 -24px;
+	width:48px;
+	height:48px;
+}
+#panel {
+	position:absolute;
+	width:199px;
+	top:0;
+	bottom:0;
+	right:0;
+	left:auto;
+	height:auto;
+	overflow-y:auto;
+	overflow-x:hidden;
+	margin:0;
+	padding:0;
+}
+#description {
+	padding:5px;
+}
