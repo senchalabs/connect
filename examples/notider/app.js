@@ -1,7 +1,7 @@
 // Shortcut for
 var controlled = ["/console/", "/files/", "/messages/"];
 
-require('./lib/stack')([
+require('./lib/connect').run([
     // We want to log all http traffic
     ["", 'filters/log'],
     // Show pretty pages for exceptions

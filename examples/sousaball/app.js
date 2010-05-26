@@ -1,6 +1,8 @@
-var Stack = require('./lib/stack');
-var Postgres = require('db/postgres'),
-    Micro = require('templating/micro'),
+require.paths.unshift(__dirname + "/lib");
+
+var Connect = require('connect');
+var Postgres = require('postgres-pure'),
+    Tmpl = require('tmpl'),
     sys = require('sys'),
     fs = require('fs');
 
@@ -19,7 +21,7 @@ function load_template(template, callback) {
         return callback(err);
       }
       try {
-           template_cache[template] = Micro(buffer.toString('utf8'));
+           template_cache[template] = Tmpl(buffer.toString('utf8'));
       } catch (err) {
           callback(err);
           return;
@@ -101,7 +103,7 @@ function save(req, res, user, level, data) {
 }
 
 // Serve the App
-Stack([
+Connect.run([
     ["/", 'filters/log'],
     ["/", 'filters/cache'],
     ["/", 'filters/gzip'],
