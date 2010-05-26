@@ -12,6 +12,7 @@ Ext.test('Connect', {
     },
     
     test_config: function(){
-        assert.equal('development', connect.environment.is, 'Test "development" environment config loaded by default')
+        assert.equal('localhost', connect.env.hostname, 'Test "development" environment config loaded by default')
+        assert.equal('development', connect.env.name, 'Test env.name')
     }
 })
