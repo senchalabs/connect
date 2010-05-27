@@ -17,7 +17,7 @@ Ext.test('Connect', {
     },
     
     test_run: function(){
-        connect.run([
+        var server = connect.run([
             ['/', 'connect/filters/log']
         ])
     }
