@@ -4,9 +4,9 @@
  */
 
 var connect = require('connect'),
+    helpers = require('./helpers'),
     assert = require('assert'),
-    http = require('http'),
-    port = 7000
+    http = require('http')
 
 // TODO: mock out or better method for testing
 // possibly add unix domain socket support to http
@@ -26,12 +26,11 @@ Ext.test('Connect', {
         var server = connect.run([
             ['/', 'filters/uppercase', 1, 2, 3],
             ['/', 'providers/echo']
-        ], port++)
+        ])
         var setupArgs = require('filters/uppercase').setupArgs
         assert.equal('development', setupArgs[0].name, 'Test env passed to setup() as first arg')
         assert.eql([1,2,3], Array.prototype.slice.call(setupArgs, 1), 'Test remaining setup() args')
-        var client = http.createClient(port - 1)
-        var req = client.request('POST', '/')
+        var req = server.request('POST', '/')
         req.addListener('response', function(res){
             res.body = ''
             res.setEncoding('utf8')
