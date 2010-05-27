@@ -8,10 +8,6 @@ var connect = require('connect'),
     assert = require('assert'),
     http = require('http');
 
-// TODO: mock out or better method for testing
-// possibly add unix domain socket support to http
-// client
-
 Ext.test('Connect', {
     test_version: function(){
         assert.ok(/^\d+\.\d+\.\d+$/.test(connect.version), 'Test framework version format');
@@ -28,13 +24,11 @@ Ext.test('Connect', {
             ['/', 'providers/echo']
         ]);
         var setupArgs = require('filters/uppercase').setupArgs;
+        assert.ok(server.stack instanceof Array, 'Test server.stack')
         assert.equal('development', setupArgs[0].name, 'Test env passed to setup() as first arg');
         assert.eql([1,2,3], Array.prototype.slice.call(setupArgs, 1), 'Test remaining setup() args');
-        var req = server.request('POST', '/');
+        var req = server.request('POST', '/', { buffer: true });
         req.addListener('response', function(res){
-            res.body = '';
-            res.setEncoding('utf8');
-            res.addListener('data', function(chunk){ res.body += chunk });
             res.addListener('end', function(){
                 assert.equal('HELLO WORLD', res.body, 'Test provider response');
             })

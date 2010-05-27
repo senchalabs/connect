@@ -13,7 +13,8 @@
 
 var assert = require('assert'),
     sys = require('sys'),
-    fs = require('fs')
+    fs = require('fs'),
+    cwd = process.cwd()
 
 // Parse arguments
 
@@ -194,7 +195,7 @@ function run(files) {
     global.Ext = Ext
     if (!files.length) throw new Error('test files required')
     files.forEach(function(file){
-        require(process.cwd() + '/' + file.replace('.js', ''))
+        require(cwd + '/' + file.replace('.js', ''))
     })
 }
 
