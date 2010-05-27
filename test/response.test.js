@@ -11,11 +11,11 @@ var connect = require('connect'),
 Ext.test('ServerResponse', {
     test_error: function(){
         var server = connect.run([
-            ['/', {
+            { module: {
                 handle: function(req, res, next){
                     res.error(new Error('fail'))
                 }
-            }]
+            }}
         ]);
         var req = server.request('POST', '/');
         req.buffer = true;

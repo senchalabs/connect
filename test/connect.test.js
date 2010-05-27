@@ -20,13 +20,13 @@ Ext.test('Connect', {
     
     test_run: function(){
         var server = connect.run([
-            ['/', 'filters/uppercase', 1, 2, 3],
-            ['/', 'providers/echo']
+            { module: require('filters/uppercase'), param: 1 },
+            { module: require('providers/echo') }
         ]);
         var setupArgs = require('filters/uppercase').setupArgs;
-        assert.ok(server.stack instanceof Array, 'Test server.stack')
+        //assert.ok(server.stack instanceof Array, 'Test server.stack')
         assert.equal('development', setupArgs[0].name, 'Test env passed to setup() as first arg');
-        assert.eql([1,2,3], Array.prototype.slice.call(setupArgs, 1), 'Test remaining setup() args');
+        assert.eql([1], Array.prototype.slice.call(setupArgs, 1), 'Test remaining setup() args');
         var req = server.request('POST', '/');
         req.buffer = true;
         req.addListener('response', function(res){

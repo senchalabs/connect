@@ -21,17 +21,16 @@ Ext.test('Connect log', {
             return 'Thu, 27 May 2010 03:23:50 GMT';
         }
         var server = connect.run([
-            ['/', 'connect/filters/log', stream],
-            ['/', 'filters/uppercase'],
-            ['/', 'providers/echo']
+            { filter: 'log', param: stream },
+            { module: require('filters/uppercase') },
+            { module: require('providers/echo') }
         ]);
         
         var req = server.request('POST', '/', { 'User-Agent': 'ext-test', 'Referrer': 'http://google.com' });
         req.addListener('response', function(res){
             assert.equal(
                 '127.0.0.1 - - [Thu, 27 May 2010 03:23:50 GMT] "POST / HTTP/1.1" 200 - "http://google.com" "ext-test"', 
-                logs[0],
-                'Test log filter output with User-Agent and Referrer');
+                logs[0]);
             Date.prototype.toUTCString = orig;
         })
         req.write('foobar');
