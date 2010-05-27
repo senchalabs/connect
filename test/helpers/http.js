@@ -5,14 +5,11 @@
 
 var connect = require('connect'),
     http = require('http'),
-    port = process.env.CONNECT_TEST_PORT || 7000,
-    _run = connect.run;
+    port = process.env.CONNECT_TEST_PORT || 7000;
 
-// TODO: interval with pending responses
-
-connect.run = function(configs){
-    var server = _run(configs, port++),
-        client = http.createClient(server.port),
+connect.Server.prototype.run = function(){
+    var server = http.createServer(this.handle),
+        client = http.createClient(server.port = port),
         pending = 0;
     server.request = function() {
         ++pending;
@@ -29,5 +26,6 @@ connect.run = function(configs){
         });
         return req;
     }
+    server.listen(port++);
     return server;
 }

@@ -10,7 +10,7 @@ var connect = require('connect'),
 
 Ext.test('Connect method-override', {
     test_valid_method: function(){
-        var server = connect.run([
+        var server = new connect.Server([
             { filter: 'body-decoder' },
             { filter: 'method-override' },
             { module: {
@@ -20,14 +20,14 @@ Ext.test('Connect method-override', {
                     res.end();
                 }
             }}
-        ]);
+        ]).run();
         var req = server.request('POST', '/', { 'Content-Type': 'application/x-www-form-urlencoded' });
         req.write('_method=put');
         req.end();
     },
     
     test_invalid_method: function(){
-        var server = connect.run([
+        var server = new connect.Server([
             { filter: 'body-decoder' },
             { filter: 'method-override' },
             { module: {
@@ -37,7 +37,7 @@ Ext.test('Connect method-override', {
                     res.end();
                 }
             }}
-        ]);
+        ]).run();
         var req = server.request('POST', '/', { 'Content-Type': 'application/x-www-form-urlencoded' });
         req.write('_method=foobar');
         req.end();
