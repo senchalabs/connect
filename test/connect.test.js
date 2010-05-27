@@ -14,5 +14,11 @@ Ext.test('Connect', {
     test_config: function(){
         assert.equal('localhost', connect.env.hostname, 'Test "development" environment config loaded by default')
         assert.equal('development', connect.env.name, 'Test env.name')
+    },
+    
+    test_run: function(){
+        connect.run([
+            ['/', 'connect/filters/log']
+        ])
     }
 })
