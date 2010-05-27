@@ -10,13 +10,13 @@ var connect = require('connect'),
 
 Ext.test('ServerResponse', {
     test_error: function(){
-        var server = new connect.Server([
+        var server = helpers.run([
             { module: {
                 handle: function(req, res, next){
                     res.error(new Error('fail'))
                 }
             }}
-        ]).run();
+        ]);
         var req = server.request('POST', '/');
         req.buffer = true;
         req.addListener('response', function(res){

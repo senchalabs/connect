@@ -10,7 +10,7 @@ var connect = require('connect'),
 
 Ext.test('Connect body-decoder', {
     test_urlencoded: function(){
-        var server = new connect.Server([
+        var server = helpers.run([
             { filter: 'body-decoder' },
             { module: {
                 handle: function(req, res){
@@ -19,14 +19,14 @@ Ext.test('Connect body-decoder', {
                     res.end();
                 }
             }}
-        ]).run();
+        ]);
         var req = server.request('POST', '/', { 'Content-Type': 'application/x-www-form-urlencoded' });
         req.write('user[name]=tj')
         req.end();
     },
     
     test_json: function(){
-        var server = new connect.Server([
+        var server = helpers.run([
             { filter: 'body-decoder' },
             { module: {
                 handle: function(req, res){
@@ -35,7 +35,7 @@ Ext.test('Connect body-decoder', {
                     res.end();
                 }
             }}
-        ]).run();
+        ]);
         var req = server.request('POST', '/', { 'Content-Type': 'application/json; charset=utf8' });
         req.write('{"user":{"name":"tj"}}')
         req.end();

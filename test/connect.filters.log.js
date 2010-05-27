@@ -20,11 +20,11 @@ Ext.test('Connect log', {
         Date.prototype.toUTCString = function(){
             return 'Thu, 27 May 2010 03:23:50 GMT';
         }
-        var server = new connect.Server([
+        var server = helpers.run([
             { filter: 'log', param: stream },
             { module: require('filters/uppercase') },
             { module: require('providers/echo') }
-        ]).run();
+        ]);
         
         var req = server.request('POST', '/', { 'User-Agent': 'ext-test', 'Referrer': 'http://google.com' });
         req.buffer = true
