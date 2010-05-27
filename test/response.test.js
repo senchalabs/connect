@@ -11,13 +11,17 @@ var connect = require('connect'),
 Ext.test('ServerResponse', {
     test_error: function(){
         var server = connect.run([
-            ['/', 'providers/error']
+            ['/', {
+                handle: function(req, res, next){
+                    res.error(new Error('fail'))
+                }
+            }]
         ]);
         var req = server.request('POST', '/', { buffer: true });
         req.addListener('response', function(res){
             res.addListener('end', function(){
                 assert.strictEqual(500, res.statusCode, 'Test ServerResponse#error() status code');
-                assert.equal('fail', res.body, 'Test ServerResponse#error() body');
+                assert.equal('Error: fail', res.body, 'Test ServerResponse#error() body');
             })
         })
         req.end();
