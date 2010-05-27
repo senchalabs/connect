@@ -2,7 +2,7 @@ var Connect = require('./lib/connect');
 
 var controlled = ["/console/", "/files/", "/messages/"];
 
-Connect.run([
+new Connect.Server([
     // We want to log all http traffic
     {filter: "log"},
     // Show pretty pages for exceptions
@@ -25,4 +25,4 @@ Connect.run([
     {provider: "rest", route: "/files/", param: {}},
     // Finally serve everything else as static files
     {provider: "static", param: __dirname + "/public"},
-]);
+]).run();

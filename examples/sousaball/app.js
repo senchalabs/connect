@@ -103,7 +103,7 @@ function save(req, res, user, level, data) {
 }
 
 // Serve the App
-Connect.run([
+new Connect.Server([
     {filter: "log"},
     {filter: "cache"},
     {filter: "gzip"},
@@ -115,4 +115,4 @@ Connect.run([
         server.get(new RegExp('^/([^/]+)/([^/]+)$'), play);
         server.post(new RegExp('^/([^/]+)/([^/]+)$'), save, 'json');
     }}
-]);
+]).run();
