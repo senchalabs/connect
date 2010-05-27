@@ -24,5 +24,5 @@ new Connect.Server([
     // This is another logic endpoint, it's a rest-style interface to files
     {provider: "rest", route: "/files/", param: {}},
     // Finally serve everything else as static files
-    {provider: "static", param: __dirname + "/public"},
-]).run();
+    {provider: "static", param: __dirname + "/public"}
+]).listen();

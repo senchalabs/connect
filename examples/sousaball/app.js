@@ -9,16 +9,18 @@ var Postgres = require('postgres-pure'),
 var conn = new Postgres.Connection("postgres://tim@127.0.0.1/sousaball");
 conn.addListener('error', function (err) {
     sys.error(err.stack);
-})
+});
 
 var template_cache = {};
 function load_template(template, callback) {
     if (template_cache[template]) {
-        return callback(null, template_cache[template]);
+        callback(null, template_cache[template]);
+        return;
     }
     fs.readFile(__dirname + "/templates/" + template + ".tmpl", function (err, buffer) {
       if (err) {
-        return callback(err);
+        callback(err);
+        return;
       }
       try {
            template_cache[template] = Tmpl(buffer.toString('utf8'));
@@ -29,7 +31,7 @@ function load_template(template, callback) {
       callback(null, template_cache[template]);
       setTimeout(function () {
           delete template_cache[template];
-      })
+      });
       
     });
 }
@@ -115,4 +117,4 @@ new Connect.Server([
         server.get(new RegExp('^/([^/]+)/([^/]+)$'), play);
         server.post(new RegExp('^/([^/]+)/([^/]+)$'), save, 'json');
     }}
-]).run();
+]).listen();
