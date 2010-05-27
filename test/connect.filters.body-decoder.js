@@ -9,13 +9,12 @@ var connect = require('connect'),
     http = require('http');
 
 Ext.test('Connect body-decoder', {
-    test: function(){
+    test_urlencoded: function(){
         var server = connect.run([
             { filter: 'body-decoder' },
             { module: {
                 handle: function(req, res){
-                    assert.eql({ user: { name: 'tj' }}, req.params.post, 'Test body-decoder req.params')
-                    assert.equal('user[name]=tj', req.body, 'Test body-decoder req.body')
+                    assert.eql({ user: { name: 'tj' }}, req.body, 'Test body-decoder urlencoded req.body')
                     res.writeHead(200);
                     res.end();
                 }
@@ -23,6 +22,22 @@ Ext.test('Connect body-decoder', {
         ]);
         var req = server.request('POST', '/', { 'Content-Type': 'application/x-www-form-urlencoded' });
         req.write('user[name]=tj')
+        req.end();
+    },
+    
+    test_json: function(){
+        var server = connect.run([
+            { filter: 'body-decoder' },
+            { module: {
+                handle: function(req, res){
+                    assert.eql({ user: { name: 'tj' }}, req.body, 'Test body-decoder json req.body')
+                    res.writeHead(200);
+                    res.end();
+                }
+            }}
+        ]);
+        var req = server.request('POST', '/', { 'Content-Type': 'application/json; charset=utf8' });
+        req.write('{"user":{"name":"tj"}}')
         req.end();
     }
 })
