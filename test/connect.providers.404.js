@@ -31,7 +31,7 @@ Ext.test('Connect 404', {
         req.buffer = true;
         req.addListener('response', function(res){
             res.addListener('end', function(){
-                assert.strictEqual(404, res.statusCode, 'Test 404 provider status code');
+                assert.equal('Resource cannot be found', res.body, 'Test 404 provider custom error message');
             })
         })
         req.end();
