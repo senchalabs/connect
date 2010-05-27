@@ -1,6 +1,7 @@
 
 require('./lib/connect').createServer([
     { filter: 'log' },
+    { filter: 'response-time' },
     { module: {
         handle: function(req, res){
             var body = 'Hello World';
