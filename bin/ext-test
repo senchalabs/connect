@@ -230,7 +230,8 @@ function runSuite(title, tests) {
     for (var key in tests) {
         var test = tests[key]
         if (typeof test !== 'function') continue
-        var percent = Math.round(++current / total * 100)
+        var percent = Math.round(++current / total * 100),
+            key = key.replace(/_/g, ' ')
         sys.print('\u001B[K   %' + percent + ' \u001B[1m' + title + '\u001B[0m ' + key + '\r')
         try {
             var val = test()
