@@ -104,15 +104,15 @@ function save(req, res, user, level, data) {
 
 // Serve the App
 Connect.run([
-    ["/", 'filters/log'],
-    ["/", 'filters/cache'],
-    ["/", 'filters/gzip'],
+    {filter: "log"},
+    {filter: "cache"},
+    {filter: "gzip"},
     // First serve static files
-    ["/", 'providers/static', __dirname + "/public"],
+    {provider: "static", param: __dirname + "/public"},
     // Then the game logic as a router endpoint
-    ["/", 'providers/router', function (server) {
+    {provider: "router", param: function (server) {
         server.get(new RegExp('^/([^/]+)/([^/]+);edit$'), edit);
         server.get(new RegExp('^/([^/]+)/([^/]+)$'), play);
         server.post(new RegExp('^/([^/]+)/([^/]+)$'), save, 'json');
-    }],
+    }}
 ]);

@@ -1,27 +1,28 @@
-// Shortcut for
+var Connect = require('./lib/connect');
+
 var controlled = ["/console/", "/files/", "/messages/"];
 
-require('./lib/connect').run([
+Connect.run([
     // We want to log all http traffic
-    ["", 'filters/log'],
+    {filter: "log"},
     // Show pretty pages for exceptions
-    ["", 'filters/error-handler'],
+    {filter: "error-handler"},
     // Add cookie based sessions to the controlled routes
-    [controlled, 'filters/session'],
+    {filter: "session", route: controlled},
     // Make sure the user is authenticated
-    [controlled, 'filters/authentication', {}],
+    {filter: "authentication", route: controlled, param: {}},
     // Restrict access to controlled pages by user rules
-    [controlled, 'filters/authorization', {}],
+    {filter: "authorization", route: controlled, param: {}},
     // Listen for publish subscribe messages in real-time
-    ["/messages/", 'providers/pubsub', {}],
+    {provider: "pubsub", route: "/messages/", param: {}},
     // This is a logic endpoint, it's ext-direct rpc protocol
-    ["/console/", 'providers/direct', {}],
+    {provider: "direct", route: "/console/", param: {}},
     // Cache all rest and static responses
-    ["/", 'filters/cache'],
+    {filter: "cache"},
     // Gzip all resources when it makes sense
-    ["/", 'filters/gzip'],
+    {filter: "gzip"},
     // This is another logic endpoint, it's a rest-style interface to files
-    ["/files/", 'providers/rest', {}],
+    {provider: "rest", route: "/files/", param: {}},
     // Finally serve everything else as static files
-    ["/", 'providers/static', __dirname + "/public"],
+    {provider: "static", param: __dirname + "/public"},
 ]);
