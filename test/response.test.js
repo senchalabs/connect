@@ -17,7 +17,8 @@ Ext.test('ServerResponse', {
                 }
             }]
         ]);
-        var req = server.request('POST', '/', { buffer: true });
+        var req = server.request('POST', '/');
+        req.buffer = true;
         req.addListener('response', function(res){
             res.addListener('end', function(){
                 assert.strictEqual(500, res.statusCode, 'Test ServerResponse#error() status code');

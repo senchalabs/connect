@@ -14,14 +14,13 @@ connect.run = function(configs){
     var server = _run(configs, port++),
         client = http.createClient(server.port),
         pending = 0;
-    server.request = function(method, port, options) {
+    server.request = function() {
         ++pending;
-        var req = client.request(method, port),
-            options = options || {};
+        var req = client.request.apply(client, arguments);
         req.addListener('response', function(res){
-            if (options.buffer) {
+            if (req.buffer) {
                 res.body = '';
-                res.setEncoding(options.encoding || 'utf8');
+                res.setEncoding('utf8');
                 res.addListener('data', function(chunk){ res.body += chunk });
             }
             if (!--pending) {
