@@ -20,7 +20,7 @@ Ext.test('Connect log', {
         Date.prototype.toUTCString = function(){
             return 'Thu, 27 May 2010 03:23:50 GMT';
         }
-        var server = connect.run([
+        var server = helpers.run([
             { filter: 'log', param: stream },
             { module: require('filters/uppercase') },
             { module: require('providers/echo') }
@@ -32,7 +32,7 @@ Ext.test('Connect log', {
             res.addListener('end', function(){
                 assert.equal('FOOBAR', res.body)
                 assert.equal(
-                    '127.0.0.1 - - [Thu, 27 May 2010 03:23:50 GMT] "POST / HTTP/1.1" 200 - "http://google.com" "ext-test"', 
+                    '127.0.0.1 - - [Thu, 27 May 2010 03:23:50 GMT] "POST / HTTP/1.1" 200 - "http://google.com" "ext-test"\n', 
                     logs[0]);
                 Date.prototype.toUTCString = orig;
             })

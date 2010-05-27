@@ -10,7 +10,7 @@ var connect = require('connect'),
 
 Ext.test('Connect method-override', {
     test_valid_method: function(){
-        var server = connect.run([
+        var server = helpers.run([
             { filter: 'body-decoder' },
             { filter: 'method-override' },
             { module: {
@@ -27,7 +27,7 @@ Ext.test('Connect method-override', {
     },
     
     test_invalid_method: function(){
-        var server = connect.run([
+        var server = helpers.run([
             { filter: 'body-decoder' },
             { filter: 'method-override' },
             { module: {

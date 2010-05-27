@@ -5,16 +5,19 @@
 
 var connect = require('connect'),
     http = require('http'),
-    port = process.env.CONNECT_TEST_PORT || 7000,
-    _run = connect.run;
+    net = require('net');
 
-// TODO: interval with pending responses
+/**
+ * Test base port.
+ */
 
-connect.run = function(configs){
-    var server = _run(configs, port++),
-        client = http.createClient(server.port),
+port = process.env.CONNECT_TEST_PORT || 7000;
+
+connect.Server.prototype.listen = function(){
+    var self = this,
+        client = http.createClient(port),
         pending = 0;
-    server.request = function() {
+    this.request = function() {
         ++pending;
         var req = client.request.apply(client, arguments);
         req.addListener('response', function(res){
@@ -24,10 +27,11 @@ connect.run = function(configs){
                 res.addListener('data', function(chunk){ res.body += chunk });
             }
             if (!--pending) {
-                server.close();
+                self.close();
             } 
         });
         return req;
     }
-    return server;
+    net.Server.prototype.listen.call(this, this.port = port++);
+    return this;
 }

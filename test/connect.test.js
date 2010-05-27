@@ -19,12 +19,12 @@ Ext.test('Connect', {
     },
     
     test_run: function(){
-        var server = connect.run([
+        var server = helpers.run([
             { module: require('filters/uppercase'), param: 1 },
             { module: require('providers/echo') }
         ]);
+        assert.ok(server instanceof http.Server, 'Test Server instanceof http.Server')
         var setupArgs = require('filters/uppercase').setupArgs;
-        //assert.ok(server.stack instanceof Array, 'Test server.stack')
         assert.equal('development', setupArgs[0].name, 'Test env passed to setup() as first arg');
         assert.eql([1], Array.prototype.slice.call(setupArgs, 1), 'Test remaining setup() args');
         var req = server.request('POST', '/');
@@ -36,11 +36,5 @@ Ext.test('Connect', {
         })
         req.write('hello world');
         req.end();
-    },
-    
-    test_invalid_middleware: function(){
-        assert.throws(function(){
-            connect.run([{}])
-        }, Error, 'Test exception thrown when middleware does not have filter, provider, or module')
     }
 })

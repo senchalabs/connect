@@ -75,7 +75,7 @@ assert.equal = function(a, b, msg) {
                     break
                 }
             }
-            err.message = '\n' + a + '\n==\n' + diff
+            err.message = '\n' + a + '\n==\n' + diff.replace(/\n/g, '\\n')
             throw err
         }    
     } else {

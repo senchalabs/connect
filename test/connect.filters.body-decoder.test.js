@@ -10,7 +10,7 @@ var connect = require('connect'),
 
 Ext.test('Connect body-decoder', {
     test_urlencoded: function(){
-        var server = connect.run([
+        var server = helpers.run([
             { filter: 'body-decoder' },
             { module: {
                 handle: function(req, res){
@@ -26,7 +26,7 @@ Ext.test('Connect body-decoder', {
     },
     
     test_json: function(){
-        var server = connect.run([
+        var server = helpers.run([
             { filter: 'body-decoder' },
             { module: {
                 handle: function(req, res){
