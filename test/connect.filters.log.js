@@ -25,12 +25,13 @@ Ext.test('Connect log', {
             ['/', 'filters/uppercase'],
             ['/', 'providers/echo']
         ]);
-        var req = server.request('POST', '/');
+        
+        var req = server.request('POST', '/', { 'User-Agent': 'ext-test', 'Referrer': 'http://google.com' });
         req.addListener('response', function(res){
             assert.equal(
-                '127.0.0.1 - - [Thu, 27 May 2010 03:23:50 GMT] "POST / HTTP/1.1" 200 - "" ""', 
+                '127.0.0.1 - - [Thu, 27 May 2010 03:23:50 GMT] "POST / HTTP/1.1" 200 - "http://google.com" "ext-test"', 
                 logs[0],
-                'Test log filter output');
+                'Test log filter output with User-Agent and Referrer');
             Date.prototype.toUTCString = orig;
         })
         req.write('foobar');
