@@ -36,5 +36,11 @@ Ext.test('Connect', {
         })
         req.write('hello world');
         req.end();
+    },
+    
+    test_invalid_middleware: function(){
+        assert.throws(function(){
+            connect.run([{}])
+        }, Error, 'Test exception thrown when middleware does not have filter, provider, or module')
     }
 })
