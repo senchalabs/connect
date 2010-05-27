@@ -1,10 +1,9 @@
 #!/usr/bin/env node
 
 /*!
- * Ext JS SS Library 0.0.1 
- * Copyright(c) 2006-2010 Ext JS, Inc.
- * licensing@extjs.com
- * http://www.extjs.com/license
+ * Ext JS Connect 0.0.1
+ * Copyright(c) 2010 Ext JS, Inc.
+ * MIT Licensed
  */
  
 /**
@@ -231,7 +230,8 @@ function runSuite(title, tests) {
     for (var key in tests) {
         var test = tests[key]
         if (typeof test !== 'function') continue
-        var percent = Math.round(++current / total * 100)
+        var percent = Math.round(++current / total * 100),
+            key = key.replace(/_/g, ' ')
         sys.print('\u001B[K   %' + percent + ' \u001B[1m' + title + '\u001B[0m ' + key + '\r')
         try {
             var val = test()

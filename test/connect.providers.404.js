@@ -11,7 +11,8 @@ var connect = require('connect'),
 Ext.test('Connect 404', {
     test: function(){
         var server = connect.run([]);
-        var req = server.request('POST', '/', { buffer: true });
+        var req = server.request('POST', '/');
+        req.buffer = true;
         req.addListener('response', function(res){
             res.addListener('end', function(){
                 assert.strictEqual(404, res.statusCode, 'Test 404 provider status code');
