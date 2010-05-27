@@ -1,9 +1,10 @@
 #!/usr/bin/env node
 
 /*!
- * Ext JS Connect 0.0.1
- * Copyright(c) 2010 Ext JS, Inc.
- * MIT Licensed
+ * Ext JS SS Library 0.0.1 
+ * Copyright(c) 2006-2010 Ext JS, Inc.
+ * licensing@extjs.com
+ * http://www.extjs.com/license
  */
  
 /**
@@ -12,85 +13,86 @@
 
 var assert = require('assert'),
     sys = require('sys'),
-    fs = require('fs'),
-    cwd = process.cwd()
+    cwd = process.cwd(),
+    fs = require('fs');
 
 // Parse arguments
 
 var files = [],
     args = process.argv.slice(2),
-    Ext
+    Ext;
 
 while (args.length) {
-    var arg = args.shift()
+    var arg = args.shift();
     switch (arg) {
         case '-I':
         case '--include':
             if (arg = args.shift()) {
-                require.paths.unshift(arg)
+                require.paths.unshift(arg);
             } else {
-                throw new Error('--include requires a path')
+                throw new Error('--include requires a path');
             }
-            break
+            break;
         case '-r':
         case '--require':
             if (arg = args.shift()) {
-                require(arg)
+                require(arg);
             } else {
-                throw new Error('--require requires a path')
+                throw new Error('--require requires a path');
             }
-            break
+            break;
         default:
-            files.push(arg)
+            files.push(arg);
+            break;
     }
 }
 
 // Try loading Ext
 
 try {
-    Ext = require('ext')
+    Ext = require('ext');
 } catch (err) {
-    Ext = {}
+    Ext = {};
 }
 
 // Alias deepEqual as eql for complex equality
 
-assert.eql = assert.deepEqual
+assert.eql = assert.deepEqual;
 
 // Proxy assert.equal() for string diffs
 
-var origEqual = assert.equal
+var origEqual = assert.equal;
 assert.equal = function(a, b, msg) {
     if (typeof a === 'string' &&
         typeof b === 'string') {
         try {
-            origEqual.apply(this, arguments)
+            origEqual.apply(this, arguments);
         } catch (err) {
-            var diff = ''
+            var diff = '';
             for (var i = 0, len = b.length; i < len; ++i) {
                 if (b[i] === a[i]) {
-                    diff += b[i]
+                    diff += b[i];
                 } else {
-                    diff += '\u001B[31m' + b.substr(i) + '\u001B[0m'
-                    break
+                    diff += '\u001B[31m' + b.substr(i) + '\u001B[0m';
+                    break;
                 }
             }
-            err.message = '\n' + a + '\n==\n' + diff.replace(/\n/g, '\\n')
-            throw err
+            err.message = '\n' + a + '\n==\n' + diff;
+            throw err;
         }    
     } else {
-        origEqual.apply(this, arguments)
+        origEqual.apply(this, arguments);
     }
-}
+};
 
 // Report test coverage when available
 
 process.addListener('exit', function(){
-    sys.puts('')
+    sys.puts('');
     if (typeof _$jscoverage === 'object') {
-        reportCoverage(_$jscoverage)
+        reportCoverage(_$jscoverage);
     }
-})
+});
 
 /**
  * Report test coverage.
@@ -100,32 +102,32 @@ process.addListener('exit', function(){
  */
 
 function reportCoverage(cov) {
-    populateCoverage(cov)
-    sys.puts('\n   Test Coverage')
+    populateCoverage(cov);
+    sys.puts('\n   Test Coverage');
     var sep = '   +--------------------------------+----------+------+------+--------+',
-        lastSep = '                                    +----------+------+------+--------+'
-    sys.puts(sep)
-    sys.puts('   | filename                       | coverage | LOC  | SLOC | missed |')
-    sys.puts(sep)
+        lastSep = '                                    +----------+------+------+--------+';
+    sys.puts(sep);
+    sys.puts('   | filename                       | coverage | LOC  | SLOC | missed |');
+    sys.puts(sep);
     for (var name in cov) {
-        var file = cov[name]
+        var file = cov[name];
         if (file instanceof Array && name !== 'ext/test.js') {
             sys.printf('   | %-31s| %7.2f% | %4d | %4d | %6d |\n', 
                 name,
                 file.coverage,
                 file.LOC,
                 file.SLOC,
-                file.totalMisses)
+                file.totalMisses);
         }
     }
-    sys.puts(sep)
+    sys.puts(sep);
     sys.printf('     %-31s| %7.2f% | %4d | %4d | %6d |\n', 
         '',
         cov.coverage,
         cov.LOC,
         cov.SLOC,
-        cov.totalMisses)
-    sys.puts(lastSep)
+        cov.totalMisses);
+    sys.puts(lastSep);
 }
 
 /**
@@ -141,21 +143,21 @@ function populateCoverage(cov) {
     cov.totalFiles =
     cov.totalHits =
     cov.totalMisses = 
-    cov.coverage = 0
+    cov.coverage = 0;
     for (var name in cov) {
-        var file = cov[name]
+        var file = cov[name];
         if (file instanceof Array && name !== 'ext/test.js') {
-            ++cov.totalFiles
-            cov.totalHits += file.totalHits = file.select(function(hits){ return hits }).length
-            cov.totalMisses += file.totalMisses = file.select(function(hits){ return !hits }).length
-            file.totalLines = file.totalHits + file.totalMisses
-            cov.SLOC += file.SLOC = file.totalLines
-            cov.LOC += file.LOC = file.source.length
-            file.coverage = (file.totalHits / file.totalLines) * 100
+            ++cov.totalFiles;
+            cov.totalHits += file.totalHits = file.select(function(hits){ return hits; }).length;
+            cov.totalMisses += file.totalMisses = file.select(function(hits){ return !hits; }).length;
+            file.totalLines = file.totalHits + file.totalMisses;
+            cov.SLOC += file.SLOC = file.totalLines;
+            cov.LOC += file.LOC = file.source.length;
+            file.coverage = (file.totalHits / file.totalLines) * 100;
         }
     }
-    cov.coverage = (cov.totalHits / cov.SLOC) * 100
-}
+    cov.coverage = (cov.totalHits / cov.SLOC) * 100;
+};
 
 /**
  * Assert that the given array-like object
@@ -166,8 +168,8 @@ function populateCoverage(cov) {
  */
 
 assert.empty = function(arr, msg) {
-    assert.equal(arr.length, 0, msg)
-}
+    assert.equal(arr.length, 0, msg);
+};
 
 /**
  * Add a test suite with the given title and object
@@ -180,8 +182,8 @@ assert.empty = function(arr, msg) {
  */
 
 Ext.test = function(title, tests) {
-    runSuite(title, tests)
-}
+    runSuite(title, tests);
+};
 
 /**
  * Run all test files.
@@ -191,11 +193,11 @@ Ext.test = function(title, tests) {
  */
 
 function run(files) {
-    global.Ext = Ext
-    if (!files.length) throw new Error('test files required')
+    global.Ext = Ext;
+    if (!files.length) throw new Error('test files required');
     files.forEach(function(file){
-        require(cwd + '/' + file.replace('.js', ''))
-    })
+        require(cwd + '/' + file.replace('.js', ''));
+    });
 }
 
 /**
@@ -208,12 +210,12 @@ function run(files) {
  */
 
 function count(tests) {
-    var n = 0
+    var n = 0;
     for (var key in tests) {
-        if (typeof tests[key] !== 'function') continue
-        ++n
+        if (typeof tests[key] !== 'function') continue;
+        ++n;
     }
-    return n
+    return n;
 }
 
 /**
@@ -226,25 +228,25 @@ function count(tests) {
 
 function runSuite(title, tests) {
     var current = 0,
-        total = count(tests)
+        total = count(tests);
     for (var key in tests) {
-        var test = tests[key]
-        if (typeof test !== 'function') continue
-        var percent = Math.round(++current / total * 100),
-            key = key.replace(/_/g, ' ')
-        sys.print('\u001B[K   %' + percent + ' \u001B[1m' + title + '\u001B[0m ' + key + '\r')
+        var test = tests[key];
+        if (typeof test !== 'function') continue;
+        var percent = Math.round(++current / total * 100);
+        sys.print('\u001B[K   %' + percent + ' \u001B[1m' + title + '\u001B[0m ' + key + '\r');
         try {
-            var val = test()
+            var val = test();
         } catch (err) {
-            sys.puts('\u001B[Kin ' + title + ' ' + key + ':')
-            throw err
+            sys.puts('\u001B[Kin ' + title + ' ' + key + ':');
+            throw err;
         }
         if (val instanceof Function) {
-            process.addListener('exit', val)
+            process.addListener('exit', val);
         }
     }
 }
 
 // Run test files
 
-run(files)
+run(files);
+
