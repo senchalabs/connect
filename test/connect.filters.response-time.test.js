@@ -1,0 +1,31 @@
+
+/**
+ * Module dependencies.
+ */
+
+var connect = require('connect'),
+    helpers = require('./helpers'),
+    assert = require('assert'),
+    http = require('http');
+
+Ext.test('Connect response-time', {
+    test: function(){
+        var server = helpers.run([
+            { filter: 'response-time' },
+            { module: {
+                handle: function(req, res){
+                    setTimeout(function(){
+                        res.writeHead(200, {});
+                        res.end(); 
+                    }, 20);
+                }
+            }}
+        ]);
+        
+        var req = server.request('GET', '/');
+        req.addListener('response', function(res){
+            assert.ok(!isNaN(parseInt(res.headers['x-response-time'])), 'Test X-Response-Time header')
+        });
+        req.end();
+    }
+})
