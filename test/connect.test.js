@@ -28,6 +28,7 @@ Ext.test('Connect', {
             ['/', 'providers/echo']
         ]);
         var setupArgs = require('filters/uppercase').setupArgs;
+        assert.ok(server.stack instanceof Array, 'Test server.stack')
         assert.equal('development', setupArgs[0].name, 'Test env passed to setup() as first arg');
         assert.eql([1,2,3], Array.prototype.slice.call(setupArgs, 1), 'Test remaining setup() args');
         var req = server.request('POST', '/');
