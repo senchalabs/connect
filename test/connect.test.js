@@ -36,5 +36,55 @@ module.exports = {
         })
         req.write('hello world');
         req.end();
+    },
+    
+    test_next: function(){
+        var server = helpers.run([
+            { module: {
+                handle: function(err, req, res, next){
+                    // Implicit passing of args
+                    next();
+                }
+            }},
+            { module: {
+                handle: function(err, req, res, next){
+                    assert.strictEqual(null, err);
+                    assert.equal('object', typeof req);
+                    assert.equal('object', typeof res);
+                    assert.equal('function', typeof next);
+                    // Explicit passing of arg 1 
+                    next(null);
+                }
+            }},
+            { module: {
+                handle: function(err, req, res, next){
+                    assert.strictEqual(null, err);
+                    assert.equal('object', typeof req);
+                    assert.equal('object', typeof res);
+                    assert.equal('function', typeof next);
+                    // Explicit passing of arg 1 
+                    next(false);
+                }
+            }},
+            { module: {
+                handle: function(err, req, res, next){
+                    assert.strictEqual(false, err);
+                    assert.equal('object', typeof req);
+                    assert.equal('object', typeof res);
+                    assert.equal('function', typeof next);
+                    // Explicit passing of arg 1 and 2
+                    next(null, { faux: 'request' });
+                }
+            }},
+            { module: {
+                handle: function(err, req, res){
+                    assert.strictEqual(null, err);
+                    assert.eql({ faux: 'request' }, req);
+                    res.writeHead(200);
+                    res.end();
+                }
+            }},
+        ]);
+        server.request('GET', '/').end();
     }
 }
