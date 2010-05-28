@@ -17,6 +17,8 @@ new Connect.Server([
     {provider: "pubsub", route: "/messages/", param: {}},
     // This is a logic endpoint, it's ext-direct rpc protocol
     {provider: "direct", route: "/console/", param: {}},
+    // Use conditional GET to save on bandwidth
+    {filter: "conditional-get"},
     // Cache all rest and static responses
     {filter: "cache"},
     // Gzip all resources when it makes sense
