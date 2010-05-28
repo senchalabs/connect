@@ -5,8 +5,6 @@ var controlled = ["/console/", "/files/", "/messages/"];
 new Connect.Server([
     // We want to log all http traffic
     {filter: "log"},
-    // Show pretty pages for exceptions
-    {filter: "error-handler"},
     // Add cookie based sessions to the controlled routes
     {filter: "session", route: controlled},
     // Make sure the user is authenticated
@@ -27,4 +25,6 @@ new Connect.Server([
     {provider: "rest", route: "/files/", param: {}},
     // Finally serve everything else as static files
     {provider: "static", param: __dirname + "/public"}
+    // Show pretty pages for exceptions
+    // {filter: "error-handler"},
 ]).listen();
