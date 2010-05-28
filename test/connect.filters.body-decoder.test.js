@@ -9,11 +9,11 @@ var connect = require('connect'),
     http = require('http');
 
 module.exports = {
-    test_urlencoded: function(){
+    'test urlencoded body': function(){
         var server = helpers.run([
             { filter: 'body-decoder' },
             { module: {
-                handle: function(req, res){
+                handle: function(err, req, res){
                     assert.eql({ user: { name: 'tj' }}, req.body, 'Test body-decoder urlencoded req.body')
                     res.writeHead(200);
                     res.end();
@@ -25,11 +25,11 @@ module.exports = {
         req.end();
     },
     
-    test_json: function(){
+    'test json body': function(){
         var server = helpers.run([
             { filter: 'body-decoder' },
             { module: {
-                handle: function(req, res){
+                handle: function(err, req, res){
                     assert.eql({ user: { name: 'tj' }}, req.body, 'Test body-decoder json req.body')
                     res.writeHead(200);
                     res.end();

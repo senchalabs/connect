@@ -9,12 +9,12 @@ var connect = require('connect'),
     http = require('http');
 
 module.exports = {
-    test_valid_method: function(){
+    'test valid http method': function(){
         var server = helpers.run([
             { filter: 'body-decoder' },
             { filter: 'method-override' },
             { module: {
-                handle: function(req, res){
+                handle: function(err, req, res){
                     assert.equal('PUT', req.method, 'Test method-override')
                     res.writeHead(200);
                     res.end();
@@ -26,12 +26,12 @@ module.exports = {
         req.end();
     },
     
-    test_invalid_method: function(){
+    'test invalid http method': function(){
         var server = helpers.run([
             { filter: 'body-decoder' },
             { filter: 'method-override' },
             { module: {
-                handle: function(req, res){
+                handle: function(err, req, res){
                     assert.equal('POST', req.method, 'Test method-override invalid method')
                     res.writeHead(200);
                     res.end();

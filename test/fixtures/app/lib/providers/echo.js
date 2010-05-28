@@ -1,5 +1,5 @@
 
-exports.handle = function(req, res, next){
+exports.handle = function(err, req, res, next){
     res.writeHead(200, {
         'Content-Type': 'text/plain',
         'Conent-Length': req.body.length
