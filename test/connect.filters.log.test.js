@@ -8,7 +8,7 @@ var connect = require('connect'),
     assert = require('assert'),
     http = require('http');
 
-Ext.test('Connect log', {
+module.exports = {
     test: function(){
         var logs = [];
         var stream = {
@@ -40,4 +40,4 @@ Ext.test('Connect log', {
         req.write('foobar');
         req.end();
     }
-})
+}

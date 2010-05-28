@@ -8,7 +8,7 @@ var connect = require('connect'),
     assert = require('assert'),
     http = require('http');
 
-Ext.test('Connect method-override', {
+module.exports = {
     test_valid_method: function(){
         var server = helpers.run([
             { filter: 'body-decoder' },
@@ -42,4 +42,4 @@ Ext.test('Connect method-override', {
         req.write('_method=foobar');
         req.end();
     }
-})
+}
