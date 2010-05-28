@@ -8,7 +8,7 @@ var connect = require('connect'),
     assert = require('assert'),
     http = require('http');
 
-Ext.test('ServerResponse', {
+module.exports = {
     test_error: function(){
         var server = helpers.run([
             { module: {
@@ -27,4 +27,4 @@ Ext.test('ServerResponse', {
         })
         req.end();
     }
-})
+}

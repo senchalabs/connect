@@ -1,10 +1,9 @@
 
 NODE = node
+TEST = support/expresso/bin/expresso
+TESTS ?= test/*.test.js
 
 test:
-	@CONNECT_CWD=test/fixtures/app $(NODE) bin/ext-test -I lib test/*.js
-
-test-debug:
-	@CONNECT_CWD=test/fixtures/app $(NODE) --debug-brk bin/ext-test -I lib test/*.js
+	@CONNECT_CWD=test/fixtures/app ./$(TEST) -I lib $(TESTS)
 
 .PHONY: test test-debug

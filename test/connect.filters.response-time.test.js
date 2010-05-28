@@ -8,7 +8,7 @@ var connect = require('connect'),
     assert = require('assert'),
     http = require('http');
 
-Ext.test('Connect response-time', {
+module.exports = {
     test: function(){
         var server = helpers.run([
             { filter: 'response-time' },
@@ -28,4 +28,4 @@ Ext.test('Connect response-time', {
         });
         req.end();
     }
-})
+}
