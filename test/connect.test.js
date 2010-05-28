@@ -73,30 +73,44 @@ module.exports = {
     },
     
     'test connect as middleware': function(){
-        var server = helpers.run([
-            { module: connect.createServer([
-                { module: {
-                    handle: function(err, req, res){
-                        if (req.method === 'POST') {
-                            res.writeHead(200);
-                            res.end('inner stack');
-                        } else {
-                            next();
-                        }
+        var inner = connect.createServer([
+            { module: {
+                handle: function(err, req, res){
+                    if (req.method === 'POST') {
+                        res.writeHead(200);
+                        res.end('inner stack');
+                    } else {
+                        next();
                     }
-                }}
-            ])},
+                }
+            }, route: '/inner' }
+        ]);
+        var middle = connect.createServer([
+            { module: inner },
+            { module: {
+                handle: function(err, req, res){
+                    if (req.method === 'POST') {
+                        res.writeHead(200);
+                        res.end('middle stack');
+                    } else {
+                        next();
+                    }
+                }
+            }}
+        ]);
+        var server = helpers.run([
+            { module: middle },
             { module: {
                 handle: function(err, req, res){
                     res.writeHead(200);
                     res.end('outer stack');
                 }
-            }}
+            }, route: '/outer'}
         ]);
         
         // Outer stack
         
-        var req = server.request('GET', '/');
+        var req = server.request('GET', '/outer');
         req.buffer = true;
         req.addListener('response', function(res){
             res.addListener('end', function(){
@@ -105,13 +119,35 @@ module.exports = {
         });
         req.end();
         
-        // Inner stack
+        // Middle stack
         
         var req = server.request('POST', '/');
         req.buffer = true;
         req.addListener('response', function(res){
             res.addListener('end', function(){
+                assert.equal('middle stack', res.body);
+            });
+        });
+        req.end();
+        
+        // Inner stack
+        
+        var req = server.request('POST', '/inner');
+        req.buffer = true;
+        req.addListener('response', function(res){
+            res.addListener('end', function(){
                 assert.equal('inner stack', res.body);
+            });
+        });
+        req.end();
+        
+        // Unmatched
+        
+        var req = server.request('GET', '/');
+        req.buffer = true;
+        req.addListener('response', function(res){
+            res.addListener('end', function(){
+                assert.equal('Cannot find /', res.body);
             });
         });
         req.end();
