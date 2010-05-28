@@ -9,16 +9,16 @@ var connect = require('connect'),
     http = require('http');
 
 module.exports = {
-    test_version: function(){
+    'test version': function(){
         assert.ok(/^\d+\.\d+\.\d+$/.test(connect.version), 'Test framework version format');
     },
     
-    test_config: function(){
+    'test configuration': function(){
         assert.equal('localhost', connect.env.hostname, 'Test "development" environment config loaded by default');
         assert.equal('development', connect.env.name, 'Test env.name');
     },
     
-    test_run: function(){
+    'test basic middleware stack': function(){
         var server = helpers.run([
             { module: require('filters/uppercase'), param: 1 },
             { module: require('providers/echo') }

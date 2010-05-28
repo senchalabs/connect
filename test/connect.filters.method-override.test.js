@@ -9,7 +9,7 @@ var connect = require('connect'),
     http = require('http');
 
 module.exports = {
-    test_valid_method: function(){
+    'test valid http method': function(){
         var server = helpers.run([
             { filter: 'body-decoder' },
             { filter: 'method-override' },
@@ -26,7 +26,7 @@ module.exports = {
         req.end();
     },
     
-    test_invalid_method: function(){
+    'test invalid http method': function(){
         var server = helpers.run([
             { filter: 'body-decoder' },
             { filter: 'method-override' },

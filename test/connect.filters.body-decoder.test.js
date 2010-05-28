@@ -9,7 +9,7 @@ var connect = require('connect'),
     http = require('http');
 
 module.exports = {
-    test_urlencoded: function(){
+    'test urlencoded body': function(){
         var server = helpers.run([
             { filter: 'body-decoder' },
             { module: {
@@ -25,7 +25,7 @@ module.exports = {
         req.end();
     },
     
-    test_json: function(){
+    'test json body': function(){
         var server = helpers.run([
             { filter: 'body-decoder' },
             { module: {

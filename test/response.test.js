@@ -9,7 +9,7 @@ var connect = require('connect'),
     http = require('http');
 
 module.exports = {
-    test_error: function(){
+    'test #error()': function(){
         var server = helpers.run([
             { module: {
                 handle: function(err, req, res, next){
