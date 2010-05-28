@@ -13,7 +13,7 @@ module.exports = {
         var server = helpers.run([
             { filter: 'response-time' },
             { module: {
-                handle: function(req, res){
+                handle: function(err, req, res){
                     setTimeout(function(){
                         res.writeHead(200, {});
                         res.end(); 

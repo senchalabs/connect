@@ -13,7 +13,7 @@ module.exports = {
         var server = helpers.run([
             { filter: 'body-decoder' },
             { module: {
-                handle: function(req, res){
+                handle: function(err, req, res){
                     assert.eql({ user: { name: 'tj' }}, req.body, 'Test body-decoder urlencoded req.body')
                     res.writeHead(200);
                     res.end();
@@ -29,7 +29,7 @@ module.exports = {
         var server = helpers.run([
             { filter: 'body-decoder' },
             { module: {
-                handle: function(req, res){
+                handle: function(err, req, res){
                     assert.eql({ user: { name: 'tj' }}, req.body, 'Test body-decoder json req.body')
                     res.writeHead(200);
                     res.end();

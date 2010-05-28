@@ -12,7 +12,7 @@ module.exports = {
     test_error: function(){
         var server = helpers.run([
             { module: {
-                handle: function(req, res, next){
+                handle: function(err, req, res, next){
                     res.error(new Error('fail'))
                 }
             }}

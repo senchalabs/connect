@@ -14,7 +14,7 @@ module.exports = {
             { filter: 'body-decoder' },
             { filter: 'method-override' },
             { module: {
-                handle: function(req, res){
+                handle: function(err, req, res){
                     assert.equal('PUT', req.method, 'Test method-override')
                     res.writeHead(200);
                     res.end();
@@ -31,7 +31,7 @@ module.exports = {
             { filter: 'body-decoder' },
             { filter: 'method-override' },
             { module: {
-                handle: function(req, res){
+                handle: function(err, req, res){
                     assert.equal('POST', req.method, 'Test method-override invalid method')
                     res.writeHead(200);
                     res.end();
