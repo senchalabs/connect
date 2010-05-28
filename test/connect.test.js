@@ -72,6 +72,51 @@ module.exports = {
         server.request('GET', '/').end();
     },
     
+    'test connect as middleware': function(){
+        var server = helpers.run([
+            connect.createServer([
+                { module: {
+                    handle: function(err, req, res){
+                        if (req.method === 'POST') {
+                            res.writeHead(200);
+                            res.end('inner stack');
+                        } else {
+                            next();
+                        }
+                    }
+                }}
+            ]),
+            { module: {
+                handle: function(err, req, res){
+                    res.writeHead(200);
+                    res.end('outer stack');
+                }
+            }}
+        ]);
+        
+        // Outer stack
+        
+        var req = server.request('GET', '/');
+        req.buffer = true;
+        req.addListener('response', function(res){
+            res.addListener('end', function(){
+                assert.equal('outer stack', res.body);
+            });
+        });
+        req.end();
+        
+        // Inner stack
+        
+        var req = server.request('POST', '/');
+        req.buffer = true;
+        req.addListener('response', function(res){
+            res.addListener('end', function(){
+                assert.equal('inner stack', res.body);
+            });
+        });
+        req.end();
+    },
+    
     'test next()': function(){
         var server = helpers.run([
             { module: {
