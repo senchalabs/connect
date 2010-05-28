@@ -4,3 +4,6 @@
 [submodule "examples/sousaball/support/postgres-js"]
 	path = examples/sousaball/support/postgres-js
 	url = git://github.com/creationix/postgres-js.git
+[submodule "support/expresso"]
+	path = support/expresso
+	url = git://github.com/visionmedia/expresso.git

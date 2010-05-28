@@ -8,7 +8,7 @@ var connect = require('connect'),
     assert = require('assert'),
     http = require('http');
 
-Ext.test('Connect', {
+module.exports = {
     test_version: function(){
         assert.ok(/^\d+\.\d+\.\d+$/.test(connect.version), 'Test framework version format');
     },
@@ -37,4 +37,4 @@ Ext.test('Connect', {
         req.write('hello world');
         req.end();
     }
-})
+}

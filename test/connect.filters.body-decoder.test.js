@@ -8,7 +8,7 @@ var connect = require('connect'),
     assert = require('assert'),
     http = require('http');
 
-Ext.test('Connect body-decoder', {
+module.exports = {
     test_urlencoded: function(){
         var server = helpers.run([
             { filter: 'body-decoder' },
@@ -40,4 +40,4 @@ Ext.test('Connect body-decoder', {
         req.write('{"user":{"name":"tj"}}')
         req.end();
     }
-})
+}
