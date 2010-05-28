@@ -74,7 +74,7 @@ module.exports = {
     
     'test connect as middleware': function(){
         var server = helpers.run([
-            connect.createServer([
+            { module: connect.createServer([
                 { module: {
                     handle: function(err, req, res){
                         if (req.method === 'POST') {
@@ -85,7 +85,7 @@ module.exports = {
                         }
                     }
                 }}
-            ]),
+            ])},
             { module: {
                 handle: function(err, req, res){
                     res.writeHead(200);
