@@ -32,13 +32,26 @@ module.exports = {
         req.addListener('response', function(res){
             res.addListener('end', function(){
                 assert.equal('HELLO WORLD', res.body, 'Test provider response');
-            })
-        })
+            });
+        });
         req.write('hello world');
         req.end();
     },
     
-    test_next: function(){
+    'test unmatched path': function(){
+        var server = helpers.run([]);
+        var req = server.request('GET', '/');
+        req.buffer = true;
+        req.addListener('response', function(res){
+            res.addListener('end', function(){
+                assert.equal(404, res.statusCode, 'Test 404 on unmatched path');
+                assert.equal('Cannot find /', res.body, 'Test response body of unmatched path');
+            });
+        });
+        req.end();
+    },
+    
+    'test next()': function(){
         var server = helpers.run([
             { module: {
                 handle: function(err, req, res, next){
