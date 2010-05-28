@@ -51,6 +51,27 @@ module.exports = {
         req.end();
     },
     
+    'test catch error': function(){
+        var server = helpers.run([
+            { module: {
+                handle: function(err, req, res, next){
+                    doesNotExist();
+                }
+            }},
+            { module: {
+                handle: function(err, req, res, next){
+                    assert.ok(err instanceof Error, 'Test catching of thrown exception in middleware');
+                    assert.equal('object', typeof req);
+                    assert.equal('object', typeof res);
+                    assert.equal('function', typeof next);
+                    res.writeHead(500);
+                    res.end();
+                }
+            }}
+        ]);
+        server.request('GET', '/').end();
+    },
+    
     'test next()': function(){
         var server = helpers.run([
             { module: {
