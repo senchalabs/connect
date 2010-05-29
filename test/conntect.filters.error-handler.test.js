@@ -18,15 +18,7 @@ module.exports = {
             }},
             { filter: 'error-handler' }
         ]);
-        var req = server.request('GET', '/');
-        req.buffer = true;
-        req.addListener('response', function(res){
-            res.addListener('end', function(){
-                assert.equal(500, res.statusCode, 'Test error-handler 500 status code');
-                assert.equal('Internal Server Error', res.body, 'Test error-handler default response body');
-            })
-        })
-        req.end();
+        server.assertResponse('GET', '/', 500, 'Internal Server Error', 'Test error-handler defaults');
     },
     
     'test showMessage': function(){
@@ -38,15 +30,7 @@ module.exports = {
             }},
             { filter: 'error-handler', param: { showMessage: true }}
         ]);
-        var req = server.request('GET', '/');
-        req.buffer = true;
-        req.addListener('response', function(res){
-            res.addListener('end', function(){
-                assert.equal(500, res.statusCode, 'Test error-handler 500 status code');
-                assert.equal('Error: keyboard cat!', res.body, 'Test error-handler showMessage response body');
-            })
-        })
-        req.end();
+        server.assertResponse('GET', '/', 500, 'Error: keyboard cat!', 'Test error-handler showMessage');
     },
     
     'test showStack': function(){

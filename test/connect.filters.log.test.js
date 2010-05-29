@@ -30,7 +30,7 @@ module.exports = {
         req.buffer = true
         req.addListener('response', function(res){
             res.addListener('end', function(){
-                assert.equal('FOOBAR', res.body)
+                assert.equal('FOOBAR', res.body);
                 assert.equal(
                     '127.0.0.1 - - [Thu, 27 May 2010 03:23:50 GMT] "POST / HTTP/1.1" 200 - "http://google.com" "ext-test"\n', 
                     logs[0]);
