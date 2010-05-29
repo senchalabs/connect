@@ -38,6 +38,67 @@ module.exports = {
         req.end();
     },
     
+    'test path matching': function(){
+        var server = helpers.run([
+            { module: {
+                handle: function(err, req, res, next){
+                    res.writeHead(200);
+                    res.end('/hello');
+                }
+            }, route: '/hello' },
+            { module: {
+                handle: function(err, req, res, next){
+                    res.writeHead(200);
+                    res.end('/hello/world');
+                }
+            }, route: '/hello/world' }
+        ]);
+        
+        // GET /hello
+        
+        var req = server.request('GET', '/hello');
+        req.buffer = true;
+        req.addListener('response', function(res){
+            res.addListener('end', function(){
+                assert.equal('/hello', res.body);
+            });
+        });
+        req.end();
+        
+        // GET /hello/
+        
+        var req = server.request('GET', '/hello/');
+        req.buffer = true;
+        req.addListener('response', function(res){
+            res.addListener('end', function(){
+                assert.equal('/hello', res.body);
+            });
+        });
+        req.end();
+        
+        // GET /hello/world
+        
+        var req = server.request('GET', '/hello/world');
+        req.buffer = true;
+        req.addListener('response', function(res){
+            res.addListener('end', function(){
+                assert.equal('/hello/world', res.body);
+            });
+        });
+        req.end();
+        
+        // GET /hello/world/
+        
+        var req = server.request('GET', '/hello/world/');
+        req.buffer = true;
+        req.addListener('response', function(res){
+            res.addListener('end', function(){
+                assert.equal('/hello/world', res.body);
+            });
+        });
+        req.end();
+    },
+    
     'test unmatched path': function(){
         var server = helpers.run([]);
         var req = server.request('GET', '/');
