@@ -38,6 +38,90 @@ module.exports = {
         req.end();
     },
     
+    'test path matching': function(){
+        var n = 0;
+        var server = helpers.run([
+            { module: {
+                handle: function(err, req, res, next){
+                    switch (++n) {
+                        case 1:
+                        case 2:
+                            assert.equal('/', req.url, 'Test request url after matching a path');
+                            break;
+                        case 3:
+                            assert.equal('/and/more/segments/', 
+                                req.url,
+                                'Test request url after matching a path with additional segments');
+                            break;
+                    }
+                    res.writeHead(200);
+                    res.end('/hello/world');
+                }
+            }, route: '/hello/world' },
+            { module: {
+                handle: function(err, req, res, next){
+                    res.writeHead(200);
+                    res.end('/hello');
+                }
+            }, route: '/hello' }
+        ]);
+        
+        // GET /hello
+        
+        var req = server.request('GET', '/hello');
+        req.buffer = true;
+        req.addListener('response', function(res){
+            res.addListener('end', function(){
+                assert.equal('/hello', res.body, 'Test path matching /hello');
+            });
+        });
+        req.end();
+        
+        // GET /hello/
+        
+        var req = server.request('GET', '/hello/');
+        req.buffer = true;
+        req.addListener('response', function(res){
+            res.addListener('end', function(){
+                assert.equal('/hello', res.body, 'Test path matching /hello/');
+            });
+        });
+        req.end();
+        
+        // GET /hello/world
+        
+        var req = server.request('GET', '/hello/world');
+        req.buffer = true;
+        req.addListener('response', function(res){
+            res.addListener('end', function(){
+                assert.equal('/hello/world', res.body, 'Test path matching /hello/world');
+            });
+        });
+        req.end();
+        
+        // GET /hello/world/
+        
+        var req = server.request('GET', '/hello/world/');
+        req.buffer = true;
+        req.addListener('response', function(res){
+            res.addListener('end', function(){
+                assert.equal('/hello/world', res.body, 'Test path matching /hello/world/');
+            });
+        });
+        req.end();
+        
+        // GET /hello/world/and/more/segments
+        
+        var req = server.request('GET', '/hello/world/and/more/segments');
+        req.buffer = true;
+        req.addListener('response', function(res){
+            res.addListener('end', function(){
+                assert.equal('/hello/world', res.body, 'Test path matching /hello/world/and/more/segments');
+            });
+        });
+        req.end();
+    },
+    
     'test unmatched path': function(){
         var server = helpers.run([]);
         var req = server.request('GET', '/');
@@ -61,15 +145,23 @@ module.exports = {
             { module: {
                 handle: function(err, req, res, next){
                     assert.ok(err instanceof Error, 'Test catching of thrown exception in middleware');
+                    assert.eql(['doesNotExist'], err.arguments, 'Test catching of thrown exception in middleware');
                     assert.equal('object', typeof req);
                     assert.equal('object', typeof res);
                     assert.equal('function', typeof next);
-                    res.writeHead(500);
-                    res.end();
+                    next(err);
                 }
             }}
         ]);
-        server.request('GET', '/').end();
+        var req = server.request('GET', '/');
+        req.buffer = true;
+        req.addListener('response', function(res){
+            res.addListener('end', function(){
+                assert.equal(500, res.statusCode, 'Test 500 status code with no error handler');
+                assert.equal('Internal Server Error', res.body, 'Test Internal Server Error with no error handler');
+            });
+        });
+        req.end();
     },
     
     'test connect as middleware': function(){
@@ -179,6 +271,12 @@ module.exports = {
                     assert.equal('function', typeof next);
                     // Explicit passing of arg 1 
                     next(false);
+                }
+            }},
+            { module: {
+                handle: function(err, req, res, next){
+                    // Implicitly pass all args again
+                    next();
                 }
             }},
             { module: {
