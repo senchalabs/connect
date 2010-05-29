@@ -27,6 +27,7 @@ module.exports = {
         var setupArgs = require('filters/uppercase').setupArgs;
         assert.equal('development', setupArgs[0].name, 'Test env passed to setup() as first arg');
         assert.eql([1], Array.prototype.slice.call(setupArgs, 1), 'Test remaining setup() args');
+        
         var req = server.request('POST', '/');
         req.buffer = true;
         req.addListener('response', function(res){
@@ -55,84 +56,28 @@ module.exports = {
                             break;
                     }
                     res.writeHead(200);
-                    res.end('/hello/world');
+                    res.end('hello world');
                 }
             }, route: '/hello/world' },
             { module: {
                 handle: function(err, req, res, next){
                     res.writeHead(200);
-                    res.end('/hello');
+                    res.end('hello');
                 }
             }, route: '/hello' }
         ]);
         
-        // GET /hello
-        
-        var req = server.request('GET', '/hello');
-        req.buffer = true;
-        req.addListener('response', function(res){
-            res.addListener('end', function(){
-                assert.equal('/hello', res.body, 'Test path matching /hello');
-            });
-        });
-        req.end();
-        
-        // GET /hello/
-        
-        var req = server.request('GET', '/hello/');
-        req.buffer = true;
-        req.addListener('response', function(res){
-            res.addListener('end', function(){
-                assert.equal('/hello', res.body, 'Test path matching /hello/');
-            });
-        });
-        req.end();
-        
-        // GET /hello/world
-        
-        var req = server.request('GET', '/hello/world');
-        req.buffer = true;
-        req.addListener('response', function(res){
-            res.addListener('end', function(){
-                assert.equal('/hello/world', res.body, 'Test path matching /hello/world');
-            });
-        });
-        req.end();
-        
-        // GET /hello/world/
-        
-        var req = server.request('GET', '/hello/world/');
-        req.buffer = true;
-        req.addListener('response', function(res){
-            res.addListener('end', function(){
-                assert.equal('/hello/world', res.body, 'Test path matching /hello/world/');
-            });
-        });
-        req.end();
-        
-        // GET /hello/world/and/more/segments
-        
-        var req = server.request('GET', '/hello/world/and/more/segments');
-        req.buffer = true;
-        req.addListener('response', function(res){
-            res.addListener('end', function(){
-                assert.equal('/hello/world', res.body, 'Test path matching /hello/world/and/more/segments');
-            });
-        });
-        req.end();
+        server.assertResponse('GET', '/hello', 200, 'hello', 'Test path matching /hello');
+        server.assertResponse('GET', '/hello/', 200, 'hello', 'Test path matching /hello/');
+        server.assertResponse('GET', '/hello/world', 200, 'hello world', 'Test path matching /hello/world');
+        server.assertResponse('GET', '/hello/world/', 200, 'hello world', 'Test path matching /hello/world/');
+        server.assertResponse('GET', '/hello/world/and/more/segments', 200, 'hello world', 'Test path matching /hello/world/and/more/segments');
     },
     
     'test unmatched path': function(){
         var server = helpers.run([]);
-        var req = server.request('GET', '/');
-        req.buffer = true;
-        req.addListener('response', function(res){
-            res.addListener('end', function(){
-                assert.equal(404, res.statusCode, 'Test 404 on unmatched path');
-                assert.equal('Cannot find /', res.body, 'Test response body of unmatched path');
-            });
-        });
-        req.end();
+        server.assertResponse('GET', '/', 404, 'Cannot find /', 'Test unmatched path');
+        server.assertResponse('GET', '/foo', 404, 'Cannot find /foo/', 'Test unmatched path');
     },
     
     'test catch error': function(){
@@ -153,15 +98,8 @@ module.exports = {
                 }
             }}
         ]);
-        var req = server.request('GET', '/');
-        req.buffer = true;
-        req.addListener('response', function(res){
-            res.addListener('end', function(){
-                assert.equal(500, res.statusCode, 'Test 500 status code with no error handler');
-                assert.equal('Internal Server Error', res.body, 'Test Internal Server Error with no error handler');
-            });
-        });
-        req.end();
+        
+        server.assertResponse('GET', '/', 500, 'Internal Server Error', 'Test default error handler');
     },
     
     'test mounting': function(){
@@ -184,27 +122,8 @@ module.exports = {
             }, route: '/hello' }
         ]);
         
-        // GET /hello/world
-        
-        var req = server.request('GET', '/hello/world');
-        req.buffer = true;
-        req.addListener('response', function(res){
-            res.addListener('end', function(){
-                assert.equal('hello world', res.body, 'Test mouting /hello/world');
-            });
-        });
-        req.end();
-        
-        // GET /hello
-        
-        var req = server.request('GET', '/hello');
-        req.buffer = true;
-        req.addListener('response', function(res){
-            res.addListener('end', function(){
-                assert.equal('hello', res.body, 'Test mouting /hello');
-            });
-        });
-        req.end();
+        server.assertResponse('GET', '/hello/world', 200, 'hello world', 'Test mounting /hello/world');
+        server.assertResponse('GET', '/hello', 200, 'hello', 'Test mounting /hello');
     },
     
     'test connect as middleware': function(){
@@ -243,49 +162,10 @@ module.exports = {
             }, route: '/outer'}
         ]);
         
-        // Outer stack
-        
-        var req = server.request('GET', '/outer');
-        req.buffer = true;
-        req.addListener('response', function(res){
-            res.addListener('end', function(){
-                assert.equal('outer stack', res.body);
-            });
-        });
-        req.end();
-        
-        // Middle stack
-        
-        var req = server.request('POST', '/');
-        req.buffer = true;
-        req.addListener('response', function(res){
-            res.addListener('end', function(){
-                assert.equal('middle stack', res.body);
-            });
-        });
-        req.end();
-        
-        // Inner stack
-        
-        var req = server.request('POST', '/inner');
-        req.buffer = true;
-        req.addListener('response', function(res){
-            res.addListener('end', function(){
-                assert.equal('inner stack', res.body);
-            });
-        });
-        req.end();
-        
-        // Unmatched
-        
-        var req = server.request('GET', '/');
-        req.buffer = true;
-        req.addListener('response', function(res){
-            res.addListener('end', function(){
-                assert.equal('Cannot find /', res.body);
-            });
-        });
-        req.end();
+        server.assertResponse('GET', '/outer', 200, 'outer stack', 'Test outer stack');
+        server.assertResponse('POST', '/', 200, 'middle stack', 'Test middle stack');
+        server.assertResponse('POST', '/inner', 200, 'inner stack', 'Test inner stack');
+        server.assertResponse('GET', '/', 404, 'Cannot find /', 'Test multiple stacks unmatched path');
     },
     
     'test next()': function(){
