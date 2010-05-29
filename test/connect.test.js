@@ -196,10 +196,22 @@ module.exports = {
                     next(false);
                 }
             }},
+
+            { module: {
+                handle: function(err, req, res, next){
+                    throw new Error('fail');
+                }
+            }},
             { module: {
                 handle: function(err, req, res, next){
                     // Implicitly pass all args again
                     next();
+                }
+            }},
+            { module: {
+                handle: function(err, req, res, next){
+                    assert.ok(err instanceof Error, 'Test error thrown in handler');
+                    next(false);
                 }
             }},
             { module: {
