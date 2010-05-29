@@ -88,33 +88,38 @@ function save_map(user, level, data, callback) {
 
 function play(req, res, user, level) {
     render_template('play', user, level, function (html) {
-        res.render(html);
+        res.simpleBody(200, html, "text/html");
     });
 }
 
 function edit(req, res, user, level) {
     render_template('edit', user, level, function (html) {
-        res.render(html);
+        res.simpleBody(200, html, "text/html");
     });
 }
 
-function save(req, res, user, level, data) {
- save_map(user, level, data, function () {
-   res.render("Save " + user + "/" + level + ".level\n" + JSON.stringify(data));
- });
+function save(req, res, user, level) {
+    var data = req.body;
+    save_map(user, level, data, function () {
+        res.simpleBody(200, "Save " + user + "/" + level + ".level\n" + JSON.stringify(data));
+    });
 }
 
 // Serve the App
 new Connect.Server([
     {filter: "log"},
-    {filter: "cache"},
+    {filter: "response-time"},
+    {filter: "conditional-get"},
+    {filter: "cache", param: {ramCache: 100}},
     {filter: "gzip"},
     // First serve static files
     {provider: "static", param: __dirname + "/public"},
     // Then the game logic as a router endpoint
+    {filter: "body-decoder"},
     {provider: "router", param: function (server) {
         server.get(new RegExp('^/([^/]+)/([^/]+);edit$'), edit);
         server.get(new RegExp('^/([^/]+)/([^/]+)$'), play);
-        server.post(new RegExp('^/([^/]+)/([^/]+)$'), save, 'json');
-    }}
+        server.post(new RegExp('^/([^/]+)/([^/]+)$'), save);
+    }},
+    {filter: "error-handler"}
 ]).listen();
