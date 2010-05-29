@@ -61,15 +61,23 @@ module.exports = {
             { module: {
                 handle: function(err, req, res, next){
                     assert.ok(err instanceof Error, 'Test catching of thrown exception in middleware');
+                    assert.eql(['doesNotExist'], err.arguments, 'Test catching of thrown exception in middleware');
                     assert.equal('object', typeof req);
                     assert.equal('object', typeof res);
                     assert.equal('function', typeof next);
-                    res.writeHead(500);
-                    res.end();
+                    next(err);
                 }
             }}
         ]);
-        server.request('GET', '/').end();
+        var req = server.request('GET', '/');
+        req.buffer = true;
+        req.addListener('response', function(res){
+            res.addListener('end', function(){
+                assert.equal(500, res.statusCode, 'Test 500 status code with no error handler');
+                assert.equal('Internal Server Error', res.body, 'Test Internal Server Error with no error handler');
+            });
+        });
+        req.end();
     },
     
     'test connect as middleware': function(){
@@ -179,6 +187,12 @@ module.exports = {
                     assert.equal('function', typeof next);
                     // Explicit passing of arg 1 
                     next(false);
+                }
+            }},
+            { module: {
+                handle: function(err, req, res, next){
+                    // Implicitly pass all args again
+                    next();
                 }
             }},
             { module: {
