@@ -39,19 +39,31 @@ module.exports = {
     },
     
     'test path matching': function(){
+        var n = 0;
         var server = helpers.run([
+            { module: {
+                handle: function(err, req, res, next){
+                    switch (++n) {
+                        case 1:
+                        case 2:
+                            assert.equal('/', req.url, 'Test request url after matching a path');
+                            break;
+                        case 3:
+                            assert.equal('/and/more/segments/', 
+                                req.url,
+                                'Test request url after matching a path with additional segments');
+                            break;
+                    }
+                    res.writeHead(200);
+                    res.end('/hello/world');
+                }
+            }, route: '/hello/world' },
             { module: {
                 handle: function(err, req, res, next){
                     res.writeHead(200);
                     res.end('/hello');
                 }
-            }, route: '/hello' },
-            { module: {
-                handle: function(err, req, res, next){
-                    res.writeHead(200);
-                    res.end('/hello/world');
-                }
-            }, route: '/hello/world' }
+            }, route: '/hello' }
         ]);
         
         // GET /hello
@@ -60,7 +72,7 @@ module.exports = {
         req.buffer = true;
         req.addListener('response', function(res){
             res.addListener('end', function(){
-                assert.equal('/hello', res.body);
+                assert.equal('/hello', res.body, 'Test path matching /hello');
             });
         });
         req.end();
@@ -71,7 +83,7 @@ module.exports = {
         req.buffer = true;
         req.addListener('response', function(res){
             res.addListener('end', function(){
-                assert.equal('/hello', res.body);
+                assert.equal('/hello', res.body, 'Test path matching /hello/');
             });
         });
         req.end();
@@ -82,7 +94,7 @@ module.exports = {
         req.buffer = true;
         req.addListener('response', function(res){
             res.addListener('end', function(){
-                assert.equal('/hello/world', res.body);
+                assert.equal('/hello/world', res.body, 'Test path matching /hello/world');
             });
         });
         req.end();
@@ -93,7 +105,18 @@ module.exports = {
         req.buffer = true;
         req.addListener('response', function(res){
             res.addListener('end', function(){
-                assert.equal('/hello/world', res.body);
+                assert.equal('/hello/world', res.body, 'Test path matching /hello/world/');
+            });
+        });
+        req.end();
+        
+        // GET /hello/world/and/more/segments
+        
+        var req = server.request('GET', '/hello/world/and/more/segments');
+        req.buffer = true;
+        req.addListener('response', function(res){
+            res.addListener('end', function(){
+                assert.equal('/hello/world', res.body, 'Test path matching /hello/world/and/more/segments');
             });
         });
         req.end();
