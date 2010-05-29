@@ -337,6 +337,7 @@ Editor.prototype.saveMap = function ()
 	};
 	new Ajax.Request(resource_location, {
 		method: "post",
+		contentType: "application/json",
 		postBody: Object.toJSON(level),
 		onSuccess: function(t) {
 			self.message("Level saved");
