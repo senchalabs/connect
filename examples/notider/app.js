@@ -22,9 +22,9 @@ new Connect.Server([
     // Gzip all resources when it makes sense
     {filter: "gzip"},
     // This is another logic endpoint, it's a rest-style interface to files
-    {provider: "rest", route: "/files/", param: {}},
+    // {provider: "rest", route: "/files/", param: {}},
     // Finally serve everything else as static files
-    {provider: "static", param: __dirname + "/public"}
+    {provider: "static", param: __dirname + "/public"},
     // Show pretty pages for exceptions
-    // {filter: "error-handler"},
+    {filter: "error-handler"}
 ]).listen();
