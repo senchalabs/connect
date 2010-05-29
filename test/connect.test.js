@@ -164,6 +164,49 @@ module.exports = {
         req.end();
     },
     
+    'test mounting': function(){
+        var world = connect.createServer([
+            { module: {
+                handle: function(err, req, res){
+                    res.writeHead(200);
+                    res.end('hello world');
+                }
+            }, route: '/world' }
+        ]);
+        
+        var server = helpers.run([
+            { module: world, route: '/hello' },
+            { module: {
+                handle: function(err, req, res){
+                    res.writeHead(200);
+                    res.end('hello');
+                }
+            }, route: '/hello' }
+        ]);
+        
+        // GET /hello/world
+        
+        var req = server.request('GET', '/hello/world');
+        req.buffer = true;
+        req.addListener('response', function(res){
+            res.addListener('end', function(){
+                assert.equal('hello world', res.body, 'Test mouting /hello/world');
+            });
+        });
+        req.end();
+        
+        // GET /hello
+        
+        var req = server.request('GET', '/hello');
+        req.buffer = true;
+        req.addListener('response', function(res){
+            res.addListener('end', function(){
+                assert.equal('hello', res.body, 'Test mouting /hello');
+            });
+        });
+        req.end();
+    },
+    
     'test connect as middleware': function(){
         var inner = connect.createServer([
             { module: {
