@@ -2,7 +2,19 @@
 	position: absolute;
 	top: 0;
 	left: 0;
-	height: 200px;
 	overflow-y: scroll;
 	background: rgba(0,0,0,0.85);
+	-webkit-box-shadow: 1px 2px 4px rgba(0,0,0,0.5);
+}
+#debug h2, #debug h3 {
+	color: #fff;
+}
+#debug table {
+	border-collapse: collapse;
+}
+#debug table td {
+	border: 1px solid rgba(0,0,0,0.1);
+}
+#debug table td:first-child {
+	color: #fff;
 }
