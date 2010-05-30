@@ -50,7 +50,7 @@ module.exports = {
                             assert.equal('/', req.url, 'Test request url after matching a path');
                             break;
                         case 3:
-                            assert.equal('/and/more/segments/', 
+                            assert.equal('/and/more/segments', 
                                 req.url,
                                 'Test request url after matching a path with additional segments');
                             break;
