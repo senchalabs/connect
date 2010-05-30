@@ -77,7 +77,7 @@ module.exports = {
     'test unmatched path': function(){
         var server = helpers.run([]);
         server.assertResponse('GET', '/', 404, 'Cannot find /', 'Test unmatched path');
-        server.assertResponse('GET', '/foo', 404, 'Cannot find /foo/', 'Test unmatched path');
+        server.assertResponse('GET', '/foo', 404, 'Cannot find /foo', 'Test unmatched path');
     },
     
     'test catch error': function(){
