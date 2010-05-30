@@ -54,6 +54,11 @@ module.exports = {
                                 req.url,
                                 'Test request url after matching a path with additional segments');
                             break;
+                        case 4:
+                            assert.equal('/images/foo.png?with=query&string', 
+                                req.url,
+                                'Test request url after matching a path with query string');
+                            break;
                     }
                     res.writeHead(200);
                     res.end('hello world');
@@ -72,6 +77,7 @@ module.exports = {
         server.assertResponse('GET', '/hello/world', 200, 'hello world', 'Test path matching /hello/world');
         server.assertResponse('GET', '/hello/world/', 200, 'hello world', 'Test path matching /hello/world/');
         server.assertResponse('GET', '/hello/world/and/more/segments', 200, 'hello world', 'Test path matching /hello/world/and/more/segments');
+        server.assertResponse('GET', '/hello/world/images/foo.png?with=query&string', 200, 'hello world', 'Test path matching /hello/world/images/foo.png?with=query&string');
     },
     
     'test unmatched path': function(){
