@@ -161,20 +161,35 @@ module.exports = {
     
     test_named_params: function(){
         var server = run({
-            delay: function(ms, msg){
+            delay: function(ms,   msg, unused){
                 var respond = this;
                 setTimeout(function(){
-                    respond(msg);
+                    respond(null, msg);
                 }, ms);
+            },
+            invalid: function(  ){
+                this(null, 'shouldnt reach here because I dont have named param support :)');
             }
         });
+        
         server.call({
             jsonrpc: '2.0',
             method: 'delay',
-            params: { msg: 'Whoop!', ms: 200 },
+            params: { msg: 'Whoop!', ms: 50 },
             id: 1
         }, function(res, body){
             assert.eql({ id: 1, result: 'Whoop!', jsonrpc: '2.0' }, body);
+        });
+        
+        server.call({
+            jsonrpc: '2.0',
+            method: 'invalid',
+            params: { msg: 'Whoop!', ms: 50 },
+            id: 2
+        }, function(res, body){
+            assert.eql({ id: 2, error: 
+                { code: jsonrpc.INVALID_PARAMS, message: 'This service does not support named parameters.' }, 
+                jsonrpc: '2.0' }, body);
         });
     },
     
