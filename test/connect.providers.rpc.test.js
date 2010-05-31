@@ -74,7 +74,7 @@ module.exports = {
     
     test_uncaught_method_exception: function(){
         var server= run({
-            add: function(a, b, fn){
+            add: function(a, b){
                 throw new Error('fail!');
             }
         });
@@ -88,10 +88,61 @@ module.exports = {
         });
     },
     
+    test_passing_method_predefined_exception_code: function(){
+        var server= run({
+            add: function(a, b){
+                if (arguments.length === 2) {
+                    if (typeof a === 'number' && typeof b === 'number') {
+                        this(null, a + b);
+                    } else {
+                        var err = new Error('Arguments must be numeric.');
+                        err.code = jsonrpc.INVALID_PARAMS;
+                        this(err);
+                    }
+                } else {
+                    this(jsonrpc.INVALID_PARAMS);
+                }
+            }
+        });
+        
+        // Invalid params
+        
+        server.call({
+            jsonrpc: '2.0',
+            method: 'add',
+            params: [1],
+            id: 1
+        }, function(res, body){
+            assert.eql({ id: 1, error: { code: jsonrpc.INVALID_PARAMS, message: 'Invalid Params.' }, jsonrpc: '2.0' }, body);
+        });
+        
+        // Valid
+        
+        server.call({
+            jsonrpc: '2.0',
+            method: 'add',
+            params: [1, 2],
+            id: 2
+        }, function(res, body){
+            assert.eql({ id: 2, result: 3, jsonrpc: '2.0' }, body);
+        });
+        
+        // Custom exception
+        
+        server.call({
+            jsonrpc: '2.0',
+            method: 'add',
+            params: [1, {}],
+            id: 3
+        }, function(res, body){
+            assert.eql({ id: 3, error: { code: jsonrpc.INVALID_PARAMS, message: 'Arguments must be numeric.' }, jsonrpc: '2.0' }, body);
+        });
+    },
+    
     test_method_call: function(){
         var server= run({
-            add: function(a, b, fn){
-                fn(null, a + b);
+            add: function(a, b){
+                this(null, a + b);
             }
         });
         server.call({
