@@ -21,7 +21,7 @@ module.exports = {
             return 'Thu, 27 May 2010 03:23:50 GMT';
         }
         var server = helpers.run([
-            { filter: 'log', param: stream },
+            { filter: 'log', stream: stream },
             { module: require('filters/uppercase') },
             { module: require('providers/echo') }
         ]);

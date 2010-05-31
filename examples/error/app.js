@@ -6,5 +6,5 @@ require('./lib/connect').createServer([
             throw new Error('fail');
         }
     }},
-    { filter: 'error-handler', param: { showStack: true }}
+    { filter: 'error-handler', showStack: true }
 ]).listen(3001);

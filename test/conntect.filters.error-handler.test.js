@@ -28,7 +28,7 @@ module.exports = {
                     next(new Error('keyboard cat!'));
                 }
             }},
-            { filter: 'error-handler', param: { showMessage: true }}
+            { filter: 'error-handler', showMessage: true }
         ]);
         server.assertResponse('GET', '/', 500, 'Error: keyboard cat!', 'Test error-handler showMessage');
     },
@@ -40,7 +40,7 @@ module.exports = {
                     next(new Error('keyboard cat!'));
                 }
             }},
-            { filter: 'error-handler', param: { showStack: true }}
+            { filter: 'error-handler', showStack: true }
         ]);
         var req = server.request('GET', '/');
         req.buffer = true;
