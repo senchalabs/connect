@@ -2,6 +2,7 @@
 	position: absolute;
 	top: 0;
 	left: 0;
+	width: 100%;
 	overflow-y: scroll;
 	background: rgba(0,0,0,0.85);
 	-webkit-box-shadow: 1px 2px 4px rgba(0,0,0,0.5);
@@ -10,15 +11,37 @@
 	margin: 0;
 	padding: 0;
 }
-#debug #debug-tabs {
+#debug a {
+	color: #fff;
+	text-decoration: none;
+}
+#debug a:hover {
+	opacity: 0.75;
+}
+#debug #debug-header {
+	position: relative;
 	width: 100%;
 	padding: 10px 15px;
 	border-bottom: 1px solid rgba(255,255,255,0.1);
 	-webkit-box-shadow: 1px 1px 1px rgba(0,0,0,0.5);
 }
-#debug #debug-tabs h2 {
+#debug #debug-header h2 {
 	font-size: 14px;
 	text-align: left;
+}
+#debug #debug-tabs {
+	position: absolute;
+	top: 13px;
+	left: 135px;
+}
+#debug #debug-tabs li {
+	display: inline-block;
+	padding: 0 10px;
+	border: none;
+	border-right: 1px solid rgba(255,255,255,0.2);
+}
+#debug #debug-tabs li:last-child {
+	border-right: none;
 }
 #debug h2, #debug h3 {
 	color: #fff;
