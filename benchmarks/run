@@ -1,0 +1,16 @@
+#!/usr/bin/env bash
+
+SLEEP=${SLEEP-2}
+ABFLAGS=${ABFLAGS-"-m 2000 -c 50 -k"}
+ADDR=${ADDR-http://localhost:3000}
+AB=${AB-ab}
+
+#
+# Log <msg ...>
+# 
+# <msg ...>
+#
+
+log(){
+  echo "... $@"
+}
