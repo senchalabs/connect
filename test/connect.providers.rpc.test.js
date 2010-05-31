@@ -177,8 +177,8 @@ module.exports = {
     
     test_batch: function(){
         var server = run({
-            add: function(a, b){
-                this(null, a + b);
+            multiply: function(a, b){
+                this(null, a * b);
             },
             sub: function(a, b){
                 this(null, a - b);
@@ -186,19 +186,22 @@ module.exports = {
         });
         server.call([{
             jsonrpc: '2.0',
-            method: 'add',
-            params: [1,2],
+            method: 'multiply',
+            params: [2,2],
             id: 1
         }, {
             jsonrpc: '2.0',
             method: 'sub',
             params: [2, 1],
             id: 2
-        }], function(res, body){
-            assert.eql([
-                { id: 1, result: 3, jsonrpc: '2.0' },
-                { id: 2, result: 1, jsonrpc: '2.0' }
-            ], body);
+        },
+        {},
+        { jsonrpc: '2.0', id: 3 }
+        ], function(res, body){
+            assert.eql({ id: 1, result: 4, jsonrpc: '2.0' }, body[0]);
+            assert.eql({ id: 2, result: 1, jsonrpc: '2.0' }, body[1]);
+            assert.eql({ id: null, error: { code: jsonrpc.INVALID_REQUEST, message: 'Invalid Request.' }, jsonrpc: '2.0' }, body[2]);
+            assert.eql({ id: 3, error: { code: jsonrpc.INVALID_REQUEST, message: 'Invalid Request.' }, jsonrpc: '2.0' }, body[3]);
         });
     }
 }
