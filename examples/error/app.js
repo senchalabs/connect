@@ -7,4 +7,4 @@ require('./lib/connect').createServer([
         }
     }},
     { filter: 'error-handler', param: { showStack: true }}
-]).listen();
+]).listen(3001);

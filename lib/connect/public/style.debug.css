@@ -6,6 +6,20 @@
 	background: rgba(0,0,0,0.85);
 	-webkit-box-shadow: 1px 2px 4px rgba(0,0,0,0.5);
 }
+#debug * {
+	margin: 0;
+	padding: 0;
+}
+#debug #debug-tabs {
+	width: 100%;
+	padding: 10px 15px;
+	border-bottom: 1px solid rgba(255,255,255,0.1);
+	-webkit-box-shadow: 1px 1px 1px rgba(0,0,0,0.5);
+}
+#debug #debug-tabs h2 {
+	font-size: 14px;
+	text-align: left;
+}
 #debug h2, #debug h3 {
 	color: #fff;
 }
@@ -13,6 +27,7 @@
 	border-collapse: collapse;
 }
 #debug table td {
+	padding: 5px;
 	border: 1px solid rgba(0,0,0,0.1);
 }
 #debug table td:first-child {
