@@ -72,6 +72,22 @@ module.exports = {
         });
     },
     
+    test_uncaught_method_exception: function(){
+        var server= run({
+            add: function(a, b, fn){
+                throw new Error('fail!');
+            }
+        });
+        server.call({
+            jsonrpc: '2.0',
+            method: 'add',
+            params: [1,2],
+            id: 1
+        }, function(res, body){
+            assert.eql({ id: 1, error: { code: jsonrpc.INTERNAL_ERROR, message: 'Internal Error.' }, jsonrpc: '2.0' }, body);
+        });
+    },
+    
     test_method_call: function(){
         var server= run({
             add: function(a, b, fn){
