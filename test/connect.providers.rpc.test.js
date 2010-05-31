@@ -157,7 +157,7 @@ module.exports = {
     
     test_variable_arguments: function(){
         var server = run({
-            add: function(a, b){
+            add: function(){
                 var sum = 0;
                 for (var i = 0, len = arguments.length; i < len; ++i) {
                     sum += arguments[i];
@@ -172,6 +172,33 @@ module.exports = {
             id: 1
         }, function(res, body){
             assert.eql({ id: 1, result: 15, jsonrpc: '2.0' }, body);
+        });
+    },
+    
+    test_batch: function(){
+        var server = run({
+            add: function(a, b){
+                this(null, a + b);
+            },
+            sub: function(a, b){
+                this(null, a - b);
+            }
+        });
+        server.call([{
+            jsonrpc: '2.0',
+            method: 'add',
+            params: [1,2],
+            id: 1
+        }, {
+            jsonrpc: '2.0',
+            method: 'sub',
+            params: [2, 1],
+            id: 2
+        }], function(res, body){
+            assert.eql([
+                { id: 1, result: 3, jsonrpc: '2.0' },
+                { id: 2, result: 1, jsonrpc: '2.0' }
+            ], body);
         });
     }
 }
