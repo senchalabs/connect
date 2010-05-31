@@ -175,6 +175,25 @@ module.exports = {
         });
     },
     
+    test_named_params: function(){
+        var server = run({
+            delay: function(ms, msg){
+                var respond = this;
+                setTimeout(function(){
+                    respond(msg);
+                }, ms);
+            }
+        });
+        server.call({
+            jsonrpc: '2.0',
+            method: 'delay',
+            params: { msg: 'Whoop!', ms: 200 },
+            id: 1
+        }, function(res, body){
+            assert.eql({ id: 1, result: 'Whoop!', jsonrpc: '2.0' }, body);
+        });
+    },
+    
     test_batch: function(){
         var server = run({
             multiply: function(a, b){
