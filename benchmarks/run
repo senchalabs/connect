@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 
 SLEEP=${SLEEP-2}
-ABFLAGS=${ABFLAGS-"-m 2000 -c 50 -k"}
-ADDR=${ADDR-http://localhost:3000}
+ABFLAGS=${ABFLAGS-"-n 2000 -c 50 -k"}
+ADDR=${ADDR-http://0.0.0.0:3000/}
 AB=${AB-ab}
 
 #
@@ -14,3 +14,35 @@ AB=${AB-ab}
 log(){
   echo "... $@"
 }
+
+#
+# Benchmark the given <dir>.
+# 
+# <dir>
+#
+
+bm(){
+  local dir=$1;
+	for file in benchmarks/$dir/*; do
+		log running $file
+		case $file in
+			*.js)
+			  node $file &
+			  ;;
+		esac
+		local pid=$!
+		sleep $SLEEP
+		local dirname=results/$(dirname $file)
+		mkdir -p $dirname
+		$AB $ABFLAGS -g results/$file.dat $ADDR > results/$file.out
+		log $(cat results/$file.out | grep Requests)
+		kill -9 $pid
+	done
+}
+
+# Make ./results
+mkdir -p results
+
+# Run benchmarks
+log $AB $ABFLAGS $ADDR
+bm hello-world
