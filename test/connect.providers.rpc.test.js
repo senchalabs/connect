@@ -62,7 +62,7 @@ module.exports = {
     },
     
     test_invalid_method: function(){
-        var server= run({});
+        var server = run({});
         server.call({
             jsonrpc: '2.0',
             method: 'add',
@@ -73,7 +73,7 @@ module.exports = {
     },
     
     test_uncaught_method_exception: function(){
-        var server= run({
+        var server = run({
             add: function(a, b){
                 throw new Error('fail!');
             }
@@ -88,8 +88,8 @@ module.exports = {
         });
     },
     
-    test_passing_method_predefined_exception_code: function(){
-        var server= run({
+    test_passing_method_exceptions: function(){
+        var server = run({
             add: function(a, b){
                 if (arguments.length === 2) {
                     if (typeof a === 'number' && typeof b === 'number') {
@@ -140,7 +140,7 @@ module.exports = {
     },
     
     test_method_call: function(){
-        var server= run({
+        var server = run({
             add: function(a, b){
                 this(null, a + b);
             }
@@ -152,6 +152,26 @@ module.exports = {
             id: 1
         }, function(res, body){
             assert.eql({ id: 1, result: 3, jsonrpc: '2.0' }, body);
+        });
+    },
+    
+    test_variable_arguments: function(){
+        var server = run({
+            add: function(a, b){
+                var sum = 0;
+                for (var i = 0, len = arguments.length; i < len; ++i) {
+                    sum += arguments[i];
+                }
+                this(null, sum);
+            }
+        });
+        server.call({
+            jsonrpc: '2.0',
+            method: 'add',
+            params: [1,2,3,4,5],
+            id: 1
+        }, function(res, body){
+            assert.eql({ id: 1, result: 15, jsonrpc: '2.0' }, body);
         });
     }
 }
