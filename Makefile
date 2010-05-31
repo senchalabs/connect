@@ -9,4 +9,7 @@ test:
 benchmark: benchmarks/run
 	@./benchmarks/run
 
-.PHONY: test test-debug benchmark
+graphs: benchmarks/graph
+	@./benchmarks/graph
+
+.PHONY: test test-debug benchmark graphs
