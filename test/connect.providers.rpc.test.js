@@ -72,22 +72,6 @@ module.exports = {
         });
     },
     
-    test_uncaught_method_exception: function(){
-        var server = run({
-            add: function(a, b){
-                throw new Error('fail!');
-            }
-        });
-        server.call({
-            jsonrpc: '2.0',
-            method: 'add',
-            params: [1,2],
-            id: 1
-        }, function(res, body){
-            assert.eql({ id: 1, error: { code: jsonrpc.INTERNAL_ERROR, message: 'Internal Error.' }, jsonrpc: '2.0' }, body);
-        });
-    },
-    
     test_passing_method_exceptions: function(){
         var server = run({
             add: function(a, b){
@@ -172,6 +156,40 @@ module.exports = {
             id: 1
         }, function(res, body){
             assert.eql({ id: 1, result: 15, jsonrpc: '2.0' }, body);
+        });
+    },
+    
+    test_named_params: function(){
+        var server = run({
+            delay: function(ms,   msg, unused){
+                var respond = this;
+                setTimeout(function(){
+                    respond(null, msg);
+                }, ms);
+            },
+            invalid: function(  ){
+                this(null, 'shouldnt reach here because I dont have named param support :)');
+            }
+        });
+        
+        server.call({
+            jsonrpc: '2.0',
+            method: 'delay',
+            params: { msg: 'Whoop!', ms: 50 },
+            id: 1
+        }, function(res, body){
+            assert.eql({ id: 1, result: 'Whoop!', jsonrpc: '2.0' }, body);
+        });
+        
+        server.call({
+            jsonrpc: '2.0',
+            method: 'invalid',
+            params: { msg: 'Whoop!', ms: 50 },
+            id: 2
+        }, function(res, body){
+            assert.eql({ id: 2, error: 
+                { code: jsonrpc.INVALID_PARAMS, message: 'This service does not support named parameters.' }, 
+                jsonrpc: '2.0' }, body);
         });
     },
     
