@@ -5,8 +5,12 @@
 	width: 100%;
 	overflow-y: scroll;
 	background: rgba(0,0,0,0.85);
+	font: 13px "Helvetica Neue", "Lucida Grande", "Arial";
 	color: #929292;
+	-webkit-text-stroke: 1px rgba(255, 255, 255, 0.1);
+	-moz-text-stroke: 1px rgba(255, 255, 255, 0.1);
 	-webkit-box-shadow: 1px 2px 4px rgba(0,0,0,0.8);
+	-moz-box-shadow: 1px 2px 4px rgba(0,0,0,0.8);
 }
 #debug * {
 	margin: 0;
@@ -21,14 +25,15 @@
 }
 #debug #debug-header {
 	position: relative;
-	width: 95%;
-	padding: 10px 15px;
+	width: 100%;
+	padding: 10px 0;
 	border-bottom: 1px solid rgba(255,255,255,0.1);
 	-webkit-box-shadow: 1px 1px 1px rgba(0,0,0,0.5);
 }
 #debug #debug-header h2 {
 	font-size: 14px;
 	text-align: left;
+	margin-left: 20px;
 }
 #debug #debug-tabs {
 	position: absolute;
@@ -51,6 +56,8 @@
 	color: #fff;
 }
 #debug table {
+	width: 100%;
+	font-size: 13px;
 	border-collapse: collapse;
 }
 #debug table td {

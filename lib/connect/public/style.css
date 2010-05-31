@@ -1,6 +1,5 @@
 body {
-  font-family: "Helvetica Neue", "Lucida Grande", "Arial";
-  font-size: 13px;
+  font: 13px "Helvetica Neue", "Lucida Grande", "Arial";
   text-align: center;
   background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#fff), to(#ECE9E9));
   color: #555;
