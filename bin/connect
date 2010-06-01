@@ -19,7 +19,7 @@ var http = require('http'),
  * Environment defaults.
  */
 
-var env = {
+var env = exports.env = {
     name: process.env.CONNECT_ENV || 'development',
     logfile: 'logs/connect.log',
     pidfile: 'pids/connect.pid',
@@ -38,6 +38,12 @@ var daemonize;
  */
 
 var verbose;
+
+/**
+ * App module name.
+ */
+
+var appName = 'app';
 
 /**
  * Colored terminal output.
@@ -156,7 +162,7 @@ function stop(){
 
 function start(){
     log('starting');
-    var path = process.cwd() + '/app',
+    var path = process.cwd() + '/' + appName,
         app = require(path);
     if (app instanceof http.Server) {
         if (daemonize) {
@@ -209,7 +215,8 @@ function start(){
  */
 
 function parseArguments(){
-    var arg;
+    var arg,
+        cmd = 'start';
     while (args.length) {
         switch (arg = args.shift()) {
             case '-h':
@@ -269,16 +276,28 @@ function parseArguments(){
                 daemonize = true;
                 break;
             case 'stop':
-                stop();
-                break;
             case 'start':
-                start();
-                break;
             case 'restart':
-                stop();
-                start();
+                cmd = arg;
                 break;
+            default:
+                appName = arg;
         }
+    }
+    
+    // Run the command
+    
+    switch (cmd) {
+        case 'stop':
+            stop();
+            break;
+        case 'start': 
+            start();
+            break;
+        case 'restart': 
+            stop();
+            start();
+            break;
     }
 };
 
