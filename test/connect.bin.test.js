@@ -31,11 +31,23 @@ module.exports = {
     
     'test -I, --include': function(){
         exec('--include', '.', function(err, stdout, stderr){
-            assert.equal(undefined, err, 'Test --include exit status < 0 when path is present');
-        })
+            assert.equal(undefined, err, 'Test --include exit status of 0 when path is present');
+        });
         exec('--include', function(err, stdout, stderr){
             assert.equal(1, err.code, 'Test --include exit status > 0 when path is omitted');
             assert.equal('--include requires a path.\n', stderr, 'Test --include stderr when path is omitted');
-        })
+        });
+    },
+    
+    'test -e, --eval': function(){
+        exec('--eval', 'require("sys").puts("wahoo")', function(err, stdout, stderr){
+           assert.equal(undefined, err, 'Test --eval exit status of 0 when string is present'); 
+           assert.equal('wahoo\n', stdout, 'Test --eval stdout with string present');
+           assert.equal('', stderr, 'Test --eval stderr with string present');
+        });
+        exec('--eval', function(err, stdout, stderr){
+           assert.equal(1, err.code, 'Test --eval exit status > 0 when string is omitted'); 
+           assert.equal('--eval requires a string.\n', stderr, 'Test --eval stderr when string is omitted');
+        });
     }
 }
