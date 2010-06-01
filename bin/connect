@@ -27,7 +27,8 @@ var usage = ''
     + 'Usage: connect [options] [config-file]\n'
     + '\n'
     + 'Options:\n'
-    + '  -h, --help  Display help information\n';
+    + '  -h, --help            Display help information\n';
+    + '  -I, --include <path>  Unshift the given path to require.paths\n';
 
 /**
  * Exit with the given message.
