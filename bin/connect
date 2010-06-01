@@ -20,6 +20,7 @@ var connect = require('./../lib/connect'),
  */
 
 var env = {
+    name: process.env.EXPRESS_ENV || 'development',
     logfile: 'logs/connect.log',
     pidfile: 'pids/connect.pid',
     port: 3000,
@@ -62,6 +63,7 @@ var usage = ''
     + '  -p, --port NUM       Port number, defaults to 3000\n'
     + '  -D, --daemonize      Daemonize the server process\n'
     + '  -I, --include PATH   Unshift the given path to require.paths\n'
+    + '  -E, --env NAME       Set environment, defaults to "development"\n'
     + '  -e, --eval CODE      Evaluate the given string\n'
     + '  -c, --chdir PATH     Change to the given path\n'
     + '  -P, --pidfile PATH   PID file, defaults to pids/connect.pid\n'
@@ -191,7 +193,9 @@ function start(){
             // TODO: freopen() not supported in node yet
         }
         connect.createServer(app).listen(env.port);
-        sys.error('Connect server listening on http://' + (env.host || '*') + ':' + env.port);
+        sys.error('Connect server listening on http://'
+            + (env.host || '*') + ':' + env.port
+            + ' in ' + env.name + ' mode');
     } else {
         abort("invalid application:\n"
             + "at: `" + path + "'\n"
@@ -242,6 +246,10 @@ function parseArguments(){
             case '-l':
             case '--logfile':
                 env.logfile = requireArg('--logfile');
+                break;
+            case '-E':
+            case '--env':
+                env.name = requireArg('--env');
                 break;
             case '-P':
             case '--pidfile':
