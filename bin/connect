@@ -71,7 +71,7 @@ var usage = ''
     + '  -I, --include PATH   Unshift the given path to require.paths\n'
     + '  -E, --env NAME       Set environment, defaults to "development"\n'
     + '  -e, --eval CODE      Evaluate the given string\n'
-    + '  -c, --chdir PATH     Change to the given path\n'
+    + '  -C, --chdir PATH     Change to the given path\n'
     + '  -P, --pidfile PATH   PID file, defaults to pids/connect.pid\n'
     + '  -l, --logfile PATH   Log file, defaults to logs/connect.log\n'
     + '  -u, --user ID        Change user with setuid()\n'
@@ -247,7 +247,7 @@ function parseArguments(){
             case '--group':
                 env.gid = parseInt(requireArg('--group'), 10);
                 break;
-            case '-c':
+            case '-C':
             case '--chdir':
                 process.chdir(requireArg('--chdir'));
                 break;
