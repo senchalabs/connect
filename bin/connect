@@ -20,8 +20,8 @@ var connect = require('./../lib/connect'),
  */
 
 var env = {
-    logfile: 'connect.log',
-    pidfile: 'connect.pid',
+    logfile: 'logs/connect.log',
+    pidfile: 'pids/connect.pid',
     port: 3000,
     host: null
 };
@@ -58,6 +58,8 @@ var usage = ''
     + '  -I, --include path   Unshift the given path to require.paths\n'
     + '  -e, --eval code      Evaluate the given string\n'
     + '  -c, --chdir path     Change to the given path\n'
+    + '  -P, --pidfile path   PID file, defaults to pids/connect.pid\n'
+    + '  -l, --logfile path   Log file, defaults to logs/connect.log\n'
     + '  -u, --user id        Change user with setuid()\n'
     + '  -g, --group id       Change group with setgid()\n'
     + '  -v, --verbose        Display verbose output\n'
@@ -158,6 +160,10 @@ function start(){
             process.addListener('SIGHUP', function(){
                 // Ignore
             });
+            
+            // Redirect streams
+            // var errlog = env.logfile.replace(/(\.log)?$/, '.error$1');
+            // TODO: freopen() not supported in node yet
         }
         connect.createServer(app).listen(env.port);
     } else {
@@ -206,6 +212,14 @@ function start(){
             case '-c':
             case '--chdir':
                 process.chdir(requireArg('--chdir'));
+                break;
+            case '-l':
+            case '--logfile':
+                env.logfile = requireArg('--logfile');
+                break;
+            case '-P':
+            case '--pidfile':
+                env.pidfile = requireArg('--pidfile');
                 break;
             case '-v':
             case '--verbose':
