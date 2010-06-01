@@ -14,8 +14,8 @@ module.exports = {
     },
     
     'test configuration': function(){
-        assert.equal('localhost', connect.env.hostname, 'Test "development" environment config loaded by default');
-        assert.equal('development', connect.env.name, 'Test env.name');
+        assert.equal('localhost', connect.env.hostname, 'Test loading of configuration file');
+        assert.equal('test', connect.env.name, 'Test env.name');
     },
     
     'test basic middleware stack': function(){
@@ -25,7 +25,7 @@ module.exports = {
         ]);
         assert.ok(server instanceof http.Server, 'Test Server instanceof http.Server')
         var setupArgs = require('filters/uppercase').setupArgs;
-        assert.equal('development', setupArgs[0].name, 'Test env passed to setup() as first arg');
+        assert.equal('test', setupArgs[0].name, 'Test env passed to setup() as first arg');
         assert.eql([1], Array.prototype.slice.call(setupArgs, 1), 'Test remaining setup() args');
         
         var req = server.request('POST', '/');
