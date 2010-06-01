@@ -30,6 +30,18 @@ var usage = ''
     + '  -h, --help  Display help information\n';
 
 /**
+ * Exit with the given message.
+ *
+ * @param  {String} msg
+ * @param  {Number} code
+ */
+
+function abort(msg, code){
+    sys.error(msg);
+    process.exit(code || 1);
+}
+
+/**
  * Parse the arguments.
  */
 
@@ -38,8 +50,15 @@ var usage = ''
     switch (arg) {
         case '-h':
         case '--help':
-            sys.puts(usage);
-            process.exit(1);
+            abort(usage);
+            break;
+        case '-I':
+        case '--include':
+            if (args.length) {
+                require.paths.unshift(args.shift());
+            } else {
+                abort('--include requires a path.');
+            }
             break;
     }
 })();
