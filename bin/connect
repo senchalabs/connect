@@ -24,12 +24,14 @@ var args = process.ARGV.slice(2);
  */
 
 var usage = ''
-    + 'Usage: connect [options] [config-file]\n'
+    + 'Usage: connect [options] start|stop|restart\n'
     + '\n'
     + 'Options:\n'
+    + '  -H, --host [addr]     Host address, defaults to "0.0.0.0"\n'
+    + '  -p, --port [num]      Port number, defaults to 3000\n'
+    + '  -I, --include <path>  Unshift the given path to require.paths\n'
+    + '  -e, --eval <code>     Evaluate the given string\n'
     + '  -h, --help            Display help information\n';
-    + '  -I, --include <path>  Unshift the given path to require.paths\n';
-    + '  -e, --eval <code>     Evaluate the given string\n';
 
 /**
  * Exit with the given message.
@@ -41,6 +43,22 @@ var usage = ''
 function abort(msg, code){
     sys.error(msg);
     process.exit(code || 1);
+}
+
+/**
+ * Return shifted argument, or
+ * abort with the given errMsg.
+ *
+ * @param  {String} errMsg
+ * @return {String}
+ */
+
+function shift(errMsg){
+    if (args.length) {
+        return args.shift();
+    } else {
+        abort(errMsg);
+    }
 }
 
 /**
@@ -56,19 +74,13 @@ function abort(msg, code){
             break;
         case '-I':
         case '--include':
-            if (args.length) {
-                require.paths.unshift(args.shift());
-            } else {
-                abort('--include requires a path.');
-            }
+            require.paths.unshift(shift('--include requires a path.'));
             break;
         case '-e':
         case '--eval':
-            if (args.length) {
-                eval(args.shift());
-            } else {
-                abort('--eval requires a string.');
-            }
+            eval(shift('--eval requires a string.'));
             break;
+        default:
+            abort('start, stop, or restart required');
     }
 })();
