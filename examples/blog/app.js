@@ -1,8 +1,7 @@
-var Connect = require('./lib/connect');
 
 var controlled = ["/console/", "/files/", "/messages/"];
 
-new Connect.Server([
+module.exports = require('./lib/connect').createServer([
     // We want to log all http traffic
     {filter: "log"},
     // Add cookie based sessions to the controlled routes
@@ -24,7 +23,7 @@ new Connect.Server([
     // This is another logic endpoint, it's a rest-style interface to files
     // {provider: "rest", route: "/files/", param: {}},
     // Finally serve everything else as static files
-    {provider: "static", param: __dirname + "/public"},
+    {provider: "static", root: __dirname + "/public"},
     // Show pretty pages for exceptions
     {filter: "error-handler"}
-]).listen();
+]);
