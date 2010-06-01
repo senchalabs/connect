@@ -10,8 +10,7 @@
  * Module dependencies.
  */
 
-var connect = require('./../lib/connect'),
-    http = require('http'),
+var http = require('http'),
     sys = require('sys'),
     fs = require('fs'),
     cwd = process.cwd();
