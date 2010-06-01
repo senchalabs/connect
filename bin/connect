@@ -1,0 +1,246 @@
+#!/usr/bin/env node
+
+/*!
+ * Ext JS Connect
+ * Copyright(c) 2010 Ext JS, Inc.
+ * MIT Licensed
+ */
+
+/**
+ * Module dependencies.
+ */
+
+var connect = require('./../lib/connect'),
+    sys = require('sys'),
+    fs = require('fs'),
+    cwd = process.cwd()
+
+/**
+ * Default environment.
+ */
+
+var env = {
+    logfile: 'logs/connect.log',
+    pidfile: 'pids/connect.pid',
+    port: 3000,
+    host: null
+};
+
+/**
+ * Daemonize the process.
+ */
+
+var daemonize;
+
+/**
+ * Verbose output.
+ */
+
+var verbose;
+
+/**
+ * Argument vector.
+ */
+
+var args = process.argv.slice(2);
+
+/**
+ * Usage documentation.
+ */
+
+var usage = ''
+    + 'Usage: connect [options] start|stop|restart\n'
+    + '\n'
+    + 'Options:\n'
+    + '  -H, --host addr      Host address, defaults to INADDR_ANY\n'
+    + '  -p, --port num       Port number, defaults to 3000\n'
+    + '  -D, --daemonize      Daemonize the server process\n'
+    + '  -I, --include path   Unshift the given path to require.paths\n'
+    + '  -e, --eval code      Evaluate the given string\n'
+    + '  -c, --chdir path     Change to the given path\n'
+    + '  -P, --pidfile path   PID file, defaults to pids/connect.pid\n'
+    + '  -l, --logfile path   Log file, defaults to logs/connect.log\n'
+    + '  -u, --user id        Change user with setuid()\n'
+    + '  -g, --group id       Change group with setgid()\n'
+    + '  -v, --verbose        Display verbose output\n'
+    + '  -h, --help           Display help information\n';
+
+/**
+ * Log the given msg to stderr.
+ *
+ * @param  {String} msg
+ */
+
+function log(msg){
+    if (verbose) sys.error('... ' + msg);
+}
+
+/**
+ * Exit with the given message.
+ *
+ * @param  {String} msg
+ * @param  {Number} code
+ */
+
+function abort(msg, code){
+    sys.error(msg);
+    process.exit(code || 1);
+}
+
+/**
+ * Return shifted argument, or
+ * abort with the given prefix.
+ *
+ * @param  {String} prefix
+ * @return {String}
+ */
+
+function requireArg(prefix){
+    if (args.length) {
+        return args.shift();
+    } else {
+        abort(prefix + ' requires an argument.');
+    }
+}
+
+/**
+ * Stop the process when running.
+ */
+
+function stop(){
+    try {
+        log('stopping');
+        var pid = parseInt(fs.readFileSync(env.pidfile), 10);
+        process.kill(pid);
+    } catch (err) {
+        if (err.message === 'No such process') {
+            log(pid + ' is not running')
+        } else if (err.errno === process.ENOENT) {
+            log(err.path + ' does not exist');
+        } else {
+            throw err;
+        }
+    }
+}
+
+/**
+ * Start the process.
+ */
+
+function start(){
+    log('starting');
+    var path = process.cwd() + '/app',
+        app = require(path);
+    if (app instanceof Array) {
+        if (daemonize) {
+            log('daemonizing process ' + process.pid);
+            
+            // TODO: chroot
+            // TODO: sess / process group leader
+            
+            // Write out pid
+            fs.writeFile(env.pidfile, process.pid.toString(), 'ascii');
+            
+            // Reset umask
+            process.umask(0);
+            
+            // Set uid
+            if (env.uid) {
+                log('running as user ' + env.uid);
+                process.setuid(env.uid);
+            }
+            
+            // Set gid
+            if (env.gid) {
+                log('running as group ' + env.gid);
+                process.setgid(env.gid);
+            }
+            
+            // Ignore SIGHUP
+            process.addListener('SIGHUP', function(){
+                // Ignore
+            });
+            
+            // Redirect streams
+            // var errlog = env.logfile.replace(/(\.log)?$/, '.error$1');
+            // TODO: freopen() not supported in node yet
+        }
+        connect.createServer(app).listen(env.port);
+    } else {
+        abort("invalid application:\n"
+            + "at: `" + path + "'\n"
+            + "must export an array such as `module.exports = [ ...stack ... ]'\n");
+    }
+}
+
+/**
+ * Parse the arguments.
+ */
+
+(function parseArguments(){
+    var arg;
+    while (args.length) {
+        switch (arg = args.shift()) {
+            case '-h':
+            case '--help':
+                abort(usage);
+                break;
+            case '-I':
+            case '--include':
+                require.paths.unshift(requireArg('--include'));
+                break;
+            case '-e':
+            case '--eval':
+                eval(requireArg('--eval'));
+                break;
+            case '-p':
+            case '--port':
+                env.port = parseInt(requireArg('--port'), 10);
+                break;
+            case '-H':
+            case '--host':
+                env.host = requireArg('--host');
+                break;
+            case '-u':
+            case '--user':
+                env.uid = parseInt(requireArg('--user'), 10);
+                break;
+            case '-g':
+            case '--group':
+                env.gid = parseInt(requireArg('--group'), 10);
+                break;
+            case '-c':
+            case '--chdir':
+                process.chdir(requireArg('--chdir'));
+                break;
+            case '-l':
+            case '--logfile':
+                env.logfile = requireArg('--logfile');
+                break;
+            case '-P':
+            case '--pidfile':
+                env.pidfile = requireArg('--pidfile');
+                break;
+            case '-v':
+            case '--verbose':
+                verbose = true;
+                break;
+            case '-D':
+            case '--daemonize':
+                daemonize = true;
+                break;
+            case 'stop':
+                stop();
+                break;
+            case 'start':
+                start();
+                break;
+            case 'restart':
+                stop();
+                start();
+                break;
+            default:
+                abort('start, stop, or restart required');
+        }
+    }
+})();

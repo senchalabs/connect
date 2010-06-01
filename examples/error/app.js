@@ -1,5 +1,5 @@
 
-require('./lib/connect').createServer([
+module.exports = [
     { filter: 'debug' },
     { module: {
         handle: function(err, req, res, next){
@@ -7,4 +7,4 @@ require('./lib/connect').createServer([
         }
     }},
     { filter: 'error-handler', showStack: true }
-]).listen(3001);
+];
