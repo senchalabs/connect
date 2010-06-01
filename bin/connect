@@ -1,1 +1,9 @@
 #!/usr/bin/env node
+
+/*!
+ * Ext JS Connect
+ * Copyright(c) 2010 Ext JS, Inc.
+ * MIT Licensed
+ */
+
+var args = process.ARGV.slice(2);
