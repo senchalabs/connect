@@ -22,8 +22,8 @@ module.exports = {
         }
         var server = helpers.run([
             { filter: 'log', stream: stream },
-            { module: require('filters/uppercase') },
-            { module: require('providers/echo') }
+            { module: require('./filters/uppercase') },
+            { module: require('./providers/echo') }
         ]);
         
         var req = server.request('POST', '/', { 'User-Agent': 'ext-test', 'Referrer': 'http://google.com' });

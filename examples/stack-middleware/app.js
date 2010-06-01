@@ -1,5 +1,5 @@
 
-require('./lib/connect').createServer([
+module.exports = require('./lib/connect').createServer([
     { module: require('./hello') },
     { module: require('./world') },
     { module: {
@@ -8,4 +8,4 @@ require('./lib/connect').createServer([
             res.end('GET /hello or /world');
         }
     }}
-]).listen();
+]);
