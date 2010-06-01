@@ -72,6 +72,7 @@ var usage = ''
     + '  -E, --env NAME       Set environment, defaults to "development"\n'
     + '  -e, --eval CODE      Evaluate the given string\n'
     + '  -C, --chdir PATH     Change to the given path\n'
+    + '  -c, --config PATH    Load configuration module\n'
     + '  -P, --pidfile PATH   PID file, defaults to pids/connect.pid\n'
     + '  -l, --logfile PATH   Log file, defaults to logs/connect.log\n'
     + '  -u, --user ID        Change user with setuid()\n'
@@ -132,6 +133,22 @@ function requireArg(prefix){
         return args.shift();
     } else {
         abort(prefix + ' requires an argument.');
+    }
+}
+
+/**
+ * Load the given configuration file.
+ *
+ * @param  {String} file
+ */
+
+function loadConfig(file){
+    file = process.cwd() + '/' + file;
+    log('loading config [bold]{`' + file + "'}");
+    var config = require(file),
+        keys = Object.keys(config);
+    for (var i = 0, len = keys.length; i < len; ++i) {
+        env[keys[i]] = config[keys[i]];
     }
 }
 
@@ -262,6 +279,10 @@ function parseArguments(){
             case '-P':
             case '--pidfile':
                 env.pidfile = requireArg('--pidfile');
+                break;
+            case '-c':
+            case '--config':
+                loadConfig(requireArg('--config'));
                 break;
             case '-v':
             case '--verbose':
