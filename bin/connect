@@ -39,6 +39,12 @@ var daemonize;
 var verbose;
 
 /**
+ * Colored terminal output.
+ */
+
+var useColors = true;
+
+/**
  * Argument vector.
  */
 
@@ -49,20 +55,21 @@ var args = process.argv.slice(2);
  */
 
 var usage = ''
-    + 'Usage: connect [options] start|stop|restart\n'
+    + '[bold]{Usage}: connect [options] start|stop|restart\n'
     + '\n'
-    + 'Options:\n'
-    + '  -H, --host addr      Host address, defaults to INADDR_ANY\n'
-    + '  -p, --port num       Port number, defaults to 3000\n'
+    + '[bold]{Options}:\n'
+    + '  -H, --host ADDR      Host address, defaults to INADDR_ANY\n'
+    + '  -p, --port NUM       Port number, defaults to 3000\n'
     + '  -D, --daemonize      Daemonize the server process\n'
-    + '  -I, --include path   Unshift the given path to require.paths\n'
-    + '  -e, --eval code      Evaluate the given string\n'
-    + '  -c, --chdir path     Change to the given path\n'
-    + '  -P, --pidfile path   PID file, defaults to pids/connect.pid\n'
-    + '  -l, --logfile path   Log file, defaults to logs/connect.log\n'
-    + '  -u, --user id        Change user with setuid()\n'
-    + '  -g, --group id       Change group with setgid()\n'
+    + '  -I, --include PATH   Unshift the given path to require.paths\n'
+    + '  -e, --eval CODE      Evaluate the given string\n'
+    + '  -c, --chdir PATH     Change to the given path\n'
+    + '  -P, --pidfile PATH   PID file, defaults to pids/connect.pid\n'
+    + '  -l, --logfile PATH   Log file, defaults to logs/connect.log\n'
+    + '  -u, --user ID        Change user with setuid()\n'
+    + '  -g, --group ID       Change group with setgid()\n'
     + '  -v, --verbose        Display verbose output\n'
+    + '  -K, --no-color       Suppress colored terminal output\n'
     + '  -h, --help           Display help information\n';
 
 /**
@@ -76,6 +83,23 @@ function log(msg){
 }
 
 /**
+ * Colorize the given string when color is enabled,
+ * otherwise strip placeholders.
+ *
+ * @param  {String} str
+ * @return {String}
+ */
+
+function colorize(str){
+    var colors = useColors
+        ? { bold: 1 }
+        : {};
+    return str.replace(/\[(\w+)\]\{([^}]+)\}/g, function(_, color, str){
+        return '\x1B[' + colors[color] + 'm' + str +'\x1B[0m';
+    });
+}
+
+/**
  * Exit with the given message.
  *
  * @param  {String} msg
@@ -83,7 +107,7 @@ function log(msg){
  */
 
 function abort(msg, code){
-    sys.error(msg);
+    sys.error(colorize(msg));
     process.exit(code || 1);
 }
 
@@ -177,7 +201,7 @@ function start(){
  * Parse the arguments.
  */
 
-(function parseArguments(){
+function parseArguments(){
     var arg;
     while (args.length) {
         switch (arg = args.shift()) {
@@ -225,6 +249,10 @@ function start(){
             case '--verbose':
                 verbose = true;
                 break;
+            case '-K':
+            case '--no-color':
+                useColors = false;
+                break;
             case '-D':
             case '--daemonize':
                 daemonize = true;
@@ -239,8 +267,12 @@ function start(){
                 stop();
                 start();
                 break;
-            default:
-                abort('start, stop, or restart required');
         }
     }
-})();
+};
+
+if (args.length) {
+    parseArguments();
+} else {
+    abort(usage);
+}
