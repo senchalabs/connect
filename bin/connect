@@ -17,11 +17,11 @@ var connect = require('./../lib/connect'),
     cwd = process.cwd()
 
 /**
- * Default environment.
+ * Environment defaults.
  */
 
 var env = {
-    name: process.env.EXPRESS_ENV || 'development',
+    name: process.env.CONNECT_ENV || 'development',
     logfile: 'logs/connect.log',
     pidfile: 'pids/connect.pid',
     port: 3000,

@@ -13,10 +13,6 @@ module.exports = {
         assert.ok(/^\d+\.\d+\.\d+$/.test(connect.version), 'Test framework version format');
     },
     
-    'test environment': function(){
-        assert.equal('test', connect.env.name, 'Test connect.env.name');
-    },
-    
     'test basic middleware stack': function(){
         var server = helpers.run([
             { module: require('./filters/uppercase'), param: 1 },
