@@ -192,6 +192,7 @@ function start(){
             // var errlog = env.logfile.replace(/(\.log)?$/, '.error$1');
             // TODO: freopen() not supported in node yet
         }
+        app.env = env;
         app.listen(env.port);
         sys.error('Connect server listening on http://'
             + (env.host || '*') + ':' + env.port
