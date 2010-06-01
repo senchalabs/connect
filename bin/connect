@@ -6,4 +6,40 @@
  * MIT Licensed
  */
 
+/**
+ * Module dependencies.
+ */
+
+var sys = require('sys'),
+    fs = require('fs');
+
+/**
+ * Argument vector.
+ */
+
 var args = process.ARGV.slice(2);
+
+/**
+ * Usage documentation.
+ */
+
+var usage = ''
+    + 'Usage: connect [options] [config-file]\n'
+    + '\n'
+    + 'Options:\n'
+    + '  -h, --help  Display help information\n';
+
+/**
+ * Parse the arguments.
+ */
+
+(function parseArguments(){
+    var arg = args.shift();
+    switch (arg) {
+        case '-h':
+        case '--help':
+            sys.puts(usage);
+            process.exit(1);
+            break;
+    }
+})();
