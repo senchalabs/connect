@@ -79,7 +79,7 @@ var usage = ''
  */
 
 function log(msg){
-    if (verbose) sys.error('... ' + msg);
+    if (verbose) sys.error('... ' + colorize(msg));
 }
 
 /**
@@ -136,11 +136,12 @@ function stop(){
         log('stopping');
         var pid = parseInt(fs.readFileSync(env.pidfile), 10);
         process.kill(pid);
+        log('killed [bold]{' + pid + '}');
     } catch (err) {
         if (err.message === 'No such process') {
-            log(pid + ' is not running')
+            log('[bold]{' + pid + '} is not running')
         } else if (err.errno === process.ENOENT) {
-            log(err.path + ' does not exist');
+            log('[bold]{' + err.path + '} does not exist');
         } else {
             throw err;
         }
@@ -190,6 +191,7 @@ function start(){
             // TODO: freopen() not supported in node yet
         }
         connect.createServer(app).listen(env.port);
+        sys.error('Connect server listening on http://' + (env.host || '*') + ':' + env.port);
     } else {
         abort("invalid application:\n"
             + "at: `" + path + "'\n"
