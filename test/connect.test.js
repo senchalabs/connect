@@ -13,9 +13,8 @@ module.exports = {
         assert.ok(/^\d+\.\d+\.\d+$/.test(connect.version), 'Test framework version format');
     },
     
-    'test configuration': function(){
-        assert.equal('localhost', connect.env.hostname, 'Test loading of configuration file');
-        assert.equal('test', connect.env.name, 'Test env.name');
+    'test environment': function(){
+        assert.equal('test', connect.env.name, 'Test connect.env.name');
     },
     
     'test basic middleware stack': function(){
@@ -105,7 +104,7 @@ module.exports = {
             }}
         ]);
         
-        server.assertResponse('GET', '/', 500, 'Internal Server Error', 'Test default error handler');
+        server.assertResponse('GET', '/', 500, 'Internal Server Error', 'Test default error handler in a non-development environment');
     },
     
     'test mounting': function(){
