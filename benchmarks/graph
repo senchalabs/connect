@@ -1,0 +1,78 @@
+#!/usr/bin/env bash
+
+COL=${COL-9}
+ABFLAGS=$(cat results/flags)
+
+# Log <msg ...>
+# 
+# <msg ...>
+#
+
+log(){
+  echo "... $@"
+}
+
+#
+# Output gnuplot script for line graph.
+# 
+# <title> <node> <connect>
+#
+
+function line() {
+  cat <<-EOF
+set terminal png
+set output "results/graphs/$1.png"
+set title "$1 $ABFLAGS"
+set size 1,0.7
+set grid y
+set key left top
+set xlabel "request"
+set ylabel "response time (ms)"
+plot "$2" using $COL smooth sbezier with lines title "node buffer", \\
+     "$3" using $COL smooth sbezier with lines title "node string", \\
+     "$4" using $COL smooth sbezier with lines title "connect buffer", \\
+     "$5" using $COL smooth sbezier with lines title "rack thin"
+EOF
+}
+
+#
+# Output gnuplot script for bar graph.
+# 
+# <title> <node> <connect>
+#
+
+function bar() {
+cat <<-EOF
+set terminal png
+set output "results/graphs/$1.rps.png"
+set title "$1 $ABFLAGS"
+set size 0.7,0.5
+set grid y
+set key left top
+set ylabel "requests per second"
+plot "$1.rps.dat" using 2: xtic(1) with histogram title ""
+EOF
+}
+
+#
+# Graph the output of the given <dir>.
+# 
+# <dir>
+#
+
+function graph(){
+  log graphing $1
+	local dir=results/benchmarks/$1
+	line $1 \
+	  $dir/node.buffer.js.dat \
+	  $dir/node.string.js.dat \
+	  $dir/connect.buffer.js.dat \
+	  $dir/rack.thin.ru.dat \
+	  > results/$1.p
+	gnuplot results/$1.p
+}
+
+# Make ./results/graphs
+mkdir -p results/graphs
+
+graph hello-world
