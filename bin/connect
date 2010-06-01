@@ -10,7 +10,8 @@
  * Module dependencies.
  */
 
-var sys = require('sys'),
+var connect = require('./../lib/connect'),
+    sys = require('sys'),
     fs = require('fs');
 
 /**
@@ -18,15 +19,23 @@ var sys = require('sys'),
  */
 
 var env = {
+    logfile: 'logs/connect.log',
+    pidfile: 'pids/connect.pid',
     port: 3000,
     host: null
 };
 
 /**
+ * Verbose output.
+ */
+
+var verbose = true;
+
+/**
  * Argument vector.
  */
 
-var args = process.ARGV.slice(2);
+var args = process.argv.slice(2);
 
 /**
  * Usage documentation.
@@ -40,7 +49,18 @@ var usage = ''
     + '  -p, --port num       Port number, defaults to 3000\n'
     + '  -I, --include path   Unshift the given path to require.paths\n'
     + '  -e, --eval code      Evaluate the given string\n'
+    + '  -q, --quiet          Suppress verbose output\n'
     + '  -h, --help           Display help information\n';
+
+/**
+ * Log the given msg to stderr.
+ *
+ * @param  {String} msg
+ */
+
+function log(msg){
+    if (verbose) sys.error('... ' + msg);
+}
 
 /**
  * Exit with the given message.
@@ -71,6 +91,31 @@ function requireArg(prefix){
 }
 
 /**
+ * Stop the process when running.
+ */
+
+function stop(){
+    try {
+        log('stopping');
+        var pid = fs.readFileSync(env.pidfile);
+    } catch (err) {
+        if (err.errno === process.ENOENT) {
+            log(err.path + ' does not exist');
+        } else {
+            throw err;
+        }
+    }
+}
+
+/**
+ * Start the process.
+ */
+
+function start(){
+    log('starting');
+}
+
+/**
  * Parse the arguments.
  */
 
@@ -96,6 +141,20 @@ function requireArg(prefix){
         case '-H':
         case '--host':
             env.host = requireArg('--host');
+            break;
+        case '-q':
+        case '--quiet':
+            verbose = false;
+            break;
+        case 'stop':
+            stop();
+            break;
+        case 'start':
+            start();
+            break;
+        case 'restart':
+            stop();
+            start();
             break;
         default:
             abort('start, stop, or restart required');
