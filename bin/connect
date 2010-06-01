@@ -91,7 +91,7 @@ function requireArg(prefix){
             break;
         case '-p':
         case '--port':
-            env.port = requireArg('--port');
+            env.port = parseInt(requireArg('--port'), 10);
             break;
         case '-H':
         case '--host':
