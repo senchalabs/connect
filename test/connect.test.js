@@ -19,11 +19,11 @@ module.exports = {
     
     'test basic middleware stack': function(){
         var server = helpers.run([
-            { module: require('filters/uppercase'), param: 1 },
-            { module: require('providers/echo') }
+            { module: require('./filters/uppercase'), param: 1 },
+            { module: require('./providers/echo') }
         ]);
         assert.ok(server instanceof http.Server, 'Test Server instanceof http.Server')
-        var setupArgs = require('filters/uppercase').setupArgs;
+        var setupArgs = require('./filters/uppercase').setupArgs;
         assert.equal('test', setupArgs[0].name, 'Test env passed to setup() as first arg');
         assert.eql([1], Array.prototype.slice.call(setupArgs, 1), 'Test remaining setup() args');
         
