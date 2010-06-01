@@ -35,7 +35,7 @@ module.exports = {
         });
         exec('--include', function(err, stdout, stderr){
             assert.equal(1, err.code, 'Test --include exit status > 0 when path is omitted');
-            assert.equal('--include requires a path.\n', stderr, 'Test --include stderr when path is omitted');
+            assert.equal('--include requires an argument.\n', stderr, 'Test --include stderr when path is omitted');
         });
     },
     
@@ -47,7 +47,27 @@ module.exports = {
         });
         exec('--eval', function(err, stdout, stderr){
            assert.equal(1, err.code, 'Test --eval exit status > 0 when string is omitted'); 
-           assert.equal('--eval requires a string.\n', stderr, 'Test --eval stderr when string is omitted');
+           assert.equal('--eval requires an argument.\n', stderr, 'Test --eval stderr when string is omitted');
+        });
+    },
+    
+    'test -p, --port': function(){
+        exec('--port', 3000, function(err, stdout, stderr){
+           assert.equal(undefined, err, 'Test --port exit status of 0 when port is present'); 
+        });
+        exec('--port', function(err, stdout, stderr){
+           assert.equal(1, err.code, 'Test --port exit status > 0 when port is omitted'); 
+           assert.equal('--port requires an argument.\n', stderr, 'Test --port stderr when port is omitted');
+        });
+    },
+    
+    'test -H, --host': function(){
+        exec('--host', '0.0.0.0', function(err, stdout, stderr){
+           assert.equal(undefined, err, 'Test --host exit status of 0 when string is present'); 
+        });
+        exec('--host', function(err, stdout, stderr){
+           assert.equal(1, err.code, 'Test --host exit status > 0 when string is omitted'); 
+           assert.equal('--host requires an argument.\n', stderr, 'Test --host stderr when string is omitted');
         });
     }
 }

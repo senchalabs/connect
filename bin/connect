@@ -14,6 +14,15 @@ var sys = require('sys'),
     fs = require('fs');
 
 /**
+ * Default environment.
+ */
+
+var env = {
+    port: 3000,
+    host: null
+};
+
+/**
  * Argument vector.
  */
 
@@ -27,11 +36,11 @@ var usage = ''
     + 'Usage: connect [options] start|stop|restart\n'
     + '\n'
     + 'Options:\n'
-    + '  -H, --host [addr]     Host address, defaults to "0.0.0.0"\n'
-    + '  -p, --port [num]      Port number, defaults to 3000\n'
-    + '  -I, --include <path>  Unshift the given path to require.paths\n'
-    + '  -e, --eval <code>     Evaluate the given string\n'
-    + '  -h, --help            Display help information\n';
+    + '  -H, --host addr      Host address, defaults to INADDR_ANY\n'
+    + '  -p, --port num       Port number, defaults to 3000\n'
+    + '  -I, --include path   Unshift the given path to require.paths\n'
+    + '  -e, --eval code      Evaluate the given string\n'
+    + '  -h, --help           Display help information\n';
 
 /**
  * Exit with the given message.
@@ -47,17 +56,17 @@ function abort(msg, code){
 
 /**
  * Return shifted argument, or
- * abort with the given errMsg.
+ * abort with the given prefix.
  *
- * @param  {String} errMsg
+ * @param  {String} prefix
  * @return {String}
  */
 
-function shift(errMsg){
+function requireArg(prefix){
     if (args.length) {
         return args.shift();
     } else {
-        abort(errMsg);
+        abort(prefix + ' requires an argument.');
     }
 }
 
@@ -74,11 +83,19 @@ function shift(errMsg){
             break;
         case '-I':
         case '--include':
-            require.paths.unshift(shift('--include requires a path.'));
+            require.paths.unshift(requireArg('--include'));
             break;
         case '-e':
         case '--eval':
-            eval(shift('--eval requires a string.'));
+            eval(requireArg('--eval'));
+            break;
+        case '-p':
+        case '--port':
+            env.port = requireArg('--port');
+            break;
+        case '-H':
+        case '--host':
+            env.host = requireArg('--host');
             break;
         default:
             abort('start, stop, or restart required');
