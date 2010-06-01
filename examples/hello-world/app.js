@@ -1,5 +1,5 @@
 
-module.exports = [
+module.exports = require('./lib/connect').createServer([
     { filter: 'log' },
     { filter: 'response-time' },
     { module: {
@@ -12,4 +12,4 @@ module.exports = [
             res.end(body);
         }
     }}
-];
+]);

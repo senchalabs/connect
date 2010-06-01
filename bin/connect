@@ -11,6 +11,7 @@
  */
 
 var connect = require('./../lib/connect'),
+    http = require('http'),
     sys = require('sys'),
     fs = require('fs'),
     cwd = process.cwd()
@@ -158,7 +159,7 @@ function start(){
     log('starting');
     var path = process.cwd() + '/app',
         app = require(path);
-    if (app instanceof Array) {
+    if (app instanceof http.Server) {
         if (daemonize) {
             log('daemonizing process ' + process.pid);
             
@@ -192,14 +193,14 @@ function start(){
             // var errlog = env.logfile.replace(/(\.log)?$/, '.error$1');
             // TODO: freopen() not supported in node yet
         }
-        connect.createServer(app).listen(env.port);
+        app.listen(env.port);
         sys.error('Connect server listening on http://'
             + (env.host || '*') + ':' + env.port
             + ' in ' + env.name + ' mode');
     } else {
         abort("invalid application:\n"
             + "at: `" + path + "'\n"
-            + "must export an array such as `module.exports = [ ...stack ... ]'\n");
+            + "must export a Server such as `module.exports = http.createServer(...);'\n");
     }
 }
 
