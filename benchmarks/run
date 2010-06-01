@@ -1,6 +1,5 @@
 #!/usr/bin/env bash
 
-SLEEP=${SLEEP-2}
 ABFLAGS=${ABFLAGS-"-n 2000 -c 50 -k"}
 ADDR=${ADDR-http://0.0.0.0:3000/}
 AB=${AB-ab}
@@ -28,10 +27,14 @@ bm(){
 		case $file in
 			*.js)
 			  node $file &
+			  sleep 1
+			  ;;
+			*.thin.ru)
+			  thin -R $file -p 3000 start &
+			  sleep 2
 			  ;;
 		esac
 		local pid=$!
-		sleep $SLEEP
 		local dirname=results/$(dirname $file)
 		mkdir -p $dirname
 		$AB $ABFLAGS -g results/$file.dat $ADDR > results/$file.out
@@ -42,6 +45,9 @@ bm(){
 
 # Make ./results
 mkdir -p results
+
+# Store flags
+echo $ABFLAGS > results/flags
 
 # Run benchmarks
 log $AB $ABFLAGS $ADDR

@@ -65,6 +65,12 @@ Here are some sample middleware layer configurations:
 
 See the example apps and the included test suite for more through code examples.  More will come soon.
 
+## Running Benchmarks
+
+To run the benchmarks you must have ApacheBench, and gnuplot.
+
+    $ make benchmark && make graphs && open results/graphs/*.png
+
 ## Testing
 
 First update the git submodules, which include
