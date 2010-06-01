@@ -12,24 +12,31 @@
 
 var connect = require('./../lib/connect'),
     sys = require('sys'),
-    fs = require('fs');
+    fs = require('fs'),
+    cwd = process.cwd()
 
 /**
  * Default environment.
  */
 
 var env = {
-    logfile: 'logs/connect.log',
-    pidfile: 'pids/connect.pid',
+    logfile: 'connect.log',
+    pidfile: 'connect.pid',
     port: 3000,
     host: null
 };
 
 /**
+ * Daemonize the process.
+ */
+
+var daemonize;
+
+/**
  * Verbose output.
  */
 
-var verbose = true;
+var verbose;
 
 /**
  * Argument vector.
@@ -47,9 +54,13 @@ var usage = ''
     + 'Options:\n'
     + '  -H, --host addr      Host address, defaults to INADDR_ANY\n'
     + '  -p, --port num       Port number, defaults to 3000\n'
+    + '  -D, --daemonize      Daemonize the server process\n'
     + '  -I, --include path   Unshift the given path to require.paths\n'
     + '  -e, --eval code      Evaluate the given string\n'
-    + '  -q, --quiet          Suppress verbose output\n'
+    + '  -c, --chdir path     Change to the given path\n'
+    + '  -u, --user id        Change user with setuid()\n'
+    + '  -g, --group id       Change group with setgid()\n'
+    + '  -v, --verbose        Display verbose output\n'
     + '  -h, --help           Display help information\n';
 
 /**
@@ -97,9 +108,12 @@ function requireArg(prefix){
 function stop(){
     try {
         log('stopping');
-        var pid = fs.readFileSync(env.pidfile);
+        var pid = parseInt(fs.readFileSync(env.pidfile), 10);
+        process.kill(pid);
     } catch (err) {
-        if (err.errno === process.ENOENT) {
+        if (err.message === 'No such process') {
+            log(pid + ' is not running')
+        } else if (err.errno === process.ENOENT) {
             log(err.path + ' does not exist');
         } else {
             throw err;
@@ -113,6 +127,44 @@ function stop(){
 
 function start(){
     log('starting');
+    var path = process.cwd() + '/app',
+        app = require(path);
+    if (app instanceof Array) {
+        if (daemonize) {
+            log('daemonizing process ' + process.pid);
+            
+            // TODO: chroot
+            // TODO: sess / process group leader
+            
+            // Write out pid
+            fs.writeFile(env.pidfile, process.pid.toString(), 'ascii');
+            
+            // Reset umask
+            process.umask(0);
+            
+            // Set uid
+            if (env.uid) {
+                log('running as user ' + env.uid);
+                process.setuid(env.uid);
+            }
+            
+            // Set gid
+            if (env.gid) {
+                log('running as group ' + env.gid);
+                process.setgid(env.gid);
+            }
+            
+            // Ignore SIGHUP
+            process.addListener('SIGHUP', function(){
+                // Ignore
+            });
+        }
+        connect.createServer(app).listen(env.port);
+    } else {
+        abort("invalid application:\n"
+            + "at: `" + path + "'\n"
+            + "must export an array such as `module.exports = [ ...stack ... ]'\n");
+    }
 }
 
 /**
@@ -120,43 +172,61 @@ function start(){
  */
 
 (function parseArguments(){
-    var arg = args.shift();
-    switch (arg) {
-        case '-h':
-        case '--help':
-            abort(usage);
-            break;
-        case '-I':
-        case '--include':
-            require.paths.unshift(requireArg('--include'));
-            break;
-        case '-e':
-        case '--eval':
-            eval(requireArg('--eval'));
-            break;
-        case '-p':
-        case '--port':
-            env.port = parseInt(requireArg('--port'), 10);
-            break;
-        case '-H':
-        case '--host':
-            env.host = requireArg('--host');
-            break;
-        case '-q':
-        case '--quiet':
-            verbose = false;
-            break;
-        case 'stop':
-            stop();
-            break;
-        case 'start':
-            start();
-            break;
-        case 'restart':
-            stop();
-            start();
-            break;
-        default:
-            abort('start, stop, or restart required');
+    var arg;
+    while (args.length) {
+        switch (arg = args.shift()) {
+            case '-h':
+            case '--help':
+                abort(usage);
+                break;
+            case '-I':
+            case '--include':
+                require.paths.unshift(requireArg('--include'));
+                break;
+            case '-e':
+            case '--eval':
+                eval(requireArg('--eval'));
+                break;
+            case '-p':
+            case '--port':
+                env.port = parseInt(requireArg('--port'), 10);
+                break;
+            case '-H':
+            case '--host':
+                env.host = requireArg('--host');
+                break;
+            case '-u':
+            case '--user':
+                env.uid = parseInt(requireArg('--user'), 10);
+                break;
+            case '-g':
+            case '--group':
+                env.gid = parseInt(requireArg('--group'), 10);
+                break;
+            case '-c':
+            case '--chdir':
+                process.chdir(requireArg('--chdir'));
+                break;
+            case '-v':
+            case '--verbose':
+                verbose = true;
+                break;
+            case '-D':
+            case '--daemonize':
+                daemonize = true;
+                break;
+            case 'stop':
+                stop();
+                break;
+            case 'start':
+                start();
+                break;
+            case 'restart':
+                stop();
+                start();
+                break;
+            default:
+                abort('start, stop, or restart required');
+        }
     }
 })();
