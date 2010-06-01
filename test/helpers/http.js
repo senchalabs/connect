@@ -13,7 +13,7 @@ var connect = require('connect'),
  * Test base port.
  */
 
-port = process.env.CONNECT_TEST_PORT || 7000;
+port = process.env.CONNECT_TEST_PORT || 12345;
 
 connect.Server.prototype.listen = function(){
     var self = this,
