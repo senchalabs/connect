@@ -13,9 +13,8 @@ module.exports = {
         assert.ok(/^\d+\.\d+\.\d+$/.test(connect.version), 'Test framework version format');
     },
     
-    'test configuration': function(){
-        assert.equal('localhost', connect.env.hostname, 'Test "development" environment config loaded by default');
-        assert.equal('development', connect.env.name, 'Test env.name');
+    'test environment': function(){
+        assert.equal('test', connect.env.name, 'Test connect.env.name');
     },
     
     'test basic middleware stack': function(){
@@ -25,7 +24,7 @@ module.exports = {
         ]);
         assert.ok(server instanceof http.Server, 'Test Server instanceof http.Server')
         var setupArgs = require('filters/uppercase').setupArgs;
-        assert.equal('development', setupArgs[0].name, 'Test env passed to setup() as first arg');
+        assert.equal('test', setupArgs[0].name, 'Test env passed to setup() as first arg');
         assert.eql([1], Array.prototype.slice.call(setupArgs, 1), 'Test remaining setup() args');
         
         var req = server.request('POST', '/');
@@ -105,7 +104,7 @@ module.exports = {
             }}
         ]);
         
-        server.assertResponse('GET', '/', 500, 'Internal Server Error', 'Test default error handler');
+        server.assertResponse('GET', '/', 500, 'Internal Server Error', 'Test default error handler in a non-development environment');
     },
     
     'test mounting': function(){
