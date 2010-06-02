@@ -33,6 +33,10 @@ bm(){
 			  thin -R $file -p 3000 start &
 			  sleep 2
 			  ;;
+			*.mongrel.ru)
+				rackup $file -p 3000 -s mongrel &
+				sleep 2
+				;;
 		esac
 		local pid=$!
 		local dirname=results/$(dirname $file)

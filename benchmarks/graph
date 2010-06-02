@@ -31,7 +31,8 @@ set ylabel "response time (ms)"
 plot "$2" using $COL smooth sbezier with lines title "node buffer", \\
      "$3" using $COL smooth sbezier with lines title "node string", \\
      "$4" using $COL smooth sbezier with lines title "connect buffer", \\
-     "$5" using $COL smooth sbezier with lines title "rack thin"
+     "$5" using $COL smooth sbezier with lines title "rack thin", \\
+     "$6" using $COL smooth sbezier with lines title "rack mongrel"
 EOF
 }
 
@@ -68,6 +69,7 @@ function graph(){
 	  $dir/node.string.js.dat \
 	  $dir/connect.buffer.js.dat \
 	  $dir/rack.thin.ru.dat \
+	  $dir/rack.mongrel.ru.dat \
 	  > results/$1.p
 	gnuplot results/$1.p
 }
