@@ -30,7 +30,9 @@ docs/api.1: docs/api.md
 	ronn -r $< > $@
 
 docs/api.html: docs/api.md
-	ronn -5 --html $< > $@
+	ronn -5 --fragment $< \
+	  | cat docs/api.head.html - docs/api.foot.html \
+	  > $@
 
 docclean:
 	rm -f docs/api.html
