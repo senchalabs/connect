@@ -228,7 +228,7 @@ module.exports = {
             { module: {
                 handle: function(err, req, res){
                     assert.strictEqual(null, err);
-                    assert.eql({ faux: 'request' }, req);
+                    assert.eql({ faux: 'request', url: '/' }, req);
                     res.writeHead(200);
                     res.end();
                 }
