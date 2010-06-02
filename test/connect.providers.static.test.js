@@ -34,5 +34,19 @@ module.exports = {
             });
         });
         req.end();
+    },
+    
+    'test index.html': function(){
+        var server = helpers.run([
+            { provider: 'static', root: fixturesPath }
+        ]);
+        server.assertResponse('GET', '/', 200, '<p>Wahoo!</p>', 'Test static index.html support');
+    },
+    
+    'test invalid file': function(){
+        var server = helpers.run([
+            { provider: 'static', root: fixturesPath }
+        ]);
+        server.assertResponse('GET', '/foo.json', 404, 'Cannot find /foo.json', 'Test invalid static file');
     }
 }
