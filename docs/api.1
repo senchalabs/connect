@@ -21,10 +21,10 @@ connect [\-H|\-\-host ADDR] [\-p|\-\-port NUM]
 .fi
 .
 .SH "Description"
-\fBConnect\fR is a duel purpose library, aiding in both rapid development, and deployment of node servers. Connect "middleware" can be stacked to create a robust application within minutes. The \fIconnect\fR executable supports launching of both regular \fBnet.Server\fR, and \fBconnect.Server\fR instances.
+Connect is a duel purpose library, aiding in both rapid development, and deployment of node servers. Connect "middleware" can be stacked to create a robust application within minutes. The \fIconnect\fR executable supports launching of both regular \fBnet.Server\fR, and \fBconnect.Server\fR instances.
 .
 .P
-\fIconnect\fR supplies \fIinit.d\fR friendly \fIstart\fR, \fIstop\fR, and \fIrestart\fR commands, and accept a direct path to the module meant to be run, otherwise defaults to trying both \fIapp.js\fR and \fIserver.js\fR in the current working directory.
+The connect executable supplies \fIinit.d\fR friendly \fIstart\fR, \fIstop\fR, and \fIrestart\fR commands, and accept a direct path to the module meant to be run, otherwise defaults to trying both \fIapp.js\fR and \fIserver.js\fR in the current working directory.
 .
 .SH "Executable Options"
 .
@@ -52,10 +52,10 @@ connect [\-H|\-\-host ADDR] [\-p|\-\-port NUM]
 Connect middleware is divided into two concepts. First we have \fIfilters\fR which perform an action and allow lower middleware to respond to the request, secondly we have \fIproviders\fR which are conceptual "end\-points", responding to the request without continuing down the stack.
 .
 .SH "Middleware Usage"
-Below is an example which shows usage of the \fIlog\fR filter bundled with \fBConnect\fR, as well as the \fIstatic\fR provider.
+Below is an example which shows usage of the \fIlog\fR filter bundled with Connect, as well as the \fIstatic\fR provider.
 .
 .P
-The keys \fIfilter\fR and \fIprovider\fR are used only as short\-cuts to bundled middleware, to utilize a custom module we can assign a module's exports to the \fBmodule\fR key.
+The keys \fBfilter\fR and \fBprovider\fR are used only as short\-cuts to bundled middleware, to utilize a custom module we can assign a module's exports to the \fBmodule\fR key.
 .
 .IP "" 4
 .

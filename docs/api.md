@@ -13,9 +13,9 @@ connect(1) -- node server runner
 
 ## Description
 
-`Connect` is a duel purpose library, aiding in both rapid development, and deployment of node servers. Connect "middleware" can be stacked to create a robust application within minutes. The _connect_ executable supports launching of both regular `net.Server`, and `connect.Server` instances.
+Connect is a duel purpose library, aiding in both rapid development, and deployment of node servers. Connect "middleware" can be stacked to create a robust application within minutes. The _connect_ executable supports launching of both regular `net.Server`, and `connect.Server` instances.
  
-_connect_ supplies _init.d_ friendly _start_, _stop_, and _restart_ commands, and accept a direct path to the module meant to be run, otherwise defaults to trying both _app.js_ and _server.js_ in the current working directory.
+The connect executable supplies _init.d_ friendly _start_, _stop_, and _restart_ commands, and accept a direct path to the module meant to be run, otherwise defaults to trying both _app.js_ and _server.js_ in the current working directory.
 
 ## Executable Options
 
@@ -42,9 +42,9 @@ Connect middleware is divided into two concepts. First we have _filters_ which p
 
 ## Middleware Usage
 
-Below is an example which shows usage of the _log_ filter bundled with `Connect`, as well as the _static_ provider.
+Below is an example which shows usage of the _log_ filter bundled with Connect, as well as the _static_ provider.
 
-The keys _filter_ and _provider_ are used only as short-cuts to bundled middleware, to utilize a custom module we can assign a module's exports to the `module` key.
+The keys `filter` and `provider` are used only as short-cuts to bundled middleware, to utilize a custom module we can assign a module's exports to the `module` key.
 
     module.exports = require('./lib/connect').createServer([
         { filter: 'log' },

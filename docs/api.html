@@ -1,4 +1,111 @@
-<h2 id='Connect'>Connect</h2>
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Connect</title>
+    <meta http-equiv="content-type" value="text/html; charset=utf-8">
+    <style type="text/css">
+      body {
+        font: 13px "Helvetica Neue", "Lucida Grande", "Arial";
+        background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#fff), to(#ECE9E9));
+        text-align: center;
+        color: #555;
+        -webkit-text-stroke: 1px rgba(255, 255, 255, 0.1);
+      }
+      h1, h2, h3 {
+        margin: 0;
+        font-size: 22px;
+        font-weight: normal;
+        color: #343434;
+      }
+      h2#Connect {
+        margin-bottom: 25px;
+        font-size: 60px;
+        font-weight: bold;
+      }
+      h2#Connect + p {
+        display: none;
+      }
+      h2 {
+        margin-top: 35px;
+        text-shadow: 1px 2px 2px #ddd;
+      }
+      ul {
+        margin: 0;
+        padding: 0;
+      }
+      ul li {
+        margin: 5px 0;
+        padding: 3px 8px;
+        list-style: none;
+        border: 1px solid #eee;
+        -webkit-border-radius: 3px;
+        -mox-border-radius: 3px;
+        -webkit-transition-property: color, padding;
+        -webkit-transition-duration: 0.1s;
+      }
+      ul li:hover {
+        padding: 3px 20px;
+        cursor: pointer;
+        color: #2E2E2E;
+      }
+      ul li .path {
+        padding-left: 5px;
+        font-weight: bold;
+      }
+      ul li .line {
+        padding-right: 5px;
+        font-style: italic;
+      }
+      ul li:first-child .path {
+        padding-left: 0;
+      }
+      p {
+        line-height: 1.5;
+      }
+      p code {
+        padding: 2px 4px;
+        border: 1px solid #ddd;
+      }
+      p em {
+        font-weight: bold;
+      }
+      pre {
+        margin: 25px 0 25px 15px;
+        padding: 15px;
+        border: 1px solid #ddd;
+        -webkit-border-radius: 5px;
+        -moz-border-radius: 5px;
+        -webkit-box-shadow: 1px 1px 6px #ddd;
+        -moz-box-shadow: 1px 1px 6px #ddd;
+      }
+      table {
+        margin-bottom: 35px;
+        width: 100%;
+        border-collapse: collapse;
+      }
+      table td {
+        padding: 5px 10px;
+        font-size: 14px;
+      }
+      table tr {
+        border-bottom: 1px solid #fff;
+      }
+      table tr:last-child {
+        border-bottom: none;
+      }
+      table td:first-child {
+        width: 150px;
+        color: #343434;
+      }
+      #wrapper {
+        margin: 50px auto;
+        width: 750px;
+        text-align: left;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="wrapper"><h2 id='Connect'>Connect</h2>
 <p><code>connect</code> -- node server runner</p>
 
 <h2>Synopsis</h2>
@@ -14,9 +121,9 @@
 
 <h2>Description</h2>
 
-<p><code>Connect</code> is a duel purpose library, aiding in both rapid development, and deployment of node servers. Connect "middleware" can be stacked to create a robust application within minutes. The <em>connect</em> executable supports launching of both regular <code>net.Server</code>, and <code>connect.Server</code> instances.</p>
+<p>Connect is a duel purpose library, aiding in both rapid development, and deployment of node servers. Connect "middleware" can be stacked to create a robust application within minutes. The <em>connect</em> executable supports launching of both regular <code>net.Server</code>, and <code>connect.Server</code> instances.</p>
 
-<p><em>connect</em> supplies <em>init.d</em> friendly <em>start</em>, <em>stop</em>, and <em>restart</em> commands, and accept a direct path to the module meant to be run, otherwise defaults to trying both <em>app.js</em> and <em>server.js</em> in the current working directory.</p>
+<p>The connect executable supplies <em>init.d</em> friendly <em>start</em>, <em>stop</em>, and <em>restart</em> commands, and accept a direct path to the module meant to be run, otherwise defaults to trying both <em>app.js</em> and <em>server.js</em> in the current working directory.</p>
 
 <h2>Executable Options</h2>
 
@@ -43,9 +150,9 @@
 
 <h2>Middleware Usage</h2>
 
-<p>Below is an example which shows usage of the <em>log</em> filter bundled with <code>Connect</code>, as well as the <em>static</em> provider.</p>
+<p>Below is an example which shows usage of the <em>log</em> filter bundled with Connect, as well as the <em>static</em> provider.</p>
 
-<p>The keys <em>filter</em> and <em>provider</em> are used only as short-cuts to bundled middleware, to utilize a custom module we can assign a module's exports to the <code>module</code> key.</p>
+<p>The keys <code>filter</code> and <code>provider</code> are used only as short-cuts to bundled middleware, to utilize a custom module we can assign a module's exports to the <code>module</code> key.</p>
 
 <pre><code>module.exports = require('./lib/connect').createServer([
     { filter: 'log' },
@@ -113,3 +220,6 @@ require('connect').createServer([
     { module: require('./hello-world') }
 ]); 
 </code></pre>
+    </div>
+  </body>
+</html>
