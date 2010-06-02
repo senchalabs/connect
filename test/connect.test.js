@@ -143,7 +143,7 @@ module.exports = {
         var middle = connect.createServer([
             { module: inner },
             { module: {
-                handle: function(err, req, res){
+                handle: function(err, req, res, next){
                     if (req.method === 'POST') {
                         res.writeHead(200);
                         res.end('middle stack');
