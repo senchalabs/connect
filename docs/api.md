@@ -13,11 +13,12 @@ connect(1) -- node server runner
 
 ## Description
 
- Connect is a node server runner, supporting both regular **net.Server**,
- and **connect.Server** instances. The _connect_ executable aids in deployment
- and daemonization of the server.
+ Connect is a duel purpose library, aiding in both rapid development,
+ and deployment of node servers. Connect "middleware" can be stacked
+ to create a robust application within minutes. The _connect_ executable
+ supports launching of both regular **net.Server**, and **connect.Server** instances.
  
- Connect supplies _init.d_ friendly _start_, _stop_, and _restart_ commands,
+ _connect_ supplies _init.d_ friendly _start_, _stop_, and _restart_ commands,
  and accept a direct path to the module meant to be run, otherwise defaults
  to trying both _app.js_ and _server.js_ in the current working directory.
 
@@ -38,3 +39,4 @@ connect(1) -- node server runner
     -v, --verbose        Display verbose output
     -K, --no-color       Suppress colored terminal output
     -h, --help           Display help information
+
