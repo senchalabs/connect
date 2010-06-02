@@ -87,7 +87,7 @@ The `next()` function accepts the same four arguments that our `handle()` method
 If you wish to pass an exception down the stack, you can invoke `next()` like below:
  
      if (someRequirementIsNotMet) {
-       next(new Error('my requirement was not met!'));
+         next(new Error('my requirement was not met!'));
      }
 
 We can take this example further by "exporting" the `handle()` method, so that other libraries can simply `require('hello-world')`:
@@ -106,4 +106,4 @@ We can take this example further by "exporting" the `handle()` method, so that o
     # app.js
     require('connect').createServer([
         { module: require('./hello-world') }
-    ]); 
+    ]);
