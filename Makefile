@@ -11,7 +11,7 @@ test-cov:
 	@$(MAKE) test TEST_FLAGS="--cov"
 
 install: docs
-	cp -f docs/connect.1 $(PREFIX)/man/man1/connect.1
+	cp -f docs/api.1 $(PREFIX)/man/man1/connect.1
 	cp -f bin/connect $(PREFIX)/bin/connect
 
 uninstall:
@@ -24,12 +24,16 @@ benchmark: benchmarks/run
 graphs: benchmarks/graph
 	@./benchmarks/graph
 
-docs: docs/connect.1 docs/api.html
+docs: docs/api.1 docs/api.html
 
-docs/connect.1: docs/api.md
-	ronn --roff $< > $@
+docs/api.1: docs/api.md
+	ronn -r $< > $@
 
 docs/api.html: docs/api.md
-	ronn -f --html $< > $@
+	ronn -5 --html $< > $@
 
-.PHONY: install uninstall docs test test-cov benchmark graphs
+docclean:
+	rm -f docs/api.html
+	rm -f docs/api.1
+
+.PHONY: install uninstall docs test test-cov benchmark graphs docclean
