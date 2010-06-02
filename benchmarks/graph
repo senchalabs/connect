@@ -32,7 +32,8 @@ plot "$2" using $COL smooth sbezier with lines title "node buffer", \\
      "$3" using $COL smooth sbezier with lines title "node string", \\
      "$4" using $COL smooth sbezier with lines title "connect buffer", \\
      "$5" using $COL smooth sbezier with lines title "rack thin", \\
-     "$6" using $COL smooth sbezier with lines title "rack mongrel"
+     "$6" using $COL smooth sbezier with lines title "rack mongrel", \\
+     "$7" using $COL smooth sbezier with lines title "sinatra thin"
 EOF
 }
 
@@ -70,6 +71,7 @@ function graph(){
 	  $dir/connect.buffer.js.dat \
 	  $dir/rack.thin.ru.dat \
 	  $dir/rack.mongrel.ru.dat \
+	  $dir/sinatra.thin.ru.dat \
 	  > results/$1.p
 	gnuplot results/$1.p
 }
