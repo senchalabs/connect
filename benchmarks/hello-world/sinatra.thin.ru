@@ -6,4 +6,5 @@ get '/' do
   'Hello World'
 end
 
+disable :logging
 run Sinatra::Application
