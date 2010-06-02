@@ -40,10 +40,10 @@ var daemonize;
 var verbose;
 
 /**
- * App module name.
+ * App module path.
  */
 
-var appName = 'app';
+var appPath;
 
 /**
  * Colored terminal output.
@@ -174,13 +174,45 @@ function stop(){
 }
 
 /**
+ * Check if the given path exists (sync).
+ *
+ * @param  {String} path
+ * @return {Boolean}
+ */
+
+function exists(path){
+    try { 
+        return fs.statSync(path);
+    } catch (err) {
+        return false;
+    }
+}
+
+/**
  * Start the process.
  */
 
 function start(){
     log('starting');
-    var path = process.cwd() + '/' + appName,
-        app = require(path);
+    var path = process.cwd() + '/' + (appPath || '');
+    
+    // App path not given, try app.js and server.js
+    if (!appPath) {
+        if (exists(path + 'app.js')) {
+            log('detected app.js');
+            path += 'app';
+        } else if (exists(path + 'server.js')) {
+            log('detected server.js');
+            path += 'server';
+        } else {
+            abort('app not found, pass a module path, or create {app,server}.js');
+        }
+    }
+    
+    // Load the app module
+    var app = require(path);
+    
+    // Ensure it exports properly
     if (app instanceof http.Server) {
         if (daemonize) {
             log('daemonizing process ' + process.pid);
@@ -302,7 +334,7 @@ function parseArguments(){
                 cmd = arg;
                 break;
             default:
-                appName = arg;
+                appPath = arg;
         }
     }
     
