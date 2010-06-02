@@ -12,9 +12,11 @@ test-cov:
 
 install: docs
 	cp -f docs/connect.1 $(PREFIX)/man/man1/connect.1
+	cp -f bin/connect $(PREFIX)/bin/connect
 
 uninstall:
-	rm -f $(PREFIX)/man/man1/connect.1 
+	rm -f $(PREFIX)/man/man1/connect.1
+	rm -f $(PREFIX)/bin/connect
 
 benchmark: benchmarks/run
 	@./benchmarks/run
