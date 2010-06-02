@@ -22,9 +22,12 @@ benchmark: benchmarks/run
 graphs: benchmarks/graph
 	@./benchmarks/graph
 
-docs: docs/connect.1
+docs: docs/connect.1 docs/api.html
 
 docs/connect.1: docs/api.md
 	ronn --roff $< > $@
+
+docs/api.html: docs/api.md
+	ronn -f --html $< > $@
 
 .PHONY: install uninstall docs test test-cov benchmark graphs

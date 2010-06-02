@@ -21,7 +21,7 @@ connect [\-H|\-\-host ADDR] [\-p|\-\-port NUM]
 .fi
 .
 .SH "Description"
- Connect is a duel purpose library, aiding in both rapid development,
+ \fBConnect\fR is a duel purpose library, aiding in both rapid development,
  and deployment of node servers. Connect "middleware" can be stacked
  to create a robust application within minutes. The \fIconnect\fR executable
  supports launching of both regular \fBnet.Server\fR, and \fBconnect.Server\fR instances.
@@ -52,4 +52,54 @@ connect [\-H|\-\-host ADDR] [\-p|\-\-port NUM]
 \-h, \-\-help           Display help information
 .
 .fi
+.
+.SH "Middleware"
+ Connect middleware is divided into two concepts. First we have \fIfilters\fR
+ which perform an action and allow lower middleware to respond
+ to the request, secondly we have \fIproviders\fR which are conceptual "end\-points",
+ responding to the request without continuing down the stack.
+.
+.SH "Middleware Usage"
+ Below is an example which shows usage of the \fIlog\fR filter
+ bundled with \fBConnect\fR, as well as the \fIstatic\fR provider.
+.
+.P
+ The keys \fIfilter\fR and \fIprovider\fR are used only as short\-cuts
+ to bundled middleware, to utilize a custom module we can
+ assign a module's exports to the \fImodule\fR key.
+.
+.IP "" 4
+.
+.nf
+
+module.exports = require('./lib/connect').createServer([
+    { filter: 'log' },
+    { module: require('path/to/custom/middleware') },
+    { provider: 'static', root: __dirname + '/public' }
+]);
+.
+.fi
+.
+.IP "" 0
+.
+.P
+ As shown above the module exports a \fBconnect.Server\fR and
+ does not call the \fBlisten()\fR method directly. This allows other
+ modules to "mount" this app, as well as allowing the \fIconnect\fR
+ executable to control how the server is run.
+.
+.P
+ If you prefer not to use \fIconnect\fR, you can simply create a script
+ executable by \fInode\fR, \fBrequire()\fR the app, then invoke \fBlisten()\fR.
+.
+.IP "" 4
+.
+.nf
+
+#!/usr/bin/env node
+require('./app').listen();
+.
+.fi
+.
+.IP "" 0
 

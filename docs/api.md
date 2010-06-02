@@ -13,7 +13,7 @@ connect(1) -- node server runner
 
 ## Description
 
- Connect is a duel purpose library, aiding in both rapid development,
+ **Connect** is a duel purpose library, aiding in both rapid development,
  and deployment of node servers. Connect "middleware" can be stacked
  to create a robust application within minutes. The _connect_ executable
  supports launching of both regular **net.Server**, and **connect.Server** instances.
@@ -40,3 +40,36 @@ connect(1) -- node server runner
     -K, --no-color       Suppress colored terminal output
     -h, --help           Display help information
 
+## Middleware
+
+ Connect middleware is divided into two concepts. First we have _filters_
+ which perform an action and allow lower middleware to respond
+ to the request, secondly we have _providers_ which are conceptual "end-points",
+ responding to the request without continuing down the stack.
+
+
+## Middleware Usage
+
+ Below is an example which shows usage of the _log_ filter
+ bundled with **Connect**, as well as the _static_ provider.
+
+ The keys _filter_ and _provider_ are used only as short-cuts
+ to bundled middleware, to utilize a custom module we can
+ assign a module's exports to the _module_ key.
+
+    module.exports = require('./lib/connect').createServer([
+        { filter: 'log' },
+        { module: require('path/to/custom/middleware') },
+        { provider: 'static', root: __dirname + '/public' }
+    ]);
+
+ As shown above the module exports a **connect.Server** and
+ does not call the **listen()** method directly. This allows other
+ modules to "mount" this app, as well as allowing the _connect_
+ executable to control how the server is run.
+ 
+ If you prefer not to use _connect_, you can simply create a script
+ executable by _node_, **require()** the app, then invoke **listen()**.
+
+    #!/usr/bin/env node
+    require('./app').listen();
