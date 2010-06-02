@@ -36,11 +36,18 @@ module.exports = {
         req.end();
     },
     
-    'test index.html': function(){
+    'test index.html support': function(){
         var server = helpers.run([
             { provider: 'static', root: fixturesPath }
         ]);
         server.assertResponse('GET', '/', 200, '<p>Wahoo!</p>', 'Test static index.html support');
+    },
+    
+    'test index.html support when missing': function(){
+        var server = helpers.run([
+            { provider: 'static' }
+        ]);
+        server.assertResponse('GET', '/', 404, 'Cannot find /', 'Test static index.html support when missing');
     },
     
     'test invalid file': function(){
