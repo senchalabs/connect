@@ -14,10 +14,10 @@
 
 <h2>Description</h2>
 
-<p> <strong>Connect</strong> is a duel purpose library, aiding in both rapid development,
+<p> <code>Connect</code> is a duel purpose library, aiding in both rapid development,
  and deployment of node servers. Connect "middleware" can be stacked
  to create a robust application within minutes. The <em>connect</em> executable
- supports launching of both regular <strong>net.Server</strong>, and <strong>connect.Server</strong> instances.</p>
+ supports launching of both regular <code>net.Server</code>, and <code>connect.Server</code> instances.</p>
 
 <p> <em>connect</em> supplies <em>init.d</em> friendly <em>start</em>, <em>stop</em>, and <em>restart</em> commands,
  and accept a direct path to the module meant to be run, otherwise defaults
@@ -52,11 +52,11 @@
 <h2>Middleware Usage</h2>
 
 <p> Below is an example which shows usage of the <em>log</em> filter
- bundled with <strong>Connect</strong>, as well as the <em>static</em> provider.</p>
+ bundled with <code>Connect</code>, as well as the <em>static</em> provider.</p>
 
 <p> The keys <em>filter</em> and <em>provider</em> are used only as short-cuts
  to bundled middleware, to utilize a custom module we can
- assign a module's exports to the <em>module</em> key.</p>
+ assign a module's exports to the <code>module</code> key.</p>
 
 <pre><code>module.exports = require('./lib/connect').createServer([
     { filter: 'log' },
@@ -65,13 +65,13 @@
 ]);
 </code></pre>
 
-<p> As shown above the module exports a <strong>connect.Server</strong> and
- does not call the <strong>listen()</strong> method directly. This allows other
+<p> As shown above the module exports a <code>connect.Server</code> and
+ does not call the <code>listen()</code> method directly. This allows other
  modules to "mount" this app, as well as allowing the <em>connect</em>
  executable to control how the server is run.</p>
 
 <p> If you prefer not to use <em>connect</em>, you can simply create a script
- executable by <em>node</em>, <strong>require()</strong> the app, then invoke <strong>listen()</strong>.</p>
+ executable by <em>node</em>, <code>require()</code> the app, then invoke <code>listen()</code>.</p>
 
 <pre><code>#!/usr/bin/env node
 require('./app').listen();
