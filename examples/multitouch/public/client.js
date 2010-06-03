@@ -22,17 +22,17 @@ function longPoll() {
 
 var pending = false;
 var locs = {};
-window.onload = function () {
+function start() {
     var R = Raphael(0, 0, "100%", "100%"),
-        r = R.circle(100, 100, 50).attr({fill: "hsb(0, 1, 1)", stroke: "none", opacity: 0.5}),
-        g = R.circle(210, 100, 50).attr({fill: "hsb(.3, 1, 1)", stroke: "none", opacity: 0.5}),
-        b = R.circle(320, 100, 50).attr({fill: "hsb(.6, 1, 1)", stroke: "none", opacity: 0.5}),
-        p = R.circle(430, 100, 50).attr({fill: "hsb(.8, 1, 1)", stroke: "none", opacity: 0.5});
+        r = R.circle(512, 200, 120).attr({fill: "hsb(0, 1, 1)", stroke: "none", opacity: 0.9}),
+        g = R.circle(328, 384, 120).attr({fill: "hsb(.3, 1, 1)", stroke: "none", opacity: 0.9}),
+        b = R.circle(696, 384, 120).attr({fill: "hsb(.6, 1, 1)", stroke: "none", opacity: 0.9}),
+        p = R.circle(512, 558, 120).attr({fill: "hsb(.8, 1, 1)", stroke: "none", opacity: 0.9});
     circles = [r, g, b, p];
     var start = function () {
         this.ox = this.attr("cx");
         this.oy = this.attr("cy");
-        this.animate({r: 70, opacity: 0.25}, 500, ">");
+        this.animate({r: 150, opacity: 0.25}, 500, ">");
     },
     move = function (dx, dy) {
         var loc = {cx: this.ox + dx, cy: this.oy + dy};
@@ -60,8 +60,10 @@ window.onload = function () {
         send();
     },
     up = function () {
-        this.animate({r: 50, opacity: 0.5}, 500, ">");
+        this.animate({r: 120, opacity: 0.9}, 500, ">");
     };
     R.set(r, g, b, p).drag(move, start, up);
-    longPoll();
+    setTimeout(longPoll, 500);
 };
+
+window.onload = start;

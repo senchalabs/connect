@@ -8,6 +8,13 @@ var Backend = {
     subscribe: function (subscriber) {
         if (subscribers.indexOf(subscriber) < 0) {
             subscribers.push(subscriber);
+            if (subscriber.timer) {
+                clearTimeout(subscriber.timer);
+            }
+            subscriber.timer = setTimeout(function () {
+                subscriber.flush();
+            }, 1000);
+
         }
     },
     unsubscribe: function (subscriber) {
