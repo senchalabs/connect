@@ -1,16 +1,20 @@
 var circles;
+var localID = Math.floor(Math.random()*1024*1024);
 
 function longPoll() {
     var req = new XMLHttpRequest();
     req.onreadystatechange = function(event) {
       if (req.readyState == 4) {
-          if(req.status == 200){
+          if(req.status == 200) {
               JSON.parse(req.responseText).forEach(function (message) {
-                  for (var id in message) {
-                      circles[id].attr(message[id]);
+                  if (message.sender === localID) {
+                      return;
+                  }
+                  for (var id in message.locs) {
+                      circles[id].attr(message.locs[id]);
                   };
               });
-              setTimeout(longPoll, 50);
+              longPoll();
           } else {
               setTimeout(longPoll, 10000);
           }
@@ -49,11 +53,11 @@ function start() {
             var req = new XMLHttpRequest();
             req.onreadystatechange = function(event) {
                 pending = false;
-                setTimeout(send, 50);
+                setTimeout(send, 10);
             };
             req.open('POST', '/stream', true);                  
             req.setRequestHeader("Content-Type", "application/json"); 
-            req.send(JSON.stringify(locs));
+            req.send(JSON.stringify({sender: localID, locs: locs}));
             pending = true;
             locs = {};
         }
@@ -63,16 +67,7 @@ function start() {
         this.animate({r: 120, opacity: 0.9}, 500, ">");
     };
     R.set(r, g, b, p).drag(move, start, up);
-    setTimeout(longPoll, 500);
+    setTimeout(longPoll, 1000);
 };
 
 window.onload = start;
-var cache = window.applicationCache;
-
-cache.addEventListener('updateready', function() {
-    cache.swapCache();
-}, false);
-
-setInterval(function () { 
-    cache.update();
-}, 10000);
