@@ -6,11 +6,11 @@ function longPoll() {
       if (req.readyState == 4) {
           if(req.status == 200){
               JSON.parse(req.responseText).forEach(function (message) {
-                  Object.keys(message).forEach(function (id) {
+                  for (var id in message) {
                       circles[id].attr(message[id]);
-                  });
+                  };
               });
-              longPoll();
+              setTimeout(longPoll, 50);
           } else {
               setTimeout(longPoll, 10000);
           }
@@ -43,13 +43,13 @@ function start() {
             if (pending) {
                 return;
             }
-            if (Object.keys(locs).length === 0) {
+            if (JSON.stringify(locs) === "{}") {
                 return;
             }
             var req = new XMLHttpRequest();
             req.onreadystatechange = function(event) {
                 pending = false;
-                send();
+                setTimeout(send, 50);
             };
             req.open('POST', '/stream', true);                  
             req.setRequestHeader("Content-Type", "application/json"); 
@@ -67,3 +67,12 @@ function start() {
 };
 
 window.onload = start;
+var cache = window.applicationCache;
+
+cache.addEventListener('updateready', function() {
+    cache.swapCache();
+}, false);
+
+setInterval(function () { 
+    cache.update();
+}, 10000);
