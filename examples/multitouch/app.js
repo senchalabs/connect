@@ -27,6 +27,7 @@ var Backend = {
 
 module.exports = new Connect.Server([
     {filter: "log"},
+    {filter: "response-time"},
     {filter: "body-decoder"},
     {provider: "pubsub", route: "/stream", logic: Backend},
     {filter: "conditional-get"},
