@@ -248,10 +248,10 @@ function start(){
             // TODO: freopen() not supported in node yet
         }
         app.env = env;
-        app.listen(env.port);
         sys.error('Connect server listening on http://'
             + (env.host || '*') + ':' + env.port
             + ' in ' + env.name + ' mode');
+        app.listen(env.port, env.host);
     } else {
         abort("invalid application:\n"
             + "at: `" + path + "'\n"

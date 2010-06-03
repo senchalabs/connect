@@ -2,3 +2,4 @@
 results
 *.pid
 *.log
+lib-cov

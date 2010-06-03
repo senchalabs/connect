@@ -15,13 +15,14 @@ log(){
 }
 
 #
-# Benchmark the given <dir>.
+# Benchmark the given <dir> and [path].
 # 
-# <dir>
+# <dir> [path]
 #
 
 bm(){
   local dir=$1;
+	local path=$2;
 	for file in benchmarks/$dir/*; do
 		log running $file
 		case $file in
@@ -33,11 +34,15 @@ bm(){
 			  thin -R $file -p 3000 start &
 			  sleep 2
 			  ;;
+			*.mongrel.ru)
+				rackup $file -p 3000 -s mongrel &
+				sleep 2
+				;;
 		esac
 		local pid=$!
 		local dirname=results/$(dirname $file)
 		mkdir -p $dirname
-		$AB $ABFLAGS -g results/$file.dat $ADDR > results/$file.out
+		$AB $ABFLAGS -g results/$file.dat $ADDR/$path > results/$file.out
 		log $(cat results/$file.out | grep Requests)
 		kill -9 $pid
 	done
@@ -52,3 +57,4 @@ echo $ABFLAGS > results/flags
 # Run benchmarks
 log $AB $ABFLAGS $ADDR
 bm hello-world
+bm static jquery.js

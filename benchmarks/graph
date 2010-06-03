@@ -28,10 +28,10 @@ set grid y
 set key left top
 set xlabel "request"
 set ylabel "response time (ms)"
-plot "$2" using $COL smooth sbezier with lines title "node buffer", \\
-     "$3" using $COL smooth sbezier with lines title "node string", \\
-     "$4" using $COL smooth sbezier with lines title "connect buffer", \\
-     "$5" using $COL smooth sbezier with lines title "rack thin"
+plot "$2" using $COL smooth sbezier with lines title "node", \\
+     "$3" using $COL smooth sbezier with lines title "connect", \\
+     "$4" using $COL smooth sbezier with lines title "rack thin", \\
+     "$5" using $COL smooth sbezier with lines title "sinatra thin"
 EOF
 }
 
@@ -64,10 +64,10 @@ function graph(){
   log graphing $1
 	local dir=results/benchmarks/$1
 	line $1 \
-	  $dir/node.buffer.js.dat \
-	  $dir/node.string.js.dat \
-	  $dir/connect.buffer.js.dat \
+	  $dir/node.js.dat \
+	  $dir/connect.js.dat \
 	  $dir/rack.thin.ru.dat \
+	  $dir/sinatra.thin.ru.dat \
 	  > results/$1.p
 	gnuplot results/$1.p
 }
@@ -76,3 +76,4 @@ function graph(){
 mkdir -p results/graphs
 
 graph hello-world
+graph static

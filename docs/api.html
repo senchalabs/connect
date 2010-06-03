@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Connect</title>
+    <meta http-equiv="content-type" value="text/html; charset=utf-8">
+    <style type="text/css">
+      body {
+        font: 13px "Helvetica Neue", "Lucida Grande", "Arial";
+        background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#fff), to(#ECE9E9));
+        text-align: center;
+        color: #555;
+        -webkit-text-stroke: 1px rgba(255, 255, 255, 0.1);
+      }
+      h1, h2, h3 {
+        margin: 0;
+        font-size: 22px;
+        font-weight: normal;
+        color: #343434;
+      }
+      h2#Connect {
+        margin-bottom: 25px;
+        font-size: 60px;
+        font-weight: bold;
+      }
+      h2#Connect + p {
+        display: none;
+      }
+      h2 {
+        margin-top: 35px;
+        text-shadow: 1px 2px 2px #ddd;
+      }
+      ul {
+        margin: 0;
+        padding: 0;
+      }
+      ul li {
+        margin: 5px 0;
+        padding: 3px 8px;
+        list-style: none;
+        border: 1px solid #eee;
+        -webkit-border-radius: 3px;
+        -mox-border-radius: 3px;
+        -webkit-transition-property: color, padding;
+        -webkit-transition-duration: 0.1s;
+      }
+      ul li:hover {
+        padding: 3px 20px;
+        cursor: pointer;
+        color: #2E2E2E;
+      }
+      ul li .path {
+        padding-left: 5px;
+        font-weight: bold;
+      }
+      ul li .line {
+        padding-right: 5px;
+        font-style: italic;
+      }
+      ul li:first-child .path {
+        padding-left: 0;
+      }
+      p {
+        line-height: 1.5;
+      }
+      p code {
+        padding: 2px 4px;
+        border: 1px solid #ddd;
+      }
+      p em {
+        font-weight: bold;
+      }
+      pre {
+        margin: 25px 0 25px 15px;
+        padding: 15px;
+        border: 1px solid #ddd;
+        -webkit-border-radius: 5px;
+        -moz-border-radius: 5px;
+        -webkit-box-shadow: 1px 1px 6px #ddd;
+        -moz-box-shadow: 1px 1px 6px #ddd;
+      }
+      table {
+        margin-bottom: 35px;
+        width: 100%;
+        border-collapse: collapse;
+      }
+      table td {
+        padding: 5px 10px;
+        font-size: 14px;
+      }
+      table tr {
+        border-bottom: 1px solid #fff;
+      }
+      table tr:last-child {
+        border-bottom: none;
+      }
+      table td:first-child {
+        width: 150px;
+        color: #343434;
+      }
+      #wrapper {
+        margin: 50px auto;
+        width: 750px;
+        text-align: left;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="wrapper"><h2 id='Connect'>Connect</h2>
+<p><code>connect</code> -- node server runner</p>
+
+<h2>Synopsis</h2>
+
+<pre><code>connect [-H|--host ADDR] [-p|--port NUM]
+        [-D|--daemonize] [-I|--include PATH]
+        [-E|--env Connect] [-e|--eval CODE] [-C|--chdir PATH]
+        [-c|--config PATH] [-P|--pidfile PATH]
+        [-l|--logfile PATH] [-u|--user ID] [-g|--group ID]
+        [-v|--verbose] [-K|--no-color] [-h|--help]
+        start|stop|restart [PATH]
+</code></pre>
+
+<h2>Description</h2>
+
+<p>Connect is a duel purpose library, aiding in both rapid development, and deployment of node servers. Connect "middleware" can be stacked to create a robust application within minutes. The <em>connect</em> executable supports launching of both regular <code>net.Server</code>, and <code>connect.Server</code> instances.</p>
+
+<p>The connect executable supplies <em>init.d</em> friendly <em>start</em>, <em>stop</em>, and <em>restart</em> commands, and accept a direct path to the module meant to be run, otherwise defaults to trying both <em>app.js</em> and <em>server.js</em> in the current working directory.</p>
+
+<h2>Executable Options</h2>
+
+<pre><code>-H, --host ADDR      Host address, defaults to INADDR_ANY
+-p, --port NUM       Port number, defaults to 3000
+-D, --daemonize      Daemonize the server process
+-I, --include PATH   Unshift the given path to require.paths
+-E, --env Connect       Set environment, defaults to "development"
+-e, --eval CODE      Evaluate the given string
+-C, --chdir PATH     Change to the given path
+-c, --config PATH    Load configuration module
+-P, --pidfile PATH   PID file, defaults to pids/connect.pid
+-l, --logfile PATH   Log file, defaults to logs/connect.log
+-u, --user ID        Change user with setuid()
+-g, --group ID       Change group with setgid()
+-v, --verbose        Display verbose output
+-K, --no-color       Suppress colored terminal output
+-h, --help           Display help information
+</code></pre>
+
+<h2>Middleware</h2>
+
+<p>Connect middleware is divided into two concepts. First we have <em>filters</em> which perform an action and allow lower middleware to respond to the request, secondly we have <em>providers</em> which are conceptual "end-points", responding to the request without continuing down the stack.</p>
+
+<h2>Middleware Usage</h2>
+
+<p>Below is an example which shows usage of the <em>log</em> filter bundled with Connect, as well as the <em>static</em> provider.</p>
+
+<p>The keys <code>filter</code> and <code>provider</code> are used only as short-cuts to bundled middleware, to utilize a custom module we can assign a module's exports to the <code>module</code> key.</p>
+
+<pre><code>module.exports = require('./lib/connect').createServer([
+    { filter: 'log' },
+    { module: require('path/to/custom/middleware') },
+    { provider: 'static', root: __dirname + '/public' }
+]);
+</code></pre>
+
+<p>As shown above the module exports a <code>connect.Server</code> and does not call the <code>listen()</code> method directly. This allows other modules to "mount" this app, as well as allowing the <em>connect</em> executable to control how the server is run.</p>
+
+<p>If you prefer not to use <em>connect</em>, you can simply create a script executable by <em>node</em>, <code>require()</code> the app, then invoke <code>listen()</code>.</p>
+
+<pre><code>#!/usr/bin/env node
+require('./app').listen();
+</code></pre>
+
+<h2>Middleware Authoring</h2>
+
+<p>Middleware is essentially just an object, responding to a <code>handle()</code> method, the example below illustrates how simple it is to create, and utilize custom middleware.</p>
+
+<p>First we define the <code>handle()</code> method, which accepts four arguments, <em>err</em>, <em>req</em>, <em>res</em>, and <em>next</em>.</p>
+
+<p>If an exception occurred, it is passed, it is up to your middleware to decide whether or not to simply ignore the error and pass it down the middleware stack, or to perform an action based on the exception. In our case we do not want to deal with the error directly, we simply invoke the <code>next()</code> function, passing it down the stack (potentially to the <em>error-handler</em> middleware).</p>
+
+<pre><code>var helloWorld = {
+    handle: function(err, req, res, next){
+        if (err) {
+          next();
+        } else {
+          res.writeHead(200, { 'Content-Type: 'text/plain' });
+          res.end('Hello World');
+        }
+    }
+};
+
+require('connect').createServer([
+    { module: helloWorld }
+]);
+</code></pre>
+
+<p>The <code>next()</code> function accepts the same four arguments that our <code>handle()</code> method does, however all of them are optional. For example if an <em>err</em> is present, and we invoke <code>next()</code> as shown above, the next middleware will receive the <em>err</em> object (not "undefined"), and the same <em>req</em>, and <em>res</em> objects are passed as well.</p>
+
+<p>If you wish to pass an exception down the stack, you can invoke <code>next()</code> like below:</p>
+
+<pre><code> if (someRequirementIsNotMet) {
+   next(new Error('my requirement was not met!'));
+ }
+</code></pre>
+
+<p>We can take this example further by "exporting" the <code>handle()</code> method, so that other libraries can simply <code>require('hello-world')</code>:</p>
+
+<pre><code># hello-world.js
+exports.handle = function(err, req, res, next){
+        if (err) {
+          next();
+        } else {
+          res.writeHead(200, { 'Content-Type: 'text/plain' });
+          res.end('Hello World');
+        }
+    }
+};
+
+# app.js
+require('connect').createServer([
+    { module: require('./hello-world') }
+]); 
+</code></pre>
+    </div>
+  </body>
+</html>

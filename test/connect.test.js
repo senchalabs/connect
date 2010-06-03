@@ -16,7 +16,14 @@ module.exports = {
     'test basic middleware stack': function(){
         var server = helpers.run([
             { module: require('./filters/uppercase'), param: 1 },
-            { module: require('./providers/echo') }
+            { module: {
+                handle: function(err, req, res, next){
+                    assert.equal('test', this.env && this.env.name, 'Test env available to layer instance');
+                    next();
+                }
+            }},
+            { module: require('./providers/echo') },
+            
         ], { name: 'test' });
         assert.ok(server instanceof http.Server, 'Test Server instanceof http.Server')
         var setupArgs = require('./filters/uppercase').setupArgs;
@@ -143,7 +150,7 @@ module.exports = {
         var middle = connect.createServer([
             { module: inner },
             { module: {
-                handle: function(err, req, res){
+                handle: function(err, req, res, next){
                     if (req.method === 'POST') {
                         res.writeHead(200);
                         res.end('middle stack');
@@ -228,7 +235,7 @@ module.exports = {
             { module: {
                 handle: function(err, req, res){
                     assert.strictEqual(null, err);
-                    assert.eql({ faux: 'request' }, req);
+                    assert.eql({ faux: 'request', url: '/' }, req);
                     res.writeHead(200);
                     res.end();
                 }

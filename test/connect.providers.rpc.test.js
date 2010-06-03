@@ -31,7 +31,7 @@ function run(procedures){
 }
 
 module.exports = {
-    test_invalid_version: function(){
+    'test invalid version': function(){
         var server = run({});
         server.call({
             jsonrpc: '1.0',
@@ -43,7 +43,7 @@ module.exports = {
         });
     },
     
-    test_invalid_id: function(){
+    'test invalid id': function(){
         var server = run({});
         server.call({
             jsonrpc: '2.0',
@@ -54,14 +54,14 @@ module.exports = {
         });
     },
     
-    test_parse_error: function(){
+    'test parse error': function(){
         var server = run({});
         server.call('{ "invalid:', function(res, body){
             assert.eql({ id: null, error: { code: jsonrpc.PARSE_ERROR, message: 'Parse Error.' }, jsonrpc: '2.0' }, body);
         });
     },
     
-    test_invalid_method: function(){
+    'test invalid method': function(){
         var server = run({});
         server.call({
             jsonrpc: '2.0',
@@ -72,7 +72,7 @@ module.exports = {
         });
     },
     
-    test_passing_method_exceptions: function(){
+    'test passing method exceptions': function(){
         var server = run({
             add: function(a, b){
                 if (arguments.length === 2) {
@@ -123,7 +123,7 @@ module.exports = {
         });
     },
     
-    test_method_call: function(){
+    'test methode call': function(){
         var server = run({
             add: function(a, b){
                 this(null, a + b);
@@ -139,7 +139,7 @@ module.exports = {
         });
     },
     
-    test_variable_arguments: function(){
+    'test variable arguments': function(){
         var server = run({
             add: function(){
                 var sum = 0;
@@ -159,7 +159,7 @@ module.exports = {
         });
     },
     
-    test_named_params: function(){
+    'test named params': function(){
         var server = run({
             delay: function(ms,   msg, unused){
                 var respond = this;
@@ -193,7 +193,7 @@ module.exports = {
         });
     },
     
-    test_batch: function(){
+    'test batch calls': function(){
         var server = run({
             multiply: function(a, b){
                 this(null, a * b);
