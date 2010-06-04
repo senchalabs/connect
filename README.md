@@ -1,6 +1,6 @@
 # Connect
 
-Connect is a high performance middleware framework built by the combined forces of Tim Caswell ([creationix][]) and TJ Holowaychuk ([visionmedia][]) and the other skilled developers of [ExtJS][]. Connect takes the familiar concepts of Ruby's [Rack](http://rack.rubyforge.org/) and applies it to the asynchronous world of [node](http://nodejs.org);
+Connect is a high performance middleware framework built by the combined forces of Tim Caswell ([creationix][]) and TJ Holowaychuk ([visionmedia][]) and the other skilled developers of [ExtJS][]. Connect takes the familiar concepts of Ruby's [Rack](http://rack.rubyforge.org/) and applies it to the asynchronous world of [node](http://nodejs.org).
 
 ExtJS is releasing Connect under the very liberal MIT license in hopes that we can provide some level of leadership and stability for application frameworks to build on.
 
@@ -20,9 +20,19 @@ View the man page:
 
     $ man connect
 
-or view the HTML document:
+View the HTML document:
 
     $ open docs/api.html
+
+View one of several examples located within _./examples_.
+
+## Articles
+
+  * [Introduction to Connect](http://tjholowaychuk.com/post/664516126/connect-middleware-for-nodejs)
+
+## Applications Using Connect
+
+  coming soon
 
 ## Running Benchmarks
 
