@@ -6,7 +6,7 @@ ExtJS is releasing Connect under the very liberal MIT license in hopes that we c
 
 ## Features
 
-  * High performance api, with nearly no overhead
+  * High performance api, with nearly no overhead.
   * Several bundled middleware implementations such as _log_, _static_, and _json-rpc_.
   * The _connect_ executable for daemonizing node, and Connect servers.
 
@@ -32,7 +32,7 @@ To run the benchmarks you must have ApacheBench, and gnuplot installed, then:
 
 ## Testing
 
-First update the git submodules, which include
+First update the git submodules, which includes
 the [Expresso](http://github.com/visionmedia/expresso) TDD
 framework:
 
