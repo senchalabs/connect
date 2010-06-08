@@ -75,8 +75,8 @@ var usage = ''
     + '  -c, --config PATH    Load configuration module\n'
     + '  -P, --pidfile PATH   PID file, defaults to pids/connect.pid\n'
     + '  -l, --logfile PATH   Log file, defaults to logs/connect.log\n'
-    + '  -u, --user ID        Change user with setuid()\n'
-    + '  -g, --group ID       Change group with setgid()\n'
+    + '  -u, --user ID|NAME   Change user with setuid()\n'
+    + '  -g, --group ID|NAME  Change group with setgid()\n'
     + '  -v, --verbose        Display verbose output\n'
     + '  -K, --no-color       Suppress colored terminal output\n'
     + '  -h, --help           Display help information\n';
@@ -268,13 +268,15 @@ function start() {
             // Set uid
             if (env.uid) {
                 log('running as user ' + env.uid);
-                process.setuid(env.uid);
+                var id = parseInt(env.uid, 10);
+                process.setuid(isNaN(id) ? env.uid : id);
             }
             
             // Set gid
             if (env.gid) {
                 log('running as group ' + env.gid);
-                process.setgid(env.gid);
+                var id = parseInt(env.gid, 10);
+                process.setgid(isNaN(id) ? env.gid : id);
             }
             
             // Ignore SIGHUP
@@ -331,11 +333,11 @@ function parseArguments() {
                 break;
             case '-u':
             case '--user':
-                env.uid = parseInt(requireArg('--user'), 10);
+                env.uid = requireArg('--user');
                 break;
             case '-g':
             case '--group':
-                env.gid = parseInt(requireArg('--group'), 10);
+                env.gid = requireArg('--group');
                 break;
             case '-C':
             case '--chdir':

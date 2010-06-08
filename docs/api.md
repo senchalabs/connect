@@ -7,7 +7,7 @@ connect(1) -- node server runner
             [-D|--daemonize] [-I|--include PATH]
             [-E|--env NAME] [-e|--eval CODE] [-C|--chdir PATH]
             [-c|--config PATH] [-P|--pidfile PATH]
-            [-l|--logfile PATH] [-u|--user ID] [-g|--group ID]
+            [-l|--logfile PATH] [-u|--user ID|NAME] [-g|--group ID|NAME]
             [-v|--verbose] [-K|--no-color] [-h|--help]
             start|stop|restart|status [PATH]
 
@@ -29,8 +29,8 @@ The connect executable supplies _init.d_ friendly _start_, _stop_, and _restart_
     -c, --config PATH    Load configuration module
     -P, --pidfile PATH   PID file, defaults to pids/connect.pid
     -l, --logfile PATH   Log file, defaults to logs/connect.log
-    -u, --user ID        Change user with setuid()
-    -g, --group ID       Change group with setgid()
+    -u, --user ID|NAME   Change user with setuid()
+    -g, --group ID|NAME  Change group with setgid()
     -v, --verbose        Display verbose output
     -K, --no-color       Suppress colored terminal output
     -h, --help           Display help information
