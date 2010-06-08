@@ -160,7 +160,7 @@ function stop(){
     try {
         log('stopping');
         var pid = parseInt(fs.readFileSync(env.pidfile), 10);
-        process.kill(pid);
+        process.kill(pid, 'SIGTERM');
         log('killed [bold]{' + pid + '}');
     } catch (err) {
         if (err.message === 'No such process') {
