@@ -215,12 +215,13 @@ function start(){
     // Ensure it exports properly
     if (app instanceof http.Server) {
         if (daemonize) {
-            log('daemonizing process ' + process.pid);
+            log('daemonizing process [bold]{' + process.pid + '}');
             
             // Change working directory
             process.chdir('/');
             
             // Write out pid
+            log('writing pid to [bold]{' + env.pidfile + '}');
             fs.writeFile(env.pidfile, process.pid.toString(), 'ascii');
             
             // Reset umask
@@ -239,14 +240,13 @@ function start(){
             }
             
             // Ignore SIGHUP
-            process.addListener('SIGHUP', function(){
-                // Ignore
-            });
+            process.addListener('SIGHUP', function(){ /* ignore */ });
             
             // Redirect streams
             // var errlog = env.logfile.replace(/(\.log)?$/, '.error$1');
             // TODO: freopen() not supported in node yet
             // TODO: sess / proc group leader
+            // TODO: fork
         }
         app.env = env;
         sys.error('Connect server listening on http://'
