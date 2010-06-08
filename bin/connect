@@ -216,6 +216,7 @@ function start(){
     if (app instanceof http.Server) {
         if (daemonize) {
             log('daemonizing process [bold]{' + process.pid + '}');
+
             // Write out pid
             log('writing pid to [bold]{' + env.pidfile + '}');
             fs.writeFileSync(env.pidfile, process.pid.toString(), 'ascii');
