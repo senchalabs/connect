@@ -198,7 +198,7 @@ require('connect').createServer([
 <p>If you wish to pass an exception down the stack, you can invoke <code>next()</code> like below:</p>
 
 <pre><code> if (someRequirementIsNotMet) {
-   next(new Error('my requirement was not met!'));
+     next(new Error('my requirement was not met!'));
  }
 </code></pre>
 
@@ -218,7 +218,7 @@ exports.handle = function(err, req, res, next){
 # app.js
 require('connect').createServer([
     { module: require('./hello-world') }
-]); 
+]);
 </code></pre>
     </div>
   </body>

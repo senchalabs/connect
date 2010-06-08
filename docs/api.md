@@ -9,7 +9,7 @@ connect(1) -- node server runner
             [-c|--config PATH] [-P|--pidfile PATH]
             [-l|--logfile PATH] [-u|--user ID] [-g|--group ID]
             [-v|--verbose] [-K|--no-color] [-h|--help]
-            start|stop|restart [PATH]
+            start|stop|restart|status [PATH]
 
 ## Description
 

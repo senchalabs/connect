@@ -62,7 +62,7 @@ var args = process.argv.slice(2);
  */
 
 var usage = ''
-    + '[bold]{Usage}: connect [options] start|stop|restart\n'
+    + '[bold]{Usage}: connect [options] start|stop|restart|status\n'
     + '\n'
     + '[bold]{Options}:\n'
     + '  -H, --host ADDR      Host address, defaults to INADDR_ANY\n'
@@ -87,7 +87,7 @@ var usage = ''
  * @param  {String} msg
  */
 
-function log(msg){
+function log(msg) {
     if (verbose) sys.error('... ' + colorize(msg));
 }
 
@@ -99,7 +99,7 @@ function log(msg){
  * @return {String}
  */
 
-function colorize(str){
+function colorize(str) {
     var colors = useColors
         ? { bold: 1 }
         : {};
@@ -115,7 +115,7 @@ function colorize(str){
  * @param  {Number} code
  */
 
-function abort(msg, code){
+function abort(msg, code) {
     sys.error(colorize(msg));
     process.exit(code || 1);
 }
@@ -128,7 +128,7 @@ function abort(msg, code){
  * @return {String}
  */
 
-function requireArg(prefix){
+function requireArg(prefix) {
     if (args.length) {
         return args.shift();
     } else {
@@ -142,7 +142,7 @@ function requireArg(prefix){
  * @param  {String} file
  */
 
-function loadConfig(file){
+function loadConfig(file) {
     file = process.cwd() + '/' + file;
     log('loading config [bold]{`' + file + "'}");
     var config = require(file),
@@ -150,23 +150,61 @@ function loadConfig(file){
     for (var i = 0, len = keys.length; i < len; ++i) {
         env[keys[i]] = config[keys[i]];
     }
+};
+
+/**
+ * Return pid from env.pidfile.
+ *
+ * @return {Number}
+ */
+
+function getpid() {
+    try {
+        return parseInt(fs.readFileSync(env.pidfile), 10);
+    } catch (err) {
+        if (err.errno === process.ENOENT) {
+            log('[bold]{' + err.path + '} does not exist');
+        } else {
+            throw err;
+        }
+    }
+};
+
+/**
+ * Check process status.
+ */
+
+function status() {
+    try {
+        log('checking status');
+        verbose = true;
+        var pid = getpid();
+        if (pid) {
+            process.kill(pid, 0);
+            log('[bold]{' + pid + '} is running');
+        }
+    } catch (err) {
+        if (err.message === 'No such process') {
+            log('[bold]{' + pid + '} is not running');
+        } else {
+            throw err;
+        }
+    }
 }
 
 /**
  * Stop the process when running.
  */
 
-function stop(){
+function stop() {
     try {
         log('stopping');
-        var pid = parseInt(fs.readFileSync(env.pidfile), 10);
+        var pid = getpid();
         process.kill(pid, 'SIGTERM');
         log('killed [bold]{' + pid + '}');
     } catch (err) {
         if (err.message === 'No such process') {
             log('[bold]{' + pid + '} is not running')
-        } else if (err.errno === process.ENOENT) {
-            log('[bold]{' + err.path + '} does not exist');
         } else {
             throw err;
         }
@@ -180,7 +218,7 @@ function stop(){
  * @return {Boolean}
  */
 
-function exists(path){
+function exists(path) {
     try { 
         return fs.statSync(path);
     } catch (err) {
@@ -192,7 +230,7 @@ function exists(path){
  * Start the process.
  */
 
-function start(){
+function start() {
     log('starting');
     var path = process.cwd() + '/' + (appPath || '');
     
@@ -266,7 +304,7 @@ function start(){
  * Parse the arguments.
  */
 
-function parseArguments(){
+function parseArguments() {
     var arg,
         cmd = 'start';
     while (args.length) {
@@ -334,6 +372,7 @@ function parseArguments(){
             case 'stop':
             case 'start':
             case 'restart':
+            case 'status':
                 cmd = arg;
                 break;
             default:
@@ -353,6 +392,9 @@ function parseArguments(){
         case 'restart': 
             stop();
             start();
+            break;
+        case 'status':
+            status();
             break;
     }
 };
