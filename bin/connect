@@ -217,8 +217,8 @@ function start(){
         if (daemonize) {
             log('daemonizing process ' + process.pid);
             
-            // TODO: chroot
-            // TODO: sess / process group leader
+            // Change working directory
+            process.chdir('/');
             
             // Write out pid
             fs.writeFile(env.pidfile, process.pid.toString(), 'ascii');
@@ -246,6 +246,7 @@ function start(){
             // Redirect streams
             // var errlog = env.logfile.replace(/(\.log)?$/, '.error$1');
             // TODO: freopen() not supported in node yet
+            // TODO: sess / proc group leader
         }
         app.env = env;
         sys.error('Connect server listening on http://'
