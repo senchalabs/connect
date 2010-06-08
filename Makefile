@@ -10,7 +10,7 @@ test:
 test-cov:
 	@$(MAKE) test TEST_FLAGS="--cov"
 
-install: docs
+install:
 	cp -f docs/api.1 $(PREFIX)/man/man1/connect.1
 	cp -f bin/connect $(PREFIX)/bin/connect
 
