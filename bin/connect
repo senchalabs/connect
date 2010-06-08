@@ -216,14 +216,13 @@ function start(){
     if (app instanceof http.Server) {
         if (daemonize) {
             log('daemonizing process [bold]{' + process.pid + '}');
+            // Write out pid
+            log('writing pid to [bold]{' + env.pidfile + '}');
+            fs.writeFileSync(env.pidfile, process.pid.toString(), 'ascii');
             
             // Change working directory
             process.chdir('/');
-            
-            // Write out pid
-            log('writing pid to [bold]{' + env.pidfile + '}');
-            fs.writeFile(env.pidfile, process.pid.toString(), 'ascii');
-            
+
             // Reset umask
             process.umask(0);
             
@@ -240,7 +239,9 @@ function start(){
             }
             
             // Ignore SIGHUP
-            process.addListener('SIGHUP', function(){ /* ignore */ });
+            process.addListener('SIGHUP', function(){
+                // Ignore
+            });
             
             // Redirect streams
             // var errlog = env.logfile.replace(/(\.log)?$/, '.error$1');
