@@ -1,79 +1,48 @@
 # Connect
 
-Connect is a middleware framework built by the combined forces of Tim Caswell ([creationix][]) and TJ Holowaychuk ([visionmedia][]) and the other skilled developers of [ExtJS][].  Connect is a layer that sits between node and an http application framework.  It's much like [Rack][] of the ruby world, but designed from the ground up with [Node.JS][] in mind.
+Connect is a high performance middleware framework built by the combined forces of Tim Caswell ([creationix][]) and TJ Holowaychuk ([visionmedia][]) and the other skilled developers of [ExtJS][]. Connect takes the familiar concepts of Ruby's [Rack](http://rack.rubyforge.org/) and applies it to the asynchronous world of [node](http://nodejs.org).
 
 ExtJS is releasing Connect under the very liberal MIT license in hopes that we can provide some level of leadership and stability for application frameworks to build on.
 
-This library is aimed at experienced developers - typical application developers will consume middleware far more often than writing it. In particular, we would like the Node community to standardize on this.
+## Features
 
-## Goals
+  * High performance api, with nearly no overhead.
+  * Several bundled middleware implementations such as _log_, _static_, and _json-rpc_.
+  * The _connect_ executable for daemonizing node, and Connect servers.
 
-  * Provide a consistent framework for developers to create middleware
-  * Gracefully handle issues arising from asynchronous middleware
-  * Provide clean API for creating middleware
-  * Provide useful subset of bundled middleware layers - gzip, content-length, caching, cookie decoding, logging, response time
+## Installation
 
-## Non-Goals
+    $ git clone git://github.com/extjs/Connect.git && cd Connect && sudo make install
 
-  * Data persistence layer
-  * View layer
+## Documentation
 
-## Usage
+View the man page:
 
-To learn the API, I'll go through building a simple app in Connect.  First a plain hello world app:
+    $ man connect
 
-    var Connect = require("connect");
+View the HTML document:
 
-    Connect.createServer([
-        {module: {handle: function (err, req, res, next) {
-            res.simpleBody(200, "Hello World");
-        }}}
-    ]).listen();
+    $ open docs/api.html
 
-Connect server inherits from node's http server, so the API should look familiar.  The difference is that instead of taking a single callback for each request, it expects a stack of middleware layers.
+View one of several examples located within _./examples_.
 
-### Layers
+## Articles
 
-Connect comes built-in with several middleware layers that are split into two categories.  They are called filters and providers.  A filter is a layer that modifies an http request or it's corresponding response.  A provider is the endpoint that takes the request and generates the response.
+  * [Introduction to Connect](http://tjholowaychuk.com/post/664516126/connect-middleware-for-nodejs)
 
-Think of it as the layers to an onion and each HTTP request enters the onion at the outermost layer and travels in till a layer reflects it as a response.  The response then goes through the same layers in reverse order.
+## Applications Using Connect
 
-Layer objects can have four properties.  They are:
-
-  * `module` - A reference to a raw user-specified middleware layer module.
-  * `filter` - The name of a built-in filter middleware to use
-  * `provider` - The name of a built-in provider middleware to use.
-  * `route` - An optional filter on the url for which routes to apply the middleware to.  Also the url given to the layer is relative to this route.
-  * `param` - The optional configuration parameter to pass to the `setup` function of the layer.
-  * `params` - If you want to pass more than one parameter, give this an array and they will be passed in as individual parameters.
-
-Here are some sample middleware layer configurations:
-
-    // Log all HTTP responses to the terminal in Common Log Format.
-    {filter: "log"}
-    // Gzip the response body automatically.
-    {filter: "gzip"}
-    // Serve up all files in the public folder as static resources.
-    {provider: "static", param: __dirname + "/public"}
-    // Use a session for all requests to the admin subfolder.
-    {filter: "session", route: "/admin"}
-    // Make sure the user is authenticated for the secret and important
-    // routes.
-    {filter: "authentication", route: ["/secret", "/important"], param: require('./auth')},
-
-### Examples
-
-See the example apps and the included test suite for more through code examples.  More will come soon.
+  coming soon
 
 ## Running Benchmarks
 
-To run the benchmarks you must have ApacheBench, and gnuplot.
+To run the benchmarks you must have ApacheBench, and gnuplot installed, then:
 
     $ make benchmark && make graphs && open results/graphs/*.png
 
 ## Testing
 
-First update the git submodules, which include
+First update the git submodules, which includes
 the [Expresso](http://github.com/visionmedia/expresso) TDD
 framework:
 
@@ -92,3 +61,28 @@ Run a single test, or use a custom glob pattern:
 [ExtJS]: http://www.extjs.com/
 [Rack]: http://rack.rubyforge.org/
 [Node.JS]: http://nodejs.org/
+
+## License 
+
+(The MIT License)
+
+Copyright (c) 2010 Ext JS
+
+Permission is hereby granted, free of charge, to any person obtaining
+a copy of this software and associated documentation files (the
+'Software'), to deal in the Software without restriction, including
+without limitation the rights to use, copy, modify, merge, publish,
+distribute, sublicense, and/or sell copies of the Software, and to
+permit persons to whom the Software is furnished to do so, subject to
+the following conditions:
+
+The above copyright notice and this permission notice shall be
+included in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED 'AS IS', WITHOUT WARRANTY OF ANY KIND,
+EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
+CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
+TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
+SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
