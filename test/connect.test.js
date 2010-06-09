@@ -17,7 +17,7 @@ module.exports = {
         var server = helpers.run([
             { module: require('./filters/uppercase'), param: 1 },
             { module: {
-                handle: function(err, req, res, next){
+                handle: function(req, res, next){
                     assert.equal('test', this.env && this.env.name, 'Test env available to layer instance');
                     next();
                 }
@@ -45,7 +45,7 @@ module.exports = {
         var n = 0;
         var server = helpers.run([
             { module: {
-                handle: function(err, req, res, next){
+                handle: function(req, res, next){
                     switch (++n) {
                         case 1:
                         case 2:
@@ -67,7 +67,7 @@ module.exports = {
                 }
             }, route: '/hello/world' },
             { module: {
-                handle: function(err, req, res, next){
+                handle: function(req, res, next){
                     res.writeHead(200);
                     res.end('hello');
                 }
@@ -91,18 +91,8 @@ module.exports = {
     'test catch error': function(){
         var server = helpers.run([
             { module: {
-                handle: function(err, req, res, next){
+                handle: function(req, res, next){
                     doesNotExist();
-                }
-            }},
-            { module: {
-                handle: function(err, req, res, next){
-                    assert.ok(err instanceof Error, 'Test catching of thrown exception in middleware');
-                    assert.eql(['doesNotExist'], err.arguments, 'Test catching of thrown exception in middleware');
-                    assert.equal('object', typeof req);
-                    assert.equal('object', typeof res);
-                    assert.equal('function', typeof next);
-                    next(err);
                 }
             }}
         ]);
@@ -113,7 +103,7 @@ module.exports = {
     'test mounting': function(){
         var world = connect.createServer([
             { module: {
-                handle: function(err, req, res){
+                handle: function(req, res){
                     res.writeHead(200);
                     res.end('hello world');
                 }
@@ -123,7 +113,7 @@ module.exports = {
         var server = helpers.run([
             { module: world, route: '/hello' },
             { module: {
-                handle: function(err, req, res){
+                handle: function(req, res){
                     res.writeHead(200);
                     res.end('hello');
                 }
@@ -137,7 +127,7 @@ module.exports = {
     'test connect as middleware': function(){
         var inner = connect.createServer([
             { module: {
-                handle: function(err, req, res){
+                handle: function(req, res){
                     if (req.method === 'POST') {
                         res.writeHead(200);
                         res.end('inner stack');
@@ -150,7 +140,7 @@ module.exports = {
         var middle = connect.createServer([
             { module: inner },
             { module: {
-                handle: function(err, req, res, next){
+                handle: function(req, res, next){
                     if (req.method === 'POST') {
                         res.writeHead(200);
                         res.end('middle stack');
@@ -163,7 +153,7 @@ module.exports = {
         var server = helpers.run([
             { module: middle },
             { module: {
-                handle: function(err, req, res){
+                handle: function(req, res){
                     res.writeHead(200);
                     res.end('outer stack');
                 }
@@ -179,65 +169,34 @@ module.exports = {
     'test next()': function(){
         var server = helpers.run([
             { module: {
-                handle: function(err, req, res, next){
+                handle: function(req, res, next){
                     // Implicit passing of args
                     next();
                 }
             }},
             { module: {
-                handle: function(err, req, res, next){
-                    assert.strictEqual(null, err);
+                handle: function(req, res, next){
                     assert.equal('object', typeof req);
                     assert.equal('object', typeof res);
                     assert.equal('function', typeof next);
-                    // Explicit passing of arg 1 
-                    next(null);
+                    // Explicit passing of error 
+                    next({ faux: 'request' });
                 }
             }},
             { module: {
-                handle: function(err, req, res, next){
-                    assert.strictEqual(null, err);
-                    assert.equal('object', typeof req);
-                    assert.equal('object', typeof res);
-                    assert.equal('function', typeof next);
-                    // Explicit passing of arg 1 
-                    next(false);
-                }
-            }},
-
-            { module: {
-                handle: function(err, req, res, next){
-                    throw new Error('fail');
-                }
-            }},
-            { module: {
-                handle: function(err, req, res, next){
-                    // Implicitly pass all args again
-                    next();
-                }
-            }},
-            { module: {
-                handle: function(err, req, res, next){
-                    assert.ok(err instanceof Error, 'Test error thrown in handler');
-                    next(false);
-                }
-            }},
-            { module: {
-                handle: function(err, req, res, next){
-                    assert.strictEqual(false, err);
-                    assert.equal('object', typeof req);
-                    assert.equal('object', typeof res);
-                    assert.equal('function', typeof next);
-                    // Explicit passing of arg 1 and 2
-                    next(null, { faux: 'request' });
-                }
-            }},
-            { module: {
-                handle: function(err, req, res){
-                    assert.strictEqual(null, err);
+                handle: function(req, res, next){
                     assert.eql({ faux: 'request', url: '/' }, req);
-                    res.writeHead(200);
-                    res.end();
+                    assert.equal('object', typeof res);
+                    assert.equal('function', typeof next);
+                    // Implicit 1, explicit 2
+                    next(undefined, { faux: 'response' });
+                }
+            }},
+            { module: {
+                handle: function(req, res, next){
+                    assert.eql({ faux: 'request', url: '/' }, req);
+                    assert.eql({ faux: 'response', url: '/' }, res);
+                    next();
                 }
             }},
         ]);

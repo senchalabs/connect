@@ -12,8 +12,20 @@ module.exports = {
     'test defaults': function(){
         var server = helpers.run([
             { module: {
-                handle: function(err, req, res, next){
+                handle: function(req, res, next){
                     next(new Error('keyboard cat!'));
+                }
+            }},
+            { filter: 'error-handler' }
+        ]);
+        server.assertResponse('GET', '/', 500, 'Internal Server Error', 'Test error-handler defaults');
+    },
+    
+    'test defaults with caught exception': function(){
+        var server = helpers.run([
+            { module: {
+                handle: function(req, res, next){
+                    throw new Error('keyboard cat!');
                 }
             }},
             { filter: 'error-handler' }
@@ -24,7 +36,7 @@ module.exports = {
     'test showMessage': function(){
         var server = helpers.run([
             { module: {
-                handle: function(err, req, res, next){
+                handle: function(req, res, next){
                     next(new Error('keyboard cat!'));
                 }
             }},
@@ -36,7 +48,7 @@ module.exports = {
     'test showStack': function(){
         var server = helpers.run([
             { module: {
-                handle: function(err, req, res, next){
+                handle: function(req, res, next){
                     next(new Error('keyboard cat!'));
                 }
             }},

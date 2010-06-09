@@ -13,7 +13,7 @@ module.exports = {
         var server = helpers.run([
             { filter: 'body-decoder' },
             { module: {
-                handle: function(err, req, res){
+                handle: function(req, res){
                     assert.eql({ user: { name: 'tj' }}, req.body, 'Test body-decoder urlencoded req.body');
                     res.writeHead(200);
                     res.end();
@@ -29,7 +29,7 @@ module.exports = {
         var server = helpers.run([
             { filter: 'body-decoder' },
             { module: {
-                handle: function(err, req, res){
+                handle: function(req, res){
                     assert.eql({ user: { name: 'tj' }}, req.body, 'Test body-decoder json req.body');
                     res.writeHead(200);
                     res.end();
@@ -45,7 +45,7 @@ module.exports = {
         var server = helpers.run([
             { filter: 'body-decoder' },
             { module: {
-                handle: function(err, req, res){
+                handle: function(req, res){
                     assert.equal('unexpected_eos', err.type, 'Test body-decoder invalid json error');
                     assert.equal('{"user":{"name":"tj"', req.rawBody, 'Test body-decoder req.rawBody');
                     assert.strictEqual(undefined, req.body, 'Test body-decoder invalid json req.body');
