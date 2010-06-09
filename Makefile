@@ -5,7 +5,7 @@ TESTS ?= test/*.test.js
 PREFIX = /usr/local
 
 test:
-	@CONNECT_ENV=test ./$(TEST) -I lib $(TEST_FLAGS) $(TESTS)
+	@CONNECT_ENV=test ./$(TEST) -I lib -I support/sass/lib $(TEST_FLAGS) $(TESTS)
 
 test-cov:
 	@$(MAKE) test TEST_FLAGS="--cov"
