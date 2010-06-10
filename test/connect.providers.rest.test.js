@@ -30,6 +30,25 @@ module.exports = {
                     '/user/:id/:operation': function(req, res, params){
                         res.writeHead(200, {});
                         res.end(params.operation + 'ing user ' + params.id);
+                    },
+                    '/range/:from..:to': function(req, res, params){
+                        res.writeHead(200, {});
+                        res.end('range ' + params.from + ' to ' + params.to);
+                    },
+                    '/users.:format': function(req, res, params){
+                        res.writeHead(200, {});
+                        res.end(params.format + ' format');
+                    },
+                    '/cookies.:format?': function(req, res, params){
+                        var cookies = ['num', 'num'];
+                        res.writeHead(200, {});
+                        switch (params.format) {
+                            case 'json':
+                                res.end(JSON.stringify(cookies));
+                                break;
+                            default:
+                                res.end(cookies.join(' '));
+                        }
                     }
                 }
             }}
@@ -39,5 +58,9 @@ module.exports = {
         server.assertResponse('GET', '/user/12', 200, 'got user 12', 'Test rest GET matched path param');
         server.assertResponse('GET', '/user/12/', 200, 'got user 12', 'Test rest GET matched path param with trailing slash');
         server.assertResponse('GET', '/user/99/edit', 200, 'editing user 99', 'Test rest GET matched path with several params');
+        server.assertResponse('GET', '/range/11..99', 200, 'range 11 to 99');
+        server.assertResponse('GET', '/users.json', 200, 'json format');
+        server.assertResponse('GET', '/cookies', 200, 'num num', 'Test rest optional placeholder without value');
+        server.assertResponse('GET', '/cookies.json', 200, '["num","num"]', 'Test reset optional placeholder with value');
     }
 }

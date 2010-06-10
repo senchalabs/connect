@@ -45,6 +45,7 @@ connect.Server.prototype.listen = function(){
      */
     
     this.assertResponse = function(method, path, expectedStatus, expectedBody, msg){
+        msg = msg || 'expected';
         var req = this.request(method, path);
         req.buffer = true;
         req.addListener('response', function(res){
