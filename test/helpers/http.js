@@ -44,7 +44,8 @@ connect.Server.prototype.listen = function(){
      * Response assertion helper.
      */
     
-    this.assertResponse = function(method, path, expectedStatus, expectedBody, msg){
+    this.assertResponse = function(method, path, expectedStatus, expectedBody, msg, fn){
+        msg = msg || 'expected';
         var req = this.request(method, path);
         req.buffer = true;
         req.addListener('response', function(res){
@@ -55,6 +56,7 @@ connect.Server.prototype.listen = function(){
                 assert.equal(expectedStatus, 
                     res.statusCode, 
                     msg + ' status code of ' + expectedStatus + ', got ' + res.statusCode);
+                if (fn) fn(res);
             });
         });
         req.end();

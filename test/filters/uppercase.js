@@ -3,7 +3,7 @@ exports.setup = function(){
     exports.setupArgs = arguments
 }
 
-exports.handle = function(err, req, res, next){
+exports.handle = function(req, res, next){
     req.body = ''
     req.setEncoding('utf8')
     req.addListener('data', function(chunk){
