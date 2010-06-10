@@ -41,6 +41,10 @@ module.exports = {
                         res.writeHead(200, {});
                         res.end('GET /');
                     },
+                    '/public/*': function(req, res, params){
+                        res.writeHead(200, {});
+                        res.end('splat "' + params.splat[0] + '"');
+                    },
                     '/user/:id': function(req, res, params){
                         res.writeHead(200, {});
                         res.end('got user ' + params.id);
@@ -84,5 +88,8 @@ module.exports = {
         server.assertResponse('GET', '/users.json', 200, 'json format');
         server.assertResponse('GET', '/cookies', 200, 'num num', 'Test rest optional placeholder without value');
         server.assertResponse('GET', '/cookies.json', 200, '["num","num"]', 'Test reset optional placeholder with value');
+        server.assertResponse('GET', '/public', 404, 'Cannot find /public', 'Test required splat without value');
+        server.assertResponse('GET', '/public/jquery.js', 200, 'splat "jquery.js"', 'Test required splat with value');
+        server.assertResponse('GET', '/public/javascripts/jquery.js', 200, 'splat "javascripts/jquery.js"', 'Test required splat with segmented');
     }
 }
