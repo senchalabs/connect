@@ -45,6 +45,10 @@ module.exports = {
                         res.writeHead(200, {});
                         res.end('splat "' + params.splat[0] + '"');
                     },
+                    '/files/*.*': function(req, res, params){
+                        res.writeHead(200, {});
+                        res.end('path: "' + params.splat[0] + '" ext: "' + params.splat[1] + '"');
+                    },
                     '/user/:id': function(req, res, params){
                         res.writeHead(200, {});
                         res.end('got user ' + params.id);
@@ -91,5 +95,7 @@ module.exports = {
         server.assertResponse('GET', '/public', 404, 'Cannot find /public', 'Test required splat without value');
         server.assertResponse('GET', '/public/jquery.js', 200, 'splat "jquery.js"', 'Test required splat with value');
         server.assertResponse('GET', '/public/javascripts/jquery.js', 200, 'splat "javascripts/jquery.js"', 'Test required splat with segmented');
+        server.assertResponse('GET', '/files/jquery.js', 200, 'path: "jquery" ext: "js"', 'Test several required splats');
+        server.assertResponse('GET', '/files/javascripts/jquery.js', 200, 'path: "javascripts/jquery" ext: "js"', 'Test several required splats');
     }
 }
