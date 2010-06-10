@@ -15,13 +15,31 @@ var connect = require('connect'),
 var fixturesPath = __dirname + '/fixtures';
 
 module.exports = {
-    'test GET': function(){
+    'test routing': function(){
         var server = helpers.run([
             { provider: 'rest', routes: {
+                post: {
+                    '/': function(req, res){
+                        res.writeHead(200, {});
+                        res.end('POST /');
+                    }
+                },
+                put: {
+                    '/': function(req, res){
+                        res.writeHead(200, {});
+                        res.end('PUT /');
+                    }
+                },
+                del: {
+                    '/': function(req, res){
+                        res.writeHead(200, {});
+                        res.end('DELETE /');
+                    }
+                },
                 get: {
                     '/': function(req, res){
                         res.writeHead(200, {});
-                        res.end('got /');
+                        res.end('GET /');
                     },
                     '/user/:id': function(req, res, params){
                         res.writeHead(200, {});
@@ -53,7 +71,10 @@ module.exports = {
                 }
             }}
         ]);
-        server.assertResponse('GET', '/', 200, 'got /', 'Test rest GET /');
+        server.assertResponse('GET', '/', 200, 'GET /', 'Test rest GET /');
+        server.assertResponse('POST', '/', 200, 'POST /', 'Test rest POST /');
+        server.assertResponse('PUT', '/', 200, 'PUT /', 'Test rest PUT /');
+        server.assertResponse('DELETE', '/', 200, 'DELETE /', 'Test rest DELETE /');
         server.assertResponse('GET', '/user', 404, 'Cannot find /user', 'Test rest GET unmatched path param');
         server.assertResponse('GET', '/user/12', 200, 'got user 12', 'Test rest GET matched path param');
         server.assertResponse('GET', '/user/12/', 200, 'got user 12', 'Test rest GET matched path param with trailing slash');
