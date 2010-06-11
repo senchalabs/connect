@@ -45,12 +45,6 @@ var workers;
 var verbose;
 
 /**
- * App module path.
- */
-
-var appPath;
-
-/**
  * Colored terminal output.
  */
 
@@ -256,35 +250,19 @@ function requireApp(path) {
 };
 
 /**
- * Start child worker process.
+ * Get path to application.
+ *
+ *  - supports env.appPath
+ *  - auto-detects {app,server}.js
+ *
+ * @return {String}
  */
 
-function startWorker() {
-    var stdin = new net.Stream(0, 'unix');
-    stdin.addListener('data', function(json){
-        env = JSON.parse(json.toString());
-    });
-    stdin.addListener('fd', function(fd){
-        var app = requireApp(process.cwd() + '/app');
-        app.env = env;
-        sys.error('Connect server(' + process.pid + ') listening on http://'
-            + (env.host || '*') + ':' + env.port
-            + ' in ' + env.name + ' mode');
-        app.listenFD(fd, "tcp4");
-    });
-    stdin.resume();
-};
-
-/**
- * Start the process.
- */
-
-function start() {
-    log('starting');
-    var path = process.cwd() + '/' + (appPath || '');
+function getAppPath() {
+    var path = process.cwd() + '/' + (env.appPath || '');
 
     // App path not given, try app.js and server.js
-    if (!appPath) {
+    if (!env.appPath) {
         if (exists(path + 'app.js')) {
             log('detected app.js');
             path += 'app';
@@ -295,6 +273,37 @@ function start() {
             abort('app not found, pass a module path, or create {app,server}.js');
         }
     }
+    
+    return path;
+};
+
+/**
+ * Start child worker process.
+ */
+
+function startWorker() {
+    var stdin = new net.Stream(0, 'unix');
+    stdin.addListener('data', function(json){
+        env = JSON.parse(json.toString());
+    });
+    stdin.addListener('fd', function(fd){
+        var app = requireApp(getAppPath());
+        app.env = env;
+        sys.error('Connect server(' + process.pid + ') listening on http://'
+            + (env.host || '*') + ':' + env.port
+            + ' in ' + env.name + ' mode');
+        app.listenFD(fd, 'tcp4');
+    });
+    stdin.resume();
+};
+
+/**
+ * Start the process.
+ */
+
+function start() {
+    log('starting');
+    var path = getAppPath();
 
     if (workers) {
         if (process.version < '0.1.98') {
@@ -428,7 +437,7 @@ function parseArguments() {
                 cmd = arg;
                 break;
             default:
-                appPath = arg;
+                env.appPath = arg;
         }
     }
 
