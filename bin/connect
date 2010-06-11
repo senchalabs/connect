@@ -23,7 +23,7 @@ var http = require('http'),
  * Environment defaults.
  */
 
-var env = exports.env = {
+var env = process.connectEnv = {
     name: process.env.CONNECT_ENV || 'development',
     logfile: 'logs/connect.log',
     pidfile: 'pids/connect.pid',
