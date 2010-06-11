@@ -25,7 +25,7 @@ module.exports = {
                     },
                     '/:id': function(req, res, params){
                         res.writeHead(200, {});
-                        res.end('product' + params.id);
+                        res.end('product ' + params.id);
                     }
                 }
             }, route: '/products' },
@@ -87,6 +87,7 @@ module.exports = {
                 }
             }}
         ]);
+        
         server.assertResponse('GET', '/products', 200, 'products');
         server.assertResponse('GET', '/products/', 200, 'products');
         server.assertResponse('GET', '/products.json', 200, 'products as json');
@@ -100,6 +101,7 @@ module.exports = {
         server.assertResponse('GET', '/user/12', 200, 'viewing user 12', 'Test rest GET matched path param');
         server.assertResponse('GET', '/user/12/', 200, 'viewing user 12', 'Test rest GET matched path param with trailing slash');
         server.assertResponse('GET', '/user/99/edit', 200, 'editing user 99', 'Test rest GET matched path with several params');
+        server.assertResponse('GET', '/user/99/edit/', 200, 'editing user 99', 'Test rest GET matched path with several params with trailing slash');
         server.assertResponse('GET', '/range/11-99', 200, 'range 11 to 99');
         server.assertResponse('GET', '/range/11-', 200, 'range 11 to HEAD');
         server.assertResponse('GET', '/users.json', 200, 'json format');
