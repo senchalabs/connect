@@ -6,10 +6,17 @@ var users = [
 
 var userRoutes = {
     get: {
-        '.:format?': function(req, res, params){
-            var body = '<ul>' 
-                + users.map(function(user){ return '<li>' + user.name + '</li>'; }).join('\n')
-                + '</ul>';
+        '/all.:format?': function(req, res, params){
+            var body;
+            switch (params.format) {
+                case 'json':
+                    body = JSON.stringify(users);
+                    break;
+                default:
+                     body = '<ul>' 
+                        + users.map(function(user){ return '<li>' + user.name + '</li>'; }).join('\n')
+                        + '</ul>';
+            }
             res.writeHead(200, {
                 'Content-Type': 'text/html',
                 'Content-Length': body.length
@@ -20,9 +27,7 @@ var userRoutes = {
             var body = users[params.id]
                 ? users[params.id].name
                 : 'User ' + params.id + ' does not exist';
-            if (params.op) {
-                body = params.op + 'ing ' + body;
-            }
+            body = (params.op || 'view') + 'ing ' + body;
             res.writeHead(200, {
                 'Content-Type': 'text/html',
                 'Content-Length': body.length
