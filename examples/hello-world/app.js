@@ -1,6 +1,6 @@
 
 module.exports = require('./lib/connect').createServer([
-    { filter: 'log', format: ':remote-addr :method :url HTTP/:http-version :status :content-length :response-timems' },
+    { filter: 'log', format: ':remote-addr :method :url :status :res[Content-Length] :response-timems' },
     { filter: 'response-time' },
     { module: {
         handle: function(req, res){
