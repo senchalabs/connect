@@ -92,10 +92,7 @@ require('./app').listen();
 Middleware is essentially just an object, responding to a \fBhandle()\fR method, the example below illustrates how simple it is to create, and utilize custom middleware.
 .
 .P
-First we define the \fBhandle()\fR method, which accepts four arguments, \fIerr\fR, \fIreq\fR, \fIres\fR, and \fInext\fR.
-.
-.P
-If an exception occurred, it is passed, it is up to your middleware to decide whether or not to simply ignore the error and pass it down the middleware stack, or to perform an action based on the exception. In our case we do not want to deal with the error directly, we simply invoke the \fBnext()\fR function, passing it down the stack (potentially to the \fIerror\-handler\fR middleware).
+First we define the \fBhandle()\fR method, which accepts three arguments, \fIreq\fR, \fIres\fR, and \fInext\fR.
 .
 .IP "" 4
 .
@@ -103,12 +100,8 @@ If an exception occurred, it is passed, it is up to your middleware to decide wh
 
 var helloWorld = {
     handle: function(req, res, next){
-        if (err) {
-          next();
-        } else {
-          res.writeHead(200, { 'Content\-Type: 'text/plain' });
-          res.end('Hello World');
-        }
+        res.writeHead(200, { 'Content\-Type: 'text/plain' });
+        res.end('Hello World');
     }
 };
 
@@ -121,7 +114,7 @@ require('connect').createServer([
 .IP "" 0
 .
 .P
-The \fBnext()\fR function accepts the same four arguments that our \fBhandle()\fR method does, however all of them are optional. For example if an \fIerr\fR is present, and we invoke \fBnext()\fR as shown above, the next middleware will receive the \fIerr\fR object (not "undefined"), and the same \fIreq\fR, and \fIres\fR objects are passed as well.
+The \fBnext()\fR function passes control to the next middleware layer in the stack, and may optionally be passed an instanceof \fBError\fR, at which time only \fBhandleError()\fR methods may respond.
 .
 .P
 If you wish to pass an exception down the stack, you can invoke \fBnext()\fR like below:
@@ -147,19 +140,42 @@ We can take this example further by "exporting" the \fBhandle()\fR method, so th
 
 # hello\-world.js
 exports.handle = function(req, res, next){
-        if (err) {
-          next();
-        } else {
-          res.writeHead(200, { 'Content\-Type: 'text/plain' });
-          res.end('Hello World');
-        }
-    }
+    res.writeHead(200, { 'Content\-Type: 'text/plain' });
+    res.end('Hello World');
 };
 
 # app.js
 require('connect').createServer([
     { module: require('./hello\-world') }
 ]);
+.
+.fi
+.
+.IP "" 0
+.
+.P
+If an exception was thrown, or is passesd to \fBnext()\fR, middleware may define the \fBhandleError()\fR method
+in order to respond (or ignore) the exception. The \fBhandleError()\fR method follows the same semantics as \fBhandle()\fR, for example:
+.
+.IP "" 4
+.
+.nf
+
+exports.handleError = function(err, req, res, next){
+    // At any time we can call next() without
+    // any arguments to eliminate exceptional status and
+    // continue down the stack
+
+    if (err.code === process.ENOENT) {
+        // We dont want to deal with missing files
+        // so pass the exception
+        next(err);
+    } else {
+        // Respond with a message
+        res.writeHead(200, { 'Content\-Type': 'text/plain' })
+        res.end('shit! im broken');
+    }
+};
 .
 .fi
 .

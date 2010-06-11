@@ -63,10 +63,8 @@ If you prefer not to use _connect_, you can simply create a script executable by
 
 Middleware is essentially just an object, responding to a `handle()` method, the example below illustrates how simple it is to create, and utilize custom middleware.
  
-First we define the `handle()` method, which accepts four arguments, _err_, _req_, _res_, and _next_. 
- 
-If an exception occurred, it is passed, it is up to your middleware to decide whether or not to simply ignore the error and pass it down the middleware stack, or to perform an action based on the exception. In our case we do not want to deal with the error directly so we don't implement an errorHandle property and it goes down the stack (potentially to the _error-handler_ middleware).
- 
+First we define the `handle()` method, which accepts three arguments, _req_, _res_, and _next_. 
+
     var helloWorld = {
         handle: function(req, res, next){
             res.writeHead(200, { 'Content-Type: 'text/plain' });
@@ -78,7 +76,7 @@ If an exception occurred, it is passed, it is up to your middleware to decide wh
         { module: helloWorld }
     ]);
     
-The `next()` function accepts the same four arguments that our `handle()` method does, however all of them are optional. For example if an _err_ is present, and we invoke `next()` as shown above, the next middleware will receive the _err_ object (not "undefined"), and the same _req_, and _res_ objects are passed as well.
+The `next()` function passes control to the next middleware layer in the stack, and may optionally be passed an instanceof `Error`, at which time only `handleError()` methods may respond.
  
 If you wish to pass an exception down the stack, you can invoke `next()` like below:
  
@@ -90,12 +88,31 @@ We can take this example further by "exporting" the `handle()` method, so that o
  
     # hello-world.js
     exports.handle = function(req, res, next){
-            res.writeHead(200, { 'Content-Type: 'text/plain' });
-            res.end('Hello World');
-        }
+        res.writeHead(200, { 'Content-Type: 'text/plain' });
+        res.end('Hello World');
     };
     
     # app.js
     require('connect').createServer([
         { module: require('./hello-world') }
     ]);
+
+If an exception was thrown, or is passesd to `next()`, middleware may define the `handleError()` method
+in order to respond (or ignore) the exception. The `handleError()` method follows the same semantics as
+`handle()`, for example:
+
+    exports.handleError = function(err, req, res, next){
+        // At any time we can call next() without
+        // any arguments to eliminate exceptional status and
+        // continue down the stack
+
+        if (err.code === process.ENOENT) {
+            // We dont want to deal with missing files
+            // so pass the exception
+            next(err);
+        } else {
+            // Respond with a message
+            res.writeHead(200, { 'Content-Type': 'text/plain' })
+            res.end('shit! im broken');
+        }
+    };

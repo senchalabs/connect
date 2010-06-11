@@ -173,18 +173,12 @@ require('./app').listen();
 
 <p>Middleware is essentially just an object, responding to a <code>handle()</code> method, the example below illustrates how simple it is to create, and utilize custom middleware.</p>
 
-<p>First we define the <code>handle()</code> method, which accepts four arguments, <em>err</em>, <em>req</em>, <em>res</em>, and <em>next</em>.</p>
-
-<p>If an exception occurred, it is passed, it is up to your middleware to decide whether or not to simply ignore the error and pass it down the middleware stack, or to perform an action based on the exception. In our case we do not want to deal with the error directly, we simply invoke the <code>next()</code> function, passing it down the stack (potentially to the <em>error-handler</em> middleware).</p>
+<p>First we define the <code>handle()</code> method, which accepts three arguments, <em>req</em>, <em>res</em>, and <em>next</em>.</p>
 
 <pre><code>var helloWorld = {
     handle: function(req, res, next){
-        if (err) {
-          next();
-        } else {
-          res.writeHead(200, { 'Content-Type: 'text/plain' });
-          res.end('Hello World');
-        }
+        res.writeHead(200, { 'Content-Type: 'text/plain' });
+        res.end('Hello World');
     }
 };
 
@@ -193,7 +187,7 @@ require('connect').createServer([
 ]);
 </code></pre>
 
-<p>The <code>next()</code> function accepts the same four arguments that our <code>handle()</code> method does, however all of them are optional. For example if an <em>err</em> is present, and we invoke <code>next()</code> as shown above, the next middleware will receive the <em>err</em> object (not "undefined"), and the same <em>req</em>, and <em>res</em> objects are passed as well.</p>
+<p>The <code>next()</code> function passes control to the next middleware layer in the stack, and may optionally be passed an instanceof <code>Error</code>, at which time only <code>handleError()</code> methods may respond.</p>
 
 <p>If you wish to pass an exception down the stack, you can invoke <code>next()</code> like below:</p>
 
@@ -206,19 +200,35 @@ require('connect').createServer([
 
 <pre><code># hello-world.js
 exports.handle = function(req, res, next){
-        if (err) {
-          next();
-        } else {
-          res.writeHead(200, { 'Content-Type: 'text/plain' });
-          res.end('Hello World');
-        }
-    }
+    res.writeHead(200, { 'Content-Type: 'text/plain' });
+    res.end('Hello World');
 };
 
 # app.js
 require('connect').createServer([
     { module: require('./hello-world') }
 ]);
+</code></pre>
+
+<p>If an exception was thrown, or is passesd to <code>next()</code>, middleware may define the <code>handleError()</code> method
+in order to respond (or ignore) the exception. The <code>handleError()</code> method follows the same semantics as
+<code>handle()</code>, for example:</p>
+
+<pre><code>exports.handleError = function(err, req, res, next){
+    // At any time we can call next() without
+    // any arguments to eliminate exceptional status and
+    // continue down the stack
+
+    if (err.code === process.ENOENT) {
+        // We dont want to deal with missing files
+        // so pass the exception
+        next(err);
+    } else {
+        // Respond with a message
+        res.writeHead(200, { 'Content-Type': 'text/plain' })
+        res.end('shit! im broken');
+    }
+};
 </code></pre>
     </div>
   </body>
