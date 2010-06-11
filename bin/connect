@@ -255,40 +255,40 @@ function start() {
     }
 
     if (workers) {
-      if (process.version < "0.1.98") {
-        abort("Cannot use workers with a version older than v0.1.98");
-      }
-
-      var fd = netBinding.socket('tcp4');
-      netBinding.bind(fd, env.port);
-      netBinding.listen(fd, 128);
-
-      for (var i = 0; i < workers; i++) {
-        // Create an unnamed unix socket to pass the fd to the child.
-        var fds = netBinding.socketpair();
-
-        // Spawn the child process
-        var child = child_process.spawn(
-          process.argv[0],
-          [__filename, "--child"],
-          undefined,
-          [fds[1], -1, -1]
-        );
-        sys.debug("Child spawned " + child.pid);
-
-        // For some reason stdin isn't getting set, patch it externally
-        if (!child.stdin) {
-          child.stdin = new net.Stream(fds[0], 'unix');
+        if (process.version < "0.1.98") {
+            abort("Cannot use workers with a version older than v0.1.98");
         }
 
-        child.stdin.write(JSON.stringify(env), "ascii", fd);
+        var fd = netBinding.socket('tcp4');
+        netBinding.bind(fd, env.port);
+        netBinding.listen(fd, 128);
 
-        // Echo output from child
-        child.stderr.addListener('data', function (data) {
-          process.stdout.write(data);
-        });
-      }
-      return;
+        for (var i = 0; i < workers; i++) {
+            // Create an unnamed unix socket to pass the fd to the child.
+            var fds = netBinding.socketpair();
+
+            // Spawn the child process
+            var child = child_process.spawn(
+                process.argv[0],
+                [__filename, "--child"],
+                undefined,
+                [fds[1], -1, -1]
+            );
+            sys.debug("Child spawned " + child.pid);
+
+            // For some reason stdin isn't getting set, patch it externally
+            if (!child.stdin) {
+                child.stdin = new net.Stream(fds[0], 'unix');
+            }
+
+            child.stdin.write(JSON.stringify(env), "ascii", fd);
+
+            // Echo output from child
+            child.stderr.addListener('data', function (data) {
+                process.stdout.write(data);
+            });
+        }
+        return;
     }
 
     // Load the app module
