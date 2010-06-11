@@ -111,7 +111,7 @@
 <h2>Synopsis</h2>
 
 <pre><code>connect [-H|--host ADDR] [-p|--port NUM]
-        [-D|--daemonize] [-I|--include PATH]
+        [-n|--workers NUM] [-I|--include PATH]
         [-E|--env Connect] [-e|--eval CODE] [-C|--chdir PATH]
         [-c|--config PATH] [-P|--pidfile PATH]
         [-l|--logfile PATH] [-u|--user ID|Connect] [-g|--group ID|Connect]
@@ -132,7 +132,7 @@ checks if the process is running.</p>
 
 <pre><code>-H, --host ADDR      Host address, defaults to INADDR_ANY
 -p, --port NUM       Port number, defaults to 3000
--D, --daemonize      Daemonize the server process
+-n, --workers NUM    Number of worker processes to spawn
 -I, --include PATH   Unshift the given path to require.paths
 -E, --env Connect       Set environment, defaults to "development"
 -e, --eval CODE      Evaluate the given string

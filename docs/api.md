@@ -4,7 +4,7 @@ connect(1) -- node server runner
 ## Synopsis
 
     connect [-H|--host ADDR] [-p|--port NUM]
-            [-D|--daemonize] [-I|--include PATH]
+            [-n|--workers NUM] [-I|--include PATH]
             [-E|--env NAME] [-e|--eval CODE] [-C|--chdir PATH]
             [-c|--config PATH] [-P|--pidfile PATH]
             [-l|--logfile PATH] [-u|--user ID|NAME] [-g|--group ID|NAME]
@@ -24,7 +24,7 @@ checks if the process is running.
 
     -H, --host ADDR      Host address, defaults to INADDR_ANY
     -p, --port NUM       Port number, defaults to 3000
-    -D, --daemonize      Daemonize the server process
+    -n, --workers NUM    Number of worker processes to spawn
     -I, --include PATH   Unshift the given path to require.paths
     -E, --env NAME       Set environment, defaults to "development"
     -e, --eval CODE      Evaluate the given string
@@ -41,7 +41,6 @@ checks if the process is running.
 ## Middleware
 
 Connect middleware is divided into two concepts. First we have _filters_ which perform an action and allow lower middleware to respond to the request, secondly we have _providers_ which are conceptual "end-points", responding to the request without continuing down the stack.
-
 
 ## Middleware Usage
 
