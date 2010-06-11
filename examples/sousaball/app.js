@@ -106,14 +106,14 @@ function save(req, res, user, level) {
 }
 
 // Serve the App
-new Connect.Server([
+module.exports = new Connect.Server([
     {filter: "log"},
     {filter: "response-time"},
     {filter: "conditional-get"},
     {filter: "cache", param: {ramCache: 100}},
     {filter: "gzip"},
     // First serve static files
-    {provider: "static", param: __dirname + "/public"},
+    {provider: "static", root: __dirname + "/public"},
     // Then the game logic as a router endpoint
     {filter: "body-decoder"},
     {provider: "router", param: function (server) {
@@ -122,4 +122,4 @@ new Connect.Server([
         server.post(new RegExp('^/([^/]+)/([^/]+)$'), save);
     }},
     {filter: "error-handler"}
-]).listen();
+]);
