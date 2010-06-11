@@ -18,6 +18,18 @@ module.exports = {
     'test routing': function(){
         var server = helpers.run([
             { provider: 'rest', routes: {
+                get: {
+                    '.:as?': function(req, res, params){
+                        res.writeHead(200, {});
+                        res.end('products' + (params.as ? ' as ' + params.as : ''));
+                    },
+                    '/:id': function(req, res, params){
+                        res.writeHead(200, {});
+                        res.end('product' + params.id);
+                    }
+                }
+            }, route: '/products' },
+            { provider: 'rest', routes: {
                 post: {
                     '/': function(req, res){
                         res.writeHead(200, {});
@@ -79,6 +91,11 @@ module.exports = {
                 }
             }}
         ]);
+        server.assertResponse('GET', '/products', 200, 'products');
+        server.assertResponse('GET', '/products/', 200, 'products');
+        server.assertResponse('GET', '/products.json', 200, 'products as json');
+        server.assertResponse('GET', '/products/12', 200, 'product 12');
+        
         server.assertResponse('GET', '/', 200, 'GET /', 'Test rest GET /');
         server.assertResponse('POST', '/', 200, 'POST /', 'Test rest POST /');
         server.assertResponse('PUT', '/', 200, 'PUT /', 'Test rest PUT /');
