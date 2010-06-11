@@ -41,6 +41,23 @@ module.exports = {
         req.end();
     },
     
+    'test url re-writing': function(){
+        var server = helpers.run([
+            { module: {
+                handle: function(req, res, next){
+                    req.url = 'eyyyyy';
+                }
+            },
+             module: {
+                handle: function(req, res, next){
+                    res.writeHead(200, {});
+                    res.end(req.url);
+                }
+            }}
+        ]);
+        server.assertResponse('GET', '/', 200, 'eyyyyy', 'Test url re-writing');
+    },
+    
     'test path matching': function(){
         var n = 0;
         var server = helpers.run([
