@@ -6,7 +6,7 @@ var users = [
 
 var userRoutes = {
     get: {
-        '.format?': function(req, res, params){
+        '.:format?': function(req, res, params){
             var body = '<ul>' 
                 + users.map(function(user){ return '<li>' + user.name + '</li>'; }).join('\n')
                 + '</ul>';
@@ -16,10 +16,13 @@ var userRoutes = {
             });
             res.end(body, 'utf8');
         },
-        '/:id': function(req, res, params){
+        '/:id/:op?': function(req, res, params){
             var body = users[params.id]
                 ? users[params.id].name
                 : 'User ' + params.id + ' does not exist';
+            if (params.op) {
+                body = params.op + 'ing ' + body;
+            }
             res.writeHead(200, {
                 'Content-Type': 'text/html',
                 'Content-Length': body.length
@@ -31,8 +34,8 @@ var userRoutes = {
 
 var mainRoutes = {
     get: {
-        '/': function(){
-            var body = 'Visit /users, /users/0, or /users.json';
+        '/': function(req, res){
+            var body = 'Visit <em>/users</em>, <em>/users/0</em>, or <em>/users.json</em>';
             res.writeHead(200, {
                 'Content-Type': 'text/html',
                 'Content-Length': body.length
@@ -44,5 +47,6 @@ var mainRoutes = {
 
 module.exports = require('./../../lib/connect').createServer([
     { filter: 'log' },
-    { provider: 'rest', routes: userRoutes, route: '/users' }
+    { provider: 'rest', routes: userRoutes, route: '/users' },
+    { provider: 'rest', routes: mainRoutes },
 ]);
