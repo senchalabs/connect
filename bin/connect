@@ -259,6 +259,10 @@ function start() {
             abort('Cannot use workers with a version older than v0.1.98');
         }
 
+        var errlogfile = env.logfile.replace('.log', '.error.log'),
+            logStream = fs.createWriteStream(env.logfile, { flags: 'a' }),
+            errlogStream = fs.createWriteStream(errlogfile, { flags: 'a' });
+
         var fd = netBinding.socket('tcp4');
         netBinding.bind(fd, env.port);
         netBinding.listen(fd, 128);
@@ -280,12 +284,15 @@ function start() {
             if (!child.stdin) {
                 child.stdin = new net.Stream(fds[0], 'unix');
             }
-
+            
             child.stdin.write(JSON.stringify(env), 'ascii', fd);
-
+            
             // Echo output from child
-            child.stderr.addListener('data', function (data) {
-                process.stdout.write(data);
+            child.stdout.addListener('data', function(data){
+                logStream.write(data);
+            });
+            child.stderr.addListener('data', function(data){
+                errlogStream.write(data);
             });
         }
         return;
@@ -297,7 +304,7 @@ function start() {
     // Ensure it exports properly
     if (app instanceof http.Server) {
         app.env = env;
-        sys.error('Connect server listening on http://'
+        sys.error('Connect server(' + process.pid + ') listening on http://'
             + (env.host || '*') + ':' + env.port
             + ' in ' + env.name + ' mode');
         app.listen(env.port, env.host);
@@ -419,7 +426,7 @@ function parseArguments() {
               // Ensure it exports properly
               if (app instanceof http.Server) {
                   app.env = env;
-                  sys.error('Connect server listening on http://'
+                  sys.error('Connect server(' + process.pid + ') listening on http://'
                       + (env.host || '*') + ':' + env.port
                       + ' in ' + env.name + ' mode');
                   app.listenFD(fd, "tcp4");
@@ -435,7 +442,6 @@ function parseArguments() {
 };
 
 // Show help when no arguments are present
-
 
 if (args.length) {
     parseArguments();
