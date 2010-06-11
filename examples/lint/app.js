@@ -5,7 +5,7 @@ module.exports = require('./../../lib/connect').createServer([
         handle: function(){
             arguments[2]();
         }
-    }},
+    }, name: 'params' },
     { module: {
         // Does not call next AND does not respond
         handle: function(req, res, next){
@@ -17,7 +17,13 @@ module.exports = require('./../../lib/connect').createServer([
             // All good
             var ct = req.headers['content-type'];
         }
-    }},
+    }, name: 'hang' },
+    { module: {
+        handle: function(req, res, next){
+            // All good
+            next();
+        }
+    }, name: 'all good' },
     { module: {
         handle: function(req, res, next){
             // Request headers are always normalized as
@@ -25,6 +31,13 @@ module.exports = require('./../../lib/connect').createServer([
             var ct = req.headers['Content-Type'];
             next();
         }
-    }},
+    }, name: 'req.headers' },
+    { module: {
+        handle: function(req, res, next){
+            // req.method should be uppercase
+            req.method = 'get';
+            next();
+        }
+    }, name: 'method uppercase' },
     { filter: 'lint' }
 ]);
