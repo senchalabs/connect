@@ -19,9 +19,9 @@ module.exports = {
         var server = helpers.run([
             { provider: 'rest', routes: {
                 get: {
-                    '.:as?': function(req, res, params){
+                    '/.:format?': function(req, res, params){
                         res.writeHead(200, {});
-                        res.end('products' + (params.as ? ' as ' + params.as : ''));
+                        res.end('products' + (params.format ? ' as ' + params.format : ''));
                     },
                     '/:id': function(req, res, params){
                         res.writeHead(200, {});
@@ -61,13 +61,9 @@ module.exports = {
                         res.writeHead(200, {});
                         res.end('path: "' + params.splat[0] + '" ext: "' + params.splat[1] + '"');
                     },
-                    '/user/:id': function(req, res, params){
+                    '/user/:id/:operation?': function(req, res, params){
                         res.writeHead(200, {});
-                        res.end('got user ' + params.id);
-                    },
-                    '/user/:id/:operation': function(req, res, params){
-                        res.writeHead(200, {});
-                        res.end(params.operation + 'ing user ' + params.id);
+                        res.end((params.operation || 'view') + 'ing user ' + params.id);
                     },
                     '/range/:from-:to?': function(req, res, params){
                         res.writeHead(200, {});
@@ -101,8 +97,8 @@ module.exports = {
         server.assertResponse('PUT', '/', 200, 'PUT /', 'Test rest PUT /');
         server.assertResponse('DELETE', '/', 200, 'DELETE /', 'Test rest DELETE /');
         server.assertResponse('GET', '/user', 404, 'Cannot find /user', 'Test rest GET unmatched path param');
-        server.assertResponse('GET', '/user/12', 200, 'got user 12', 'Test rest GET matched path param');
-        server.assertResponse('GET', '/user/12/', 200, 'got user 12', 'Test rest GET matched path param with trailing slash');
+        server.assertResponse('GET', '/user/12', 200, 'viewing user 12', 'Test rest GET matched path param');
+        server.assertResponse('GET', '/user/12/', 200, 'viewing user 12', 'Test rest GET matched path param with trailing slash');
         server.assertResponse('GET', '/user/99/edit', 200, 'editing user 99', 'Test rest GET matched path with several params');
         server.assertResponse('GET', '/range/11-99', 200, 'range 11 to 99');
         server.assertResponse('GET', '/range/11-', 200, 'range 11 to HEAD');
