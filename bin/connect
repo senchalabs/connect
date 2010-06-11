@@ -78,7 +78,8 @@ var usage = ''
     + '  -g, --group ID|NAME  Change group with setgid()\n'
     + '  -v, --verbose        Display verbose output\n'
     + '  -K, --no-color       Suppress colored terminal output\n'
-    + '  -h, --help           Display help information\n';
+    + '  -h, --help           Display help information\n'
+    + '  --ENV VAL            Sets the given connect environment variable\n';
 
 
 
@@ -437,7 +438,12 @@ function parseArguments() {
                 cmd = arg;
                 break;
             default:
-                env.appPath = arg;
+                if (arg[0] === '-') {
+                    arg = arg.substr(2);
+                    env[arg] = requireArg('--' + arg);
+                } else {
+                    env.appPath = arg;
+                }
         }
     }
 
