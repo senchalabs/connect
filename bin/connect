@@ -274,7 +274,7 @@ function start() {
                 undefined,
                 [fds[1], -1, -1]
             );
-            log('Child spawned ' + child.pid);
+            log('child spawned [bold]{' + child.pid + '}');
 
             // For some reason stdin isn't getting set, patch it externally
             if (!child.stdin) {
