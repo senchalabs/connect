@@ -6,7 +6,7 @@ var users = [
 
 var userRoutes = {
     get: {
-        '/all.:format?': function(req, res, params){
+        '/(all.:format?)?': function(req, res, params){
             var body;
             switch (params.format) {
                 case 'json':
@@ -40,7 +40,15 @@ var userRoutes = {
 var mainRoutes = {
     get: {
         '/': function(req, res){
-            var body = 'Visit <em>/users</em>, <em>/users/0</em>, or <em>/users.json</em>';
+            var examples = [
+                '/users (or /users/all)',
+                '/users/all.json',
+                '/users/0 (or /users/0/view)',
+                '/users/0/edit'
+            ];
+            var body = 'Visit one of the following: <ul>'
+                + examples.map(function(str){ return '<li>' + str + '</li>' }).join('\n')
+                + '</ul>';
             res.writeHead(200, {
                 'Content-Type': 'text/html',
                 'Content-Length': body.length

@@ -19,7 +19,7 @@ module.exports = {
         var server = helpers.run([
             { provider: 'rest', routes: {
                 get: {
-                    '/all.:format?': function(req, res, params){
+                    '/(all.:format?)?': function(req, res, params){
                         res.writeHead(200, {});
                         res.end('products' + (params.format ? ' as ' + params.format : ''));
                     },
@@ -88,6 +88,8 @@ module.exports = {
             }}
         ]);
         
+        server.assertResponse('GET', '/products', 200, 'products');
+        server.assertResponse('GET', '/products/', 200, 'products');
         server.assertResponse('GET', '/products/all', 200, 'products');
         server.assertResponse('GET', '/products/all/', 200, 'products');
         server.assertResponse('GET', '/products/all.json', 200, 'products as json');
