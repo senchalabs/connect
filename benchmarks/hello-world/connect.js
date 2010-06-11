@@ -8,7 +8,7 @@ var Buffer = require('buffer').Buffer,
 
 require('../../lib/connect').createServer([
     { module: {
-        handle: function(err, req, res, next){
+        handle: function(req, res, next){
             res.writeHead(200, {
                 'Content-Type': 'text/plain',
                 'Content-Length': body.length

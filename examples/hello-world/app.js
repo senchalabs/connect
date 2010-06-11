@@ -3,7 +3,7 @@ module.exports = require('./lib/connect').createServer([
     { filter: 'log' },
     { filter: 'response-time' },
     { module: {
-        handle: function(err, req, res){
+        handle: function(req, res){
             var body = 'Hello World';
             res.writeHead(200, {
                 'Content-Type': 'text/plain',

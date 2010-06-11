@@ -178,7 +178,7 @@ require('./app').listen();
 <p>If an exception occurred, it is passed, it is up to your middleware to decide whether or not to simply ignore the error and pass it down the middleware stack, or to perform an action based on the exception. In our case we do not want to deal with the error directly, we simply invoke the <code>next()</code> function, passing it down the stack (potentially to the <em>error-handler</em> middleware).</p>
 
 <pre><code>var helloWorld = {
-    handle: function(err, req, res, next){
+    handle: function(req, res, next){
         if (err) {
           next();
         } else {
@@ -205,7 +205,7 @@ require('connect').createServer([
 <p>We can take this example further by "exporting" the <code>handle()</code> method, so that other libraries can simply <code>require('hello-world')</code>:</p>
 
 <pre><code># hello-world.js
-exports.handle = function(err, req, res, next){
+exports.handle = function(req, res, next){
         if (err) {
           next();
         } else {

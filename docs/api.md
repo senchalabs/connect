@@ -65,16 +65,12 @@ Middleware is essentially just an object, responding to a `handle()` method, the
  
 First we define the `handle()` method, which accepts four arguments, _err_, _req_, _res_, and _next_. 
  
-If an exception occurred, it is passed, it is up to your middleware to decide whether or not to simply ignore the error and pass it down the middleware stack, or to perform an action based on the exception. In our case we do not want to deal with the error directly, we simply invoke the `next()` function, passing it down the stack (potentially to the _error-handler_ middleware).
+If an exception occurred, it is passed, it is up to your middleware to decide whether or not to simply ignore the error and pass it down the middleware stack, or to perform an action based on the exception. In our case we do not want to deal with the error directly so we don't implement an errorHandle property and it goes down the stack (potentially to the _error-handler_ middleware).
  
     var helloWorld = {
-        handle: function(err, req, res, next){
-            if (err) {
-              next();
-            } else {
-              res.writeHead(200, { 'Content-Type: 'text/plain' });
-              res.end('Hello World');
-            }
+        handle: function(req, res, next){
+            res.writeHead(200, { 'Content-Type: 'text/plain' });
+            res.end('Hello World');
         }
     };
 
@@ -93,13 +89,9 @@ If you wish to pass an exception down the stack, you can invoke `next()` like be
 We can take this example further by "exporting" the `handle()` method, so that other libraries can simply `require('hello-world')`:
  
     # hello-world.js
-    exports.handle = function(err, req, res, next){
-            if (err) {
-              next();
-            } else {
-              res.writeHead(200, { 'Content-Type: 'text/plain' });
-              res.end('Hello World');
-            }
+    exports.handle = function(req, res, next){
+            res.writeHead(200, { 'Content-Type: 'text/plain' });
+            res.end('Hello World');
         }
     };
     

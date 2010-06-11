@@ -102,7 +102,7 @@ If an exception occurred, it is passed, it is up to your middleware to decide wh
 .nf
 
 var helloWorld = {
-    handle: function(err, req, res, next){
+    handle: function(req, res, next){
         if (err) {
           next();
         } else {
@@ -146,7 +146,7 @@ We can take this example further by "exporting" the \fBhandle()\fR method, so th
 .nf
 
 # hello\-world.js
-exports.handle = function(err, req, res, next){
+exports.handle = function(req, res, next){
         if (err) {
           next();
         } else {

@@ -13,7 +13,7 @@ env.mixin(require('./config/' + env.name));
 module.exports = connect.createServer([
     { filter: 'log' },
     { module: {
-        handle: function(err, req, res, next){
+        handle: function(req, res, next){
             res.writeHead(200, { 'Content-Type': 'text/plain' });
             res.end(JSON.stringify(env));
         }
