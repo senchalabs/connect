@@ -113,7 +113,7 @@ function colorize(str) {
     return str.replace(/\[(\w+)\]\{([^}]+)\}/g, function(_, color, str){
         return '\x1B[' + colors[color] + 'm' + str +'\x1B[0m';
     });
-}
+};
 
 /**
  * Exit with the given message.
@@ -125,7 +125,7 @@ function colorize(str) {
 function abort(msg, code) {
     sys.error(colorize(msg));
     process.exit(code || 1);
-}
+};
 
 /**
  * Return shifted argument, or
@@ -141,7 +141,7 @@ function requireArg(prefix) {
     } else {
         abort(prefix + ' requires an argument.');
     }
-}
+};
 
 /**
  * Load the given configuration file.
@@ -197,7 +197,7 @@ function status() {
             throw err;
         }
     }
-}
+};
 
 /**
  * Stop the process when running.
@@ -216,7 +216,7 @@ function stop() {
             throw err;
         }
     }
-}
+};
 
 /**
  * Check if the given path exists (sync).
@@ -231,7 +231,29 @@ function exists(path) {
     } catch (err) {
         return false;
     }
-}
+};
+
+/**
+ * Require application module at the given path,
+ * which must be an instanceof http.Server, otherwise
+ * abort.
+ *
+ * @param  {String} path
+ * @return {Server}
+ */
+
+function requireApp(path) {
+    var app = require(path);
+    try {
+        if (app instanceof http.Server) {
+            return app;
+        }
+    } catch (err) {
+        abort("invalid application:\n"
+            + "at: `" + path + "'\n"
+            + "must export a Server such as `module.exports = http.createServer(...);'\n");
+    }
+};
 
 /**
  * Start the process.
@@ -299,21 +321,13 @@ function start() {
     }
 
     // Load the app module
-    var app = require(path);
-
-    // Ensure it exports properly
-    if (app instanceof http.Server) {
-        app.env = env;
-        sys.error('Connect server(' + process.pid + ') listening on http://'
-            + (env.host || '*') + ':' + env.port
-            + ' in ' + env.name + ' mode');
-        app.listen(env.port, env.host);
-    } else {
-        abort("invalid application:\n"
-            + "at: `" + path + "'\n"
-            + "must export a Server such as `module.exports = http.createServer(...);'\n");
-    }
-}
+    var app = requireApp(path);
+    app.env = env;
+    sys.error('Connect server(' + process.pid + ') listening on http://'
+        + (env.host || '*') + ':' + env.port
+        + ' in ' + env.name + ' mode');
+    app.listen(env.port, env.host);
+};
 
 /**
  * Parse the arguments.
@@ -417,24 +431,15 @@ function parseArguments() {
         case 'worker':
             var stdin = new net.Stream(0, 'unix');
             stdin.addListener('data', function (json) {
-              env = JSON.parse(json.toString());
+                env = JSON.parse(json.toString());
             });
             stdin.addListener('fd', function(fd) {
-              // Load the app module
-              var app = require(process.cwd() + '/app');
-
-              // Ensure it exports properly
-              if (app instanceof http.Server) {
-                  app.env = env;
-                  sys.error('Connect server(' + process.pid + ') listening on http://'
-                      + (env.host || '*') + ':' + env.port
-                      + ' in ' + env.name + ' mode');
-                  app.listenFD(fd, "tcp4");
-              } else {
-                  abort("invalid application:\n"
-                      + "at: `" + path + "'\n"
-                      + "must export a Server such as `module.exports = http.createServer(...);'\n");
-              }
+                var app = requireApp(process.cwd() + '/app');
+                app.env = env;
+                sys.error('Connect server(' + process.pid + ') listening on http://'
+                    + (env.host || '*') + ':' + env.port
+                    + ' in ' + env.name + ' mode');
+                app.listenFD(fd, "tcp4");
             });
             stdin.resume();
             break;
