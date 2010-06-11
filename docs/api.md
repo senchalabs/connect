@@ -17,6 +17,9 @@ Connect is a duel purpose library, aiding in both rapid development, and deploym
  
 The connect executable supplies _init.d_ friendly _start_, _stop_, and _restart_ commands, and accept a direct path to the module meant to be run, otherwise defaults to trying both _app.js_ and _server.js_ in the current working directory.
 
+Also to check the status of a process you may use the _status_ command, which
+checks if the process is running.
+
 ## Executable Options
 
     -H, --host ADDR      Host address, defaults to INADDR_ANY
