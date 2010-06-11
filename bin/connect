@@ -255,8 +255,8 @@ function start() {
     }
 
     if (workers) {
-        if (process.version < "0.1.98") {
-            abort("Cannot use workers with a version older than v0.1.98");
+        if (process.version < '0.1.98') {
+            abort('Cannot use workers with a version older than v0.1.98');
         }
 
         var fd = netBinding.socket('tcp4');
@@ -270,18 +270,18 @@ function start() {
             // Spawn the child process
             var child = child_process.spawn(
                 process.argv[0],
-                [__filename, "--child"],
+                [__filename, '--child'],
                 undefined,
                 [fds[1], -1, -1]
             );
-            sys.debug("Child spawned " + child.pid);
+            log('Child spawned ' + child.pid);
 
             // For some reason stdin isn't getting set, patch it externally
             if (!child.stdin) {
                 child.stdin = new net.Stream(fds[0], 'unix');
             }
 
-            child.stdin.write(JSON.stringify(env), "ascii", fd);
+            child.stdin.write(JSON.stringify(env), 'ascii', fd);
 
             // Echo output from child
             child.stderr.addListener('data', function (data) {
