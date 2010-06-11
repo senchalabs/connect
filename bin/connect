@@ -287,7 +287,7 @@ function start() {
             
             child.stdin.write(JSON.stringify(env), 'ascii', fd);
             
-            // Echo output from child
+            // Log stdout / stderr
             child.stdout.addListener('data', function(data){
                 logStream.write(data);
             });
