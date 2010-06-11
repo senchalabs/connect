@@ -9,6 +9,7 @@ connect(1) -- node server runner
             [-c|--config PATH] [-P|--pidfile PATH]
             [-l|--logfile PATH] [-u|--user ID|NAME] [-g|--group ID|NAME]
             [-v|--verbose] [-K|--no-color] [-h|--help]
+            [--ENV VAL]
             start|stop|restart|status [PATH]
 
 ## Description
@@ -37,6 +38,7 @@ checks if the process is running.
     -v, --verbose        Display verbose output
     -K, --no-color       Suppress colored terminal output
     -h, --help           Display help information
+    --ENV VAL            Sets the given connect environment variable
 
 ## Middleware
 

@@ -11,7 +11,7 @@ var connect = require('connect'),
 
 function run(procedures){
     var server = helpers.run([
-        { provider: 'jsonrpc', param: procedures }
+        { provider: 'jsonrpc', services: procedures }
     ]);
     server.call = function(obj, fn){
         var req = server.request('POST', '/', { 'Content-Type': 'application/json' });

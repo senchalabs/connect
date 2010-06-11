@@ -23,7 +23,7 @@ var http = require('http'),
  * Environment defaults.
  */
 
-var env = exports.env = {
+var env = process.connectEnv = {
     name: process.env.CONNECT_ENV || 'development',
     logfile: 'logs/connect.log',
     pidfile: 'pids/connect.pid',
@@ -78,7 +78,8 @@ var usage = ''
     + '  -g, --group ID|NAME  Change group with setgid()\n'
     + '  -v, --verbose        Display verbose output\n'
     + '  -K, --no-color       Suppress colored terminal output\n'
-    + '  -h, --help           Display help information\n';
+    + '  -h, --help           Display help information\n'
+    + '  --ENV VAL            Sets the given connect environment variable\n';
 
 
 
@@ -107,7 +108,7 @@ function colorize(str) {
     return str.replace(/\[(\w+)\]\{([^}]+)\}/g, function(_, color, str){
         return '\x1B[' + colors[color] + 'm' + str +'\x1B[0m';
     });
-};
+}
 
 /**
  * Exit with the given message.
@@ -119,7 +120,7 @@ function colorize(str) {
 function abort(msg, code) {
     sys.error(colorize(msg));
     process.exit(code || 1);
-};
+}
 
 /**
  * Return shifted argument, or
@@ -135,7 +136,7 @@ function requireArg(prefix) {
     } else {
         abort(prefix + ' requires an argument.');
     }
-};
+}
 
 /**
  * Load the given configuration file.
@@ -151,7 +152,7 @@ function loadConfig(file) {
     for (var i = 0, len = keys.length; i < len; ++i) {
         env[keys[i]] = config[keys[i]];
     }
-};
+}
 
 /**
  * Return pid from env.pidfile.
@@ -169,7 +170,7 @@ function getpid() {
             throw err;
         }
     }
-};
+}
 
 /**
  * Check process status.
@@ -191,7 +192,7 @@ function status() {
             throw err;
         }
     }
-};
+}
 
 /**
  * Stop the process when running.
@@ -225,7 +226,7 @@ function exists(path) {
     } catch (err) {
         return false;
     }
-};
+}
 
 /**
  * Require application module at the given path,
@@ -247,7 +248,7 @@ function requireApp(path) {
             + "at: `" + path + "'\n"
             + "must export a Server such as `module.exports = http.createServer(...);'\n");
     }
-};
+}
 
 /**
  * Get path to application.
@@ -275,7 +276,7 @@ function getAppPath() {
     }
     
     return path;
-};
+}
 
 /**
  * Start child worker process.
@@ -295,7 +296,7 @@ function startWorker() {
         app.listenFD(fd, 'tcp4');
     });
     stdin.resume();
-};
+}
 
 /**
  * Start the process.
@@ -356,7 +357,7 @@ function start() {
         + (env.host || '*') + ':' + env.port
         + ' in ' + env.name + ' mode');
     app.listen(env.port, env.host);
-};
+}
 
 /**
  * Parse the arguments.
@@ -437,7 +438,12 @@ function parseArguments() {
                 cmd = arg;
                 break;
             default:
-                env.appPath = arg;
+                if (arg[0] === '-') {
+                    arg = arg.substr(2);
+                    env[arg] = requireArg('--' + arg);
+                } else {
+                    env.appPath = arg;
+                }
         }
     }
 
@@ -461,7 +467,7 @@ function parseArguments() {
             startWorker();
             break;
     }
-};
+}
 
 // Show help when no arguments are present
 
