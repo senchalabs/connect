@@ -149,6 +149,25 @@ checks if the process is running.</p>
 --ENV VAL            Sets the given connect environment variable
 </code></pre>
 
+<h2>Supported Environment Variables</h2>
+
+<p>Currently the following environment variables may be set
+via the <code>--ENV VAL</code> catchall. For example we can alter the log
+format used via the command line with `connect --logFormat ":method :uri".</p>
+
+<p>Boolean values may use strings such as "yes", "no", "true", "false".</p>
+
+<ul>
+<li>logFormat</li>
+<li>dumpExceptions</li>
+<li>showErrorMessage</li>
+<li>showErrorStack</li>
+<li>methodOverrideKey</li>
+<li>sassRoot</li>
+<li>staticRoot</li>
+</ul>
+
+
 <h2>Middleware</h2>
 
 <p>Connect middleware is divided into two concepts. First we have <em>filters</em> which perform an action and allow lower middleware to respond to the request, secondly we have <em>providers</em> which are conceptual "end-points", responding to the request without continuing down the stack.</p>
