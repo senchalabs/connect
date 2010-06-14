@@ -280,7 +280,9 @@ rest             Provides RESTful routing similar to Sinatra and Express
 decodes the request body appropriately. Supported by default are the <em>application/x-www-form-urlencoded</em>,
 and <em>application/json</em> content types. To extend simply:</p>
 
-<pre><code>require('connect/filters/body-decoder').decode['some-mime/type'] = function(str){ return str; }
+<pre><code>require('connect/filters/body-decoder').decode['some-mime/type'] = function(str){
+    return decodeSomething(str);
+};
 </code></pre>
 
 </div>

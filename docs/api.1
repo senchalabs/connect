@@ -253,7 +253,9 @@ The \fIbody\-decoder\fR middleware sniffs the \fIContent\-Type\fR header, and de
 .
 .nf
 
-require(\'connect/filters/body\-decoder\')\.decode[\'some\-mime/type\'] = function(str){ return str; }
+require(\'connect/filters/body\-decoder\')\.decode[\'some\-mime/type\'] = function(str){
+    return decodeSomething(str);
+};
 .
 .fi
 .
