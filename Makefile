@@ -11,11 +11,11 @@ test-cov:
 	@$(MAKE) test TEST_FLAGS="--cov"
 
 install:
-	cp -f docs/api.1 $(PREFIX)/man/man1/connect.1
+	cp -f docs/api.1 $(PREFIX)/share/man/man1/connect.1
 	cp -f bin/connect $(PREFIX)/bin/connect
 
 uninstall:
-	rm -f $(PREFIX)/man/man1/connect.1
+	rm -f $(PREFIX)/share/man/man1/connect.1
 	rm -f $(PREFIX)/bin/connect
 
 benchmark: benchmarks/run
