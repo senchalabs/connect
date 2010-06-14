@@ -13,7 +13,9 @@
     "lib": "./lib"
   },
   "scripts": {
-    "test": "make test"
+    "activate": "make install-docs",
+    "test": "make test",
+    "deactivate": "make uninstall"
   },
   "engines": { "node": ">= 0.1.98" }
 }
