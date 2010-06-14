@@ -1,0 +1,19 @@
+{
+  "name": "Connect",
+  "description": "High performance middleware",
+  "version": "0.0.1",
+  "contributors": [ 
+    { "name": "Tim Caswell", "email": "tim@extjs.com" },
+    { "name": "TJ Holowaychuk", "email": "tj@extjs.com" }, 
+  ],
+  "bin": {
+    "connect": "./bin/connect"  
+  },
+  "directories": {
+    "lib": "./lib"
+  },
+  "scripts": {
+    "test": "make test"
+  },
+  "engines": { "node": ">= 0.1.98" }
+}
