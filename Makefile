@@ -10,13 +10,15 @@ test:
 test-cov:
 	@$(MAKE) test TEST_FLAGS="--cov"
 
-install:
-	cp -f docs/api.1 $(PREFIX)/share/man/man1/connect.1
+install: install-docs
 	cp -f bin/connect $(PREFIX)/bin/connect
 
 uninstall:
 	rm -f $(PREFIX)/share/man/man1/connect.1
 	rm -f $(PREFIX)/bin/connect
+
+install-docs: docs/api.1
+	cp -f $< $(PREFIX)/share/man/man1/connect.1
 
 benchmark: benchmarks/run
 	@./benchmarks/run
@@ -46,4 +48,4 @@ site:
 	  git commit -a -m 'Updated index.html' && \
 	  git checkout master
 
-.PHONY: install uninstall docs test test-cov benchmark graphs docclean site
+.PHONY: install uninstall docs test test-cov benchmark graphs docclean site install-docs
