@@ -144,16 +144,16 @@ the following are currently provided out of the box:
 
 ### Filters
 
-    body-decoder     Buffers and parses _json_ and _urlencoded_ request bodies (extenable)
-    conditional-get  Provides 304 _"Not Modified"_ support
+    body-decoder     Buffers and parses json and urlencoded request bodies (extenable)
+    conditional-get  Provides 304 "Not Modified" support
     error-handler    Handles exceptions thrown, or passed through the stack
     debug            Outputs debugging console to all html responses
     format           Handles url path extensions or "formats"
     gzip             Compresses response bodies with gzip executable
     lint             Aids in middleware development
     log              Provides common logger support, and custom log formats
-    method-override  Provides faux HTTP method support by using the _\_method_ key by default 
-    response-time    Responds with the _X-Response-Time_ header in milliseconds
+    method-override  Provides faux HTTP method support by using the "_method" key by default 
+    response-time    Responds with the X-Response-Time header in milliseconds
 
 ### Providers
 
