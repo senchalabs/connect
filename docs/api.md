@@ -163,4 +163,12 @@ the following are currently provided out of the box:
     static           Serves static files
     rest             Provides RESTful routing similar to Sinatra and Express
 
+### Body Decoder
 
+The _body-decoder_ middleware sniffs the _Content-Type_ header, and 
+decodes the request body appropriately. Supported by default are the _application/x-www-form-urlencoded_,
+and _application/json_ content types. To extend simply:
+
+    require('connect/filters/body-decoder').decode['some-mime/type'] = function(str){
+		return decodeSomething(str);
+	};

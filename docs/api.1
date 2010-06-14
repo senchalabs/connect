@@ -221,16 +221,16 @@ Connect ships with several helpful middleware modules, the following are current
 .
 .nf
 
-body\-decoder     Buffers and parses _json_ and _urlencoded_ request bodies (extenable)
-conditional\-get  Provides 304 _\"Not Modified\"_ support
+body\-decoder     Buffers and parses json and urlencoded request bodies (extenable)
+conditional\-get  Provides 304 \"Not Modified\" support
 error\-handler    Handles exceptions thrown, or passed through the stack
 debug            Outputs debugging console to all html responses
 format           Handles url path extensions or \"formats\"
 gzip             Compresses response bodies with gzip executable
 lint             Aids in middleware development
 log              Provides common logger support, and custom log formats
-method\-override  Provides faux HTTP method support by using the _\\_method_ key by default
-response\-time    Responds with the _X\-Response\-Time_ header in milliseconds
+method\-override  Provides faux HTTP method support by using the \"_method\" key by default
+response\-time    Responds with the X\-Response\-Time header in milliseconds
 .
 .fi
 .
@@ -245,4 +245,17 @@ static           Serves static files
 rest             Provides RESTful routing similar to Sinatra and Express
 .
 .fi
+.
+.SS "Body Decoder"
+The \fIbody\-decoder\fR middleware sniffs the \fIContent\-Type\fR header, and decodes the request body appropriately\. Supported by default are the \fIapplication/x\-www\-form\-urlencoded\fR, and \fIapplication/json\fR content types\. To extend simply:
+.
+.IP "" 4
+.
+.nf
+
+require(\'connect/filters/body\-decoder\')\.decode[\'some\-mime/type\'] = function(str){ return str; }
+.
+.fi
+.
+.IP "" 0
 
