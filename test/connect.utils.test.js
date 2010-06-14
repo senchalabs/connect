@@ -43,6 +43,9 @@ module.exports = {
             utils.parseCookie('fbs="uid=0987654321&name=Test+User"; path=/'));
         
         assert.eql({ foo: 'bar', path: '/' }, 
-            utils.parseCookie('foo=bar; foo=bar; path=/'));
+            utils.parseCookie('foo=bar; foo=baz; path=/'));
+        
+        assert.eql({ foo: 'bar', path: '/', secure: true }, 
+            utils.parseCookie('foo=bar; path=/; secure'));
     }
 };
