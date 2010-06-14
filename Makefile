@@ -43,6 +43,7 @@ site:
 	git checkout gh-pages && \
 		make docs && \
 		cp docs/api.html index.html && \
-		git commit -a -m 'Updated index.html'
+		git commit -a -m 'Updated index.html' && \
+		git checkout master
 
 .PHONY: install uninstall docs test test-cov benchmark graphs docclean site

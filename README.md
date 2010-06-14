@@ -24,6 +24,10 @@ View the HTML document:
 
     $ open docs/api.html
 
+View the online HTML documentation:
+
+	$ open http://extjs.github.com/Connect
+
 View one of several examples located within _./examples_.
 
 ## Articles
