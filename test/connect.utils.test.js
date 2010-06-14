@@ -33,7 +33,6 @@ module.exports = {
         assert.eql({ foo: 'bar', path: '/', domain: '.vision-media.ca' }, 
             utils.parseCookie('foo =   bar; path =    /    ;  domain=.vision-media.ca'));
 
-
         assert.eql({ SID: '123', path: '/', domain: '.vision-media.ca' }, 
             utils.parseCookie('SID=123; path=/; domain=.vision-media.ca'));
         

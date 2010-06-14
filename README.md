@@ -12,7 +12,13 @@ ExtJS is releasing Connect under the very liberal MIT license in hopes that we c
 
 ## Installation
 
-    $ git clone git://github.com/extjs/Connect.git && cd Connect && sudo make install
+Via git (or downloaded tarball):
+
+    $ git clone git://github.com/extjs/Connect.git && cd Connect && make install
+
+Via [npm](http://github.com/isaacs/npm):
+
+    $ npm install connect
 
 ## Documentation
 

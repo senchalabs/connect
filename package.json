@@ -1,16 +1,16 @@
 {
-  "name": "Connect",
+  "name": "connect",
   "description": "High performance middleware",
   "version": "0.0.1",
   "contributors": [ 
     { "name": "Tim Caswell", "email": "tim@extjs.com" },
-    { "name": "TJ Holowaychuk", "email": "tj@extjs.com" }, 
+    { "name": "TJ Holowaychuk", "email": "tj@extjs.com" }
   ],
   "bin": {
     "connect": "./bin/connect"  
   },
   "directories": {
-    "lib": "./lib"
+    "lib": "./lib/connect"
   },
   "scripts": {
     "activate": "make install-docs",
