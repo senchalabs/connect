@@ -28,8 +28,8 @@ module.exports = {
     
     'test parseCookie()': function(){
         assert.eql({ foo: 'bar' }, utils.parseCookie('foo=bar'));
-        assert.eql({ SID: '123' }, utils.parseCookie('SID=123'));
-        assert.eql({ SID: '123' }, utils.parseCookie('SID=123;SID=somethingElse'));
+        assert.eql({ sid: '123' }, utils.parseCookie('SID=123'));
+        assert.eql({ sid: '123' }, utils.parseCookie('SID=123;SID=somethingElse'));
         assert.eql({ foo: 'bar', baz: 'raz' }, utils.parseCookie('foo   =  bar; baz = raz'));
         assert.eql({ fbs: 'uid=0987654321&name=Test User' }, utils.parseCookie('fbs="uid=0987654321&name=Test+User"'));
     },
