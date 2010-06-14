@@ -1,5 +1,5 @@
 
-// curl -H "Content-Type: application/json" -d "{ "jsonrpc": "2.0", "method": "add", "params": [1,2], "id":2 }" http://localhost:3000
+// curl -H "Content-Type: application/json" -d '{ "jsonrpc": "2.0", "method": "add", "params": [1,2], "id":2 }' http://localhost:3000
 
 module.exports = require('./lib/connect').createServer([
     { provider: 'jsonrpc', methods: {
