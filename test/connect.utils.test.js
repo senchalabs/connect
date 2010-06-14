@@ -48,5 +48,12 @@ module.exports = {
         
         assert.eql({ foo: 'bar', path: '/', secure: true }, 
             utils.parseCookie('foo=bar; path=/; secure'));
+    },
+    
+    'test serializeCookie()': function(){
+        assert.eql('foo=bar; path=/', utils.serializeCookie('foo', 'bar', { path: '/' }));
+        assert.eql('foo=bar; secure', utils.serializeCookie('foo', 'bar', { secure: true }));
+        assert.eql('foo=bar', utils.serializeCookie('foo', 'bar', { secure: false }));
+        assert.eql('foo=foo%20bar', utils.serializeCookie('foo', 'foo bar'));
     }
 };
