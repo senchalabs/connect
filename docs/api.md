@@ -136,3 +136,31 @@ in order to respond (or ignore) the exception. The `handleError()` method follow
             res.end('shit! im broken');
         }
     };
+
+## Bundled Middleware
+
+Connect ships with several helpful middleware modules,
+the following are currently provided out of the box:
+
+### Filters
+
+    body-decoder     Buffers and parses _json_ and _urlencoded_ request bodies (extenable)
+    conditional-get  Provides 304 _"Not Modified"_ support
+    error-handler    Handles exceptions thrown, or passed through the stack
+    debug            Outputs debugging console to all html responses
+    format           Handles url path extensions or "formats"
+    gzip             Compresses response bodies with gzip executable
+    lint             Aids in middleware development
+    log              Provides common logger support, and custom log formats
+    method-override  Provides faux HTTP method support by using the _\_method_ key by default 
+    response-time    Responds with the _X-Response-Time_ header in milliseconds
+
+### Providers
+
+    cache-manifest   Provides cache manifest for offline apps
+    jsonrpc          Provides JSON-RPC 2.0 support
+    sass             Provides auto-compilation of *.sass files
+    static           Serves static files
+    rest             Provides RESTful routing similar to Sinatra and Express
+
+

@@ -6,7 +6,6 @@
     <style type="text/css">
       body {
         font: 13px "Helvetica Neue", "Lucida Grande", "Arial";
-        background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#fff), to(#ECE9E9));
         text-align: center;
         color: #555;
         -webkit-text-stroke: 1px rgba(255, 255, 255, 0.1);
@@ -25,28 +24,19 @@
       h2#Connect + p {
         display: none;
       }
+	  h3 {
+		margin: 15px 0;
+		padding-left: 10px;
+	    font-size: 16px;
+		border-left: 15px solid #eee;
+	  }
       h2 {
         margin-top: 35px;
         text-shadow: 1px 2px 2px #ddd;
       }
       ul {
-        margin: 0;
+        margin: 10px 35px;
         padding: 0;
-      }
-      ul li {
-        margin: 5px 0;
-        padding: 3px 8px;
-        list-style: none;
-        border: 1px solid #eee;
-        -webkit-border-radius: 3px;
-        -mox-border-radius: 3px;
-        -webkit-transition-property: color, padding;
-        -webkit-transition-duration: 0.1s;
-      }
-      ul li:hover {
-        padding: 3px 20px;
-        cursor: pointer;
-        color: #2E2E2E;
       }
       ul li .path {
         padding-left: 5px;
@@ -66,7 +56,7 @@
         padding: 2px 4px;
         border: 1px solid #ddd;
       }
-      p em {
+      p em, li em {
         font-weight: bold;
       }
       pre {

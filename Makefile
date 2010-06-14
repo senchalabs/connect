@@ -30,7 +30,7 @@ docs/api.1: docs/api.md
 	ronn -r $< > $@
 
 docs/api.html: docs/api.md
-	ronn -5 --fragment $< \
+	ronn -5 --pipe --fragment $< \
 	  | cat docs/api.head.html - docs/api.foot.html \
 	  | sed 's/NAME/Connect/g' \
 	  > $@

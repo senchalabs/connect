@@ -1,10 +1,10 @@
-.\" generated with Ronn/v0.5
+.\" generated with Ronn/v0.6.6
 .\" http://github.com/rtomayko/ronn/
 .
 .TH "CONNECT" "1" "June 2010" "" ""
 .
 .SH "NAME"
-\fBconnect\fR \-\- node server runner
+\fBconnect\fR \- node server runner
 .
 .SH "Synopsis"
 .
@@ -22,14 +22,13 @@ connect [\-H|\-\-host ADDR] [\-p|\-\-port NUM]
 .fi
 .
 .SH "Description"
-Connect is a duel purpose library, aiding in both rapid development, and deployment of node servers. Connect "middleware" can be stacked to create a robust application within minutes. The \fIconnect\fR executable supports launching of both regular \fBnet.Server\fR, and \fBconnect.Server\fR instances.
+Connect is a duel purpose library, aiding in both rapid development, and deployment of node servers\. Connect \"middleware\" can be stacked to create a robust application within minutes\. The \fIconnect\fR executable supports launching of both regular \fBnet\.Server\fR, and \fBconnect\.Server\fR instances\.
 .
 .P
-The connect executable supplies \fIinit.d\fR friendly \fIstart\fR, \fIstop\fR, and \fIrestart\fR commands, and accept a direct path to the module meant to be run, otherwise defaults to trying both \fIapp.js\fR and \fIserver.js\fR in the current working directory.
+The connect executable supplies \fIinit\.d\fR friendly \fIstart\fR, \fIstop\fR, and \fIrestart\fR commands, and accept a direct path to the module meant to be run, otherwise defaults to trying both \fIapp\.js\fR and \fIserver\.js\fR in the current working directory\.
 .
 .P
-Also to check the status of a process you may use the \fIstatus\fR command, which
-checks if the process is running.
+Also to check the status of a process you may use the \fIstatus\fR command, which checks if the process is running\.
 .
 .SH "Executable Options"
 .
@@ -38,13 +37,13 @@ checks if the process is running.
 \-H, \-\-host ADDR      Host address, defaults to INADDR_ANY
 \-p, \-\-port NUM       Port number, defaults to 3000
 \-n, \-\-workers NUM    Number of worker processes to spawn
-\-I, \-\-include PATH   Unshift the given path to require.paths
-\-E, \-\-env NAME       Set environment, defaults to "development"
+\-I, \-\-include PATH   Unshift the given path to require\.paths
+\-E, \-\-env NAME       Set environment, defaults to \"development\"
 \-e, \-\-eval CODE      Evaluate the given string
 \-C, \-\-chdir PATH     Change to the given path
 \-c, \-\-config PATH    Load configuration module
-\-P, \-\-pidfile PATH   PID file, defaults to pids/connect.pid
-\-l, \-\-logfile PATH   Log file, defaults to logs/connect.log
+\-P, \-\-pidfile PATH   PID file, defaults to pids/connect\.pid
+\-l, \-\-logfile PATH   Log file, defaults to logs/connect\.log
 \-u, \-\-user ID|NAME   Change user with setuid()
 \-g, \-\-group ID|NAME  Change group with setgid()
 \-v, \-\-verbose        Display verbose output
@@ -55,12 +54,10 @@ checks if the process is running.
 .fi
 .
 .SH "Supported Environment Variables"
-Currently the following environment variables may be set
-via the \fB\-\-ENV VAL\fR catchall. For example we can alter the log
-format used via the command line with `connect \-\-logFormat ":method :uri".
+Currently the following environment variables may be set via the \fB\-\-ENV VAL\fR catchall\. For example we can alter the log format used via the command line with `connect \-\-logFormat \":method :uri\"\.
 .
 .P
-Boolean values may use strings such as "yes", "no", "true", "false".
+Boolean values may use strings such as \"yes\", \"no\", \"true\", \"false\"\.
 .
 .IP "\(bu" 4
 logFormat
@@ -86,22 +83,22 @@ staticRoot
 .IP "" 0
 .
 .SH "Middleware"
-Connect middleware is divided into two concepts. First we have \fIfilters\fR which perform an action and allow lower middleware to respond to the request, secondly we have \fIproviders\fR which are conceptual "end\-points", responding to the request without continuing down the stack.
+Connect middleware is divided into two concepts\. First we have \fIfilters\fR which perform an action and allow lower middleware to respond to the request, secondly we have \fIproviders\fR which are conceptual \"end\-points\", responding to the request without continuing down the stack\.
 .
 .SH "Middleware Usage"
-Below is an example which shows usage of the \fIlog\fR filter bundled with Connect, as well as the \fIstatic\fR provider.
+Below is an example which shows usage of the \fIlog\fR filter bundled with Connect, as well as the \fIstatic\fR provider\.
 .
 .P
-The keys \fBfilter\fR and \fBprovider\fR are used only as short\-cuts to bundled middleware, to utilize a custom module we can assign a module's exports to the \fBmodule\fR key.
+The keys \fBfilter\fR and \fBprovider\fR are used only as short\-cuts to bundled middleware, to utilize a custom module we can assign a module\'s exports to the \fBmodule\fR key\.
 .
 .IP "" 4
 .
 .nf
 
-module.exports = require('./lib/connect').createServer([
-    { filter: 'log' },
-    { module: require('path/to/custom/middleware') },
-    { provider: 'static', root: __dirname + '/public' }
+module\.exports = require(\'\./lib/connect\')\.createServer([
+    { filter: \'log\' },
+    { module: require(\'path/to/custom/middleware\') },
+    { provider: \'static\', root: __dirname + \'/public\' }
 ]);
 .
 .fi
@@ -109,27 +106,27 @@ module.exports = require('./lib/connect').createServer([
 .IP "" 0
 .
 .P
-As shown above the module exports a \fBconnect.Server\fR and does not call the \fBlisten()\fR method directly. This allows other modules to "mount" this app, as well as allowing the \fIconnect\fR executable to control how the server is run.
+As shown above the module exports a \fBconnect\.Server\fR and does not call the \fBlisten()\fR method directly\. This allows other modules to \"mount\" this app, as well as allowing the \fIconnect\fR executable to control how the server is run\.
 .
 .P
-If you prefer not to use \fIconnect\fR, you can simply create a script executable by \fInode\fR, \fBrequire()\fR the app, then invoke \fBlisten()\fR.
+If you prefer not to use \fIconnect\fR, you can simply create a script executable by \fInode\fR, \fBrequire()\fR the app, then invoke \fBlisten()\fR\.
 .
 .IP "" 4
 .
 .nf
 
 #!/usr/bin/env node
-require('./app').listen();
+require(\'\./app\')\.listen();
 .
 .fi
 .
 .IP "" 0
 .
 .SH "Middleware Authoring"
-Middleware is essentially just an object, responding to a \fBhandle()\fR method, the example below illustrates how simple it is to create, and utilize custom middleware.
+Middleware is essentially just an object, responding to a \fBhandle()\fR method, the example below illustrates how simple it is to create, and utilize custom middleware\.
 .
 .P
-First we define the \fBhandle()\fR method, which accepts three arguments, \fIreq\fR, \fIres\fR, and \fInext\fR.
+First we define the \fBhandle()\fR method, which accepts three arguments, \fIreq\fR, \fIres\fR, and \fInext\fR\.
 .
 .IP "" 4
 .
@@ -137,12 +134,12 @@ First we define the \fBhandle()\fR method, which accepts three arguments, \fIreq
 
 var helloWorld = {
     handle: function(req, res, next){
-        res.writeHead(200, { 'Content\-Type: 'text/plain' });
-        res.end('Hello World');
+        res\.writeHead(200, { \'Content\-Type: \'text/plain\' });
+        res\.end(\'Hello World\');
     }
 };
 
-require('connect').createServer([
+require(\'connect\')\.createServer([
     { module: helloWorld }
 ]);
 .
@@ -151,7 +148,7 @@ require('connect').createServer([
 .IP "" 0
 .
 .P
-The \fBnext()\fR function passes control to the next middleware layer in the stack, and may optionally be passed an instanceof \fBError\fR, at which time only \fBhandleError()\fR methods may respond.
+The \fBnext()\fR function passes control to the next middleware layer in the stack, and may optionally be passed an instanceof \fBError\fR, at which time only \fBhandleError()\fR methods may respond\.
 .
 .P
 If you wish to pass an exception down the stack, you can invoke \fBnext()\fR like below:
@@ -161,7 +158,7 @@ If you wish to pass an exception down the stack, you can invoke \fBnext()\fR lik
 .nf
 
  if (someRequirementIsNotMet) {
-     next(new Error('my requirement was not met!'));
+     next(new Error(\'my requirement was not met!\'));
  }
 .
 .fi
@@ -169,21 +166,21 @@ If you wish to pass an exception down the stack, you can invoke \fBnext()\fR lik
 .IP "" 0
 .
 .P
-We can take this example further by "exporting" the \fBhandle()\fR method, so that other libraries can simply \fBrequire('hello\-world')\fR:
+We can take this example further by \"exporting\" the \fBhandle()\fR method, so that other libraries can simply \fBrequire(\'hello\-world\')\fR:
 .
 .IP "" 4
 .
 .nf
 
-# hello\-world.js
-exports.handle = function(req, res, next){
-    res.writeHead(200, { 'Content\-Type: 'text/plain' });
-    res.end('Hello World');
+# hello\-world\.js
+exports\.handle = function(req, res, next){
+    res\.writeHead(200, { \'Content\-Type: \'text/plain\' });
+    res\.end(\'Hello World\');
 };
 
-# app.js
-require('connect').createServer([
-    { module: require('./hello\-world') }
+# app\.js
+require(\'connect\')\.createServer([
+    { module: require(\'\./hello\-world\') }
 ]);
 .
 .fi
@@ -191,30 +188,61 @@ require('connect').createServer([
 .IP "" 0
 .
 .P
-If an exception was thrown, or is passesd to \fBnext()\fR, middleware may define the \fBhandleError()\fR method
-in order to respond (or ignore) the exception. The \fBhandleError()\fR method follows the same semantics as \fBhandle()\fR, for example:
+If an exception was thrown, or is passesd to \fBnext()\fR, middleware may define the \fBhandleError()\fR method in order to respond (or ignore) the exception\. The \fBhandleError()\fR method follows the same semantics as \fBhandle()\fR, for example:
 .
 .IP "" 4
 .
 .nf
 
-exports.handleError = function(err, req, res, next){
+exports\.handleError = function(err, req, res, next){
     // At any time we can call next() without
     // any arguments to eliminate exceptional status and
     // continue down the stack
 
-    if (err.code === process.ENOENT) {
+    if (err\.code === process\.ENOENT) {
         // We dont want to deal with missing files
         // so pass the exception
         next(err);
     } else {
         // Respond with a message
-        res.writeHead(200, { 'Content\-Type': 'text/plain' })
-        res.end('shit! im broken');
+        res\.writeHead(200, { \'Content\-Type\': \'text/plain\' })
+        res\.end(\'shit! im broken\');
     }
 };
 .
 .fi
 .
 .IP "" 0
+.
+.SH "Bundled Middleware"
+Connect ships with several helpful middleware modules, the following are currently provided out of the box:
+.
+.SS "Filters"
+.
+.nf
+
+body\-decoder     Buffers and parses _json_ and _urlencoded_ request bodies (extenable)
+conditional\-get  Provides 304 _\"Not Modified\"_ support
+error\-handler    Handles exceptions thrown, or passed through the stack
+debug            Outputs debugging console to all html responses
+format           Handles url path extensions or \"formats\"
+gzip             Compresses response bodies with gzip executable
+lint             Aids in middleware development
+log              Provides common logger support, and custom log formats
+method\-override  Provides faux HTTP method support by using the _\\_method_ key by default
+response\-time    Responds with the _X\-Response\-Time_ header in milliseconds
+.
+.fi
+.
+.SS "Providers"
+.
+.nf
+
+cache\-manifest   Provides cache manifest for offline apps
+jsonrpc          Provides JSON\-RPC 2\.0 support
+sass             Provides auto\-compilation of *\.sass files
+static           Serves static files
+rest             Provides RESTful routing similar to Sinatra and Express
+.
+.fi
 

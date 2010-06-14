@@ -6,7 +6,6 @@
     <style type="text/css">
       body {
         font: 13px "Helvetica Neue", "Lucida Grande", "Arial";
-        background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#fff), to(#ECE9E9));
         text-align: center;
         color: #555;
         -webkit-text-stroke: 1px rgba(255, 255, 255, 0.1);
@@ -25,28 +24,19 @@
       h2#Connect + p {
         display: none;
       }
+	  h3 {
+		margin: 15px 0;
+		padding-left: 10px;
+	    font-size: 16px;
+		border-left: 15px solid #eee;
+	  }
       h2 {
         margin-top: 35px;
         text-shadow: 1px 2px 2px #ddd;
       }
       ul {
-        margin: 0;
+        margin: 10px 35px;
         padding: 0;
-      }
-      ul li {
-        margin: 5px 0;
-        padding: 3px 8px;
-        list-style: none;
-        border: 1px solid #eee;
-        -webkit-border-radius: 3px;
-        -mox-border-radius: 3px;
-        -webkit-transition-property: color, padding;
-        -webkit-transition-duration: 0.1s;
-      }
-      ul li:hover {
-        padding: 3px 20px;
-        cursor: pointer;
-        color: #2E2E2E;
       }
       ul li .path {
         padding-left: 5px;
@@ -66,7 +56,7 @@
         padding: 2px 4px;
         border: 1px solid #ddd;
       }
-      p em {
+      p em, li em {
         font-weight: bold;
       }
       pre {
@@ -105,10 +95,11 @@
     </style>
   </head>
   <body>
-    <div id="wrapper"><h2 id='Connect'>Connect</h2>
-<p><code>connect</code> -- node server runner</p>
+    <div id="wrapper"><div class='mp'>
+<h2 id='Connect'>Connect</h2>
+<p><code>connect</code> - node server runner</p>
 
-<h2>Synopsis</h2>
+<h2 id="Synopsis">Synopsis</h2>
 
 <pre><code>connect [-H|--host ADDR] [-p|--port NUM]
         [-n|--workers NUM] [-I|--include PATH]
@@ -120,7 +111,7 @@
         start|stop|restart|status [PATH]
 </code></pre>
 
-<h2>Description</h2>
+<h2 id="Description">Description</h2>
 
 <p>Connect is a duel purpose library, aiding in both rapid development, and deployment of node servers. Connect "middleware" can be stacked to create a robust application within minutes. The <em>connect</em> executable supports launching of both regular <code>net.Server</code>, and <code>connect.Server</code> instances.</p>
 
@@ -129,7 +120,7 @@
 <p>Also to check the status of a process you may use the <em>status</em> command, which
 checks if the process is running.</p>
 
-<h2>Executable Options</h2>
+<h2 id="Executable-Options">Executable Options</h2>
 
 <pre><code>-H, --host ADDR      Host address, defaults to INADDR_ANY
 -p, --port NUM       Port number, defaults to 3000
@@ -149,7 +140,7 @@ checks if the process is running.</p>
 --ENV VAL            Sets the given connect environment variable
 </code></pre>
 
-<h2>Supported Environment Variables</h2>
+<h2 id="Supported-Environment-Variables">Supported Environment Variables</h2>
 
 <p>Currently the following environment variables may be set
 via the <code>--ENV VAL</code> catchall. For example we can alter the log
@@ -168,11 +159,11 @@ format used via the command line with `connect --logFormat ":method :uri".</p>
 </ul>
 
 
-<h2>Middleware</h2>
+<h2 id="Middleware">Middleware</h2>
 
 <p>Connect middleware is divided into two concepts. First we have <em>filters</em> which perform an action and allow lower middleware to respond to the request, secondly we have <em>providers</em> which are conceptual "end-points", responding to the request without continuing down the stack.</p>
 
-<h2>Middleware Usage</h2>
+<h2 id="Middleware-Usage">Middleware Usage</h2>
 
 <p>Below is an example which shows usage of the <em>log</em> filter bundled with Connect, as well as the <em>static</em> provider.</p>
 
@@ -193,7 +184,7 @@ format used via the command line with `connect --logFormat ":method :uri".</p>
 require('./app').listen();
 </code></pre>
 
-<h2>Middleware Authoring</h2>
+<h2 id="Middleware-Authoring">Middleware Authoring</h2>
 
 <p>Middleware is essentially just an object, responding to a <code>handle()</code> method, the example below illustrates how simple it is to create, and utilize custom middleware.</p>
 
@@ -254,6 +245,36 @@ in order to respond (or ignore) the exception. The <code>handleError()</code> me
     }
 };
 </code></pre>
+
+<h2 id="Bundled-Middleware">Bundled Middleware</h2>
+
+<p>Connect ships with several helpful middleware modules,
+the following are currently provided out of the box:</p>
+
+<h3 id="Filters">Filters</h3>
+
+<pre><code>body-decoder     Buffers and parses _json_ and _urlencoded_ request bodies (extenable)
+conditional-get  Provides 304 _"Not Modified"_ support
+error-handler    Handles exceptions thrown, or passed through the stack
+debug            Outputs debugging console to all html responses
+format           Handles url path extensions or "formats"
+gzip             Compresses response bodies with gzip executable
+lint             Aids in middleware development
+log              Provides common logger support, and custom log formats
+method-override  Provides faux HTTP method support by using the _\_method_ key by default 
+response-time    Responds with the _X-Response-Time_ header in milliseconds
+</code></pre>
+
+<h3 id="Providers">Providers</h3>
+
+<pre><code>cache-manifest   Provides cache manifest for offline apps
+jsonrpc          Provides JSON-RPC 2.0 support
+sass             Provides auto-compilation of *.sass files
+static           Serves static files
+rest             Provides RESTful routing similar to Sinatra and Express
+</code></pre>
+
+</div>
     </div>
   </body>
 </html>
