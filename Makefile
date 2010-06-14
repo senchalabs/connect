@@ -39,4 +39,10 @@ docclean:
 	rm -f docs/api.html
 	rm -f docs/api.1
 
-.PHONY: install uninstall docs test test-cov benchmark graphs docclean
+site:
+	git checkout gh-pages && \
+		make docs && \
+		cp docs/api.html index.html && \
+		git commit -a -m 'Updated index.html'
+
+.PHONY: install uninstall docs test test-cov benchmark graphs docclean site
