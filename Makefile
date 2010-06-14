@@ -40,10 +40,10 @@ docclean:
 	rm -f docs/api.1
 
 site:
-	git checkout gh-pages && \
-		make docs && \
-		cp docs/api.html index.html && \
-		git commit -a -m 'Updated index.html' && \
-		git checkout master
+	make docs && \
+		cp docs/api.html /tmp/connect.index.html && \
+		git checkout gh-pages && \
+		cp /tmp/connect.index.html index.html && \
+		git commit -a -m 'Updated index.html'
 
 .PHONY: install uninstall docs test test-cov benchmark graphs docclean site
