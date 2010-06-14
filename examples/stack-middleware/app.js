@@ -1,11 +1,11 @@
 
 module.exports = require('./../../lib/connect').createServer([
     { module: require('./hello') },
-    { module: require('./world') },
+    { module: require('./world'), route: '/my' },
     { module: {
         handle: function(req, res){
             res.writeHead(200, { 'Content-Type': 'text/plain' });
-            res.end('GET /hello or /world');
+            res.end('GET /hello or /my/world');
         }
     }}
 ]);
