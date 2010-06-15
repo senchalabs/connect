@@ -15,7 +15,7 @@ var CookieStore = require('connect/filters/session/cookie').CookieStore;
 
 module.exports = {
     'test MemoryStore': function(){
-        var n = 0;
+        var n = 0, sid;
         var server = helpers.run([
             { filter: 'cookie' },
             { filter: 'session', store: new MemoryStore },
@@ -30,26 +30,33 @@ module.exports = {
                         case 1:
                             assert.eql(['id', 'lastAccess'], Object.keys(req.session),
                                 'Test MemoryStore session initialization with invalid sid');
-                            assert.ok(req.session.id !== '123123', 'Test MemoryStore sid regeneration');
+                            assert.notEqual('123123', req.session.id, 'Test MemoryStore sid regeneration');
+                            break;
+                        case 2:
+                            lastAccess = req.session.lastAccess;
                             break;
                         case 3:
+                            assert.equal(sid, req.session.id, 'Test MemoryStore persistence');
+                            assert.notEqual(lastAccess, req.session.lastAccess, 'Test MemoryStore lastAccess update');
                             break;
                     }
                     next();
                 }
             }}
         ]);
+        
+        server.pending = 4;
         server.request('GET', '/').end();
         server.request('GET', '/', { 'Cookie': 'connect.sid=123123' }).end();
         
         var req = server.request('GET', '/');
         req.addListener('response', function(res){
             var setCookie = res.headers['set-cookie'];
-            var sid = setCookie.replace('connect.sid=', '');
+            sid = setCookie.replace('connect.sid=', '');
             assert.ok(setCookie.indexOf('connect.sid=') === 0, 'Test MemoryStore Set-Cookie header');
+            server.request('GET', '/', { 'Cookie': 'connect.sid=' + sid }).end()
         });
         req.end();
-        // server.request('GET', '/', { 'Cookie': 'connect.sid=' + sid }).end()
     },
     
     'test CookieStore': function(){
