@@ -18,7 +18,7 @@ module.exports = {
         var n = 0, sid;
         var server = helpers.run([
             { filter: 'cookie' },
-            { filter: 'session', store: new MemoryStore },
+            { filter: 'session', store: new MemoryStore({ reapInterval: -1 }) },
             { module: {
                 handle: function(req, res, next){
                     assert.ok(req.sessionStore, 'Test req.sessionStore')
@@ -52,8 +52,10 @@ module.exports = {
         var req = server.request('GET', '/');
         req.addListener('response', function(res){
             var setCookie = res.headers['set-cookie'];
-            sid = setCookie.replace('connect.sid=', '');
-            assert.ok(setCookie.indexOf('connect.sid=') === 0, 'Test MemoryStore Set-Cookie header');
+            sid = setCookie.match(/connect\.sid=([^;]+)/)[1];
+            assert.ok(setCookie.indexOf('connect.sid=') === 0, 'Test MemoryStore Set-Cookie connect.sid');
+            assert.ok(setCookie.indexOf('httpOnly') !== -1, 'Test MemoryStore Set-Cookie httpOnly');
+            assert.ok(setCookie.indexOf('expires=') !== -1, 'Test MemoryStore Set-Cookie expires');
             server.request('GET', '/', { 'Cookie': 'connect.sid=' + sid }).end()
         });
         req.end();

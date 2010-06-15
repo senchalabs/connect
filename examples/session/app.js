@@ -9,7 +9,7 @@ var sys = require('sys'),
 module.exports = require('./../../lib/connect').createServer([
     { filter: 'body-decoder' },
     { filter: 'cookie' },
-    { filter: 'session', store: new MemoryStore },
+    { filter: 'session', store: new MemoryStore({ reapInterval: 5000, maxAge: 25000 }) },
     { module: {
         handle: function(req, res, next){
             if (req.method === 'POST') {
