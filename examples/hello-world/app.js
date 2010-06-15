@@ -1,7 +1,6 @@
 
 module.exports = require('./lib/connect').createServer([
     { filter: 'log', format: ':remote-addr :method :url :status :res[Content-Length] :response-timems' },
-    { provider: 'bounce-favicon' },
     { filter: 'response-time' },
     { module: {
         handle: function(req, res){
