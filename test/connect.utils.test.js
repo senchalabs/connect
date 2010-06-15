@@ -35,9 +35,13 @@ module.exports = {
     },
     
     'test serializeCookie()': function(){
-        assert.eql('foo=bar; path=/', utils.serializeCookie('foo', 'bar', { path: '/' }));
-        assert.eql('foo=bar; secure', utils.serializeCookie('foo', 'bar', { secure: true }));
-        assert.eql('foo=bar', utils.serializeCookie('foo', 'bar', { secure: false }));
-        assert.eql('foo=foo%20bar', utils.serializeCookie('foo', 'foo bar'));
+        assert.equal('foo=bar; path=/', utils.serializeCookie('foo', 'bar', { path: '/' }));
+        assert.equal('foo=bar; secure', utils.serializeCookie('foo', 'bar', { secure: true }));
+        assert.equal('foo=bar', utils.serializeCookie('foo', 'bar', { secure: false }));
+        assert.equal('foo=foo%20bar', utils.serializeCookie('foo', 'foo bar'));
+    },
+    
+    'test escapeHtml()': function(){
+        assert.equal('&lt;p&gt;', utils.htmlEscape('<p>'));
     }
 };
