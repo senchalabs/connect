@@ -22,18 +22,24 @@ module.exports = require('./../../lib/connect').createServer([
                 res.writeHead(200, { 'Content-Type': 'text/html' });
                 // Fetch number of "online" users
                 req.sessionStore.length(function(err, n){
+                    
+                    // Display flash messages
                     req.flash('info').forEach(function(msg){
                         res.write('<p>' + msg + '</p>');
                     });
                     
+                    // User joined
                     if (req.session.name) {
                         res.write('<p>Welcome ' + req.session.name + '</p>');
+                    // User has not "joined", display the form
                     } else {
                         res.write('<form method="post">'
                             + 'Name: <input type="text" name="name" value="' + (req.session.name || '') + '"/>'
                             + '<input type="submit" value="Join" name="op" />' 
                             + '</form>');
                     }
+                    
+                    // Display online count
                     if (n !== undefined) {
                         res.write('<p>Online: ' + n + '</p>');
                     }
