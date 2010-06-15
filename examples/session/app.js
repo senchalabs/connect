@@ -3,11 +3,12 @@
  * Module dependencies.
  */
 
-var sys = require('sys');
+var sys = require('sys'),
+    MemoryStore = require('./../../lib/connect/filters/session/memory').MemoryStore;
 
 module.exports = require('./../../lib/connect').createServer([
     { filter: 'cookie' },
-    { filter: 'session' },
+    { filter: 'session', store: new MemoryStore },
     { module: {
         handle: function(req, res, next){
             if (!req.session.name) {
