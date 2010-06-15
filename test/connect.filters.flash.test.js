@@ -27,11 +27,11 @@ module.exports = {
                         case 0:
                             assert.eql({}, req.flash());
                             assert.eql([], req.flash('info'));
-                            req.flash('info', 'email sending');
+                            req.flash('info', 'email _sending_');
                             assert.equal(2, req.flash('info', 'email sent <em>successfully</em>'));
                             break;
                         case 1:
-                            assert.eql(['email sending', 'email sent &lt;em&gt;successfully&lt;/em&gt;'], req.flash('info'));
+                            assert.eql(['email <em>sending</em>', 'email sent &lt;em&gt;successfully&lt;/em&gt;'], req.flash('info'));
                             assert.eql([], req.flash('info'));
                             break;
                         case 2:

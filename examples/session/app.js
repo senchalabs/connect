@@ -45,6 +45,12 @@ module.exports = require('./../../lib/connect').createServer([
                     }
                     res.end();
                 });
+            },
+            '/logout': function(req, res){
+                req.session = {};
+                req.flash('info', 'Logged out');
+                res.writeHead(303, { 'Location': '/' });
+                res.end();
             }
         },
         post: {
@@ -52,7 +58,7 @@ module.exports = require('./../../lib/connect').createServer([
                 switch (req.body.op) {
                     case 'Join':
                         var name = req.session.name = req.body.name;
-                        req.message('info', 'joined as "' + name + '"');
+                        req.flash('info', 'joined as _"' + name + '"_ click [here](/logout) to logout.');
                         res.writeHead(303, { 'Location': '/' });
                         res.end();
                         break;
