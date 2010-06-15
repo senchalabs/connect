@@ -18,10 +18,18 @@ module.exports = require('./../../lib/connect').createServer([
     { module: {
         handle: function(req, res, next){
             if (req.method === 'POST') {
-                for (var key in req.body) {
-                    req.session[key] = req.body[key];
+                switch (req.body.op) {
+                    case 'Update':
+                        for (var key in req.body) {
+                            req.session[key] = req.body[key];
+                        }
+                        sys.puts('Updated session');
+                        break;
+                    case 'Reset':
+                        req.session = {};
+                        sys.puts('Reset sesssion');
+                        break;
                 }
-                sys.puts('Updated name to ' + req.session.name);
             }
             next();
         }
@@ -34,7 +42,8 @@ module.exports = require('./../../lib/connect').createServer([
                 res.end('<form method="post">'
                     + 'Name: <input type="text" name="name" value="' + (req.session.name || '') + '"/>'
                     + 'Email: <input type="text" name="email" value="' + (req.session.email || '') + '"/>'
-                    + '<input type="submit" value="Change"/>' 
+                    + '<input type="submit" value="Update" name="op" />' 
+                    + '<input type="submit" value="Reset" name="op" />' 
                     + '<p>Online: ' + n + '</p>' 
                     + '</form>');
             });
