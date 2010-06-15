@@ -363,7 +363,7 @@ function start() {
  * Parse the arguments.
  */
 
-function parseArguments() {
+(function parseArguments() {
     var arg,
         cmd = 'start';
     while (args.length) {
@@ -467,12 +467,4 @@ function parseArguments() {
             startWorker();
             break;
     }
-}
-
-// Show help when no arguments are present
-
-if (args.length) {
-    parseArguments();
-} else {
-    abort(usage);
-}
+})();
