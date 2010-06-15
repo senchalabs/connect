@@ -21,6 +21,7 @@ module.exports = {
             { filter: 'session', store: new MemoryStore },
             { module: {
                 handle: function(req, res, next){
+                    assert.ok(req.sessionStore, 'Test req.sessionStore')
                     switch (n++) {
                         case 0:
                             assert.eql(['id', 'lastAccess'], Object.keys(req.session),
@@ -31,6 +32,8 @@ module.exports = {
                                 'Test MemoryStore session initialization with invalid sid');
                             assert.ok(req.session.id !== '123123', 'Test MemoryStore sid regeneration');
                             break;
+                        case 3:
+                            break;
                     }
                     next();
                 }
@@ -38,5 +41,14 @@ module.exports = {
         ]);
         server.request('GET', '/').end();
         server.request('GET', '/', { 'Cookie': 'connect.sid=123123' }).end();
+        
+        var req = server.request('GET', '/');
+        req.addListener('response', function(res){
+            var setCookie = res.headers['set-cookie'];
+            var sid = setCookie.replace('connect.sid=', '');
+            assert.ok(setCookie.indexOf('connect.sid=') === 0, 'Test MemoryStore Set-Cookie header');
+        });
+        req.end();
+        // server.request('GET', '/', { 'Cookie': 'connect.sid=' + sid }).end()
     }
 }
