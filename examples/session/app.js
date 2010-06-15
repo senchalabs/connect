@@ -44,7 +44,7 @@ module.exports = require('./../../lib/connect').createServer([
                     + 'Email: <input type="text" name="email" value="' + (req.session.email || '') + '"/>'
                     + '<input type="submit" value="Update" name="op" />' 
                     + '<input type="submit" value="Reset" name="op" />' 
-                    + '<p>Online: ' + n + '</p>' 
+                    + (n === undefined ? '' : '<p>Online: ' + n + '</p>')
                     + '</form>');
             });
         }
