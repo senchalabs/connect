@@ -14,6 +14,7 @@ module.exports = require('./../../lib/connect').createServer([
     { filter: 'log' },
     { filter: 'body-decoder' },
     { filter: 'cookie' },
+    { filter: 'redirect' },
     { filter: 'session', store: new MemoryStore({ reapInterval: minute, maxAge: minute * 5 }) },
     { filter: 'flash' },
     { provider: 'rest', routes: {
@@ -49,8 +50,7 @@ module.exports = require('./../../lib/connect').createServer([
             '/logout': function(req, res){
                 req.session = {};
                 req.flash('info', 'Logged out');
-                res.writeHead(303, { 'Location': '/' });
-                res.end();
+                req.redirect('/');
             }
         },
         post: {
@@ -59,8 +59,7 @@ module.exports = require('./../../lib/connect').createServer([
                     case 'Join':
                         var name = req.session.name = req.body.name;
                         req.flash('info', 'joined as _"' + name + '"_ click [here](/logout) to logout.');
-                        res.writeHead(303, { 'Location': '/' });
-                        res.end();
+                        req.redirect('/');
                         break;
                 }
             }
