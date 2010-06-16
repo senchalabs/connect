@@ -346,6 +346,10 @@ function start() {
                 child.stdin = new net.Stream(fds[0], 'unix');
             }
             
+            // Write out worker pids
+            var pidfile = env.pidfile.replace('.pid', '.worker.' + i + '.pid');
+            fs.writeFileSync(pidfile, child.pid.toString(), 'ascii');
+            
             child.stdin.write(JSON.stringify(env), 'ascii', fd);
             
             // Log stdout / stderr
