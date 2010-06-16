@@ -1,4 +1,18 @@
 
+0.0.4 / 2010-06-16
+==================
+
+  * Added workerPidfile() to bin/connect
+  * Added --workers support to bin/connect stop and status commands
+  * Added _redirect_ middleware
+  * Added better --config support to bin/connect. All flags can be utilized
+  * Added auto-detection of _./config.js_
+  * Added config example
+  * Added `net.Server` support to bin/connect
+  * Writing worker pids relative to `env.pidfile`
+  * s/parseQuery/parse/g
+  * Fixed npm support
+
 0.0.3 / 2010-06-16
 ==================
 
