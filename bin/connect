@@ -153,14 +153,15 @@ function loadConfig(file) {
 }
 
 /**
- * Return pid from env.pidfile.
+ * Return pid from the given path.
  *
+ * @param {String} path
  * @return {Number}
  */
 
-function getpid() {
+function getpid(path) {
     try {
-        return parseInt(fs.readFileSync(env.pidfile), 10);
+        return parseInt(fs.readFileSync(path), 10);
     } catch (err) {
         if (err.errno === process.ENOENT) {
             log('[bold]{' + err.path + '} does not exist');
@@ -171,45 +172,55 @@ function getpid() {
 }
 
 /**
- * Check process status.
+ * Check status of process(es).
  */
 
-function status() {
-    try {
-        log('checking status');
-        verbose = true;
-        var pid = getpid();
-        if (pid) {
+function status(pid) {
+    if (pid) {
+        try {
+            verbose = true;
             process.kill(pid, 0);
             log('[bold]{' + pid + '} is running');
+        } catch (err) {
+            if (err.message === 'No such process') {
+                log('[bold]{' + pid + '} is not running');
+            } else {
+                throw err;
+            }
         }
-    } catch (err) {
-        if (err.message === 'No such process') {
-            log('[bold]{' + pid + '} is not running');
-        } else {
-            throw err;
+    } else {
+        status(getpid(env.pidfile));
+        for (var i = 0; i < workers; ++i) {
+            var pidfile = env.pidfile.replace('.pid', '.worker.' + i + '.pid');
+            status(getpid(pidfile));
         }
     }
 }
 
 /**
- * Stop the process when running.
+ * Stop process(es).
  */
 
-function stop() {
-    try {
-        log('stopping');
-        var pid = getpid();
-        process.kill(pid, 'SIGTERM');
-        log('killed [bold]{' + pid + '}');
-    } catch (err) {
-        if (err.message === 'No such process') {
-            log('[bold]{' + pid + '} is not running')
-        } else {
-            throw err;
+function stop(pid){
+    if (pid) {
+        try {
+            process.kill(pid, 'SIGTERM');
+            log('killed [bold]{' + pid + '}');
+        } catch (err) {
+            if (err.message === 'No such process') {
+                log('process [bold]{' + pid + '} is not running')
+            } else {
+                throw err;
+            }
+        }
+    } else {
+        stop(getpid(env.pidfile));
+        for (var i = 0; i < workers; ++i) {
+            var pidfile = env.pidfile.replace('.pid', '.worker.' + i + '.pid');
+            stop(getpid(pidfile));
         }
     }
-};
+}
 
 /**
  * Check if the given path exists (sync).
