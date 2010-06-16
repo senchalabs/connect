@@ -1,7 +1,7 @@
 {
   "name": "connect",
   "description": "High performance middleware",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "contributors": [ 
     { "name": "Tim Caswell", "email": "tim@extjs.com" },
     { "name": "TJ Holowaychuk", "email": "tj@extjs.com" }

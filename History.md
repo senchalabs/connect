@@ -1,4 +1,9 @@
 
+0.0.3 / 2010-06-16
+==================
+
+  * Fixed node dependency in package.json, now _">= 0.1.98-0"_ to support __HEAD__
+
 0.0.2 / 2010-06-15
 ==================
 
