@@ -80,8 +80,6 @@ var usage = ''
     + '  -h, --help           Outputy help information\n'
     + '  --ENV VAL            Sets the given connect environment variable\n';
 
-
-
 /**
  * Log the given msg to stderr.
  *
@@ -107,6 +105,17 @@ function colorize(str) {
     return str.replace(/\[(\w+)\]\{([^}]+)\}/g, function(_, color, str){
         return '\x1B[' + colors[color] + 'm' + str +'\x1B[0m';
     });
+}
+
+/**
+ * Strip ".js" extension from the given path.
+ *
+ * @param {String} path
+ * @return {String}
+ */
+
+function modulePath(path){
+    return path.replace(/\.js$/, '');
 }
 
 /**
@@ -331,7 +340,7 @@ function start() {
         loadConfig('./config');
     }
     
-    // Load the app
+    // Application path
     var path = getAppPath();
 
     // Spawn worker processes
@@ -466,7 +475,7 @@ function parseArguments(args, cmd) {
                 break;
             case '-c':
             case '--config':
-                loadConfig(requireArg('--config'));
+                loadConfig(modulePath(requireArg('--config')));
                 break;
             case '-v':
             case '--verbose':
@@ -495,7 +504,7 @@ function parseArguments(args, cmd) {
                     arg = arg.substr(2);
                     env[arg] = requireArg('--' + arg);
                 } else {
-                    env.appPath = arg;
+                    env.appPath = modulePath(arg);
                 }
         }
     }
