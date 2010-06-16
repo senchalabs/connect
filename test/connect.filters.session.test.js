@@ -11,7 +11,6 @@ var connect = require('connect'),
 // Stores
 
 var MemoryStore = require('connect/filters/session/memory').MemoryStore;
-var CookieStore = require('connect/filters/session/cookie').CookieStore;
 
 module.exports = {
     'test MemoryStore': function(){
@@ -63,38 +62,5 @@ module.exports = {
             server.request('GET', '/', { 'Cookie': 'connect.sid=' + sid, 'User-Agent': 'bar' }).end();
         });
         req.end();
-    },
-    
-    'test CookieStore': function(){
-        var n = 0;
-        var server = helpers.run([
-            { filter: 'cookie' },
-            { filter: 'session', store: new CookieStore },
-            { module: {
-                handle: function(req, res, next){
-                    assert.ok(req.sessionStore, 'Test req.sessionStore')
-                    switch (n++) {
-                        case 0:
-                            assert.eql({}, req.session, 'Test CookieStore session initialization');
-                            req.session.name = 'tj';
-                            break;
-                        case 1:
-                            assert.eql({ name: 'tj' }, req.session, 'Test CookieStore session data')
-                            break;
-                    }
-                    next();
-                }
-            }}
-        ]);
-        
-        var req = server.request('GET', '/')
-        req.addListener('response', function(res){
-            var setCookie = res.headers['set-cookie'];
-            assert.equal('connect.session=eyJuYW1lIjoidGoifQ%3D%3D; path=/; httpOnly', setCookie,
-                'Test CookieStore Set-Cookie header');
-        });
-        req.end();
-        
-        server.request('GET', '/', { 'Cookie': 'connect.session=eyJuYW1lIjoidGoifQ%3D%3D' }).end();
     }
 };

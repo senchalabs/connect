@@ -11,7 +11,6 @@ var connect = require('connect'),
 // Stores
 
 var MemoryStore = require('connect/filters/session/memory').MemoryStore;
-var CookieStore = require('connect/filters/session/cookie').CookieStore;
 
 module.exports = {
     'test MemoryStore': function(){
