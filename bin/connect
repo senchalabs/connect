@@ -236,7 +236,7 @@ function exists(path) {
 
 /**
  * Require application module at the given path,
- * which must be an instanceof http.Server, otherwise
+ * which must be an instanceof net.Server, otherwise
  * abort.
  *
  * @param  {String} path
@@ -246,13 +246,15 @@ function exists(path) {
 function requireApp(path) {
     var app = require(path);
     try {
-        if (app instanceof http.Server) {
+        if (app instanceof net.Server) {
             return app;
+        } else {
+            throw new Error('invalid server');
         }
     } catch (err) {
-        abort("invalid application:\n"
+        abort("invalid application.\n"
             + "at: `" + path + "'\n"
-            + "must export a Server such as `module.exports = http.createServer(...);'\n");
+            + "must export a , ex: `module.exports = http.createServer(...);'\n");
     }
 }
 
