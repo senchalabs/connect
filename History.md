@@ -20,7 +20,7 @@
   * Added bin/connect support for --user NAME and --group NAME
   * Fixed url re-writing support
 
-0.0.1 / ?
+0.0.1 / 2010-06-03
 ==================
 
   * Initial release
