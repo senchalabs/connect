@@ -8,8 +8,8 @@ connect(1) -- node server runner
             [-E|--env NAME] [-e|--eval CODE] [-C|--chdir PATH]
             [-c|--config PATH] [-P|--pidfile PATH]
             [-l|--logfile PATH] [-u|--user ID|NAME] [-g|--group ID|NAME]
-            [-v|--verbose] [-K|--no-color] [-h|--help]
-            [--ENV VAL]
+            [-v|--verbose] [-V|--version] [-K|--no-color]
+            [-h|--help] [--ENV VAL]
             start|stop|restart|status [PATH]
 
 ## Description
@@ -36,6 +36,7 @@ checks if the process is running.
     -u, --user ID|NAME   Change user with setuid()
     -g, --group ID|NAME  Change group with setgid()
     -v, --verbose        Display verbose output
+    -V, --version        Output connect version
     -K, --no-color       Suppress colored terminal output
     -h, --help           Display help information
     --ENV VAL            Sets the given connect environment variable

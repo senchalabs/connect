@@ -31,6 +31,11 @@ var env = process.connectEnv = {
     host: null
 };
 
+/**
+ * Framework version.
+ */
+
+var version = '0.0.1';
 
 /**
  * Use child process workers to utilize all cores
@@ -76,9 +81,10 @@ var usage = ''
     + '  -l, --logfile PATH   Log file, defaults to logs/connect.log\n'
     + '  -u, --user ID|NAME   Change user with setuid()\n'
     + '  -g, --group ID|NAME  Change group with setgid()\n'
-    + '  -v, --verbose        Display verbose output\n'
+    + '  -v, --verbose        Enable verbose output\n'
+    + '  -V, --version        Output connect version\n'
     + '  -K, --no-color       Suppress colored terminal output\n'
-    + '  -h, --help           Display help information\n'
+    + '  -h, --help           Outputy help information\n'
     + '  --ENV VAL            Sets the given connect environment variable\n';
 
 
@@ -422,6 +428,10 @@ function start() {
             case '-v':
             case '--verbose':
                 verbose = true;
+                break;
+            case '-V':
+            case '--version':
+                abort(version);
                 break;
             case '-K':
             case '--no-color':
