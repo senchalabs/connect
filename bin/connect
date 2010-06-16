@@ -43,12 +43,6 @@ var verbose;
 var useColors = true;
 
 /**
- * Argument vector.
- */
-
-var args = process.argv.slice(2);
-
-/**
  * Environment defaults.
  */
 
@@ -128,22 +122,6 @@ function abort(msg, code) {
 }
 
 /**
- * Return shifted argument, or
- * abort with the given prefix.
- *
- * @param  {String} prefix
- * @return {String}
- */
-
-function requireArg(prefix) {
-    if (args.length) {
-        return args.shift();
-    } else {
-        abort(prefix + ' requires an argument.');
-    }
-}
-
-/**
  * Load the given configuration file.
  *
  * @param  {String} file
@@ -152,11 +130,26 @@ function requireArg(prefix) {
 function loadConfig(file) {
     file = process.cwd() + '/' + file;
     log('loading config [bold]{`' + file + "'}");
-    var config = require(file),
-        keys = Object.keys(config);
-    for (var i = 0, len = keys.length; i < len; ++i) {
-        env[keys[i]] = config[keys[i]];
+    var args = [],
+        config = require(file);
+    for (var key in config) {
+        var val = config[key] instanceof Array
+                ? config[key]
+                : [config[key]];
+
+        // Prefix flag
+        var key = '--' + key;
+        
+        // Apply flags
+        val.forEach(function(val){
+            log('  ' + key + ' ' + (val === true ? '' : sys.inspect(val)));
+            args.push(key);
+            if (typeof val !== 'boolean') {
+                args.push(val);
+            }
+        });
     }
+    parseArguments(args);
 }
 
 /**
@@ -379,9 +372,26 @@ function start() {
  * Parse the arguments.
  */
 
-(function parseArguments() {
-    var arg,
-        cmd = 'start';
+function parseArguments(args, cmd) {
+    var arg;
+    
+    /**
+     * Return shifted argument, or
+     * abort with the given prefix.
+     *
+     * @param  {String} prefix
+     * @return {String}
+     */
+
+    function requireArg(prefix) {
+        if (args.length) {
+            return args.shift();
+        } else {
+            abort(prefix + ' requires an argument.');
+        }
+    }
+    
+    // Iterate
     while (args.length) {
         switch (arg = args.shift()) {
             case '--child':
@@ -487,4 +497,7 @@ function start() {
             startWorker();
             break;
     }
-})();
+}
+
+// Parse cli arguments
+parseArguments(process.argv.slice(2), 'start');
