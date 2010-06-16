@@ -41,9 +41,7 @@ module.exports = require('./../../lib/connect').createServer([
                     }
                     
                     // Display online count
-                    if (n !== undefined) {
-                        res.write('<p>Online: ' + n + '</p>');
-                    }
+                    res.write('<p>Online: ' + n + '</p>');
                     res.end();
                 });
             },
