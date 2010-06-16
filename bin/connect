@@ -35,7 +35,7 @@ var env = process.connectEnv = {
  * Framework version.
  */
 
-var version = '0.0.1';
+var version = '0.0.2';
 
 /**
  * Use child process workers to utilize all cores
