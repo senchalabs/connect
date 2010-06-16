@@ -312,8 +312,17 @@ function startWorker() {
 
 function start() {
     log('starting');
+    
+    // Detect config.js
+    if (exists('./config.js')) {
+        log('detected config.js');
+        loadConfig('./config');
+    }
+    
+    // Load the app
     var path = getAppPath();
 
+    // Spawn worker processes
     if (workers) {
         if (process.version < '0.1.98') {
             abort('Cannot use workers with a version older than v0.1.98');
