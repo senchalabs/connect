@@ -17,8 +17,8 @@ uninstall:
 	rm -f $(PREFIX)/share/man/man1/connect.1
 	rm -f $(PREFIX)/bin/connect
 
-install-docs: docs/api.1
-	cp -f $< $(PREFIX)/share/man/man1/connect.1
+install-docs:
+	cp -f docs/api.1 $(PREFIX)/share/man/man1/connect.1
 
 benchmark: benchmarks/run
 	@./benchmarks/run
