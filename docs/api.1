@@ -15,14 +15,14 @@ connect [\-H|\-\-host ADDR] [\-p|\-\-port NUM]
         [\-E|\-\-env NAME] [\-e|\-\-eval CODE] [\-C|\-\-chdir PATH]
         [\-c|\-\-config PATH] [\-P|\-\-pidfile PATH]
         [\-l|\-\-logfile PATH] [\-u|\-\-user ID|NAME] [\-g|\-\-group ID|NAME]
-        [\-v|\-\-verbose] [\-K|\-\-no\-color] [\-h|\-\-help]
-        [\-\-ENV VAL]
+        [\-v|\-\-verbose] [\-V|\-\-version] [\-K|\-\-no\-color]
+        [\-h|\-\-help] [\-\-ENV VAL]
         start|stop|restart|status [PATH]
 .
 .fi
 .
 .SH "Description"
-Connect is a duel purpose library, aiding in both rapid development, and deployment of node servers\. Connect \"middleware\" can be stacked to create a robust application within minutes\. The \fIconnect\fR executable supports launching of both regular \fBnet\.Server\fR, and \fBconnect\.Server\fR instances\.
+Connect is a dual purpose library, aiding in both rapid development, and deployment of node servers\. Connect \"middleware\" can be stacked to create a robust application within minutes\. The \fIconnect\fR executable supports launching of both regular \fBnet\.Server\fR, and \fBconnect\.Server\fR instances\.
 .
 .P
 The connect executable supplies \fIinit\.d\fR friendly \fIstart\fR, \fIstop\fR, and \fIrestart\fR commands, and accept a direct path to the module meant to be run, otherwise defaults to trying both \fIapp\.js\fR and \fIserver\.js\fR in the current working directory\.
@@ -47,6 +47,7 @@ Also to check the status of a process you may use the \fIstatus\fR command, whic
 \-u, \-\-user ID|NAME   Change user with setuid()
 \-g, \-\-group ID|NAME  Change group with setgid()
 \-v, \-\-verbose        Display verbose output
+\-V, \-\-version        Output connect version
 \-K, \-\-no\-color       Suppress colored terminal output
 \-h, \-\-help           Display help information
 \-\-ENV VAL            Sets the given connect environment variable
