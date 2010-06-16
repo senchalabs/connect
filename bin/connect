@@ -10,26 +10,13 @@
  * Module dependencies.
  */
 
-var http = require('http'),
+var child_process = require('child_process'),
+    netBinding = process.binding('net'),
+    http = require('http'),
     sys = require('sys'),
     fs = require('fs'),
     cwd = process.cwd(),
-    child_process = require('child_process'),
-    net = require('net'),
-    netBinding = process.binding('net');
-
-
-/**
- * Environment defaults.
- */
-
-var env = process.connectEnv = {
-    name: process.env.CONNECT_ENV || 'development',
-    logfile: 'logs/connect.log',
-    pidfile: 'pids/connect.pid',
-    port: 3000,
-    host: null
-};
+    net = require('net');
 
 /**
  * Framework version.
@@ -60,6 +47,18 @@ var useColors = true;
  */
 
 var args = process.argv.slice(2);
+
+/**
+ * Environment defaults.
+ */
+
+var env = process.connectEnv = {
+    name: process.env.CONNECT_ENV || 'development',
+    logfile: 'logs/connect.log',
+    pidfile: 'pids/connect.pid',
+    port: 3000,
+    host: null
+};
 
 /**
  * Usage documentation.
