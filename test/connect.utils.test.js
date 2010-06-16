@@ -7,6 +7,11 @@ var utils = require('connect/utils'),
     assert = require('assert');
 
 module.exports = {
+    'test md5()': function(){
+        assert.equal('5JMpgGF2EjbJawLqaqiirQ==', utils.md5('wahoo', 'base64'));
+        assert.equal('e493298061761236c96b02ea6aa8a2ad', utils.md5('wahoo'));
+    },
+    
     'test toBoolean()': function(){
         assert.strictEqual(true, utils.toBoolean(true));
         assert.strictEqual(true, utils.toBoolean(1));
