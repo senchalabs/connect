@@ -155,6 +155,7 @@ the following are currently provided out of the box:
     log              Provides common logger support, and custom log formats
     method-override  Provides faux HTTP method support by using the "_method" key by default 
     response-time    Responds with the X-Response-Time header in milliseconds
+    redirect         Provides req.redirect() with "magic" urls, ex: req.redirect("back")
 
 ### Providers
 
