@@ -142,7 +142,14 @@ module.exports = {
             }}
         ]);
         
-        server.assertResponse('GET', '/', 500, 'Internal Server Error', 'Test default error handler in a non-development environment');
+        var req = server.request('GET', '/');
+        req.buffer = true;
+        req.addListener('response', function(res){
+            res.addListener('end', function(){
+                assert.equal(500, res.statusCode, 'Test 500 by default on exception');
+            });
+        });
+        req.end();
     },
     
     'test mounting': function(){
