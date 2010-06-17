@@ -92,11 +92,37 @@
         width: 750px;
         text-align: left;
       }
+	  #menu {
+		position: absolute;
+		top: 15px;
+		right: 15px;
+		margin: 0;
+		padding: 0;
+		list-style: none;
+		text-align: right;
+	  }
+	  #menu li.title {
+	    padding: 10px 0 5px 0;	
+	  }
+	  a {
+	    text-decoration: none;
+	    color: #000;	
+	  }
+	  a:hover {
+	    text-decoration: underline;	
+	  }
     </style>
   </head>
   <body>
-    <div id="wrapper"><div class='mp'>
-<h2 id="Connect-Body-Decoder">Connect - Body Decoder</h2>
+    <div id="wrapper">
+		<ul id="menu">
+			<li class="title">Filters</li>
+			<li><a href="middleware/body-decoder.html">body-decoder</a></li>
+			<li><a href="middleware/redirect.html">redirect</a></li>
+			<li class="title">Providers</li>
+			<li><a href="middleware/static.html">static</a></li>
+		</ul><div class='mp'>
+<h2 id="Body-Decoder">Body Decoder</h2>
 
 <p>The <em>body-decoder</em> middleware sniffs the <em>Content-Type</em> header, and
 decodes the request body appropriately. Supported by default are the <em>application/x-www-form-urlencoded</em>,
