@@ -12,6 +12,7 @@ DOCS = docs/api.md \
 	   docs/middleware/log.md
 
 MANPAGES = $(DOCS:.md=.1)
+HTMLDOCS = $(DOCS:.md=.html)
 
 test:
 	@CONNECT_ENV=test ./$(TEST) -I lib -I support/sass/lib $(TEST_FLAGS) $(TESTS)
@@ -41,7 +42,7 @@ benchmark: benchmarks/run
 graphs: benchmarks/graph
 	@./benchmarks/graph
 
-docs: $(MANPAGES) $(DOCS:.md=.html)
+docs: $(MANPAGES) $(HTMLDOCS)
 
 %.1: %.md
 	ronn -r --pipe $< > $@
