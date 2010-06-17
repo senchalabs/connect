@@ -58,10 +58,23 @@ Also to check the status of a process you may use the \fIstatus\fR command, whic
 Currently the following environment variables may be set via the \fB\-\-ENV VAL\fR catchall\. For example we can alter the log format used via the command line with `connect \-\-logFormat \":method :uri\"\.
 .
 .P
-Boolean values may use strings such as \"yes\", \"no\", \"true\", \"false\"\.
+Boolean values may use strings such as \fIyes\fR, \fIno\fR, \fItrue\fR, \fIfalse\fR\.
 .
-.P
-\-\-logFormat STR Custom log format \-\-dumpExceptions BOOL Dump exceptions to stderr \-\-showErrorMessage BOOL Show exception message in response (recommended for development only) \-\-showErrorStack BOOL Show exception stack trace (recommended for development only) \-\-methodOverrideKey STR Override the default method key of \"_method\" \-\-sassRoot PATH Public sass conversion root path \-\-staticRoot PATH Public static file root path
+.IP "" 4
+.
+.nf
+
+\-\-logFormat STR           Custom log format
+\-\-dumpExceptions BOOL     Dump exceptions to stderr
+\-\-showErrorMessage BOOL   Show exception message in response (recommended for development only)
+\-\-showErrorStack BOOL     Show exception stack trace (recommended for development only)
+\-\-methodOverrideKey STR   Override the default method key of \"_method\"
+\-\-sassRoot PATH           Public sass conversion root path
+\-\-staticRoot PATH         Public static file root path
+.
+.fi
+.
+.IP "" 0
 .
 .SH "Middleware"
 Connect middleware is divided into two concepts\. First we have \fIfilters\fR which perform an action and allow lower middleware to respond to the request, secondly we have \fIproviders\fR which are conceptual \"end\-points\", responding to the request without continuing down the stack\.

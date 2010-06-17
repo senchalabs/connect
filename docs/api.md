@@ -47,15 +47,15 @@ Currently the following environment variables may be set
 via the `--ENV VAL` catchall. For example we can alter the log
 format used via the command line with `connect --logFormat ":method :uri".
 
-Boolean values may use strings such as "yes", "no", "true", "false".
+Boolean values may use strings such as _yes_, _no_, _true_, _false_.
 
-   --logFormat STR           Custom log format
-   --dumpExceptions BOOL     Dump exceptions to stderr
-   --showErrorMessage BOOL   Show exception message in response (recommended for development only)
-   --showErrorStack BOOL     Show exception stack trace (recommended for development only)
-   --methodOverrideKey STR   Override the default method key of "_method"
-   --sassRoot PATH           Public sass conversion root path
-   --staticRoot PATH         Public static file root path
+    --logFormat STR           Custom log format
+    --dumpExceptions BOOL     Dump exceptions to stderr
+    --showErrorMessage BOOL   Show exception message in response (recommended for development only)
+    --showErrorStack BOOL     Show exception stack trace (recommended for development only)
+    --methodOverrideKey STR   Override the default method key of "_method"
+    --sassRoot PATH           Public sass conversion root path
+    --staticRoot PATH         Public static file root path
 
 ## Middleware
 

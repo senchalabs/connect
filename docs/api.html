@@ -147,15 +147,16 @@ checks if the process is running.</p>
 via the <code>--ENV VAL</code> catchall. For example we can alter the log
 format used via the command line with `connect --logFormat ":method :uri".</p>
 
-<p>Boolean values may use strings such as "yes", "no", "true", "false".</p>
+<p>Boolean values may use strings such as <em>yes</em>, <em>no</em>, <em>true</em>, <em>false</em>.</p>
 
-<p>   --logFormat STR           Custom log format
-   --dumpExceptions BOOL     Dump exceptions to stderr
-   --showErrorMessage BOOL   Show exception message in response (recommended for development only)
-   --showErrorStack BOOL     Show exception stack trace (recommended for development only)
-   --methodOverrideKey STR   Override the default method key of "_method"
-   --sassRoot PATH           Public sass conversion root path
-   --staticRoot PATH         Public static file root path</p>
+<pre><code>--logFormat STR           Custom log format
+--dumpExceptions BOOL     Dump exceptions to stderr
+--showErrorMessage BOOL   Show exception message in response (recommended for development only)
+--showErrorStack BOOL     Show exception stack trace (recommended for development only)
+--methodOverrideKey STR   Override the default method key of "_method"
+--sassRoot PATH           Public sass conversion root path
+--staticRoot PATH         Public static file root path
+</code></pre>
 
 <h2 id="Middleware">Middleware</h2>
 
