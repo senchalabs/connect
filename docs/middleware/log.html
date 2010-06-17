@@ -124,18 +124,41 @@
 			<li class="title">Providers</li>
 			<li><a href="middleware/static.html">static</a></li>
 		</ul><div class='mp'>
-<h2 id="Static">Static</h2>
+<h2 id="Log">Log</h2>
 
-<p>The <em>static</em> middleware provides static file serving to the given <em>root</em> directory, for example:</p>
+<p>The <em>log</em> middleware provides common log format support, as well as custom formats,
+below is the default usage:</p>
 
 <pre><code>connect.createServer([
-    { provider: 'static', root: __dirname + '/public' }
+    { filter: 'log' }
 ]);
+</code></pre>
+
+<p>A custom format can also be passed:</p>
+
+<pre><code>connect.createServer([
+    { filter: 'log', format: ':method :url :response-time' }
+]);
+</code></pre>
+
+<p>The following format tokens are currently available:</p>
+
+<pre><code>:req[header]    Arbitrary request header, ex: req[Accept]
+:res[header]    Arbitrary response header, ex: res[Content-Type]
+:http-version   HTTP request version
+:response-time  Response time in milliseconds
+:remote-addr    Remote address
+:date           UTC date
+:method         Request method
+:url            Request url
+:referrer       Request referrer / referer
+:user-agent     User-Agent string
+:status         Response status
 </code></pre>
 
 <h3 id="Environment-Variables">Environment Variables</h3>
 
-<pre><code>--staticRoot
+<pre><code>--logFormat
 </code></pre>
 
 </div>

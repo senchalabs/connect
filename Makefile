@@ -6,7 +6,8 @@ PREFIX = /usr/local
 DOCS = docs/api.md \
 	   docs/middleware/body-decoder.md \
 	   docs/middleware/redirect.md \
-	   docs/middleware/static.md
+	   docs/middleware/static.md \
+	   docs/middleware/log.md
 
 MANPAGES = $(DOCS:.md=.1)
 
@@ -28,6 +29,7 @@ install-docs:
 	cp -f docs/middleware/body-decoder.1 $(PREFIX)/share/man/man1/connect-body-decoder.1
 	cp -f docs/middleware/redirect.1 $(PREFIX)/share/man/man1/connect-redirect.1
 	cp -f docs/middleware/static.1 $(PREFIX)/share/man/man1/connect-static.1
+	cp -f docs/middleware/log.1 $(PREFIX)/share/man/man1/connect-log.1
 
 benchmark: benchmarks/run
 	@./benchmarks/run
