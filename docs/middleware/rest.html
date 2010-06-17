@@ -125,19 +125,53 @@
 			<li><a href="middleware/rest.html">rest</a></li>
 			<li><a href="middleware/static.html">static</a></li>
 		</ul><div class='mp'>
-<h2 id="Static">Static</h2>
+<h2 id="Rest">Rest</h2>
 
-<p>The <em>static</em> middleware provides static file serving to the given <em>root</em> directory, for example:</p>
+<p>The <em>rest</em> middleware provides a RESTful routing api similar to that of Sinatra and Express.</p>
 
-<pre><code>connect.createServer([
-    { provider: 'static', root: __dirname + '/public' }
+<pre><code>var userRoutes = {
+    get: {
+        '/users/(all.:format?)?': function(req, res) {
+            // populates req.format
+            // ex:
+            //   GET /users
+            //   GET /users/all
+            //   GET /users/all.json
+            //   GET /users/all.xml
+        },
+        '/user/:id.:format?': function(req, res, params) {
+            // populates req.format
+            // populates params.id
+            // ex:
+            //   GET /user/5
+            //   GET /user/5.json
+            //   GET /user/5.xml
+        }
+    },
+    put: {
+        '/user/:id': function(req, res, params) {
+            // populates params.id
+            // ex:
+            //   PUT /user/2
+        }
+    },
+    del: {
+        '/user/:id/file/*': function(req, res, params) {
+           // populates params.id
+           // populates params.splat[0]
+           // ex:
+           //   DELETE /user/4/file/javascripts/jquery.js
+           //   DELETE /user/4/file/style.css
+        }    
+    }
+};
+
+connect.createServer([
+    { provider: 'rest', routes: userRoutes }
 ]);
 </code></pre>
 
-<h3 id="Environment-Variables">Environment Variables</h3>
-
-<pre><code>--staticRoot
-</code></pre>
+<p>Those of you looking for <em>PUT</em> and <em>DELETE</em> support may want to take a look at the <em>method-override</em> middleware.</p>
 
 </div>
     </div>
