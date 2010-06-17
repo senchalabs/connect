@@ -42,7 +42,7 @@ docs: $(MANPAGES) $(DOCS:.md=.html)
 
 %.html: %.md
 	ronn -5 --pipe --fragment $< \
-	  | cat docs/api.head.html - docs/api.foot.html \
+	  | cat docs/api.head.html cat docs/api.menu.html - docs/api.foot.html \
 	  | sed 's/NAME/Connect/g' \
 	  > $@
 
