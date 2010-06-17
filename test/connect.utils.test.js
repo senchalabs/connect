@@ -35,9 +35,19 @@ module.exports = {
     },
     
     'test serializeCookie()': function(){
-        assert.eql('foo=bar; path=/', utils.serializeCookie('foo', 'bar', { path: '/' }));
-        assert.eql('foo=bar; secure', utils.serializeCookie('foo', 'bar', { secure: true }));
-        assert.eql('foo=bar', utils.serializeCookie('foo', 'bar', { secure: false }));
-        assert.eql('foo=foo%20bar', utils.serializeCookie('foo', 'foo bar'));
+        assert.equal('foo=bar; path=/', utils.serializeCookie('foo', 'bar', { path: '/' }));
+        assert.equal('foo=bar; secure', utils.serializeCookie('foo', 'bar', { secure: true }));
+        assert.equal('foo=bar', utils.serializeCookie('foo', 'bar', { secure: false }));
+        assert.equal('foo=foo%20bar', utils.serializeCookie('foo', 'foo bar'));
+    },
+    
+    'test mime.type()': function(){
+        assert.equal('image/png', utils.mime.type('some.png'));
+        assert.equal('image/png', utils.mime.type('some.lame.PNG'));
+        assert.equal('image/png', utils.mime.type('some.lame.png'));
+        assert.equal('image/png', utils.mime.type('path/to/some/ super lame.png'));
+        assert.equal('application/octet-stream', utils.mime.type('foo.bar'));
+        assert.equal('application/octet-stream', utils.mime.type(''));
+        assert.equal('application/octet-stream', utils.mime.type());
     }
 };
