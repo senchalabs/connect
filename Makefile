@@ -3,6 +3,8 @@ NODE = node
 TEST = support/expresso/bin/expresso
 TESTS ?= test/*.test.js
 PREFIX = /usr/local
+DOCS = docs/api.md docs/middleware/body-decoder.md
+MANPAGES = $(DOCS:.md=.1)
 
 test:
 	@CONNECT_ENV=test ./$(TEST) -I lib -I support/sass/lib $(TEST_FLAGS) $(TESTS)
@@ -19,6 +21,7 @@ uninstall:
 
 install-docs:
 	cp -f docs/api.1 $(PREFIX)/share/man/man1/connect.1
+	cp -f docs/middleware/body-decoder.1 $(PREFIX)/share/man/man1/connect-body-decoder.1
 
 benchmark: benchmarks/run
 	@./benchmarks/run
@@ -26,20 +29,16 @@ benchmark: benchmarks/run
 graphs: benchmarks/graph
 	@./benchmarks/graph
 
-docs: docs/api.1 docs/api.html
+docs: $(MANPAGES) $(DOCS:.md=.html)
 
-docs/api.1: docs/api.md
-	ronn -r $< > $@
+%.1: %.md
+	ronn -r --pipe $< > $@
 
-docs/api.html: docs/api.md
+%.html: %.md
 	ronn -5 --pipe --fragment $< \
 	  | cat docs/api.head.html - docs/api.foot.html \
 	  | sed 's/NAME/Connect/g' \
 	  > $@
-
-docclean:
-	rm -f docs/api.html
-	rm -f docs/api.1
 
 site:
 	cp docs/api.html /tmp/connect.index.html && \
@@ -48,4 +47,4 @@ site:
 	  git commit -a -m 'Updated index.html' && \
 	  git checkout master
 
-.PHONY: install uninstall docs test test-cov benchmark graphs docclean site install-docs
+.PHONY: install uninstall docs test test-cov benchmark graphs site install-docs
