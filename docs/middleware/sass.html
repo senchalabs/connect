@@ -126,30 +126,28 @@
 			<li><a href="middleware/sass.html">sass</a></li>
 			<li><a href="middleware/static.html">static</a></li>
 		</ul><div class='mp'>
-<h2 id="Redirect">Redirect</h2>
+<h2 id="Sass">Sass</h2>
 
-<p>The <em>redirect</em> middleware provides <code>req.redirect()</code>, a utility method
-for redirecting the request to a new <em>Location</em>. Example usage:</p>
+<p>The <em>sass</em> middleware compiles and serves <em>*.sass</em> files as css.
+Sass itself is not bundled with Connect, so you must have it installed
+and available to node.</p>
 
-<pre><code>exports.handle = function(req, res, next) {
-    req.redirect('http://google.com');
-}
+<pre><code>connect.createServer([
+    { provider: 'sass', root: __dirname + '/public' }
+]);
 </code></pre>
 
-<p>Redirect also provides "magic" url maps, currently supported is <em>back</em>,
-which will redirect to the <em>Referrer</em> or <em>Referer</em> headers:</p>
+<h3 id="Environment-Variables">Environment Variables</h3>
 
-<pre><code>exports.handle = function(req, res, next) {
-    req.redirect('back');
-}
+<pre><code>--sassRoot
 </code></pre>
 
-<p>Optionally you may provide a status code as well, to replace the default of <em>302</em>:</p>
+<h3 id="Links">Links</h3>
 
-<pre><code>exports.handle = function(req, res, next) {
-    req.redirect('/foo', 301);
-}
-</code></pre>
+<ul>
+<li><a href="http://github.com/visionmedia/sass.js">Sass.js</a></li>
+</ul>
+
 
 </div>
     </div>

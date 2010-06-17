@@ -8,6 +8,7 @@ DOCS = docs/api.md \
 	   docs/middleware/redirect.md \
 	   docs/middleware/static.md \
 	   docs/middleware/rest.md \
+	   docs/middleware/sass.md \
 	   docs/middleware/log.md
 
 MANPAGES = $(DOCS:.md=.1)
@@ -32,6 +33,7 @@ install-docs:
 	cp -f docs/middleware/static.1 $(PREFIX)/share/man/man1/connect-static.1
 	cp -f docs/middleware/log.1 $(PREFIX)/share/man/man1/connect-log.1
 	cp -f docs/middleware/rest.1 $(PREFIX)/share/man/man1/connect-rest.1
+	cp -f docs/middleware/sass.1 $(PREFIX)/share/man/man1/connect-sass.1
 
 benchmark: benchmarks/run
 	@./benchmarks/run

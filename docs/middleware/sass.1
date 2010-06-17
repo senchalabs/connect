@@ -1,0 +1,35 @@
+.\" generated with Ronn/v0.6.6
+.\" http://github.com/rtomayko/ronn/
+.
+.TH "SASS" "" "June 2010" "" ""
+.
+.SH "Sass"
+The \fIsass\fR middleware compiles and serves \fI*\.sass\fR files as css\. Sass itself is not bundled with Connect, so you must have it installed and available to node\.
+.
+.IP "" 4
+.
+.nf
+
+connect\.createServer([
+    { provider: \'sass\', root: __dirname + \'/public\' }
+]);
+.
+.fi
+.
+.IP "" 0
+.
+.SS "Environment Variables"
+.
+.nf
+
+\-\-sassRoot
+.
+.fi
+.
+.SS "Links"
+.
+.IP "\(bu" 4
+Sass\.js \fIhttp://github\.com/visionmedia/sass\.js\fR
+.
+.IP "" 0
+
