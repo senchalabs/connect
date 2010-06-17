@@ -12,6 +12,7 @@
 
 var child_process = require('child_process'),
     netBinding = process.binding('net'),
+    dirname = require('path').dirname,
     http = require('http'),
     sys = require('sys'),
     fs = require('fs'),
@@ -108,6 +109,26 @@ function colorize(str) {
 }
 
 /**
+ * Ad-hoc sync mkdir -p implementation.
+ *
+ * @param {String} path
+ * @param {Number} mode
+ */
+
+function mkdirs(path, mode){
+    var segs = path.split('/'),
+        mode = mode || 0755;
+    try {
+        for (var i = 0, len = segs.length; i < len;) {
+            var dir = segs.slice(0, ++i).join('/');
+            fs.mkdirSync(dir, mode);
+        }
+    } catch (err) {
+        if (err.errno !== process.EEXIST) throw err;
+    }
+}
+
+/**
  * Strip ".js" extension from the given path.
  *
  * @param {String} path
@@ -181,10 +202,12 @@ function getpid(path) {
 }
 
 /**
- * Check status of process(es).
+ * Check status of the given pid.
+ *
+ * @param {Number} pid
  */
 
-function status(pid) {
+function checkStatus(pid){
     if (pid) {
         try {
             verbose = true;
@@ -197,19 +220,27 @@ function status(pid) {
                 throw err;
             }
         }
-    } else {
-        status(getpid(env.pidfile));
-        for (var i = 0; i < workers; ++i) {
-            status(getpid(workerPidfile(i)));
-        }
     }
 }
 
 /**
- * Stop process(es).
+ * Check status of process(es).
  */
 
-function stop(pid){
+function status() {
+    checkStatus(getpid(env.pidfile));
+    for (var i = 0; i < workers; ++i) {
+        checkStatus(getpid(workerPidfile(i)));
+    }
+}
+
+/**
+ * Attempt to stop the given pid.
+ *
+ * @param {Number} pid
+ */
+
+function stopProcess(pid){
     if (pid) {
         try {
             process.kill(pid, 'SIGTERM');
@@ -221,11 +252,17 @@ function stop(pid){
                 throw err;
             }
         }
-    } else {
-        stop(getpid(env.pidfile));
-        for (var i = 0; i < workers; ++i) {
-            stop(getpid(workerPidfile(i)));
-        }
+    }
+}
+
+/**
+ * Stop process(es).
+ */
+
+function stop(pid){
+    stopProcess(getpid(env.pidfile));
+    for (var i = 0; i < workers; ++i) {
+        stopProcess(getpid(workerPidfile(i)));
     }
 }
 
@@ -252,7 +289,7 @@ function exists(path) {
  */
 
 function workerPidfile(i){
-    return env.pidfile.replace('.pid', '.worker.' + i + '.pid');    
+    return env.pidfile.replace('.pid', '.' + i + '.pid');    
 }
 
 /**
@@ -348,6 +385,10 @@ function start() {
         if (process.version < '0.1.98') {
             abort('Cannot use workers with a version older than v0.1.98');
         }
+
+        // Ensure logfile and pidfile directories are available
+        mkdirs(dirname(env.logfile));
+        mkdirs(dirname(env.pidfile));
 
         var errlogfile = env.logfile.replace('.log', '.error.log'),
             logStream = fs.createWriteStream(env.logfile, { flags: 'a' }),
