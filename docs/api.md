@@ -5,9 +5,9 @@ connect(1) -- node server runner
 
     connect [-H|--host ADDR] [-p|--port NUM]
             [-n|--workers NUM] [-I|--include PATH]
-            [-E|--env NAME] [-e|--eval CODE] [-C|--chdir PATH]
+            [-E|--env ENV] [-e|--eval CODE] [-C|--chdir PATH]
             [-c|--config PATH] [-P|--pidfile PATH]
-            [-l|--logfile PATH] [-u|--user ID|NAME] [-g|--group ID|NAME]
+            [-l|--logfile PATH] [-u|--user ID|USER] [-g|--group ID|GROUP]
             [-v|--verbose] [-V|--version] [-K|--no-color]
             [-h|--help] [--ENV VAL]
             start|stop|restart|status [PATH]
@@ -23,23 +23,23 @@ checks if the process is running.
 
 ## Executable Options
 
-    -H, --host ADDR      Host address, defaults to INADDR_ANY
-    -p, --port NUM       Port number, defaults to 3000
-    -n, --workers NUM    Number of worker processes to spawn
-    -I, --include PATH   Unshift the given path to require.paths
-    -E, --env NAME       Set environment, defaults to "development"
-    -e, --eval CODE      Evaluate the given string
-    -C, --chdir PATH     Change to the given path
-    -c, --config PATH    Load configuration module
-    -P, --pidfile PATH   PID file, defaults to pids/connect.pid
-    -l, --logfile PATH   Log file, defaults to logs/connect.log
-    -u, --user ID|NAME   Change user with setuid()
-    -g, --group ID|NAME  Change group with setgid()
-    -v, --verbose        Display verbose output
-    -V, --version        Output connect version
-    -K, --no-color       Suppress colored terminal output
-    -h, --help           Display help information
-    --ENV VAL            Sets the given connect environment variable
+    -H, --host ADDR       Host address, defaults to INADDR_ANY
+    -p, --port NUM        Port number, defaults to 3000
+    -n, --workers NUM     Number of worker processes to spawn
+    -I, --include PATH    Unshift the given path to require.paths
+    -E, --env ENV         Set environment, defaults to "development"
+    -e, --eval CODE       Evaluate the given string
+    -C, --chdir PATH      Change to the given path
+    -c, --config PATH     Load configuration module
+    -P, --pidfile PATH    PID file, defaults to pids/connect.pid
+    -l, --logfile PATH    Log file, defaults to logs/connect.log
+    -u, --user ID|USER    Change user with setuid()
+    -g, --group ID|GROUP  Change group with setgid()
+    -v, --verbose         Display verbose output
+    -V, --version         Output connect version
+    -K, --no-color        Suppress colored terminal output
+    -h, --help            Display help information
+    --ENV VAL             Sets the given connect environment variable
 
 ## Supported Environment Variables
 
@@ -49,13 +49,13 @@ format used via the command line with `connect --logFormat ":method :uri".
 
 Boolean values may use strings such as "yes", "no", "true", "false".
 
-  - logFormat
-  - dumpExceptions
-  - showErrorMessage
-  - showErrorStack
-  - methodOverrideKey
-  - sassRoot
-  - staticRoot
+   --logFormat STR           Custom log format
+   --dumpExceptions BOOL     Dump exceptions to stderr
+   --showErrorMessage BOOL   Show exception message in response (recommended for development only)
+   --showErrorStack BOOL     Show exception stack trace (recommended for development only)
+   --methodOverrideKey STR   Override the default method key of "_method"
+   --sassRoot PATH           Public sass conversion root path
+   --staticRoot PATH         Public static file root path
 
 ## Middleware
 
