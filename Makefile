@@ -52,9 +52,11 @@ docs: $(MANPAGES) $(DOCS:.md=.html)
 
 site:
 	cp docs/api.html /tmp/connect.index.html && \
+	  cp -fr docs/middleware /tmp/middleware && \
 	  git checkout gh-pages && \
 	  cp /tmp/connect.index.html index.html && \
-	  git commit -a -m 'Updated index.html' && \
+	  cp -fr /tmp/middleware middleware && \
+	  git commit -a -m 'Updated html docs' && \
 	  git checkout master
 
 docclean:
