@@ -96,7 +96,7 @@ First we define the `handle()` method, which accepts three arguments, _req_, _re
     require('connect').createServer([
         { module: helloWorld }
     ]);
-    
+
 The `next()` function passes control to the next middleware layer in the stack, and may optionally be passed an instanceof `Error`, at which time only `handleError()` methods may respond.
  
 If you wish to pass an exception down the stack, you can invoke `next()` like below:
@@ -118,7 +118,9 @@ We can take this example further by "exporting" the `handle()` method, so that o
         { module: require('./hello-world') }
     ]);
 
-If an exception was thrown, or is passesd to `next()`, middleware may define the `handleError()` method
+### Exception Handling
+
+If an exception was thrown, or is passed to `next()`, middleware may define the `handleError()` method
 in order to respond (or ignore) the exception. The `handleError()` method follows the same semantics as
 `handle()`, for example:
 
@@ -137,6 +139,33 @@ in order to respond (or ignore) the exception. The `handleError()` method follow
             res.end('shit! im broken');
         }
     };
+
+### Setup Configuration
+
+Connect also supports the `setup()` method, which is called when the middleware is stacked,
+and is passed the environment. For example lets say we want our _log_ middleware to support
+a custom format, we might define `setup()` as shown below:
+
+    var log = {};
+
+    log.setup = function(env) {
+		this.format = this.format || 'our default format';
+	}
+
+Allowing developers to pass a custom format when stacked:
+
+	connect.createServer([
+		{ module: log, format: 'custom log format' }
+	]);
+
+In some cases we may want to support changes through the environment as well. For example
+we may want to support `connect --logFormat "super cool format"`, to do all we need to do
+is check for `env.logFormat` as shown below. The precedence given is up to you, however
+the env is recommended.
+
+	log.setup = function(env) {
+		this.format = env.logFormat || this.format || 'our default format';
+	}
 
 ## Bundled Middleware
 

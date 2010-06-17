@@ -188,8 +188,8 @@ require(\'connect\')\.createServer([
 .
 .IP "" 0
 .
-.P
-If an exception was thrown, or is passesd to \fBnext()\fR, middleware may define the \fBhandleError()\fR method in order to respond (or ignore) the exception\. The \fBhandleError()\fR method follows the same semantics as \fBhandle()\fR, for example:
+.SS "Exception Handling"
+If an exception was thrown, or is passed to \fBnext()\fR, middleware may define the \fBhandleError()\fR method in order to respond (or ignore) the exception\. The \fBhandleError()\fR method follows the same semantics as \fBhandle()\fR, for example:
 .
 .IP "" 4
 .
@@ -210,6 +210,53 @@ exports\.handleError = function(err, req, res, next){
         res\.end(\'shit! im broken\');
     }
 };
+.
+.fi
+.
+.IP "" 0
+.
+.SS "Setup Configuration"
+Connect also supports the \fBsetup()\fR method, which is called when the middleware is stacked, and is passed the environment\. For example lets say we want our \fIlog\fR middleware to support a custom format, we might define \fBsetup()\fR as shown below:
+.
+.IP "" 4
+.
+.nf
+
+var log = {};
+
+log\.setup = function(env) {
+    this\.format = this\.format || \'our default format\';
+}
+.
+.fi
+.
+.IP "" 0
+.
+.P
+Allowing developers to pass a custom format when stacked:
+.
+.IP "" 4
+.
+.nf
+
+connect\.createServer([
+    { module: log, format: \'custom log format\' }
+]);
+.
+.fi
+.
+.IP "" 0
+.
+.P
+In some cases we may want to support changes through the environment as well\. For example we may want to support \fBconnect \-\-logFormat \"super cool format\"\fR, to do all we need to do is check for \fBenv\.logFormat\fR as shown below\. The precedence given is up to you, however the env is recommended\.
+.
+.IP "" 4
+.
+.nf
+
+log\.setup = function(env) {
+    this\.format = env\.logFormat || this\.format || \'our default format\';
+}
 .
 .fi
 .

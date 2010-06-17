@@ -226,7 +226,9 @@ require('connect').createServer([
 ]);
 </code></pre>
 
-<p>If an exception was thrown, or is passesd to <code>next()</code>, middleware may define the <code>handleError()</code> method
+<h3 id="Exception-Handling">Exception Handling</h3>
+
+<p>If an exception was thrown, or is passed to <code>next()</code>, middleware may define the <code>handleError()</code> method
 in order to respond (or ignore) the exception. The <code>handleError()</code> method follows the same semantics as
 <code>handle()</code>, for example:</p>
 
@@ -245,6 +247,36 @@ in order to respond (or ignore) the exception. The <code>handleError()</code> me
         res.end('shit! im broken');
     }
 };
+</code></pre>
+
+<h3 id="Setup-Configuration">Setup Configuration</h3>
+
+<p>Connect also supports the <code>setup()</code> method, which is called when the middleware is stacked,
+and is passed the environment. For example lets say we want our <em>log</em> middleware to support
+a custom format, we might define <code>setup()</code> as shown below:</p>
+
+<pre><code>var log = {};
+
+log.setup = function(env) {
+    this.format = this.format || 'our default format';
+}
+</code></pre>
+
+<p>Allowing developers to pass a custom format when stacked:</p>
+
+<pre><code>connect.createServer([
+    { module: log, format: 'custom log format' }
+]);
+</code></pre>
+
+<p>In some cases we may want to support changes through the environment as well. For example
+we may want to support <code>connect --logFormat "super cool format"</code>, to do all we need to do
+is check for <code>env.logFormat</code> as shown below. The precedence given is up to you, however
+the env is recommended.</p>
+
+<pre><code>log.setup = function(env) {
+    this.format = env.logFormat || this.format || 'our default format';
+}
 </code></pre>
 
 <h2 id="Bundled-Middleware">Bundled Middleware</h2>
