@@ -50,17 +50,8 @@ docs: $(MANPAGES) $(DOCS:.md=.html)
 	  | sed 's/NAME/Connect/g' \
 	  > $@
 
-site:
-	cp docs/api.html /tmp/connect.index.html && \
-	  cp -fr docs/middleware /tmp/middleware && \
-	  git checkout gh-pages && \
-	  cp /tmp/connect.index.html index.html && \
-	  cp -fr /tmp/middleware middleware && \
-	  git commit -a -m 'Updated html docs' && \
-	  git checkout master
-
 docclean:
 	rm -f docs/api.{1,html}
 	rm -f docs/middleware/*.{1,html}
 
-.PHONY: install uninstall docs test test-cov benchmark graphs site install-docs docclean
+.PHONY: install uninstall docs test test-cov benchmark graphs install-docs docclean
