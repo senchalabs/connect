@@ -25,7 +25,7 @@ connect.Server.prototype.listen = function(){
      */    
     
     this.request = function(){
-        ++pending;
+        if (self.pending === undefined) ++pending;
         var req = client.request.apply(client, arguments);
         req.addListener('response', function(res){
             if (req.buffer) {
@@ -33,12 +33,16 @@ connect.Server.prototype.listen = function(){
                 res.setEncoding('utf8');
                 res.addListener('data', function(chunk){ res.body += chunk });
             }
-            if (!--pending) {
+            if (self.pending === undefined) {
+                if (!--pending) {
+                    self.close();
+                }
+            } else if (!--self.pending) {
                 self.close();
-            } 
+            }
         });
         return req;
-    }
+    };
     
     /**
      * Response assertion helper.
@@ -60,7 +64,23 @@ connect.Server.prototype.listen = function(){
             });
         });
         req.end();
-    }
+    };
+    
+    /**
+     * Assert response headers.
+     */
+     
+    this.assertResponseHeaders = function(method, path, headers){
+        var req = this.request(method, path);
+        req.addListener('response', function(res){
+            for (var key in headers) {
+                assert.equal(headers[key], res.headers[key],
+                    'expected response header ' + key + ' of "' + headers[key] + '"'
+                    + ', got "' + res.headers[key] + '"');
+            }
+        });
+        req.end();
+    };
     
     net.Server.prototype.listen.call(this, this.port = port++);
     return this;
