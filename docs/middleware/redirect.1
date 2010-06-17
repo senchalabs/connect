@@ -1,0 +1,50 @@
+.\" generated with Ronn/v0.6.6
+.\" http://github.com/rtomayko/ronn/
+.
+.TH "REDIRECT" "" "June 2010" "" ""
+.
+.SH "Redirect"
+The \fIredirect\fR middleware provides \fBreq\.redirect()\fR, a utility method for redirecting the request to a new \fILocation\fR\. Example usage:
+.
+.IP "" 4
+.
+.nf
+
+exports\.handle = function(req, res, next) {
+    req\.redirect(\'http://google\.com\');
+}
+.
+.fi
+.
+.IP "" 0
+.
+.P
+Redirect also provides \"magic\" url maps, currently supported is \fIback\fR, which will redirect to the \fIReferrer\fR or \fIReferer\fR headers:
+.
+.IP "" 4
+.
+.nf
+
+exports\.handle = function(req, res, next) {
+    req\.redirect(\'back\');
+}
+.
+.fi
+.
+.IP "" 0
+.
+.P
+Optionally you may provide a status code as well, to replace the default of \fI302\fR:
+.
+.IP "" 4
+.
+.nf
+
+exports\.handle = function(req, res, next) {
+    req\.redirect(\'/foo\', 301);
+}
+.
+.fi
+.
+.IP "" 0
+

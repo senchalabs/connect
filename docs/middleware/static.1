@@ -1,0 +1,28 @@
+.\" generated with Ronn/v0.6.6
+.\" http://github.com/rtomayko/ronn/
+.
+.TH "STATIC" "" "June 2010" "" ""
+.
+.SH "Static"
+The \fIstatic\fR middleware provides static file serving to the given \fIroot\fR directory, for example:
+.
+.IP "" 4
+.
+.nf
+
+connect\.createServer([
+    { provider: \'static\', root: __dirname + \'/public\' }
+]);
+.
+.fi
+.
+.IP "" 0
+.
+.SS "Environment Variables"
+.
+.nf
+
+\-\-staticRoot
+.
+.fi
+

@@ -122,4 +122,22 @@
 			<li><a href="middleware/redirect.html">redirect</a></li>
 			<li class="title">Providers</li>
 			<li><a href="middleware/static.html">static</a></li>
-		</ul>
+		</ul><div class='mp'>
+<h2 id="Static">Static</h2>
+
+<p>The <em>static</em> middleware provides static file serving to the given <em>root</em> directory, for example:</p>
+
+<pre><code>connect.createServer([
+    { provider: 'static', root: __dirname + '/public' }
+]);
+</code></pre>
+
+<h3 id="Environment-Variables">Environment Variables</h3>
+
+<pre><code>--staticRoot
+</code></pre>
+
+</div>
+    </div>
+  </body>
+</html>
