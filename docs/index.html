@@ -338,15 +338,16 @@ static           Serves static files
 rest             Provides RESTful routing similar to Sinatra and Express
 </code></pre>
 
-<h3 id="Body-Decoder">Body Decoder</h3>
+<h3 id="Middleware-Documentation">Middleware Documentation</h3>
 
-<p>The <em>body-decoder</em> middleware sniffs the <em>Content-Type</em> header, and
-decodes the request body appropriately. Supported by default are the <em>application/x-www-form-urlencoded</em>,
-and <em>application/json</em> content types. To extend simply:</p>
+<p>To view middleware specific documentation execute:</p>
 
-<pre><code>require('connect/filters/body-decoder').decode['some-mime/type'] = function(str){
-    return decodeSomething(str);
-};
+<pre><code>$ man connect-MIDDLEWARE
+</code></pre>
+
+<p>For example:</p>
+
+<pre><code>$ man connect-body-decoder
 </code></pre>
 
 </div>
