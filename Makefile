@@ -6,7 +6,9 @@ PREFIX = /usr/local
 DOCS = docs/api.md \
 	   docs/middleware/body-decoder.md \
 	   docs/middleware/redirect.md \
+	   docs/middleware/session.md \
 	   docs/middleware/static.md \
+	   docs/middleware/cookie.md \
 	   docs/middleware/rest.md \
 	   docs/middleware/sass.md \
 	   docs/middleware/log.md
@@ -35,6 +37,8 @@ install-docs:
 	cp -f docs/middleware/log.1 $(PREFIX)/share/man/man1/connect-log.1
 	cp -f docs/middleware/rest.1 $(PREFIX)/share/man/man1/connect-rest.1
 	cp -f docs/middleware/sass.1 $(PREFIX)/share/man/man1/connect-sass.1
+	cp -f docs/middleware/cookie.1 $(PREFIX)/share/man/man1/connect-cookie.1
+	cp -f docs/middleware/session.1 $(PREFIX)/share/man/man1/connect-session.1
 
 benchmark: benchmarks/run
 	@./benchmarks/run
@@ -45,10 +49,12 @@ graphs: benchmarks/graph
 docs: $(MANPAGES) $(HTMLDOCS)
 
 %.1: %.md
-	ronn -r --pipe $< > $@
+	@echo "... $< -> $@"
+	@ronn -r --pipe $< > $@
 
 %.html: %.md
-	ronn -5 --pipe --fragment $< \
+	@echo "... $< -> $@"
+	@ronn -5 --pipe --fragment $< \
 	  | cat docs/api.head.html - docs/api.foot.html \
 	  | sed 's/NAME/Connect/g' \
 	  > $@

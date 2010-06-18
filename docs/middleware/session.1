@@ -1,0 +1,82 @@
+.\" generated with Ronn/v0.6.6
+.\" http://github.com/rtomayko/ronn/
+.
+.TH "SESSION" "" "June 2010" "" ""
+.
+.SH "Session"
+The \fIsession\fR middleware provides persistence between requests\. If we wish to supply a custom \fBStore\fR subclass, or pass options to the store itself, we can configure it like so:
+.
+.IP "" 4
+.
+.nf
+
+var MemoryStore = require(\'connect/filters/session/memory\')\.MemoryStore;
+connect\.createServer([
+    { filter: \'cookie\' }
+    { filter: \'session\', store: new MemoryStore({ reapInterval: 60000 * 10 }) }
+]);
+.
+.fi
+.
+.IP "" 0
+.
+.P
+\fBNOTE:\fR \fIcookie\fR must be above \fIsession\fR within the stackcom
+.
+.SS "Options"
+.
+.nf
+
+store        Custom Store subclass
+fingerprint  Function passed sid and the request which computes a fingerprint of the user\.
+             Defaults to remoteAddress and User\-Agent strings\.
+.
+.fi
+.
+.SS "Store"
+Abstract store which can be subclassed\. To comply with \fBStore\fR you should define:
+.
+.IP "" 4
+.
+.nf
+
+#fetch(req, callback)       Fetch session for the given request
+#commit(req, callback)      Commit the session for the given request
+#clear(callback)            Clear all sessions
+#destroy(req, callback)     Destroy session for the given request
+#length(callback)           Fetches the total number of sessions
+.
+.fi
+.
+.IP "" 0
+.
+.P
+Complimentary methods:
+.
+.IP "" 4
+.
+.nf
+
+#regenerate(req, callback)  Destroys the session, and creates a new one
+#createSession()            Returns a new Session instance with generated id
+.
+.fi
+.
+.IP "" 0
+.
+.SS "MemoryStore"
+Stores session data in memory, options are as follows:
+.
+.IP "" 4
+.
+.nf
+
+key             Cookie key used to store session ids\. Defaults to \"connect\.sid\"
+reapInterval    Interval in milliseconds used to reap stale sessions\. Defaults to 10 minutes
+maxAage         Maximum session age in milliseconds\. Defaults to 4 hours
+cookie          Session cookie options\. Defaults to { path: \'/\', httpOnly: true }
+.
+.fi
+.
+.IP "" 0
+
