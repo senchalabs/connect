@@ -118,54 +118,13 @@
     <div id="wrapper">
 		<ul id="menu">
 			<li class="title">Filters</li>
-			<li><a href="middleware/log.html">log</a></li>
-			<li><a href="middleware/redirect.html">redirect</a></li>
-			<li><a href="middleware/cookie.html">cookie</a></li>
-			<li><a href="middleware/session.html">session</a></li>
-			<li><a href="middleware/body-decoder.html">body-decoder</a></li>
+			<li><a href="log.html">log</a></li>
+			<li><a href="redirect.html">redirect</a></li>
+			<li><a href="cookie.html">cookie</a></li>
+			<li><a href="session.html">session</a></li>
+			<li><a href="body-decoder.html">body-decoder</a></li>
 			<li class="title">Providers</li>
-			<li><a href="middleware/rest.html">rest</a></li>
-			<li><a href="middleware/sass.html">sass</a></li>
-			<li><a href="middleware/static.html">static</a></li>
-		</ul><div class='mp'>
-<h2 id="Log">Log</h2>
-
-<p>The <em>log</em> middleware provides common log format support, as well as custom formats,
-below is the default usage:</p>
-
-<pre><code>connect.createServer([
-    { filter: 'log' }
-]);
-</code></pre>
-
-<p>A custom format can also be passed:</p>
-
-<pre><code>connect.createServer([
-    { filter: 'log', format: ':method :url :response-time' }
-]);
-</code></pre>
-
-<p>The following format tokens are currently available:</p>
-
-<pre><code>:req[header]    Arbitrary request header, ex: req[Accept]
-:res[header]    Arbitrary response header, ex: res[Content-Type]
-:http-version   HTTP request version
-:response-time  Response time in milliseconds
-:remote-addr    Remote address
-:date           UTC date
-:method         Request method
-:url            Request url
-:referrer       Request referrer / referer
-:user-agent     User-Agent string
-:status         Response status
-</code></pre>
-
-<h3 id="Environment-Variables">Environment Variables</h3>
-
-<pre><code>--logFormat
-</code></pre>
-
-</div>
-    </div>
-  </body>
-</html>
+			<li><a href="rest.html">rest</a></li>
+			<li><a href="sass.html">sass</a></li>
+			<li><a href="static.html">static</a></li>
+		</ul>

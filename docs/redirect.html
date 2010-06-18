@@ -118,13 +118,42 @@
     <div id="wrapper">
 		<ul id="menu">
 			<li class="title">Filters</li>
-			<li><a href="middleware/log.html">log</a></li>
-			<li><a href="middleware/redirect.html">redirect</a></li>
-			<li><a href="middleware/cookie.html">cookie</a></li>
-			<li><a href="middleware/session.html">session</a></li>
-			<li><a href="middleware/body-decoder.html">body-decoder</a></li>
+			<li><a href="log.html">log</a></li>
+			<li><a href="redirect.html">redirect</a></li>
+			<li><a href="cookie.html">cookie</a></li>
+			<li><a href="session.html">session</a></li>
+			<li><a href="body-decoder.html">body-decoder</a></li>
 			<li class="title">Providers</li>
-			<li><a href="middleware/rest.html">rest</a></li>
-			<li><a href="middleware/sass.html">sass</a></li>
-			<li><a href="middleware/static.html">static</a></li>
-		</ul>
+			<li><a href="rest.html">rest</a></li>
+			<li><a href="sass.html">sass</a></li>
+			<li><a href="static.html">static</a></li>
+		</ul><div class='mp'>
+<h2 id="Redirect">Redirect</h2>
+
+<p>The <em>redirect</em> middleware provides <code>req.redirect()</code>, a utility method
+for redirecting the request to a new <em>Location</em>. Example usage:</p>
+
+<pre><code>exports.handle = function(req, res, next) {
+    req.redirect('http://google.com');
+}
+</code></pre>
+
+<p>Redirect also provides "magic" url maps, currently supported is <em>back</em>,
+which will redirect to the <em>Referrer</em> or <em>Referer</em> headers:</p>
+
+<pre><code>exports.handle = function(req, res, next) {
+    req.redirect('back');
+}
+</code></pre>
+
+<p>Optionally you may provide a status code as well, to replace the default of <em>302</em>:</p>
+
+<pre><code>exports.handle = function(req, res, next) {
+    req.redirect('/foo', 301);
+}
+</code></pre>
+
+</div>
+    </div>
+  </body>
+</html>

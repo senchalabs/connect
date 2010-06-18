@@ -3,15 +3,15 @@ NODE = node
 TEST = support/expresso/bin/expresso
 TESTS ?= test/*.test.js
 PREFIX = /usr/local
-DOCS = docs/api.md \
-	   docs/middleware/body-decoder.md \
-	   docs/middleware/redirect.md \
-	   docs/middleware/session.md \
-	   docs/middleware/static.md \
-	   docs/middleware/cookie.md \
-	   docs/middleware/rest.md \
-	   docs/middleware/sass.md \
-	   docs/middleware/log.md
+DOCS = docs/index.md \
+	   docs/body-decoder.md \
+	   docs/redirect.md \
+	   docs/session.md \
+	   docs/static.md \
+	   docs/cookie.md \
+	   docs/rest.md \
+	   docs/sass.md \
+	   docs/log.md
 
 MANPAGES = $(DOCS:.md=.1)
 HTMLDOCS = $(DOCS:.md=.html)
@@ -30,15 +30,15 @@ uninstall:
 	rm -f $(PREFIX)/bin/connect
 
 install-docs:
-	cp -f docs/api.1 $(PREFIX)/share/man/man1/connect.1
-	cp -f docs/middleware/body-decoder.1 $(PREFIX)/share/man/man1/connect-body-decoder.1
-	cp -f docs/middleware/redirect.1 $(PREFIX)/share/man/man1/connect-redirect.1
-	cp -f docs/middleware/static.1 $(PREFIX)/share/man/man1/connect-static.1
-	cp -f docs/middleware/log.1 $(PREFIX)/share/man/man1/connect-log.1
-	cp -f docs/middleware/rest.1 $(PREFIX)/share/man/man1/connect-rest.1
-	cp -f docs/middleware/sass.1 $(PREFIX)/share/man/man1/connect-sass.1
-	cp -f docs/middleware/cookie.1 $(PREFIX)/share/man/man1/connect-cookie.1
-	cp -f docs/middleware/session.1 $(PREFIX)/share/man/man1/connect-session.1
+	cp -f docs/index.1 $(PREFIX)/share/man/man1/connect.1
+	cp -f docs/body-decoder.1 $(PREFIX)/share/man/man1/connect-body-decoder.1
+	cp -f docs/redirect.1 $(PREFIX)/share/man/man1/connect-redirect.1
+	cp -f docs/static.1 $(PREFIX)/share/man/man1/connect-static.1
+	cp -f docs/log.1 $(PREFIX)/share/man/man1/connect-log.1
+	cp -f docs/rest.1 $(PREFIX)/share/man/man1/connect-rest.1
+	cp -f docs/sass.1 $(PREFIX)/share/man/man1/connect-sass.1
+	cp -f docs/cookie.1 $(PREFIX)/share/man/man1/connect-cookie.1
+	cp -f docs/session.1 $(PREFIX)/share/man/man1/connect-session.1
 
 benchmark: benchmarks/run
 	@./benchmarks/run
@@ -55,12 +55,11 @@ docs: $(MANPAGES) $(HTMLDOCS)
 %.html: %.md
 	@echo "... $< -> $@"
 	@ronn -5 --pipe --fragment $< \
-	  | cat docs/api.head.html - docs/api.foot.html \
+	  | cat docs/layout/api.head.html - docs/layout/api.foot.html \
 	  | sed 's/NAME/Connect/g' \
 	  > $@
 
 docclean:
-	rm -f docs/api.{1,html}
-	rm -f docs/middleware/*.{1,html}
+	rm -f docs/*.{1,html}
 
 .PHONY: install uninstall docs test test-cov benchmark graphs install-docs docclean

@@ -118,29 +118,38 @@
     <div id="wrapper">
 		<ul id="menu">
 			<li class="title">Filters</li>
-			<li><a href="middleware/log.html">log</a></li>
-			<li><a href="middleware/redirect.html">redirect</a></li>
-			<li><a href="middleware/cookie.html">cookie</a></li>
-			<li><a href="middleware/session.html">session</a></li>
-			<li><a href="middleware/body-decoder.html">body-decoder</a></li>
+			<li><a href="log.html">log</a></li>
+			<li><a href="redirect.html">redirect</a></li>
+			<li><a href="cookie.html">cookie</a></li>
+			<li><a href="session.html">session</a></li>
+			<li><a href="body-decoder.html">body-decoder</a></li>
 			<li class="title">Providers</li>
-			<li><a href="middleware/rest.html">rest</a></li>
-			<li><a href="middleware/sass.html">sass</a></li>
-			<li><a href="middleware/static.html">static</a></li>
+			<li><a href="rest.html">rest</a></li>
+			<li><a href="sass.html">sass</a></li>
+			<li><a href="static.html">static</a></li>
 		</ul><div class='mp'>
-<h2 id="Static">Static</h2>
+<h2 id="Sass">Sass</h2>
 
-<p>The <em>static</em> middleware provides static file serving to the given <em>root</em> directory, for example:</p>
+<p>The <em>sass</em> middleware compiles and serves <em>*.sass</em> files as css.
+Sass itself is not bundled with Connect, so you must have it installed
+and available to node.</p>
 
 <pre><code>connect.createServer([
-    { provider: 'static', root: __dirname + '/public' }
+    { provider: 'sass', root: __dirname + '/public' }
 ]);
 </code></pre>
 
 <h3 id="Environment-Variables">Environment Variables</h3>
 
-<pre><code>--staticRoot
+<pre><code>--sassRoot
 </code></pre>
+
+<h3 id="Links">Links</h3>
+
+<ul>
+<li><a href="http://github.com/visionmedia/sass.js">Sass.js</a></li>
+</ul>
+
 
 </div>
     </div>

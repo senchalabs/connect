@@ -118,63 +118,52 @@
     <div id="wrapper">
 		<ul id="menu">
 			<li class="title">Filters</li>
-			<li><a href="middleware/log.html">log</a></li>
-			<li><a href="middleware/redirect.html">redirect</a></li>
-			<li><a href="middleware/cookie.html">cookie</a></li>
-			<li><a href="middleware/session.html">session</a></li>
-			<li><a href="middleware/body-decoder.html">body-decoder</a></li>
+			<li><a href="log.html">log</a></li>
+			<li><a href="redirect.html">redirect</a></li>
+			<li><a href="cookie.html">cookie</a></li>
+			<li><a href="session.html">session</a></li>
+			<li><a href="body-decoder.html">body-decoder</a></li>
 			<li class="title">Providers</li>
-			<li><a href="middleware/rest.html">rest</a></li>
-			<li><a href="middleware/sass.html">sass</a></li>
-			<li><a href="middleware/static.html">static</a></li>
+			<li><a href="rest.html">rest</a></li>
+			<li><a href="sass.html">sass</a></li>
+			<li><a href="static.html">static</a></li>
 		</ul><div class='mp'>
-<h2 id="Rest">Rest</h2>
+<h2 id="Log">Log</h2>
 
-<p>The <em>rest</em> middleware provides a RESTful routing api similar to that of Sinatra and Express.</p>
+<p>The <em>log</em> middleware provides common log format support, as well as custom formats,
+below is the default usage:</p>
 
-<pre><code>var userRoutes = {
-    get: {
-        '/users/(all.:format?)?': function(req, res) {
-            // populates req.format
-            // ex:
-            //   GET /users
-            //   GET /users/all
-            //   GET /users/all.json
-            //   GET /users/all.xml
-        },
-        '/user/:id.:format?': function(req, res, params) {
-            // populates req.format
-            // populates params.id
-            // ex:
-            //   GET /user/5
-            //   GET /user/5.json
-            //   GET /user/5.xml
-        }
-    },
-    put: {
-        '/user/:id': function(req, res, params) {
-            // populates params.id
-            // ex:
-            //   PUT /user/2
-        }
-    },
-    del: {
-        '/user/:id/file/*': function(req, res, params) {
-           // populates params.id
-           // populates params.splat[0]
-           // ex:
-           //   DELETE /user/4/file/javascripts/jquery.js
-           //   DELETE /user/4/file/style.css
-        }    
-    }
-};
-
-connect.createServer([
-    { provider: 'rest', routes: userRoutes }
+<pre><code>connect.createServer([
+    { filter: 'log' }
 ]);
 </code></pre>
 
-<p>Those of you looking for <em>PUT</em> and <em>DELETE</em> support may want to take a look at the <em>method-override</em> middleware.</p>
+<p>A custom format can also be passed:</p>
+
+<pre><code>connect.createServer([
+    { filter: 'log', format: ':method :url :response-time' }
+]);
+</code></pre>
+
+<p>The following format tokens are currently available:</p>
+
+<pre><code>:req[header]    Arbitrary request header, ex: req[Accept]
+:res[header]    Arbitrary response header, ex: res[Content-Type]
+:http-version   HTTP request version
+:response-time  Response time in milliseconds
+:remote-addr    Remote address
+:date           UTC date
+:method         Request method
+:url            Request url
+:referrer       Request referrer / referer
+:user-agent     User-Agent string
+:status         Response status
+</code></pre>
+
+<h3 id="Environment-Variables">Environment Variables</h3>
+
+<pre><code>--logFormat
+</code></pre>
 
 </div>
     </div>
