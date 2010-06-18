@@ -79,4 +79,17 @@ cookie          Session cookie options\. Defaults to { path: \'/\', httpOnly: tr
 .fi
 .
 .IP "" 0
+.
+.SS "Session"
+Your store interacts with instances of \fBSession\fR, however when committing / fetching sessions you may have to convert an intermediate representation back to a \fBSession\fR\. The following methods are available:
+.
+.IP "" 4
+.
+.nf
+
+#touch()        Updates the lastAccess property
+.
+.fi
+.
+.IP "" 0
 

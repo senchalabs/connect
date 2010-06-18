@@ -176,6 +176,13 @@ maxAage         Maximum session age in milliseconds. Defaults to 4 hours
 cookie          Session cookie options. Defaults to { path: '/', httpOnly: true }
 </code></pre>
 
+<h3 id="Session">Session</h3>
+
+<p>Your store interacts with instances of <code>Session</code>, however when committing / fetching sessions you may have to convert an intermediate representation back to a <code>Session</code>. The following methods are available:</p>
+
+<pre><code>#touch()        Updates the lastAccess property
+</code></pre>
+
 </div>
     </div>
   </body>

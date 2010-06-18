@@ -40,3 +40,9 @@ Stores session data in memory, options are as follows:
     reapInterval    Interval in milliseconds used to reap stale sessions. Defaults to 10 minutes
     maxAage         Maximum session age in milliseconds. Defaults to 4 hours
     cookie          Session cookie options. Defaults to { path: '/', httpOnly: true }
+
+### Session
+
+Your store interacts with instances of `Session`, however when committing / fetching sessions you may have to convert an intermediate representation back to a `Session`. The following methods are available:
+
+    #touch()        Updates the lastAccess property
