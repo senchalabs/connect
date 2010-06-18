@@ -9,7 +9,7 @@ If we wish to supply a custom `Store` subclass, or pass options to the store its
 		{ filter: 'session', store: new MemoryStore({ reapInterval: 60000 * 10 }) }
 	]);
 
-**NOTE:** _cookie_ must be above _session_ within the stackcom
+**NOTE:** _cookie_ must be above _session_ within the stack
 
 ### Options
 
