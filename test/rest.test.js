@@ -63,7 +63,7 @@ module.exports = {
                     },
                     '/user/:id/:operation?': function(req, res, params){
                         res.writeHead(200, {});
-                        res.end((params.operation || 'view') + 'ing user ' + params.id);
+                        res.end((params.operation || 'view') + 'ing user ' + req.params.path.id);
                     },
                     '/range/:from-:to?': function(req, res, params){
                         res.writeHead(200, {});
