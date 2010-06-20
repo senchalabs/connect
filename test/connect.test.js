@@ -17,11 +17,16 @@ module.exports = {
         var server = connect.createServer();
         server.listen(helpers.port++);
         var ret = server.use({
+            setup: function(env, a, b){
+                assert.equal(env, this.env);
+                assert.equal(1, a);
+                assert.equal(2, b);
+            },
             handle: function(req, res){
                 res.writeHead(200, {});
                 res.end('wahoo');
             }
-        });
+        }, 1, 2);
         assert.equal(server, ret, 'Test Server#use() returns server for chaining');
         server.assertResponse('GET', '/', 200, 'wahoo');
         
