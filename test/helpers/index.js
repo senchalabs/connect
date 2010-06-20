@@ -5,7 +5,7 @@
 
 var connect = require('connect');
 
-require('./http')
+exports.port = require('./http').port;
 
 exports.run = function run(middleware, env){
     return connect.createServer(middleware, env).listen();
