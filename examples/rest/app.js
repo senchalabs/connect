@@ -60,6 +60,7 @@ var mainRoutes = {
 
 module.exports = require('./../../lib/connect').createServer([
     { filter: 'log' },
+    { filter: 'repl' },
     { provider: 'rest', routes: userRoutes, route: '/users' },
     { provider: 'rest', routes: mainRoutes },
 ]);
