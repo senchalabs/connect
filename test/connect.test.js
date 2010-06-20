@@ -13,9 +13,23 @@ module.exports = {
         assert.ok(/^\d+\.\d+\.\d+$/.test(connect.version), 'Test framework version format');
     },
     
+    'test use()': function(){
+        var server = connect.createServer();
+        server.listen(helpers.port++);
+        var ret = server.use({
+            handle: function(req, res){
+                res.writeHead(200, {});
+                res.end('wahoo');
+            }
+        });
+        assert.equal(server, ret, 'Test Server#use() returns server for chaining');
+        server.assertResponse('GET', '/', 200, 'wahoo');
+        
+    },
+    
     'test basic middleware stack': function(){
         var server = helpers.run([
-            { module: require('./filters/uppercase'), param: 1 },
+            { module: require('./filters/uppercase') },
             { module: {
                 handle: function(req, res, next){
                     assert.equal('test', this.env && this.env.name, 'Test env available to layer instance');
@@ -28,7 +42,6 @@ module.exports = {
         assert.ok(server instanceof http.Server, 'Test Server instanceof http.Server')
         var setupArgs = require('./filters/uppercase').setupArgs;
         assert.equal('test', setupArgs[0].name, 'Test env passed to setup() as first arg');
-        assert.eql([1], Array.prototype.slice.call(setupArgs, 1), 'Test remaining setup() args');
         
         var req = server.request('POST', '/');
         req.buffer = true;
