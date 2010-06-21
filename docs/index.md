@@ -190,7 +190,8 @@ the following are currently provided out of the box:
 
     cache-manifest   Provides cache manifest for offline apps
     jsonrpc          Provides JSON-RPC 2.0 support
-    sass             Provides auto-compilation of *.sass files
+    sass             Provides auto-compilation of sass to css
+    less             Provides auto-compilation of less to css
     static           Serves static files
     rest             Provides RESTful routing similar to Sinatra and Express
 
