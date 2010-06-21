@@ -5,6 +5,7 @@ TESTS ?= test/*.test.js
 PREFIX = /usr/local
 DOCS = docs/index.md \
 	   docs/method-override.md \
+	   docs/response-time.md \
 	   docs/body-decoder.md \
 	   docs/redirect.md \
 	   docs/session.md \
@@ -35,6 +36,7 @@ install-docs:
 	cp -f docs/index.1 $(PREFIX)/share/man/man1/connect.1
 	cp -f docs/body-decoder.1 $(PREFIX)/share/man/man1/connect-body-decoder.1
 	cp -f docs/method-override.1 $(PREFIX)/share/man/man1/connect-method-override.1
+	cp -f docs/response-time.1 $(PREFIX)/share/man/man1/connect-response-time.1
 	cp -f docs/redirect.1 $(PREFIX)/share/man/man1/connect-redirect.1
 	cp -f docs/static.1 $(PREFIX)/share/man/man1/connect-static.1
 	cp -f docs/log.1 $(PREFIX)/share/man/man1/connect-log.1
