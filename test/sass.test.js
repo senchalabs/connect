@@ -19,6 +19,7 @@ module.exports = {
             assert.equal('text/css', res.headers['content-type'], 'Test sass Content-Type');
         });
         req.end();
+        server.assertResponse('GET', '/doesnotexist.sass', 404, 'Not Found');
         server.assertResponse('GET', '/style.sass', 200, 'body {\n  font-size: 12px;\n  color: #000;}\n');
         server.assertResponse('GET', '/foo.bar.baz.sass', 200, 'foo {\n  color: #000;}\n');
     }

@@ -10,6 +10,6 @@
 var pub = __dirname + '/public';
 
 module.exports = require('./../../lib/connect').createServer([
-    { provider: 'less', root: pub },
+    { provider: 'less', root: pub, match: /\.css$/ },
     { provider: 'static', root: pub }
 ]);

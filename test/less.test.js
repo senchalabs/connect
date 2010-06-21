@@ -19,6 +19,7 @@ module.exports = {
             assert.equal('text/css', res.headers['content-type'], 'Test less Content-Type');
         });
         req.end();
+        server.assertResponse('GET', '/doesnotexist.less', 404, 'Not Found');
         server.assertResponse('GET', '/style.less', 200, 'body {\n  color: #cc0000;\n}\n');
     }
 }
