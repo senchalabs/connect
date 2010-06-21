@@ -46,3 +46,7 @@ Stores session data in memory, options are as follows:
 Your store interacts with instances of `Session`, however when committing / fetching sessions you may have to convert an intermediate representation back to a `Session`. The following methods are available:
 
     #touch()        Updates the lastAccess property
+
+### See Also
+
+  * cookie

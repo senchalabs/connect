@@ -130,30 +130,28 @@
 			<li><a href="less.html">less</a></li>
 			<li><a href="static.html">static</a></li>
 		</ul><div class='mp'>
-<h2 id="Redirect">Redirect</h2>
+<h2 id="Method-Override">Method Override</h2>
 
-<p>The <em>redirect</em> middleware provides <code>req.redirect()</code>, a utility method
-for redirecting the request to a new <em>Location</em>. Example usage:</p>
+<p>The <em>method-override</em> checks <code>req.body._method</code> (by default) in order to swap out the http request method.
+The <em>body-decoder</em> middleware will populate <code>req.body</code> when a form is submitted, which when paired with
+this middleware will allow the <em>rest</em> middleware to support RESTful forms.</p>
 
-<pre><code>exports.handle = function(req, res, next) {
-    req.redirect('http://google.com');
-}
+<h3 id="Options">Options</h3>
+
+<pre><code>key   Defaults to _method
 </code></pre>
 
-<p>Redirect also provides "magic" url maps, currently supported is <em>back</em>,
-which will redirect to the <em>Referrer</em> or <em>Referer</em> headers:</p>
+<h3 id="Environment-Variables">Environment Variables</h3>
 
-<pre><code>exports.handle = function(req, res, next) {
-    req.redirect('back');
-}
+<pre><code>--methodOverrideKey
 </code></pre>
 
-<p>Optionally you may provide a status code as well, to replace the default of <em>302</em>:</p>
+<h3 id="See-Also">See Also</h3>
 
-<pre><code>exports.handle = function(req, res, next) {
-    req.redirect('/foo', 301);
-}
-</code></pre>
+<ul>
+<li>body-decoder</li>
+</ul>
+
 
 </div>
     </div>
