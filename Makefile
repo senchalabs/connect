@@ -18,7 +18,7 @@ MANPAGES = $(DOCS:.md=.1)
 HTMLDOCS = $(DOCS:.md=.html)
 
 test:
-	@CONNECT_ENV=test ./$(TEST) -I lib -I support/sass/lib -I support/less/lib/less $(TEST_FLAGS) $(TESTS)
+	@CONNECT_ENV=test ./$(TEST) -I lib -I support/sass/lib -I support/less/lib $(TEST_FLAGS) $(TESTS)
 
 test-cov:
 	@$(MAKE) test TEST_FLAGS="--cov"
