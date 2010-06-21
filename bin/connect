@@ -79,7 +79,12 @@ var usage = ''
     + '  -V, --version        Output connect version\n'
     + '  -K, --no-color       Suppress colored terminal output\n'
     + '  -h, --help           Outputy help information\n'
-    + '  --ENV VAL            Sets the given connect environment variable\n';
+    + '  --ENV VAL            Sets the given connect environment variable\n'
+    + '\n'
+    + '[bold]{Documentation}:\n'
+    + '\n'
+    + '  man connect\n'
+    + '  man connect-MIDDLEWARE\n';
 
 /**
  * Log the given msg to stderr.
