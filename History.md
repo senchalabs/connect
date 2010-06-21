@@ -1,4 +1,26 @@
 
+0.0.5 / 2010-06-21
+==================
+
+  * Added Server#use() which contains the Layer normalization logic
+  * Added documentation for several middleware
+  * Added several new examples
+  * Added _less_ middleware
+  * Added _repl_ middleware
+  * Added _vhost_ middleware
+  * Added _flash_ middleware
+  * Added _cookie_ middleware
+  * Added _session_ middleware
+  * Added `utils.htmlEscape()`
+  * Added `utils.base64Decode()`
+  * Added `utils.base64Encode()`
+  * Added `utils.uid()`
+  * Added bin/connect app path and --config path support for .js suffix, although optional. Closes #26
+  * Moved mime code to `utils.mime`, ex `utils.mime.types`, and `utils.mime.type()`
+  * Renamed req.redirect() to res.redirect(). Closes #29
+  * Fixed _sass_ 404 on **ENOENT**
+  * Fixed +new Date duplication. Closes #24
+
 0.0.4 / 2010-06-16
 ==================
 
