@@ -8,6 +8,11 @@ and available to node.
 		{ provider: 'sass', root: __dirname + '/public' }
 	]);
 
+### Options
+
+    root   Root directory from which to serve sass. Defaults to CWD
+    match  RegExp used to match request urls. Defaults to /\.sass$/
+
 ### Environment Variables
 
     --sassRoot

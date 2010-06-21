@@ -129,42 +129,34 @@
 			<li><a href="less.html">less</a></li>
 			<li><a href="static.html">static</a></li>
 		</ul><div class='mp'>
-<h2 id="Log">Log</h2>
+<h2 id="Less">Less</h2>
 
-<p>The <em>log</em> middleware provides common log format support, as well as custom formats,
-below is the default usage:</p>
+<p>The <em>less</em> middleware compiles and serves <em>*.less</em> files as css.
+Less itself is not bundled with Connect, so you must have it installed
+and available to node.</p>
 
 <pre><code>connect.createServer([
-    { filter: 'log' }
+    { provider: 'less', root: __dirname + '/public', match: /\.css$/ }
 ]);
 </code></pre>
 
-<p>A custom format can also be passed:</p>
+<h3 id="Options">Options</h3>
 
-<pre><code>connect.createServer([
-    { filter: 'log', format: ':method :url :response-time' }
-]);
-</code></pre>
-
-<p>The following format tokens are currently available:</p>
-
-<pre><code>:req[header]    Arbitrary request header, ex: req[Accept]
-:res[header]    Arbitrary response header, ex: res[Content-Type]
-:http-version   HTTP request version
-:response-time  Response time in milliseconds
-:remote-addr    Remote address
-:date           UTC date
-:method         Request method
-:url            Request url
-:referrer       Request referrer / referer
-:user-agent     User-Agent string
-:status         Response status
+<pre><code>root   Root directory from which to serve sass. Defaults to CWD
+match  RegExp used to match request urls. Defaults to /\.less$/
 </code></pre>
 
 <h3 id="Environment-Variables">Environment Variables</h3>
 
-<pre><code>--logFormat
+<pre><code>--lessRoot
 </code></pre>
+
+<h3 id="Links">Links</h3>
+
+<ul>
+<li><a href="http://github.com/cloudhead/less.js">Less.js</a></li>
+</ul>
+
 
 </div>
     </div>

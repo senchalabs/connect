@@ -126,6 +126,7 @@
 			<li class="title">Providers</li>
 			<li><a href="rest.html">rest</a></li>
 			<li><a href="sass.html">sass</a></li>
+			<li><a href="less.html">less</a></li>
 			<li><a href="static.html">static</a></li>
 		</ul><div class='mp'>
 <h2 id="Sass">Sass</h2>
@@ -137,6 +138,12 @@ and available to node.</p>
 <pre><code>connect.createServer([
     { provider: 'sass', root: __dirname + '/public' }
 ]);
+</code></pre>
+
+<h3 id="Options">Options</h3>
+
+<pre><code>root   Root directory from which to serve sass. Defaults to CWD
+match  RegExp used to match request urls. Defaults to /\.sass$/
 </code></pre>
 
 <h3 id="Environment-Variables">Environment Variables</h3>

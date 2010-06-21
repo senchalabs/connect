@@ -11,13 +11,14 @@ DOCS = docs/index.md \
 	   docs/cookie.md \
 	   docs/rest.md \
 	   docs/sass.md \
+	   docs/less.md \
 	   docs/log.md
 
 MANPAGES = $(DOCS:.md=.1)
 HTMLDOCS = $(DOCS:.md=.html)
 
 test:
-	@CONNECT_ENV=test ./$(TEST) -I lib -I support/sass/lib $(TEST_FLAGS) $(TESTS)
+	@CONNECT_ENV=test ./$(TEST) -I lib -I support/sass/lib -I support/less/lib/less $(TEST_FLAGS) $(TESTS)
 
 test-cov:
 	@$(MAKE) test TEST_FLAGS="--cov"
@@ -39,6 +40,7 @@ install-docs:
 	cp -f docs/sass.1 $(PREFIX)/share/man/man1/connect-sass.1
 	cp -f docs/cookie.1 $(PREFIX)/share/man/man1/connect-cookie.1
 	cp -f docs/session.1 $(PREFIX)/share/man/man1/connect-session.1
+	cp -f docs/less.1 $(PREFIX)/share/man/man1/connect-less.1
 
 benchmark: benchmarks/run
 	@./benchmarks/run
