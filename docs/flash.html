@@ -132,4 +132,35 @@
 			<li><a href="sass.html">sass</a></li>
 			<li><a href="less.html">less</a></li>
 			<li><a href="static.html">static</a></li>
-		</ul>
+		</ul><div class='mp'>
+<h2 id="Flash">Flash</h2>
+
+<p>The <em>flash</em> middleware provides persistent messaging. This middleware requires <em>session</em> to function.</p>
+
+<pre><code>req.flash('info', 'email sent');
+req.flash('error', 'email delivery failed');
+req.flash('info', 'email re-sent');
+// =&gt; 2
+
+req.flash('info');
+// =&gt; ['email sent', 'email re-sent']
+
+req.flash('info');
+// =&gt; []
+
+req.flash();
+// =&gt; { error: ['email delivery failed'], info: [] }
+</code></pre>
+
+<h2 id="See-Also">See Also</h2>
+
+<ul>
+<li>cookie</li>
+<li>session</li>
+</ul>
+
+
+</div>
+    </div>
+  </body>
+</html>
