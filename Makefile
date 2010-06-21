@@ -13,6 +13,7 @@ DOCS = docs/index.md \
 	   docs/flash.md \
 	   docs/static.md \
 	   docs/cookie.md \
+	   docs/lint.md \
 	   docs/rest.md \
 	   docs/sass.md \
 	   docs/less.md \
@@ -41,6 +42,7 @@ install-docs:
 	cp -f docs/method-override.1 $(PREFIX)/share/man/man1/connect-method-override.1
 	cp -f docs/response-time.1 $(PREFIX)/share/man/man1/connect-response-time.1
 	cp -f docs/redirect.1 $(PREFIX)/share/man/man1/connect-redirect.1
+	cp -f docs/lint.1 $(PREFIX)/share/man/man1/connect-lint.1
 	cp -f docs/static.1 $(PREFIX)/share/man/man1/connect-static.1
 	cp -f docs/log.1 $(PREFIX)/share/man/man1/connect-log.1
 	cp -f docs/rest.1 $(PREFIX)/share/man/man1/connect-rest.1

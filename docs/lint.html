@@ -133,4 +133,59 @@
 			<li><a href="sass.html">sass</a></li>
 			<li><a href="less.html">less</a></li>
 			<li><a href="static.html">static</a></li>
-		</ul>
+		</ul><div class='mp'>
+<h2 id="Lint">Lint</h2>
+
+<p>The <em>lint</em> middleware aids in middleware development, by performing basic cheques at boot, and during requests. This process currently checks that the:</p>
+
+<ul>
+<li>first param of <code>handle()</code> is <em>req</em> or <em>request</em></li>
+<li>second param of <code>handle()</code> is <em>res</em> or <em>response</em></li>
+<li>third param of <code>handle()</code> is <em>next</em></li>
+<li>source of <code>handle()</code> to see if <code>next()</code> is called, or if the request is responded to</li>
+<li><code>method</code> property is always uppercase</li>
+<li><code>req.headers</code> is accessed with lowercase</li>
+</ul>
+
+
+<p>The placement of <em>lint</em> within the stack is important. It should sit below the middleware you are developing, in order to validate during runtime, however it can also simply be placed at the bottom of the stack to validate all middleware statically.</p>
+
+<h3 id="Sample-Output">Sample Output</h3>
+
+<pre><code>Warning: layer params:0 First parameter should be named req or request, but is undefined
+Warning: layer params:0 Second parameter should be named res or response, but is undefined
+Warning: layer params:0 Third parameter should be named next, but is undefined
+Warning: layer params:0 Does not seem to call next(), or respond to the request
+Warning: layer hang:1 Does not seem to call next(), or respond to the request
+Warning: layer req.headers:3 Request headers are lowercased, seems to be accessed with capitals
+
+0) params:
+    function (){
+        arguments[2]();
+    }
+
+1) hang:
+    function (req, res, next){
+        // Call foo() instead so
+        // that our demo can still function.
+        var foo = next;
+        foo();
+
+        // All good
+        var ct = req.headers['content-type'];
+    }
+
+3) req.headers:
+    function (req, res, next){
+        // Request headers are always normalized as
+        // lowercased by ryan's http parser.
+        var ct = req.headers['Content-Type'];
+        next();
+    }
+Warning: layer method uppercase:4 Request method is no longer uppercase, got get
+</code></pre>
+
+</div>
+    </div>
+  </body>
+</html>
