@@ -5,6 +5,7 @@ TESTS ?= test/*.test.js
 PREFIX = /usr/local
 DOCS = docs/index.md \
 	   docs/method-override.md \
+	   docs/conditional-get.md \
 	   docs/response-time.md \
 	   docs/body-decoder.md \
 	   docs/redirect.md \
@@ -35,6 +36,7 @@ uninstall:
 install-docs:
 	cp -f docs/index.1 $(PREFIX)/share/man/man1/connect.1
 	cp -f docs/body-decoder.1 $(PREFIX)/share/man/man1/connect-body-decoder.1
+	cp -f docs/conditional-get.1 $(PREFIX)/share/man/man1/connect-conditional-get.1
 	cp -f docs/method-override.1 $(PREFIX)/share/man/man1/connect-method-override.1
 	cp -f docs/response-time.1 $(PREFIX)/share/man/man1/connect-response-time.1
 	cp -f docs/redirect.1 $(PREFIX)/share/man/man1/connect-redirect.1

@@ -1,0 +1,7 @@
+.\" generated with Ronn/v0.6.6
+.\" http://github.com/rtomayko/ronn/
+.
+.TH "CONDITIONAL\-GET" "" "June 2010" "" ""
+.
+.SH "Conditional GET"
+The \fIconditional\-get\fR middleware supports the \fIIf\-Modified\-Since\fR request header\. When a request status is \fI200\fR, and \fILast\-Modified\fR matches \fIIf\-Modified\fR\-Since\fI, then the response body and\fRContent\-*_ headers will be stripped, responding with 304 \"Not Modified\"\.
