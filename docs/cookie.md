@@ -6,3 +6,6 @@ The _cookie_ middleware parses the _Cookie_ header when present, and populates `
 		{ filter: 'cookie' }
 	]);
 
+## See Also
+
+  * session

@@ -134,67 +134,56 @@
 			<li><a href="less.html">less</a></li>
 			<li><a href="static.html">static</a></li>
 		</ul><div class='mp'>
-<h2 id="Session">Session</h2>
+<h2 id="Lint">Lint</h2>
 
-<p>The <em>session</em> middleware provides persistence between requests.
-If we wish to supply a custom <code>Store</code> subclass, or pass options to the store itself, we can configure it like so:</p>
-
-<pre><code>var MemoryStore = require('connect/filters/session/memory').MemoryStore;
-connect.createServer([
-    { filter: 'cookie' }
-    { filter: 'session', store: new MemoryStore({ reapInterval: 60000 * 10 }) }
-]);
-</code></pre>
-
-<p><strong>NOTE:</strong> <em>cookie</em> must be above <em>session</em> within the stack</p>
-
-<h3 id="Options">Options</h3>
-
-<pre><code>store        Custom Store subclass
-fingerprint  Function passed sid and the request which computes a fingerprint of the user.
-             Defaults to remoteAddress and User-Agent strings.
-</code></pre>
-
-<h3 id="Store">Store</h3>
-
-<p>Abstract store which can be subclassed. To comply with <code>Store</code> you should define:</p>
-
-<pre><code>#fetch(req, callback)       Fetch session for the given request
-#commit(req, callback)      Commit the session for the given request
-#clear(callback)            Clear all sessions
-#destroy(req, callback)     Destroy session for the given request
-#length(callback)           Fetches the total number of sessions
-</code></pre>
-
-<p>Complimentary methods:</p>
-
-<pre><code>#regenerate(req, callback)  Destroys the session, and creates a new one
-#createSession()            Returns a new Session instance with generated id
-</code></pre>
-
-<h3 id="MemoryStore">MemoryStore</h3>
-
-<p>Stores session data in memory, options are as follows:</p>
-
-<pre><code>key             Cookie key used to store session ids. Defaults to "connect.sid"
-reapInterval    Interval in milliseconds used to reap stale sessions. Defaults to 10 minutes
-maxAage         Maximum session age in milliseconds. Defaults to 4 hours
-cookie          Session cookie options. Defaults to { path: '/', httpOnly: true }
-</code></pre>
-
-<h3 id="Session">Session</h3>
-
-<p>Your store interacts with instances of <code>Session</code>, however when committing / fetching sessions you may have to convert an intermediate representation back to a <code>Session</code>. The following methods are available:</p>
-
-<pre><code>#touch()        Updates the lastAccess property
-</code></pre>
-
-<h3 id="See-Also">See Also</h3>
+<p>The <em>lint</em> middleware aids in middleware development, by performing basic cheques at boot, and during requests. This process currently checks that the:</p>
 
 <ul>
-<li>cookie</li>
+<li>first param of <code>handle()</code> is <em>req</em> or <em>request</em></li>
+<li>second param of <code>handle()</code> is <em>res</em> or <em>response</em></li>
+<li>third param of <code>handle()</code> is <em>next</em></li>
+<li>source of <code>handle()</code> to see if <code>next()</code> is called, or if the request is responded to</li>
+<li><code>method</code> property is always uppercase</li>
+<li><code>req.headers</code> is accessed with lowercase</li>
 </ul>
 
+
+<p>The placement of <em>lint</em> within the stack is important. It should sit below the middleware you are developing, in order to validate during runtime, however it can also simply be placed at the bottom of the stack to validate all middleware statically.</p>
+
+<h3 id="Sample-Output">Sample Output</h3>
+
+<pre><code>Warning: layer params:0 First parameter should be named req or request, but is undefined
+Warning: layer params:0 Second parameter should be named res or response, but is undefined
+Warning: layer params:0 Third parameter should be named next, but is undefined
+Warning: layer params:0 Does not seem to call next(), or respond to the request
+Warning: layer hang:1 Does not seem to call next(), or respond to the request
+Warning: layer req.headers:3 Request headers are lowercased, seems to be accessed with capitals
+
+0) params:
+    function (){
+        arguments[2]();
+    }
+
+1) hang:
+    function (req, res, next){
+        // Call foo() instead so
+        // that our demo can still function.
+        var foo = next;
+        foo();
+
+        // All good
+        var ct = req.headers['content-type'];
+    }
+
+3) req.headers:
+    function (req, res, next){
+        // Request headers are always normalized as
+        // lowercased by ryan's http parser.
+        var ct = req.headers['Content-Type'];
+        next();
+    }
+Warning: layer method uppercase:4 Request method is no longer uppercase, got get
+</code></pre>
 
 </div>
     </div>

@@ -4,11 +4,16 @@ TEST = support/expresso/bin/expresso
 TESTS ?= test/*.test.js
 PREFIX = /usr/local
 DOCS = docs/index.md \
+	   docs/method-override.md \
+	   docs/conditional-get.md \
+	   docs/response-time.md \
 	   docs/body-decoder.md \
 	   docs/redirect.md \
 	   docs/session.md \
+	   docs/flash.md \
 	   docs/static.md \
 	   docs/cookie.md \
+	   docs/lint.md \
 	   docs/rest.md \
 	   docs/sass.md \
 	   docs/less.md \
@@ -33,12 +38,17 @@ uninstall:
 install-docs:
 	cp -f docs/index.1 $(PREFIX)/share/man/man1/connect.1
 	cp -f docs/body-decoder.1 $(PREFIX)/share/man/man1/connect-body-decoder.1
+	cp -f docs/conditional-get.1 $(PREFIX)/share/man/man1/connect-conditional-get.1
+	cp -f docs/method-override.1 $(PREFIX)/share/man/man1/connect-method-override.1
+	cp -f docs/response-time.1 $(PREFIX)/share/man/man1/connect-response-time.1
 	cp -f docs/redirect.1 $(PREFIX)/share/man/man1/connect-redirect.1
+	cp -f docs/lint.1 $(PREFIX)/share/man/man1/connect-lint.1
 	cp -f docs/static.1 $(PREFIX)/share/man/man1/connect-static.1
 	cp -f docs/log.1 $(PREFIX)/share/man/man1/connect-log.1
 	cp -f docs/rest.1 $(PREFIX)/share/man/man1/connect-rest.1
 	cp -f docs/sass.1 $(PREFIX)/share/man/man1/connect-sass.1
 	cp -f docs/cookie.1 $(PREFIX)/share/man/man1/connect-cookie.1
+	cp -f docs/flash.1 $(PREFIX)/share/man/man1/connect-flash.1
 	cp -f docs/session.1 $(PREFIX)/share/man/man1/connect-session.1
 	cp -f docs/less.1 $(PREFIX)/share/man/man1/connect-less.1
 

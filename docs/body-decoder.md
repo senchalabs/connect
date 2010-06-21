@@ -7,3 +7,7 @@ and _application/json_ content types. To extend simply:
     require('connect/filters/body-decoder').decode['some-mime/type'] = function(str){
 	    return 'whatever';
     };
+
+### See Also
+
+  * method-override
