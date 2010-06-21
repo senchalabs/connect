@@ -10,3 +10,6 @@
 [submodule "support/sass"]
 	path = support/sass
 	url = git://github.com/visionmedia/sass.js.git
+[submodule "support/less"]
+	path = support/less
+	url = http://github.com/cloudhead/less.js.git
