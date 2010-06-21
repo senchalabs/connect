@@ -17,10 +17,10 @@ module.exports = {
                 handle: function(req, res, next){
                     switch (n++) {
                         case 0:
-                            req.redirect('/foo');
+                            res.redirect('/foo');
                             break;
                         case 1:
-                            req.redirect('back', 301);
+                            res.redirect('back', 301);
                             break;
                     }
                 }

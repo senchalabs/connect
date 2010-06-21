@@ -119,7 +119,7 @@
 		<ul id="menu">
 			<li class="title">Filters</li>
 			<li><a href="log.html">log</a></li>
-			<li><a href="lint.html">flash</a></li>
+			<li><a href="lint.html">lint</a></li>
 			<li><a href="flash.html">flash</a></li>
 			<li><a href="redirect.html">redirect</a></li>
 			<li><a href="cookie.html">cookie</a></li>
@@ -136,11 +136,11 @@
 		</ul><div class='mp'>
 <h2 id="Redirect">Redirect</h2>
 
-<p>The <em>redirect</em> middleware provides <code>req.redirect()</code>, a utility method
+<p>The <em>redirect</em> middleware provides <code>res.redirect()</code>, a utility method
 for redirecting the request to a new <em>Location</em>. Example usage:</p>
 
 <pre><code>exports.handle = function(req, res, next) {
-    req.redirect('http://google.com');
+    res.redirect('http://google.com');
 }
 </code></pre>
 
@@ -148,14 +148,14 @@ for redirecting the request to a new <em>Location</em>. Example usage:</p>
 which will redirect to the <em>Referrer</em> or <em>Referer</em> headers:</p>
 
 <pre><code>exports.handle = function(req, res, next) {
-    req.redirect('back');
+    res.redirect('back');
 }
 </code></pre>
 
 <p>Optionally you may provide a status code as well, to replace the default of <em>302</em>:</p>
 
 <pre><code>exports.handle = function(req, res, next) {
-    req.redirect('/foo', 301);
+    res.redirect('/foo', 301);
 }
 </code></pre>
 
