@@ -13,8 +13,8 @@ DOCS = docs/index.md \
 	   docs/flash.md \
 	   docs/static.md \
 	   docs/cookie.md \
+	   docs/router.md \
 	   docs/lint.md \
-	   docs/rest.md \
 	   docs/sass.md \
 	   docs/less.md \
 	   docs/log.md
@@ -45,7 +45,7 @@ install-docs:
 	cp -f docs/lint.1 $(PREFIX)/share/man/man1/connect-lint.1
 	cp -f docs/static.1 $(PREFIX)/share/man/man1/connect-static.1
 	cp -f docs/log.1 $(PREFIX)/share/man/man1/connect-log.1
-	cp -f docs/rest.1 $(PREFIX)/share/man/man1/connect-rest.1
+	cp -f docs/router.1 $(PREFIX)/share/man/man1/connect-router.1
 	cp -f docs/sass.1 $(PREFIX)/share/man/man1/connect-sass.1
 	cp -f docs/cookie.1 $(PREFIX)/share/man/man1/connect-cookie.1
 	cp -f docs/flash.1 $(PREFIX)/share/man/man1/connect-flash.1
