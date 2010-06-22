@@ -10,45 +10,42 @@ The \fIrest\fR middleware provides a RESTful routing api similar to that of Sina
 .
 .nf
 
-var userRoutes = {
-    get: {
-        \'/users/(all\.:format?)?\': function(req, res) {
-            // populates req\.format
-            // ex:
-            //   GET /users
-            //   GET /users/all
-            //   GET /users/all\.json
-            //   GET /users/all\.xml
-        },
-        \'/user/:id\.:format?\': function(req, res, params) {
-            // populates req\.format
-            // populates params\.id
-            // ex:
-            //   GET /user/5
-            //   GET /user/5\.json
-            //   GET /user/5\.xml
-        }
-    },
-    put: {
-        \'/user/:id\': function(req, res, params) {
-            // populates params\.id
-            // ex:
-            //   PUT /user/2
-        }
-    },
-    del: {
-        \'/user/:id/file/*\': function(req, res, params) {
-           // populates params\.id
-           // populates params\.splat[0]
-           // ex:
-           //   DELETE /user/4/file/javascripts/jquery\.js
-           //   DELETE /user/4/file/style\.css
-        }
-    }
-};
+function user(app) {
+    app\.get(\'/users/(all\.:format?)?\', function(req, res){
+        // populates req\.format
+        // ex:
+        //   GET /users
+        //   GET /users/all
+        //   GET /users/all\.json
+        //   GET /users/all\.xml
+    });
+
+    app\.get(\'/users/:id\.:format?\': function(req, res){
+        // populates req\.format
+        // populates params\.id
+        // ex:
+        //   GET /user/5
+        //   GET /user/5\.json
+        //   GET /user/5\.xml
+    });
+
+    app\.put(\'/user/:id\', function(req, res, params){
+        // populates params\.id
+        // ex:
+        //   PUT /user/2
+    });
+
+    app\.del(\'/user/:id/file/*\', function(req, res, params){
+        // populates params\.id
+        // populates params\.splat[0]
+        // ex:
+        //   PUT /user/4/file/javascripts/jquery\.js
+        //   PUT /user/4/file/stylecss
+    });
+}
 
 connect\.createServer([
-    { provider: \'rest\', routes: userRoutes }
+    { provider: \'rest\', app: user }
 ]);
 .
 .fi
@@ -57,3 +54,11 @@ connect\.createServer([
 .
 .P
 Those of you looking for \fIPUT\fR and \fIDELETE\fR support may want to take a look at the \fImethod\-override\fR middleware\.
+.
+.SS "See Also"
+.
+.IP "\(bu" 4
+method\-override
+.
+.IP "" 0
+
