@@ -12,6 +12,12 @@ module.exports = {
         assert.equal('e493298061761236c96b02ea6aa8a2ad', utils.md5('wahoo'));
     },
     
+    'test merge()': function(){
+        assert.eql({ foo: 'bar' }, utils.merge({ foo: 'bar' }));
+        assert.eql({ foo: 'bar', bar: 'baz' }, utils.merge({ foo: 'bar' }, { bar: 'baz' }));
+        assert.eql({ foo: 'baz' }, utils.merge({ foo: 'bar' }, { foo: 'baz' }));
+    },
+    
     'test toBoolean()': function(){
         assert.strictEqual(true, utils.toBoolean(true));
         assert.strictEqual(true, utils.toBoolean(1));
