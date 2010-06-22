@@ -17,74 +17,64 @@ var fixturesPath = __dirname + '/fixtures';
 module.exports = {
     'test routing': function(){
         var server = helpers.run([
-            { provider: 'rest', routes: {
-                get: {
-                    '/(all.:format?)?': function(req, res, params){
-                        res.writeHead(200, {});
-                        res.end('products' + (params.format ? ' as ' + params.format : ''));
-                    },
-                    '/:id': function(req, res, params){
-                        res.writeHead(200, {});
-                        res.end('product ' + params.id);
-                    }
-                }
+            { provider: 'rest', app: function(app){
+                app.get('/(all.:format?)?', function(req, res, params){
+                    res.writeHead(200, {});
+                    res.end('products' + (params.format ? ' as ' + params.format : ''));
+                });
+                app.get('/:id', function(req, res, params){
+                    res.writeHead(200, {});
+                    res.end('product ' + params.id);
+                });
             }, route: '/products' },
-            { provider: 'rest', routes: {
-                post: {
-                    '/': function(req, res){
-                        res.writeHead(200, {});
-                        res.end('POST /');
+            { provider: 'rest', app: function(app){
+                app.post('/', function(req, res){
+                    res.writeHead(200, {});
+                    res.end('POST /');
+                });
+                app.put('/', function(req, res){
+                    res.writeHead(200, {});
+                    res.end('PUT /');
+                });
+                app.del('/', function(req, res){
+                    res.writeHead(200, {});
+                    res.end('DELETE /');
+                });
+                app.get('/', function(req, res){
+                    res.writeHead(200, {});
+                    res.end('GET /');
+                });
+                app.get('/public/*', function(req, res, params){
+                    res.writeHead(200, {});
+                    res.end('splat "' + params.splat[0] + '"');
+                });
+                app.get('/files/*.*', function(req, res, params){
+                    res.writeHead(200, {});
+                    res.end('path: "' + params.splat[0] + '" ext: "' + params.splat[1] + '"');
+                });
+                app.get('/user/:id/:operation?', function(req, res, params){
+                    res.writeHead(200, {});
+                    res.end((params.operation || 'view') + 'ing user ' + req.params.path.id);
+                });
+                app.get('/range/:from-:to?', function(req, res, params){
+                    res.writeHead(200, {});
+                    res.end('range ' + params.from + ' to ' + (params.to || 'HEAD'));
+                });
+                app.get('/users.:format', function(req, res, params){
+                    res.writeHead(200, {});
+                    res.end(params.format + ' format');
+                });
+                app.get('/cookies.:format?', function(req, res, params){
+                    var cookies = ['num', 'num'];
+                    res.writeHead(200, {});
+                    switch (params.format) {
+                        case 'json':
+                            res.end(JSON.stringify(cookies));
+                            break;
+                        default:
+                            res.end(cookies.join(' '));
                     }
-                },
-                put: {
-                    '/': function(req, res){
-                        res.writeHead(200, {});
-                        res.end('PUT /');
-                    }
-                },
-                del: {
-                    '/': function(req, res){
-                        res.writeHead(200, {});
-                        res.end('DELETE /');
-                    }
-                },
-                get: {
-                    '/': function(req, res){
-                        res.writeHead(200, {});
-                        res.end('GET /');
-                    },
-                    '/public/*': function(req, res, params){
-                        res.writeHead(200, {});
-                        res.end('splat "' + params.splat[0] + '"');
-                    },
-                    '/files/*.*': function(req, res, params){
-                        res.writeHead(200, {});
-                        res.end('path: "' + params.splat[0] + '" ext: "' + params.splat[1] + '"');
-                    },
-                    '/user/:id/:operation?': function(req, res, params){
-                        res.writeHead(200, {});
-                        res.end((params.operation || 'view') + 'ing user ' + req.params.path.id);
-                    },
-                    '/range/:from-:to?': function(req, res, params){
-                        res.writeHead(200, {});
-                        res.end('range ' + params.from + ' to ' + (params.to || 'HEAD'));
-                    },
-                    '/users.:format': function(req, res, params){
-                        res.writeHead(200, {});
-                        res.end(params.format + ' format');
-                    },
-                    '/cookies.:format?': function(req, res, params){
-                        var cookies = ['num', 'num'];
-                        res.writeHead(200, {});
-                        switch (params.format) {
-                            case 'json':
-                                res.end(JSON.stringify(cookies));
-                                break;
-                            default:
-                                res.end(cookies.join(' '));
-                        }
-                    }
-                }
+                });
             }}
         ]);
         
