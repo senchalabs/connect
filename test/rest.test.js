@@ -64,6 +64,10 @@ module.exports = {
                     res.writeHead(200, {});
                     res.end(params.format + ' format');
                 });
+                app.get(/\/commit\/(\w+)\.\.(\w+)\/?/i, function(req, res, params){
+                    res.writeHead(200, {});
+                    res.end('captures: ' + params.splat.join(', '));
+                });
                 app.get('/cookies.:format?', function(req, res, params){
                     var cookies = ['num', 'num'];
                     res.writeHead(200, {});
@@ -104,5 +108,6 @@ module.exports = {
         server.assertResponse('GET', '/public/javascripts/jquery.js', 200, 'splat "javascripts/jquery.js"', 'Test required splat with segmented');
         server.assertResponse('GET', '/files/jquery.js', 200, 'path: "jquery" ext: "js"', 'Test several required splats');
         server.assertResponse('GET', '/files/javascripts/jquery.js', 200, 'path: "javascripts/jquery" ext: "js"', 'Test several required splats');
+        server.assertResponse('GET', '/commit/foo..bar', 200, 'captures: foo, bar', 'Test RegExp paths');
     }
 }
