@@ -35,9 +35,20 @@ The _rest_ middleware provides a RESTful routing api similar to that of Sinatra 
 			//   PUT /user/4/file/stylecss
 		});
 	}
+	
+	function commits(app) {
+		// RegExps too!
+		app.get(/\/commit\/(\w+)\.\.(\w+)\/?/i, function(req, res, params){
+			// populates params.splat[0] with first capture group
+			// populates params.splat[1] with second capture group
+			// ex:
+			//   GET /commit/kj4k..d3sdf
+        });
+	}
 
     connect.createServer([
 	    { provider: 'rest', app: user }
+	    { provider: 'rest', app: commits }
 	]);
 
 Those of you looking for _PUT_ and _DELETE_ support may want to take a look at the _method-override_ middleware.

@@ -44,8 +44,19 @@ function user(app) {
     });
 }
 
+function commits(app) {
+    // RegExps too!
+    app\.get(/\\/commit\\/(\\w+)\\\.\\\.(\\w+)\\/?/i, function(req, res, params){
+        // populates params\.splat[0] with first capture group
+        // populates params\.splat[1] with second capture group
+        // ex:
+        //   GET /commit/kj4k\.\.d3sdf
+    });
+}
+
 connect\.createServer([
     { provider: \'rest\', app: user }
+    { provider: \'rest\', app: commits }
 ]);
 .
 .fi
