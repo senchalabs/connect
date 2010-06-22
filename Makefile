@@ -3,6 +3,7 @@ NODE = node
 TEST = support/expresso/bin/expresso
 TESTS ?= test/*.test.js
 PREFIX = /usr/local
+LIB_PREFIX = $(HOME)/.node_libraries
 DOCS = docs/index.md \
 	   docs/method-override.md \
 	   docs/conditional-get.md \
@@ -30,10 +31,12 @@ test-cov:
 
 install: install-docs
 	cp -f bin/connect $(PREFIX)/bin/connect
+	cp -fr lib/connect $(LIB_PREFIX)/connect
 
 uninstall:
 	rm -f $(PREFIX)/share/man/man1/connect.1
 	rm -f $(PREFIX)/bin/connect
+	rm -fr $(LIB_PREFIX)/connect
 
 install-docs:
 	cp -f docs/index.1 $(PREFIX)/share/man/man1/connect.1
