@@ -1,15 +1,9 @@
 
-module.exports = require('./lib/connect').createServer([
-    { filter: 'log', format: ':remote-addr :method :url :status :res[Content-Length] :response-timems' },
-    { filter: 'response-time' },
+module.exports = require('../../lib/connect').createServer([
     { module: {
         handle: function(req, res){
-            var body = 'Hello World';
-            res.writeHead(200, {
-                'Content-Type': 'text/plain',
-                'Content-Length': body.length
-            });
-            res.end(body);
+            res.writeHead(200, { 'Content-Type': 'text/plain' });
+            res.end('Hello World');
         }
     }}
 ]);
