@@ -4,4 +4,13 @@
 .TH "CONDITIONAL\-GET" "" "June 2010" "" ""
 .
 .SH "Conditional GET"
-The \fIconditional\-get\fR middleware currently supports \fIIf\-Modified\-Since\fR\. When a request status is \fI200\fR, and \fILast\-Modified\fR matches \fIIf\-Modified\fR\-Since\fI, then the response body and\fRContent\-*_ headers will be stripped, responding with 304 \"Not Modified\"\.
+The \fIconditional\-get\fR middleware supports conditional GET requests, which validates the \"freshness\" of a response body\. Currently supports:
+.
+.IP "\(bu" 4
+\fIIf\-Modified\-Since\fR\. When a response status is \fI200\fR, and \fILast\-Modified\fR less than or equal to this time, the response body and \fIContent\-*\fR headers will be stripped, responding with 304 \"Not Modified\"\.
+.
+.IP "\(bu" 4
+\fIIf\-None_Match\fR\. Performs a similar validation, however compares the \fIETag\fR for equality\.
+.
+.IP "" 0
+
