@@ -1,10 +1,10 @@
 .\" generated with Ronn/v0.6.6
 .\" http://github.com/rtomayko/ronn/
 .
-.TH "REST" "" "June 2010" "" ""
+.TH "ROUTER" "" "June 2010" "" ""
 .
 .SH "Rest"
-The \fIrest\fR middleware provides a RESTful routing api similar to that of Sinatra and Express\.
+The \fIrouter\fR middleware provides a routing API similar to that of Sinatra and Express\.
 .
 .IP "" 4
 .
@@ -55,8 +55,8 @@ function commits(app) {
 }
 
 connect\.createServer([
-    { provider: \'rest\', app: user }
-    { provider: \'rest\', app: commits }
+    { provider: \'router\', app: user }
+    { provider: \'router\', app: commits }
 ]);
 .
 .fi

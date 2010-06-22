@@ -193,7 +193,7 @@ the following are currently provided out of the box:
     sass             Provides auto-compilation of sass to css
     less             Provides auto-compilation of less to css
     static           Serves static files
-    rest             Provides RESTful routing similar to Sinatra and Express
+    router           Provides a feature rich routing API similar to Sinatra and Express
 
 ### Middleware Documentation
 

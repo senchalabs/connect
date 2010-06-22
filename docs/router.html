@@ -129,14 +129,14 @@
 			<li><a href="response-time.html">response-time</a></li>
 			<li><a href="method-override.html">method-override</a></li>
 			<li class="title">Providers</li>
-			<li><a href="rest.html">rest</a></li>
 			<li><a href="sass.html">sass</a></li>
 			<li><a href="less.html">less</a></li>
+			<li><a href="router.html">router</a></li>
 			<li><a href="static.html">static</a></li>
 		</ul><div class='mp'>
 <h2 id="Rest">Rest</h2>
 
-<p>The <em>rest</em> middleware provides a RESTful routing api similar to that of Sinatra and Express.</p>
+<p>The <em>router</em> middleware provides a routing API similar to that of Sinatra and Express.</p>
 
 <pre><code>function user(app) {
     app.get('/users/(all.:format?)?', function(req, res){
@@ -183,8 +183,8 @@ function commits(app) {
 }
 
 connect.createServer([
-    { provider: 'rest', app: user }
-    { provider: 'rest', app: commits }
+    { provider: 'router', app: user }
+    { provider: 'router', app: commits }
 ]);
 </code></pre>
 
