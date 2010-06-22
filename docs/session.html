@@ -105,6 +105,11 @@
 	    padding: 20px 0 5px 0;
 	    font-size: 12px;
 	  }
+	  code.js { color: #111; }
+	  code.js .comment { color: #999; }
+	  code.js .string { color: #cc0000; }
+	  code.js .number { color: #0000ee; }
+	  code.js .keyword { color: #000; font-weight: bold; }
 	  a {
 	    text-decoration: none;
 	    color: #000;	
@@ -139,10 +144,10 @@
 <p>The <em>session</em> middleware provides persistence between requests.
 If we wish to supply a custom <code>Store</code> subclass, or pass options to the store itself, we can configure it like so:</p>
 
-<pre><code>var MemoryStore = require('connect/filters/session/memory').MemoryStore;
-connect.createServer([
-    { filter: 'cookie' }
-    { filter: 'session', store: new MemoryStore({ reapInterval: 60000 * 10 }) }
+<pre><code class="js"><span class="keyword">var</span> <span class="class">MemoryStore</span> = <span class="variable">require</span>(<span class="string">'connect/filters/session/memory'</span>).<span class="class">MemoryStore</span>;
+<span class="variable">connect</span>.<span class="variable">createServer</span>([
+    { <span class="variable">filter</span>: <span class="string">'cookie'</span> }
+    { <span class="variable">filter</span>: <span class="string">'session'</span>, <span class="variable">store</span>: <span class="keyword">new</span> <span class="class">MemoryStore</span>({ <span class="variable">reapInterval</span>: <span class="number integer">60000</span> * <span class="number integer">10</span> }) }
 ]);
 </code></pre>
 

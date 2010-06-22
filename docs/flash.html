@@ -105,6 +105,11 @@
 	    padding: 20px 0 5px 0;
 	    font-size: 12px;
 	  }
+	  code.js { color: #111; }
+	  code.js .comment { color: #999; }
+	  code.js .string { color: #cc0000; }
+	  code.js .number { color: #0000ee; }
+	  code.js .keyword { color: #000; font-weight: bold; }
 	  a {
 	    text-decoration: none;
 	    color: #000;	
@@ -138,19 +143,19 @@
 
 <p>The <em>flash</em> middleware provides persistent messaging. This middleware requires <em>session</em> to function.</p>
 
-<pre><code>req.flash('info', 'email sent');
-req.flash('error', 'email delivery failed');
-req.flash('info', 'email re-sent');
-// =&gt; 2
+<pre><code class="js"><span class="variable">req</span>.<span class="variable">flash</span>(<span class="string">'info'</span>, <span class="string">'email sent'</span>);
+<span class="variable">req</span>.<span class="variable">flash</span>(<span class="string">'error'</span>, <span class="string">'email delivery failed'</span>);
+<span class="variable">req</span>.<span class="variable">flash</span>(<span class="string">'info'</span>, <span class="string">'email re-sent'</span>);
+<span class="comment">// =&gt; 2</span>
 
-req.flash('info');
-// =&gt; ['email sent', 'email re-sent']
+<span class="variable">req</span>.<span class="variable">flash</span>(<span class="string">'info'</span>);
+<span class="comment">// =&gt; ['email sent', 'email re-sent']</span>
 
-req.flash('info');
-// =&gt; []
+<span class="variable">req</span>.<span class="variable">flash</span>(<span class="string">'info'</span>);
+<span class="comment">// =&gt; []</span>
 
-req.flash();
-// =&gt; { error: ['email delivery failed'], info: [] }
+<span class="variable">req</span>.<span class="variable">flash</span>();
+<span class="comment">// =&gt; { error: ['email delivery failed'], info: [] }</span>
 </code></pre>
 
 <h2 id="See-Also">See Also</h2>

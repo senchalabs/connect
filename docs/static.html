@@ -105,6 +105,11 @@
 	    padding: 20px 0 5px 0;
 	    font-size: 12px;
 	  }
+	  code.js { color: #111; }
+	  code.js .comment { color: #999; }
+	  code.js .string { color: #cc0000; }
+	  code.js .number { color: #0000ee; }
+	  code.js .keyword { color: #000; font-weight: bold; }
 	  a {
 	    text-decoration: none;
 	    color: #000;	
@@ -138,8 +143,8 @@
 
 <p>The <em>static</em> middleware provides static file serving to the given <em>root</em> directory, for example:</p>
 
-<pre><code>connect.createServer([
-    { provider: 'static', root: __dirname + '/public' }
+<pre><code class="js"><span class="variable">connect</span>.<span class="variable">createServer</span>([
+    { <span class="variable">provider</span>: <span class="string">'static'</span>, <span class="variable">root</span>: <span class="variable">__dirname</span> + <span class="string">'/public'</span> }
 ]);
 </code></pre>
 
