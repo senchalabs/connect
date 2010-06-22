@@ -62,7 +62,7 @@ docs: $(MANPAGES) $(HTMLDOCS)
 
 %.1: %.md
 	@echo "... $< -> $@"
-	@ronn -r --pipe $< > $@
+	@ronn -r --pipe $< > $@ &
 
 %.html: %.md
 	@echo "... $< -> $@"
