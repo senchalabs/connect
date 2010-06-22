@@ -229,7 +229,7 @@ require('./app').listen();
 
 <pre><code>var helloWorld = {
     handle: function(req, res, next){
-        res.writeHead(200, { 'Content-Type: 'text/plain' });
+        res.writeHead(200, { 'Content-Type': 'text/plain' });
         res.end('Hello World');
     }
 };

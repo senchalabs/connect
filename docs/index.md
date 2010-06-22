@@ -88,7 +88,7 @@ First we define the `handle()` method, which accepts three arguments, _req_, _re
 
     var helloWorld = {
         handle: function(req, res, next){
-            res.writeHead(200, { 'Content-Type: 'text/plain' });
+            res.writeHead(200, { 'Content-Type': 'text/plain' });
             res.end('Hello World');
         }
     };

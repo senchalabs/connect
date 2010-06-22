@@ -128,7 +128,7 @@ First we define the \fBhandle()\fR method, which accepts three arguments, \fIreq
 
 var helloWorld = {
     handle: function(req, res, next){
-        res\.writeHead(200, { \'Content\-Type: \'text/plain\' });
+        res\.writeHead(200, { \'Content\-Type\': \'text/plain\' });
         res\.end(\'Hello World\');
     }
 };
