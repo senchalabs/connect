@@ -70,6 +70,7 @@ docs: $(MANPAGES) $(HTMLDOCS)
 	  | cat docs/layout/api.head.html - docs/layout/api.foot.html \
 	  | sed 's/NAME/Connect/g' \
 	  > $@
+	@node support/highlight.js $@
 
 docclean:
 	rm -f docs/*.{1,html}

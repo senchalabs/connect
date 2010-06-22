@@ -105,6 +105,11 @@
 	    padding: 20px 0 5px 0;
 	    font-size: 12px;
 	  }
+	  code.js { color: #111; }
+	  code.js .comment { color: #999; }
+	  code.js .string { color: #cc0000; }
+	  code.js .number { color: #0000ee; }
+	  code.js .keyword { color: #000; font-weight: bold; }
 	  a {
 	    text-decoration: none;
 	    color: #000;	
@@ -152,37 +157,37 @@
 
 <h3 id="Sample-Output">Sample Output</h3>
 
-<pre><code>Warning: layer params:0 First parameter should be named req or request, but is undefined
-Warning: layer params:0 Second parameter should be named res or response, but is undefined
-Warning: layer params:0 Third parameter should be named next, but is undefined
-Warning: layer params:0 Does not seem to call next(), or respond to the request
-Warning: layer hang:1 Does not seem to call next(), or respond to the request
-Warning: layer req.headers:3 Request headers are lowercased, seems to be accessed with capitals
+<pre><code class="js"><span class="class">Warning</span>: <span class="variable">layer</span> <span class="variable">params</span>:<span class="number integer">0</span> <span class="class">First</span> <span class="variable">parameter</span> <span class="variable">should</span> <span class="variable">be</span> <span class="variable">named</span> <span class="variable">req</span> <span class="variable">or</span> <span class="variable">request</span>, <span class="variable">but</span> <span class="variable">is</span> <span class="variable">undefined</span>
+<span class="class">Warning</span>: <span class="variable">layer</span> <span class="variable">params</span>:<span class="number integer">0</span> <span class="class">Second</span> <span class="variable">parameter</span> <span class="variable">should</span> <span class="variable">be</span> <span class="variable">named</span> <span class="variable">res</span> <span class="variable">or</span> <span class="variable">response</span>, <span class="variable">but</span> <span class="variable">is</span> <span class="variable">undefined</span>
+<span class="class">Warning</span>: <span class="variable">layer</span> <span class="variable">params</span>:<span class="number integer">0</span> <span class="class">Third</span> <span class="variable">parameter</span> <span class="variable">should</span> <span class="variable">be</span> <span class="variable">named</span> <span class="variable">next</span>, <span class="variable">but</span> <span class="variable">is</span> <span class="variable">undefined</span>
+<span class="class">Warning</span>: <span class="variable">layer</span> <span class="variable">params</span>:<span class="number integer">0</span> <span class="class">Does</span> <span class="variable">not</span> <span class="variable">seem</span> <span class="variable">to</span> <span class="variable">call</span> <span class="variable">next</span>(), <span class="variable">or</span> <span class="variable">respond</span> <span class="variable">to</span> <span class="variable">the</span> <span class="variable">request</span>
+<span class="class">Warning</span>: <span class="variable">layer</span> <span class="variable">hang</span>:<span class="number integer">1</span> <span class="class">Does</span> <span class="variable">not</span> <span class="variable">seem</span> <span class="variable">to</span> <span class="variable">call</span> <span class="variable">next</span>(), <span class="variable">or</span> <span class="variable">respond</span> <span class="variable">to</span> <span class="variable">the</span> <span class="variable">request</span>
+<span class="class">Warning</span>: <span class="variable">layer</span> <span class="variable">req</span>.<span class="variable">headers</span>:<span class="number integer">3</span> <span class="class">Request</span> <span class="variable">headers</span> <span class="variable">are</span> <span class="variable">lowercased</span>, <span class="variable">seems</span> <span class="variable">to</span> <span class="variable">be</span> <span class="variable">accessed</span> <span class="keyword">with</span> <span class="variable">capitals</span>
 
-0) params:
-    function (){
-        arguments[2]();
+<span class="number integer">0</span>) <span class="variable">params</span>:
+    <span class="keyword">function</span> (){
+        <span class="variable">arguments</span>[<span class="number integer">2</span>]();
     }
 
-1) hang:
-    function (req, res, next){
-        // Call foo() instead so
-        // that our demo can still function.
-        var foo = next;
-        foo();
+<span class="number integer">1</span>) <span class="variable">hang</span>:
+    <span class="keyword">function</span> (<span class="variable">req</span>, <span class="variable">res</span>, <span class="variable">next</span>){
+        <span class="comment">// Call foo() instead so</span>
+        <span class="comment">// that our demo can still function.</span>
+        <span class="keyword">var</span> <span class="variable">foo</span> = <span class="variable">next</span>;
+        <span class="variable">foo</span>();
 
-        // All good
-        var ct = req.headers['content-type'];
+        <span class="comment">// All good</span>
+        <span class="keyword">var</span> <span class="variable">ct</span> = <span class="variable">req</span>.<span class="variable">headers</span>[<span class="string">'content-type'</span>];
     }
 
-3) req.headers:
-    function (req, res, next){
-        // Request headers are always normalized as
-        // lowercased by ryan's http parser.
-        var ct = req.headers['Content-Type'];
-        next();
+<span class="number integer">3</span>) <span class="variable">req</span>.<span class="variable">headers</span>:
+    <span class="keyword">function</span> (<span class="variable">req</span>, <span class="variable">res</span>, <span class="variable">next</span>){
+        <span class="comment">// Request headers are always normalized as</span>
+        <span class="comment">// lowercased by ryan's http parser.</span>
+        <span class="keyword">var</span> <span class="variable">ct</span> = <span class="variable">req</span>.<span class="variable">headers</span>[<span class="string">'Content-Type'</span>];
+        <span class="variable">next</span>();
     }
-Warning: layer method uppercase:4 Request method is no longer uppercase, got get
+<span class="class">Warning</span>: <span class="variable">layer</span> <span class="variable">method</span> <span class="variable">uppercase</span>:<span class="number integer">4</span> <span class="class">Request</span> <span class="variable">method</span> <span class="variable">is</span> <span class="variable">no</span> <span class="variable">longer</span> <span class="variable">uppercase</span>, <span class="variable">got</span> <span class="variable">get</span>
 </code></pre>
 
 </div>

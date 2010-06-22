@@ -105,6 +105,11 @@
 	    padding: 20px 0 5px 0;
 	    font-size: 12px;
 	  }
+	  code.js { color: #111; }
+	  code.js .comment { color: #999; }
+	  code.js .string { color: #cc0000; }
+	  code.js .number { color: #0000ee; }
+	  code.js .keyword { color: #000; font-weight: bold; }
 	  a {
 	    text-decoration: none;
 	    color: #000;	
@@ -138,8 +143,8 @@
 
 <p>The <em>cookie</em> middleware parses the <em>Cookie</em> header when present, and populates <code>req.cookies</code>:</p>
 
-<pre><code>connect.createServer([
-    { filter: 'cookie' }
+<pre><code class="js"><span class="variable">connect</span>.<span class="variable">createServer</span>([
+    { <span class="variable">filter</span>: <span class="string">'cookie'</span> }
 ]);
 </code></pre>
 

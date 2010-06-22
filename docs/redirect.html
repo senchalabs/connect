@@ -105,6 +105,11 @@
 	    padding: 20px 0 5px 0;
 	    font-size: 12px;
 	  }
+	  code.js { color: #111; }
+	  code.js .comment { color: #999; }
+	  code.js .string { color: #cc0000; }
+	  code.js .number { color: #0000ee; }
+	  code.js .keyword { color: #000; font-weight: bold; }
 	  a {
 	    text-decoration: none;
 	    color: #000;	
@@ -139,23 +144,23 @@
 <p>The <em>redirect</em> middleware provides <code>res.redirect()</code>, a utility method
 for redirecting the request to a new <em>Location</em>. Example usage:</p>
 
-<pre><code>exports.handle = function(req, res, next) {
-    res.redirect('http://google.com');
+<pre><code class="js"><span class="variable">exports</span>.<span class="variable">handle</span> = <span class="keyword">function</span>(<span class="variable">req</span>, <span class="variable">res</span>, <span class="variable">next</span>) {
+    <span class="variable">res</span>.<span class="variable">redirect</span>(<span class="string">'http://google.com'</span>);
 }
 </code></pre>
 
 <p>Redirect also provides "magic" url maps, currently supported is <em>back</em>,
 which will redirect to the <em>Referrer</em> or <em>Referer</em> headers:</p>
 
-<pre><code>exports.handle = function(req, res, next) {
-    res.redirect('back');
+<pre><code class="js"><span class="variable">exports</span>.<span class="variable">handle</span> = <span class="keyword">function</span>(<span class="variable">req</span>, <span class="variable">res</span>, <span class="variable">next</span>) {
+    <span class="variable">res</span>.<span class="variable">redirect</span>(<span class="string">'back'</span>);
 }
 </code></pre>
 
 <p>Optionally you may provide a status code as well, to replace the default of <em>302</em>:</p>
 
-<pre><code>exports.handle = function(req, res, next) {
-    res.redirect('/foo', 301);
+<pre><code class="js"><span class="variable">exports</span>.<span class="variable">handle</span> = <span class="keyword">function</span>(<span class="variable">req</span>, <span class="variable">res</span>, <span class="variable">next</span>) {
+    <span class="variable">res</span>.<span class="variable">redirect</span>(<span class="string">'/foo'</span>, <span class="number integer">301</span>);
 }
 </code></pre>
 

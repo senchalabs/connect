@@ -105,6 +105,11 @@
 	    padding: 20px 0 5px 0;
 	    font-size: 12px;
 	  }
+	  code.js { color: #111; }
+	  code.js .comment { color: #999; }
+	  code.js .string { color: #cc0000; }
+	  code.js .number { color: #0000ee; }
+	  code.js .keyword { color: #000; font-weight: bold; }
 	  a {
 	    text-decoration: none;
 	    color: #000;	
@@ -138,53 +143,53 @@
 
 <p>The <em>router</em> middleware provides a routing API similar to that of Sinatra and Express.</p>
 
-<pre><code>function user(app) {
-    app.get('/users/(all.:format?)?', function(req, res){
-        // populates req.format
-        // ex:
-        //   GET /users
-        //   GET /users/all
-        //   GET /users/all.json
-        //   GET /users/all.xml
+<pre><code class="js"><span class="keyword">function</span> <span class="variable">user</span>(<span class="variable">app</span>) {
+    <span class="variable">app</span>.<span class="variable">get</span>(<span class="string">'/users/(all.:format?)?'</span>, <span class="keyword">function</span>(<span class="variable">req</span>, <span class="variable">res</span>){
+        <span class="comment">// populates req.format</span>
+        <span class="comment">// ex:</span>
+        <span class="comment">//   GET /users</span>
+        <span class="comment">//   GET /users/all</span>
+        <span class="comment">//   GET /users/all.json</span>
+        <span class="comment">//   GET /users/all.xml</span>
     });
 
-    app.get('/users/:id.:format?': function(req, res){
-        // populates req.format
-        // populates params.id
-        // ex:
-        //   GET /user/5
-        //   GET /user/5.json
-        //   GET /user/5.xml
+    <span class="variable">app</span>.<span class="variable">get</span>(<span class="string">'/users/:id.:format?'</span>: <span class="keyword">function</span>(<span class="variable">req</span>, <span class="variable">res</span>){
+        <span class="comment">// populates req.format</span>
+        <span class="comment">// populates params.id</span>
+        <span class="comment">// ex:</span>
+        <span class="comment">//   GET /user/5</span>
+        <span class="comment">//   GET /user/5.json</span>
+        <span class="comment">//   GET /user/5.xml</span>
     });
 
-    app.put('/user/:id', function(req, res, params){
-        // populates params.id
-        // ex:
-        //   PUT /user/2
+    <span class="variable">app</span>.<span class="variable">put</span>(<span class="string">'/user/:id'</span>, <span class="keyword">function</span>(<span class="variable">req</span>, <span class="variable">res</span>, <span class="variable">params</span>){
+        <span class="comment">// populates params.id</span>
+        <span class="comment">// ex:</span>
+        <span class="comment">//   PUT /user/2</span>
     });
 
-    app.del('/user/:id/file/*', function(req, res, params){
-        // populates params.id
-        // populates params.splat[0]
-        // ex:
-        //   PUT /user/4/file/javascripts/jquery.js
-        //   PUT /user/4/file/stylecss
-    });
-}
-
-function commits(app) {
-    // RegExps too!
-    app.get(/\/commit\/(\w+)\.\.(\w+)\/?/i, function(req, res, params){
-        // populates params.splat[0] with first capture group
-        // populates params.splat[1] with second capture group
-        // ex:
-        //   GET /commit/kj4k..d3sdf
+    <span class="variable">app</span>.<span class="variable">del</span>(<span class="string">'/user/:id/file/*'</span>, <span class="keyword">function</span>(<span class="variable">req</span>, <span class="variable">res</span>, <span class="variable">params</span>){
+        <span class="comment">// populates params.id</span>
+        <span class="comment">// populates params.splat[0]</span>
+        <span class="comment">// ex:</span>
+        <span class="comment">//   PUT /user/4/file/javascripts/jquery.js</span>
+        <span class="comment">//   PUT /user/4/file/stylecss</span>
     });
 }
 
-connect.createServer([
-    { provider: 'router', app: user }
-    { provider: 'router', app: commits }
+<span class="keyword">function</span> <span class="variable">commits</span>(<span class="variable">app</span>) {
+    <span class="comment">// RegExps too!</span>
+    <span class="variable">app</span>.<span class="variable">get</span>(<span class="regexp">/\/commit</span>\<span class="regexp">/(\w+)\.\.(\w+)\/</span>?/<span class="variable">i</span>, <span class="keyword">function</span>(<span class="variable">req</span>, <span class="variable">res</span>, <span class="variable">params</span>){
+        <span class="comment">// populates params.splat[0] with first capture group</span>
+        <span class="comment">// populates params.splat[1] with second capture group</span>
+        <span class="comment">// ex:</span>
+        <span class="comment">//   GET /commit/kj4k..d3sdf</span>
+    });
+}
+
+<span class="variable">connect</span>.<span class="variable">createServer</span>([
+    { <span class="variable">provider</span>: <span class="string">'router'</span>, <span class="variable">app</span>: <span class="variable">user</span> }
+    { <span class="variable">provider</span>: <span class="string">'router'</span>, <span class="variable">app</span>: <span class="variable">commits</span> }
 ]);
 </code></pre>
 
