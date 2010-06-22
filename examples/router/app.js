@@ -57,7 +57,6 @@ function main(app){
 
 module.exports = require('./../../lib/connect').createServer([
     { filter: 'log' },
-    { filter: 'repl' },
-    { provider: 'rest', app: user, route: '/users' },
-    { provider: 'rest', app: main },
+    { provider: 'router', app: user, route: '/users' },
+    { provider: 'router', app: main },
 ]);
