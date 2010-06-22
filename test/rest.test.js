@@ -17,7 +17,7 @@ var fixturesPath = __dirname + '/fixtures';
 module.exports = {
     'test routing': function(){
         var server = helpers.run([
-            { provider: 'rest', param: function(app){
+            { provider: 'rest', app: function(app){
                 app.get('/(all.:format?)?', function(req, res, params){
                     res.writeHead(200, {});
                     res.end('products' + (params.format ? ' as ' + params.format : ''));
@@ -27,7 +27,7 @@ module.exports = {
                     res.end('product ' + params.id);
                 });
             }, route: '/products' },
-            { provider: 'rest', param: function(app){
+            { provider: 'rest', app: function(app){
                 app.post('/', function(req, res){
                     res.writeHead(200, {});
                     res.end('POST /');
@@ -38,7 +38,7 @@ module.exports = {
                 });
                 app.del('/', function(req, res){
                     res.writeHead(200, {});
-                    res.end('PUT /');
+                    res.end('DELETE /');
                 });
                 app.get('/', function(req, res){
                     res.writeHead(200, {});
@@ -56,7 +56,7 @@ module.exports = {
                     res.writeHead(200, {});
                     res.end((params.operation || 'view') + 'ing user ' + req.params.path.id);
                 });
-                app.get('/range/:from-to?', function(req, res, params){
+                app.get('/range/:from-:to?', function(req, res, params){
                     res.writeHead(200, {});
                     res.end('range ' + params.from + ' to ' + (params.to || 'HEAD'));
                 });
