@@ -1,9 +1,13 @@
+var Connect = require('../../lib/connect'),
+    filters = Connect.filters,
+    providers = Connect.providers,
+    sys = require('sys');
 
-module.exports = require('../../lib/connect').createServer([
-    { module: {
-        handle: function(req, res){
-            res.writeHead(200, { 'Content-Type': 'text/plain' });
-            res.end('Hello World');
-        }
-    }}
-]);
+sys.debug(sys.inspect(filters.log));
+
+module.exports = Connect.createServer(
+    filters.log(),
+    function (req, res) {
+        res.simpleBody(200, 'Hello World');
+    }
+);
