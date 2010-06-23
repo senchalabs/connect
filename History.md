@@ -1,4 +1,16 @@
 
+0.0.6 / 2010-06-22
+==================
+
+  * Added _static_ middleware usage example
+  * Added support for regular expressions as paths for _router_
+  * Added `util.merge()`
+  * Increased performance of _static_ by ~ 200 rps
+  * Renamed the _rest_ middleware to _router_
+  * Changed _rest_ api to accept a callback function
+  * Removed _router_ middleware
+  * Removed _proto.js_, only `Object#forEach()` remains
+
 0.0.5 / 2010-06-21
 ==================
 

@@ -17,7 +17,7 @@ module.exports = require('./../../lib/connect').createServer([
     { filter: 'redirect' },
     { filter: 'session', store: new MemoryStore({ reapInterval: minute, maxAge: minute * 5 }) },
     { filter: 'flash' },
-    { provider: 'rest', app: function(app) {
+    { provider: 'router', app: function(app) {
         app.get('/', function(req, res){
             res.writeHead(200, { 'Content-Type': 'text/html' });
             // Fetch number of "online" users

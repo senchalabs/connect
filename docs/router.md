@@ -1,6 +1,6 @@
 ## Rest
 
-The _rest_ middleware provides a RESTful routing api similar to that of Sinatra and Express.
+The _router_ middleware provides a routing API similar to that of Sinatra and Express.
 
 	function user(app) {
 		app.get('/users/(all.:format?)?', function(req, res){
@@ -47,8 +47,8 @@ The _rest_ middleware provides a RESTful routing api similar to that of Sinatra 
 	}
 
     connect.createServer([
-	    { provider: 'rest', app: user }
-	    { provider: 'rest', app: commits }
+	    { provider: 'router', app: user }
+	    { provider: 'router', app: commits }
 	]);
 
 Those of you looking for _PUT_ and _DELETE_ support may want to take a look at the _method-override_ middleware.

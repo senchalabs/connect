@@ -166,13 +166,13 @@ We can take this example further by \"exporting\" the \fBhandle()\fR method, so 
 .
 .nf
 
-# hello\-world\.js
+// hello\-world\.js
 exports\.handle = function(req, res, next){
-    res\.writeHead(200, { \'Content\-Type: \'text/plain\' });
+    res\.writeHead(200, { \'Content\-Type\': \'text/plain\' });
     res\.end(\'Hello World\');
 };
 
-# app\.js
+// app\.js
 require(\'connect\')\.createServer([
     { module: require(\'\./hello\-world\') }
 ]);
@@ -285,7 +285,7 @@ jsonrpc          Provides JSON\-RPC 2\.0 support
 sass             Provides auto\-compilation of sass to css
 less             Provides auto\-compilation of less to css
 static           Serves static files
-rest             Provides RESTful routing similar to Sinatra and Express
+router           Provides a feature rich routing API similar to Sinatra and Express
 .
 .fi
 .

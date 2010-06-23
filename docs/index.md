@@ -107,13 +107,13 @@ If you wish to pass an exception down the stack, you can invoke `next()` like be
 
 We can take this example further by "exporting" the `handle()` method, so that other libraries can simply `require('hello-world')`:
  
-    # hello-world.js
+    // hello-world.js
     exports.handle = function(req, res, next){
-        res.writeHead(200, { 'Content-Type: 'text/plain' });
+        res.writeHead(200, { 'Content-Type': 'text/plain' });
         res.end('Hello World');
     };
     
-    # app.js
+    // app.js
     require('connect').createServer([
         { module: require('./hello-world') }
     ]);
@@ -193,7 +193,7 @@ the following are currently provided out of the box:
     sass             Provides auto-compilation of sass to css
     less             Provides auto-compilation of less to css
     static           Serves static files
-    rest             Provides RESTful routing similar to Sinatra and Express
+    router           Provides a feature rich routing API similar to Sinatra and Express
 
 ### Middleware Documentation
 

@@ -13,3 +13,6 @@
 [submodule "support/less"]
 	path = support/less
 	url = http://github.com/cloudhead/less.js.git
+[submodule "support/koala"]
+	path = support/koala
+	url = git://github.com/visionmedia/koala.js.git

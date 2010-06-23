@@ -105,6 +105,11 @@
 	    padding: 20px 0 5px 0;
 	    font-size: 12px;
 	  }
+	  code.js { color: #111; }
+	  code.js .comment { color: #999; }
+	  code.js .string { color: #cc0000; }
+	  code.js .number { color: #0000ee; }
+	  code.js .keyword { color: #000; font-weight: bold; }
 	  a {
 	    text-decoration: none;
 	    color: #000;	
@@ -129,9 +134,9 @@
 			<li><a href="response-time.html">response-time</a></li>
 			<li><a href="method-override.html">method-override</a></li>
 			<li class="title">Providers</li>
-			<li><a href="rest.html">rest</a></li>
 			<li><a href="sass.html">sass</a></li>
 			<li><a href="less.html">less</a></li>
+			<li><a href="router.html">router</a></li>
 			<li><a href="static.html">static</a></li>
 		</ul><div class='mp'>
 <h2 id='Connect'>Connect</h2>
@@ -206,10 +211,10 @@ format used via the command line with `connect --logFormat ":method :uri".</p>
 
 <p>The keys <code>filter</code> and <code>provider</code> are used only as short-cuts to bundled middleware, to utilize a custom module we can assign a module's exports to the <code>module</code> key.</p>
 
-<pre><code>module.exports = require('./lib/connect').createServer([
-    { filter: 'log' },
-    { module: require('path/to/custom/middleware') },
-    { provider: 'static', root: __dirname + '/public' }
+<pre><code class="js"><span class="variable">module</span>.<span class="variable">exports</span> = <span class="variable">require</span>(<span class="string">'./lib/connect'</span>).<span class="variable">createServer</span>([
+    { <span class="variable">filter</span>: <span class="string">'log'</span> },
+    { <span class="variable">module</span>: <span class="variable">require</span>(<span class="string">'path/to/custom/middleware'</span>) },
+    { <span class="variable">provider</span>: <span class="string">'static'</span>, <span class="variable">root</span>: <span class="variable">__dirname</span> + <span class="string">'/public'</span> }
 ]);
 </code></pre>
 
@@ -227,15 +232,15 @@ require('./app').listen();
 
 <p>First we define the <code>handle()</code> method, which accepts three arguments, <em>req</em>, <em>res</em>, and <em>next</em>.</p>
 
-<pre><code>var helloWorld = {
-    handle: function(req, res, next){
-        res.writeHead(200, { 'Content-Type': 'text/plain' });
-        res.end('Hello World');
+<pre><code class="js"><span class="keyword">var</span> <span class="variable">helloWorld</span> = {
+    <span class="variable">handle</span>: <span class="keyword">function</span>(<span class="variable">req</span>, <span class="variable">res</span>, <span class="variable">next</span>){
+        <span class="variable">res</span>.<span class="variable">writeHead</span>(<span class="number integer">200</span>, { <span class="string">'Content-Type'</span>: <span class="string">'text/plain'</span> });
+        <span class="variable">res</span>.<span class="variable">end</span>(<span class="string">'Hello World'</span>);
     }
 };
 
-require('connect').createServer([
-    { module: helloWorld }
+<span class="variable">require</span>(<span class="string">'connect'</span>).<span class="variable">createServer</span>([
+    { <span class="variable">module</span>: <span class="variable">helloWorld</span> }
 ]);
 </code></pre>
 
@@ -243,22 +248,22 @@ require('connect').createServer([
 
 <p>If you wish to pass an exception down the stack, you can invoke <code>next()</code> like below:</p>
 
-<pre><code> if (someRequirementIsNotMet) {
-     next(new Error('my requirement was not met!'));
+<pre><code class="js"> <span class="keyword">if</span> (<span class="variable">someRequirementIsNotMet</span>) {
+     <span class="variable">next</span>(<span class="keyword">new</span> <span class="class">Error</span>(<span class="string">'my requirement was not met!'</span>));
  }
 </code></pre>
 
 <p>We can take this example further by "exporting" the <code>handle()</code> method, so that other libraries can simply <code>require('hello-world')</code>:</p>
 
-<pre><code># hello-world.js
-exports.handle = function(req, res, next){
-    res.writeHead(200, { 'Content-Type: 'text/plain' });
-    res.end('Hello World');
+<pre><code class="js"><span class="comment">// hello-world.js</span>
+<span class="variable">exports</span>.<span class="variable">handle</span> = <span class="keyword">function</span>(<span class="variable">req</span>, <span class="variable">res</span>, <span class="variable">next</span>){
+    <span class="variable">res</span>.<span class="variable">writeHead</span>(<span class="number integer">200</span>, { <span class="string">'Content-Type'</span>: <span class="string">'text/plain'</span> });
+    <span class="variable">res</span>.<span class="variable">end</span>(<span class="string">'Hello World'</span>);
 };
 
-# app.js
-require('connect').createServer([
-    { module: require('./hello-world') }
+<span class="comment">// app.js</span>
+<span class="variable">require</span>(<span class="string">'connect'</span>).<span class="variable">createServer</span>([
+    { <span class="variable">module</span>: <span class="variable">require</span>(<span class="string">'./hello-world'</span>) }
 ]);
 </code></pre>
 
@@ -268,19 +273,19 @@ require('connect').createServer([
 in order to respond (or ignore) the exception. The <code>handleError()</code> method follows the same semantics as
 <code>handle()</code>, for example:</p>
 
-<pre><code>exports.handleError = function(err, req, res, next){
-    // At any time we can call next() without
-    // any arguments to eliminate exceptional status and
-    // continue down the stack
+<pre><code class="js"><span class="variable">exports</span>.<span class="variable">handleError</span> = <span class="keyword">function</span>(<span class="variable">err</span>, <span class="variable">req</span>, <span class="variable">res</span>, <span class="variable">next</span>){
+    <span class="comment">// At any time we can call next() without</span>
+    <span class="comment">// any arguments to eliminate exceptional status and</span>
+    <span class="comment">// continue down the stack</span>
 
-    if (err.code === process.ENOENT) {
-        // We dont want to deal with missing files
-        // so pass the exception
-        next(err);
-    } else {
-        // Respond with a message
-        res.writeHead(200, { 'Content-Type': 'text/plain' })
-        res.end('shit! im broken');
+    <span class="keyword">if</span> (<span class="variable">err</span>.<span class="variable">code</span> === <span class="variable">process</span>.<span class="class">ENOENT</span>) {
+        <span class="comment">// We dont want to deal with missing files</span>
+        <span class="comment">// so pass the exception</span>
+        <span class="variable">next</span>(<span class="variable">err</span>);
+    } <span class="keyword">else</span> {
+        <span class="comment">// Respond with a message</span>
+        <span class="variable">res</span>.<span class="variable">writeHead</span>(<span class="number integer">200</span>, { <span class="string">'Content-Type'</span>: <span class="string">'text/plain'</span> })
+        <span class="variable">res</span>.<span class="variable">end</span>(<span class="string">'shit! im broken'</span>);
     }
 };
 </code></pre>
@@ -291,17 +296,17 @@ in order to respond (or ignore) the exception. The <code>handleError()</code> me
 and is passed the environment. For example lets say we want our <em>log</em> middleware to support
 a custom format, we might define <code>setup()</code> as shown below:</p>
 
-<pre><code>var log = {};
+<pre><code class="js"><span class="keyword">var</span> <span class="variable">log</span> = {};
 
-log.setup = function(env) {
-    this.format = this.format || 'our default format';
+<span class="variable">log</span>.<span class="variable">setup</span> = <span class="keyword">function</span>(<span class="variable">env</span>) {
+    <span class="this">this</span>.<span class="variable">format</span> = <span class="this">this</span>.<span class="variable">format</span> || <span class="string">'our default format'</span>;
 }
 </code></pre>
 
 <p>Allowing developers to pass a custom format when stacked:</p>
 
-<pre><code>connect.createServer([
-    { module: log, format: 'custom log format' }
+<pre><code class="js"><span class="variable">connect</span>.<span class="variable">createServer</span>([
+    { <span class="variable">module</span>: <span class="variable">log</span>, <span class="variable">format</span>: <span class="string">'custom log format'</span> }
 ]);
 </code></pre>
 
@@ -310,8 +315,8 @@ we may want to support <code>connect --logFormat "super cool format"</code>, to 
 is check for <code>env.logFormat</code> as shown below. The precedence given is up to you, however
 the env is recommended.</p>
 
-<pre><code>log.setup = function(env) {
-    this.format = env.logFormat || this.format || 'our default format';
+<pre><code class="js"><span class="variable">log</span>.<span class="variable">setup</span> = <span class="keyword">function</span>(<span class="variable">env</span>) {
+    <span class="this">this</span>.<span class="variable">format</span> = <span class="variable">env</span>.<span class="variable">logFormat</span> || <span class="this">this</span>.<span class="variable">format</span> || <span class="string">'our default format'</span>;
 }
 </code></pre>
 
@@ -342,7 +347,7 @@ jsonrpc          Provides JSON-RPC 2.0 support
 sass             Provides auto-compilation of sass to css
 less             Provides auto-compilation of less to css
 static           Serves static files
-rest             Provides RESTful routing similar to Sinatra and Express
+router           Provides a feature rich routing API similar to Sinatra and Express
 </code></pre>
 
 <h3 id="Middleware-Documentation">Middleware Documentation</h3>

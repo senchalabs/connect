@@ -17,7 +17,7 @@ var fixturesPath = __dirname + '/fixtures';
 module.exports = {
     'test routing': function(){
         var server = helpers.run([
-            { provider: 'rest', app: function(app){
+            { provider: 'router', app: function(app){
                 app.get('/(all.:format?)?', function(req, res, params){
                     res.writeHead(200, {});
                     res.end('products' + (params.format ? ' as ' + params.format : ''));
@@ -27,7 +27,7 @@ module.exports = {
                     res.end('product ' + params.id);
                 });
             }, route: '/products' },
-            { provider: 'rest', app: function(app){
+            { provider: 'router', app: function(app){
                 app.post('/', function(req, res){
                     res.writeHead(200, {});
                     res.end('POST /');
@@ -89,19 +89,19 @@ module.exports = {
         server.assertResponse('GET', '/products/all.json', 200, 'products as json');
         server.assertResponse('GET', '/products/12', 200, 'product 12');
         
-        server.assertResponse('GET', '/', 200, 'GET /', 'Test rest GET /');
-        server.assertResponse('POST', '/', 200, 'POST /', 'Test rest POST /');
-        server.assertResponse('PUT', '/', 200, 'PUT /', 'Test rest PUT /');
-        server.assertResponse('DELETE', '/', 200, 'DELETE /', 'Test rest DELETE /');
-        server.assertResponse('GET', '/user', 404, 'Cannot find /user', 'Test rest GET unmatched path param');
-        server.assertResponse('GET', '/user/12', 200, 'viewing user 12', 'Test rest GET matched path param');
-        server.assertResponse('GET', '/user/12/', 200, 'viewing user 12', 'Test rest GET matched path param with trailing slash');
-        server.assertResponse('GET', '/user/99/edit', 200, 'editing user 99', 'Test rest GET matched path with several params');
-        server.assertResponse('GET', '/user/99/edit/', 200, 'editing user 99', 'Test rest GET matched path with several params with trailing slash');
+        server.assertResponse('GET', '/', 200, 'GET /', 'Test router GET /');
+        server.assertResponse('POST', '/', 200, 'POST /', 'Test router POST /');
+        server.assertResponse('PUT', '/', 200, 'PUT /', 'Test router PUT /');
+        server.assertResponse('DELETE', '/', 200, 'DELETE /', 'Test router DELETE /');
+        server.assertResponse('GET', '/user', 404, 'Cannot find /user', 'Test router GET unmatched path param');
+        server.assertResponse('GET', '/user/12', 200, 'viewing user 12', 'Test router GET matched path param');
+        server.assertResponse('GET', '/user/12/', 200, 'viewing user 12', 'Test router GET matched path param with trailing slash');
+        server.assertResponse('GET', '/user/99/edit', 200, 'editing user 99', 'Test router GET matched path with several params');
+        server.assertResponse('GET', '/user/99/edit/', 200, 'editing user 99', 'Test router GET matched path with several params with trailing slash');
         server.assertResponse('GET', '/range/11-99', 200, 'range 11 to 99');
         server.assertResponse('GET', '/range/11-', 200, 'range 11 to HEAD');
         server.assertResponse('GET', '/users.json', 200, 'json format');
-        server.assertResponse('GET', '/cookies', 200, 'num num', 'Test rest optional placeholder without value');
+        server.assertResponse('GET', '/cookies', 200, 'num num', 'Test router optional placeholder without value');
         server.assertResponse('GET', '/cookies.json', 200, '["num","num"]', 'Test reset optional placeholder with value');
         server.assertResponse('GET', '/public', 404, 'Cannot find /public', 'Test required splat without value');
         server.assertResponse('GET', '/public/jquery.js', 200, 'splat "jquery.js"', 'Test required splat with value');
