@@ -1,12 +1,8 @@
-var Connect = require('../../lib/connect'),
-    filters = Connect.filters,
-    providers = Connect.providers,
-    sys = require('sys');
+var Connect = require('../../lib/connect');
 
-sys.debug(sys.inspect(filters.log));
-
-module.exports = Connect.createServer(
-    filters.log(),
+var Server = module.exports = Connect.createServer(
+    Connect.logFilter(),
+    Connect.staticProvider(__dirname),
     function (req, res) {
         res.simpleBody(200, 'Hello World');
     }
