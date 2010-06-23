@@ -138,4 +138,48 @@
 			<li><a href="router.html">router</a></li>
 			<li><a href="static.html">static</a></li>
 			<li><a href="jsonrpc.html">jsonrpc</a></li>
-		</ul>
+		</ul><div class='mp'>
+<h2 id="JSONRPC">JSONRPC</h2>
+
+<p>The <em>jsonrpc</em> middleware provides JSON-RPC 2.0 support. Below is an example exposing the <em>add</em> and <em>sub</em> methods:</p>
+
+<pre><code class="js"><span class="variable">require</span>(<span class="string">'connect'</span>).<span class="variable">createServer</span>([
+    { <span class="variable">provider</span>: <span class="string">'jsonrpc'</span>, <span class="variable">methods</span>: {
+        <span class="variable">add</span>: <span class="keyword">function</span>(<span class="variable">a</span>, <span class="variable">b</span>){
+            <span class="keyword">try</span> {
+                <span class="this">this</span>(<span class="keyword">null</span>, <span class="variable">a</span> + <span class="variable">b</span>);
+            } <span class="keyword">catch</span> (<span class="variable">err</span>) {
+                <span class="this">this</span>(<span class="variable">err</span>);
+            }
+        },
+        <span class="variable">sub</span>: <span class="keyword">function</span>(<span class="variable">a</span>, <span class="variable">b</span>){
+            <span class="keyword">try</span> {
+                <span class="this">this</span>(<span class="keyword">null</span>, <span class="variable">a</span> - <span class="variable">b</span>);
+            } <span class="keyword">catch</span> (<span class="variable">err</span>) {
+                <span class="this">this</span>(<span class="variable">err</span>);
+            }
+        }
+    }}
+</code></pre>
+
+<p>The value of <em>this</em> becomes the async callback function. When you wish to pass an exception simply invoke <code>this(err)</code>, or pass the error code <code>this(jsonrpc.INVALID_PARAMS)</code>. Other <code>this(null, result)</code> will respond with the given results.</p>
+
+<p>To perform a request execute:</p>
+
+<pre><code>$ curl -H "Content-Type: application/json" -d '{ "jsonrpc": "2.0", "method": "add", "params": [1,2], "id":2 }' http://localhost:3000
+</code></pre>
+
+<h3 id="Features">Features</h3>
+
+<ul>
+<li>async support</li>
+<li>batch request support</li>
+<li>variable argument length</li>
+<li>named parameter support</li>
+</ul>
+
+
+</div>
+    </div>
+  </body>
+</html>

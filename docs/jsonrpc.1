@@ -1,0 +1,66 @@
+.\" generated with Ronn/v0.6.6
+.\" http://github.com/rtomayko/ronn/
+.
+.TH "JSONRPC" "" "June 2010" "" ""
+.
+.SH "JSONRPC"
+The \fIjsonrpc\fR middleware provides JSON\-RPC 2\.0 support\. Below is an example exposing the \fIadd\fR and \fIsub\fR methods:
+.
+.IP "" 4
+.
+.nf
+
+require(\'connect\')\.createServer([
+    { provider: \'jsonrpc\', methods: {
+        add: function(a, b){
+            try {
+                this(null, a + b);
+            } catch (err) {
+                this(err);
+            }
+        },
+        sub: function(a, b){
+            try {
+                this(null, a \- b);
+            } catch (err) {
+                this(err);
+            }
+        }
+    }}
+.
+.fi
+.
+.IP "" 0
+.
+.P
+The value of \fIthis\fR becomes the async callback function\. When you wish to pass an exception simply invoke \fBthis(err)\fR, or pass the error code \fBthis(jsonrpc\.INVALID_PARAMS)\fR\. Other \fBthis(null, result)\fR will respond with the given results\.
+.
+.P
+To perform a request execute:
+.
+.IP "" 4
+.
+.nf
+
+$ curl \-H \"Content\-Type: application/json\" \-d \'{ \"jsonrpc\": \"2\.0\", \"method\": \"add\", \"params\": [1,2], \"id\":2 }\' http://localhost:3000
+.
+.fi
+.
+.IP "" 0
+.
+.SS "Features"
+.
+.IP "\(bu" 4
+async support
+.
+.IP "\(bu" 4
+batch request support
+.
+.IP "\(bu" 4
+variable argument length
+.
+.IP "\(bu" 4
+named parameter support
+.
+.IP "" 0
+

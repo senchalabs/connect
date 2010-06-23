@@ -11,6 +11,7 @@ DOCS = docs/index.md \
 	   docs/body-decoder.md \
 	   docs/redirect.md \
 	   docs/session.md \
+	   docs/jsonrpc.md \
 	   docs/flash.md \
 	   docs/static.md \
 	   docs/cookie.md \
@@ -51,6 +52,7 @@ install-docs:
 	cp -f docs/cookie.1 $(PREFIX)/share/man/man1/connect-cookie.1
 	cp -f docs/flash.1 $(PREFIX)/share/man/man1/connect-flash.1
 	cp -f docs/session.1 $(PREFIX)/share/man/man1/connect-session.1
+	cp -f docs/jsonrpc.1 $(PREFIX)/share/man/man1/connect-jsonrpc.1
 	cp -f docs/compiler.1 $(PREFIX)/share/man/man1/connect-compiler.1
 
 benchmark: benchmarks/run
