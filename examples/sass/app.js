@@ -10,6 +10,6 @@
 var pub = __dirname + '/public';
 
 module.exports = require('./../../lib/connect').createServer([
-    { provider: 'sass', root: pub },
+    { filter: 'compiler', src: pub, enable: ['sass'] },
     { provider: 'static', root: pub }
 ]);

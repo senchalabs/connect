@@ -185,13 +185,12 @@ the following are currently provided out of the box:
     method-override  Provides faux HTTP method support by using the "_method" key by default 
     response-time    Responds with the X-Response-Time header in milliseconds
     redirect         Provides req.redirect() with "magic" urls, ex: req.redirect("back")
+    compiler         Supports arbitrary static compilation of files, currently supports less and sass.
 
 ### Providers
 
     cache-manifest   Provides cache manifest for offline apps
     jsonrpc          Provides JSON-RPC 2.0 support
-    sass             Provides auto-compilation of sass to css
-    less             Provides auto-compilation of less to css
     static           Serves static files
     router           Provides a feature rich routing API similar to Sinatra and Express
 

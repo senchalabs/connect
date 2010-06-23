@@ -14,10 +14,9 @@ DOCS = docs/index.md \
 	   docs/flash.md \
 	   docs/static.md \
 	   docs/cookie.md \
+	   docs/compiler.md \
 	   docs/router.md \
 	   docs/lint.md \
-	   docs/sass.md \
-	   docs/less.md \
 	   docs/log.md
 
 MANPAGES = $(DOCS:.md=.1)
@@ -49,11 +48,10 @@ install-docs:
 	cp -f docs/static.1 $(PREFIX)/share/man/man1/connect-static.1
 	cp -f docs/log.1 $(PREFIX)/share/man/man1/connect-log.1
 	cp -f docs/router.1 $(PREFIX)/share/man/man1/connect-router.1
-	cp -f docs/sass.1 $(PREFIX)/share/man/man1/connect-sass.1
 	cp -f docs/cookie.1 $(PREFIX)/share/man/man1/connect-cookie.1
 	cp -f docs/flash.1 $(PREFIX)/share/man/man1/connect-flash.1
 	cp -f docs/session.1 $(PREFIX)/share/man/man1/connect-session.1
-	cp -f docs/less.1 $(PREFIX)/share/man/man1/connect-less.1
+	cp -f docs/compiler.1 $(PREFIX)/share/man/man1/connect-compiler.1
 
 benchmark: benchmarks/run
 	@./benchmarks/run
