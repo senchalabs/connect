@@ -139,35 +139,31 @@
 			<li><a href="router.html">router</a></li>
 			<li><a href="static.html">static</a></li>
 		</ul><div class='mp'>
-<h2 id="Sass">Sass</h2>
+<h2 id="Compiler">Compiler</h2>
 
-<p>The <em>sass</em> middleware compiles <em>*.sass</em> files as css, these files are
-written to disk, and automatically re-compiled when altered. <em>sass</em> itself does not
-serve the file, it delegates to the <em>static</em> middleware, therefore the <em>root</em> option
-should be accessible to <em>static</em>.</p>
-
-<p>Sass itself is not bundled with Connect, so you must have it installed
-and available to node.</p>
+<p>The <em>compiler</em> middleware compiles files that have not yet been compiled, or have been modified. Good examples of this are <em>sass</em> and <em>less</em>, both of which compile to css. The compiled data is written to disk, and serving is delegated to the <em>static</em> middleware, therefore the <em>root</em> should be accessible (or the same) as <em>static</em>'s <em>root</em> option.</p>
 
 <pre><code class="js"><span class="variable">connect</span>.<span class="variable">createServer</span>([
-    { <span class="variable">provider</span>: <span class="string">'sass'</span>, <span class="variable">root</span>: <span class="variable">__dirname</span> + <span class="string">'/public'</span> }
+    { <span class="variable">provider</span>: <span class="string">'compiler'</span>, <span class="variable">root</span>: <span class="variable">__dirname</span> + <span class="string">'/public'</span>, <span class="variable">compile</span>: [<span class="string">'css'</span>] }
 ]);
 </code></pre>
 
 <h3 id="Options">Options</h3>
 
-<pre><code>root   Root directory from which to compile sass. Defaults to CWD
+<pre><code>root     Root directory from which to compile files. Defaults to CWD
+compile  Enabled compilers, currently supported are "sass", and "less".
 </code></pre>
 
 <h3 id="Environment-Variables">Environment Variables</h3>
 
-<pre><code>--sassRoot
+<pre><code>--compilerRoot
 </code></pre>
 
 <h3 id="Links">Links</h3>
 
 <ul>
 <li><a href="http://github.com/visionmedia/sass.js">Sass.js</a></li>
+<li><a href="http://github.com/cloudhead/less.js">Less.js</a></li>
 </ul>
 
 
