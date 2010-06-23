@@ -144,19 +144,21 @@
 <p>The <em>compiler</em> middleware compiles files that have not yet been compiled, or have been modified. Good examples of this are <em>sass</em> and <em>less</em>, both of which compile to css. The compiled data is written to disk, and serving is delegated to the <em>static</em> middleware, therefore the <em>root</em> should be accessible (or the same) as <em>static</em>'s <em>root</em> option.</p>
 
 <pre><code class="js"><span class="variable">connect</span>.<span class="variable">createServer</span>([
-    { <span class="variable">provider</span>: <span class="string">'compiler'</span>, <span class="variable">root</span>: <span class="variable">__dirname</span> + <span class="string">'/public'</span>, <span class="variable">compile</span>: [<span class="string">'css'</span>] }
+    { <span class="variable">provider</span>: <span class="string">'compiler'</span>, <span class="variable">root</span>: <span class="variable">__dirname</span> + <span class="string">'/public'</span>, <span class="variable">enable</span>: [<span class="string">'css'</span>] }
 ]);
 </code></pre>
 
 <h3 id="Options">Options</h3>
 
-<pre><code>root     Root directory from which to compile files. Defaults to CWD
-compile  Enabled compilers, currently supported are "sass", and "less".
+<pre><code>src      Root directory from which to compile files. Defaults to CWD.
+dest     Destination directory of compiled files, defaults to src or CWD.
+enable   Enabled compilers, currently supported are "sass", and "less".
 </code></pre>
 
 <h3 id="Environment-Variables">Environment Variables</h3>
 
-<pre><code>--compilerRoot
+<pre><code>--compilerSrc
+--compilerDest
 </code></pre>
 
 <h3 id="Links">Links</h3>

@@ -11,7 +11,7 @@ The \fIcompiler\fR middleware compiles files that have not yet been compiled, or
 .nf
 
 connect\.createServer([
-    { provider: \'compiler\', root: __dirname + \'/public\', compile: [\'css\'] }
+    { provider: \'compiler\', root: __dirname + \'/public\', enable: [\'css\'] }
 ]);
 .
 .fi
@@ -22,8 +22,9 @@ connect\.createServer([
 .
 .nf
 
-root     Root directory from which to compile files\. Defaults to CWD
-compile  Enabled compilers, currently supported are \"sass\", and \"less\"\.
+src      Root directory from which to compile files\. Defaults to CWD\.
+dest     Destination directory of compiled files, defaults to src or CWD\.
+enable   Enabled compilers, currently supported are \"sass\", and \"less\"\.
 .
 .fi
 .
@@ -31,7 +32,8 @@ compile  Enabled compilers, currently supported are \"sass\", and \"less\"\.
 .
 .nf
 
-\-\-compilerRoot
+\-\-compilerSrc
+\-\-compilerDest
 .
 .fi
 .
