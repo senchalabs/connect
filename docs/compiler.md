@@ -12,6 +12,11 @@ The _compiler_ middleware compiles files that have not yet been compiled, or hav
     dest     Destination directory of compiled files, defaults to src or CWD.
     enable   Enabled compilers, currently supported are "sass", and "less".
 
+### Supported Compilers
+
+  * sass
+  * less
+
 ### Environment Variables
 
     --compilerSrc
