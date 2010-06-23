@@ -4,7 +4,10 @@
 .TH "SASS" "" "June 2010" "" ""
 .
 .SH "Sass"
-The \fIsass\fR middleware compiles and serves \fI*\.sass\fR files as css\. Sass itself is not bundled with Connect, so you must have it installed and available to node\.
+The \fIsass\fR middleware compiles \fI*\.sass\fR files as css, these files are written to disk, and automatically re\-compiled when altered\. \fIsass\fR itself does not serve the file, it delegates to the \fIstatic\fR middleware, therefore the \fIroot\fR option should be accessible to \fIstatic\fR\.
+.
+.P
+Sass itself is not bundled with Connect, so you must have it installed and available to node\.
 .
 .IP "" 4
 .
@@ -22,8 +25,7 @@ connect\.createServer([
 .
 .nf
 
-root   Root directory from which to serve sass\. Defaults to CWD
-match  RegExp used to match request urls\. Defaults to /\\\.sass$/
+root   Root directory from which to compile sass\. Defaults to CWD
 .
 .fi
 .
@@ -39,6 +41,13 @@ match  RegExp used to match request urls\. Defaults to /\\\.sass$/
 .
 .IP "\(bu" 4
 Sass\.js \fIhttp://github\.com/visionmedia/sass\.js\fR
+.
+.IP "" 0
+.
+.SS "See Also"
+.
+.IP "\(bu" 4
+static
 .
 .IP "" 0
 

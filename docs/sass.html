@@ -141,8 +141,12 @@
 		</ul><div class='mp'>
 <h2 id="Sass">Sass</h2>
 
-<p>The <em>sass</em> middleware compiles and serves <em>*.sass</em> files as css.
-Sass itself is not bundled with Connect, so you must have it installed
+<p>The <em>sass</em> middleware compiles <em>*.sass</em> files as css, these files are
+written to disk, and automatically re-compiled when altered. <em>sass</em> itself does not
+serve the file, it delegates to the <em>static</em> middleware, therefore the <em>root</em> option
+should be accessible to <em>static</em>.</p>
+
+<p>Sass itself is not bundled with Connect, so you must have it installed
 and available to node.</p>
 
 <pre><code class="js"><span class="variable">connect</span>.<span class="variable">createServer</span>([
@@ -152,8 +156,7 @@ and available to node.</p>
 
 <h3 id="Options">Options</h3>
 
-<pre><code>root   Root directory from which to serve sass. Defaults to CWD
-match  RegExp used to match request urls. Defaults to /\.sass$/
+<pre><code>root   Root directory from which to compile sass. Defaults to CWD
 </code></pre>
 
 <h3 id="Environment-Variables">Environment Variables</h3>
@@ -165,6 +168,13 @@ match  RegExp used to match request urls. Defaults to /\.sass$/
 
 <ul>
 <li><a href="http://github.com/visionmedia/sass.js">Sass.js</a></li>
+</ul>
+
+
+<h3 id="See-Also">See Also</h3>
+
+<ul>
+<li>static</li>
 </ul>
 
 

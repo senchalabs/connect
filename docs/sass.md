@@ -1,6 +1,10 @@
 ## Sass
 
-The _sass_ middleware compiles and serves _*.sass_ files as css.
+The _sass_ middleware compiles _*.sass_ files as css, these files are
+written to disk, and automatically re-compiled when altered. _sass_ itself does not
+serve the file, it delegates to the _static_ middleware, therefore the _root_ option
+should be accessible to _static_.
+
 Sass itself is not bundled with Connect, so you must have it installed
 and available to node.
 
@@ -10,8 +14,7 @@ and available to node.
 
 ### Options
 
-    root   Root directory from which to serve sass. Defaults to CWD
-    match  RegExp used to match request urls. Defaults to /\.sass$/
+    root   Root directory from which to compile sass. Defaults to CWD
 
 ### Environment Variables
 
@@ -20,3 +23,7 @@ and available to node.
 ### Links
 
   * [Sass.js](http://github.com/visionmedia/sass.js)
+
+### See Also
+
+  * static
