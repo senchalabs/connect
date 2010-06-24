@@ -14,8 +14,8 @@ module.exports = {
     },
     
     'test use()': function(){
-        var server = connect.createServer();
-        server.listen(helpers.port++);
+        var server = helpers.run();
+
         var ret = server.use('/',
             function(req, res, next){
                 next();
@@ -67,12 +67,12 @@ module.exports = {
         server.assertResponse('GET', '/hello/world/and/more/segments', 200, 'hello world', 'Test path matching /hello/world/and/more/segments');
         server.assertResponse('GET', '/hello/world/images/foo.png?with=query&string', 200, 'hello world', 'Test path matching /hello/world/images/foo.png?with=query&string');
     },
-    // 
-    // 'test unmatched path': function(){
-    //     var server = helpers.run([]);
-    //     server.assertResponse('GET', '/', 404, 'Cannot find /', 'Test unmatched path');
-    //     server.assertResponse('GET', '/foo', 404, 'Cannot find /foo', 'Test unmatched path');
-    // },
+    
+    'test unmatched path': function(){
+        var server = helpers.run();
+        server.assertResponse('GET', '/', 404, 'Cannot find /', 'Test unmatched path');
+        server.assertResponse('GET', '/foo', 404, 'Cannot find /foo', 'Test unmatched path');
+    },
     // 
     // 'test handleError': function(){
     //     var called = 0;
