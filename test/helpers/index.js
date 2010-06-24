@@ -7,6 +7,6 @@ var connect = require('connect');
 
 exports.port = require('./http').port;
 
-exports.run = function run(middleware, env){
-    return connect.createServer(middleware, env).listen();
+exports.run = function run(){
+    return connect.createServer.apply(this, arguments).listen();
 }
