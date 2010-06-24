@@ -73,51 +73,43 @@ module.exports = {
         server.assertResponse('GET', '/', 404, 'Cannot find /', 'Test unmatched path');
         server.assertResponse('GET', '/foo', 404, 'Cannot find /foo', 'Test unmatched path');
     },
-    // 
-    // 'test handleError': function(){
-    //     var called = 0;
-    //     var server = helpers.run([
-    //         { module: {
-    //             handle: function(req, res, next){
-    //                 // Pass error
-    //                 next(new Error('shitty deal'));
-    //             }
-    //         }},
-    //         { module: {
-    //             handleError: function(err, req, res, next){
-    //                 ++called;
-    //                 assert.ok(err instanceof Error, 'Test handleError() Error as first param');
-    //                 assert.equal('object', typeof req);
-    //                 assert.equal('object', typeof res);
-    //                 assert.equal('function', typeof next);
-    //                 req.body = err.message;
-    //                 next(error);
-    //             }
-    //         }},
-    //         { module: {
-    //             handleError: function(err, req, res, next){
-    //                 ++called;
-    //                 assert.ok(err instanceof Error, 'Test handleError() next(error)');
-    //                 assert.equal('object', typeof req);
-    //                 assert.equal('object', typeof res);
-    //                 assert.equal('function', typeof next);
-    //                 // Recover exceptional state
-    //                 next();
-    //             }
-    //         }},
-    //         { module: {
-    //             handle: function(req, res, next){
-    //                 res.writeHead(200, {});
-    //                 res.end(req.body);
-    //             }
-    //         }},
-    //         { filter: 'error-handler' }
-    //     ]);
-    //     server.assertResponse('GET', '/', 200, 'shitty deal', 'Test handleError next()', function(){
-    //         var expected = 2;
-    //         assert.equal(expected, called, 'Test handleError calls, expected ' + expected + ' but got ' + called); 
-    //     });
-    // },
+    
+    'test handleError': function(){
+        var called = 0;
+        var server = helpers.run(
+            function(req, res, next){
+                // Pass error
+                next(new Error('shitty deal'));
+            },
+            function(err, req, res, next){
+                ++called;
+                assert.ok(err instanceof Error, 'Test handleError() Error as first param');
+                assert.equal('object', typeof req);
+                assert.equal('object', typeof res);
+                assert.equal('function', typeof next);
+                req.body = err.message;
+                next(error);
+            },
+            function(err, req, res, next){
+                ++called;
+                assert.ok(err instanceof Error, 'Test handleError() next(error)');
+                assert.equal('object', typeof req);
+                assert.equal('object', typeof res);
+                assert.equal('function', typeof next);
+                // Recover exceptional state
+                next();
+            },
+            function(req, res, next){
+                res.writeHead(200, {});
+                res.end(req.body);
+            },
+            connect.errorHandler()
+        );
+        server.assertResponse('GET', '/', 200, 'shitty deal', 'Test handleError next()', function(){
+            var expected = 2;
+            assert.equal(expected, called, 'Test handleError calls, expected ' + expected + ' but got ' + called); 
+        });
+    },
     // 
     // 'test catch error': function(){
     //     var server = helpers.run([
