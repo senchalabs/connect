@@ -110,25 +110,23 @@ module.exports = {
             assert.equal(expected, called, 'Test handleError calls, expected ' + expected + ' but got ' + called); 
         });
     },
-    // 
-    // 'test catch error': function(){
-    //     var server = helpers.run([
-    //         { module: {
-    //             handle: function(req, res, next){
-    //                 doesNotExist();
-    //             }
-    //         }}
-    //     ]);
-    //     
-    //     var req = server.request('GET', '/');
-    //     req.buffer = true;
-    //     req.addListener('response', function(res){
-    //         res.addListener('end', function(){
-    //             assert.equal(500, res.statusCode, 'Test 500 by default on exception');
-    //         });
-    //     });
-    //     req.end();
-    // },
+    
+    'test catch error': function(){
+        var server = helpers.run(
+            function(req, res, next){
+                doesNotExist();
+            }
+        );
+        
+        var req = server.request('GET', '/');
+        req.buffer = true;
+        req.addListener('response', function(res){
+            res.addListener('end', function(){
+                assert.equal(500, res.statusCode, 'Test 500 by default on exception');
+            });
+        });
+        req.end();
+    },
     // 
     // 'test mounting': function(){
     //     var world = connect.createServer([
