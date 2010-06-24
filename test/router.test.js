@@ -86,8 +86,8 @@ function main(app){
 module.exports = {
     'test routing': function(){
         var server = helpers.run();
-        server.use('/products', products);
-        server.use('/', main);
+        server.use('/products', connect.router(products));
+        server.use('/', connect.router(main));
         
         server.assertResponse('GET', '/products', 200, 'products');
         server.assertResponse('GET', '/products/', 200, 'products');
