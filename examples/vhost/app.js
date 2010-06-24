@@ -5,13 +5,11 @@
 
 var Connect = require('./../../lib/connect');
 
-// http://localhost:3000
 var localhost = Connect.vhost('localhost', Connect.createServer(function(req, res){
     res.writeHead(200, {});
     res.end('local vhost');
 }));
 
-// http://dev:3000
 var dev = Connect.vhost('dev', Connect.createServer(function(req, res){
     res.writeHead(200, {});
     res.end('dev vhost');
@@ -19,7 +17,9 @@ var dev = Connect.vhost('dev', Connect.createServer(function(req, res){
 
 module.exports = Connect.createServer(
     // Shared middleware
-    Connect.log(),
+    Connect.logger(),
+    // http://localhost:3000 server with own middleware
     localhost,
+    // http://dev:3000 server with own middleware
     dev
 );
