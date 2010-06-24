@@ -10,17 +10,15 @@ var connect = require('connect'),
 
 module.exports = {
     test: function(){
-        var server = helpers.run([
-            { filter: 'response-time' },
-            { module: {
-                handle: function(req, res){
-                    setTimeout(function(){
-                        res.writeHead(200, {});
-                        res.end(); 
-                    }, 20);
-                }
-            }}
-        ]);
+        var server = helpers.run(
+            connect.responseTime(),
+            function(req, res){
+                setTimeout(function(){
+                    res.writeHead(200, {});
+                    res.end(); 
+                }, 20);
+            }
+        );
         
         var req = server.request('GET', '/');
         req.addListener('response', function(res){

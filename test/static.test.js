@@ -16,9 +16,9 @@ var fixturesPath = __dirname + '/fixtures';
 
 module.exports = {
     'test valid file': function(){
-        var server = helpers.run([
-            { provider: 'static', root: fixturesPath }
-        ]);
+        var server = helpers.run(
+            connect.staticProvider(fixturesPath)
+        );
         var req = server.request('GET', '/user.json');
         req.buffer = true;
         req.addListener('response', function(res){
@@ -37,23 +37,23 @@ module.exports = {
     },
     
     'test index.html support': function(){
-        var server = helpers.run([
-            { provider: 'static', root: fixturesPath }
-        ]);
-        server.assertResponse('GET', '/', 200, '<p>Wahoo!</p>', 'Test static index.html support');
+        var server = helpers.run(
+            connect.staticProvider(fixturesPath)
+        );
+        server.assertResponse('GET', '/', 200, '<p>Wahoo!</p>', 'Test static index.html support.');
     },
     
     'test index.html support when missing': function(){
-        var server = helpers.run([
-            { provider: 'static' }
-        ]);
-        server.assertResponse('GET', '/', 404, 'Cannot find /', 'Test static index.html support when missing');
+        var server = helpers.run(
+            connect.staticProvider(__dirname)
+        );
+        server.assertResponse('GET', '/', 404, 'Cannot find /', 'Test static index.html support when missing.');
     },
     
     'test invalid file': function(){
-        var server = helpers.run([
-            { provider: 'static', root: fixturesPath }
-        ]);
-        server.assertResponse('GET', '/foo.json', 404, 'Cannot find /foo.json', 'Test invalid static file');
+        var server = helpers.run(
+            connect.staticProvider(fixturesPath)
+        );
+        server.assertResponse('GET', '/foo.json', 404, 'Cannot find /foo.json', 'Test invalid static file.');
     }
 }
