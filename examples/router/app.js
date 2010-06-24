@@ -55,8 +55,9 @@ function main(app){
     });
 }
 
-module.exports = require('./../../lib/connect').createServer([
-    { filter: 'log' },
-    { provider: 'router', app: user, route: '/users' },
-    { provider: 'router', app: main },
-]);
+var Connect = require('./../../lib/connect');
+var Server = module.exports = Connect.createServer(
+    Connect.logger()
+);
+Server.use("/users/", Connect.router(user));
+Server.use("/", Connect.router(main));
