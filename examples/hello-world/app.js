@@ -3,8 +3,6 @@
 
 var Connect = require('../../lib/connect');
 
-module.exports = Connect.createServer(
-    function handle(req, res) {
-        res.simpleBody(200, {method: req.method, format: req.format, body: req.body});
-    }
-);
+module.exports = Connect.createServer(function(req, res) {
+    res.simpleBody(200, {Hello: "world"});
+});
