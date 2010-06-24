@@ -10,26 +10,20 @@ var connect = require('connect'),
 
 module.exports = {
     test: function(){
-        var server = helpers.run([
-            { filter: 'vhost', hosts: {
-                'foo.com': connect.createServer([
-                    { module: {
-                        handle: function(req, res){
-                            res.writeHead(200, {});
-                            res.end('from foo');
-                        }
-                    }}
-                ]),
-                'bar.com': connect.createServer([
-                    { module: {
-                        handle: function(req, res){
-                            res.writeHead(200, {});
-                            res.end('from bar');
-                        }
-                    }}
-                ]),
-            }}
-        ]);
+        var server = helpers.run(
+            connect.vhost('foo.com', connect.createServer(
+                function(req, res){
+                    res.writeHead(200, {});
+                    res.end('from foo');
+                }
+            )),
+            connect.vhost('bar.com', connect.createServer(
+                function(req, res){
+                    res.writeHead(200, {});
+                    res.end('from bar');
+                }
+            ))
+        );
 
         var req = server.request('GET', '/', { Host: 'foo.com' });
         req.buffer = true;

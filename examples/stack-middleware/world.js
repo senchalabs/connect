@@ -1,9 +1,13 @@
 
-module.exports = require('./../../lib/connect').createServer([
-    { module: {
-        handle: function(req, res){
-            res.writeHead(200, { 'Content-Type': 'text/plain' });
-            res.end('World');
-        }
-    }, route: '/world' }
-]);
+/**
+ * Module dependencies.
+ */
+
+var Connect = require('./../../lib/connect');
+
+var Server = module.exports = Connect.createServer();
+
+Server.use('/world', function(req, res){
+    res.writeHead(200, { 'Content-Type': 'text/plain' });
+    res.end('World');
+});
