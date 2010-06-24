@@ -1,19 +1,23 @@
 
+/**
+ * Module dependencies.
+ */
+
 var sys = require('sys'),
-	connect = require('./../../lib/connect');
+	Connect = require('./../../lib/connect');
 
 // Based on the current env name require / mixin the 
-// additional file-based configuration
-process.connectEnv.mixin(require('./config/' + process.connectEnv.name));
+// additional file-based configuration. Try using
+// --env production 
+
+var conf = require('./config/' + process.connectEnv.name);
+for (var key in conf) {
+    process.connectEnv[key] = conf[key];
+}
+
 sys.log('loading config file "config/' + process.connectEnv.name + '.js"');
 
-// Pass the custom environment as the second argument to createServer()
-module.exports = connect.createServer([
-    { filter: 'log' },
-    { module: {
-        handle: function(req, res, next){
-            res.writeHead(200, { 'Content-Type': 'text/plain' });
-            res.end(sys.inspect(process.connectEnv));
-        }
-    }}
-]);
+module.exports = Connect.createServer(function(req, res, next){
+   res.writeHead(200, { 'Content-Type': 'text/plain' });
+   res.end(sys.inspect(process.connectEnv)); 
+});
