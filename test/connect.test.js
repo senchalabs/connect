@@ -128,23 +128,23 @@ module.exports = {
         req.end();
     },
     
-    // 'test mounting': function(){
-    //     var helloWorldServer = helpers.run();
-    //     helloWorldServer.use('/world', function(req, res){
-    //         res.writeHead(200);
-    //         res.end('hello world');
-    //     });
-    //     
-    //     var server = helpers.run();
-    //     server.use('/hello', helloWorldServer);
-    //     server.use('/hello', function(req, res){
-    //         res.writeHead(200);
-    //         res.end('hello');
-    //     });
-    //     
-    //     server.assertResponse('GET', '/hello/world', 200, 'hello world', 'Test mounting /hello/world');
-    //     server.assertResponse('GET', '/hello', 200, 'hello', 'Test mounting /hello');
-    // },
+    'test mounting': function(){
+        var helloWorldServer = connect.createServer();
+        helloWorldServer.use('/world', function(req, res){
+            res.writeHead(200);
+            res.end('hello world');
+        });
+        
+        var server = helpers.run();
+        server.use('/hello', helloWorldServer);
+        server.use('/hello', function(req, res){
+            res.writeHead(200);
+            res.end('hello');
+        });
+        
+        server.assertResponse('GET', '/hello/world', 200, 'hello world', 'Test mounting /hello/world');
+        server.assertResponse('GET', '/hello', 200, 'hello', 'Test mounting /hello');
+    },
     
     'test connect as middleware': function(){
         var inner = connect.createServer();
@@ -177,24 +177,5 @@ module.exports = {
         server.assertResponse('POST', '/', 200, 'middle stack', 'Test middle stack');
         server.assertResponse('POST', '/inner', 200, 'inner stack', 'Test inner stack');
         server.assertResponse('GET', '/', 404, 'Cannot find /', 'Test multiple stacks unmatched path');
-    },
-    // 
-    // 'test next()': function(){
-    //     var server = helpers.run([
-    //         { module: {
-    //             handle: function(req, res, next){
-    //                 next();
-    //             }
-    //         }},
-    //         { module: {
-    //             handle: function(req, res, next){
-    //                 assert.equal('object', typeof req);
-    //                 assert.equal('object', typeof res);
-    //                 assert.equal('function', typeof next);
-    //                 next();
-    //             }
-    //         }}
-    //     ]);
-    //     server.request('GET', '/').end();
-    // }
+    }
 }
