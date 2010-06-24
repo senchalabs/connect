@@ -10,50 +10,42 @@ var connect = require('connect'),
 
 module.exports = {
     'test defaults': function(){
-        var server = helpers.run([
-            { module: {
-                handle: function(req, res, next){
-                    next(new Error('keyboard cat!'));
-                }
-            }},
-            { filter: 'error-handler' }
-        ]);
+        var server = helpers.run(
+            function(req, res, next){
+                next(new Error('keyboard cat!'));
+            },
+            connect.errorHandler()
+        );
         server.assertResponse('GET', '/', 500, 'Internal Server Error', 'Test error-handler defaults');
     },
     
     'test defaults with caught exception': function(){
-        var server = helpers.run([
-            { module: {
-                handle: function(req, res, next){
-                    throw new Error('keyboard cat!');
-                }
-            }},
-            { filter: 'error-handler' }
-        ]);
+        var server = helpers.run(
+            function(req, res, next){
+                throw new Error('keyboard cat!');
+            },
+            connect.errorHandler()
+        );
         server.assertResponse('GET', '/', 500, 'Internal Server Error', 'Test error-handler defaults');
     },
     
     'test showMessage': function(){
-        var server = helpers.run([
-            { module: {
-                handle: function(req, res, next){
-                    next(new Error('keyboard cat!'));
-                }
-            }},
-            { filter: 'error-handler', showMessage: true }
-        ]);
+        var server = helpers.run(
+            function(req, res, next){
+                next(new Error('keyboard cat!'));
+            },
+            connect.errorHandler({ showMessage: true })
+        );
         server.assertResponse('GET', '/', 500, 'Error: keyboard cat!', 'Test error-handler showMessage');
     },
     
     'test showStack': function(){
-        var server = helpers.run([
-            { module: {
-                handle: function(req, res, next){
-                    next(new Error('keyboard cat!'));
-                }
-            }},
-            { filter: 'error-handler', showStack: true }
-        ]);
+        var server = helpers.run(
+            function(req, res, next){
+                next(new Error('keyboard cat!'));
+            },
+            connect.errorHandler({ showStack: true })
+        );
         var req = server.request('GET', '/');
         req.buffer = true;
         req.addListener('response', function(res){
