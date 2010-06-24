@@ -1,5 +1,13 @@
 
 /**
+ * Module dependencies.
+ */
+
+var Connect = require('./../../lib/connect');
+
+var pub = __dirname + '/public';
+
+/**
  * Update development submodules (git submodule update --init),
  * and then execute:
  *
@@ -7,9 +15,7 @@
  *
  */
 
-var pub = __dirname + '/public';
-
-module.exports = require('./../../lib/connect').createServer([
-    { filter: 'compiler', src: pub, enable: ['sass'] },
-    { provider: 'static', root: pub }
-]);
+module.exports = Connect.createServer(
+    Connect.compiler({ src: pub, enable: ['sass'] }),
+    Connect.staticProvider(pub)
+);
