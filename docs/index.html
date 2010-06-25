@@ -142,8 +142,10 @@
 			<li><a href="methodOverride.html">methodOverride</a></li>
 			<li><a href="staticProvider.html">staticProvider</a></li>
 		</ul><div class='mp'>
-<h2 id='Connect'>Connect</h2>
-<p><code>connect</code> - node server runner</p>
+<h2 id="Connect">Connect</h2>
+<p class="man-name">
+  <code>connect</code> - <span class="man-whatis">node server runner</span>
+</p>
 
 <h2 id="Synopsis">Synopsis</h2>
 
@@ -260,7 +262,7 @@ Middleware with four parameters is an error handling middleware, the <code>err</
     <span class="variable">next</span>(<span class="keyword">new</span> <span class="class">Error</span>(<span class="string">'something broke!'</span>));
 }
 
-<span class="keyword">function</span> <span class="variable">errorHandler</span>(<span class="variable">err</span>, <span class="variable">req</span>, <span class="variable">res</span>) {
+<span class="keyword">function</span> <span class="variable">errorHandler</span>(<span class="variable">err</span>, <span class="variable">req</span>, <span class="variable">res</span>, <span class="variable">next</span>) {
     <span class="variable">res</span>.<span class="variable">writeHead</span>(<span class="number integer">500</span>, { <span class="string">'Content-Type'</span>: <span class="string">'text/plain'</span> });
     <span class="variable">res</span>.<span class="variable">end</span>(<span class="variable">err</span>.<span class="variable">stack</span>);
 }
@@ -281,7 +283,7 @@ Middleware with four parameters is an error handling middleware, the <code>err</
 
 <p>   // app.js
    // delay one second before continuing down the stack
-   connect.createServer(require('./delay')(1000)).listen(3000);</p>
+   connect.createServer(require('./delay')(1000))<span class="man-ref">.listen<span class="s">(3000)</span></span>;</p>
 
 <h2 id="Bundled-Middleware">Bundled Middleware</h2>
 

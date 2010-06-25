@@ -1,7 +1,10 @@
-.\" generated with Ronn/v0.6.6
-.\" http://github.com/rtomayko/ronn/
+.\" generated with Ronn/v0.7.3
+.\" http://github.com/rtomayko/ronn/tree/0.7.3
 .
 .TH "REDIRECT" "" "June 2010" "" ""
+.
+.SH "NAME"
+\fBredirect\fR
 .
 .SH "Redirect"
 The \fIredirect\fR middleware provides \fBres\.redirect()\fR, a utility method for redirecting the request to a new \fILocation\fR\. Example usage:
@@ -19,7 +22,7 @@ exports\.handle = function(req, res, next) {
 .IP "" 0
 .
 .P
-Redirect also provides \"magic\" url maps, currently supported is \fIback\fR, which will redirect to the \fIReferrer\fR or \fIReferer\fR headers:
+Redirect also provides "magic" url maps, currently supported is \fIback\fR, which will redirect to the \fIReferrer\fR or \fIReferer\fR headers:
 .
 .IP "" 4
 .
