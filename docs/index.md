@@ -109,7 +109,7 @@ Middleware with four parameters is an error handling middleware, the `err` objec
 	    next(new Error('something broke!'));
     }
 
-    function errorHandler(err, req, res) {
+    function errorHandler(err, req, res, next) {
 	    res.writeHead(500, { 'Content-Type': 'text/plain' });
 	    res.end(err.stack);
     }
