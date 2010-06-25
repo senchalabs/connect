@@ -120,16 +120,29 @@ function colorize(str) {
  * @param {Number} mode
  */
 
-function mkdirs(path, mode){
+function mkdirs(path, mode) {
     var segs = path.split('/'),
         mode = mode || 0755;
-    try {
-        for (var i = 0, len = segs.length; i < len;) {
-            var dir = segs.slice(0, ++i).join('/');
-            fs.mkdirSync(dir, mode);
+    if (segs[0]) {
+        segs.unshift(process.cwd());
+    } else {
+        segs[0] = '/';
+    }
+    for (var i = 0, len = segs.length; i < len; ++i) {
+        var dir = segs.slice(0, i + 1).join('/'),
+            dir = dir[1] === '/' ? dir.slice(1) : dir;
+        try {
+            var stat = fs.statSync(dir);
+            if (!stat.isDirectory()) {
+                throw new Error('Failed to mkdir "' + dir + '"');
+            }
+        } catch (err) {
+            if (err.errno === process.ENOENT) {
+                fs.mkdirSync(dir, mode);
+            } else {
+                throw err;
+            }
         }
-    } catch (err) {
-        if (err.errno !== process.EEXIST) throw err;
     }
 }
 
