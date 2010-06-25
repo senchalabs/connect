@@ -1,4 +1,22 @@
 
+0.1.0 / 2010-06-25
+==================
+
+  * Revamped the api, view the [Connect documentation](http://extjs.github.com/Connect/index.html#Middleware-Authoring) for more info (hover on the right for menu)
+  * Added [extended api docs](http://extjs.github.com/Connect/api.html)
+  * Added docs for several more middleware layers
+  * Added `connect.Server#use()`
+  * Added _compiler_ middleware which provides arbitrary static compilation
+  * Added `req.originalUrl`
+  * Removed _blog_ example
+  * Removed _sass_ middleware (use _compiler_)
+  * Removed _less_ middleware (use _compiler_)
+  * Renamed middleware to be camelcase, _body-decoder_ is now _bodyDecoder_ etc.
+  * Fixed `req.url` mutation bug when matching `connect.Server#use()` routes
+  * Fixed `mkdir -p` implementation used in _bin/connect_. Closes #39
+  * Fixed bug in _bodyDecoder_ throwing exceptions on request empty bodies
+  * `make install` installing lib to $LIB_PREFIX aka $HOME/.node_libraries
+
 0.0.6 / 2010-06-22
 ==================
 
