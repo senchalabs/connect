@@ -10,42 +10,40 @@ var connect = require('connect'),
 
 // Stores
 
-var MemoryStore = require('connect/filters/session/memory').MemoryStore;
+var MemoryStore = require('connect/middleware/session/memory').MemoryStore;
 
 module.exports = {
     'test MemoryStore': function(){
         var n = 0, sid;
-        var server = helpers.run([
-            { filter: 'cookie' },
-            { filter: 'session', store: new MemoryStore({ reapInterval: -1 }) },
-            { module: {
-                handle: function(req, res, next){
-                    assert.ok(req.sessionStore, 'Test req.sessionStore')
-                    switch (n++) {
-                        case 0:
-                            assert.eql(['id', 'lastAccess'], Object.keys(req.session),
-                                'Test MemoryStore session initialization');
-                            break;
-                        case 1:
-                            assert.eql(['id', 'lastAccess'], Object.keys(req.session),
-                                'Test MemoryStore session initialization with invalid sid');
-                            assert.notEqual('123123', req.session.id, 'Test MemoryStore sid regeneration');
-                            break;
-                        case 2:
-                            lastAccess = req.session.lastAccess;
-                            break;
-                        case 3:
-                            assert.equal(sid, req.session.id, 'Test MemoryStore persistence');
-                            assert.notEqual(lastAccess, req.session.lastAccess, 'Test MemoryStore lastAccess update');
-                            break;
-                        case 4:
-                            assert.notEqual(sid, req.session.id, 'Test MemoryStore User-Agent fingerprint');
-                            break;
-                    }
-                    next();
+        var server = helpers.run(
+            connect.cookieDecoder(),
+            connect.session({ store: new MemoryStore({ reapInterval: -1 }) }),
+            function(req, res, next){
+                assert.ok(req.sessionStore, 'Test req.sessionStore')
+                switch (n++) {
+                    case 0:
+                        assert.eql(['id', 'lastAccess'], Object.keys(req.session),
+                            'Test MemoryStore session initialization');
+                        break;
+                    case 1:
+                        assert.eql(['id', 'lastAccess'], Object.keys(req.session),
+                            'Test MemoryStore session initialization with invalid sid');
+                        assert.notEqual('123123', req.session.id, 'Test MemoryStore sid regeneration');
+                        break;
+                    case 2:
+                        lastAccess = req.session.lastAccess;
+                        break;
+                    case 3:
+                        assert.equal(sid, req.session.id, 'Test MemoryStore persistence');
+                        assert.notEqual(lastAccess, req.session.lastAccess, 'Test MemoryStore lastAccess update');
+                        break;
+                    case 4:
+                        assert.notEqual(sid, req.session.id, 'Test MemoryStore User-Agent fingerprint');
+                        break;
                 }
-            }}
-        ]);
+                next();
+            }
+        );
         
         server.pending = 5;
         server.request('GET', '/').end();

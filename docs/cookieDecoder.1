@@ -1,0 +1,27 @@
+.\" generated with Ronn/v0.6.6
+.\" http://github.com/rtomayko/ronn/
+.
+.TH "COOKIEDECODER" "" "June 2010" "" ""
+.
+.SH "Cookie Decoder"
+The \fIcookieDecoder\fR middleware parses the \fICookie\fR header when present, and populates \fBreq\.cookies\fR:
+.
+.IP "" 4
+.
+.nf
+
+connect\.createServer(
+    connect\.cookieDecoder()
+]);
+.
+.fi
+.
+.IP "" 0
+.
+.SH "See Also"
+.
+.IP "\(bu" 4
+session
+.
+.IP "" 0
+

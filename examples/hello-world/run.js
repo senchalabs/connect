@@ -1,3 +1,3 @@
 #!/usr/bin/env node
 
-require('./app').listen();
+require('./app').listen(8080);

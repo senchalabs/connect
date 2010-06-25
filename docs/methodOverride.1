@@ -1,0 +1,31 @@
+.\" generated with Ronn/v0.6.6
+.\" http://github.com/rtomayko/ronn/
+.
+.TH "METHODOVERRIDE" "" "June 2010" "" ""
+.
+.SH "Method Override"
+The \fImethodOverride\fR middleware checks \fBreq\.body\._method\fR (by default) in order to swap out the http request method\. The \fIbodyDecoder\fR middleware will populate \fBreq\.body\fR when a form is submitted, which when paired with this middleware will allow the \fIrouter\fR middleware to support RESTful forms\.
+.
+.SS "Options"
+.
+.nf
+
+key   Defaults to _method
+.
+.fi
+.
+.SS "Environment Variables"
+.
+.nf
+
+\-\-methodOverrideKey
+.
+.fi
+.
+.SS "See Also"
+.
+.IP "\(bu" 4
+body\-decoder
+.
+.IP "" 0
+

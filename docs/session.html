@@ -25,7 +25,7 @@
         display: none;
       }
 	  h3 {
-		margin: 15px 0;
+		margin: 35px 0;
 		padding-left: 10px;
 	    font-size: 16px;
 		border-left: 15px solid #eee;
@@ -122,35 +122,38 @@
   <body>
     <div id="wrapper">
 		<ul id="menu">
+			<li class="title">API</li>
+			<li><a href="api.html">extended api docs</a></li>
 			<li class="title">Filters</li>
-			<li><a href="log.html">log</a></li>
+			<li><a href="logger.html">logger</a></li>
 			<li><a href="lint.html">lint</a></li>
 			<li><a href="flash.html">flash</a></li>
 			<li><a href="redirect.html">redirect</a></li>
-			<li><a href="cookie.html">cookie</a></li>
+			<li><a href="cookieDecoder.html">cookieDecoder</a></li>
 			<li><a href="session.html">session</a></li>
 			<li><a href="compiler.html">compiler</a></li>
-			<li><a href="body-decoder.html">body-decoder</a></li>
-			<li><a href="conditional-get.html">conditional-get</a></li>
-			<li><a href="response-time.html">response-time</a></li>
-			<li><a href="method-override.html">method-override</a></li>
+			<li><a href="bodyDecoder.html">bodyDecoder</a></li>
+			<li><a href="conditionalGet.html">conditionalGet</a></li>
+			<li><a href="responseTime.html">responseTime</a></li>
+			<li><a href="methodOverride.html">methodOverride</a></li>
 			<li class="title">Providers</li>
 			<li><a href="router.html">router</a></li>
-			<li><a href="static.html">static</a></li>
+			<li><a href="staticProvider.html">staticProvider</a></li>
+			<li><a href="jsonrpc.html">jsonrpc</a></li>
 		</ul><div class='mp'>
 <h2 id="Session">Session</h2>
 
 <p>The <em>session</em> middleware provides persistence between requests.
 If we wish to supply a custom <code>Store</code> subclass, or pass options to the store itself, we can configure it like so:</p>
 
-<pre><code class="js"><span class="keyword">var</span> <span class="class">MemoryStore</span> = <span class="variable">require</span>(<span class="string">'connect/filters/session/memory'</span>).<span class="class">MemoryStore</span>;
-<span class="variable">connect</span>.<span class="variable">createServer</span>([
-    { <span class="variable">filter</span>: <span class="string">'cookie'</span> }
-    { <span class="variable">filter</span>: <span class="string">'session'</span>, <span class="variable">store</span>: <span class="keyword">new</span> <span class="class">MemoryStore</span>({ <span class="variable">reapInterval</span>: <span class="number integer">60000</span> * <span class="number integer">10</span> }) }
-]);
+<pre><code class="js"><span class="keyword">var</span> <span class="class">MemoryStore</span> = <span class="variable">require</span>(<span class="string">'connect/middleware/session/memory'</span>).<span class="class">MemoryStore</span>;
+<span class="variable">connect</span>.<span class="variable">createServer</span>(
+    <span class="variable">connect</span>.<span class="variable">cookieDecoder</span>(),
+    <span class="variable">connect</span>.<span class="variable">session</span>({ <span class="variable">store</span>: <span class="keyword">new</span> <span class="class">MemoryStore</span>({ <span class="variable">reapInterval</span>: <span class="number integer">60000</span> * <span class="number integer">10</span> }) }),
+);
 </code></pre>
 
-<p><strong>NOTE:</strong> <em>cookie</em> must be above <em>session</em> within the stack</p>
+<p><strong>NOTE:</strong> <em>cookieDecoder</em> must be above <em>session</em> within the stack</p>
 
 <h3 id="Options">Options</h3>
 
@@ -196,7 +199,7 @@ cookie          Session cookie options. Defaults to { path: '/', httpOnly: true 
 <h3 id="See-Also">See Also</h3>
 
 <ul>
-<li>cookie</li>
+<li>cookieDecoder</li>
 </ul>
 
 

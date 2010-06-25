@@ -106,20 +106,19 @@ function save(req, res, user, level) {
 }
 
 // Serve the App
-module.exports = new Connect.Server([
-    {filter: "log"},
-    {filter: "response-time"},
-    {filter: "conditional-get"},
-    {filter: "cache", param: {ramCache: 100}},
-    {filter: "gzip"},
-    // First serve static files
-    {provider: "static", root: __dirname + "/public"},
-    // Then the game logic as a router endpoint
-    {filter: "body-decoder"},
-    {provider: "router", param: function (server) {
-        server.get(new RegExp('^/([^/]+)/([^/]+);edit$'), edit);
-        server.get(new RegExp('^/([^/]+)/([^/]+)$'), play);
-        server.post(new RegExp('^/([^/]+)/([^/]+)$'), save);
-    }},
-    {filter: "error-handler"}
-]);
+module.exports = Connect.createServer(
+    Connect.logFilter()
+    // Connect.responseTimeFilter(),
+    // Connect.conditionalGetFilter(),
+    // Connect.cacheFilter(100),
+    // Connect.gzipFilter(),
+    // // First serve static files
+    // Connect.staticProvider(__dirname + "/public"),
+    // // Then the game logic as a router endpoint
+    // Connect.bodyDecoderFilter(),
+    // Connect.routerProvider(function (server) {
+    //     server.get(new RegExp('^/([^/]+)/([^/]+);edit$'), edit);
+    //     server.get(new RegExp('^/([^/]+)/([^/]+)$'), play);
+    //     server.post(new RegExp('^/([^/]+)/([^/]+)$'), save);
+    // })
+);

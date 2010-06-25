@@ -10,43 +10,42 @@ var connect = require('connect'),
 
 // Stores
 
-var MemoryStore = require('connect/filters/session/memory').MemoryStore;
+var MemoryStore = require('connect/middleware/session/memory').MemoryStore;
 
 module.exports = {
     'test MemoryStore': function(){
-        var n = 0, sid;
+        var n = 0, sid,
+            memory = new MemoryStore({ reapInterval: -1 });
 
-        var server = helpers.run([
-            { filter: 'cookie' },
-            { filter: 'session', store: new MemoryStore({ reapInterval: -1 }) },
-            { filter: 'flash' },
-            { module: {
-                handle: function(req, res, next){
-                    switch (n++) {
-                        case 0:
-                            assert.eql({}, req.flash());
-                            assert.eql([], req.flash('info'));
-                            req.flash('info', 'email _sending_');
-                            assert.equal(2, req.flash('info', 'email sent <em>successfully</em>'));
-                            break;
-                        case 1:
-                            assert.eql(['email <em>sending</em>', 'email sent &lt;em&gt;successfully&lt;/em&gt;'], req.flash('info'));
-                            assert.eql([], req.flash('info'));
-                            break;
-                        case 2:
-                            assert.eql([], req.flash('info'));
-                            req.flash('error', 'email failed');
-                            req.flash('info', 'email re-sent');
-                            break;
-                        case 3:
-                            assert.eql({ info: ['email re-sent'], error: ['email failed'] }, req.flash());
-                            assert.eql({ }, req.flash());
-                            break;
-                    }
-                    next();
+        var server = helpers.run(
+            connect.cookieDecoder(),
+            connect.session({ store: memory }),
+            connect.flash(),
+            function(req, res, next){
+                switch (n++) {
+                    case 0:
+                        assert.eql({}, req.flash());
+                        assert.eql([], req.flash('info'));
+                        req.flash('info', 'email _sending_');
+                        assert.equal(2, req.flash('info', 'email sent <em>successfully</em>'));
+                        break;
+                    case 1:
+                        assert.eql(['email <em>sending</em>', 'email sent &lt;em&gt;successfully&lt;/em&gt;'], req.flash('info'));
+                        assert.eql([], req.flash('info'));
+                        break;
+                    case 2:
+                        assert.eql([], req.flash('info'));
+                        req.flash('error', 'email failed');
+                        req.flash('info', 'email re-sent');
+                        break;
+                    case 3:
+                        assert.eql({ info: ['email re-sent'], error: ['email failed'] }, req.flash());
+                        assert.eql({ }, req.flash());
+                        break;
                 }
-            }}
-        ]);
+                next();
+            }
+        );
         
         server.pending = 4;
         var req = server.request('GET', '/');

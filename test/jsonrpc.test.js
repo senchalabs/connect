@@ -7,12 +7,12 @@ var connect = require('connect'),
     helpers = require('./helpers'),
     assert = require('assert'),
     http = require('http'),
-    jsonrpc = require('connect/providers/jsonrpc')
+    jsonrpc = require('connect/middleware/jsonrpc')
 
 function run(procedures){
-    var server = helpers.run([
-        { provider: 'jsonrpc', services: procedures }
-    ]);
+    var server = helpers.run(
+        connect.jsonrpc(procedures)
+    );
     server.call = function(obj, fn){
         var req = server.request('POST', '/', { 'Content-Type': 'application/json' });
         req.buffer = true;

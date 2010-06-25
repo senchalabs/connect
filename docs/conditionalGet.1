@@ -1,0 +1,16 @@
+.\" generated with Ronn/v0.6.6
+.\" http://github.com/rtomayko/ronn/
+.
+.TH "CONDITIONALGET" "" "June 2010" "" ""
+.
+.SH "Conditional GET"
+The \fIconditionalGet\fR middleware supports conditional GET requests, which validates the \"freshness\" of a response body\. Currently supports:
+.
+.IP "\(bu" 4
+\fIIf\-Modified\-Since\fR\. When a response status is \fI200\fR, and \fILast\-Modified\fR less than or equal to this time, the response body and \fIContent\-*\fR headers will be stripped, responding with 304 \"Not Modified\"\.
+.
+.IP "\(bu" 4
+\fIIf\-None_Match\fR\. Performs a similar validation, however compares the \fIETag\fR for equality\.
+.
+.IP "" 0
+

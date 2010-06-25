@@ -10,18 +10,18 @@ The \fIsession\fR middleware provides persistence between requests\. If we wish 
 .
 .nf
 
-var MemoryStore = require(\'connect/filters/session/memory\')\.MemoryStore;
-connect\.createServer([
-    { filter: \'cookie\' }
-    { filter: \'session\', store: new MemoryStore({ reapInterval: 60000 * 10 }) }
-]);
+var MemoryStore = require(\'connect/middleware/session/memory\')\.MemoryStore;
+connect\.createServer(
+    connect\.cookieDecoder(),
+    connect\.session({ store: new MemoryStore({ reapInterval: 60000 * 10 }) }),
+);
 .
 .fi
 .
 .IP "" 0
 .
 .P
-\fBNOTE:\fR \fIcookie\fR must be above \fIsession\fR within the stack
+\fBNOTE:\fR \fIcookieDecoder\fR must be above \fIsession\fR within the stack
 .
 .SS "Options"
 .
@@ -96,7 +96,7 @@ Your store interacts with instances of \fBSession\fR, however when committing / 
 .SS "See Also"
 .
 .IP "\(bu" 4
-cookie
+cookieDecoder
 .
 .IP "" 0
 

@@ -19,15 +19,49 @@ third param of \fBhandle()\fR is \fInext\fR
 source of \fBhandle()\fR to see if \fBnext()\fR is called, or if the request is responded to
 .
 .IP "\(bu" 4
-\fBmethod\fR property is always uppercase
-.
-.IP "\(bu" 4
 \fBreq\.headers\fR is accessed with lowercase
 .
 .IP "" 0
 .
-.P
-The placement of \fIlint\fR within the stack is important\. It should sit below the middleware you are developing, in order to validate during runtime, however it can also simply be placed at the bottom of the stack to validate all middleware statically\.
+.SS "Example"
+.
+.nf
+
+var Server = module\.exports = connect\.createServer(
+    // No named params
+    function params(){
+        arguments[2]();
+    },
+    // Does not call next AND does not respond
+    function hang(req, res, next){
+        // Call foo() instead so
+        // that our demo can still function\.
+        var foo = next;
+        foo();
+
+        // All good
+        var ct = req\.headers[\'content\-type\'];
+    },
+    function allGood(req, res, next){
+        // All good
+        next();
+    },
+    function reqHeaders(req, res, next){
+        // Request headers are always normalized as
+        // lowercased by ryan\'s http parser\.
+        var ct = req\.headers[\'Content\-Type\'];
+        next();
+    },
+    function methodUppercase(req, res, next){
+        // req\.method should be uppercase
+        req\.method = \'get\';
+        next();
+    }
+);
+
+Server\.use(\'/\', connect\.lint(Server));
+.
+.fi
 .
 .SS "Sample Output"
 .
@@ -63,7 +97,6 @@ Warning: layer req\.headers:3 Request headers are lowercased, seems to be access
         var ct = req\.headers[\'Content\-Type\'];
         next();
     }
-Warning: layer method uppercase:4 Request method is no longer uppercase, got get
 .
 .fi
 

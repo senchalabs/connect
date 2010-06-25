@@ -54,24 +54,19 @@ Boolean values may use strings such as _yes_, _no_, _true_, _false_.
     --showErrorMessage BOOL   Show exception message in response (recommended for development only)
     --showErrorStack BOOL     Show exception stack trace (recommended for development only)
     --methodOverrideKey STR   Override the default method key of "_method"
-    --sassRoot PATH           Public sass conversion root path
-    --staticRoot PATH         Public static file root path
-
-## Middleware
-
-Connect middleware is divided into two concepts. First we have _filters_ which perform an action and allow lower middleware to respond to the request, secondly we have _providers_ which are conceptual "end-points", responding to the request without continuing down the stack.
+    --compilerSrc PATH        Compiler source root directory
+    --compilerDest PATH       Compiler destination directory
 
 ## Middleware Usage
 
-Below is an example which shows usage of the _log_ filter bundled with Connect, as well as the _static_ provider.
+Below is an example which shows usage of the _logger_ middleware bundled with Connect, as well as _staticProvder_.
 
-The keys `filter` and `provider` are used only as short-cuts to bundled middleware, to utilize a custom module we can assign a module's exports to the `module` key.
+    var connect = require('connect');
 
-    module.exports = require('./lib/connect').createServer([
-        { filter: 'log' },
-        { module: require('path/to/custom/middleware') },
-        { provider: 'static', root: __dirname + '/public' }
-    ]);
+    module.exports = connect.createServer(
+		connect.logger(),
+		connect.static(__dirname + '/public)
+    );
 
 As shown above the module exports a `connect.Server` and does not call the `listen()` method directly. This allows other modules to "mount" this app, as well as allowing the _connect_ executable to control how the server is run.
  
@@ -82,117 +77,86 @@ If you prefer not to use _connect_, you can simply create a script executable by
 
 ## Middleware Authoring
 
-Middleware is essentially just an object, responding to a `handle()` method, the example below illustrates how simple it is to create, and utilize custom middleware.
- 
-First we define the `handle()` method, which accepts three arguments, _req_, _res_, and _next_. 
+Connect middleware is simply a function which accepts the _request_, _response_ objects. Optionally
+the third parameter _next_ can be used to continue down the middleware stack. For example below is
+a middleware layer that simply responds with "hello world".
 
-    var helloWorld = {
-        handle: function(req, res, next){
-            res.writeHead(200, { 'Content-Type': 'text/plain' });
-            res.end('Hello World');
-        }
+    function helloWorld(req, res) {
+	    res.writeHead(200, { 'Content-Type': 'text/plain' });
+	    res.end('hello world');
+    }
+
+    connect.createServer(helloWorld).listen(3000);
+
+Lets say we now have some middleware that will require a setup step, this can be done by returning a closure:
+
+    function respond(msg) {
+	    msg = msg || 'hello world';
+	    return function(req, res) {
+		    res.writeHead(200, { 'Content-Type': 'text/plain' });
+		    res.end(msg);
+   	    }
+    }
+
+    connect.createServer(respond('wahoo')).listen(3000);
+
+To pass control to the next middleware layer, we may call the `next()` function with an optional instanceof `Error`.
+Middleware with four parameters is an error handling middleware, the `err` object can then be logged, used to issue a response, ignored, etc.
+
+    function break(req, res, next) {
+	    // Exceptions thrown will be automatically passed to next()
+	    // however for custom exceptions / async exceptions you may pass them
+	    next(new Error('something broke!'));
+    }
+
+    function errorHandler(err, req, res) {
+	    res.writeHead(500, { 'Content-Type': 'text/plain' });
+	    res.end(err.stack);
+    }
+
+    connect.createServer(break, errorHandler).listen(3000);
+
+To make your middleware available to others, typically you write a module, and export the function itself:
+
+    // delay.js
+    module.exports = function(ms){
+	    ms = ms || 1000;
+	    return function(req, res, next){
+		    setTimeout(next, ms);
+ 	    } 
     };
 
-    require('connect').createServer([
-        { module: helloWorld }
-    ]);
-
-The `next()` function passes control to the next middleware layer in the stack, and may optionally be passed an instanceof `Error`, at which time only `handleError()` methods may respond.
- 
-If you wish to pass an exception down the stack, you can invoke `next()` like below:
- 
-     if (someRequirementIsNotMet) {
-         next(new Error('my requirement was not met!'));
-     }
-
-We can take this example further by "exporting" the `handle()` method, so that other libraries can simply `require('hello-world')`:
- 
-    // hello-world.js
-    exports.handle = function(req, res, next){
-        res.writeHead(200, { 'Content-Type': 'text/plain' });
-        res.end('Hello World');
-    };
-    
-    // app.js
-    require('connect').createServer([
-        { module: require('./hello-world') }
-    ]);
-
-### Exception Handling
-
-If an exception was thrown, or is passed to `next()`, middleware may define the `handleError()` method
-in order to respond (or ignore) the exception. The `handleError()` method follows the same semantics as
-`handle()`, for example:
-
-    exports.handleError = function(err, req, res, next){
-        // At any time we can call next() without
-        // any arguments to eliminate exceptional status and
-        // continue down the stack
-
-        if (err.code === process.ENOENT) {
-            // We dont want to deal with missing files
-            // so pass the exception
-            next(err);
-        } else {
-            // Respond with a message
-            res.writeHead(200, { 'Content-Type': 'text/plain' })
-            res.end('shit! im broken');
-        }
-    };
-
-### Setup Configuration
-
-Connect also supports the `setup()` method, which is called when the middleware is stacked,
-and is passed the environment. For example lets say we want our _log_ middleware to support
-a custom format, we might define `setup()` as shown below:
-
-    var log = {};
-
-    log.setup = function(env) {
-		this.format = this.format || 'our default format';
-	}
-
-Allowing developers to pass a custom format when stacked:
-
-	connect.createServer([
-		{ module: log, format: 'custom log format' }
-	]);
-
-In some cases we may want to support changes through the environment as well. For example
-we may want to support `connect --logFormat "super cool format"`, to do all we need to do
-is check for `env.logFormat` as shown below. The precedence given is up to you, however
-the env is recommended.
-
-	log.setup = function(env) {
-		this.format = env.logFormat || this.format || 'our default format';
-	}
+   // app.js
+   // delay one second before continuing down the stack
+   connect.createServer(require('./delay')(1000)).listen(3000);
 
 ## Bundled Middleware
 
 Connect ships with several helpful middleware modules,
 the following are currently provided out of the box:
 
-### Filters
-
-    body-decoder     Buffers and parses json and urlencoded request bodies (extenable)
-    conditional-get  Provides 304 "Not Modified" support
-    error-handler    Handles exceptions thrown, or passed through the stack
+    bodyDecoder      Buffers and parses json and urlencoded request bodies (extenable)
+    conditionalGet   Provides 304 "Not Modified" support
+    errorHandler     Handles exceptions thrown, or passed through the stack
     debug            Outputs debugging console to all html responses
     format           Handles url path extensions or "formats"
     gzip             Compresses response bodies with gzip executable
     lint             Aids in middleware development
-    log              Provides common logger support, and custom log formats
-    method-override  Provides faux HTTP method support by using the "_method" key by default 
-    response-time    Responds with the X-Response-Time header in milliseconds
+    logger           Provides common logger support, and custom log formats
+    methodOverride   Provides faux HTTP method support by using the "_method" key by default 
+    responseTime     Responds with the X-Response-Time header in milliseconds
     redirect         Provides req.redirect() with "magic" urls, ex: req.redirect("back")
     compiler         Supports arbitrary static compilation of files, currently supports less and sass.
-
-### Providers
-
-    cache-manifest   Provides cache manifest for offline apps
+    cacheManifest    Provides cache manifest for offline apps
     jsonrpc          Provides JSON-RPC 2.0 support
-    static           Serves static files
+    staticProvider   Serves static files
     router           Provides a feature rich routing API similar to Sinatra and Express
+    cookieDecoder    Provides cookie parsing support
+    session          Provides session support
+    cache            Provides memory caching
+    pubsub           Publish subscribe messaging support
+    jsonrpc          JSON-RPC 2.0 support
+    format           Populates req.format for urls such as "/products.json"
 
 ### Middleware Documentation
 
@@ -202,4 +166,4 @@ To view middleware specific documentation execute:
 
 For example:
 
-    $ man connect-body-decoder
+    $ man connect-bodyDecoder

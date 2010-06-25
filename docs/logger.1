@@ -1,0 +1,66 @@
+.\" generated with Ronn/v0.6.6
+.\" http://github.com/rtomayko/ronn/
+.
+.TH "LOGGER" "" "June 2010" "" ""
+.
+.SH "Logger"
+The \fIlogger\fR middleware provides common log format support, as well as custom formats, below is the default usage:
+.
+.IP "" 4
+.
+.nf
+
+connect\.createServer(
+    connect\.logger(),
+);
+.
+.fi
+.
+.IP "" 0
+.
+.P
+A custom format can also be passed:
+.
+.IP "" 4
+.
+.nf
+
+connect\.createServer(
+    connect\.logger({ format: \':method :url :response\-time\' })
+);
+.
+.fi
+.
+.IP "" 0
+.
+.P
+The following format tokens are currently available:
+.
+.IP "" 4
+.
+.nf
+
+:req[header]    Arbitrary request header, ex: req[Accept]
+:res[header]    Arbitrary response header, ex: res[Content\-Type]
+:http\-version   HTTP request version
+:response\-time  Response time in milliseconds
+:remote\-addr    Remote address
+:date           UTC date
+:method         Request method
+:url            Request url
+:referrer       Request referrer / referer
+:user\-agent     User\-Agent string
+:status         Response status
+.
+.fi
+.
+.IP "" 0
+.
+.SS "Environment Variables"
+.
+.nf
+
+\-\-logFormat
+.
+.fi
+

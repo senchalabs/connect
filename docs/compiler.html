@@ -25,7 +25,7 @@
         display: none;
       }
 	  h3 {
-		margin: 15px 0;
+		margin: 35px 0;
 		padding-left: 10px;
 	    font-size: 16px;
 		border-left: 15px solid #eee;
@@ -122,29 +122,32 @@
   <body>
     <div id="wrapper">
 		<ul id="menu">
+			<li class="title">API</li>
+			<li><a href="api.html">extended api docs</a></li>
 			<li class="title">Filters</li>
-			<li><a href="log.html">log</a></li>
+			<li><a href="logger.html">logger</a></li>
 			<li><a href="lint.html">lint</a></li>
 			<li><a href="flash.html">flash</a></li>
 			<li><a href="redirect.html">redirect</a></li>
-			<li><a href="cookie.html">cookie</a></li>
+			<li><a href="cookieDecoder.html">cookieDecoder</a></li>
 			<li><a href="session.html">session</a></li>
 			<li><a href="compiler.html">compiler</a></li>
-			<li><a href="body-decoder.html">body-decoder</a></li>
-			<li><a href="conditional-get.html">conditional-get</a></li>
-			<li><a href="response-time.html">response-time</a></li>
-			<li><a href="method-override.html">method-override</a></li>
+			<li><a href="bodyDecoder.html">bodyDecoder</a></li>
+			<li><a href="conditionalGet.html">conditionalGet</a></li>
+			<li><a href="responseTime.html">responseTime</a></li>
+			<li><a href="methodOverride.html">methodOverride</a></li>
 			<li class="title">Providers</li>
 			<li><a href="router.html">router</a></li>
-			<li><a href="static.html">static</a></li>
+			<li><a href="staticProvider.html">staticProvider</a></li>
+			<li><a href="jsonrpc.html">jsonrpc</a></li>
 		</ul><div class='mp'>
 <h2 id="Compiler">Compiler</h2>
 
-<p>The <em>compiler</em> middleware compiles files that have not yet been compiled, or have been modified. Good examples of this are <em>sass</em> and <em>less</em>, both of which compile to css. The compiled data is written to disk, and serving is delegated to the <em>static</em> middleware, therefore the <em>root</em> should be accessible (or the same) as <em>static</em>'s <em>root</em> option.</p>
+<p>The <em>compiler</em> middleware compiles files that have not yet been compiled, or have been modified. Good examples of this are <em>sass</em> and <em>less</em>, both of which compile to css. The compiled data is written to disk, and serving is delegated to the <em>static</em> middleware, therefore the <em>dest</em> should be accessible (or the same) as <em>static</em>'s <em>root</em> option.</p>
 
-<pre><code class="js"><span class="variable">connect</span>.<span class="variable">createServer</span>([
-    { <span class="variable">provider</span>: <span class="string">'compiler'</span>, <span class="variable">root</span>: <span class="variable">__dirname</span> + <span class="string">'/public'</span>, <span class="variable">enable</span>: [<span class="string">'css'</span>] }
-]);
+<pre><code class="js"><span class="variable">connect</span>.<span class="variable">createServer</span>(
+    <span class="variable">connect</span>.<span class="variable">compiler</span>({ <span class="variable">src</span>: <span class="variable">__dirname</span> + <span class="string">'/public'</span>, <span class="variable">enable</span>: [<span class="string">'sass'</span>] })
+);
 </code></pre>
 
 <h3 id="Options">Options</h3>
@@ -179,7 +182,7 @@ enable   Enabled compilers, currently supported are "sass", and "less".
 <h3 id="See-Also">See Also</h3>
 
 <ul>
-<li>static</li>
+<li>staticProvider</li>
 </ul>
 
 

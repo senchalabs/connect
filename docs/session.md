@@ -3,13 +3,13 @@
 The _session_ middleware provides persistence between requests. 
 If we wish to supply a custom `Store` subclass, or pass options to the store itself, we can configure it like so:
 
-    var MemoryStore = require('connect/filters/session/memory').MemoryStore;
-    connect.createServer([
-		{ filter: 'cookie' }
-		{ filter: 'session', store: new MemoryStore({ reapInterval: 60000 * 10 }) }
-	]);
+    var MemoryStore = require('connect/middleware/session/memory').MemoryStore;
+    connect.createServer(
+		connect.cookieDecoder(),
+		connect.session({ store: new MemoryStore({ reapInterval: 60000 * 10 }) }),
+	);
 
-**NOTE:** _cookie_ must be above _session_ within the stack
+**NOTE:** _cookieDecoder_ must be above _session_ within the stack
 
 ### Options
 
@@ -49,4 +49,4 @@ Your store interacts with instances of `Session`, however when committing / fetc
 
 ### See Also
 
-  * cookie
+  * cookieDecoder

@@ -1,10 +1,10 @@
 ## Compiler
 
-The _compiler_ middleware compiles files that have not yet been compiled, or have been modified. Good examples of this are _sass_ and _less_, both of which compile to css. The compiled data is written to disk, and serving is delegated to the _static_ middleware, therefore the _root_ should be accessible (or the same) as _static_'s _root_ option. 
+The _compiler_ middleware compiles files that have not yet been compiled, or have been modified. Good examples of this are _sass_ and _less_, both of which compile to css. The compiled data is written to disk, and serving is delegated to the _static_ middleware, therefore the _dest_ should be accessible (or the same) as _static_'s _root_ option. 
 
-    connect.createServer([
-		{ provider: 'compiler', root: __dirname + '/public', enable: ['css'] }
-	]);
+    connect.createServer(
+		connect.compiler({ src: __dirname + '/public', enable: ['sass'] })
+	);
 
 ### Options
 
@@ -29,4 +29,4 @@ The _compiler_ middleware compiles files that have not yet been compiled, or hav
 
 ### See Also
 
-  * static
+  * staticProvider
