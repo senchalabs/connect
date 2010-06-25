@@ -70,7 +70,6 @@ docs: docs/api.html $(MANPAGES) $(HTMLDOCS)
 docs/api.html:
 	dox --title Connect \
 		--desc "High performance middleware for [node](http://nodejs.org)." \
-		--ribbon "http://github.com/extjs/Connect" \
 		$(shell find lib/connect/middleware/* -type f) > $@
 
 %.1: %.md
