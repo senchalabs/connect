@@ -12,7 +12,7 @@ module.exports = {
     'test version': function(){
         assert.ok(/^\d+\.\d+\.\d+$/.test(connect.version), 'Test framework version format');
     },
-    
+
     'test use()': function(){
         var server = helpers.run();
 
@@ -27,9 +27,9 @@ module.exports = {
         );
         assert.equal(server, ret, 'Test Server#use() returns server for chaining');
         server.assertResponse('GET', '/', 200, 'wahoo');
-        
+
     },
-    
+
     'test path matching': function(){
         var n = 0;
         var server = helpers.run();
@@ -44,12 +44,12 @@ module.exports = {
                     assert.equal('/hello/world/and/more/segments',
                         req.originalUrl,
                         'Test request originalUrl');
-                    assert.equal('/and/more/segments', 
+                    assert.equal('/and/more/segments',
                         req.url,
                         'Test request url after matching a path with additional segments');
                     break;
                 case 4:
-                    assert.equal('/images/foo.png?with=query&string', 
+                    assert.equal('/images/foo.png?with=query&string',
                         req.url,
                         'Test request url after matching a path with query string');
                     break;
@@ -57,12 +57,12 @@ module.exports = {
             res.writeHead(200);
             res.end('hello world');
         });
-        
+
         server.use('/hello', function(req, res, next){
             res.writeHead(200);
             res.end('hello');
         });
-        
+
         server.assertResponse('GET', '/hello', 200, 'hello', 'Test path matching /hello');
         server.assertResponse('GET', '/hello/', 200, 'hello', 'Test path matching /hello/');
         server.assertResponse('GET', '/hello/world', 200, 'hello world', 'Test path matching /hello/world');
@@ -70,13 +70,13 @@ module.exports = {
         server.assertResponse('GET', '/hello/world/and/more/segments', 200, 'hello world', 'Test path matching /hello/world/and/more/segments');
         server.assertResponse('GET', '/hello/world/images/foo.png?with=query&string', 200, 'hello world', 'Test path matching /hello/world/images/foo.png?with=query&string');
     },
-    
+
     'test unmatched path': function(){
         var server = helpers.run();
         server.assertResponse('GET', '/', 404, 'Cannot find /', 'Test unmatched path');
         server.assertResponse('GET', '/foo', 404, 'Cannot find /foo', 'Test unmatched path');
     },
-    
+
     'test handleError': function(){
         var called = 0;
         var server = helpers.run(
@@ -110,17 +110,17 @@ module.exports = {
         );
         server.assertResponse('GET', '/', 200, 'shitty deal', 'Test handleError next()', function(){
             var expected = 2;
-            assert.equal(expected, called, 'Test handleError calls, expected ' + expected + ' but got ' + called); 
+            assert.equal(expected, called, 'Test handleError calls, expected ' + expected + ' but got ' + called);
         });
     },
-    
+
     'test catch error': function(){
         var server = helpers.run(
             function(req, res, next){
                 doesNotExist();
             }
         );
-        
+
         var req = server.request('GET', '/');
         req.buffer = true;
         req.addListener('response', function(res){
@@ -130,25 +130,25 @@ module.exports = {
         });
         req.end();
     },
-    
+
     'test mounting': function(){
         var helloWorldServer = connect.createServer();
         helloWorldServer.use('/world', function(req, res){
             res.writeHead(200);
             res.end('hello world');
         });
-        
+
         var server = helpers.run();
         server.use('/hello', helloWorldServer);
         server.use('/hello', function(req, res){
             res.writeHead(200);
             res.end('hello');
         });
-        
+
         server.assertResponse('GET', '/hello/world', 200, 'hello world', 'Test mounting /hello/world');
         server.assertResponse('GET', '/hello', 200, 'hello', 'Test mounting /hello');
     },
-    
+
     'test connect as middleware': function(){
         var inner = connect.createServer();
         inner.use('/inner', function(req, res){
@@ -159,7 +159,7 @@ module.exports = {
                 next();
             }
         });
-        
+
         var middle = connect.createServer(inner);
         middle.use('/', function(req, res, next){
             if (req.method === 'POST') {
@@ -175,7 +175,7 @@ module.exports = {
             res.writeHead(200);
             res.end('outer stack');
         });
-        
+
         server.assertResponse('GET', '/outer', 200, 'outer stack', 'Test outer stack');
         server.assertResponse('POST', '/', 200, 'middle stack', 'Test middle stack');
         server.assertResponse('POST', '/inner', 200, 'inner stack', 'Test inner stack');

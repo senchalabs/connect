@@ -17,7 +17,7 @@ Map.prototype.movePlayer = function (x, y)
 {
 	var px = x * 48 + 24;
 	var py = y * 48 + 24;
-	
+
 	// move the canvas
 	this.frame_div.scrollLeft = px - window.frameWidth/2;
 	this.frame_div.scrollTop = py - window.frameHeight/2;
@@ -43,7 +43,7 @@ function Editor(map)
 	this.y = map.start[1];
 	this.brush = null;
 	// initialize event processing:
-	
+
 	document.documentElement.addEventListener("keydown", function(evt) { self.keyHandler(evt, true); }, false);
 	document.documentElement.addEventListener("keyup", function(evt) { self.keyHandler(evt, false); }, false);
 	window.addEventListener("blur", function(evt) { self.shiftKey=false;self.altKey=false;self.ctrlKey=false; }, false);
@@ -106,7 +106,7 @@ Editor.prototype.keyHandler = function (event, isDown)
 
 Editor.prototype.processKey = function (keyCode)
 {
-	var modifierKey = 
+	var modifierKey =
 		(this.shiftKey ? 1 : 0) +
 		(this.ctrlKey ? 2 : 0) +
 		(this.altKey ? 4 : 0);

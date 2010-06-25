@@ -23,7 +23,7 @@ module.exports = {
         req.write('_method=put');
         req.end();
     },
-    
+
     'test invalid http method': function(){
         var server = helpers.run(
             connect.bodyDecoder(),
@@ -38,7 +38,7 @@ module.exports = {
         req.write('_method=foobar');
         req.end();
     },
-    
+
     'test custom key': function(){
         var server = helpers.run(
             connect.bodyDecoder(),

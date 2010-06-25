@@ -35,21 +35,21 @@ module.exports = {
         });
         req.end();
     },
-    
+
     'test index.html support': function(){
         var server = helpers.run(
             connect.staticProvider(fixturesPath)
         );
         server.assertResponse('GET', '/', 200, '<p>Wahoo!</p>', 'Test static index.html support.');
     },
-    
+
     'test index.html support when missing': function(){
         var server = helpers.run(
             connect.staticProvider(__dirname)
         );
         server.assertResponse('GET', '/', 404, 'Cannot find /', 'Test static index.html support when missing.');
     },
-    
+
     'test invalid file': function(){
         var server = helpers.run(
             connect.staticProvider(fixturesPath)

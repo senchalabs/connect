@@ -46,7 +46,7 @@ module.exports = {
                 next();
             }
         );
-        
+
         server.pending = 4;
         var req = server.request('GET', '/');
         req.addListener('response', function(res){

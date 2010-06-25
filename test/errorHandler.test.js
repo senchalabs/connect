@@ -18,7 +18,7 @@ module.exports = {
         );
         server.assertResponse('GET', '/', 500, 'Internal Server Error', 'Test error-handler defaults');
     },
-    
+
     'test defaults with caught exception': function(){
         var server = helpers.run(
             function(req, res, next){
@@ -28,7 +28,7 @@ module.exports = {
         );
         server.assertResponse('GET', '/', 500, 'Internal Server Error', 'Test error-handler defaults');
     },
-    
+
     'test showMessage': function(){
         var server = helpers.run(
             function(req, res, next){
@@ -38,7 +38,7 @@ module.exports = {
         );
         server.assertResponse('GET', '/', 500, 'Error: keyboard cat!', 'Test error-handler showMessage');
     },
-    
+
     'test showStack': function(){
         var server = helpers.run(
             function(req, res, next){

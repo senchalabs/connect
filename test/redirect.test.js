@@ -31,7 +31,7 @@ module.exports = {
             assert.equal('/foo', res.headers.location, 'Test redirect Location header');
         });
         req.end();
-        
+
         var req = server.request('GET', '/', { 'Referrer': 'http://google.com' });
         req.addListener('response', function(res){
             assert.equal(301, res.statusCode, 'Test redirect custom status code')

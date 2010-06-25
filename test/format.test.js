@@ -23,7 +23,7 @@ module.exports = {
         server.assertResponse('GET', '/users.json?something=json', 200, 'format "json" url "/users?something=json"', 'Test format with querystring');
         server.assertResponse('GET', '/users.json#something', 200, 'format "json" url "/users#something"', 'Test format with fragment');
     },
-    
+
     'test with route': function(){
         var server = helpers.run(connect.format());
         server.use('/products', function(req, res){

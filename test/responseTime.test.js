@@ -15,11 +15,11 @@ module.exports = {
             function(req, res){
                 setTimeout(function(){
                     res.writeHead(200, {});
-                    res.end(); 
+                    res.end();
                 }, 20);
             }
         );
-        
+
         var req = server.request('GET', '/');
         req.addListener('response', function(res){
             assert.ok(!isNaN(parseInt(res.headers['x-response-time'])), 'Test X-Response-Time header')

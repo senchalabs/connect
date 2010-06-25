@@ -88,7 +88,7 @@ module.exports = {
         var server = helpers.run();
         server.use('/products', connect.router(products));
         server.use('/', connect.router(main));
-        
+
         server.assertResponse('GET', '/products', 200, 'products');
         server.assertResponse('GET', '/products/', 200, 'products');
         server.assertResponse('GET', '/products.json', 200, 'products as json');

@@ -94,7 +94,7 @@ Engine.prototype = {
 		this.oangle = this.angle;
 		this.ox = this.x;
 		this.oy = this.y;
-	
+
 		this.checkSecrets();
 
 		this.doMovement();
@@ -104,7 +104,7 @@ Engine.prototype = {
 		this.checkWalls();
 		this.checkBounds();
 		var finalNumpad = this.delta2numpad(this.x - this.ox, this.y - this.oy);
-	
+
 		// bumping head stops jump
 		if (this.j > 0 && this.y >= this.oy)
 		{
@@ -119,7 +119,7 @@ Engine.prototype = {
 		{
 			this.spin = this.spin * 0.9;
 		}
-		
+
 		if (finalNumpad != initialNumpad)
 		{
 			if (finalNumpad != 5)
@@ -255,7 +255,7 @@ Engine.prototype = {
 		if (this.map.secrets && this.map.secrets[x] && this.map.secrets[x][y])
 		{
 			var secret = this.map.secrets[x][y];
-			
+
 			if (secret.set)
 			{
 				for (var i=0; i<secret.set.length;  i++)
@@ -304,7 +304,7 @@ Engine.prototype = {
 			if (jdown > 0)
 			{
 				this.j = jdown;
-			
+
 			}
 		}
 		if (this.j > 0)
@@ -355,7 +355,7 @@ Engine.prototype = {
 			}
 			return true;
 		}
-		
+
 		function checkSolid()
 		{
 			var numpad = self.delta2numpad(self.x - self.ox, self.y - self.oy);
@@ -389,7 +389,7 @@ Engine.prototype = {
 			}
 			return false;
 		}
-	
+
 		if (!checkSolid())
 		{
 			self.x = self.ox;

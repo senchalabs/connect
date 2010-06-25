@@ -12,7 +12,7 @@ function user(app){
                 body = JSON.stringify(users);
                 break;
             default:
-                 body = '<ul>' 
+                 body = '<ul>'
                     + users.map(function(user){ return '<li>' + user.name + '</li>'; }).join('\n')
                     + '</ul>';
         }
@@ -22,7 +22,7 @@ function user(app){
         });
         res.end(body, 'utf8');
     });
-    
+
     app.get('/:id/:op?', function(req, res, params){
         var body = users[params.id]
             ? users[params.id].name

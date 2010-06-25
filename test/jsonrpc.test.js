@@ -42,7 +42,7 @@ module.exports = {
             assert.eql({ id: 1, error: { code: jsonrpc.INVALID_REQUEST, message: 'Invalid Request.' }, jsonrpc: '2.0'}, body);
         });
     },
-    
+
     'test invalid id': function(){
         var server = run({});
         server.call({
@@ -53,14 +53,14 @@ module.exports = {
             assert.eql({ id: null, error: { code: jsonrpc.INVALID_REQUEST, message: 'Invalid Request.' }, jsonrpc: '2.0' }, body);
         });
     },
-    
+
     'test parse error': function(){
         var server = run({});
         server.call('{ "invalid:', function(res, body){
             assert.eql({ id: null, error: { code: jsonrpc.PARSE_ERROR, message: 'Parse Error.' }, jsonrpc: '2.0' }, body);
         });
     },
-    
+
     'test invalid method': function(){
         var server = run({});
         server.call({
@@ -71,7 +71,7 @@ module.exports = {
             assert.eql({ id: 1, error: { code: jsonrpc.METHOD_NOT_FOUND, message: 'Method Not Found.' }, jsonrpc: '2.0' }, body);
         });
     },
-    
+
     'test passing method exceptions': function(){
         var server = run({
             add: function(a, b){
@@ -88,9 +88,9 @@ module.exports = {
                 }
             }
         });
-        
+
         // Invalid params
-        
+
         server.call({
             jsonrpc: '2.0',
             method: 'add',
@@ -99,9 +99,9 @@ module.exports = {
         }, function(res, body){
             assert.eql({ id: 1, error: { code: jsonrpc.INVALID_PARAMS, message: 'Invalid Params.' }, jsonrpc: '2.0' }, body);
         });
-        
+
         // Valid
-        
+
         server.call({
             jsonrpc: '2.0',
             method: 'add',
@@ -110,9 +110,9 @@ module.exports = {
         }, function(res, body){
             assert.eql({ id: 2, result: 3, jsonrpc: '2.0' }, body);
         });
-        
+
         // Custom exception
-        
+
         server.call({
             jsonrpc: '2.0',
             method: 'add',
@@ -122,7 +122,7 @@ module.exports = {
             assert.eql({ id: 3, error: { code: jsonrpc.INVALID_PARAMS, message: 'Arguments must be numeric.' }, jsonrpc: '2.0' }, body);
         });
     },
-    
+
     'test methode call': function(){
         var server = run({
             add: function(a, b){
@@ -138,7 +138,7 @@ module.exports = {
             assert.eql({ id: 1, result: 3, jsonrpc: '2.0' }, body);
         });
     },
-    
+
     'test variable arguments': function(){
         var server = run({
             add: function(){
@@ -158,7 +158,7 @@ module.exports = {
             assert.eql({ id: 1, result: 15, jsonrpc: '2.0' }, body);
         });
     },
-    
+
     'test named params': function(){
         var server = run({
             delay: function(ms,   msg, unused){
@@ -171,7 +171,7 @@ module.exports = {
                 this(null, 'shouldnt reach here because I dont have named param support :)');
             }
         });
-        
+
         server.call({
             jsonrpc: '2.0',
             method: 'delay',
@@ -180,19 +180,19 @@ module.exports = {
         }, function(res, body){
             assert.eql({ id: 1, result: 'Whoop!', jsonrpc: '2.0' }, body);
         });
-        
+
         server.call({
             jsonrpc: '2.0',
             method: 'invalid',
             params: { msg: 'Whoop!', ms: 50 },
             id: 2
         }, function(res, body){
-            assert.eql({ id: 2, error: 
-                { code: jsonrpc.INVALID_PARAMS, message: 'This service does not support named parameters.' }, 
+            assert.eql({ id: 2, error:
+                { code: jsonrpc.INVALID_PARAMS, message: 'This service does not support named parameters.' },
                 jsonrpc: '2.0' }, body);
         });
     },
-    
+
     'test batch calls': function(){
         var server = run({
             multiply: function(a, b){

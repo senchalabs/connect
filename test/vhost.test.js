@@ -33,7 +33,7 @@ module.exports = {
             });
         });
         req.end();
-        
+
         var req = server.request('GET', '/', { Host: 'bar.com' });
         req.buffer = true;
         req.addListener('response', function(res){

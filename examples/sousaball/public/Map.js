@@ -20,7 +20,7 @@ function Map(data)
 			this.coins[i] = 0;
 		}
 	}
-	
+
 	// TODO: load from external file?
 	this.player = {
 		image: [
@@ -36,7 +36,7 @@ function Map(data)
 		{"shape": "rect", "fill": "rgba(255,0,0,0.30)", "x": 14, "y": 14, "width": 20, "height": 20},
 		{"shape": "rect", "stroke": "rgba(255,0,0,0.60)", "x": 0.5, "y": 0.5, "width": 47, "height": 47},
 	];
-	
+
 
 	// Draw the level
 	this.frame_div = document.getElementById('frame');
@@ -115,7 +115,7 @@ Map.prototype = {
 	{
 		var px = x * 48 + 24;
 		var py = y * 48 + 24;
-		
+
 		// move the canvas
 		this.frame_div.scrollLeft = px - window.frameWidth/2;
 		this.frame_div.scrollTop = py - window.frameHeight/2;
@@ -130,7 +130,7 @@ Map.prototype = {
 		this.player_ctx.translate(-24,-24);
 		this.drawImage(this.player.image, this.player_ctx);
 		this.player_ctx.restore();
-		
+
 	},
 	clearHighlight: function ()
 	{

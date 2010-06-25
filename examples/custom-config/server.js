@@ -6,9 +6,9 @@
 var sys = require('sys'),
 	Connect = require('./../../lib/connect');
 
-// Based on the current env name require / mixin the 
+// Based on the current env name require / mixin the
 // additional file-based configuration. Try using
-// --env production 
+// --env production
 
 var conf = require('./config/' + process.connectEnv.name);
 for (var key in conf) {
@@ -19,5 +19,5 @@ sys.log('loading config file "config/' + process.connectEnv.name + '.js"');
 
 module.exports = Connect.createServer(function(req, res, next){
    res.writeHead(200, { 'Content-Type': 'text/plain' });
-   res.end(sys.inspect(process.connectEnv)); 
+   res.end(sys.inspect(process.connectEnv));
 });

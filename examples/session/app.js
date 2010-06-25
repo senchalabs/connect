@@ -37,7 +37,7 @@ function app(app) {
             } else {
                 res.write('<form method="post">'
                     + 'Name: <input type="text" name="name" value="' + (req.session.name || '') + '"/>'
-                    + '<input type="submit" value="Join" name="op" />' 
+                    + '<input type="submit" value="Join" name="op" />'
                     + '</form>');
             }
 
@@ -58,7 +58,7 @@ function app(app) {
                 req.sessionStore.regenerate(req, function(err){
                     var name = req.session.name = req.body.name;
                     req.flash('info', 'joined as _"' + name + '"_ click [here](/logout) to logout.');
-                    res.redirect('/'); 
+                    res.redirect('/');
                 });
                 break;
         }

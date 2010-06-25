@@ -44,11 +44,11 @@ module.exports = {
                 next();
             }
         );
-        
+
         server.pending = 5;
         server.request('GET', '/').end();
         server.request('GET', '/', { 'Cookie': 'connect.sid=123123' }).end();
-        
+
         var req = server.request('GET', '/', { 'User-Agent': 'foo' });
         req.addListener('response', function(res){
             var setCookie = res.headers['set-cookie'];

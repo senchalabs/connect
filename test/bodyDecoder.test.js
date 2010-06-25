@@ -22,7 +22,7 @@ module.exports = {
         req.write('user[name]=tj');
         req.end();
     },
-    
+
     'test json body': function(){
         var server = helpers.run(
             connect.bodyDecoder(),
@@ -36,7 +36,7 @@ module.exports = {
         req.write('{"user":{"name":"tj"}}');
         req.end();
     },
-    
+
     'test empty body': function(){
         var server = helpers.run(
             connect.bodyDecoder(),
@@ -50,7 +50,7 @@ module.exports = {
         req.write('');
         req.end();
     },
-    
+
     'test invalid body': function(){
         var server = helpers.run(
             connect.bodyDecoder(),

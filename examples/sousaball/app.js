@@ -32,7 +32,7 @@ function load_template(template, callback) {
       setTimeout(function () {
           delete template_cache[template];
       });
-      
+
     });
 }
 
@@ -57,13 +57,13 @@ function render_template(template, user, level, callback) {
 
 function load_map(user, level, callback) {
   conn.query("SELECT data FROM levels WHERE owner=:owner AND name=:name", {owner: user, name: level}, function (rows) {
-    if (!rows.length) { 
+    if (!rows.length) {
       callback({error: "Missing level file", user: user, level: level});
       return;
     }
     var level_data = JSON.parse(rows[0].data);
     conn.query("SELECT data FROM tilesets WHERE owner=:owner AND name=:name", {owner: user, name: level_data.blockset}, function (rows) {
-      if (!rows.length) { 
+      if (!rows.length) {
         callback({error: "Missing tileset", user: user, tileset: level_data.blockset});
         return;
       }
@@ -75,7 +75,7 @@ function load_map(user, level, callback) {
 
 
 function save_map(user, level, data, callback) {
-  
+
   conn.query("UPDATE levels SET data=:data WHERE owner=:owner AND name=:name", {
     data: JSON.stringify(data),
     owner: user,

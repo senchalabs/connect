@@ -16,7 +16,7 @@ var Server = module.exports = Connect.createServer(
         // that our demo can still function.
         var foo = next;
         foo();
-        
+
         // All good
         var ct = req.headers['content-type'];
     },
