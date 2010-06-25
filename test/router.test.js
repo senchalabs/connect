@@ -95,7 +95,7 @@ module.exports = {
         server.assertResponse('GET', '/products/all/', 200, 'products');
         server.assertResponse('GET', '/products/all.json', 200, 'products as json');
         server.assertResponse('GET', '/products/12', 200, 'product 12');
-        
+
         server.assertResponse('GET', '/', 200, 'GET /', 'Test router GET /');
         server.assertResponse('POST', '/', 200, 'POST /', 'Test router POST /');
         server.assertResponse('PUT', '/', 200, 'PUT /', 'Test router PUT /');
