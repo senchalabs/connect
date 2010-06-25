@@ -19,7 +19,7 @@ module.exports = {
             }
         );
         var req = server.request('POST', '/', { 'Content-Type': 'application/x-www-form-urlencoded' });
-        req.write('user[name]=tj')
+        req.write('user[name]=tj');
         req.end();
     },
     
@@ -33,7 +33,21 @@ module.exports = {
             }
         );
         var req = server.request('POST', '/', { 'Content-Type': 'application/json; charset=utf8' });
-        req.write('{"user":{"name":"tj"}}')
+        req.write('{"user":{"name":"tj"}}');
+        req.end();
+    },
+    
+    'test empty body': function(){
+        var server = helpers.run(
+            connect.bodyDecoder(),
+            function(req, res){
+                assert.eql({}, req.body, 'Test body-decoder empty req.body');
+                res.writeHead(200);
+                res.end();
+            }
+        );
+        var req = server.request('POST', '/', { 'Content-Type': 'application/json; charset=utf8' });
+        req.write('');
         req.end();
     },
     
@@ -49,7 +63,7 @@ module.exports = {
             }
         );
         var req = server.request('POST', '/', { 'Content-Type': 'application/json' });
-        req.write('{"user":{"name":"tj"')
+        req.write('{"user":{"name":"tj"');
         req.end();
     }
 }
