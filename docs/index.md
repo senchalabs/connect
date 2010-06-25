@@ -157,6 +157,8 @@ the following are currently provided out of the box:
     pubsub           Publish subscribe messaging support
     jsonrpc          JSON-RPC 2.0 support
     format           Populates req.format for urls such as "/products.json"
+    repl             Read Evaluate Print Loop attached to "/tmp/connect.sock" for inspecting live servers 
+    vhost            Virtual host support
 
 ### Middleware Documentation
 
