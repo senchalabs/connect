@@ -18,5 +18,5 @@ The _flash_ middleware provides persistent messaging. This middleware requires _
 
 ## See Also
 
-  * cookie
+  * cookieDecoder
   * session

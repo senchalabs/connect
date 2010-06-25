@@ -4,7 +4,7 @@
 .TH "METHODOVERRIDE" "" "June 2010" "" ""
 .
 .SH "Method Override"
-The \fImethod\-override\fR checks \fBreq\.body\._method\fR (by default) in order to swap out the http request method\. The \fIbody\-decoder\fR middleware will populate \fBreq\.body\fR when a form is submitted, which when paired with this middleware will allow the \fIrest\fR middleware to support RESTful forms\.
+The \fImethodOverride\fR middleware checks \fBreq\.body\._method\fR (by default) in order to swap out the http request method\. The \fIbodyDecoder\fR middleware will populate \fBreq\.body\fR when a form is submitted, which when paired with this middleware will allow the \fIrouter\fR middleware to support RESTful forms\.
 .
 .SS "Options"
 .

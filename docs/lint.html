@@ -25,7 +25,7 @@
         display: none;
       }
 	  h3 {
-		margin: 15px 0;
+		margin: 35px 0;
 		padding-left: 10px;
 	    font-size: 16px;
 		border-left: 15px solid #eee;
@@ -125,20 +125,20 @@
 			<li class="title">API</li>
 			<li><a href="api.html">extended api docs</a></li>
 			<li class="title">Filters</li>
-			<li><a href="log.html">log</a></li>
+			<li><a href="logger.html">logger</a></li>
 			<li><a href="lint.html">lint</a></li>
 			<li><a href="flash.html">flash</a></li>
 			<li><a href="redirect.html">redirect</a></li>
-			<li><a href="cookie.html">cookie</a></li>
+			<li><a href="cookieDecoder.html">cookieDecoder</a></li>
 			<li><a href="session.html">session</a></li>
 			<li><a href="compiler.html">compiler</a></li>
-			<li><a href="body-decoder.html">body-decoder</a></li>
-			<li><a href="conditional-get.html">conditional-get</a></li>
-			<li><a href="response-time.html">response-time</a></li>
-			<li><a href="method-override.html">method-override</a></li>
+			<li><a href="bodyDecoder.html">bodyDecoder</a></li>
+			<li><a href="conditionalGet.html">conditionalGet</a></li>
+			<li><a href="responseTime.html">responseTime</a></li>
+			<li><a href="methodOverride.html">methodOverride</a></li>
 			<li class="title">Providers</li>
 			<li><a href="router.html">router</a></li>
-			<li><a href="static.html">static</a></li>
+			<li><a href="staticProvider.html">staticProvider</a></li>
 			<li><a href="jsonrpc.html">jsonrpc</a></li>
 		</ul><div class='mp'>
 <h2 id="Lint">Lint</h2>
@@ -150,12 +150,46 @@
 <li>second param of <code>handle()</code> is <em>res</em> or <em>response</em></li>
 <li>third param of <code>handle()</code> is <em>next</em></li>
 <li>source of <code>handle()</code> to see if <code>next()</code> is called, or if the request is responded to</li>
-<li><code>method</code> property is always uppercase</li>
 <li><code>req.headers</code> is accessed with lowercase</li>
 </ul>
 
 
-<p>The placement of <em>lint</em> within the stack is important. It should sit below the middleware you are developing, in order to validate during runtime, however it can also simply be placed at the bottom of the stack to validate all middleware statically.</p>
+<h3 id="Example">Example</h3>
+
+<pre><code class="js"><span class="keyword">var</span> <span class="class">Server</span> = <span class="variable">module</span>.<span class="variable">exports</span> = <span class="variable">connect</span>.<span class="variable">createServer</span>(
+    <span class="comment">// No named params</span>
+    <span class="keyword">function</span> <span class="variable">params</span>(){
+        <span class="variable">arguments</span>[<span class="number integer">2</span>]();
+    },
+    <span class="comment">// Does not call next AND does not respond</span>
+    <span class="keyword">function</span> <span class="variable">hang</span>(<span class="variable">req</span>, <span class="variable">res</span>, <span class="variable">next</span>){
+        <span class="comment">// Call foo() instead so</span>
+        <span class="comment">// that our demo can still function.</span>
+        <span class="keyword">var</span> <span class="variable">foo</span> = <span class="variable">next</span>;
+        <span class="variable">foo</span>();
+
+        <span class="comment">// All good</span>
+        <span class="keyword">var</span> <span class="variable">ct</span> = <span class="variable">req</span>.<span class="variable">headers</span>[<span class="string">'content-type'</span>];
+    },
+    <span class="keyword">function</span> <span class="variable">allGood</span>(<span class="variable">req</span>, <span class="variable">res</span>, <span class="variable">next</span>){
+        <span class="comment">// All good</span>
+        <span class="variable">next</span>();
+    },
+    <span class="keyword">function</span> <span class="variable">reqHeaders</span>(<span class="variable">req</span>, <span class="variable">res</span>, <span class="variable">next</span>){
+        <span class="comment">// Request headers are always normalized as</span>
+        <span class="comment">// lowercased by ryan's http parser.</span>
+        <span class="keyword">var</span> <span class="variable">ct</span> = <span class="variable">req</span>.<span class="variable">headers</span>[<span class="string">'Content-Type'</span>];
+        <span class="variable">next</span>();
+    },
+    <span class="keyword">function</span> <span class="variable">methodUppercase</span>(<span class="variable">req</span>, <span class="variable">res</span>, <span class="variable">next</span>){
+        <span class="comment">// req.method should be uppercase</span>
+        <span class="variable">req</span>.<span class="variable">method</span> = <span class="string">'get'</span>;
+        <span class="variable">next</span>();
+    }
+);
+
+<span class="class">Server</span>.<span class="variable">use</span>(<span class="string">'/'</span>, <span class="variable">connect</span>.<span class="variable">lint</span>(<span class="class">Server</span>));
+</code></pre>
 
 <h3 id="Sample-Output">Sample Output</h3>
 
@@ -189,7 +223,6 @@
         <span class="keyword">var</span> <span class="variable">ct</span> = <span class="variable">req</span>.<span class="variable">headers</span>[<span class="string">'Content-Type'</span>];
         <span class="variable">next</span>();
     }
-<span class="class">Warning</span>: <span class="variable">layer</span> <span class="variable">method</span> <span class="variable">uppercase</span>:<span class="number integer">4</span> <span class="class">Request</span> <span class="variable">method</span> <span class="variable">is</span> <span class="variable">no</span> <span class="variable">longer</span> <span class="variable">uppercase</span>, <span class="variable">got</span> <span class="variable">get</span>
 </code></pre>
 
 </div>

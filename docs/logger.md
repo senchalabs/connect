@@ -1,17 +1,17 @@
-## Log
+## Logger
 
-The _log_ middleware provides common log format support, as well as custom formats,
+The _logger_ middleware provides common log format support, as well as custom formats,
 below is the default usage:
 
-    connect.createServer([
-		{ filter: 'log' }
-	]);
+    connect.createServer(
+		connect.logger(),
+	);
 
 A custom format can also be passed:
 
-    connect.createServer([
-    	{ filter: 'log', format: ':method :url :response-time' }
-    ]);
+    connect.createServer(
+		connect.logger({ format: ':method :url :response-time' })
+    );
 
 The following format tokens are currently available:
 

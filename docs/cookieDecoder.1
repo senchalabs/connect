@@ -3,15 +3,15 @@
 .
 .TH "COOKIEDECODER" "" "June 2010" "" ""
 .
-.SH "Cookie"
-The \fIcookie\fR middleware parses the \fICookie\fR header when present, and populates \fBreq\.cookies\fR:
+.SH "Cookie Decoder"
+The \fIcookieDecoder\fR middleware parses the \fICookie\fR header when present, and populates \fBreq\.cookies\fR:
 .
 .IP "" 4
 .
 .nf
 
-connect\.createServer([
-    { filter: \'cookie\' }
+connect\.createServer(
+    connect\.cookieDecoder()
 ]);
 .
 .fi

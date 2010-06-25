@@ -6,10 +6,43 @@ The _lint_ middleware aids in middleware development, by performing basic cheque
   * second param of `handle()` is _res_ or _response_
   * third param of `handle()` is _next_
   * source of `handle()` to see if `next()` is called, or if the request is responded to
-  * `method` property is always uppercase
   * `req.headers` is accessed with lowercase
 
-The placement of _lint_ within the stack is important. It should sit below the middleware you are developing, in order to validate during runtime, however it can also simply be placed at the bottom of the stack to validate all middleware statically.
+### Example
+
+    var Server = module.exports = connect.createServer(
+	    // No named params
+	    function params(){
+	        arguments[2]();
+	    },
+	    // Does not call next AND does not respond
+	    function hang(req, res, next){
+	        // Call foo() instead so
+	        // that our demo can still function.
+	        var foo = next;
+	        foo();
+
+	        // All good
+	        var ct = req.headers['content-type'];
+	    },
+	    function allGood(req, res, next){
+	        // All good
+	        next();
+	    },
+	    function reqHeaders(req, res, next){
+	        // Request headers are always normalized as
+	        // lowercased by ryan's http parser.
+	        var ct = req.headers['Content-Type'];
+	        next();
+	    },
+	    function methodUppercase(req, res, next){
+	        // req.method should be uppercase
+	        req.method = 'get';
+	        next();
+	    }
+	);
+
+	Server.use('/', connect.lint(Server));
 
 ### Sample Output
 
@@ -43,5 +76,4 @@ The placement of _lint_ within the stack is important. It should sit below the m
 	        var ct = req.headers['Content-Type'];
 	        next();
 	    }
-	Warning: layer method uppercase:4 Request method is no longer uppercase, got get
 	

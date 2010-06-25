@@ -1,4 +1,4 @@
-<a href="http://github.com/extjs/Connect"><img alt="Fork me on GitHub" id="ribbon" src="http://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png"></a><html>
+<html>
 	<head>
 		<title>Connect</title>
 		<style>body {
@@ -32,7 +32,9 @@ ul#menu {
     text-align: right;
     background: rgba(255,255,255,0.7);
     -webkit-box-shadow: -1px 2px 2px rgba(0,0,0,0.3);
+    -moz-box-shadow: -1px 2px 2px rgba(0,0,0,0.3);
     -webkit-border-bottom-left-radius: 5px;
+    -moz-border-bottom-left-radius: 5px;
     -webkit-transition-properties: opacity;
     -webkit-transition-duration: 0.6s;
 }
@@ -81,6 +83,8 @@ table#source tr {
 table#source tr.filename {
     padding-top: 40px;
     border-top: 1px solid #E5E5EE;
+    -webkit-user-select: none;
+    -moz-user-select: none;
 }
 table#source tr.filename td:first-child {
     text-transform: capitalize;
@@ -131,6 +135,16 @@ code .keyword { color: #954121; }
 code .number { color: #19469D; }
 code .comment { color: #bbb; }
 code .this { color: #19469D; }</style>
+		<script>
+window.onload = function(){
+    var fileRows = document.querySelectorAll('tr.filename');
+    for (var i = 0, len = fileRows.length; i < len; ++i) {
+        var fileRow = fileRows[i];
+        fileRow.onclick = function(){
+            console.log(this.siblings());
+        }
+    }
+}</script>
 	</head>
 	<body>
 <ul id="menu"><li><a href="#lib/connect/middleware/bodyDecoder.js">lib/connect/middleware/<strong>bodyDecoder</strong></a></li>
@@ -157,7 +171,7 @@ code .this { color: #19469D; }</style>
 <li><a href="#lib/connect/middleware/session/store.js">lib/connect/middleware/session/<strong>store</strong></a></li>
 <li><a href="#lib/connect/middleware/session.js">lib/connect/middleware/<strong>session</strong></a></li>
 <li><a href="#lib/connect/middleware/staticProvider.js">lib/connect/middleware/<strong>staticProvider</strong></a></li>
-<li><a href="#lib/connect/middleware/vhost.js">lib/connect/middleware/<strong>vhost</strong></a></li></ul><table id="source"><tbody><tr><td><h1>Connect</h1><p>High performance middleware for <a href="http://nodejs.org">node</a>.</p></td><td></td></tr><tr class="filename"><td><h2 id="lib/connect/middleware/bodyDecoder.js">bodyDecoder</h2></td><td>lib/connect/middleware/bodyDecoder.js</td></tr><tr class="code">
+<li><a href="#lib/connect/middleware/vhost.js">lib/connect/middleware/<strong>vhost</strong></a></li></ul><a href="http://github.com/extjs/Connect"><img alt="Fork me on GitHub" id="ribbon" src="http://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png"></a><table id="source"><tbody><tr><td><h1>Connect</h1><p>High performance middleware for <a href="http://nodejs.org">node</a>.</p></td><td></td></tr><tr class="filename"><td><h2 id="lib/connect/middleware/bodyDecoder.js">bodyDecoder</h2></td><td>lib/connect/middleware/bodyDecoder.js</td></tr><tr class="code">
 <td class="docs">
 <p>Module dependencies.</p>
 </td>
@@ -173,7 +187,7 @@ code .this { color: #19469D; }</style>
 <li>application/x-www-form-urlencoded</li>
 <li>application/json</li>
 </ul>
-
+if
 </td>
 <td class="code">
 <pre><code><span class="variable">exports</span>.<span class="variable">decode</span> = {
@@ -205,7 +219,9 @@ code .this { color: #19469D; }</style>
             <span class="variable">req</span>.<span class="variable">addListener</span>(<span class="string">'end'</span>, <span class="keyword">function</span>() {
                 <span class="variable">req</span>.<span class="variable">rawBody</span> = <span class="variable">data</span>;
                 <span class="keyword">try</span> {
-                    <span class="variable">req</span>.<span class="variable">body</span> = <span class="variable">decoder</span>(<span class="variable">data</span>);
+                    <span class="variable">req</span>.<span class="variable">body</span> = <span class="variable">data</span>
+                        ? <span class="variable">decoder</span>(<span class="variable">data</span>)
+                        : {};
                 } <span class="keyword">catch</span> (<span class="variable">err</span>) {
                     <span class="keyword">return</span> <span class="variable">next</span>(<span class="variable">err</span>);
                 }
@@ -215,79 +231,6 @@ code .this { color: #19469D; }</style>
             <span class="variable">next</span>();
         }
     }
-};</code></pre>
-</td>
-</tr><tr class="filename"><td><h2 id="lib/connect/middleware/cacheManifest.js">cacheManifest</h2></td><td>lib/connect/middleware/cacheManifest.js</td></tr><tr class="code">
-<td class="docs">
-<p>Module dependencies.</p>
-</td>
-<td class="code">
-<pre><code><span class="keyword">var</span> <span class="variable">fs</span> = <span class="variable">require</span>(<span class="string">'fs'</span>),
-    <span class="class">Utils</span> = <span class="variable">require</span>(<span class="string">'../utils'</span>),
-    <span class="class">Url</span> = <span class="variable">require</span>(<span class="string">'url'</span>),
-    <span class="class">Path</span> = <span class="variable">require</span>(<span class="string">'path'</span>);</code></pre>
-</td>
-</tr>
-<tr class="code">
-<td class="docs">
-<p>Generate cache manifest for the given <code>root</code>, <code>networks</code>,
-and <code>fallbacks</code>.</p>
-
-<h2></h2>
-
-<ul>
-<li><p><strong>param</strong>: <em>String</em>  root</p></li>
-<li><p><strong>param</strong>: <em>Array</em>  networks</p></li>
-<li><p><strong>param</strong>: <em>Array</em>  fallbacks</p></li>
-<li><p><strong>return</strong>: <em>Function</em></p></li>
-<li><p><strong>api</strong>: <em>public</em></p></li>
-</ul>
-
-</td>
-<td class="code">
-<pre><code><span class="variable">module</span>.<span class="variable">exports</span> = <span class="keyword">function</span>(<span class="variable">root</span>, <span class="variable">networks</span>, <span class="variable">fallbacks</span>) {
-    <span class="variable">root</span> = <span class="variable">root</span> || <span class="variable">process</span>.<span class="variable">cwd</span>();
-    <span class="keyword">var</span> <span class="variable">suffix</span> = &<span class="variable">quot</span>;&<span class="variable">quot</span>;;
-
-    <span class="comment">// List of networks as an array of strings</span>
-    <span class="keyword">if</span> (<span class="variable">networks</span>) {
-        <span class="variable">suffix</span> += &<span class="variable">quot</span>;\<span class="variable">n</span>\<span class="variable">nNETWORK</span>:\<span class="variable">n</span>&<span class="variable">quot</span>; + <span class="variable">networks</span>.<span class="variable">join</span>(&<span class="variable">quot</span>;\<span class="variable">n</span>&<span class="variable">quot</span>;);
-    }
-
-    <span class="comment">// List of fallbacks as key/value pairs</span>
-    <span class="keyword">if</span> (<span class="variable">fallbacks</span>) {
-        <span class="variable">suffix</span> += &<span class="variable">quot</span>;\<span class="variable">n</span>\<span class="variable">nFALLBACK</span>:\<span class="variable">n</span>&<span class="variable">quot</span>; +
-            <span class="variable">fallbacks</span>.<span class="variable">map</span>(<span class="keyword">function</span> (<span class="variable">second</span>, <span class="variable">first</span>) {
-                <span class="keyword">return</span> <span class="variable">first</span> + &<span class="variable">quot</span>; &<span class="variable">quot</span>; + <span class="variable">second</span>;
-            }).<span class="variable">join</span>(&<span class="variable">quot</span>;\<span class="variable">n</span>&<span class="variable">quot</span>;);
-    }
-
-    <span class="keyword">return</span> <span class="keyword">function</span> <span class="variable">handle</span>(<span class="variable">req</span>, <span class="variable">res</span>, <span class="variable">next</span>) {
-        <span class="keyword">if</span> (<span class="class">Url</span>.<span class="variable">parse</span>(<span class="variable">req</span>.<span class="variable">url</span>).<span class="variable">pathname</span> === &<span class="variable">quot</span>;/<span class="variable">cache</span>.<span class="variable">manifest</span>&<span class="variable">quot</span>;) {
-            <span class="class">Utils</span>.<span class="variable">find</span>(<span class="variable">root</span>, (<span class="regexp">/./</span>), <span class="keyword">function</span> (<span class="variable">err</span>, <span class="variable">files</span>) {
-                <span class="keyword">var</span> <span class="variable">latestMtime</span> = <span class="number integer">0</span>;
-                <span class="variable">files</span> = <span class="variable">files</span>.<span class="variable">map</span>(<span class="keyword">function</span> (<span class="variable">entry</span>) {
-                    <span class="keyword">if</span> (<span class="variable">entry</span>.<span class="variable">mtime</span> &<span class="variable">gt</span>; <span class="variable">latestMtime</span>) {
-                        <span class="variable">latestMtime</span> = <span class="variable">entry</span>.<span class="variable">mtime</span>;
-                    }
-                    <span class="keyword">return</span> <span class="variable">entry</span>.<span class="variable">path</span>.<span class="variable">substr</span>(<span class="number integer">1</span>);
-                });
-                <span class="keyword">var</span> <span class="variable">manifest</span> = &<span class="variable">quot</span>;<span class="class">CACHE</span> <span class="class">MANIFEST</span>\<span class="variable">n</span>&<span class="variable">quot</span>;
-                    + &<span class="variable">quot</span>;# &<span class="variable">quot</span>; + <span class="variable">latestMtime</span>.<span class="variable">toUTCString</span>() + &<span class="variable">quot</span>;\<span class="variable">n</span>&<span class="variable">quot</span>;
-                    + <span class="variable">files</span>.<span class="variable">join</span>(&<span class="variable">quot</span>;\<span class="variable">n</span>&<span class="variable">quot</span>;)
-                    + <span class="variable">suffix</span>;
-
-                <span class="variable">res</span>.<span class="variable">writeHead</span>(<span class="number integer">200</span>, {
-                    &<span class="variable">quot</span>;<span class="class">Content</span>-<span class="class">Type</span>&<span class="variable">quot</span>;: &<span class="variable">quot</span>;<span class="variable">text</span>/<span class="variable">cache</span>-<span class="variable">manifest</span>&<span class="variable">quot</span>;,
-                    &<span class="variable">quot</span>;<span class="class">Last</span>-<span class="class">Modified</span>&<span class="variable">quot</span>;: <span class="variable">latestMtime</span>.<span class="variable">toUTCString</span>(),
-                    &<span class="variable">quot</span>;<span class="class">Content</span>-<span class="class">Length</span>&<span class="variable">quot</span>;: <span class="variable">manifest</span>.<span class="variable">length</span>
-                });
-                <span class="variable">res</span>.<span class="variable">end</span>(<span class="variable">manifest</span>);
-            });
-            <span class="keyword">return</span>;
-        }
-        <span class="variable">next</span>();
-    };
 };</code></pre>
 </td>
 </tr><tr class="filename"><td><h2 id="lib/connect/middleware/cache.js">cache</h2></td><td>lib/connect/middleware/cache.js</td></tr><tr class="code">
@@ -309,7 +252,7 @@ and <code>fallbacks</code>.</p>
 <li><p><strong>return</strong>: <em>Function</em></p></li>
 <li><p><strong>api</strong>: <em>public</em></p></li>
 </ul>
-
+
 </td>
 <td class="code">
 <pre><code><span class="variable">module</span>.<span class="variable">exports</span> = <span class="keyword">function</span>(<span class="variable">cacheDuration</span>){
@@ -434,6 +377,79 @@ and <code>fallbacks</code>.</p>
     };
 };</code></pre>
 </td>
+</tr><tr class="filename"><td><h2 id="lib/connect/middleware/cacheManifest.js">cacheManifest</h2></td><td>lib/connect/middleware/cacheManifest.js</td></tr><tr class="code">
+<td class="docs">
+<p>Module dependencies.</p>
+</td>
+<td class="code">
+<pre><code><span class="keyword">var</span> <span class="variable">fs</span> = <span class="variable">require</span>(<span class="string">'fs'</span>),
+    <span class="class">Utils</span> = <span class="variable">require</span>(<span class="string">'../utils'</span>),
+    <span class="class">Url</span> = <span class="variable">require</span>(<span class="string">'url'</span>),
+    <span class="class">Path</span> = <span class="variable">require</span>(<span class="string">'path'</span>);</code></pre>
+</td>
+</tr>
+<tr class="code">
+<td class="docs">
+<p>Generate cache manifest for the given <code>root</code>, <code>networks</code>,
+and <code>fallbacks</code>.</p>
+
+<h2></h2>
+
+<ul>
+<li><p><strong>param</strong>: <em>String</em>  root</p></li>
+<li><p><strong>param</strong>: <em>Array</em>  networks</p></li>
+<li><p><strong>param</strong>: <em>Array</em>  fallbacks</p></li>
+<li><p><strong>return</strong>: <em>Function</em></p></li>
+<li><p><strong>api</strong>: <em>public</em></p></li>
+</ul>
+
+</td>
+<td class="code">
+<pre><code><span class="variable">module</span>.<span class="variable">exports</span> = <span class="keyword">function</span>(<span class="variable">root</span>, <span class="variable">networks</span>, <span class="variable">fallbacks</span>) {
+    <span class="variable">root</span> = <span class="variable">root</span> || <span class="variable">process</span>.<span class="variable">cwd</span>();
+    <span class="keyword">var</span> <span class="variable">suffix</span> = &<span class="variable">quot</span>;&<span class="variable">quot</span>;;
+
+    <span class="comment">// List of networks as an array of strings</span>
+    <span class="keyword">if</span> (<span class="variable">networks</span>) {
+        <span class="variable">suffix</span> += &<span class="variable">quot</span>;\<span class="variable">n</span>\<span class="variable">nNETWORK</span>:\<span class="variable">n</span>&<span class="variable">quot</span>; + <span class="variable">networks</span>.<span class="variable">join</span>(&<span class="variable">quot</span>;\<span class="variable">n</span>&<span class="variable">quot</span>;);
+    }
+
+    <span class="comment">// List of fallbacks as key/value pairs</span>
+    <span class="keyword">if</span> (<span class="variable">fallbacks</span>) {
+        <span class="variable">suffix</span> += &<span class="variable">quot</span>;\<span class="variable">n</span>\<span class="variable">nFALLBACK</span>:\<span class="variable">n</span>&<span class="variable">quot</span>; +
+            <span class="variable">fallbacks</span>.<span class="variable">map</span>(<span class="keyword">function</span> (<span class="variable">second</span>, <span class="variable">first</span>) {
+                <span class="keyword">return</span> <span class="variable">first</span> + &<span class="variable">quot</span>; &<span class="variable">quot</span>; + <span class="variable">second</span>;
+            }).<span class="variable">join</span>(&<span class="variable">quot</span>;\<span class="variable">n</span>&<span class="variable">quot</span>;);
+    }
+
+    <span class="keyword">return</span> <span class="keyword">function</span> <span class="variable">handle</span>(<span class="variable">req</span>, <span class="variable">res</span>, <span class="variable">next</span>) {
+        <span class="keyword">if</span> (<span class="class">Url</span>.<span class="variable">parse</span>(<span class="variable">req</span>.<span class="variable">url</span>).<span class="variable">pathname</span> === &<span class="variable">quot</span>;/<span class="variable">cache</span>.<span class="variable">manifest</span>&<span class="variable">quot</span>;) {
+            <span class="class">Utils</span>.<span class="variable">find</span>(<span class="variable">root</span>, (<span class="regexp">/./</span>), <span class="keyword">function</span> (<span class="variable">err</span>, <span class="variable">files</span>) {
+                <span class="keyword">var</span> <span class="variable">latestMtime</span> = <span class="number integer">0</span>;
+                <span class="variable">files</span> = <span class="variable">files</span>.<span class="variable">map</span>(<span class="keyword">function</span> (<span class="variable">entry</span>) {
+                    <span class="keyword">if</span> (<span class="variable">entry</span>.<span class="variable">mtime</span> &<span class="variable">gt</span>; <span class="variable">latestMtime</span>) {
+                        <span class="variable">latestMtime</span> = <span class="variable">entry</span>.<span class="variable">mtime</span>;
+                    }
+                    <span class="keyword">return</span> <span class="variable">entry</span>.<span class="variable">path</span>.<span class="variable">substr</span>(<span class="number integer">1</span>);
+                });
+                <span class="keyword">var</span> <span class="variable">manifest</span> = &<span class="variable">quot</span>;<span class="class">CACHE</span> <span class="class">MANIFEST</span>\<span class="variable">n</span>&<span class="variable">quot</span>;
+                    + &<span class="variable">quot</span>;# &<span class="variable">quot</span>; + <span class="variable">latestMtime</span>.<span class="variable">toUTCString</span>() + &<span class="variable">quot</span>;\<span class="variable">n</span>&<span class="variable">quot</span>;
+                    + <span class="variable">files</span>.<span class="variable">join</span>(&<span class="variable">quot</span>;\<span class="variable">n</span>&<span class="variable">quot</span>;)
+                    + <span class="variable">suffix</span>;
+
+                <span class="variable">res</span>.<span class="variable">writeHead</span>(<span class="number integer">200</span>, {
+                    &<span class="variable">quot</span>;<span class="class">Content</span>-<span class="class">Type</span>&<span class="variable">quot</span>;: &<span class="variable">quot</span>;<span class="variable">text</span>/<span class="variable">cache</span>-<span class="variable">manifest</span>&<span class="variable">quot</span>;,
+                    &<span class="variable">quot</span>;<span class="class">Last</span>-<span class="class">Modified</span>&<span class="variable">quot</span>;: <span class="variable">latestMtime</span>.<span class="variable">toUTCString</span>(),
+                    &<span class="variable">quot</span>;<span class="class">Content</span>-<span class="class">Length</span>&<span class="variable">quot</span>;: <span class="variable">manifest</span>.<span class="variable">length</span>
+                });
+                <span class="variable">res</span>.<span class="variable">end</span>(<span class="variable">manifest</span>);
+            });
+            <span class="keyword">return</span>;
+        }
+        <span class="variable">next</span>();
+    };
+};</code></pre>
+</td>
 </tr><tr class="filename"><td><h2 id="lib/connect/middleware/compiler.js">compiler</h2></td><td>lib/connect/middleware/compiler.js</td></tr><tr class="code">
 <td class="docs">
 <p>Module dependencies.</p>
@@ -451,7 +467,7 @@ and <code>fallbacks</code>.</p>
 <li><a href="http://github.com/visionmedia/sass.js">sass</a> to <em>css</em></li>
 <li><a href="http://github.com/cloudhead/less.js">less</a> to <em>css</em></li>
 </ul>
-
+
 </td>
 <td class="code">
 <pre><code><span class="keyword">var</span> <span class="variable">compilers</span> = <span class="variable">exports</span>.<span class="variable">compilers</span> = {
@@ -596,7 +612,7 @@ and <code>fallbacks</code>.</p>
 <li><p><strong>return</strong>: <em>Function</em></p></li>
 <li><p><strong>api</strong>: <em>public</em></p></li>
 </ul>
-
+
 </td>
 <td class="code">
 <pre><code><span class="variable">module</span>.<span class="variable">exports</span> = <span class="keyword">function</span>(){
@@ -1008,6 +1024,14 @@ url, and assigns req.<code>format</code>.</p>
 </tr>
 <tr class="code">
 <td class="docs">
+<p>Export the <code>setup()</code> function.</p>
+</td>
+<td class="code">
+<pre><code><span class="variable">exports</span> = <span class="variable">module</span>.<span class="variable">exports</span> = <span class="variable">setup</span>;</code></pre>
+</td>
+</tr>
+<tr class="code">
+<td class="docs">
 <p>JSON-RPC version.</p>
 </td>
 <td class="code">
@@ -1032,7 +1056,7 @@ url, and assigns req.<code>format</code>.</p>
 </tr>
 <tr class="code">
 <td class="docs">
-<p>Service method does not exist.</p>
+<p>Service method does not exist.</p>missing pro
 </td>
 <td class="code">
 <pre><code><span class="keyword">var</span> <span class="class">METHOD_NOT_FOUND</span> = <span class="variable">exports</span>.<span class="class">METHOD_NOT_FOUND</span> = -<span class="number integer">32601</span>;</code></pre>
@@ -1078,10 +1102,10 @@ url, and assigns req.<code>format</code>.</p>
 <li><p><strong>return</strong>: <em>Function</em></p></li>
 <li><p><strong>api</strong>: <em>public</em></p></li>
 </ul>
-
+
 </td>
 <td class="code">
-<pre><code><span class="variable">module</span>.<span class="variable">exports</span> = <span class="keyword">function</span>(<span class="variable">services</span>) {
+<pre><code><span class="keyword">function</span> <span class="variable">setup</span>(<span class="variable">services</span>) {
     <span class="variable">services</span> = <span class="variable">services</span> || {};
     
     <span class="comment">// Merge methods</span>
@@ -1175,9 +1199,9 @@ url, and assigns req.<code>format</code>.</p>
 </tr>
 <tr class="code">
 <td class="docs">
-<p>Normalize response object.</p>on_  respond
+<p>Normalize response object.</p><h2></h2>
 
- 
+<ul>
 </td>
 <td class="code">
 <pre><code><span class="keyword">function</span> <span class="variable">normalize</span>(<span class="variable">rpc</span>, <span class="variable">obj</span>) {
@@ -1318,7 +1342,7 @@ url, and assigns req.<code>format</code>.</p>
 <pre><code><span class="variable">module</span>.<span class="variable">exports</span> = <span class="keyword">function</span>(<span class="variable">options</span>) {
     <span class="variable">options</span> = <span class="variable">options</span> || {};
 
-    <span class="keyword">var</span> <span class="variable">format</span> = <span class="variable">options</span>.<span class="variable">format</span>,
+    <span class="keyword">var</span> <span class="variable">format</span> = <span class="variable">process</span>.<span class="variable">connectEnv</span>.<span class="variable">logFormat</span> || <span class="variable">options</span>.<span class="variable">format</span>,
         <span class="variable">stream</span> = <span class="variable">options</span>.<span class="variable">stream</span> || <span class="variable">process</span>.<span class="variable">stdout</span>;
 
     <span class="keyword">return</span> <span class="keyword">function</span> <span class="variable">handle</span>(<span class="variable">req</span>, <span class="variable">res</span>, <span class="variable">next</span>) {
@@ -1746,7 +1770,7 @@ res.redirect('back');
 <li><p><strong>param</strong>: <em>Function</em>  fn</p></li>
 <li><p><strong>api</strong>: <em>public</em></p></li>
 </ul>
-
+turn**: _Funct
 </td>
 <td class="code">
 <pre><code><span class="class">MemoryStore</span>.<span class="variable">prototype</span>.<span class="variable">commit</span> = <span class="keyword">function</span>(<span class="variable">req</span>, <span class="variable">fn</span>){
@@ -1811,8 +1835,7 @@ res.redirect('back');
 <li><p><strong>param</strong>: <em>String</em>  sid</p></li>
 <li><p><strong>api</strong>: <em>public</em></p></li>
 </ul>
-</li>
-</
+
 </td>
 <td class="code">
 <pre><code><span class="keyword">var</span> <span class="class">Session</span> = <span class="variable">exports</span>.<span class="class">Session</span> = <span class="keyword">function</span> <span class="class">Session</span>(<span class="variable">sid</span>) {
@@ -1893,7 +1916,7 @@ res.redirect('back');
 <li><p><strong>param</strong>: <em>Function</em>  fn</p></li>
 <li><p><strong>api</strong>: <em>public</em></p></li>
 </ul>
-
+rong>param
 </td>
 <td class="code">
 <pre><code><span class="class">Store</span>.<span class="variable">prototype</span>.<span class="variable">clear</span> = <span class="keyword">function</span>(<span class="variable">fn</span>){
@@ -1931,7 +1954,7 @@ res.redirect('back');
 <li><p><strong>return</strong>: <em>Function</em>  fn</p></li>
 <li><p><strong>api</strong>: <em>public</em></p></li>
 </ul>
-
+ong>ret
 </td>
 <td class="code">
 <pre><code><span class="class">Store</span>.<span class="variable">prototype</span>.<span class="variable">regenerate</span> = <span class="keyword">function</span>(<span class="variable">req</span>, <span class="variable">fn</span>){
@@ -1952,7 +1975,7 @@ res.redirect('back');
 <li><p><strong>param</strong>: <em>Function</em>  fn</p></li>
 <li><p><strong>api</strong>: <em>public</em></p></li>
 </ul>
-
+
 </td>
 <td class="code">
 <pre><code><span class="class">Store</span>.<span class="variable">prototype</span>.<span class="variable">length</span> = <span class="keyword">function</span>(<span class="variable">fn</span>){

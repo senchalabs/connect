@@ -54,22 +54,22 @@ function commits(app) {
     });
 }
 
-connect\.createServer([
-    { provider: \'router\', app: user }
-    { provider: \'router\', app: commits }
-]);
+connect\.createServer(
+    connect\.router(user),
+    connect\.router(commits),
+);
 .
 .fi
 .
 .IP "" 0
 .
 .P
-Those of you looking for \fIPUT\fR and \fIDELETE\fR support may want to take a look at the \fImethod\-override\fR middleware\.
+Those of you looking for \fIPUT\fR and \fIDELETE\fR support may want to take a look at the \fImethodOverride\fR middleware\.
 .
 .SS "See Also"
 .
 .IP "\(bu" 4
-method\-override
+methodOverride
 .
 .IP "" 0
 

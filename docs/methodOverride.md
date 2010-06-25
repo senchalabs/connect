@@ -1,8 +1,8 @@
 ## Method Override
 
-The _method-override_ checks `req.body._method` (by default) in order to swap out the http request method.
-The _body-decoder_ middleware will populate `req.body` when a form is submitted, which when paired with
-this middleware will allow the _rest_ middleware to support RESTful forms.
+The _methodOverride_ middleware checks `req.body._method` (by default) in order to swap out the http request method.
+The _bodyDecoder_ middleware will populate `req.body` when a form is submitted, which when paired with
+this middleware will allow the _router_ middleware to support RESTful forms.
 
 ### Options
 

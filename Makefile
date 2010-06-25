@@ -14,11 +14,11 @@ DOCS = docs/index.md \
 	   docs/session.md \
 	   docs/jsonrpc.md \
 	   docs/flash.md \
-	   docs/static.md \
+	   docs/staticProvider.md \
 	   docs/compiler.md \
 	   docs/router.md \
 	   docs/lint.md \
-	   docs/log.md
+	   docs/logger.md
 
 MANPAGES = $(DOCS:.md=.1)
 HTMLDOCS = $(DOCS:.md=.html)
@@ -46,8 +46,8 @@ install-docs:
 	cp -f docs/responseTime.1 $(PREFIX)/share/man/man1/connect-responseTime.1
 	cp -f docs/redirect.1 $(PREFIX)/share/man/man1/connect-redirect.1
 	cp -f docs/lint.1 $(PREFIX)/share/man/man1/connect-lint.1
-	cp -f docs/static.1 $(PREFIX)/share/man/man1/connect-static.1
-	cp -f docs/log.1 $(PREFIX)/share/man/man1/connect-log.1
+	cp -f docs/staticProvider.1 $(PREFIX)/share/man/man1/connect-staticProvider.1
+	cp -f docs/logger.1 $(PREFIX)/share/man/man1/connect-logger.1
 	cp -f docs/router.1 $(PREFIX)/share/man/man1/connect-router.1
 	cp -f docs/cookieDecoder.1 $(PREFIX)/share/man/man1/connect-cookieDecoder.1
 	cp -f docs/flash.1 $(PREFIX)/share/man/man1/connect-flash.1

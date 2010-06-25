@@ -1,0 +1,28 @@
+.\" generated with Ronn/v0.6.6
+.\" http://github.com/rtomayko/ronn/
+.
+.TH "STATICPROVIDER" "" "June 2010" "" ""
+.
+.SH "Static Provider"
+The \fIstaticProvider\fR middleware provides static file serving to the given \fIroot\fR directory defaulting to the \fBCWD\fR, for example:
+.
+.IP "" 4
+.
+.nf
+
+connect\.createServer(
+    connect\.staticProvider(__dirname + \'/public\')
+);
+.
+.fi
+.
+.IP "" 0
+.
+.SS "Environment Variables"
+.
+.nf
+
+\-\-staticRoot
+.
+.fi
+

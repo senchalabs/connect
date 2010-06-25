@@ -4,7 +4,7 @@
 .TH "BODYDECODER" "" "June 2010" "" ""
 .
 .SH "Body Decoder"
-The \fIbody\-decoder\fR middleware sniffs the \fIContent\-Type\fR header, and decodes the request body appropriately\. Supported by default are the \fIapplication/x\-www\-form\-urlencoded\fR, and \fIapplication/json\fR content types\. To extend simply:
+The \fIbodyDecoder\fR middleware sniffs the \fIContent\-Type\fR header, and decodes the request body appropriately\. Supported by default are the \fIapplication/x\-www\-form\-urlencoded\fR, and \fIapplication/json\fR content types\. To extend simply:
 .
 .IP "" 4
 .
@@ -21,7 +21,7 @@ require(\'connect/filters/body\-decoder\')\.decode[\'some\-mime/type\'] = functi
 .SS "See Also"
 .
 .IP "\(bu" 4
-method\-override
+methodOverride
 .
 .IP "" 0
 

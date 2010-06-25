@@ -25,7 +25,7 @@
         display: none;
       }
 	  h3 {
-		margin: 15px 0;
+		margin: 35px 0;
 		padding-left: 10px;
 	    font-size: 16px;
 		border-left: 15px solid #eee;
@@ -125,34 +125,57 @@
 			<li class="title">API</li>
 			<li><a href="api.html">extended api docs</a></li>
 			<li class="title">Filters</li>
-			<li><a href="log.html">log</a></li>
+			<li><a href="logger.html">logger</a></li>
 			<li><a href="lint.html">lint</a></li>
 			<li><a href="flash.html">flash</a></li>
 			<li><a href="redirect.html">redirect</a></li>
-			<li><a href="cookie.html">cookie</a></li>
+			<li><a href="cookieDecoder.html">cookieDecoder</a></li>
 			<li><a href="session.html">session</a></li>
 			<li><a href="compiler.html">compiler</a></li>
-			<li><a href="body-decoder.html">body-decoder</a></li>
-			<li><a href="conditional-get.html">conditional-get</a></li>
-			<li><a href="response-time.html">response-time</a></li>
-			<li><a href="method-override.html">method-override</a></li>
+			<li><a href="bodyDecoder.html">bodyDecoder</a></li>
+			<li><a href="conditionalGet.html">conditionalGet</a></li>
+			<li><a href="responseTime.html">responseTime</a></li>
+			<li><a href="methodOverride.html">methodOverride</a></li>
 			<li class="title">Providers</li>
 			<li><a href="router.html">router</a></li>
-			<li><a href="static.html">static</a></li>
+			<li><a href="staticProvider.html">staticProvider</a></li>
 			<li><a href="jsonrpc.html">jsonrpc</a></li>
 		</ul><div class='mp'>
-<h2 id="Static">Static</h2>
+<h2 id="Logger">Logger</h2>
 
-<p>The <em>static</em> middleware provides static file serving to the given <em>root</em> directory, for example:</p>
+<p>The <em>logger</em> middleware provides common log format support, as well as custom formats,
+below is the default usage:</p>
 
-<pre><code class="js"><span class="variable">connect</span>.<span class="variable">createServer</span>([
-    { <span class="variable">provider</span>: <span class="string">'static'</span>, <span class="variable">root</span>: <span class="variable">__dirname</span> + <span class="string">'/public'</span> }
-]);
+<pre><code>connect.createServer(
+    connect.logger(),
+);
+</code></pre>
+
+<p>A custom format can also be passed:</p>
+
+<pre><code class="js"><span class="variable">connect</span>.<span class="variable">createServer</span>(
+    <span class="variable">connect</span>.<span class="variable">logger</span>({ <span class="variable">format</span>: <span class="string">':method :url :response-time'</span> })
+);
+</code></pre>
+
+<p>The following format tokens are currently available:</p>
+
+<pre><code>:req[header]    Arbitrary request header, ex: req[Accept]
+:res[header]    Arbitrary response header, ex: res[Content-Type]
+:http-version   HTTP request version
+:response-time  Response time in milliseconds
+:remote-addr    Remote address
+:date           UTC date
+:method         Request method
+:url            Request url
+:referrer       Request referrer / referer
+:user-agent     User-Agent string
+:status         Response status
 </code></pre>
 
 <h3 id="Environment-Variables">Environment Variables</h3>
 
-<pre><code>--staticRoot
+<pre><code>--logFormat
 </code></pre>
 
 </div>

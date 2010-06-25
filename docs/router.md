@@ -46,13 +46,13 @@ The _router_ middleware provides a routing API similar to that of Sinatra and Ex
         });
 	}
 
-    connect.createServer([
-	    { provider: 'router', app: user }
-	    { provider: 'router', app: commits }
-	]);
+    connect.createServer(
+		connect.router(user),
+		connect.router(commits),
+	);
 
-Those of you looking for _PUT_ and _DELETE_ support may want to take a look at the _method-override_ middleware.
+Those of you looking for _PUT_ and _DELETE_ support may want to take a look at the _methodOverride_ middleware.
 
 ### See Also
 
-  * method-override
+  * methodOverride

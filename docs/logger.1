@@ -1,18 +1,18 @@
 .\" generated with Ronn/v0.6.6
 .\" http://github.com/rtomayko/ronn/
 .
-.TH "LOG" "" "June 2010" "" ""
+.TH "LOGGER" "" "June 2010" "" ""
 .
-.SH "Log"
-The \fIlog\fR middleware provides common log format support, as well as custom formats, below is the default usage:
+.SH "Logger"
+The \fIlogger\fR middleware provides common log format support, as well as custom formats, below is the default usage:
 .
 .IP "" 4
 .
 .nf
 
-connect\.createServer([
-    { filter: \'log\' }
-]);
+connect\.createServer(
+    connect\.logger(),
+);
 .
 .fi
 .
@@ -25,9 +25,9 @@ A custom format can also be passed:
 .
 .nf
 
-connect\.createServer([
-    { filter: \'log\', format: \':method :url :response\-time\' }
-]);
+connect\.createServer(
+    connect\.logger({ format: \':method :url :response\-time\' })
+);
 .
 .fi
 .
