@@ -69,31 +69,26 @@ Boolean values may use strings such as \fIyes\fR, \fIno\fR, \fItrue\fR, \fIfalse
 \-\-showErrorMessage BOOL   Show exception message in response (recommended for development only)
 \-\-showErrorStack BOOL     Show exception stack trace (recommended for development only)
 \-\-methodOverrideKey STR   Override the default method key of \"_method\"
-\-\-sassRoot PATH           Public sass conversion root path
-\-\-staticRoot PATH         Public static file root path
+\-\-compilerSrc PATH        Compiler source root directory
+\-\-compilerDest PATH       Compiler destination directory
 .
 .fi
 .
 .IP "" 0
 .
-.SH "Middleware"
-Connect middleware is divided into two concepts\. First we have \fIfilters\fR which perform an action and allow lower middleware to respond to the request, secondly we have \fIproviders\fR which are conceptual \"end\-points\", responding to the request without continuing down the stack\.
-.
 .SH "Middleware Usage"
-Below is an example which shows usage of the \fIlog\fR filter bundled with Connect, as well as the \fIstatic\fR provider\.
-.
-.P
-The keys \fBfilter\fR and \fBprovider\fR are used only as short\-cuts to bundled middleware, to utilize a custom module we can assign a module\'s exports to the \fBmodule\fR key\.
+Below is an example which shows usage of the \fIlogger\fR middleware bundled with Connect, as well as \fIstaticProvder\fR\.
 .
 .IP "" 4
 .
 .nf
 
-module\.exports = require(\'\./lib/connect\')\.createServer([
-    { filter: \'log\' },
-    { module: require(\'path/to/custom/middleware\') },
-    { provider: \'static\', root: __dirname + \'/public\' }
-]);
+var connect = require(\'connect\');
+
+module\.exports = connect\.createServer(
+    connect\.logger(),
+    connect\.static(__dirname + \'/public)
+);
 .
 .fi
 .
@@ -117,90 +112,80 @@ require(\'\./app\')\.listen();
 .IP "" 0
 .
 .SH "Middleware Authoring"
-Middleware is essentially just an object, responding to a \fBhandle()\fR method, the example below illustrates how simple it is to create, and utilize custom middleware\.
-.
-.P
-First we define the \fBhandle()\fR method, which accepts three arguments, \fIreq\fR, \fIres\fR, and \fInext\fR\.
+Connect middleware is simply a function which accepts the \fIrequest\fR, \fIresponse\fR objects\. Optionally the third parameter \fInext\fR can be used to continue down the middleware stack\. For example below is a middleware layer that simply responds with \"hello world\"\.
 .
 .IP "" 4
 .
 .nf
 
-var helloWorld = {
-    handle: function(req, res, next){
-        res\.writeHead(200, { \'Content\-Type\': \'text/plain\' });
-        res\.end(\'Hello World\');
-    }
-};
-
-require(\'connect\')\.createServer([
-    { module: helloWorld }
-]);
-.
-.fi
-.
-.IP "" 0
-.
-.P
-The \fBnext()\fR function passes control to the next middleware layer in the stack, and may optionally be passed an instanceof \fBError\fR, at which time only \fBhandleError()\fR methods may respond\.
-.
-.P
-If you wish to pass an exception down the stack, you can invoke \fBnext()\fR like below:
-.
-.IP "" 4
-.
-.nf
-
- if (someRequirementIsNotMet) {
-     next(new Error(\'my requirement was not met!\'));
- }
-.
-.fi
-.
-.IP "" 0
-.
-.P
-We can take this example further by \"exporting\" the \fBhandle()\fR method, so that other libraries can simply \fBrequire(\'hello\-world\')\fR:
-.
-.IP "" 4
-.
-.nf
-
-// hello\-world\.js
-exports\.handle = function(req, res, next){
+function helloWorld(req, res) {
     res\.writeHead(200, { \'Content\-Type\': \'text/plain\' });
-    res\.end(\'Hello World\');
-};
+    res\.end(\'hello world\');
+}
 
-// app\.js
-require(\'connect\')\.createServer([
-    { module: require(\'\./hello\-world\') }
-]);
+connect\.createServer(helloWorld)\.listen(3000);
 .
 .fi
 .
 .IP "" 0
 .
-.SS "Exception Handling"
-If an exception was thrown, or is passed to \fBnext()\fR, middleware may define the \fBhandleError()\fR method in order to respond (or ignore) the exception\. The \fBhandleError()\fR method follows the same semantics as \fBhandle()\fR, for example:
+.P
+Lets say we now have some middleware that will require a setup step, this can be done by returning a closure:
 .
 .IP "" 4
 .
 .nf
 
-exports\.handleError = function(err, req, res, next){
-    // At any time we can call next() without
-    // any arguments to eliminate exceptional status and
-    // continue down the stack
+function respond(msg) {
+    msg = msg || \'hello world\';
+    return function(req, res) {
+        res\.writeHead(200, { \'Content\-Type\': \'text/plain\' });
+        res\.end(msg);
+    }
+}
 
-    if (err\.code === process\.ENOENT) {
-        // We dont want to deal with missing files
-        // so pass the exception
-        next(err);
-    } else {
-        // Respond with a message
-        res\.writeHead(200, { \'Content\-Type\': \'text/plain\' })
-        res\.end(\'shit! im broken\');
+connect\.createServer(respond(\'wahoo\'))\.listen(3000);
+.
+.fi
+.
+.IP "" 0
+.
+.P
+To pass control to the next middleware layer, we may call the \fBnext()\fR function with an optional instanceof \fBError\fR\. Middleware with four parameters is an error handling middleware, the \fBerr\fR object can then be logged, used to issue a response, ignored, etc\.
+.
+.IP "" 4
+.
+.nf
+
+function break(req, res, next) {
+    // Exceptions thrown will be automatically passed to next()
+    // however for custom exceptions / async exceptions you may pass them
+    next(new Error(\'something broke!\'));
+}
+
+function errorHandler(err, req, res) {
+    res\.writeHead(500, { \'Content\-Type\': \'text/plain\' });
+    res\.end(err\.stack);
+}
+
+connect\.createServer(break, errorHandler)\.listen(3000);
+.
+.fi
+.
+.IP "" 0
+.
+.P
+To make your middleware available to others, typically you write a module, and export the function itself:
+.
+.IP "" 4
+.
+.nf
+
+// delay\.js
+module\.exports = function(ms){
+    ms = ms || 1000;
+    return function(req, res, next){
+        setTimeout(next, ms);
     }
 };
 .
@@ -208,85 +193,41 @@ exports\.handleError = function(err, req, res, next){
 .
 .IP "" 0
 .
-.SS "Setup Configuration"
-Connect also supports the \fBsetup()\fR method, which is called when the middleware is stacked, and is passed the environment\. For example lets say we want our \fIlog\fR middleware to support a custom format, we might define \fBsetup()\fR as shown below:
-.
-.IP "" 4
-.
-.nf
-
-var log = {};
-
-log\.setup = function(env) {
-    this\.format = this\.format || \'our default format\';
-}
-.
-.fi
-.
-.IP "" 0
-.
 .P
-Allowing developers to pass a custom format when stacked:
-.
-.IP "" 4
-.
-.nf
-
-connect\.createServer([
-    { module: log, format: \'custom log format\' }
-]);
-.
-.fi
-.
-.IP "" 0
-.
-.P
-In some cases we may want to support changes through the environment as well\. For example we may want to support \fBconnect \-\-logFormat \"super cool format\"\fR, to do all we need to do is check for \fBenv\.logFormat\fR as shown below\. The precedence given is up to you, however the env is recommended\.
-.
-.IP "" 4
-.
-.nf
-
-log\.setup = function(env) {
-    this\.format = env\.logFormat || this\.format || \'our default format\';
-}
-.
-.fi
-.
-.IP "" 0
+// app\.js // delay one second before continuing down the stack connect\.createServer(require(\'\./delay\')(1000))\.listen(3000);
 .
 .SH "Bundled Middleware"
 Connect ships with several helpful middleware modules, the following are currently provided out of the box:
 .
-.SS "Filters"
+.IP "" 4
 .
 .nf
 
-body\-decoder     Buffers and parses json and urlencoded request bodies (extenable)
-conditional\-get  Provides 304 \"Not Modified\" support
-error\-handler    Handles exceptions thrown, or passed through the stack
+bodyDecoder      Buffers and parses json and urlencoded request bodies (extenable)
+conditionalGet   Provides 304 \"Not Modified\" support
+errorHandler     Handles exceptions thrown, or passed through the stack
 debug            Outputs debugging console to all html responses
 format           Handles url path extensions or \"formats\"
 gzip             Compresses response bodies with gzip executable
 lint             Aids in middleware development
 log              Provides common logger support, and custom log formats
-method\-override  Provides faux HTTP method support by using the \"_method\" key by default
-response\-time    Responds with the X\-Response\-Time header in milliseconds
+methodOverride   Provides faux HTTP method support by using the \"_method\" key by default
+responseTime     Responds with the X\-Response\-Time header in milliseconds
 redirect         Provides req\.redirect() with \"magic\" urls, ex: req\.redirect(\"back\")
 compiler         Supports arbitrary static compilation of files, currently supports less and sass\.
-.
-.fi
-.
-.SS "Providers"
-.
-.nf
-
-cache\-manifest   Provides cache manifest for offline apps
+cacheManifest    Provides cache manifest for offline apps
 jsonrpc          Provides JSON\-RPC 2\.0 support
 static           Serves static files
 router           Provides a feature rich routing API similar to Sinatra and Express
+cookieDecoder    Provides cookie parsing support
+session          Provides session support
+cache            Provides memory caching
+pubsub           Publish subscribe messaging support
+jsonrpc          JSON\-RPC 2\.0 support
 .
 .fi
+.
+.IP "" 0
 .
 .SS "Middleware Documentation"
 To view middleware specific documentation execute:
@@ -308,7 +249,7 @@ For example:
 .
 .nf
 
-$ man connect\-body\-decoder
+$ man connect\-bodyDecoder
 .
 .fi
 .
