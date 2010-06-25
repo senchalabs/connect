@@ -14,6 +14,7 @@ DOCS = docs/index.md \
 	   docs/session.md \
 	   docs/jsonrpc.md \
 	   docs/flash.md \
+	   docs/format.md \
 	   docs/staticProvider.md \
 	   docs/compiler.md \
 	   docs/router.md \
@@ -45,6 +46,7 @@ install-docs:
 	cp -f docs/methodOverride.1 $(PREFIX)/share/man/man1/connect-methodOverride.1
 	cp -f docs/responseTime.1 $(PREFIX)/share/man/man1/connect-responseTime.1
 	cp -f docs/redirect.1 $(PREFIX)/share/man/man1/connect-redirect.1
+	cp -f docs/format.1 $(PREFIX)/share/man/man1/connect-format.1
 	cp -f docs/lint.1 $(PREFIX)/share/man/man1/connect-lint.1
 	cp -f docs/staticProvider.1 $(PREFIX)/share/man/man1/connect-staticProvider.1
 	cp -f docs/logger.1 $(PREFIX)/share/man/man1/connect-logger.1

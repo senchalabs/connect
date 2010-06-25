@@ -156,6 +156,7 @@ the following are currently provided out of the box:
     cache            Provides memory caching
     pubsub           Publish subscribe messaging support
     jsonrpc          JSON-RPC 2.0 support
+    format           Populates req.format for urls such as "/products.json"
 
 ### Middleware Documentation
 
