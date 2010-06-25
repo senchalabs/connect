@@ -1,7 +1,6 @@
 ## Logger
 
-The _logger_ middleware provides common log format support, as well as custom formats,
-below is the default usage:
+The _logger_ middleware provides common log format support, as well as custom formats, below is the default usage:
 
     connect.createServer(
 		connect.logger(),

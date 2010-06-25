@@ -1,7 +1,6 @@
 ## Session
 
-The _session_ middleware provides persistence between requests. 
-If we wish to supply a custom `Store` subclass, or pass options to the store itself, we can configure it like so:
+The _session_ middleware provides persistence between requests. If we wish to supply a custom `Store` subclass, or pass options to the store itself, we can configure it like so:
 
     var MemoryStore = require('connect/middleware/session/memory').MemoryStore;
     connect.createServer(

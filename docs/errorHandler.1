@@ -1,0 +1,58 @@
+.\" generated with Ronn/v0.6.6
+.\" http://github.com/rtomayko/ronn/
+.
+.TH "ERRORHANDLER" "" "June 2010" "" ""
+.
+.SH "Error Handler"
+The \fIerrorHandler\fR middleware responds to exceptions passed or caught from within middleware above it, according to the options shown below\.
+.
+.IP "" 4
+.
+.nf
+
+connect\.createServer(
+    function(req, res, next){
+        throw new Error(\'ahhhh!\');
+    },
+    connect\.errorHandler({ dumpExceptions: true })
+);
+.
+.fi
+.
+.IP "" 0
+.
+.P
+By default the response of \fIerrorHandler\fR is 500 \'Internal Server Error\'\. If \fIshowStack\fR is true, then Connect decides how to respond based on the \fIAccept\fR request header:
+.
+.IP "" 4
+.
+.nf
+
+text/html         Outputs an html version of the stack trace
+application/json  Outputs json { \'error\': { \'message\': \.\.\. }}
+otherwise         Outputs plain text stack trace
+.
+.fi
+.
+.IP "" 0
+.
+.SS "Options"
+.
+.nf
+
+showMessage     Show the exception message only
+showStack       Show the exception message and stack trace
+dumpExceptions  Output exception stack traces to stderr (does not re\-throw)
+.
+.fi
+.
+.SS "Environment Variables"
+.
+.nf
+
+\-\-showErrorMessage
+\-\-showErrorStack
+\-\-dumpExceptions
+.
+.fi
+

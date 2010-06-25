@@ -141,4 +141,41 @@
 			<li><a href="conditionalGet.html">conditionalGet</a></li>
 			<li><a href="methodOverride.html">methodOverride</a></li>
 			<li><a href="staticProvider.html">staticProvider</a></li>
-		</ul>
+		</ul><div class='mp'>
+<h2 id="Error-Handler">Error Handler</h2>
+
+<p>The <em>errorHandler</em> middleware responds to exceptions passed or caught from within middleware above it, according to the options shown below.</p>
+
+<pre><code class="js"><span class="variable">connect</span>.<span class="variable">createServer</span>(
+    <span class="keyword">function</span>(<span class="variable">req</span>, <span class="variable">res</span>, <span class="variable">next</span>){
+        <span class="keyword">throw</span> <span class="keyword">new</span> <span class="class">Error</span>(<span class="string">'ahhhh!'</span>);
+    },
+    <span class="variable">connect</span>.<span class="variable">errorHandler</span>({ <span class="variable">dumpExceptions</span>: <span class="variable">true</span> })
+);
+</code></pre>
+
+<p>By default the response of <em>errorHandler</em> is 500 'Internal Server Error'. If <em>showStack</em> is true, then Connect decides how to respond based on the <em>Accept</em> request header:</p>
+
+<pre><code>text/html         Outputs an html version of the stack trace
+application/json  Outputs json { 'error': { 'message': ... }}
+otherwise         Outputs plain text stack trace
+</code></pre>
+
+<h3 id="Options">Options</h3>
+
+<pre><code>showMessage     Show the exception message only  
+showStack       Show the exception message and stack trace
+dumpExceptions  Output exception stack traces to stderr (does not re-throw)
+</code></pre>
+
+<h3 id="Environment-Variables">Environment Variables</h3>
+
+<pre><code>--showErrorMessage
+--showErrorStack
+--dumpExceptions
+</code></pre>
+
+</div>
+    </div>
+  </body>
+</html>
