@@ -54,8 +54,8 @@ Boolean values may use strings such as _yes_, _no_, _true_, _false_.
     --showErrorMessage BOOL   Show exception message in response (recommended for development only)
     --showErrorStack BOOL     Show exception stack trace (recommended for development only)
     --methodOverrideKey STR   Override the default method key of "_method"
-    --sassRoot PATH           Public sass conversion root path
-    --staticRoot PATH         Public static file root path
+    --compilerSrc PATH        Compiler source root directory
+    --compilerDest PATH       Compiler destination directory
 
 ## Middleware
 
