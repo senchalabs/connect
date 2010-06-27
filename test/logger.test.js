@@ -35,5 +35,18 @@ module.exports = {
         })
         req.write('foobar');
         req.end();
+    },
+    
+    'test custom format': function(){
+        var logs = [];
+        var fakeStream = { write: function(str){ logs.push(str); }};
+        var server = helpers.run(
+            connect.logger({ stream: fakeStream, format: ':method :url' }),
+            require('./filters/uppercase')(),
+            require('./providers/echo')()
+        );
+        server.assertResponse('GET', '/', 200, '', '', function(){
+            assert.equal('GET /\n', logs[0], 'Test logger format option');
+        });
     }
 }
