@@ -8,11 +8,22 @@ var connect = require('connect'),
     assert = require('assert'),
     http = require('http');
 
+// Session
+
+var Session = require('connect/middleware/session/session').Session;
+
 // Stores
 
 var MemoryStore = require('connect/middleware/session/memory').MemoryStore;
 
 module.exports = {
+    'test Session() cast': function(){
+        var sess = Session({ id: '123', lastAccess: 123 });
+        assert.ok(sess instanceof Session, 'Test Session() cast');
+        assert.equal('123', sess.id);
+        assert.equal(123, sess.lastAccess);
+    },
+    
     'test MemoryStore': function(){
         var n = 0, sid;
         var server = helpers.run(
