@@ -70,6 +70,9 @@ function main(app){
         res.writeHead(200, {});
         res.end('captures: ' + params.splat.join(', '));
     });
+    app.get('/next', function(req, res, params, next){
+        next();
+    });
     app.get('/cookies.:format?', function(req, res, params){
         var cookies = ['num', 'num'];
         res.writeHead(200, {});
@@ -93,6 +96,8 @@ module.exports = {
         server.assertResponse('GET', '/products/', 200, 'products');
         server.assertResponse('GET', '/products.json', 200, 'products as json');
         server.assertResponse('GET', '/products/12', 200, 'product 12');
+        
+        server.assertResponse('GET', '/next', 404, 'Cannot find /next');
 
         server.assertResponse('GET', '/', 200, 'GET /', 'Test router GET /');
         server.assertResponse('POST', '/', 200, 'POST /', 'Test router POST /');
