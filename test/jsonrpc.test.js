@@ -14,7 +14,7 @@ function run(procedures){
         connect.jsonrpc(procedures)
     );
     server.call = function(obj, fn){
-        var req = server.request('POST', '/', { 'Content-Type': 'application/json' });
+        var req = server.request('POST', '/', { 'Content-Type': 'application/json; charset=foobar' });
         req.buffer = true;
         req.addListener('response', function(res){
             res.addListener('end', function(){
