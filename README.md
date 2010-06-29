@@ -40,6 +40,10 @@ View one of several examples located within _./examples_.
 
   * [Introduction to Connect](http://tjholowaychuk.com/post/664516126/connect-middleware-for-nodejs)
 
+## Contrib Middleware
+
+  * [connect-form](http://github.com/visionmedia/connect-form) urlencoded / multipart form parsing middleware
+
 ## Applications Using Connect
 
   coming soon
