@@ -42,7 +42,7 @@ View one of several examples located within _./examples_.
 
 ## Contrib Middleware
 
-  * [connect-form](http://github.com/visionmedia/connect-form) urlencoded / multipart form parsing middleware
+  * [connect-form](http://visionmedia.github.com/connect-form/) urlencoded / multipart form parsing middleware
 
 ## Applications Using Connect
 
