@@ -36,19 +36,6 @@ View the online HTML documentation:
 
 View one of several examples located within _./examples_.
 
-## Articles
-
-  * [Introduction to Connect](http://tjholowaychuk.com/post/664516126/connect-middleware-for-nodejs)
-
-## Contrib Middleware
-
-  * [connect-form](http://visionmedia.github.com/connect-form/) urlencoded / multipart form parsing middleware
-  * [connect-basic-auth](http://github.com/sr/connect-basic-auth) Basic auth support
-
-## Applications Using Connect
-
-  coming soon
-
 ## Running Benchmarks
 
 To run the benchmarks you must have ApacheBench, and gnuplot installed, then:
