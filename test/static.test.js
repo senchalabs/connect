@@ -40,7 +40,7 @@ module.exports = {
         var server = helpers.run(
             connect.staticProvider(fixturesPath)
         );
-        server.assertResponse('GET', '/some%20text.txt', 200, 'wahoo', 'Test urlencoded path');
+        server.assertResponse('GET', '/some%20text.txt', 200, 'whoop', 'Test urlencoded path');
     },
 
     'test index.html support': function(){
