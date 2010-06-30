@@ -43,6 +43,7 @@ View one of several examples located within _./examples_.
 ## Contrib Middleware
 
   * [connect-form](http://visionmedia.github.com/connect-form/) urlencoded / multipart form parsing middleware
+  * [connect-basic-auth](http://github.com/sr/connect-basic-auth) Basic auth support
 
 ## Applications Using Connect
 
