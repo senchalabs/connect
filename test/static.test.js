@@ -47,13 +47,13 @@ module.exports = {
         var server = helpers.run(
             connect.staticProvider(__dirname)
         );
-        server.assertResponse('GET', '/', 404, 'Cannot find /', 'Test static index.html support when missing.');
+        server.assertResponse('GET', '/', 404, 'Cannot GET /', 'Test static index.html support when missing.');
     },
 
     'test invalid file': function(){
         var server = helpers.run(
             connect.staticProvider(fixturesPath)
         );
-        server.assertResponse('GET', '/foo.json', 404, 'Cannot find /foo.json', 'Test invalid static file.');
+        server.assertResponse('GET', '/foo.json', 404, 'Cannot GET /foo.json', 'Test invalid static file.');
     }
 }

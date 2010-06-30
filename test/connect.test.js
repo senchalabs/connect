@@ -73,8 +73,8 @@ module.exports = {
 
     'test unmatched path': function(){
         var server = helpers.run();
-        server.assertResponse('GET', '/', 404, 'Cannot find /', 'Test unmatched path');
-        server.assertResponse('GET', '/foo', 404, 'Cannot find /foo', 'Test unmatched path');
+        server.assertResponse('GET', '/', 404, 'Cannot GET /', 'Test unmatched path');
+        server.assertResponse('GET', '/foo', 404, 'Cannot GET /foo', 'Test unmatched path');
     },
 
     'test handleError': function(){
@@ -179,6 +179,6 @@ module.exports = {
         server.assertResponse('GET', '/outer', 200, 'outer stack', 'Test outer stack');
         server.assertResponse('POST', '/', 200, 'middle stack', 'Test middle stack');
         server.assertResponse('POST', '/inner', 200, 'inner stack', 'Test inner stack');
-        server.assertResponse('GET', '/', 404, 'Cannot find /', 'Test multiple stacks unmatched path');
+        server.assertResponse('GET', '/', 404, 'Cannot GET /', 'Test multiple stacks unmatched path');
     }
 }

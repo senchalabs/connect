@@ -97,13 +97,13 @@ module.exports = {
         server.assertResponse('GET', '/products.json', 200, 'products as json');
         server.assertResponse('GET', '/products/12', 200, 'product 12');
         
-        server.assertResponse('GET', '/next', 404, 'Cannot find /next');
+        server.assertResponse('GET', '/next', 404, 'Cannot GET /next');
 
         server.assertResponse('GET', '/', 200, 'GET /', 'Test router GET /');
         server.assertResponse('POST', '/', 200, 'POST /', 'Test router POST /');
         server.assertResponse('PUT', '/', 200, 'PUT /', 'Test router PUT /');
         server.assertResponse('DELETE', '/', 200, 'DELETE /', 'Test router DELETE /');
-        server.assertResponse('GET', '/user', 404, 'Cannot find /user', 'Test router GET unmatched path param');
+        server.assertResponse('GET', '/user', 404, 'Cannot GET /user', 'Test router GET unmatched path param');
         server.assertResponse('GET', '/user/12', 200, 'viewing user 12', 'Test router GET matched path param');
         server.assertResponse('GET', '/user/12/', 200, 'viewing user 12', 'Test router GET matched path param with trailing slash');
         server.assertResponse('GET', '/user/99/edit', 200, 'editing user 99', 'Test router GET matched path with several params');
@@ -113,7 +113,7 @@ module.exports = {
         server.assertResponse('GET', '/users.json', 200, 'json format');
         server.assertResponse('GET', '/cookies', 200, 'num num', 'Test router optional placeholder without value');
         server.assertResponse('GET', '/cookies.json', 200, '["num","num"]', 'Test reset optional placeholder with value');
-        server.assertResponse('GET', '/public', 404, 'Cannot find /public', 'Test required splat without value');
+        server.assertResponse('GET', '/public', 404, 'Cannot GET /public', 'Test required splat without value');
         server.assertResponse('GET', '/public/jquery.js', 200, 'splat "jquery.js"', 'Test required splat with value');
         server.assertResponse('GET', '/public/javascripts/jquery.js', 200, 'splat "javascripts/jquery.js"', 'Test required splat with segmented');
         server.assertResponse('GET', '/files/jquery.js', 200, 'path: "jquery" ext: "js"', 'Test several required splats');
