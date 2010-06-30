@@ -35,6 +35,13 @@ module.exports = {
         });
         req.end();
     },
+    
+    'test urlencoded': function(){
+        var server = helpers.run(
+            connect.staticProvider(fixturesPath)
+        );
+        server.assertResponse('GET', '/some%20text.txt', 200, 'wahoo', 'Test urlencoded path');
+    },
 
     'test index.html support': function(){
         var server = helpers.run(
