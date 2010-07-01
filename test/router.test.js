@@ -17,7 +17,7 @@ var fixturesPath = __dirname + '/fixtures';
 // Faux products app
 
 function products(app){
-    app.get('.:format?', function(req, res, params){
+    app.get('/.:format?', function(req, res, params){
         res.writeHead(200, {});
         res.end('products' + (params.format ? ' as ' + params.format : ''));
     });
