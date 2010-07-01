@@ -1,4 +1,17 @@
 
+0.2.0 / 2010-07-01
+==================
+
+  * Added calls to `Session()` casts the given object as a `Session` instance
+  * Added passing of `next()` to _router_ callbacks. Closes #46
+  * Changed; `MemoryStore#destroy()` removes `req.session`
+  * Changed `res.redirect("back")` to default to "/" when Referr?er is not present
+  * Fixed _staticProvider_ urlencoded paths issue. Closes #47
+  * Fixed _staticProvider_ middleware responding to **GET** requests
+  * Fixed _jsonrpc_ middleware `Accept` header check. Closes #43
+  * Fixed _logger_ format option
+  * Fixed typo in _compiler_ middleware preventing the _dest_ option from working
+
 0.1.0 / 2010-06-25
 ==================
 
