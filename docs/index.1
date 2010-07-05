@@ -1,7 +1,7 @@
-.\" generated with Ronn/v0.7.3
-.\" http://github.com/rtomayko/ronn/tree/0.7.3
+.\" generated with Ronn/v0.6.6
+.\" http://github.com/rtomayko/ronn/
 .
-.TH "CONNECT" "1" "June 2010" "" ""
+.TH "CONNECT" "1" "July 2010" "" ""
 .
 .SH "NAME"
 \fBconnect\fR \- node server runner
@@ -22,7 +22,7 @@ connect [\-H|\-\-host ADDR] [\-p|\-\-port NUM]
 .fi
 .
 .SH "Description"
-Connect is a dual purpose library, aiding in both rapid development, and deployment of node servers\. Connect "middleware" can be stacked to create a robust application within minutes\. The \fIconnect\fR executable supports launching of both regular \fBnet\.Server\fR, and \fBconnect\.Server\fR instances\.
+Connect is a dual purpose library, aiding in both rapid development, and deployment of node servers\. Connect \"middleware\" can be stacked to create a robust application within minutes\. The \fIconnect\fR executable supports launching of both regular \fBnet\.Server\fR, and \fBconnect\.Server\fR instances\.
 .
 .P
 The connect executable supplies \fIinit\.d\fR friendly \fIstart\fR, \fIstop\fR, and \fIrestart\fR commands, and accept a direct path to the module meant to be run, otherwise defaults to trying both \fIapp\.js\fR and \fIserver\.js\fR in the current working directory\.
@@ -38,7 +38,7 @@ Also to check the status of a process you may use the \fIstatus\fR command, whic
 \-p, \-\-port NUM        Port number, defaults to 3000
 \-n, \-\-workers NUM     Number of worker processes to spawn
 \-I, \-\-include PATH    Unshift the given path to require\.paths
-\-E, \-\-env ENV         Set environment, defaults to "development"
+\-E, \-\-env ENV         Set environment, defaults to \"development\"
 \-e, \-\-eval CODE       Evaluate the given string
 \-C, \-\-chdir PATH      Change to the given path
 \-c, \-\-config PATH     Load configuration module
@@ -55,7 +55,7 @@ Also to check the status of a process you may use the \fIstatus\fR command, whic
 .fi
 .
 .SH "Supported Environment Variables"
-Currently the following environment variables may be set via the \fB\-\-ENV VAL\fR catchall\. For example we can alter the log format used via the command line with `connect \-\-logFormat ":method :uri"\.
+Currently the following environment variables may be set via the \fB\-\-ENV VAL\fR catchall\. For example we can alter the log format used via the command line with `connect \-\-logFormat \":method :uri\"\.
 .
 .P
 Boolean values may use strings such as \fIyes\fR, \fIno\fR, \fItrue\fR, \fIfalse\fR\.
@@ -68,7 +68,7 @@ Boolean values may use strings such as \fIyes\fR, \fIno\fR, \fItrue\fR, \fIfalse
 \-\-dumpExceptions BOOL     Dump exceptions to stderr
 \-\-showErrorMessage BOOL   Show exception message in response (recommended for development only)
 \-\-showErrorStack BOOL     Show exception stack trace (recommended for development only)
-\-\-methodOverrideKey STR   Override the default method key of "_method"
+\-\-methodOverrideKey STR   Override the default method key of \"_method\"
 \-\-compilerSrc PATH        Compiler source root directory
 \-\-compilerDest PATH       Compiler destination directory
 .
@@ -87,7 +87,7 @@ var connect = require(\'connect\');
 
 module\.exports = connect\.createServer(
     connect\.logger(),
-    connect\.static(__dirname + \'/public)
+    connect\.staticProvider(__dirname + \'/public\')
 );
 .
 .fi
@@ -95,7 +95,7 @@ module\.exports = connect\.createServer(
 .IP "" 0
 .
 .P
-As shown above the module exports a \fBconnect\.Server\fR and does not call the \fBlisten()\fR method directly\. This allows other modules to "mount" this app, as well as allowing the \fIconnect\fR executable to control how the server is run\.
+As shown above the module exports a \fBconnect\.Server\fR and does not call the \fBlisten()\fR method directly\. This allows other modules to \"mount\" this app, as well as allowing the \fIconnect\fR executable to control how the server is run\.
 .
 .P
 If you prefer not to use \fIconnect\fR, you can simply create a script executable by \fInode\fR, \fBrequire()\fR the app, then invoke \fBlisten()\fR\.
@@ -112,7 +112,7 @@ require(\'\./app\')\.listen();
 .IP "" 0
 .
 .SH "Middleware Authoring"
-Connect middleware is simply a function which accepts the \fIrequest\fR, \fIresponse\fR objects\. Optionally the third parameter \fInext\fR can be used to continue down the middleware stack\. For example below is a middleware layer that simply responds with "hello world"\.
+Connect middleware is simply a function which accepts the \fIrequest\fR, \fIresponse\fR objects\. Optionally the third parameter \fInext\fR can be used to continue down the middleware stack\. For example below is a middleware layer that simply responds with \"hello world\"\.
 .
 .IP "" 4
 .
@@ -204,16 +204,16 @@ Connect ships with several helpful middleware modules, the following are current
 .nf
 
 bodyDecoder      Buffers and parses json and urlencoded request bodies (extenable)
-conditionalGet   Provides 304 "Not Modified" support
+conditionalGet   Provides 304 \"Not Modified\" support
 errorHandler     Handles exceptions thrown, or passed through the stack
 debug            Outputs debugging console to all html responses
-format           Handles url path extensions or "formats"
+format           Handles url path extensions or \"formats\"
 gzip             Compresses response bodies with gzip executable
 lint             Aids in middleware development
 logger           Provides common logger support, and custom log formats
-methodOverride   Provides faux HTTP method support by using the "_method" key by default
+methodOverride   Provides faux HTTP method support by using the \"_method\" key by default
 responseTime     Responds with the X\-Response\-Time header in milliseconds
-redirect         Provides req\.redirect() with "magic" urls, ex: req\.redirect("back")
+redirect         Provides req\.redirect() with \"magic\" urls, ex: req\.redirect(\"back\")
 compiler         Supports arbitrary static compilation of files, currently supports less and sass\.
 cacheManifest    Provides cache manifest for offline apps
 jsonrpc          Provides JSON\-RPC 2\.0 support
@@ -224,8 +224,8 @@ session          Provides session support
 cache            Provides memory caching
 pubsub           Publish subscribe messaging support
 jsonrpc          JSON\-RPC 2\.0 support
-format           Populates req\.format for urls such as "/products\.json"
-repl             Read Evaluate Print Loop attached to "/tmp/connect\.sock" for inspecting live servers
+format           Populates req\.format for urls such as \"/products\.json\"
+repl             Read Evaluate Print Loop attached to \"/tmp/connect\.sock\" for inspecting live servers
 vhost            Virtual host support
 .
 .fi

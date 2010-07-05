@@ -65,7 +65,7 @@ Below is an example which shows usage of the _logger_ middleware bundled with Co
 
     module.exports = connect.createServer(
 		connect.logger(),
-		connect.static(__dirname + '/public)
+		connect.staticProvider(__dirname + '/public')
     );
 
 As shown above the module exports a `connect.Server` and does not call the `listen()` method directly. This allows other modules to "mount" this app, as well as allowing the _connect_ executable to control how the server is run.
