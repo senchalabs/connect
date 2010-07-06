@@ -400,7 +400,7 @@ function start() {
 
     // Spawn worker processes
     if (workers) {
-        if (process.version < '0.1.98') {
+        if (process.version < '0.1.98' && process.version > "0.1.100") {
             abort('Cannot use workers with a version older than v0.1.98');
         }
 
