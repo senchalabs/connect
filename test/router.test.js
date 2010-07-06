@@ -73,6 +73,9 @@ function main(app){
     app.get('/next', function(req, res, params, next){
         next();
     });
+    app.get('/error', function(req, res, params, next){
+        throw new Error('boom!');
+    });
     app.get('/cookies.:format?', function(req, res, params){
         var cookies = ['num', 'num'];
         res.writeHead(200, {});
@@ -91,6 +94,7 @@ module.exports = {
         var server = helpers.run();
         server.use('/products', connect.router(products));
         server.use('/', connect.router(main));
+        server.use('/', connect.errorHandler({ showMessage: true }));
 
         server.assertResponse('GET', '/products', 200, 'products');
         server.assertResponse('GET', '/products/', 200, 'products');
@@ -98,6 +102,7 @@ module.exports = {
         server.assertResponse('GET', '/products/12', 200, 'product 12');
         
         server.assertResponse('GET', '/next', 404, 'Cannot GET /next');
+        server.assertResponse('GET', '/error', 500, 'Error: boom!');
 
         server.assertResponse('GET', '/', 200, 'GET /', 'Test router GET /');
         server.assertResponse('POST', '/', 200, 'POST /', 'Test router POST /');
