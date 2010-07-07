@@ -102,6 +102,12 @@ function main(app){
         res.writeHead(200, {});
         res.end('items');
     });
+    app.get('/failure/:id?', function(req, res, params, next){
+        next(new Error('fail boat'));
+    });
+    app.get('/failure', function(req, res, params){
+        assert.fail('next(new Error) passed to next matching router callback');
+    });
 }
 
 module.exports = {
@@ -113,6 +119,8 @@ module.exports = {
 
         server.assertResponse('GET', '/items/12', 200, 'item 12');
         server.assertResponse('GET', '/items', 200, 'items');
+        
+        server.assertResponse('GET', '/failure/12', 500, 'Error: fail boat');
         
         server.assertResponse('GET', '/products', 200, 'products');
         server.assertResponse('GET', '/products/', 200, 'products');
