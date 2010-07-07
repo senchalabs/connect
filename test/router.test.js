@@ -88,7 +88,15 @@ function main(app){
         }
     });
     app.get('/items/:id?', function(req, res, params, next){
-        next();
+        if (params.id) {
+            res.writeHead(200, {});
+            res.end('item ' + params.id);
+        } else {
+            next();
+        }
+    });
+    app.get('/items', function(req, res, params, next){
+        next()
     });
     app.get('/items', function(req, res, params){
         res.writeHead(200, {});
@@ -103,7 +111,7 @@ module.exports = {
         server.use('/', connect.router(main));
         server.use('/', connect.errorHandler({ showMessage: true }));
 
-        server.assertResponse('GET', '/items/12', 200, 'items');
+        server.assertResponse('GET', '/items/12', 200, 'item 12');
         server.assertResponse('GET', '/items', 200, 'items');
         
         server.assertResponse('GET', '/products', 200, 'products');
