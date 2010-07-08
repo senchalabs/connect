@@ -4,7 +4,7 @@
  */
 
 var sys = require('sys'),
-    MemoryStore = require('./../../lib/connect/middlewares/session/memory').MemoryStore,
+    MemoryStore = require('./../../lib/connect/middleware/session/memory').MemoryStore,
     Connect = require('./../../lib/connect');
 
 // One minute
@@ -17,7 +17,8 @@ var Server = module.exports = Connect.createServer(
     Connect.cookieDecoder(),
     Connect.session({ store: new MemoryStore({ reapInterval: minute, maxAge: minute * 5 }) }),
     Connect.flash(),
-    Connect.router(app)
+    Connect.router(app),
+    Connect.errorHandler({ dumpExceptions: true, showStack: true })
 );
 
 function app(app) {
