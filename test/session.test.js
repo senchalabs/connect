@@ -30,7 +30,9 @@ module.exports = {
             connect.cookieDecoder(),
             connect.session({ store: new MemoryStore({ reapInterval: -1 }) }),
             function(req, res, next){
-                assert.ok(req.sessionStore, 'Test req.sessionStore')
+                assert.ok(req.sessionStore, 'Test req.sessionStore');
+                assert.ok(req.sessionId, 'Test req.sessionId');
+                assert.ok(req.sessionHash, 'Test req.sessionHash');
                 switch (n++) {
                     case 0:
                         assert.eql(['id', 'lastAccess'], Object.keys(req.session),
@@ -67,8 +69,10 @@ module.exports = {
             assert.ok(setCookie.indexOf('connect.sid=') === 0, 'Test MemoryStore Set-Cookie connect.sid');
             assert.ok(setCookie.indexOf('httpOnly') !== -1, 'Test MemoryStore Set-Cookie httpOnly');
             assert.ok(setCookie.indexOf('expires=') !== -1, 'Test MemoryStore Set-Cookie expires');
-            server.request('GET', '/', { 'Cookie': 'connect.sid=' + sid, 'User-Agent': 'foo' }).end();
-            server.request('GET', '/', { 'Cookie': 'connect.sid=' + sid, 'User-Agent': 'bar' }).end();
+            setTimeout(function(){
+                server.request('GET', '/', { 'Cookie': 'connect.sid=' + sid, 'User-Agent': 'foo' }).end();
+                server.request('GET', '/', { 'Cookie': 'connect.sid=' + sid, 'User-Agent': 'bar' }).end();
+            }, 30);
         });
         req.end();
     }
