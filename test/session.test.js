@@ -53,12 +53,24 @@ module.exports = {
                     case 4:
                         assert.notEqual(sid, req.session.id, 'Test MemoryStore User-Agent fingerprint');
                         break;
+                    case 5:
+                        req.sessionStore.destroy(req, function(err, destroyed){
+                            assert.ok(!err);
+                            assert.ok(destroyed, 'Test MemoryStore#destroy() when present');
+                        });
+                        break;
+                    case 6:
+                        req.sessionStore.destroy(req, function(err, destroyed){
+                            assert.ok(!err);
+                            assert.ok(!destroyed, 'Test MemoryStore#destroy()');
+                        });
+                        break;
                 }
                 next();
             }
         );
 
-        server.pending = 5;
+        server.pending = 7;
         server.request('GET', '/').end();
         server.request('GET', '/', { 'Cookie': 'connect.sid=123123' }).end();
 
@@ -72,6 +84,8 @@ module.exports = {
             setTimeout(function(){
                 server.request('GET', '/', { 'Cookie': 'connect.sid=' + sid, 'User-Agent': 'foo' }).end();
                 server.request('GET', '/', { 'Cookie': 'connect.sid=' + sid, 'User-Agent': 'bar' }).end();
+                server.request('GET', '/', { 'Cookie': 'connect.sid=' + sid, 'User-Agent': 'foo' }).end();
+                server.request('GET', '/', { 'Cookie': 'connect.sid=' + sid, 'User-Agent': 'foo' }).end();
             }, 30);
         });
         req.end();
