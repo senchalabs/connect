@@ -1,4 +1,13 @@
 
+0.2.1 / 2010-07-09
+==================
+
+  * Added support for _router_ `next()` to continue calling matched routes
+  * Added mime type for _cache.manifest_ files.
+  * Changed _compiler_ middleware to use async require
+  * Changed session api, stores now only require `#get()`, and `#set()`
+  * Fixed _cacheManifest_ by adding `utils.find()` back
+
 0.2.0 / 2010-07-01
 ==================
 

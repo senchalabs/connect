@@ -23,7 +23,7 @@ var child_process = require('child_process'),
  * Framework version.
  */
 
-var version = '0.2.0';
+var version = '0.2.1';
 
 /**
  * Use child process workers to utilize all cores
