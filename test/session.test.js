@@ -49,9 +49,8 @@ module.exports = {
                         assert.notEqual(sid, req.session.id, 'Test MemoryStore User-Agent fingerprint');
                         break;
                     case 5:
-                        req.sessionStore.destroy(req.sessionHash, function(err, destroyed){
-                            assert.ok(!err);
-                            assert.ok(destroyed, 'Test MemoryStore#destroy() when present');
+                        req.sessionStore.destroy(req.sessionHash, function(err){
+                            assert.ok(!err, 'Test MemoryStore#destroy() when present');
                         });
                         break;
                     case 6:

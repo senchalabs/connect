@@ -22,7 +22,6 @@ Abstract store which can be subclassed. To comply with `Store` you should define
 
     #get(hash, callback)         Fetch session data via the session fingerprint and callback(err, data)
     #set(hash, data, callback)   Commit the session for the fingerprint and callback(err)
-    #destroy(hash, callback)     Destroy the session associated with the fingerprint and callback(err, destroyedBoolean)
 
 Your store may also want to comply with the default MemoryStore, by providing:
 
@@ -30,8 +29,9 @@ Your store may also want to comply with the default MemoryStore, by providing:
     #all(callback)              Fetches all active sessions and callback(err, sessions)
     #length(callback)           Fetches the total number of sessions and callback(err, len)
 
-Complimentary methods defined by Store:
+Inherited methods defined by Store:
 
+    #destroy(hash, callback)    Calls #set(hash, null, callback)
     #regenerate(req, callback)  Destroys the session, creates a new one, and callback(err)
 
 ### MemoryStore

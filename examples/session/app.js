@@ -47,10 +47,12 @@ function app(app) {
             res.write('<ul><li>Online: ' + n + '</li>');
             req.sessionStore.all(function(err, sessions){
                 sessions.forEach(function(sess){
-                    var d = new Date(sess.lastAccess),
-                        date = d.getDate() + '/' + d.getMonth() + '/' + d.getFullYear()
-                            + ' at ' + d.getHours() + ':' + d.getMinutes() + ':' + d.getSeconds();
-                    res.write('<li>' + (sess.name || 'guest') + ' was last active on ' + date + '</li>');
+                    if (sess) {
+                        var d = new Date(sess.lastAccess),
+                            date = d.getDate() + '/' + d.getMonth() + '/' + d.getFullYear()
+                                + ' at ' + d.getHours() + ':' + d.getMinutes() + ':' + d.getSeconds();
+                        res.write('<li>' + (sess.name || 'guest') + ' was last active on ' + date + '</li>');
+                    }
                 });
                 res.end('</ul>');
             });
