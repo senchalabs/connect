@@ -10,8 +10,19 @@ var sys = require('sys'),
 // One minute
 var minute = 60000;
 
+
+function bounceFavicon(req, res, next){
+    if (req.url === '/favicon.ico') {
+        res.writeHead(404, {});
+        res.end();
+    } else {
+        next();
+    }
+}
+
 var Server = module.exports = Connect.createServer(
-    Connect.logger(),
+    Connect.logger({ format: ':method :url' }),
+    bounceFavicon,
     Connect.bodyDecoder(),
     Connect.redirect(),
     Connect.cookieDecoder(),
@@ -23,7 +34,6 @@ var Server = module.exports = Connect.createServer(
 
 function app(app) {
     app.get('/', function(req, res){
-        sys.puts('/ ' + req.session.id)
         res.writeHead(200, { 'Content-Type': 'text/html' });
         // Fetch number of "online" users
         req.sessionStore.length(function(err, n){
@@ -38,7 +48,7 @@ function app(app) {
             // User has not "joined", display the form
             } else {
                 res.write('<form method="post">'
-                    + 'Name: <input type="text" name="name" value="' + (req.session.name || '') + '"/>'
+                    + 'Name: <input type="text" name="name"/>'
                     + '<input type="submit" value="Join" name="op" />'
                     + '</form>');
             }
@@ -49,9 +59,7 @@ function app(app) {
         });
     });
     app.get('/logout', function(req, res){
-        sys.puts('/logout ' + req.session.id)
         req.session.regenerate(function(err){
-            sys.puts('/logout ' + req.session.id + ' regenerated')
             req.flash('info', 'Logged out');
             res.redirect('/');
         });
@@ -59,9 +67,7 @@ function app(app) {
     app.post('/', function(req, res){
         switch (req.body.op) {
             case 'Join':
-                sys.puts('/join ' + req.session.id)
                 req.session.regenerate(function(err){
-                    sys.puts('/join ' + req.session.id + ' regenerated')
                     var name = req.session.name = req.body.name;
                     req.flash('info', 'joined as _"' + name + '"_ click [here](/logout) to logout.');
                     res.redirect('/');
