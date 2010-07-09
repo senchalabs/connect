@@ -78,12 +78,25 @@ module.exports = {
                             });
                         });
                         break;
+                    case 8:
+                        var prev = req.session;
+                        req.session.regenerate(function(err){
+                            assert.ok(!err);
+                            assert.notEqual(prev.id, req.session.id, 'Test Session#regenerate()');
+                        });
+                        break;
+                    case 9:
+                        req.session.destroy(function(err){
+                            assert.ok(!err);
+                            assert.ok(!req.session, 'Test Session#destroy()');
+                        });
+                        break;
                 }
                 next();
             }
         );
 
-        server.pending = 8;
+        server.pending = 10;
         server.request('GET', '/').end();
         server.request('GET', '/', { 'Cookie': 'connect.sid=123123' }).end();
 
@@ -97,6 +110,8 @@ module.exports = {
             setTimeout(function(){
                 server.request('GET', '/', { 'Cookie': 'connect.sid=' + sid, 'User-Agent': 'foo' }).end();
                 server.request('GET', '/', { 'Cookie': 'connect.sid=' + sid, 'User-Agent': 'bar' }).end();
+                server.request('GET', '/', { 'Cookie': 'connect.sid=' + sid, 'User-Agent': 'foo' }).end();
+                server.request('GET', '/', { 'Cookie': 'connect.sid=' + sid, 'User-Agent': 'foo' }).end();
                 server.request('GET', '/', { 'Cookie': 'connect.sid=' + sid, 'User-Agent': 'foo' }).end();
                 server.request('GET', '/', { 'Cookie': 'connect.sid=' + sid, 'User-Agent': 'foo' }).end();
                 server.request('GET', '/', { 'Cookie': 'connect.sid=' + sid, 'User-Agent': 'foo' }).end();
