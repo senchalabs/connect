@@ -11,18 +11,8 @@ var sys = require('sys'),
 var minute = 60000;
 
 
-function bounceFavicon(req, res, next){
-    if (req.url === '/favicon.ico') {
-        res.writeHead(404, {});
-        res.end();
-    } else {
-        next();
-    }
-}
-
 var Server = module.exports = Connect.createServer(
     Connect.logger({ format: ':method :url' }),
-    bounceFavicon,
     Connect.bodyDecoder(),
     Connect.redirect(),
     Connect.cookieDecoder(),
