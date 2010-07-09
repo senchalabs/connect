@@ -67,12 +67,23 @@ module.exports = {
                         assert.eql(['id', 'name', 'lastAccess'], Object.keys(sess));
                         assert.equal(req, sess.req, 'Test Session#req');
                         break;
+                    case 7:
+                        req.sessionStore.get(req.sessionHash, function(err, sess){
+                            assert.ok(sess, 'Test MemoryStore#get() when present');
+                            req.session.destroy(function(err){
+                                assert.ok(!err);
+                                req.sessionStore.get(req.sessionHash, function(err, sess){
+                                    assert.ok(!sess, 'Test MemoryStore#get() when not present');
+                                });
+                            });
+                        });
+                        break;
                 }
                 next();
             }
         );
 
-        server.pending = 7;
+        server.pending = 8;
         server.request('GET', '/').end();
         server.request('GET', '/', { 'Cookie': 'connect.sid=123123' }).end();
 
@@ -86,6 +97,7 @@ module.exports = {
             setTimeout(function(){
                 server.request('GET', '/', { 'Cookie': 'connect.sid=' + sid, 'User-Agent': 'foo' }).end();
                 server.request('GET', '/', { 'Cookie': 'connect.sid=' + sid, 'User-Agent': 'bar' }).end();
+                server.request('GET', '/', { 'Cookie': 'connect.sid=' + sid, 'User-Agent': 'foo' }).end();
                 server.request('GET', '/', { 'Cookie': 'connect.sid=' + sid, 'User-Agent': 'foo' }).end();
                 server.request('GET', '/', { 'Cookie': 'connect.sid=' + sid, 'User-Agent': 'foo' }).end();
             }, 30);
