@@ -10,11 +10,11 @@ var connect = require('connect'),
 
 // Session
 
-var Session = require('connect/middleware/session/session').Session;
+var Session = require('connect/middleware/session/session');
 
 // Stores
 
-var MemoryStore = require('connect/middleware/session/memory').MemoryStore;
+var MemoryStore = require('connect/middleware/session/memory');
 
 module.exports = {
     'test Session() cast': function(){
