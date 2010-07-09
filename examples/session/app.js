@@ -23,6 +23,7 @@ var Server = module.exports = Connect.createServer(
 
 function app(app) {
     app.get('/', function(req, res){
+        sys.puts('/ ' + req.session.id)
         res.writeHead(200, { 'Content-Type': 'text/html' });
         // Fetch number of "online" users
         req.sessionStore.length(function(err, n){
@@ -48,9 +49,9 @@ function app(app) {
         });
     });
     app.get('/logout', function(req, res){
-            require('sys').puts(require('sys').inspect(req.session));
+        sys.puts('/logout ' + req.session.id)
         req.session.regenerate(function(err){
-            require('sys').puts(require('sys').inspect(req.session));
+            sys.puts('/logout ' + req.session.id + ' regenerated')
             req.flash('info', 'Logged out');
             res.redirect('/');
         });
@@ -58,7 +59,9 @@ function app(app) {
     app.post('/', function(req, res){
         switch (req.body.op) {
             case 'Join':
+                sys.puts('/join ' + req.session.id)
                 req.session.regenerate(function(err){
+                    sys.puts('/join ' + req.session.id + ' regenerated')
                     var name = req.session.name = req.body.name;
                     req.flash('info', 'joined as _"' + name + '"_ click [here](/logout) to logout.');
                     res.redirect('/');

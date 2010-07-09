@@ -31,7 +31,6 @@ module.exports = {
             connect.session({ store: new MemoryStore({ reapInterval: -1 }) }),
             function(req, res, next){
                 assert.ok(req.sessionStore, 'Test req.sessionStore');
-                assert.ok(req.sessionId, 'Test req.sessionId');
                 assert.ok(req.sessionHash, 'Test req.sessionHash');
                 switch (n++) {
                     case 0:
