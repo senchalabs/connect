@@ -2,8 +2,8 @@
 NODE = node
 TEST = support/expresso/bin/expresso
 TESTS ?= test/*.test.js
-PREFIX = /usr/local
-LIB_PREFIX = $(HOME)/.node_libraries
+PREFIX ?= /usr/local
+LIB_PREFIX ?= $(HOME)/.node_libraries
 DOCS = docs/index.md \
 	   docs/methodOverride.md \
 	   docs/conditionalGet.md \
