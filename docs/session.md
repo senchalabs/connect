@@ -26,7 +26,8 @@ Abstract store which can be subclassed. To comply with `Store` you should define
 
 Your store may also want to comply with the default MemoryStore, by providing:
 
-    #clear(callback)            Clear all sessions
+    #clear(callback)            Clear all sessions and callback(err)
+    #all(callback)              Fetches all active sessions and callback(err, sessions)
     #length(callback)           Fetches the total number of sessions and callback(err, len)
 
 Complimentary methods defined by Store:
