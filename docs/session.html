@@ -168,18 +168,19 @@ fingerprint  Function passed the request which computes a fingerprint of the use
 
 <pre><code>#get(hash, callback)         Fetch session data via the session fingerprint and callback(err, data)
 #set(hash, data, callback)   Commit the session for the fingerprint and callback(err)
-#destroy(hash, callback)     Destroy the session associated with the fingerprint and callback(err, destroyedBoolean)
 </code></pre>
 
 <p>Your store may also want to comply with the default MemoryStore, by providing:</p>
 
-<pre><code>#clear(callback)            Clear all sessions
+<pre><code>#clear(callback)            Clear all sessions and callback(err)
+#all(callback)              Fetches all active sessions and callback(err, sessions)
 #length(callback)           Fetches the total number of sessions and callback(err, len)
 </code></pre>
 
-<p>Complimentary methods defined by Store:</p>
+<p>Inherited methods defined by Store:</p>
 
-<pre><code>#regenerate(req, callback)  Destroys the session, creates a new one, and callback(err)
+<pre><code>#destroy(hash, callback)    Calls #set(hash, null, callback)
+#regenerate(req, callback)  Destroys the session, creates a new one, and callback(err)
 </code></pre>
 
 <h3 id="MemoryStore">MemoryStore</h3>
