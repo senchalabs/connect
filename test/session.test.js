@@ -90,6 +90,12 @@ module.exports = {
                             assert.ok(!err);
                             assert.ok(!req.session, 'Test Session#destroy()');
                         });
+                        req.sessionStore.clear(function(err){
+                            assert.ok(!err);
+                            req.sessionStore.length(function(err, len){
+                                assert.equal(0, len, 'Test MemoryStore#clear()');
+                            });
+                        });
                         break;
                 }
                 next();
