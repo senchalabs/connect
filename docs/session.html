@@ -142,15 +142,11 @@
 			<li><a href="methodOverride.html">methodOverride</a></li>
 			<li><a href="staticProvider.html">staticProvider</a></li>
 		</ul><div class='mp'>
-<h2 id="Connect">Connect</h2>
-<p class="man-name">
-  <code>session</code>
-</p>
 <h2 id="Session">Session</h2>
 
 <p>The <em>session</em> middleware provides persistence between requests. If we wish to supply a custom <code>Store</code> subclass, or pass options to the store itself, we can configure it like so:</p>
 
-<pre><code class="js"><span class="keyword">var</span> <span class="class">MemoryStore</span> = <span class="variable">require</span>(<span class="string">'connect/middleware/session/memory'</span>).<span class="class">MemoryStore</span>;
+<pre><code class="js"><span class="keyword">var</span> <span class="class">MemoryStore</span> = <span class="variable">require</span>(<span class="string">'connect/middleware/session/memory'</span>);
 <span class="variable">connect</span>.<span class="variable">createServer</span>(
     <span class="variable">connect</span>.<span class="variable">cookieDecoder</span>(),
     <span class="variable">connect</span>.<span class="variable">session</span>({ <span class="variable">store</span>: <span class="keyword">new</span> <span class="class">MemoryStore</span>({ <span class="variable">reapInterval</span>: <span class="number integer">60000</span> * <span class="number integer">10</span> }) }),
@@ -162,42 +158,46 @@
 <h3 id="Options">Options</h3>
 
 <pre><code>store        Custom Store subclass
-fingerprint  Function passed sid and the request which computes a fingerprint of the user.
-             Defaults to remoteAddress and User-Agent strings.
+fingerprint  Function passed the request which computes a fingerprint of the user.
+             Defaults to an md5 hash of the session.id, remoteAddress and User-Agent strings.
 </code></pre>
 
 <h3 id="Store">Store</h3>
 
 <p>Abstract store which can be subclassed. To comply with <code>Store</code> you should define:</p>
 
-<pre><code>#fetch(req, callback)       Fetch session for the given request
-#commit(req, callback)      Commit the session for the given request
-#clear(callback)            Clear all sessions
-#destroy(req, callback)     Destroy session for the given request
-#length(callback)           Fetches the total number of sessions
+<pre><code>#get(hash, callback)         Fetch session data via the session fingerprint and callback(err, data)
+#set(hash, data, callback)   Commit the session for the fingerprint and callback(err)
+#destroy(hash, callback)     Destroy the session associated with the fingerprint and callback(err, destroyedBoolean)
 </code></pre>
 
-<p>Complimentary methods:</p>
+<p>Your store may also want to comply with the default MemoryStore, by providing:</p>
 
-<pre><code>#regenerate(req, callback)  Destroys the session, and creates a new one
-#createSession()            Returns a new Session instance with generated id
+<pre><code>#clear(callback)            Clear all sessions
+#length(callback)           Fetches the total number of sessions and callback(err, len)
+</code></pre>
+
+<p>Complimentary methods defined by Store:</p>
+
+<pre><code>#regenerate(req, callback)  Destroys the session, creates a new one, and callback(err)
 </code></pre>
 
 <h3 id="MemoryStore">MemoryStore</h3>
 
 <p>Stores session data in memory, options are as follows:</p>
 
-<pre><code>key             Cookie key used to store session ids. Defaults to "connect.sid"
-reapInterval    Interval in milliseconds used to reap stale sessions. Defaults to 10 minutes
+<pre><code>reapInterval    Interval in milliseconds used to reap stale sessions. Defaults to 10 minutes
 maxAage         Maximum session age in milliseconds. Defaults to 4 hours
 cookie          Session cookie options. Defaults to { path: '/', httpOnly: true }
 </code></pre>
 
 <h3 id="Session">Session</h3>
 
-<p>Your store interacts with instances of <code>Session</code>, however when committing / fetching sessions you may have to convert an intermediate representation back to a <code>Session</code>. The following methods are available:</p>
+<p>Your store interacts with instances of <code>Session</code>. The following methods are available:</p>
 
-<pre><code>#touch()        Updates the lastAccess property
+<pre><code>#touch()                 Updates the lastAccess property
+#destroy(callback)       Destroy this session and callback(err, destroyedBoolean)
+#regenerate(callback)    Destroy this session, creates a new one and callback(err)
 </code></pre>
 
 <h3 id="See-Also">See Also</h3>

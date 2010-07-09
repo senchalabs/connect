@@ -2,7 +2,7 @@
 
 The _session_ middleware provides persistence between requests. If we wish to supply a custom `Store` subclass, or pass options to the store itself, we can configure it like so:
 
-    var MemoryStore = require('connect/middleware/session/memory').MemoryStore;
+    var MemoryStore = require('connect/middleware/session/memory');
     connect.createServer(
 		connect.cookieDecoder(),
 		connect.session({ store: new MemoryStore({ reapInterval: 60000 * 10 }) }),
@@ -13,38 +13,41 @@ The _session_ middleware provides persistence between requests. If we wish to su
 ### Options
 
     store        Custom Store subclass
-    fingerprint  Function passed sid and the request which computes a fingerprint of the user.
-                 Defaults to remoteAddress and User-Agent strings.
+    fingerprint  Function passed the request which computes a fingerprint of the user.
+                 Defaults to an md5 hash of the session.id, remoteAddress and User-Agent strings.
 
 ### Store
 
 Abstract store which can be subclassed. To comply with `Store` you should define:
 
-    #fetch(req, callback)       Fetch session for the given request
-    #commit(req, callback)      Commit the session for the given request
+    #get(hash, callback)         Fetch session data via the session fingerprint and callback(err, data)
+    #set(hash, data, callback)   Commit the session for the fingerprint and callback(err)
+    #destroy(hash, callback)     Destroy the session associated with the fingerprint and callback(err, destroyedBoolean)
+
+Your store may also want to comply with the default MemoryStore, by providing:
+
     #clear(callback)            Clear all sessions
-    #destroy(req, callback)     Destroy session for the given request
-    #length(callback)           Fetches the total number of sessions
+    #length(callback)           Fetches the total number of sessions and callback(err, len)
 
-Complimentary methods:
+Complimentary methods defined by Store:
 
-    #regenerate(req, callback)  Destroys the session, and creates a new one
-    #createSession()            Returns a new Session instance with generated id
+    #regenerate(req, callback)  Destroys the session, creates a new one, and callback(err)
 
 ### MemoryStore
 
 Stores session data in memory, options are as follows:
 
-    key             Cookie key used to store session ids. Defaults to "connect.sid"
     reapInterval    Interval in milliseconds used to reap stale sessions. Defaults to 10 minutes
     maxAage         Maximum session age in milliseconds. Defaults to 4 hours
     cookie          Session cookie options. Defaults to { path: '/', httpOnly: true }
 
 ### Session
 
-Your store interacts with instances of `Session`, however when committing / fetching sessions you may have to convert an intermediate representation back to a `Session`. The following methods are available:
+Your store interacts with instances of `Session`. The following methods are available:
 
-    #touch()        Updates the lastAccess property
+    #touch()                 Updates the lastAccess property
+    #destroy(callback)       Destroy this session and callback(err, destroyedBoolean)
+    #regenerate(callback)    Destroy this session, creates a new one and callback(err)
 
 ### See Also
 
