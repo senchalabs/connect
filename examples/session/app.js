@@ -4,7 +4,7 @@
  */
 
 var sys = require('sys'),
-    MemoryStore = require('./../../lib/connect/middleware/session/memory').MemoryStore,
+    MemoryStore = require('./../../lib/connect/middleware/session/memory'),
     Connect = require('./../../lib/connect');
 
 // One minute
@@ -48,7 +48,9 @@ function app(app) {
         });
     });
     app.get('/logout', function(req, res){
-        req.sessionStore.regenerate(req, function(err){
+            require('sys').puts(require('sys').inspect(req.session));
+        req.session.regenerate(function(err){
+            require('sys').puts(require('sys').inspect(req.session));
             req.flash('info', 'Logged out');
             res.redirect('/');
         });
@@ -56,7 +58,7 @@ function app(app) {
     app.post('/', function(req, res){
         switch (req.body.op) {
             case 'Join':
-                req.sessionStore.regenerate(req, function(err){
+                req.session.regenerate(function(err){
                     var name = req.session.name = req.body.name;
                     req.flash('info', 'joined as _"' + name + '"_ click [here](/logout) to logout.');
                     res.redirect('/');
