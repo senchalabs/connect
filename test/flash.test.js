@@ -10,7 +10,7 @@ var connect = require('connect'),
 
 // Stores
 
-var MemoryStore = require('connect/middleware/session/memory').MemoryStore;
+var MemoryStore = require('connect/middleware/session/memory');
 
 module.exports = {
     'test MemoryStore': function(){

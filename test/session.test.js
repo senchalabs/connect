@@ -17,13 +17,6 @@ var Session = require('connect/middleware/session/session');
 var MemoryStore = require('connect/middleware/session/memory');
 
 module.exports = {
-    'test Session() cast': function(){
-        var sess = Session({ id: '123', lastAccess: 123 });
-        assert.ok(sess instanceof Session, 'Test Session() cast');
-        assert.equal('123', sess.id);
-        assert.equal(123, sess.lastAccess);
-    },
-    
     'test MemoryStore': function(){
         var n = 0, sid;
         var server = helpers.run(
@@ -53,7 +46,7 @@ module.exports = {
                         assert.notEqual(sid, req.session.id, 'Test MemoryStore User-Agent fingerprint');
                         break;
                     case 5:
-                        req.sessionStore.destroy(req, function(err, destroyed){
+                        req.sessionStore.destroy(req.sessionHash, function(err, destroyed){
                             assert.ok(!err);
                             assert.ok(destroyed, 'Test MemoryStore#destroy() when present');
                         });
@@ -63,6 +56,13 @@ module.exports = {
                             assert.ok(!err);
                             assert.ok(!destroyed, 'Test MemoryStore#destroy()');
                         });
+                        var sess = new Session(req, '12323');
+                        assert.eql(['id', 'lastAccess'], Object.keys(sess), 'Test new Session(req, sid)');
+                        assert.equal(req, sess.req, 'Test Session#req');
+                        
+                        var sess = new Session(req, { id: '12323', name: 'tj', lastAccess: +new Date });
+                        assert.eql(['id', 'name', 'lastAccess'], Object.keys(sess));
+                        assert.equal(req, sess.req, 'Test Session#req');
                         break;
                 }
                 next();
