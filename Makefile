@@ -37,6 +37,7 @@ install: install-docs
 
 uninstall:
 	rm -f $(PREFIX)/share/man/man1/connect.1
+	rm -f $(PREFIX)/share/man/man1/connect-*.1
 	rm -f $(PREFIX)/bin/connect
 	rm -fr $(LIB_PREFIX)/connect
 
