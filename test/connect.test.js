@@ -91,7 +91,7 @@ module.exports = {
                 assert.equal('object', typeof res);
                 assert.equal('function', typeof next);
                 req.body = err.message;
-                next(error);
+                next(err);
             },
             function(err, req, res, next){
                 ++called;

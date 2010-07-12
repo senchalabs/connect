@@ -32,7 +32,7 @@ module.exports = {
                         break;
                     case 1:
                         req.sessionStore.length(function(err, len){
-                            assert.equal(2, len, 'Test MemoryStore#length()');
+                            assert.equal(1, len, 'Test MemoryStore#length()');
                         });
                         assert.eql(['id', 'lastAccess'], Object.keys(req.session),
                             'Test MemoryStore session initialization with invalid sid');
