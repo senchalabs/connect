@@ -17,7 +17,6 @@ var Server = module.exports = Connect.createServer(
     Connect.redirect(),
     Connect.cookieDecoder(),
     Connect.session({ store: new MemoryStore({ reapInterval: minute, maxAge: minute * 5 }) }),
-    Connect.flash(),
     Connect.router(app),
     Connect.errorHandler({ dumpExceptions: true, showStack: true })
 );
@@ -27,11 +26,6 @@ function app(app) {
         res.writeHead(200, { 'Content-Type': 'text/html' });
         // Fetch number of "online" users
         req.sessionStore.length(function(err, n){
-            // Display flash messages
-            req.flash('info').forEach(function(msg){
-                res.write('<p>' + msg + '</p>');
-            });
-
             // User joined
             if (req.session.name) {
                 res.write('<p>Welcome ' + req.session.name + '</p>');
@@ -49,7 +43,6 @@ function app(app) {
     });
     app.get('/logout', function(req, res){
         req.session.regenerate(function(err){
-            req.flash('info', 'Logged out');
             res.redirect('/');
         });
     });
@@ -58,7 +51,6 @@ function app(app) {
             case 'Join':
                 req.session.regenerate(function(err){
                     var name = req.session.name = req.body.name;
-                    req.flash('info', 'joined as _"' + name + '"_ click [here](/logout) to logout.');
                     res.redirect('/');
                 });
                 break;
