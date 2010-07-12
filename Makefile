@@ -14,7 +14,6 @@ DOCS = docs/index.md \
 	   docs/redirect.md \
 	   docs/session.md \
 	   docs/jsonrpc.md \
-	   docs/flash.md \
 	   docs/format.md \
 	   docs/staticProvider.md \
 	   docs/compiler.md \
@@ -55,7 +54,6 @@ install-docs:
 	cp -f docs/logger.1 $(PREFIX)/share/man/man1/connect-logger.1
 	cp -f docs/router.1 $(PREFIX)/share/man/man1/connect-router.1
 	cp -f docs/cookieDecoder.1 $(PREFIX)/share/man/man1/connect-cookieDecoder.1
-	cp -f docs/flash.1 $(PREFIX)/share/man/man1/connect-flash.1
 	cp -f docs/session.1 $(PREFIX)/share/man/man1/connect-session.1
 	cp -f docs/jsonrpc.1 $(PREFIX)/share/man/man1/connect-jsonrpc.1
 	cp -f docs/compiler.1 $(PREFIX)/share/man/man1/connect-compiler.1
