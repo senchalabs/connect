@@ -344,7 +344,10 @@ function requireApp(path) {
  */
 
 function getAppPath() {
-    var path = process.cwd() + '/' + (env.appPath || '');
+    var path = (env.appPath || '');
+    if (path[0] !== '/') {
+      path = process.cwd() + '/' + path;
+    }
 
     // App path not given, try app.js and server.js
     if (!env.appPath) {
