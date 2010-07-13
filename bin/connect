@@ -397,6 +397,16 @@ function start() {
     
     // Application path
     var path = getAppPath();
+    
+    // user / group
+    if (env.uid) {
+        log('user [bold]{' + env.uid + '}')
+        process.setuid(env.uid);
+    }
+    if (env.gid) {
+        log('group [bold]{' + env.gid + '}')
+        process.setgid(env.gid);
+    }
 
     // Spawn worker processes
     if (workers) {
@@ -449,7 +459,7 @@ function start() {
         }
         return;
     }
-
+    
     // Load the app module
     var app = requireApp(path);
     app.env = env;
