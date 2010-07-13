@@ -52,5 +52,18 @@ module.exports = {
         var req = server.request('POST', '/', { 'Content-Type': 'application/x-www-form-urlencoded' });
         req.write('__method__=put');
         req.end();
+    },
+    
+    'test X-HTTP-Method-Override header': function(){
+        var server = helpers.run(
+            connect.methodOverride(),
+            function(req, res){
+                assert.equal('PUT', req.method, 'Test X-HTTP-Method-Override');
+                res.writeHead(200);
+                res.end();
+            }
+        );
+        var req = server.request('POST', '/', { 'X-HTTP-Method-Override': 'PUT' });
+        req.end();
     }
 }
