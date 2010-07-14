@@ -65,6 +65,8 @@ var usage = ''
     + '[bold]{Options}:\n'
     + '  -H, --host ADDR      Host address, defaults to INADDR_ANY\n'
     + '  -p, --port NUM       Port number, defaults to 3000\n'
+    + '  --ssl-key PATH       SSL key file\n'
+    + '  --ssl-crt PATH       SSL certificate file\n'
     + '  -n, --workers NUM    Number of worker processes to spawn\n'
     + '  -I, --include PATH   Unshift the given path to require.paths\n'
     + '  -E, --env NAME       Set environment, defaults to "development"\n'
@@ -366,6 +368,19 @@ function getAppPath() {
 }
 
 /**
+ * Enable SSL for app if desired
+ */
+
+function enableSSL(app, env) {
+    if (env.sslKey) {
+        var crypto = require('crypto');
+        app.setSecure(crypto.createCredentials({ key: env.sslKey,
+                                                 cert: env.sslCrt
+                                               }));
+    }
+}
+
+/**
  * Start child worker process.
  */
 
@@ -380,7 +395,8 @@ function startWorker() {
         sys.error('Connect server(' + process.pid + ') listening on http://'
             + (env.host || '*') + ':' + env.port
             + ' in ' + env.name + ' mode');
-        app.listenFD(fd, 'tcp4');
+        enableSSL(app, env);
+        app.listenFD(fd);
     });
     stdin.resume();
 }
@@ -425,8 +441,9 @@ function start() {
             logStream = fs.createWriteStream(env.logfile, { flags: 'a' }),
             errlogStream = fs.createWriteStream(errlogfile, { flags: 'a' });
 
-        var fd = netBinding.socket('tcp4');
-        netBinding.bind(fd, env.port);
+        var afNum = (netBinding.isIP(env.host) == 6) ? 6 : 4;
+        var fd = netBinding.socket('tcp' + afNum);
+        netBinding.bind(fd, env.port, env.host);
         netBinding.listen(fd, 128);
 
         for (var i = 0; i < workers; i++) {
@@ -469,6 +486,7 @@ function start() {
     sys.error('Connect server(' + process.pid + ') listening on http://'
         + (env.host || '*') + ':' + env.port
         + ' in ' + env.name + ' mode');
+    enableSSL(app, env);
     app.listen(env.port, env.host);
 }
 
@@ -564,6 +582,12 @@ function parseArguments(args, cmd) {
             case '-n':
             case '--workers':
                 workers = parseInt(requireArg('--workers'), 10);
+                break;
+            case '--ssl-key':
+                env.sslKey = fs.readFileSync(requireArg('--ssl-key'), 'ascii');
+                break;
+            case '--ssl-crt':
+                env.sslCrt = fs.readFileSync(requireArg('--ssl-crt'), 'ascii');
                 break;
             case 'stop':
             case 'start':
