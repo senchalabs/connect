@@ -374,10 +374,23 @@ function getAppPath() {
 function enableSSL(app, env) {
     if (env.sslKey) {
         var crypto = require('crypto');
-        app.setSecure(crypto.createCredentials({ key: env.sslKey,
-                                                 cert: env.sslCrt
-                                               }));
+        app.setSecure(crypto.createCredentials({
+          key: env.sslKey,
+          cert: env.sslCrt
+        }));
     }
+}
+
+function changeUser() {
+  // user / group
+  if (env.uid) {
+      log('user [bold]{' + env.uid + '}')
+      process.setuid(env.uid);
+  }
+  if (env.gid) {
+      log('group [bold]{' + env.gid + '}')
+      process.setgid(env.gid);
+  }
 }
 
 /**
@@ -399,6 +412,7 @@ function startWorker() {
         app.listenFD(fd);
     });
     stdin.resume();
+    
 }
 
 /**
@@ -417,16 +431,6 @@ function start() {
     // Application path
     var path = getAppPath();
     
-    // user / group
-    if (env.uid) {
-        log('user [bold]{' + env.uid + '}')
-        process.setuid(env.uid);
-    }
-    if (env.gid) {
-        log('group [bold]{' + env.gid + '}')
-        process.setgid(env.gid);
-    }
-
     // Spawn worker processes
     if (workers) {
         if (process.version < '0.1.98' && process.version > "0.1.100") {
@@ -445,6 +449,9 @@ function start() {
         var fd = netBinding.socket('tcp' + afNum);
         netBinding.bind(fd, env.port, env.host);
         netBinding.listen(fd, 128);
+        
+        changeUser();
+        
 
         for (var i = 0; i < workers; i++) {
             // Create an unnamed unix socket to pass the fd to the child.
@@ -477,6 +484,9 @@ function start() {
                 errlogStream.write(data);
             });
         }
+        
+        changeUser();
+        
         return;
     }
     
@@ -488,6 +498,8 @@ function start() {
         + ' in ' + env.name + ' mode');
     enableSSL(app, env);
     app.listen(env.port, env.host);
+    
+    changeUser();
 }
 
 /**
