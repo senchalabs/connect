@@ -10,6 +10,33 @@ ExtJS is releasing Connect under the very liberal MIT license in hopes that we c
   * Several bundled middleware implementations such as _log_, _static_, and _json-rpc_.
   * The _connect_ executable for daemonizing node, and Connect servers.
 
+## Hello World
+
+The simplest connect app looks just like `http.Server` instances from node.  In fact `Connect.Server` inherits from `http.Server`.
+
+    var Connect = require('connect');
+    module.exports = Connect.createServer(function(req, res) {
+      res.writeHead(200, { 'Content-Type': 'text/plain' });
+      res.end('Hello World');
+    });
+
+Then to run it, save that snippet as `app.js` and either use the `connect` executable in the bin dir or create a simple runner file `server.js`.
+
+    #!/usr/bin/env node
+    require('./app').listen(8080);
+
+Then if you want to add in a pre-built feature like logging just add it to the createServer call.
+
+    module.exports = Connect.createServer(
+      Connect.logger(),
+      function(req, res) {
+        res.writeHead(200, { 'Content-Type': 'text/plain' });
+        res.end('Hello World');
+      }
+    );
+
+It's that simple.
+
 ## Installation
 
 Via curl / sh:
