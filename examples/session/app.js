@@ -14,7 +14,6 @@ var minute = 60000;
 var Server = module.exports = Connect.createServer(
     Connect.logger({ format: ':method :url' }),
     Connect.bodyDecoder(),
-    Connect.redirect(),
     Connect.cookieDecoder(),
     Connect.session({ store: new MemoryStore({ reapInterval: minute, maxAge: minute * 5 }) }),
     Connect.router(app),
@@ -43,7 +42,8 @@ function app(app) {
     });
     app.get('/logout', function(req, res){
         req.session.regenerate(function(err){
-            res.redirect('/');
+            res.writeHead(302, { Location: '/' });
+            res.end();
         });
     });
     app.post('/', function(req, res){
@@ -51,7 +51,8 @@ function app(app) {
             case 'Join':
                 req.session.regenerate(function(err){
                     var name = req.session.name = req.body.name;
-                    res.redirect('/');
+                    res.writeHead(302, { Location: '/' });
+                    res.end();
                 });
                 break;
         }
