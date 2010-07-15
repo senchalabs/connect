@@ -406,7 +406,8 @@ function startWorker() {
     stdin.addListener('fd', function(fd){
         var app = requireApp(getAppPath());
         app.env = env;
-        sys.error('Connect server(' + process.pid + ') listening on http://'
+        sys.error('Connect server(' + process.pid + ') listening on '
+            + 'http' + (env.sslKey ? 's' : '') + '://'
             + (env.host || '*') + ':' + env.port
             + ' in ' + env.name + ' mode');
         enableSSL(app, env);
@@ -493,7 +494,8 @@ function start() {
     // Load the app module
     var app = requireApp(path);
     app.env = env;
-    sys.error('Connect server(' + process.pid + ') listening on http://'
+    sys.error('Connect server(' + process.pid + ') listening on '
+        + 'http' + (env.sslKey ? 's' : '') + '://'
         + (env.host || '*') + ':' + env.port
         + ' in ' + env.name + ' mode');
     enableSSL(app, env);
