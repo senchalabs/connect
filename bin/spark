@@ -13,6 +13,7 @@
 var child_process = require('child_process'),
     netBinding = process.binding('net'),
     dirname = require('path').dirname,
+    exists = require('path').existsSync,
     http = require('http'),
     sys = require('sys'),
     fs = require('fs'),
@@ -61,6 +62,7 @@ var usage = ''
     + '[bold]{Usage}: spark [options]\n'
     + '\n'
     + '[bold]{Options}:\n'
+    + '  --comment            Ignored, this is to label the process in htop'
     + '  -H, --host ADDR      Host address, defaults to INADDR_ANY\n'
     + '  -p, --port NUM       Port number, defaults to 3000\n'
     + '  --ssl-key PATH       SSL key file\n'
@@ -195,20 +197,6 @@ function loadConfig(file) {
 }
 
 
-/**
- * Check if the given path exists (sync).
- *
- * @param  {String} path
- * @return {Boolean}
- */
-
-function exists(path) {
-    try {
-        return fs.statSync(path);
-    } catch (err) {
-        return false;
-    }
-}
 
 
 /**
@@ -420,6 +408,10 @@ function parseArguments(args, cmd) {
     // Iterate
     while (args.length) {
         switch (arg = args.shift()) {
+            case '--comment':
+              requireArg('--comment');
+              // Ignore it
+              break;
             case '--child':
               cmd = "worker";
               break;
@@ -501,7 +493,7 @@ function parseArguments(args, cmd) {
         case 'worker':
             startWorker();
             break;
-        default:
+        case 'start':
             start();
             break;
     }
