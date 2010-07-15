@@ -78,6 +78,7 @@ var usage = ''
     + '  -K, --no-color       Suppress colored terminal output\n'
     + '  -h, --help           Outputy help information\n'
     + '  --ENV VAL            Sets the given connect environment variable\n'
+    ;
 
 /**
  * Log the given msg to stderr.
@@ -282,11 +283,11 @@ function enableSSL(app, env) {
 function changeUser() {
   // user / group
   if (env.uid) {
-      log('user [bold]{' + env.uid + '}')
+      log('user [bold]{' + env.uid + '}');
       process.setuid(env.uid);
   }
   if (env.gid) {
-      log('group [bold]{' + env.gid + '}')
+      log('group [bold]{' + env.gid + '}');
       process.setgid(env.gid);
   }
 }
@@ -369,7 +370,9 @@ function start() {
                 process.stdout.write(data);
             });
             child.stderr.addListener('data', function(data){
-                process.stderr.write(data);
+                // TODO: add a public API version of this.
+                // I'm not sure node has one yet.
+                process.binding('stdio').writeError(data);
             });
         }
 
@@ -497,6 +500,9 @@ function parseArguments(args, cmd) {
     switch (cmd) {
         case 'worker':
             startWorker();
+            break;
+        default:
+            start();
             break;
     }
 }
