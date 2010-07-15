@@ -1,6 +1,7 @@
 <html>
 	<head>
 		<title>Connect</title>
+		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
 		<style>body {
     margin: 0;
     padding: 0;
@@ -20,45 +21,6 @@ p {
 h1, h2, h3 {
     margin: 0;
     padding: 0;
-}
-ul#menu {
-    opacity: 0;
-    position: fixed;
-    top: 0;
-    right: 0;
-    list-style: none;
-    margin: 0;
-    padding: 10px 2px;
-    text-align: right;
-    background: rgba(255,255,255,0.7);
-    -webkit-box-shadow: -1px 2px 2px rgba(0,0,0,0.3);
-    -moz-box-shadow: -1px 2px 2px rgba(0,0,0,0.3);
-    -webkit-border-bottom-left-radius: 5px;
-    -moz-border-bottom-left-radius: 5px;
-    -webkit-transition-properties: opacity;
-    -webkit-transition-duration: 0.6s;
-}
-ul#menu:hover {
-    opacity: 1;
-}
-ul#menu li {
-    padding: 2px 10px;
-    border-bottom: 1px solid #eee;
-}
-ul#menu li:hover {
-    background: rgba(0,0,0,0.03);
-}
-ul#menu li:last-child {
-    border-bottom: none;
-}
-ul#menu li a {
-    text-decoration: none;
-    font-size: 12px;
-    color: rgba(0,0,0,0.5);
-}
-ul#menu li a strong {
-    font-weight: normal;
-    color: #252519;
 }
 table#source {
     width: 100%;
@@ -93,6 +55,7 @@ table#source tr.filename td:last-child {
 table#source tr.filename h2 {
     margin: 0;
     padding: 0;
+    cursor: pointer;
 }
 table#source tr.code h1,
 table#source tr.code h2,
@@ -123,7 +86,7 @@ table#source tr.code td:first-child pre {
     padding: 20px;
 }
 #ribbon {
-    position: absolute;
+    position: fixed;
     top: 0;
     right: 0;
 }
@@ -133,35 +96,22 @@ code .keyword { color: #954121; }
 code .number { color: #19469D; }
 code .comment { color: #bbb; }
 code .this { color: #19469D; }</style>
+		<script>
+			$(function(){
+				$('tr.code').hide();
+				$('tr.filename').toggle(function(){
+					$(this).nextUntil('.filename').fadeIn();
+				}, function(){
+					$(this).nextUntil('.filename').fadeOut();
+				});
+			});
+		</script>
 	</head>
 	<body>
-<ul id="menu"><li><a href="#lib/connect/middleware/bodyDecoder.js">lib/connect/middleware/<strong>bodyDecoder</strong></a></li>
-<li><a href="#lib/connect/middleware/cache.js">lib/connect/middleware/<strong>cache</strong></a></li>
-<li><a href="#lib/connect/middleware/cacheManifest.js">lib/connect/middleware/<strong>cacheManifest</strong></a></li>
-<li><a href="#lib/connect/middleware/compiler.js">lib/connect/middleware/<strong>compiler</strong></a></li>
-<li><a href="#lib/connect/middleware/conditionalGet.js">lib/connect/middleware/<strong>conditionalGet</strong></a></li>
-<li><a href="#lib/connect/middleware/cookieDecoder.js">lib/connect/middleware/<strong>cookieDecoder</strong></a></li>
-<li><a href="#lib/connect/middleware/errorHandler.js">lib/connect/middleware/<strong>errorHandler</strong></a></li>
-<li><a href="#lib/connect/middleware/flash.js">lib/connect/middleware/<strong>flash</strong></a></li>
-<li><a href="#lib/connect/middleware/format.js">lib/connect/middleware/<strong>format</strong></a></li>
-<li><a href="#lib/connect/middleware/gzip.js">lib/connect/middleware/<strong>gzip</strong></a></li>
-<li><a href="#lib/connect/middleware/jsonrpc.js">lib/connect/middleware/<strong>jsonrpc</strong></a></li>
-<li><a href="#lib/connect/middleware/lint.js">lib/connect/middleware/<strong>lint</strong></a></li>
-<li><a href="#lib/connect/middleware/logger.js">lib/connect/middleware/<strong>logger</strong></a></li>
-<li><a href="#lib/connect/middleware/methodOverride.js">lib/connect/middleware/<strong>methodOverride</strong></a></li>
-<li><a href="#lib/connect/middleware/pubsub.js">lib/connect/middleware/<strong>pubsub</strong></a></li>
-<li><a href="#lib/connect/middleware/redirect.js">lib/connect/middleware/<strong>redirect</strong></a></li>
-<li><a href="#lib/connect/middleware/repl.js">lib/connect/middleware/<strong>repl</strong></a></li>
-<li><a href="#lib/connect/middleware/responseTime.js">lib/connect/middleware/<strong>responseTime</strong></a></li>
-<li><a href="#lib/connect/middleware/router.js">lib/connect/middleware/<strong>router</strong></a></li>
-<li><a href="#lib/connect/middleware/session/memory.js">lib/connect/middleware/session/<strong>memory</strong></a></li>
-<li><a href="#lib/connect/middleware/session/session.js">lib/connect/middleware/<strong>session</strong>/session</a></li>
-<li><a href="#lib/connect/middleware/session/store.js">lib/connect/middleware/session/<strong>store</strong></a></li>
-<li><a href="#lib/connect/middleware/session.js">lib/connect/middleware/<strong>session</strong></a></li>
-<li><a href="#lib/connect/middleware/staticProvider.js">lib/connect/middleware/<strong>staticProvider</strong></a></li>
-<li><a href="#lib/connect/middleware/vhost.js">lib/connect/middleware/<strong>vhost</strong></a></li></ul><table id="source"><tbody><tr><td><h1>Connect</h1><p>High performance middleware for <a href="http://nodejs.org">node</a>.</p></td><td></td></tr><tr class="filename"><td><h2 id="lib/connect/middleware/bodyDecoder.js">bodyDecoder</h2></td><td>lib/connect/middleware/bodyDecoder.js</td></tr><tr class="code">
+<table id="source"><tbody><tr><td><h1>Connect</h1><p>High performance middleware for <a href="http://nodejs.org">node</a>.</p></td><td></td></tr><tr class="filename"><td><h2 id="lib/connect/middleware/bodyDecoder.js"><a href="#">bodyDecoder</a></h2></td><td>lib/connect/middleware/bodyDecoder.js</td></tr><tr class="code">
 <td class="docs">
-<p>Module dependencies.</p>
+<p>Module dependencies.
+ </p>
 </td>
 <td class="code">
 <pre><code><span class="keyword">var</span> <span class="variable">queryString</span> = <span class="variable">require</span>(<span class="string">'querystring'</span>);</code></pre>
@@ -171,11 +121,7 @@ code .this { color: #19469D; }</style>
 <td class="docs">
 <p>Supported decoders.</p>
 
-<ul>
-<li>application/x-www-form-urlencoded</li>
-<li>application/json</li>
-</ul>
-
+<ul><li>application/x-www-form-urlencoded</li><li>application/json</li></ul>
 </td>
 <td class="code">
 <pre><code><span class="variable">exports</span>.<span class="variable">decode</span> = {
@@ -190,11 +136,7 @@ code .this { color: #19469D; }</style>
 
 <h2></h2>
 
-<ul>
-<li><p><strong>return</strong>: <em>Function</em></p></li>
-<li><p><strong>api</strong>: <em>public</em></p></li>
-</ul>
-
+<ul><li><p><strong>return</strong>: <em>Function</em> </p></li><li><p><strong>api</strong>: <em>public</em></p></li></ul>
 </td>
 <td class="code">
 <pre><code><span class="variable">module</span>.<span class="variable">exports</span> = <span class="keyword">function</span> <span class="variable">bodyDecoder</span>(){
@@ -221,9 +163,10 @@ code .this { color: #19469D; }</style>
     }
 };</code></pre>
 </td>
-</tr><tr class="filename"><td><h2 id="lib/connect/middleware/cache.js">cache</h2></td><td>lib/connect/middleware/cache.js</td></tr><tr class="code">
+</tr><tr class="filename"><td><h2 id="lib/connect/middleware/cache.js"><a href="#">cache</a></h2></td><td>lib/connect/middleware/cache.js</td></tr><tr class="code">
 <td class="docs">
-<p>Module dependencies.</p>
+<p>Module dependencies.
+ </p>
 </td>
 <td class="code">
 <pre><code><span class="keyword">var</span> <span class="class">Buffer</span> = <span class="variable">require</span>(<span class="string">'buffer'</span>).<span class="class">Buffer</span>;</code></pre>
@@ -235,12 +178,7 @@ code .this { color: #19469D; }</style>
 
 <h2></h2>
 
-<ul>
-<li><p><strong>param</strong>: <em>Number</em>  cacheDuration</p></li>
-<li><p><strong>return</strong>: <em>Function</em></p></li>
-<li><p><strong>api</strong>: <em>public</em></p></li>
-</ul>
-
+<ul><li><p><strong>param</strong>: <em>Number</em>  cacheDuration</p></li><li><p><strong>return</strong>: <em>Function</em> </p></li><li><p><strong>api</strong>: <em>public</em></p></li></ul>
 </td>
 <td class="code">
 <pre><code><span class="variable">module</span>.<span class="variable">exports</span> = <span class="keyword">function</span> <span class="variable">cache</span>(<span class="variable">cacheDuration</span>){
@@ -365,9 +303,10 @@ code .this { color: #19469D; }</style>
     };
 };</code></pre>
 </td>
-</tr><tr class="filename"><td><h2 id="lib/connect/middleware/cacheManifest.js">cacheManifest</h2></td><td>lib/connect/middleware/cacheManifest.js</td></tr><tr class="code">
+</tr><tr class="filename"><td><h2 id="lib/connect/middleware/cacheManifest.js"><a href="#">cacheManifest</a></h2></td><td>lib/connect/middleware/cacheManifest.js</td></tr><tr class="code">
 <td class="docs">
-<p>Module dependencies.</p>
+<p>Module dependencies.
+ </p>
 </td>
 <td class="code">
 <pre><code><span class="keyword">var</span> <span class="variable">fs</span> = <span class="variable">require</span>(<span class="string">'fs'</span>),
@@ -383,14 +322,7 @@ and <code>fallbacks</code>.</p>
 
 <h2></h2>
 
-<ul>
-<li><p><strong>param</strong>: <em>String</em>  root</p></li>
-<li><p><strong>param</strong>: <em>Array</em>  networks</p></li>
-<li><p><strong>param</strong>: <em>Array</em>  fallbacks</p></li>
-<li><p><strong>return</strong>: <em>Function</em></p></li>
-<li><p><strong>api</strong>: <em>public</em></p></li>
-</ul>
-
+<ul><li><p><strong>param</strong>: <em>String</em>  root</p></li><li><p><strong>param</strong>: <em>Array</em>  networks</p></li><li><p><strong>param</strong>: <em>Array</em>  fallbacks</p></li><li><p><strong>return</strong>: <em>Function</em> </p></li><li><p><strong>api</strong>: <em>public</em></p></li></ul>
 </td>
 <td class="code">
 <pre><code><span class="variable">module</span>.<span class="variable">exports</span> = <span class="keyword">function</span> <span class="variable">cacheManifest</span>(<span class="variable">root</span>, <span class="variable">networks</span>, <span class="variable">fallbacks</span>) {
@@ -438,9 +370,10 @@ and <code>fallbacks</code>.</p>
     };
 };</code></pre>
 </td>
-</tr><tr class="filename"><td><h2 id="lib/connect/middleware/compiler.js">compiler</h2></td><td>lib/connect/middleware/compiler.js</td></tr><tr class="code">
+</tr><tr class="filename"><td><h2 id="lib/connect/middleware/compiler.js"><a href="#">compiler</a></h2></td><td>lib/connect/middleware/compiler.js</td></tr><tr class="code">
 <td class="docs">
-<p>Module dependencies.</p>
+<p>Module dependencies.
+ </p>
 </td>
 <td class="code">
 <pre><code><span class="keyword">var</span> <span class="variable">fs</span> = <span class="variable">require</span>(<span class="string">'fs'</span>),
@@ -451,11 +384,7 @@ and <code>fallbacks</code>.</p>
 <td class="docs">
 <p>Bundled compilers:</p>
 
-<ul>
-<li><a href="http://github.com/visionmedia/sass.js">sass</a> to <em>css</em></li>
-<li><a href="http://github.com/cloudhead/less.js">less</a> to <em>css</em></li>
-</ul>
-
+<ul><li><a href="http://github.com/visionmedia/sass.js">sass</a> to <em>css</em></li><li><a href="http://github.com/cloudhead/less.js">less</a> to <em>css</em></li></ul>
 </td>
 <td class="code">
 <pre><code><span class="keyword">var</span> <span class="variable">compilers</span> = <span class="variable">exports</span>.<span class="variable">compilers</span> = {
@@ -480,7 +409,7 @@ and <code>fallbacks</code>.</p>
         <span class="variable">match</span>: <span class="regexp">/\.css$/</span>,
         <span class="variable">ext</span>: <span class="string">'.less'</span>,
         <span class="variable">compile</span>: <span class="keyword">function</span>(<span class="variable">str</span>, <span class="variable">fn</span>){
-            <span class="variable">render</span>.<span class="variable">async</span>(<span class="string">'less'</span>, <span class="keyword">function</span>(<span class="variable">err</span>, <span class="variable">less</span>){
+            <span class="variable">require</span>.<span class="variable">async</span>(<span class="string">'less'</span>, <span class="keyword">function</span>(<span class="variable">err</span>, <span class="variable">less</span>){
                 <span class="keyword">if</span> (<span class="variable">err</span>) {
                     <span class="variable">fn</span>(<span class="variable">err</span>);
                 } <span class="keyword">else</span> {
@@ -502,28 +431,15 @@ and <code>fallbacks</code>.</p>
 
 <h2>Options</h2>
 
-<ul>
-<li><code>src</code>     Source directory, defaults to <strong>CWD</strong>.</li>
-<li><code>dest</code>    Destination directory, defaults <code>src</code>.</li>
-<li><code>enable</code>  Array of enabled compilers.</li>
-</ul>
-
+<ul><li><code>src</code>     Source directory, defaults to <strong>CWD</strong>.</li><li><code>dest</code>    Destination directory, defaults <code>src</code>.</li><li><code>enable</code>  Array of enabled compilers.</li></ul>
 
 <h2>Compilers</h2>
 
-<ul>
-<li><code>sass</code>   Compiles cass to css</li>
-<li><code>less</code>   Compiles less to css</li>
-</ul>
-
+<ul><li><code>sass</code>   Compiles cass to css</li><li><code>less</code>   Compiles less to css</li></ul>
 
 <h2></h2>
 
-<ul>
-<li><p><strong>param</strong>: <em>Object</em>  options</p></li>
-<li><p><strong>api</strong>: <em>public</em></p></li>
-</ul>
-
+<ul><li><p><strong>param</strong>: <em>Object</em>  options</p></li><li><p><strong>api</strong>: <em>public</em></p></li></ul>
 </td>
 <td class="code">
 <pre><code><span class="variable">module</span>.<span class="variable">exports</span> = <span class="keyword">function</span> <span class="variable">compiler</span>(<span class="variable">options</span>){
@@ -601,17 +517,13 @@ and <code>fallbacks</code>.</p>
     };
 };</code></pre>
 </td>
-</tr><tr class="filename"><td><h2 id="lib/connect/middleware/conditionalGet.js">conditionalGet</h2></td><td>lib/connect/middleware/conditionalGet.js</td></tr><tr class="code">
+</tr><tr class="filename"><td><h2 id="lib/connect/middleware/conditionalGet.js"><a href="#">conditionalGet</a></h2></td><td>lib/connect/middleware/conditionalGet.js</td></tr><tr class="code">
 <td class="docs">
 <p>Conditional GET request support.</p>
 
 <h2></h2>
 
-<ul>
-<li><p><strong>return</strong>: <em>Function</em></p></li>
-<li><p><strong>api</strong>: <em>public</em></p></li>
-</ul>
-
+<ul><li><p><strong>return</strong>: <em>Function</em> </p></li><li><p><strong>api</strong>: <em>public</em></p></li></ul>
 </td>
 <td class="code">
 <pre><code><span class="variable">module</span>.<span class="variable">exports</span> = <span class="keyword">function</span> <span class="variable">conditionalGet</span>(){
@@ -672,9 +584,10 @@ and <code>fallbacks</code>.</p>
     };
 };</code></pre>
 </td>
-</tr><tr class="filename"><td><h2 id="lib/connect/middleware/cookieDecoder.js">cookieDecoder</h2></td><td>lib/connect/middleware/cookieDecoder.js</td></tr><tr class="code">
+</tr><tr class="filename"><td><h2 id="lib/connect/middleware/cookieDecoder.js"><a href="#">cookieDecoder</a></h2></td><td>lib/connect/middleware/cookieDecoder.js</td></tr><tr class="code">
 <td class="docs">
-<p>Module dependencies.</p>
+<p>Module dependencies.
+ </p>
 </td>
 <td class="code">
 <pre><code><span class="keyword">var</span> <span class="variable">utils</span> = <span class="variable">require</span>(<span class="string">'./../utils'</span>);</code></pre>
@@ -686,11 +599,7 @@ and <code>fallbacks</code>.</p>
 
 <h2></h2>
 
-<ul>
-<li><p><strong>return</strong>: <em>Function</em></p></li>
-<li><p><strong>api</strong>: <em>public</em></p></li>
-</ul>
-
+<ul><li><p><strong>return</strong>: <em>Function</em> </p></li><li><p><strong>api</strong>: <em>public</em></p></li></ul>
 </td>
 <td class="code">
 <pre><code><span class="variable">module</span>.<span class="variable">exports</span> = <span class="keyword">function</span> <span class="variable">cookieDecoder</span>(){
@@ -698,24 +607,23 @@ and <code>fallbacks</code>.</p>
         <span class="keyword">var</span> <span class="variable">cookie</span> = <span class="variable">req</span>.<span class="variable">headers</span>.<span class="variable">cookie</span>;
         <span class="variable">req</span>.<span class="variable">cookies</span> = {};
         <span class="keyword">if</span> (<span class="variable">cookie</span>) {
-            <span class="variable">process</span>.<span class="variable">nextTick</span>(<span class="keyword">function</span>(){
-                <span class="keyword">try</span> {
-                    <span class="variable">req</span>.<span class="variable">cookies</span> = <span class="variable">utils</span>.<span class="variable">parseCookie</span>(<span class="variable">cookie</span>);
-                    <span class="keyword">delete</span> <span class="variable">req</span>.<span class="variable">headers</span>.<span class="variable">cookie</span>;
-                } <span class="keyword">catch</span> (<span class="variable">err</span>) {
-                    <span class="comment">// Ignore</span>
-                }
-                <span class="variable">next</span>();
-            });
+            <span class="keyword">try</span> {
+                <span class="variable">req</span>.<span class="variable">cookies</span> = <span class="variable">utils</span>.<span class="variable">parseCookie</span>(<span class="variable">cookie</span>);
+                <span class="keyword">delete</span> <span class="variable">req</span>.<span class="variable">headers</span>.<span class="variable">cookie</span>;
+            } <span class="keyword">catch</span> (<span class="variable">err</span>) {
+                <span class="comment">// Ignore</span>
+            }
+            <span class="variable">next</span>();
         } <span class="keyword">else</span> {
             <span class="variable">next</span>();
         }
     };
 };</code></pre>
 </td>
-</tr><tr class="filename"><td><h2 id="lib/connect/middleware/errorHandler.js">errorHandler</h2></td><td>lib/connect/middleware/errorHandler.js</td></tr><tr class="code">
+</tr><tr class="filename"><td><h2 id="lib/connect/middleware/errorHandler.js"><a href="#">errorHandler</a></h2></td><td>lib/connect/middleware/errorHandler.js</td></tr><tr class="code">
 <td class="docs">
-<p>Module dependencies.</p>
+<p>Module dependencies.
+ </p>
 </td>
 <td class="code">
 <pre><code><span class="keyword">var</span> <span class="variable">utils</span> = <span class="variable">require</span>(<span class="string">'./../utils'</span>),
@@ -729,21 +637,11 @@ and <code>fallbacks</code>.</p>
 
 <h2>Options</h2>
 
-<ul>
-<li><code>showStack</code>       respond with both the error message and stack trace. Defaults to <code>false</code></li>
-<li><code>showMessage</code>     respond with the exception message only. Defaults to <code>false</code></li>
-<li><code>dumpExceptions</code>  dump exceptions to stderr (without terminating the process). Defaults to <code>false</code></li>
-</ul>
-
+<ul><li><code>showStack</code>       respond with both the error message and stack trace. Defaults to <code>false</code></li><li><code>showMessage</code>     respond with the exception message only. Defaults to <code>false</code></li><li><code>dumpExceptions</code>  dump exceptions to stderr (without terminating the process). Defaults to <code>false</code></li></ul>
 
 <h2></h2>
 
-<ul>
-<li><p><strong>param</strong>: <em>Object</em>  options</p></li>
-<li><p><strong>return</strong>: <em>Function</em></p></li>
-<li><p><strong>api</strong>: <em>public</em></p></li>
-</ul>
-
+<ul><li><p><strong>param</strong>: <em>Object</em>  options</p></li><li><p><strong>return</strong>: <em>Function</em> </p></li><li><p><strong>api</strong>: <em>public</em></p></li></ul>
 </td>
 <td class="code">
 <pre><code><span class="variable">module</span>.<span class="variable">exports</span> = <span class="keyword">function</span> <span class="variable">errorHandler</span>(<span class="variable">options</span>){
@@ -810,85 +708,10 @@ and <code>fallbacks</code>.</p>
 };
 </code></pre>
 </td>
-</tr><tr class="filename"><td><h2 id="lib/connect/middleware/flash.js">flash</h2></td><td>lib/connect/middleware/flash.js</td></tr><tr class="code">
+</tr><tr class="filename"><td><h2 id="lib/connect/middleware/format.js"><a href="#">format</a></h2></td><td>lib/connect/middleware/format.js</td></tr><tr class="code">
 <td class="docs">
-<p>Module dependencies.</p>
-</td>
-<td class="code">
-<pre><code><span class="keyword">var</span> <span class="variable">utils</span> = <span class="variable">require</span>(<span class="string">'./../utils'</span>);</code></pre>
-</td>
-</tr>
-<tr class="code">
-<td class="docs">
-<p>Provide <code>req.flash()</code>.</p>
-
-<h2></h2>
-
-<ul>
-<li><p><strong>return</strong>: <em>Function</em></p></li>
-<li><p><strong>api</strong>: <em>public</em></p></li>
-</ul>
-
-</td>
-<td class="code">
-<pre><code><span class="variable">module</span>.<span class="variable">exports</span> = <span class="keyword">function</span> <span class="variable">flash</span>(){
-    <span class="keyword">return</span> <span class="keyword">function</span> <span class="variable">flash</span>(<span class="variable">req</span>, <span class="variable">res</span>, <span class="variable">next</span>) {</code></pre>
-</td>
-</tr>
-<tr class="code">
-<td class="docs">
-<p>Queue flash <code>msg</code> of the given <code>type</code>.</p>
-
-<h2>Examples</h2>
-
-<pre><code> req.flash('info', 'email sent');
- req.flash('error', 'email delivery failed');
- req.flash('info', 'email re-sent');
- // =&gt; 2
-
- req.flash('info');
- // =&gt; ['email sent', 'email re-sent']
-
- req.flash('info');
- // =&gt; []
-
- req.flash();
- // =&gt; { error: ['email delivery failed'], info: [] }
-</code></pre>
-
-<h2></h2>
-
-<ul>
-<li><p><strong>param</strong>: <em>String</em>  type</p></li>
-<li><p><strong>param</strong>: <em>String</em>  msg</p></li>
-<li><p><strong>return</strong>: <em>Array | Object | Number</em></p></li>
-<li><p><strong>api</strong>: <em>public</em></p></li>
-</ul>
-
-</td>
-<td class="code">
-<pre><code><span class="variable">req</span>.<span class="variable">flash</span> = <span class="keyword">function</span>(<span class="variable">type</span>, <span class="variable">msg</span>){
-            <span class="keyword">var</span> <span class="variable">msgs</span> = <span class="this">this</span>.<span class="variable">session</span>.<span class="variable">flash</span> = <span class="this">this</span>.<span class="variable">session</span>.<span class="variable">flash</span> || {};
-            <span class="keyword">if</span> (<span class="variable">type</span> &<span class="variable">amp</span>;&<span class="variable">amp</span>; <span class="variable">msg</span>) {
-                <span class="variable">msg</span> = <span class="variable">utils</span>.<span class="variable">miniMarkdown</span>(<span class="variable">utils</span>.<span class="variable">htmlEscape</span>(<span class="variable">msg</span>));
-                <span class="keyword">return</span> (<span class="variable">msgs</span>[<span class="variable">type</span>] = <span class="variable">msgs</span>[<span class="variable">type</span>] || []).<span class="variable">push</span>(<span class="variable">msg</span>);
-            } <span class="keyword">else</span> <span class="keyword">if</span> (<span class="variable">type</span>) {
-                <span class="keyword">var</span> <span class="variable">arr</span> = <span class="variable">msgs</span>[<span class="variable">type</span>];
-                <span class="keyword">delete</span> <span class="variable">msgs</span>[<span class="variable">type</span>];
-                <span class="keyword">return</span> <span class="variable">arr</span> || [];
-            } <span class="keyword">else</span> {
-                <span class="this">this</span>.<span class="variable">session</span>.<span class="variable">flash</span> = {};
-                <span class="keyword">return</span> <span class="variable">msgs</span>;
-            }
-        };
-
-        <span class="variable">next</span>();
-    };
-};</code></pre>
-</td>
-</tr><tr class="filename"><td><h2 id="lib/connect/middleware/format.js">format</h2></td><td>lib/connect/middleware/format.js</td></tr><tr class="code">
-<td class="docs">
-<p>Module dependencies.</p>
+<p>Module dependencies.
+ </p>
 </td>
 <td class="code">
 <pre><code><span class="keyword">var</span> <span class="variable">connect</span> = <span class="variable">require</span>(<span class="string">'./../index'</span>),
@@ -897,7 +720,7 @@ and <code>fallbacks</code>.</p>
 </tr>
 <tr class="code">
 <td class="docs">
-<p>Extract url &ldquo;formats&rdquo; aka extensions from the request
+<p>Extract url "formats" aka extensions from the request
 url, and assigns req.<code>format</code>.</p>
 
 <h2>Examples</h2>
@@ -913,16 +736,11 @@ url, and assigns req.<code>format</code>.</p>
         default:
             // respond with your default format
     }
- }
-</code></pre>
+ }</code></pre>
 
 <h2></h2>
 
-<ul>
-<li><p><strong>return</strong>: <em>Function</em></p></li>
-<li><p><strong>api</strong>: <em>public</em></p></li>
-</ul>
-
+<ul><li><p><strong>return</strong>: <em>Function</em> </p></li><li><p><strong>api</strong>: <em>public</em></p></li></ul>
 </td>
 <td class="code">
 <pre><code><span class="variable">module</span>.<span class="variable">exports</span> = <span class="keyword">function</span> <span class="variable">format</span>(){
@@ -935,26 +753,24 @@ url, and assigns req.<code>format</code>.</p>
     };
 };</code></pre>
 </td>
-</tr><tr class="filename"><td><h2 id="lib/connect/middleware/gzip.js">gzip</h2></td><td>lib/connect/middleware/gzip.js</td></tr><tr class="code">
+</tr><tr class="filename"><td><h2 id="lib/connect/middleware/gzip-compress.js"><a href="#">gzip-compress</a></h2></td><td>lib/connect/middleware/gzip-compress.js</td></tr><tr class="code">
 <td class="docs">
-<p>Module dependencies.</p>
+<p>Module dependencies.
+ </p>
 </td>
 <td class="code">
 <pre><code><span class="keyword">var</span> <span class="variable">child_process</span> = <span class="variable">require</span>(<span class="string">'child_process'</span>),
-    <span class="variable">sys</span> = <span class="variable">require</span>(<span class="string">'sys'</span>);</code></pre>
+    <span class="variable">sys</span> = <span class="variable">require</span>(<span class="string">'sys'</span>),
+    <span class="variable">compress</span> = <span class="variable">require</span>(<span class="string">'compress'</span>);</code></pre>
 </td>
 </tr>
 <tr class="code">
 <td class="docs">
-<p>Provides gzip compression via the <code>gzip</code> executable.</p>
+<p>Provides gzip compression via the node-compress library.</p>
 
 <h2></h2>
 
-<ul>
-<li><p><strong>return</strong>: <em>Function</em></p></li>
-<li><p><strong>api</strong>: <em>public</em></p></li>
-</ul>
-
+<ul><li><p><strong>return</strong>: <em>Function</em> </p></li><li><p><strong>api</strong>: <em>public</em></p></li></ul>
 </td>
 <td class="code">
 <pre><code><span class="variable">module</span>.<span class="variable">exports</span> = <span class="keyword">function</span> <span class="variable">gzip</span>(){
@@ -968,7 +784,85 @@ url, and assigns req.<code>format</code>.</p>
                 <span class="variable">accept</span> = <span class="variable">req</span>.<span class="variable">headers</span>[&<span class="variable">quot</span>;<span class="variable">accept</span>-<span class="variable">encoding</span>&<span class="variable">quot</span>;];
 
             <span class="keyword">if</span> (!(<span class="variable">code</span> === <span class="number integer">200</span> &<span class="variable">amp</span>;&<span class="variable">amp</span>; <span class="variable">accept</span> &<span class="variable">amp</span>;&<span class="variable">amp</span>; <span class="variable">accept</span>.<span class="variable">indexOf</span>(<span class="string">'gzip'</span>) &<span class="variable">gt</span>;= <span class="number integer">0</span>
-                  &<span class="variable">amp</span>;&<span class="variable">amp</span>; <span class="variable">type</span> &<span class="variable">amp</span>;&<span class="variable">amp</span>; (<span class="regexp">/(text|javascript|json)/</span>).<span class="variable">test</span>(<span class="variable">type</span>))) {
+                  &<span class="variable">amp</span>;&<span class="variable">amp</span>; <span class="variable">type</span> &<span class="variable">amp</span>;&<span class="variable">amp</span>; (<span class="regexp">/(text|javascript|json)/</span>).<span class="variable">test</span>(<span class="variable">type</span>)
+                  &<span class="variable">amp</span>;&<span class="variable">amp</span>; <span class="variable">headers</span>[&<span class="variable">quot</span>;<span class="class">Content</span>-<span class="class">Encoding</span>&<span class="variable">quot</span>;] === <span class="variable">undefined</span>)) {
+                <span class="variable">res</span>.<span class="variable">writeHead</span> = <span class="variable">writeHead</span>;
+                <span class="variable">res</span>.<span class="variable">writeHead</span>(<span class="variable">code</span>, <span class="variable">headers</span>);
+                <span class="keyword">return</span>;
+            }
+
+            <span class="variable">headers</span>[&<span class="variable">quot</span>;<span class="class">Content</span>-<span class="class">Encoding</span>&<span class="variable">quot</span>;] = &<span class="variable">quot</span>;<span class="variable">gzip</span>&<span class="variable">quot</span>;;
+            <span class="keyword">delete</span> <span class="variable">headers</span>[&<span class="variable">quot</span>;<span class="class">Content</span>-<span class="class">Length</span>&<span class="variable">quot</span>;];
+
+            <span class="keyword">var</span> <span class="variable">gzip</span> = <span class="keyword">new</span> <span class="variable">compress</span>.<span class="class">GzipStream</span>();
+
+            <span class="variable">res</span>.<span class="variable">write</span> = <span class="keyword">function</span> (<span class="variable">chunk</span>, <span class="variable">encoding</span>) {
+                <span class="variable">gzip</span>.<span class="variable">setInputEncoding</span>(<span class="variable">encoding</span>);
+                <span class="variable">gzip</span>.<span class="variable">write</span>(<span class="variable">chunk</span>);
+            };
+
+            <span class="variable">res</span>.<span class="variable">end</span> = <span class="keyword">function</span> (<span class="variable">chunk</span>, <span class="variable">encoding</span>) {
+                <span class="keyword">if</span> (<span class="variable">chunk</span>) {
+                    <span class="variable">res</span>.<span class="variable">write</span>(<span class="variable">chunk</span>, <span class="variable">encoding</span>);
+                }
+                <span class="variable">gzip</span>.<span class="variable">close</span>();
+            };
+
+            <span class="variable">gzip</span>.<span class="variable">addListener</span>(<span class="string">'data'</span>, <span class="keyword">function</span> (<span class="variable">chunk</span>) {
+                <span class="variable">write</span>.<span class="variable">call</span>(<span class="variable">res</span>, <span class="variable">chunk</span>);
+            });
+            <span class="variable">gzip</span>.<span class="variable">addListener</span>(<span class="string">'error'</span>, <span class="keyword">function</span>(<span class="variable">err</span>) {
+                <span class="variable">res</span>.<span class="variable">write</span> = <span class="variable">write</span>;
+                <span class="variable">res</span>.<span class="variable">end</span> = <span class="variable">end</span>;
+                <span class="variable">next</span>(<span class="variable">err</span>);
+            });
+            <span class="variable">gzip</span>.<span class="variable">addListener</span>(<span class="string">'end'</span>, <span class="keyword">function</span> (<span class="variable">code</span>) {
+                <span class="variable">res</span>.<span class="variable">write</span> = <span class="variable">write</span>;
+                <span class="variable">res</span>.<span class="variable">end</span> = <span class="variable">end</span>;
+                <span class="variable">res</span>.<span class="variable">end</span>();
+            });
+
+            <span class="variable">res</span>.<span class="variable">writeHead</span> = <span class="variable">writeHead</span>;
+            <span class="variable">res</span>.<span class="variable">writeHead</span>(<span class="variable">code</span>, <span class="variable">headers</span>);
+
+        };
+
+        <span class="variable">next</span>();
+    };
+};</code></pre>
+</td>
+</tr><tr class="filename"><td><h2 id="lib/connect/middleware/gzip-proc.js"><a href="#">gzip-proc</a></h2></td><td>lib/connect/middleware/gzip-proc.js</td></tr><tr class="code">
+<td class="docs">
+<p>Module dependencies.
+ </p>
+</td>
+<td class="code">
+<pre><code><span class="keyword">var</span> <span class="variable">child_process</span> = <span class="variable">require</span>(<span class="string">'child_process'</span>),
+    <span class="variable">sys</span> = <span class="variable">require</span>(<span class="string">'sys'</span>);</code></pre>
+</td>
+</tr>
+<tr class="code">
+<td class="docs">
+<p>Provides gzip compression via the <code>gzip</code> executable.</p>
+
+<h2></h2>
+
+<ul><li><p><strong>return</strong>: <em>Function</em> </p></li><li><p><strong>api</strong>: <em>public</em></p></li></ul>
+</td>
+<td class="code">
+<pre><code><span class="variable">module</span>.<span class="variable">exports</span> = <span class="keyword">function</span> <span class="variable">gzip</span>(){
+    <span class="keyword">return</span> <span class="keyword">function</span> <span class="variable">gzip</span>(<span class="variable">req</span>, <span class="variable">res</span>, <span class="variable">next</span>) {
+        <span class="keyword">var</span> <span class="variable">writeHead</span> = <span class="variable">res</span>.<span class="variable">writeHead</span>,
+            <span class="variable">write</span> = <span class="variable">res</span>.<span class="variable">write</span>,
+            <span class="variable">end</span> = <span class="variable">res</span>.<span class="variable">end</span>;
+
+        <span class="variable">res</span>.<span class="variable">writeHead</span> = <span class="keyword">function</span> (<span class="variable">code</span>, <span class="variable">headers</span>) {
+            <span class="keyword">var</span> <span class="variable">type</span> = <span class="variable">headers</span>[&<span class="variable">quot</span>;<span class="class">Content</span>-<span class="class">Type</span>&<span class="variable">quot</span>;],
+                <span class="variable">accept</span> = <span class="variable">req</span>.<span class="variable">headers</span>[&<span class="variable">quot</span>;<span class="variable">accept</span>-<span class="variable">encoding</span>&<span class="variable">quot</span>;];
+
+            <span class="keyword">if</span> (!(<span class="variable">code</span> === <span class="number integer">200</span> &<span class="variable">amp</span>;&<span class="variable">amp</span>; <span class="variable">accept</span> &<span class="variable">amp</span>;&<span class="variable">amp</span>; <span class="variable">accept</span>.<span class="variable">indexOf</span>(<span class="string">'gzip'</span>) &<span class="variable">gt</span>;= <span class="number integer">0</span>
+                  &<span class="variable">amp</span>;&<span class="variable">amp</span>; <span class="variable">type</span> &<span class="variable">amp</span>;&<span class="variable">amp</span>; (<span class="regexp">/(text|javascript|json)/</span>).<span class="variable">test</span>(<span class="variable">type</span>)
+                  &<span class="variable">amp</span>;&<span class="variable">amp</span>; <span class="variable">headers</span>[&<span class="variable">quot</span>;<span class="class">Content</span>-<span class="class">Encoding</span>&<span class="variable">quot</span>;] === <span class="variable">undefined</span>)) {
                 <span class="variable">res</span>.<span class="variable">writeHead</span> = <span class="variable">writeHead</span>;
                 <span class="variable">res</span>.<span class="variable">writeHead</span>(<span class="variable">code</span>, <span class="variable">headers</span>);
                 <span class="keyword">return</span>;
@@ -1007,11 +901,27 @@ url, and assigns req.<code>format</code>.</p>
 
         <span class="variable">next</span>();
     };
-};</code></pre>
+};
+</code></pre>
 </td>
-</tr><tr class="filename"><td><h2 id="lib/connect/middleware/jsonrpc.js">jsonrpc</h2></td><td>lib/connect/middleware/jsonrpc.js</td></tr><tr class="code">
+</tr><tr class="filename"><td><h2 id="lib/connect/middleware/gzip.js"><a href="#">gzip</a></h2></td><td>lib/connect/middleware/gzip.js</td></tr><tr class="code">
 <td class="docs">
-<p>Module dependencies.</p>
+<p>try {
+    module.exports = require('./gzip-compress');
+} catch (e) {
+    if (/^Cannot find module /.test(e.message))
+        module.exports = require('./gzip-proc');
+    else
+        throw e;
+}</p>
+</td>
+<td class="code">
+
+</td>
+</tr><tr class="filename"><td><h2 id="lib/connect/middleware/jsonrpc.js"><a href="#">jsonrpc</a></h2></td><td>lib/connect/middleware/jsonrpc.js</td></tr><tr class="code">
+<td class="docs">
+<p>Module dependencies.
+ </p>
 </td>
 <td class="code">
 <pre><code><span class="keyword">var</span> <span class="variable">sys</span> = <span class="variable">require</span>(<span class="string">'sys'</span>),
@@ -1022,7 +932,8 @@ url, and assigns req.<code>format</code>.</p>
 </tr>
 <tr class="code">
 <td class="docs">
-<p>Export the <code>setup()</code> function.</p>
+<p>Export the <code>setup()</code> function.
+ </p>
 </td>
 <td class="code">
 <pre><code><span class="variable">exports</span> = <span class="variable">module</span>.<span class="variable">exports</span> = <span class="variable">jsonrpc</span>;</code></pre>
@@ -1030,7 +941,8 @@ url, and assigns req.<code>format</code>.</p>
 </tr>
 <tr class="code">
 <td class="docs">
-<p>JSON-RPC version.</p>
+<p>JSON-RPC version.
+ </p>
 </td>
 <td class="code">
 <pre><code><span class="keyword">var</span> <span class="class">VERSION</span> = <span class="variable">exports</span>.<span class="class">VERSION</span> = <span class="string">'2.0'</span>;</code></pre>
@@ -1038,7 +950,8 @@ url, and assigns req.<code>format</code>.</p>
 </tr>
 <tr class="code">
 <td class="docs">
-<p>JSON parse error.</p>
+<p>JSON parse error.
+ </p>
 </td>
 <td class="code">
 <pre><code><span class="keyword">var</span> <span class="class">PARSE_ERROR</span> = <span class="variable">exports</span>.<span class="class">PARSE_ERROR</span> = -<span class="number integer">32700</span>;</code></pre>
@@ -1046,7 +959,8 @@ url, and assigns req.<code>format</code>.</p>
 </tr>
 <tr class="code">
 <td class="docs">
-<p>Invalid request due to invalid or missing properties.</p>
+<p>Invalid request due to invalid or missing properties.
+ </p>
 </td>
 <td class="code">
 <pre><code><span class="keyword">var</span> <span class="class">INVALID_REQUEST</span> = <span class="variable">exports</span>.<span class="class">INVALID_REQUEST</span> = -<span class="number integer">32600</span>;</code></pre>
@@ -1054,7 +968,8 @@ url, and assigns req.<code>format</code>.</p>
 </tr>
 <tr class="code">
 <td class="docs">
-<p>Service method does not exist.</p>missing pro
+<p>Service method does not exist.
+ </p>
 </td>
 <td class="code">
 <pre><code><span class="keyword">var</span> <span class="class">METHOD_NOT_FOUND</span> = <span class="variable">exports</span>.<span class="class">METHOD_NOT_FOUND</span> = -<span class="number integer">32601</span>;</code></pre>
@@ -1062,7 +977,8 @@ url, and assigns req.<code>format</code>.</p>
 </tr>
 <tr class="code">
 <td class="docs">
-<p>Invalid parameters.</p>
+<p>Invalid parameters.
+ </p>
 </td>
 <td class="code">
 <pre><code><span class="keyword">var</span> <span class="class">INVALID_PARAMS</span> = <span class="variable">exports</span>.<span class="class">INVALID_PARAMS</span> = -<span class="number integer">32602</span>;</code></pre>
@@ -1070,7 +986,8 @@ url, and assigns req.<code>format</code>.</p>
 </tr>
 <tr class="code">
 <td class="docs">
-<p>Internal JSON-RPC error.</p>
+<p>Internal JSON-RPC error.
+ </p>
 </td>
 <td class="code">
 <pre><code><span class="keyword">var</span> <span class="class">INTERNAL_ERROR</span> = <span class="variable">exports</span>.<span class="class">INTERNAL_ERROR</span> = -<span class="number integer">32603</span>;</code></pre>
@@ -1078,7 +995,8 @@ url, and assigns req.<code>format</code>.</p>
 </tr>
 <tr class="code">
 <td class="docs">
-<p>Default error messages.</p>
+<p>Default error messages.
+ </p>
 </td>
 <td class="code">
 <pre><code><span class="keyword">var</span> <span class="variable">errorMessages</span> = <span class="variable">exports</span>.<span class="variable">errorMessages</span> = {};
@@ -1095,12 +1013,7 @@ url, and assigns req.<code>format</code>.</p>
 
 <h2></h2>
 
-<ul>
-<li><p><strong>param</strong>: <em>Object</em>  &hellip;</p></li>
-<li><p><strong>return</strong>: <em>Function</em></p></li>
-<li><p><strong>api</strong>: <em>public</em></p></li>
-</ul>
-
+<ul><li><p><strong>param</strong>: <em>Object</em>  ...</p></li><li><p><strong>return</strong>: <em>Function</em> </p></li><li><p><strong>api</strong>: <em>public</em></p></li></ul>
 </td>
 <td class="code">
 <pre><code><span class="keyword">function</span> <span class="variable">jsonrpc</span>(<span class="variable">services</span>) {
@@ -1120,14 +1033,7 @@ url, and assigns req.<code>format</code>.</p>
 
 <h2></h2>
 
-<ul>
-<li><p><strong>param</strong>: <em>Object</em>  rpc</p></li>
-<li><p><strong>param</strong>: <em>Function</em>  respond</p></li>
-</ul>
->
-
-<ul>
-<
+<ul><li><p><strong>param</strong>: <em>Object</em>  rpc</p></li><li><p><strong>param</strong>: <em>Function</em>  respond</p><p> </p></li></ul>
 </td>
 <td class="code">
 <pre><code><span class="keyword">function</span> <span class="variable">handleRequest</span>(<span class="variable">rpc</span>, <span class="variable">respond</span>){
@@ -1200,7 +1106,8 @@ url, and assigns req.<code>format</code>.</p>
 </tr>
 <tr class="code">
 <td class="docs">
-<p>Normalize response object.</p>
+<p>Normalize response object.
+                 </p>
 </td>
 <td class="code">
 <pre><code><span class="keyword">function</span> <span class="variable">normalize</span>(<span class="variable">rpc</span>, <span class="variable">obj</span>) {
@@ -1217,7 +1124,8 @@ url, and assigns req.<code>format</code>.</p>
 </tr>
 <tr class="code">
 <td class="docs">
-<p>Respond with the given response object.</p>
+<p>Respond with the given response object.
+                 </p>
 </td>
 <td class="code">
 <pre><code><span class="keyword">function</span> <span class="variable">respond</span>(<span class="variable">obj</span>) {
@@ -1257,9 +1165,10 @@ url, and assigns req.<code>format</code>.</p>
     };
 };</code></pre>
 </td>
-</tr><tr class="filename"><td><h2 id="lib/connect/middleware/lint.js">lint</h2></td><td>lib/connect/middleware/lint.js</td></tr><tr class="code">
+</tr><tr class="filename"><td><h2 id="lib/connect/middleware/lint.js"><a href="#">lint</a></h2></td><td>lib/connect/middleware/lint.js</td></tr><tr class="code">
 <td class="docs">
-<p>Module dependencies.</p>
+<p>Module dependencies.
+ </p>
 </td>
 <td class="code">
 <pre><code><span class="keyword">var</span> <span class="variable">connect</span> = <span class="variable">require</span>(<span class="string">'./../index'</span>),
@@ -1272,11 +1181,7 @@ url, and assigns req.<code>format</code>.</p>
 
 <h2></h2>
 
-<ul>
-<li><p><strong>return</strong>: <em>Function</em></p></li>
-<li><p><strong>api</strong>: <em>public</em></p></li>
-</ul>
-
+<ul><li><p><strong>return</strong>: <em>Function</em> </p></li><li><p><strong>api</strong>: <em>public</em></p></li></ul>
 </td>
 <td class="code">
 <pre><code><span class="variable">module</span>.<span class="variable">exports</span> = <span class="keyword">function</span> <span class="variable">lint</span>(<span class="variable">server</span>){
@@ -1300,42 +1205,21 @@ url, and assigns req.<code>format</code>.</p>
     }
 };</code></pre>
 </td>
-</tr><tr class="filename"><td><h2 id="lib/connect/middleware/logger.js">logger</h2></td><td>lib/connect/middleware/logger.js</td></tr><tr class="code">
+</tr><tr class="filename"><td><h2 id="lib/connect/middleware/logger.js"><a href="#">logger</a></h2></td><td>lib/connect/middleware/logger.js</td></tr><tr class="code">
 <td class="docs">
 <p>Log requests with the given <code>options</code>.</p>
 
 <h2>Options</h2>
 
-<ul>
-<li><code>format</code>  Format string, see below for tokens</li>
-<li><code>stream</code>  Output stream, defaults to <em>stdout</em></li>
-</ul>
-
+<ul><li><code>format</code>  Format string, see below for tokens</li><li><code>stream</code>  Output stream, defaults to <em>stdout</em></li></ul>
 
 <h2>Tokens</h2>
 
-<ul>
-<li><code>:req[header]</code> ex: <code>:req[Accept]</code></li>
-<li><code>:res[header]</code> ex: <code>:res[Content-Length]</code></li>
-<li><code>:http-version</code></li>
-<li><code>:response-time</code></li>
-<li><code>:remote-addr</code></li>
-<li><code>:date</code></li>
-<li><code>:method</code></li>
-<li><code>:url</code></li>
-<li><code>:referrer</code></li>
-<li><code>:user-agent</code></li>
-<li><code>:status</code></li>
-</ul>
-
+<ul><li><code>:req[header]</code> ex: <code>:req[Accept]</code></li><li><code>:res[header]</code> ex: <code>:res[Content-Length]</code></li><li><code>:http-version</code></li><li><code>:response-time</code></li><li><code>:remote-addr</code></li><li><code>:date</code></li><li><code>:method</code></li><li><code>:url</code></li><li><code>:referrer</code></li><li><code>:user-agent</code></li><li><code>:status</code></li></ul>
 
 <h2></h2>
 
-<ul>
-<li><p><strong>return</strong>: <em>Function</em></p></li>
-<li><p><strong>api</strong>: <em>public</em></p></li>
-</ul>
-
+<ul><li><p><strong>return</strong>: <em>Function</em> </p></li><li><p><strong>api</strong>: <em>public</em></p></li></ul>
 </td>
 <td class="code">
 <pre><code><span class="variable">module</span>.<span class="variable">exports</span> = <span class="keyword">function</span> <span class="variable">logger</span>(<span class="variable">options</span>) {
@@ -1389,9 +1273,10 @@ url, and assigns req.<code>format</code>.</p>
 
 };</code></pre>
 </td>
-</tr><tr class="filename"><td><h2 id="lib/connect/middleware/methodOverride.js">methodOverride</h2></td><td>lib/connect/middleware/methodOverride.js</td></tr><tr class="code">
+</tr><tr class="filename"><td><h2 id="lib/connect/middleware/methodOverride.js"><a href="#">methodOverride</a></h2></td><td>lib/connect/middleware/methodOverride.js</td></tr><tr class="code">
 <td class="docs">
-<p>Module dependencies.</p>
+<p>Module dependencies.
+ </p>
 </td>
 <td class="code">
 <pre><code><span class="keyword">var</span> <span class="variable">queryString</span> = <span class="variable">require</span>(<span class="string">'querystring'</span>);</code></pre>
@@ -1401,10 +1286,7 @@ url, and assigns req.<code>format</code>.</p>
 <td class="docs">
 <p>Valid http methods.</p>
 
-<ul>
-<li><strong>type</strong>: <em>Array</em></li>
-</ul>
-
+<ul><li><p><strong>type</strong>: <em>Array</em></p></li></ul>
 </td>
 <td class="code">
 <pre><code><span class="keyword">var</span> <span class="variable">methods</span> = [<span class="string">'GET'</span>, <span class="string">'POST'</span>, <span class="string">'PUT'</span>, <span class="string">'HEAD'</span>, <span class="string">'DELETE'</span>, <span class="string">'OPTIONS'</span>];</code></pre>
@@ -1413,37 +1295,43 @@ url, and assigns req.<code>format</code>.</p>
 <tr class="code">
 <td class="docs">
 <p>Pass an optional <code>key</code> to use when checking for
-a method override, othewise defaults to <em>_method</em>.</p>
+a method override, othewise defaults to __method_.</p>
 
 <h2></h2>
 
-<ul>
-<li><p><strong>param</strong>: <em>String</em>  key</p></li>
-<li><p><strong>return</strong>: <em>Function</em></p></li>
-<li><p><strong>api</strong>: <em>public</em></p></li>
-</ul>
-
+<ul><li><p><strong>param</strong>: <em>String</em>  key</p></li><li><p><strong>return</strong>: <em>Function</em> </p></li><li><p><strong>api</strong>: <em>public</em></p></li></ul>
 </td>
 <td class="code">
 <pre><code><span class="variable">module</span>.<span class="variable">exports</span> = <span class="keyword">function</span> <span class="variable">methodOverride</span>(<span class="variable">key</span>){
     <span class="variable">key</span> = <span class="variable">key</span> || &<span class="variable">quot</span>;<span class="variable">_method</span>&<span class="variable">quot</span>;;
     <span class="keyword">return</span> <span class="keyword">function</span> <span class="variable">methodOverride</span>(<span class="variable">req</span>, <span class="variable">res</span>, <span class="variable">next</span>) {
+        <span class="keyword">var</span> <span class="variable">method</span> = <span class="variable">req</span>.<span class="variable">method</span>;
+
+        <span class="comment">// Check req.body (bodyDecoder)</span>
         <span class="keyword">if</span> (<span class="keyword">typeof</span> <span class="variable">req</span>.<span class="variable">body</span> === <span class="string">'object'</span> &<span class="variable">amp</span>;&<span class="variable">amp</span>; <span class="variable">key</span> <span class="keyword">in</span> <span class="variable">req</span>.<span class="variable">body</span>) {
-            <span class="keyword">var</span> <span class="variable">method</span> = <span class="variable">req</span>.<span class="variable">body</span>[<span class="variable">key</span>].<span class="variable">toUpperCase</span>();
-            <span class="keyword">if</span> (<span class="variable">methods</span>.<span class="variable">indexOf</span>(<span class="variable">method</span>) &<span class="variable">gt</span>;= <span class="number integer">0</span>) {
-                <span class="variable">req</span>.<span class="variable">method</span> = <span class="variable">method</span>;
-                <span class="keyword">delete</span> <span class="variable">req</span>.<span class="variable">body</span>[<span class="variable">key</span>];
-            }
+            <span class="variable">method</span> = <span class="variable">req</span>.<span class="variable">body</span>[<span class="variable">key</span>];
+            <span class="keyword">delete</span> <span class="variable">req</span>.<span class="variable">body</span>[<span class="variable">key</span>];
+        <span class="comment">// Check X-HTTP-Method-Override</span>
+        } <span class="keyword">else</span> <span class="keyword">if</span> (<span class="variable">req</span>.<span class="variable">headers</span>[<span class="string">'x-http-method-override'</span>]) {
+            <span class="variable">method</span> = <span class="variable">req</span>.<span class="variable">headers</span>[<span class="string">'x-http-method-override'</span>];
         }
+
+        <span class="comment">// Ensure method is valid, and normalize</span>
+        <span class="variable">method</span> = <span class="variable">method</span>.<span class="variable">toUpperCase</span>();
+        <span class="keyword">if</span> (<span class="variable">methods</span>.<span class="variable">indexOf</span>(<span class="variable">method</span>) &<span class="variable">gt</span>;= <span class="number integer">0</span>) {
+            <span class="variable">req</span>.<span class="variable">method</span> = <span class="variable">method</span>;
+        }
+        
         <span class="variable">next</span>();
     };
 };
 
 </code></pre>
 </td>
-</tr><tr class="filename"><td><h2 id="lib/connect/middleware/pubsub.js">pubsub</h2></td><td>lib/connect/middleware/pubsub.js</td></tr><tr class="code">
+</tr><tr class="filename"><td><h2 id="lib/connect/middleware/pubsub.js"><a href="#">pubsub</a></h2></td><td>lib/connect/middleware/pubsub.js</td></tr><tr class="code">
 <td class="docs">
-<p>Module dependencies.</p>
+<p>Module dependencies.
+ </p>
 </td>
 <td class="code">
 <pre><code><span class="keyword">var</span> <span class="variable">sys</span> = <span class="variable">require</span>(<span class="string">'sys'</span>);</code></pre>
@@ -1451,66 +1339,16 @@ a method override, othewise defaults to <em>_method</em>.</p>
 </tr>
 <tr class="code">
 <td class="docs">
-<p>Subscriber cache.</p>
+<p>Subscriber cache.
+ </p>
 </td>
 <td class="code">
 <pre><code><span class="keyword">var</span> <span class="variable">cache</span> = {};</code></pre>
 </td>
-</tr><tr class="filename"><td><h2 id="lib/connect/middleware/redirect.js">redirect</h2></td><td>lib/connect/middleware/redirect.js</td></tr><tr class="code">
+</tr><tr class="filename"><td><h2 id="lib/connect/middleware/repl.js"><a href="#">repl</a></h2></td><td>lib/connect/middleware/repl.js</td></tr><tr class="code">
 <td class="docs">
-<p>Module dependencies.</p>
-</td>
-<td class="code">
-<pre><code><span class="keyword">var</span> <span class="variable">connect</span> = <span class="variable">require</span>(<span class="string">'./../index'</span>),
-    <span class="variable">sys</span> = <span class="variable">require</span>(<span class="string">'sys'</span>);</code></pre>
-</td>
-</tr>
-<tr class="code">
-<td class="docs">
-<p>Provide <code>res.redirect()</code>.</p>
-
-<h2>Examples</h2>
-
-<pre><code>// Absolute
-res.redirect('http://google.com');
-
-// Relative + custom status
-res.redirect('/foo', 301);
-
-// Referr?er
-res.redirect('back');
-</code></pre>
-
-<h2></h2>
-
-<ul>
-<li><p><strong>return</strong>: <em>Function</em></p></li>
-<li><p><strong>api</strong>: <em>public</em></p></li>
-</ul>
-
-</td>
-<td class="code">
-<pre><code><span class="variable">module</span>.<span class="variable">exports</span> = <span class="keyword">function</span> <span class="variable">redirect</span>(){
-    <span class="keyword">return</span> <span class="keyword">function</span> <span class="variable">redirect</span>(<span class="variable">req</span>, <span class="variable">res</span>, <span class="variable">next</span>) {
-        <span class="keyword">var</span> <span class="variable">map</span> = {
-            <span class="variable">back</span>: <span class="variable">req</span>.<span class="variable">headers</span>.<span class="variable">referrer</span> || <span class="variable">req</span>.<span class="variable">headers</span>.<span class="variable">referer</span> || <span class="string">'/'</span>
-        };
-
-        <span class="variable">res</span>.<span class="variable">redirect</span> = <span class="keyword">function</span>(<span class="variable">url</span>, <span class="variable">code</span>){
-            <span class="this">this</span>.<span class="variable">writeHead</span>(<span class="variable">code</span> || <span class="number integer">302</span>, {
-                <span class="string">'Location'</span>: <span class="variable">map</span>[<span class="variable">url</span>] || <span class="variable">url</span>
-            });
-            <span class="this">this</span>.<span class="variable">end</span>();
-        };
-
-        <span class="variable">next</span>();
-    };
-};
-</code></pre>
-</td>
-</tr><tr class="filename"><td><h2 id="lib/connect/middleware/repl.js">repl</h2></td><td>lib/connect/middleware/repl.js</td></tr><tr class="code">
-<td class="docs">
-<p>Module dependencies.</p>
+<p>Module dependencies.
+ </p>
 </td>
 <td class="code">
 <pre><code><span class="keyword">var</span> <span class="variable">net</span> = <span class="variable">require</span>(<span class="string">'net'</span>),
@@ -1523,26 +1361,15 @@ res.redirect('back');
 
 <h2>Options</h2>
 
-<ul>
-<li> <code>sockect</code>     Unix domain socket path. Defaults to &ldquo;/tmp/connect.sock&rdquo;</li>
-<li> <code>prompt</code>      <strong>REPL</strong> prompt string. Defaults to &ldquo;node> &rdquo;</li>
-</ul>
-
+<ul><li><code>sockect</code>     Unix domain socket path. Defaults to "/tmp/connect.sock"</li><li><code>prompt</code>      <strong>REPL</strong> prompt string. Defaults to "node&gt; "</li></ul>
 
 <h2>Example</h2>
 
-<pre><code>$ rlwrap telnet /tmp/connect.sock
-</code></pre>
+<pre><code>$ rlwrap telnet /tmp/connect.sock</code></pre>
 
 <h2></h2>
 
-<ul>
-<li><p><strong>param</strong>: <em>String</em>  prompt</p></li>
-<li><p><strong>param</strong>: <em>String</em>  socket path</p></li>
-<li><p><strong>return</strong>: <em>Function</em></p></li>
-<li><p><strong>api</strong>: <em>public</em></p></li>
-</ul>
-
+<ul><li><p><strong>param</strong>: <em>String</em>  prompt</p></li><li><p><strong>param</strong>: <em>String</em>  socket path</p></li><li><p><strong>return</strong>: <em>Function</em> </p></li><li><p><strong>api</strong>: <em>public</em></p></li></ul>
 </td>
 <td class="code">
 <pre><code><span class="variable">module</span>.<span class="variable">exports</span> = <span class="keyword">function</span> <span class="variable">repl</span>(<span class="variable">prompt</span>, <span class="variable">socket</span>){
@@ -1558,17 +1385,13 @@ res.redirect('back');
 };
 </code></pre>
 </td>
-</tr><tr class="filename"><td><h2 id="lib/connect/middleware/responseTime.js">responseTime</h2></td><td>lib/connect/middleware/responseTime.js</td></tr><tr class="code">
+</tr><tr class="filename"><td><h2 id="lib/connect/middleware/responseTime.js"><a href="#">responseTime</a></h2></td><td>lib/connect/middleware/responseTime.js</td></tr><tr class="code">
 <td class="docs">
 <p>Responds with the <em>X-Response-Time</em> header in milliseconds.</p>
 
 <h2></h2>
 
-<ul>
-<li><p><strong>return</strong>: <em>Function</em></p></li>
-<li><p><strong>api</strong>: <em>public</em></p></li>
-</ul>
-
+<ul><li><p><strong>return</strong>: <em>Function</em> </p></li><li><p><strong>api</strong>: <em>public</em></p></li></ul>
 </td>
 <td class="code">
 <pre><code><span class="variable">module</span>.<span class="variable">exports</span> = <span class="keyword">function</span> <span class="variable">responseTime</span>(){
@@ -1586,9 +1409,10 @@ res.redirect('back');
     };
 };</code></pre>
 </td>
-</tr><tr class="filename"><td><h2 id="lib/connect/middleware/router.js">router</h2></td><td>lib/connect/middleware/router.js</td></tr><tr class="code">
+</tr><tr class="filename"><td><h2 id="lib/connect/middleware/router.js"><a href="#">router</a></h2></td><td>lib/connect/middleware/router.js</td></tr><tr class="code">
 <td class="docs">
-<p>Module dependencies.</p>
+<p>Module dependencies.
+ </p>
 </td>
 <td class="code">
 <pre><code><span class="keyword">var</span> <span class="variable">parse</span> = <span class="variable">require</span>(<span class="string">'url'</span>).<span class="variable">parse</span>;</code></pre>
@@ -1604,17 +1428,11 @@ res.redirect('back');
     app.get('/user/:id', function(req, res, params){
         // populates params.id
     });
-})
-</code></pre>
+})</code></pre>
 
 <h2></h2>
 
-<ul>
-<li><p><strong>param</strong>: <em>Function</em>  fn</p></li>
-<li><p><strong>return</strong>: <em>Function</em></p></li>
-<li><p><strong>api</strong>: <em>public</em></p></li>
-</ul>
-
+<ul><li><p><strong>param</strong>: <em>Function</em>  fn</p></li><li><p><strong>return</strong>: <em>Function</em> </p></li><li><p><strong>api</strong>: <em>public</em></p></li></ul>
 </td>
 <td class="code">
 <pre><code><span class="variable">module</span>.<span class="variable">exports</span> = <span class="keyword">function</span> <span class="variable">router</span>(<span class="variable">fn</span>){
@@ -1646,35 +1464,34 @@ res.redirect('back');
     }
 
     <span class="keyword">return</span> <span class="keyword">function</span> <span class="variable">router</span>(<span class="variable">req</span>, <span class="variable">res</span>, <span class="variable">next</span>){
-        <span class="keyword">var</span> <span class="variable">self</span> = <span class="this">this</span>;
-        <span class="variable">process</span>.<span class="variable">nextTick</span>(<span class="keyword">function</span>(){
-            <span class="keyword">var</span> <span class="variable">route</span>;
-            (<span class="keyword">function</span> <span class="variable">pass</span>(<span class="variable">i</span>){
-                <span class="keyword">if</span> (<span class="variable">route</span> = <span class="variable">match</span>(<span class="variable">req</span>, <span class="variable">routes</span>, <span class="variable">i</span>)) {
-                    <span class="variable">req</span>.<span class="variable">params</span> = <span class="variable">req</span>.<span class="variable">params</span> || {};
-                    <span class="variable">req</span>.<span class="variable">params</span>.<span class="variable">path</span> = <span class="variable">route</span>.<span class="variable">_params</span>;
-                    <span class="keyword">try</span> { 
-                        <span class="variable">route</span>.<span class="variable">call</span>(<span class="variable">self</span>, <span class="variable">req</span>, <span class="variable">res</span>, <span class="variable">route</span>.<span class="variable">_params</span>, <span class="keyword">function</span>(<span class="variable">err</span>){
-                            <span class="keyword">if</span> (<span class="variable">err</span>) {
-                                <span class="variable">next</span>(<span class="variable">err</span>);
-                            } <span class="keyword">else</span> {
-                                <span class="variable">pass</span>(++<span class="variable">route</span>.<span class="variable">_index</span>);
-                            }
-                        });
-                    } <span class="keyword">catch</span> (<span class="variable">err</span>) {
-                        <span class="variable">next</span>(<span class="variable">err</span>);
-                    }
-                } <span class="keyword">else</span> {
-                    <span class="variable">next</span>();
+        <span class="keyword">var</span> <span class="variable">route</span>,
+            <span class="variable">self</span> = <span class="this">this</span>;
+        (<span class="keyword">function</span> <span class="variable">pass</span>(<span class="variable">i</span>){
+            <span class="keyword">if</span> (<span class="variable">route</span> = <span class="variable">match</span>(<span class="variable">req</span>, <span class="variable">routes</span>, <span class="variable">i</span>)) {
+                <span class="variable">req</span>.<span class="variable">params</span> = <span class="variable">req</span>.<span class="variable">params</span> || {};
+                <span class="variable">req</span>.<span class="variable">params</span>.<span class="variable">path</span> = <span class="variable">route</span>.<span class="variable">_params</span>;
+                <span class="keyword">try</span> { 
+                    <span class="variable">route</span>.<span class="variable">call</span>(<span class="variable">self</span>, <span class="variable">req</span>, <span class="variable">res</span>, <span class="variable">route</span>.<span class="variable">_params</span>, <span class="keyword">function</span>(<span class="variable">err</span>){
+                        <span class="keyword">if</span> (<span class="variable">err</span>) {
+                            <span class="variable">next</span>(<span class="variable">err</span>);
+                        } <span class="keyword">else</span> {
+                            <span class="variable">pass</span>(++<span class="variable">route</span>.<span class="variable">_index</span>);
+                        }
+                    });
+                } <span class="keyword">catch</span> (<span class="variable">err</span>) {
+                    <span class="variable">next</span>(<span class="variable">err</span>);
                 }
-            })();
-        });
+            } <span class="keyword">else</span> {
+                <span class="variable">next</span>();
+            }
+        })();
     };
 }</code></pre>
 </td>
-</tr><tr class="filename"><td><h2 id="lib/connect/middleware/session/memory.js">memory</h2></td><td>lib/connect/middleware/session/memory.js</td></tr><tr class="code">
+</tr><tr class="filename"><td><h2 id="lib/connect/middleware/session/memory.js"><a href="#">memory</a></h2></td><td>lib/connect/middleware/session/memory.js</td></tr><tr class="code">
 <td class="docs">
-<p>Module dependencies.</p>
+<p>Module dependencies.
+ </p>
 </td>
 <td class="code">
 <pre><code><span class="keyword">var</span> <span class="variable">sys</span> = <span class="variable">require</span>(<span class="string">'sys'</span>),
@@ -1689,11 +1506,7 @@ res.redirect('back');
 
 <h2></h2>
 
-<ul>
-<li><p><strong>param</strong>: <em>Object</em>  options</p></li>
-<li><p><strong>api</strong>: <em>public</em></p></li>
-</ul>
-
+<ul><li><p><strong>param</strong>: <em>Object</em>  options</p></li><li><p><strong>api</strong>: <em>public</em></p></li></ul>
 </td>
 <td class="code">
 <pre><code><span class="keyword">var</span> <span class="class">MemoryStore</span> = <span class="variable">module</span>.<span class="variable">exports</span> = <span class="keyword">function</span> <span class="class">MemoryStore</span>(<span class="variable">options</span>) {
@@ -1717,37 +1530,11 @@ res.redirect('back');
 </tr>
 <tr class="code">
 <td class="docs">
-<p>Destroy session associated with the given <code>hash</code>.</p>
-
-<h2></h2>
-
-<ul>
-<li><p><strong>param</strong>: <em>String</em>  hash</p></li>
-<li><p><strong>param</strong>: <em>Function</em>  fn</p></li>
-<li><p><strong>api</strong>: <em>public</em></p></li>
-</ul>
-
-</td>
-<td class="code">
-<pre><code><span class="class">MemoryStore</span>.<span class="variable">prototype</span>.<span class="variable">destroy</span> = <span class="keyword">function</span>(<span class="variable">hash</span>, <span class="variable">fn</span>){
-    <span class="keyword">var</span> <span class="variable">destroyed</span> = <span class="variable">hash</span> <span class="keyword">in</span> <span class="this">this</span>.<span class="variable">sessions</span>;
-    <span class="keyword">delete</span> <span class="this">this</span>.<span class="variable">sessions</span>[<span class="variable">hash</span>];
-    <span class="variable">fn</span> &<span class="variable">amp</span>;&<span class="variable">amp</span>; <span class="variable">fn</span>(<span class="keyword">null</span>, <span class="variable">destroyed</span>);
-};</code></pre>
-</td>
-</tr>
-<tr class="code">
-<td class="docs">
 <p>Attempt to fetch session by the given <code>hash</code>.</p>
 
 <h2></h2>
 
-<ul>
-<li><p><strong>param</strong>: <em>String</em>  hash</p></li>
-<li><p><strong>param</strong>: <em>Function</em>  fn</p></li>
-<li><p><strong>api</strong>: <em>public</em></p></li>
-</ul>
-
+<ul><li><p><strong>param</strong>: <em>String</em>  hash</p></li><li><p><strong>param</strong>: <em>Function</em>  fn</p></li><li><p><strong>api</strong>: <em>public</em></p></li></ul>
 </td>
 <td class="code">
 <pre><code><span class="class">MemoryStore</span>.<span class="variable">prototype</span>.<span class="variable">get</span> = <span class="keyword">function</span>(<span class="variable">hash</span>, <span class="variable">fn</span>){
@@ -1765,13 +1552,7 @@ res.redirect('back');
 
 <h2></h2>
 
-<ul>
-<li><p><strong>param</strong>: <em>String</em>  hash</p></li>
-<li><p><strong>param</strong>: <em>Session</em>  sess</p></li>
-<li><p><strong>param</strong>: <em>Function</em>  fn</p></li>
-<li><p><strong>api</strong>: <em>public</em></p></li>
-</ul>
-
+<ul><li><p><strong>param</strong>: <em>String</em>  hash</p></li><li><p><strong>param</strong>: <em>Session</em>  sess</p></li><li><p><strong>param</strong>: <em>Function</em>  fn</p></li><li><p><strong>api</strong>: <em>public</em></p></li></ul>
 </td>
 <td class="code">
 <pre><code><span class="class">MemoryStore</span>.<span class="variable">prototype</span>.<span class="variable">set</span> = <span class="keyword">function</span>(<span class="variable">hash</span>, <span class="variable">sess</span>, <span class="variable">fn</span>){
@@ -1782,15 +1563,45 @@ res.redirect('back');
 </tr>
 <tr class="code">
 <td class="docs">
+<p>Destroy the session associated with the given <code>hash</code>.</p>
+
+<h2></h2>
+
+<ul><li><p><strong>param</strong>: <em>String</em>  hash</p></li><li><p><strong>api</strong>: <em>public</em></p></li></ul>
+</td>
+<td class="code">
+<pre><code><span class="class">MemoryStore</span>.<span class="variable">prototype</span>.<span class="variable">destroy</span> = <span class="keyword">function</span>(<span class="variable">hash</span>, <span class="variable">fn</span>){
+    <span class="keyword">delete</span> <span class="this">this</span>.<span class="variable">sessions</span>[<span class="variable">hash</span>];
+    <span class="variable">fn</span> &<span class="variable">amp</span>;&<span class="variable">amp</span>; <span class="variable">fn</span>();
+};</code></pre>
+</td>
+</tr>
+<tr class="code">
+<td class="docs">
+<p>Invoke the given callback <code>fn</code> with all active sessions.</p>
+
+<h2></h2>
+
+<ul><li><p><strong>param</strong>: <em>Function</em>  fn</p></li><li><p><strong>api</strong>: <em>public</em></p></li></ul>
+</td>
+<td class="code">
+<pre><code><span class="class">MemoryStore</span>.<span class="variable">prototype</span>.<span class="variable">all</span> = <span class="keyword">function</span>(<span class="variable">fn</span>){
+    <span class="keyword">var</span> <span class="variable">arr</span> = [],
+        <span class="variable">keys</span> = <span class="class">Object</span>.<span class="variable">keys</span>(<span class="this">this</span>.<span class="variable">sessions</span>);
+    <span class="keyword">for</span> (<span class="keyword">var</span> <span class="variable">i</span> = <span class="number integer">0</span>, <span class="variable">len</span> = <span class="variable">keys</span>.<span class="variable">length</span>; <span class="variable">i</span> &<span class="variable">lt</span>; <span class="variable">len</span>; ++<span class="variable">i</span>) {
+        <span class="variable">arr</span>.<span class="variable">push</span>(<span class="this">this</span>.<span class="variable">sessions</span>[<span class="variable">keys</span>[<span class="variable">i</span>]]);
+    }
+    <span class="variable">fn</span>(<span class="keyword">null</span>, <span class="variable">arr</span>);
+};</code></pre>
+</td>
+</tr>
+<tr class="code">
+<td class="docs">
 <p>Clear all sessions.</p>
 
 <h2></h2>
 
-<ul>
-<li><p><strong>param</strong>: <em>Function</em>  fn</p></li>
-<li><p><strong>api</strong>: <em>public</em></p></li>
-</ul>
-
+<ul><li><p><strong>param</strong>: <em>Function</em>  fn</p></li><li><p><strong>api</strong>: <em>public</em></p></li></ul>
 </td>
 <td class="code">
 <pre><code><span class="class">MemoryStore</span>.<span class="variable">prototype</span>.<span class="variable">clear</span> = <span class="keyword">function</span>(<span class="variable">fn</span>){
@@ -1805,11 +1616,7 @@ res.redirect('back');
 
 <h2></h2>
 
-<ul>
-<li><p><strong>param</strong>: <em>Function</em>  fn</p></li>
-<li><p><strong>api</strong>: <em>public</em></p></li>
-</ul>
-
+<ul><li><p><strong>param</strong>: <em>Function</em>  fn</p></li><li><p><strong>api</strong>: <em>public</em></p></li></ul>
 </td>
 <td class="code">
 <pre><code><span class="class">MemoryStore</span>.<span class="variable">prototype</span>.<span class="variable">length</span> = <span class="keyword">function</span>(<span class="variable">fn</span>){
@@ -1817,9 +1624,10 @@ res.redirect('back');
 };
 </code></pre>
 </td>
-</tr><tr class="filename"><td><h2 id="lib/connect/middleware/session/session.js">session</h2></td><td>lib/connect/middleware/session/session.js</td></tr><tr class="code">
+</tr><tr class="filename"><td><h2 id="lib/connect/middleware/session/session.js"><a href="#">session</a></h2></td><td>lib/connect/middleware/session/session.js</td></tr><tr class="code">
 <td class="docs">
-<p>Module dependencies.</p>
+<p>Module dependencies.
+ </p>
 </td>
 <td class="code">
 <pre><code><span class="keyword">var</span> <span class="variable">utils</span> = <span class="variable">require</span>(<span class="string">'./../../utils'</span>);</code></pre>
@@ -1829,10 +1637,7 @@ res.redirect('back');
 <td class="docs">
 <p>Update lastAccess timestamp.</p>
 
-<ul>
-<li><strong>api</strong>: <em>public</em></li>
-</ul>
-
+<ul><li><p><strong>api</strong>: <em>public</em></p></li></ul>
 </td>
 <td class="code">
 <pre><code><span class="class">Session</span>.<span class="variable">prototype</span>.<span class="variable">touch</span> = <span class="keyword">function</span>(){
@@ -1846,11 +1651,7 @@ res.redirect('back');
 
 <h2></h2>
 
-<ul>
-<li><p><strong>param</strong>: <em>Function</em>  fn</p></li>
-<li><p><strong>api</strong>: <em>public</em></p></li>
-</ul>
-
+<ul><li><p><strong>param</strong>: <em>Function</em>  fn</p></li><li><p><strong>api</strong>: <em>public</em></p></li></ul>
 </td>
 <td class="code">
 <pre><code><span class="class">Session</span>.<span class="variable">prototype</span>.<span class="variable">destroy</span> = <span class="keyword">function</span>(<span class="variable">fn</span>){
@@ -1861,15 +1662,11 @@ res.redirect('back');
 </tr>
 <tr class="code">
 <td class="docs">
-<p>Regenerate this request&rsquo;s session.</p>
+<p>Regenerate this request's session.</p>
 
 <h2></h2>
 
-<ul>
-<li><p><strong>param</strong>: <em>Function</em>  fn</p></li>
-<li><p><strong>api</strong>: <em>public</em></p></li>
-</ul>
-/em
+<ul><li><p><strong>param</strong>: <em>Function</em>  fn</p></li><li><p><strong>api</strong>: <em>public</em></p></li></ul>
 </td>
 <td class="code">
 <pre><code><span class="class">Session</span>.<span class="variable">prototype</span>.<span class="variable">regenerate</span> = <span class="keyword">function</span>(<span class="variable">fn</span>){
@@ -1878,9 +1675,10 @@ res.redirect('back');
 
 </code></pre>
 </td>
-</tr><tr class="filename"><td><h2 id="lib/connect/middleware/session/store.js">store</h2></td><td>lib/connect/middleware/session/store.js</td></tr><tr class="code">
+</tr><tr class="filename"><td><h2 id="lib/connect/middleware/session/store.js"><a href="#">store</a></h2></td><td>lib/connect/middleware/session/store.js</td></tr><tr class="code">
 <td class="docs">
-<p>Module dependencies.</p>
+<p>Module dependencies.
+ </p>
 </td>
 <td class="code">
 <pre><code><span class="keyword">var</span> <span class="class">Session</span> = <span class="variable">require</span>(<span class="string">'./session'</span>),
@@ -1889,16 +1687,26 @@ res.redirect('back');
 </tr>
 <tr class="code">
 <td class="docs">
-<p>Re-generate the given requests&rsquo;s session.</p>
+<p>Destroy session associated with the given <code>hash</code>
+by passing <code>null</code> to <code>Store#get()</code>.</p>
 
 <h2></h2>
 
-<ul>
-<li><p><strong>param</strong>: <em>IncomingRequest</em>  req</p></li>
-<li><p><strong>return</strong>: <em>Function</em>  fn</p></li>
-<li><p><strong>api</strong>: <em>public</em></p></li>
-</ul>
+<ul><li><p><strong>param</strong>: <em>String</em>  hash</p></li><li><p><strong>param</strong>: <em>Function</em>  fn</p></li><li><p><strong>api</strong>: <em>public</em></p></li></ul>
+</td>
+<td class="code">
+<pre><code><span class="class">Store</span>.<span class="variable">prototype</span>.<span class="variable">destroy</span> = <span class="keyword">function</span>(<span class="variable">hash</span>, <span class="variable">fn</span>){
+    <span class="this">this</span>.<span class="variable">set</span>(<span class="variable">hash</span>, <span class="keyword">null</span>, <span class="variable">fn</span>);
+};</code></pre>
+</td>
+</tr>
+<tr class="code">
+<td class="docs">
+<p>Re-generate the given requests's session.</p>
 
+<h2></h2>
+
+<ul><li><p><strong>param</strong>: <em>IncomingRequest</em>  req</p></li><li><p><strong>return</strong>: <em>Function</em>  fn</p></li><li><p><strong>api</strong>: <em>public</em></p></li></ul>
 </td>
 <td class="code">
 <pre><code><span class="class">Store</span>.<span class="variable">prototype</span>.<span class="variable">regenerate</span> = <span class="keyword">function</span>(<span class="variable">req</span>, <span class="variable">fn</span>){
@@ -1910,12 +1718,13 @@ res.redirect('back');
     });
 };</code></pre>
 </td>
-</tr><tr class="filename"><td><h2 id="lib/connect/middleware/session.js">session</h2></td><td>lib/connect/middleware/session.js</td></tr><tr class="code">
+</tr><tr class="filename"><td><h2 id="lib/connect/middleware/session.js"><a href="#">session</a></h2></td><td>lib/connect/middleware/session.js</td></tr><tr class="code">
 <td class="docs">
-<p>Module dependencies.</p>
+<p>Module dependencies.
+ </p>
 </td>
 <td class="code">
-<pre><code><span class="keyword">var</span> <span class="class">MemoryStore</span> = <span class="variable">require</span>(<span class="string">'./session/memory'</span>).<span class="class">MemoryStore</span>,
+<pre><code><span class="keyword">var</span> <span class="class">MemoryStore</span> = <span class="variable">require</span>(<span class="string">'./session/memory'</span>),
     <span class="class">Session</span> = <span class="variable">require</span>(<span class="string">'./session/session'</span>),
     <span class="variable">utils</span> = <span class="variable">require</span>(<span class="string">'./../utils'</span>);</code></pre>
 </td>
@@ -1926,20 +1735,11 @@ res.redirect('back');
 
 <h2>Options</h2>
 
-<ul>
-<li><code>store</code>         Session store instance</li>
-<li><code>fingerprint</code>   Custom fingerprint hashing function</li>
-</ul>
-
+<ul><li><code>store</code>         Session store instance</li><li><code>fingerprint</code>   Custom fingerprint hashing function</li></ul>
 
 <h2></h2>
 
-<ul>
-<li><p><strong>param</strong>: <em>Object</em>  options</p></li>
-<li><p><strong>return</strong>: <em>Function</em></p></li>
-<li><p><strong>api</strong>: <em>public</em></p></li>
-</ul>
-
+<ul><li><p><strong>param</strong>: <em>Object</em>  options</p></li><li><p><strong>return</strong>: <em>Function</em> </p></li><li><p><strong>api</strong>: <em>public</em></p></li></ul>
 </td>
 <td class="code">
 <pre><code><span class="variable">module</span>.<span class="variable">exports</span> = <span class="keyword">function</span> <span class="variable">session</span>(<span class="variable">options</span>){
@@ -2007,9 +1807,10 @@ res.redirect('back');
     }
 };</code></pre>
 </td>
-</tr><tr class="filename"><td><h2 id="lib/connect/middleware/staticProvider.js">staticProvider</h2></td><td>lib/connect/middleware/staticProvider.js</td></tr><tr class="code">
+</tr><tr class="filename"><td><h2 id="lib/connect/middleware/staticProvider.js"><a href="#">staticProvider</a></h2></td><td>lib/connect/middleware/staticProvider.js</td></tr><tr class="code">
 <td class="docs">
-<p>Module dependencies.</p>
+<p>Module dependencies.
+ </p>
 </td>
 <td class="code">
 <pre><code><span class="keyword">var</span> <span class="variable">fs</span> = <span class="variable">require</span>(<span class="string">'fs'</span>),
@@ -2024,10 +1825,7 @@ res.redirect('back');
 <td class="docs">
 <p>Browser cache lifetime of one hour.</p>
 
-<ul>
-<li><strong>type</strong>: <em>Number</em></li>
-</ul>
-
+<ul><li><p><strong>type</strong>: <em>Number</em></p></li></ul>
 </td>
 <td class="code">
 <pre><code><span class="keyword">var</span> <span class="variable">lifetime</span> = <span class="number integer">1000</span> * <span class="number integer">60</span> * <span class="number integer">60</span>;</code></pre>
@@ -2039,19 +1837,11 @@ res.redirect('back');
 
 <h2>Options</h2>
 
-<ul>
-<li><code>root</code>    Root path from which to serve static files.</li>
-</ul>
-
+<ul><li><code>root</code>    Root path from which to serve static files.</li></ul>
 
 <h2></h2>
 
-<ul>
-<li><p><strong>param</strong>: <em>String</em>  root</p></li>
-<li><p><strong>return</strong>: <em>Function</em></p></li>
-<li><p><strong>api</strong>: <em>public</em></p></li>
-</ul>
-P
+<ul><li><p><strong>param</strong>: <em>String</em>  root</p></li><li><p><strong>return</strong>: <em>Function</em> </p></li><li><p><strong>api</strong>: <em>public</em></p></li></ul>
 </td>
 <td class="code">
 <pre><code><span class="variable">module</span>.<span class="variable">exports</span> = <span class="keyword">function</span> <span class="variable">staticProvider</span>(<span class="variable">root</span>){
@@ -2142,7 +1932,7 @@ P
 
 };</code></pre>
 </td>
-</tr><tr class="filename"><td><h2 id="lib/connect/middleware/vhost.js">vhost</h2></td><td>lib/connect/middleware/vhost.js</td></tr><tr class="code">
+</tr><tr class="filename"><td><h2 id="lib/connect/middleware/vhost.js"><a href="#">vhost</a></h2></td><td>lib/connect/middleware/vhost.js</td></tr><tr class="code">
 <td class="docs">
 <p>Setup vhost for the given <code>hostname</code> and <code>server</code>.</p>
 
@@ -2155,18 +1945,11 @@ P
   connect.vhost('bar.com',
       connect.createServer(...middleware...)
   )
-);
-</code></pre>
+);</code></pre>
 
 <h2></h2>
 
-<ul>
-<li><p><strong>param</strong>: <em>String</em>  hostname</p></li>
-<li><p><strong>param</strong>: <em>Server</em>  server</p></li>
-<li><p><strong>return</strong>: <em>Function</em></p></li>
-<li><p><strong>api</strong>: <em>public</em></p></li>
-</ul>
-
+<ul><li><p><strong>param</strong>: <em>String</em>  hostname</p></li><li><p><strong>param</strong>: <em>Server</em>  server</p></li><li><p><strong>return</strong>: <em>Function</em> </p></li><li><p><strong>api</strong>: <em>public</em></p></li></ul>
 </td>
 <td class="code">
 <pre><code><span class="variable">module</span>.<span class="variable">exports</span> = <span class="keyword">function</span> <span class="variable">vhost</span>(<span class="variable">hostname</span>, <span class="variable">server</span>){
