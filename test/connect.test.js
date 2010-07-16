@@ -16,18 +16,21 @@ module.exports = {
     'test use()': function(){
         var server = helpers.run();
 
-        var ret = server.use('/',
-            function(req, res, next){
-                next();
-            },
+        server.use('/blog', function(req, res){
+            res.writeHead(200, {});
+            res.end('blog');
+        });
+
+        var ret = server.use(
             function(req, res){
                 res.writeHead(200, {});
                 res.end('wahoo');
             }
         );
+
         assert.equal(server, ret, 'Test Server#use() returns server for chaining');
         server.assertResponse('GET', '/', 200, 'wahoo');
-
+        server.assertResponse('GET', '/blog', 200, 'blog');
     },
 
     'test path matching': function(){
