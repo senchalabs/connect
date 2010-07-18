@@ -3,8 +3,8 @@
   "description": "High performance middleware",
   "version": "0.2.1",
   "contributors": [ 
-    { "name": "Tim Caswell", "email": "tim@extjs.com" },
-    { "name": "TJ Holowaychuk", "email": "tj@extjs.com" }
+    { "name": "Tim Caswell", "email": "tim@sencha.com" },
+    { "name": "TJ Holowaychuk", "email": "tj@sencha.com" }
   ],
   "bin": {
     "connect": "./bin/connect"  

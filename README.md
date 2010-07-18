@@ -1,6 +1,6 @@
 # Connect
 
-Connect is a high performance middleware framework built by the combined forces of Tim Caswell ([creationix][]) and TJ Holowaychuk ([visionmedia][]) and the other skilled developers of [ExtJS][]. Connect takes the familiar concepts of Ruby's [Rack](http://rack.rubyforge.org/) and applies it to the asynchronous world of [node](http://nodejs.org).
+Connect is a high performance middleware framework built by the combined forces of Tim Caswell ([creationix][]) and TJ Holowaychuk ([visionmedia][]) and the other skilled developers of [Sencha][]. Connect takes the familiar concepts of Ruby's [Rack](http://rack.rubyforge.org/) and applies it to the asynchronous world of [node](http://nodejs.org).
 
 ExtJS is releasing Connect under the very liberal MIT license in hopes that we can provide some level of leadership and stability for application frameworks to build on.
 
@@ -41,11 +41,11 @@ It's that simple.
 
 Via curl / sh:
 
-    $ curl -# http://github.com/extjs/Connect/raw/master/install.sh | sh
+    $ curl -# http://github.com/senchalabs/connect/raw/master/install.sh | sh
 
 Via git (or downloaded tarball):
 
-    $ git clone git://github.com/extjs/Connect.git && cd Connect && make install
+    $ git clone git://github.com/senchalabs/connect.git && cd Connect && make install
 
 Via [npm](http://github.com/isaacs/npm):
 
@@ -91,7 +91,7 @@ Run a single test, or use a custom glob pattern:
 
 [creationix]: http://github.com/creationix
 [visionmedia]: http://github.com/visionmedia
-[ExtJS]: http://www.extjs.com/
+[Sencha]: http://www.sencha.com/
 [Rack]: http://rack.rubyforge.org/
 [Node.JS]: http://nodejs.org/
 

@@ -24,7 +24,7 @@ module.exports = {
         req.addListener('response', function(res){
             res.addListener('end', function(){
                 var headers = res.headers,
-                    body = '{\n    "name": "tj",\n    "email": "tj@extjs.com"\n}';
+                    body = '{\n    "name": "tj",\n    "email": "tj@sencha.com"\n}';
                 assert.equal(200, res.statusCode, 'Test static with valid file status code');
                 assert.equal(body, res.body, 'Test static with valid file response body');
                 assert.equal('application/json', headers['content-type'], 'Test static with valid file Content-Type');
