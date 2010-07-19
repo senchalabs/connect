@@ -30,13 +30,11 @@ test-cov:
 	@$(MAKE) test TEST_FLAGS="--cov"
 
 install: install-docs
-	cp -f bin/connect $(PREFIX)/bin/connect
 	cp -fr lib/connect $(LIB_PREFIX)/connect
 
 uninstall:
 	rm -f $(PREFIX)/share/man/man1/connect.1
 	rm -f $(PREFIX)/share/man/man1/connect-*.1
-	rm -f $(PREFIX)/bin/connect
 	rm -fr $(LIB_PREFIX)/connect
 
 install-docs:
