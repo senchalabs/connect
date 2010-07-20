@@ -108,6 +108,12 @@ function main(app){
     app.get('/failure', function(req, res, params){
         assert.fail('next(new Error) passed to next matching router callback');
     });
+    app.get('/out/:id?', function(req, res, params, next){
+        next(true);
+    });
+    app.get('/out', function(){
+        assert.fail('Called /out');
+    });
 }
 
 module.exports = {
@@ -116,6 +122,8 @@ module.exports = {
         server.use('/products', connect.router(products));
         server.use('/', connect.router(main));
         server.use('/', connect.errorHandler({ showMessage: true }));
+
+        server.assertResponse('GET', '/out', 404, 'Cannot GET /out');
 
         server.assertResponse('GET', '/items/12', 200, 'item 12');
         server.assertResponse('GET', '/items', 200, 'items');
