@@ -24,32 +24,30 @@ module.exports = {
             connect.session({ store: new MemoryStore({ reapInterval: -1 }) }),
             function(req, res, next){
                 assert.ok(req.sessionStore, 'Test req.sessionStore');
-                assert.ok(req.sessionHash, 'Test req.sessionHash');
+                assert.ok(req.sessionID, 'Test req.sessionID');
                 switch (n++) {
                     case 0:
-                        assert.eql(['id', 'lastAccess'], Object.keys(req.session),
+                        assert.eql(['lastAccess'], 
+                            Object.keys(req.session), 
                             'Test MemoryStore session initialization');
                         break;
                     case 1:
                         req.sessionStore.length(function(err, len){
                             assert.equal(1, len, 'Test MemoryStore#length()');
                         });
-                        assert.eql(['id', 'lastAccess'], Object.keys(req.session),
+                        assert.eql(['lastAccess'], 
+                            Object.keys(req.session),
                             'Test MemoryStore session initialization with invalid sid');
-                        assert.notEqual('123123', req.session.id, 'Test MemoryStore sid regeneration');
-                        break;
-                    case 2:
-                        lastAccess = req.session.lastAccess;
+                        assert.notEqual('123123', req.sessionID, 'Test MemoryStore sid regeneration');
                         break;
                     case 3:
-                        assert.equal(sid, req.session.id, 'Test MemoryStore persistence');
-                        assert.notEqual(lastAccess, req.session.lastAccess, 'Test MemoryStore lastAccess update');
+                        assert.equal(sid, req.sessionID, 'Test MemoryStore persistence');
                         break;
                     case 4:
-                        assert.notEqual(sid, req.session.id, 'Test MemoryStore User-Agent fingerprint');
+                        assert.notEqual(sid, req.sessionID, 'Test MemoryStore User-Agent fingerprint');
                         break;
                     case 5:
-                        req.sessionStore.destroy(req.sessionHash, function(err){
+                        req.sessionStore.destroy(req.sessionID, function(err){
                             assert.ok(!err, 'Test MemoryStore#destroy() when present');
                         });
                         break;
@@ -59,29 +57,29 @@ module.exports = {
                             assert.ok(!destroyed, 'Test MemoryStore#destroy()');
                         });
                         var sess = new Session(req, '12323');
-                        assert.eql(['id', 'lastAccess'], Object.keys(sess), 'Test new Session(req, sid)');
+                        assert.eql(['lastAccess'], Object.keys(sess), 'Test new Session(req, sid)');
                         assert.equal(req, sess.req, 'Test Session#req');
                         
-                        var sess = new Session(req, { id: '12323', name: 'tj', lastAccess: +new Date });
-                        assert.eql(['id', 'name', 'lastAccess'], Object.keys(sess));
+                        var sess = new Session(req, { name: 'tj', lastAccess: +new Date });
+                        assert.eql(['name', 'lastAccess'], Object.keys(sess));
                         assert.equal(req, sess.req, 'Test Session#req');
                         break;
                     case 7:
-                        req.sessionStore.get(req.sessionHash, function(err, sess){
+                        req.sessionStore.get(req.sessionID, function(err, sess){
                             assert.ok(sess, 'Test MemoryStore#get() when present');
                             req.session.destroy(function(err){
                                 assert.ok(!err);
-                                req.sessionStore.get(req.sessionHash, function(err, sess){
+                                req.sessionStore.get(req.sessionID, function(err, sess){
                                     assert.ok(!sess, 'Test MemoryStore#get() when not present');
                                 });
                             });
                         });
                         break;
                     case 8:
-                        var prev = req.session;
+                        var prev = req.sessionID;
                         req.session.regenerate(function(err){
                             assert.ok(!err);
-                            assert.notEqual(prev.id, req.session.id, 'Test Session#regenerate()');
+                            assert.notEqual(prev, req.sessionID, 'Test Session#regenerate()');
                         });
                         break;
                     case 9:
@@ -112,15 +110,13 @@ module.exports = {
             assert.ok(setCookie.indexOf('connect.sid=') === 0, 'Test MemoryStore Set-Cookie connect.sid');
             assert.ok(setCookie.indexOf('httpOnly') !== -1, 'Test MemoryStore Set-Cookie httpOnly');
             assert.ok(setCookie.indexOf('expires=') !== -1, 'Test MemoryStore Set-Cookie expires');
-            setTimeout(function(){
-                server.request('GET', '/', { 'Cookie': 'connect.sid=' + sid, 'User-Agent': 'foo' }).end();
-                server.request('GET', '/', { 'Cookie': 'connect.sid=' + sid, 'User-Agent': 'bar' }).end();
-                server.request('GET', '/', { 'Cookie': 'connect.sid=' + sid, 'User-Agent': 'foo' }).end();
-                server.request('GET', '/', { 'Cookie': 'connect.sid=' + sid, 'User-Agent': 'foo' }).end();
-                server.request('GET', '/', { 'Cookie': 'connect.sid=' + sid, 'User-Agent': 'foo' }).end();
-                server.request('GET', '/', { 'Cookie': 'connect.sid=' + sid, 'User-Agent': 'foo' }).end();
-                server.request('GET', '/', { 'Cookie': 'connect.sid=' + sid, 'User-Agent': 'foo' }).end();
-            }, 30);
+            server.request('GET', '/', { 'Cookie': 'connect.sid=' + sid, 'User-Agent': 'foo' }).end();
+            server.request('GET', '/', { 'Cookie': 'connect.sid=' + sid, 'User-Agent': 'bar' }).end();
+            server.request('GET', '/', { 'Cookie': 'connect.sid=' + sid, 'User-Agent': 'foo' }).end();
+            server.request('GET', '/', { 'Cookie': 'connect.sid=' + sid, 'User-Agent': 'foo' }).end();
+            server.request('GET', '/', { 'Cookie': 'connect.sid=' + sid, 'User-Agent': 'foo' }).end();
+            server.request('GET', '/', { 'Cookie': 'connect.sid=' + sid, 'User-Agent': 'foo' }).end();
+            server.request('GET', '/', { 'Cookie': 'connect.sid=' + sid, 'User-Agent': 'foo' }).end();
         });
         req.end();
     }
