@@ -11,13 +11,13 @@ var sys = require('sys'),
 var minute = 60000;
 
 // Setup memory store
-var memory = new MemoryStore({ reapInterval: minute, maxAge: minute * 2 });
+var memory = new MemoryStore({ reapInterval: minute, maxAge: minute * 5 });
 
 var server = connect.createServer(
     connect.logger({ format: ':method :url' }),
     connect.bodyDecoder(),
     connect.cookieDecoder(),
-    connect.session({ store: memory }),
+    connect.session({ store: memory, secret: 'foobar' }),
     connect.router(app),
     connect.errorHandler({ dumpExceptions: true, showStack: true })
 );
