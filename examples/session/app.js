@@ -5,20 +5,22 @@
 
 var sys = require('sys'),
     MemoryStore = require('./../../lib/connect/middleware/session/memory'),
-    Connect = require('./../../lib/connect');
+    connect = require('./../../lib/connect');
 
 // One minute
 var minute = 60000;
 
 
-var Server = module.exports = Connect.createServer(
-    Connect.logger({ format: ':method :url' }),
-    Connect.bodyDecoder(),
-    Connect.cookieDecoder(),
-    Connect.session({ store: new MemoryStore({ reapInterval: minute, maxAge: minute * 5 }) }),
-    Connect.router(app),
-    Connect.errorHandler({ dumpExceptions: true, showStack: true })
+var server = connect.createServer(
+    connect.logger({ format: ':method :url' }),
+    connect.bodyDecoder(),
+    connect.cookieDecoder(),
+    connect.session({ store: new MemoryStore({ reapInterval: minute, maxAge: minute * 5 }) }),
+    connect.router(app),
+    connect.errorHandler({ dumpExceptions: true, showStack: true })
 );
+
+server.listen(3000);
 
 function app(app) {
     app.get('/', function(req, res){
