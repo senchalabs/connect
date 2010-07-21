@@ -3,11 +3,13 @@
  * Module dependencies.
  */
 
-var Connect = require('./../../lib/connect');
+var connect = require('./../../lib/connect');
 
-module.exports = Connect.createServer(
+var server = connect.createServer(
     function(req, res, next){
         throw new Error('oh noes!');
     },
-    Connect.errorHandler({ showStack: true })
+    connect.errorHandler({ showStack: true, dumpExceptions: true })
 );
+
+server.listen(3000);
