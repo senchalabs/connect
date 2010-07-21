@@ -4,7 +4,7 @@
  */
 
 var sys = require('sys'),
-    Connect = require('./../../lib/connect');
+    connect = require('../../lib/connect');
 
 /**
  * Faux data.
@@ -38,7 +38,7 @@ function respond(req, res, next){
     res.end(body);
 }
 
-module.exports = Connect.createServer(
+connect.createServer(
     format,
     respond
-);
+).listen(3000);
