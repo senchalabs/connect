@@ -3,9 +3,9 @@
  * Module dependencies.
  */
 
-var Connect = require('./../../lib/connect');
+var connect = require('../../lib/connect');
 
-var Server = module.exports = Connect.createServer(
+var server = connect.createServer(
     // No named params
     function params(){
         arguments[2]();
@@ -37,4 +37,5 @@ var Server = module.exports = Connect.createServer(
     }
 );
 
-Server.use('/', Connect.lint(Server));
+server.use('/', connect.lint(server));
+server.listen(3000);
