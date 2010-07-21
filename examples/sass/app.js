@@ -3,19 +3,18 @@
  * Module dependencies.
  */
 
-var Connect = require('./../../lib/connect');
+var connect = require('../../lib/connect');
 
 var pub = __dirname + '/public';
 
 /**
  * Update development submodules (git submodule update --init),
- * and then execute:
- *
- *    $ ./bin/connect -I support/sass/lib examples/sass/app
- *
+ * or comment out the following line if you have "sass" installed.
  */
 
-module.exports = Connect.createServer(
-    Connect.compiler({ src: pub, enable: ['sass'] }),
-    Connect.staticProvider(pub)
-);
+require.paths.unshift('../../support/sass/lib');
+
+connect.createServer(
+    connect.compiler({ src: pub, enable: ['sass'] }),
+    connect.staticProvider(pub)
+).listen(3000);
