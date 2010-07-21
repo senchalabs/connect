@@ -3,13 +3,14 @@
  * Module dependencies.
  */
 
-var Connect = require('./../../lib/connect');
+var connect = require('./../../lib/connect');
 
-var Server = module.exports = Connect.createServer();
+var server = connect.createServer();
 
-Server.use('/', require('./hello'));
-Server.use('/my', require('./world'));
-Server.use('/', function(req, res){
+server.use('/', require('./hello'));
+server.use('/my', require('./world'));
+server.use('/', function(req, res){
     res.writeHead(200, { 'Content-Type': 'text/plain' });
     res.end('GET /hello or /my/world');
 });
+server.listen(3000);
