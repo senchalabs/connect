@@ -1,7 +1,7 @@
 .\" generated with Ronn/v0.6.6
 .\" http://github.com/rtomayko/ronn/
 .
-.TH "JSONRPC" "" "June 2010" "" ""
+.TH "JSONRPC" "" "July 2010" "" ""
 .
 .SH "JSON\-RPC"
 The \fIjsonrpc\fR middleware provides JSON\-RPC 2\.0 support\. Below is an example exposing the \fIadd\fR and \fIsub\fR methods:
@@ -33,8 +33,8 @@ var date = {
     }
 };
 
-module\.exports = Connect\.createServer(
-    Connect\.jsonrpc(math, date)
+connect\.createServer(
+    connect\.jsonrpc(math, date)
 );
 .
 .fi

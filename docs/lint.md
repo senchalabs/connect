@@ -10,7 +10,7 @@ The _lint_ middleware aids in middleware development, by performing basic cheque
 
 ### Example
 
-    var Server = module.exports = connect.createServer(
+    var server = connect.createServer(
 	    // No named params
 	    function params(){
 	        arguments[2]();
@@ -42,7 +42,7 @@ The _lint_ middleware aids in middleware development, by performing basic cheque
 	    }
 	);
 
-	Server.use('/', connect.lint(Server));
+	server.use('/', connect.lint(server));
 
 ### Sample Output
 

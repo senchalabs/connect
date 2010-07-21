@@ -1,7 +1,7 @@
 .\" generated with Ronn/v0.6.6
 .\" http://github.com/rtomayko/ronn/
 .
-.TH "LINT" "" "June 2010" "" ""
+.TH "LINT" "" "July 2010" "" ""
 .
 .SH "Lint"
 The \fIlint\fR middleware aids in middleware development, by performing basic cheques at boot, and during requests\. This process currently checks that the:
@@ -27,7 +27,7 @@ source of \fBhandle()\fR to see if \fBnext()\fR is called, or if the request is 
 .
 .nf
 
-var Server = module\.exports = connect\.createServer(
+var server = connect\.createServer(
     // No named params
     function params(){
         arguments[2]();
@@ -59,7 +59,7 @@ var Server = module\.exports = connect\.createServer(
     }
 );
 
-Server\.use(\'/\', connect\.lint(Server));
+server\.use(\'/\', connect\.lint(server));
 .
 .fi
 .

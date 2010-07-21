@@ -126,14 +126,12 @@
 			<li><a href="api.html">extended api docs</a></li>
 			<li class="title">Middleware</li>
 			<li><a href="lint.html">lint</a></li>
-			<li><a href="flash.html">flash</a></li>
 			<li><a href="logger.html">logger</a></li>
 			<li><a href="format.html">format</a></li>
 			<li><a href="router.html">router</a></li>
 			<li><a href="jsonrpc.html">jsonrpc</a></li>
 			<li><a href="session.html">session</a></li>
 			<li><a href="compiler.html">compiler</a></li>
-			<li><a href="redirect.html">redirect</a></li>
 			<li><a href="errorHandler.html">errorHandler</a></li>
 			<li><a href="bodyDecoder.html">bodyDecoder</a></li>
 			<li><a href="responseTime.html">responseTime</a></li>
@@ -170,7 +168,7 @@ fingerprint  Function passed the request which computes a fingerprint of the use
 #set(hash, data, callback)   Commit the session for the fingerprint and callback(err)
 </code></pre>
 
-<p>Your store may also want to comply with the default MemoryStore, by providing:</p>
+<p>Your store may also want to comply with the default <code>MemoryStore</code>, by providing:</p>
 
 <pre><code>#clear(callback)            Clear all sessions and callback(err)
 #all(callback)              Fetches all active sessions and callback(err, sessions)

@@ -25,8 +25,8 @@ The _jsonrpc_ middleware provides JSON-RPC 2.0 support. Below is an example expo
 	    }
 	};
 
-	module.exports = Connect.createServer(
-	    Connect.jsonrpc(math, date)
+	connect.createServer(
+	    connect.jsonrpc(math, date)
 	);
 
 The value of _this_ becomes the async callback function. When you wish to pass an exception simply invoke `this(err)`, or pass the error code `this(jsonrpc.INVALID_PARAMS)`. Other `this(null, result)` will respond with the given results.

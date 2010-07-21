@@ -23,7 +23,7 @@ Abstract store which can be subclassed. To comply with `Store` you should define
     #get(hash, callback)         Fetch session data via the session fingerprint and callback(err, data)
     #set(hash, data, callback)   Commit the session for the fingerprint and callback(err)
 
-Your store may also want to comply with the default MemoryStore, by providing:
+Your store may also want to comply with the default `MemoryStore`, by providing:
 
     #clear(callback)            Clear all sessions and callback(err)
     #all(callback)              Fetches all active sessions and callback(err, sessions)

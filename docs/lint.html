@@ -126,14 +126,12 @@
 			<li><a href="api.html">extended api docs</a></li>
 			<li class="title">Middleware</li>
 			<li><a href="lint.html">lint</a></li>
-			<li><a href="flash.html">flash</a></li>
 			<li><a href="logger.html">logger</a></li>
 			<li><a href="format.html">format</a></li>
 			<li><a href="router.html">router</a></li>
 			<li><a href="jsonrpc.html">jsonrpc</a></li>
 			<li><a href="session.html">session</a></li>
 			<li><a href="compiler.html">compiler</a></li>
-			<li><a href="redirect.html">redirect</a></li>
 			<li><a href="errorHandler.html">errorHandler</a></li>
 			<li><a href="bodyDecoder.html">bodyDecoder</a></li>
 			<li><a href="responseTime.html">responseTime</a></li>
@@ -157,7 +155,7 @@
 
 <h3 id="Example">Example</h3>
 
-<pre><code class="js"><span class="keyword">var</span> <span class="class">Server</span> = <span class="variable">module</span>.<span class="variable">exports</span> = <span class="variable">connect</span>.<span class="variable">createServer</span>(
+<pre><code class="js"><span class="keyword">var</span> <span class="variable">server</span> = <span class="variable">connect</span>.<span class="variable">createServer</span>(
     <span class="comment">// No named params</span>
     <span class="keyword">function</span> <span class="variable">params</span>(){
         <span class="variable">arguments</span>[<span class="number integer">2</span>]();
@@ -189,7 +187,7 @@
     }
 );
 
-<span class="class">Server</span>.<span class="variable">use</span>(<span class="string">'/'</span>, <span class="variable">connect</span>.<span class="variable">lint</span>(<span class="class">Server</span>));
+<span class="variable">server</span>.<span class="variable">use</span>(<span class="string">'/'</span>, <span class="variable">connect</span>.<span class="variable">lint</span>(<span class="variable">server</span>));
 </code></pre>
 
 <h3 id="Sample-Output">Sample Output</h3>
