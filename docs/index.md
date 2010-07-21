@@ -1,61 +1,9 @@
-connect(1) -- node server runner
-========================================
+connect(1) -- high performance middleware framework for node
+============================================================
 
-## Synopsis
-
-    connect [-H|--host ADDR] [-p|--port NUM]
-            [-n|--workers NUM] [-I|--include PATH]
-            [-E|--env ENV] [-e|--eval CODE] [-C|--chdir PATH]
-            [-c|--config PATH] [-P|--pidfile PATH]
-            [-l|--logfile PATH] [-u|--user ID|USER] [-g|--group ID|GROUP]
-            [-v|--verbose] [-V|--version] [-K|--no-color]
-            [-h|--help] [--ENV VAL]
-            start|stop|restart|status [PATH]
-
-## Description
-
-Connect is a dual purpose library, aiding in both rapid development, and deployment of node servers. Connect "middleware" can be stacked to create a robust application within minutes. The _connect_ executable supports launching of both regular `net.Server`, and `connect.Server` instances.
- 
-The connect executable supplies _init.d_ friendly _start_, _stop_, and _restart_ commands, and accept a direct path to the module meant to be run, otherwise defaults to trying both _app.js_ and _server.js_ in the current working directory.
-
-Also to check the status of a process you may use the _status_ command, which
-checks if the process is running.
-
-## Executable Options
-
-    -H, --host ADDR       Host address, defaults to INADDR_ANY
-    -p, --port NUM        Port number, defaults to 3000
-    -n, --workers NUM     Number of worker processes to spawn
-    -I, --include PATH    Unshift the given path to require.paths
-    -E, --env ENV         Set environment, defaults to "development"
-    -e, --eval CODE       Evaluate the given string
-    -C, --chdir PATH      Change to the given path
-    -c, --config PATH     Load configuration module
-    -P, --pidfile PATH    PID file, defaults to pids/connect.pid
-    -l, --logfile PATH    Log file, defaults to logs/connect.log
-    -u, --user ID|USER    Change user with setuid()
-    -g, --group ID|GROUP  Change group with setgid()
-    -v, --verbose         Display verbose output
-    -V, --version         Output connect version
-    -K, --no-color        Suppress colored terminal output
-    -h, --help            Display help information
-    --ENV VAL             Sets the given connect environment variable
-
-## Supported Environment Variables
-
-Currently the following environment variables may be set
-via the `--ENV VAL` catchall. For example we can alter the log
-format used via the command line with `connect --logFormat ":method :uri".
-
-Boolean values may use strings such as _yes_, _no_, _true_, _false_.
-
-    --logFormat STR           Custom log format
-    --dumpExceptions BOOL     Dump exceptions to stderr
-    --showErrorMessage BOOL   Show exception message in response (recommended for development only)
-    --showErrorStack BOOL     Show exception stack trace (recommended for development only)
-    --methodOverrideKey STR   Override the default method key of "_method"
-    --compilerSrc PATH        Compiler source root directory
-    --compilerDest PATH       Compiler destination directory
+Connect is a high performance middleware framework for [node](http://nodejs.org) featuring
+robust middleware for serving static files, advanced routing, cookie and session implementations,
+error handling and much more.
 
 ## Middleware Usage
 
@@ -63,17 +11,12 @@ Below is an example which shows usage of the _logger_ middleware bundled with Co
 
     var connect = require('connect');
 
-    module.exports = connect.createServer(
+    var server = connect.createServer(
 		connect.logger(),
 		connect.staticProvider(__dirname + '/public')
     );
 
-As shown above the module exports a `connect.Server` and does not call the `listen()` method directly. This allows other modules to "mount" this app, as well as allowing the _connect_ executable to control how the server is run.
- 
-If you prefer not to use _connect_, you can simply create a script executable by _node_, `require()` the app, then invoke `listen()`.
-
-    #!/usr/bin/env node
-    require('./app').listen();
+    server.listen(3000);
 
 ## Middleware Authoring
 
@@ -138,7 +81,6 @@ the following are currently provided out of the box:
     bodyDecoder      Buffers and parses json and urlencoded request bodies (extenable)
     conditionalGet   Provides 304 "Not Modified" support
     errorHandler     Handles exceptions thrown, or passed through the stack
-    debug            Outputs debugging console to all html responses
     format           Handles url path extensions or "formats"
     gzip             Compresses response bodies with gzip executable
     lint             Aids in middleware development
@@ -155,8 +97,6 @@ the following are currently provided out of the box:
     session          Provides session support
     cache            Provides memory caching
     pubsub           Publish subscribe messaging support
-    jsonrpc          JSON-RPC 2.0 support
-    format           Populates req.format for urls such as "/products.json"
     repl             Read Evaluate Print Loop attached to "/tmp/connect.sock" for inspecting live servers 
     vhost            Virtual host support
 
