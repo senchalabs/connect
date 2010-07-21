@@ -3,19 +3,20 @@
  * Module dependencies.
  */
 
-var Connect = require('./../../lib/connect');
+var connect = require('../../lib/connect');
 
 var pub = __dirname + '/public';
 
 /**
- * Update development submodules (git submodule update --init),
- * and then execute:
- *
- *    $ ./bin/connect -I support/less/lib examples/less/app
- *
+ * Update development submodules (git submodule update --init) or
+ * comment out the next line if you have "less" installed.
  */
 
-module.exports = Connect.createServer(
-    Connect.compiler({ src: pub, enable: ['less'] }),
-    Connect.staticProvider(pub)
+require.paths.unshift('../../support/less/lib/less');
+
+var server = connect.createServer(
+    connect.compiler({ src: pub, enable: ['less'] }),
+    connect.staticProvider(pub)
 );
+
+server.listen(3000);

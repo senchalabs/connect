@@ -3,7 +3,7 @@
  * Module dependencies.
  */
 
-var connect = require('./../../lib/connect');
+var connect = require('../../lib/connect');
 
 var server = connect.createServer(
     function(req, res, next){
