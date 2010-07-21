@@ -3,7 +3,7 @@
 // it on is in the network section of the cache manifest (second argument)
 // or the long-poll may not work.
 
-var Connect = require('../../lib/connect');
+var connect = require('../../lib/connect');
 var root = __dirname + "/public";
 
 var subscribers = [];
@@ -37,25 +37,27 @@ var Backend = {
 };
 
 // Create a server with no initial setup
-var Server = module.exports = Connect.createServer();
+var server = connect.createServer();
 
 // Add global filters
-Server.use("/",
-    Connect.responseTime(),
-    Connect.logger()
+server.use("/",
+    connect.responseTime(),
+    connect.logger()
 );
 
 // Serve dynamic responses
-Server.use("/stream",
-    Connect.bodyDecoder(),
-    Connect.pubsub(Backend)
+server.use("/stream",
+    connect.bodyDecoder(),
+    connect.pubsub(Backend)
 );
 
 // Serve static resources
-Server.use("/",
-    Connect.cacheManifest(root, ["http://localhost:3000/", "http://192.168.1.160:3000/"]),
-    Connect.conditionalGet(),
-    Connect.cache(),
-    Connect.gzip(),
-    Connect.staticProvider(root)
+server.use("/",
+    connect.cacheManifest(root, ["http://localhost:3000/", "http://192.168.1.160:3000/"]),
+    connect.conditionalGet(),
+    connect.cache(),
+    connect.gzip(),
+    connect.staticProvider(root)
 );
+
+server.listen(3000);
