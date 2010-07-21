@@ -3,8 +3,10 @@
  * Module dependencies.
  */
 
-var Connect = require('./../../lib/connect');
+var connect = require('./../../lib/connect');
 
-module.exports = Connect.createServer(
-    Connect.staticProvider(__dirname + '/public')
-);
+// Visit /style.css
+
+connect.createServer(
+    connect.staticProvider(__dirname + '/public')
+).listen(3000);
