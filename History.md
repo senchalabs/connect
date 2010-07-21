@@ -17,6 +17,7 @@
   * Fixed a require in _session_ for default `MemoryStore`
   * Fixed nasty request body bug in _router_. Closes #54
   * Fixed _less_ support in _compiler_
+  * Fixed bug preventing proper bubbling of exceptions in mounted servers
 
 0.2.1 / 2010-07-09
 ==================
