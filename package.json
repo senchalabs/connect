@@ -9,10 +9,5 @@
   "directories": {
     "lib": "./lib/connect"
   },
-  "scripts": {
-    "activate": "make install-docs",
-    "test": "make test",
-    "deactivate": "make uninstall"
-  },
   "engines": { "node": ">= 0.1.98" }
 }
