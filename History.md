@@ -2,6 +2,7 @@
 1.0.0 / 2010-07-21
 ==================
 
+  * Added; mounted `Server` instances now have the `route` property exposed for reflection
   * Added support for callback as first arg to `Server#use()`
   * Added support for `next(true)` in _router_ to bypass match attempts
   * Added `Server#listen()` _host_ support
