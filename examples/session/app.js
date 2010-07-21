@@ -23,6 +23,7 @@ var server = connect.createServer(
 );
 
 server.listen(3000);
+console.log('Connect server listening on port 3000');
 
 function app(app) {
     app.get('/', function(req, res){

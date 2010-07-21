@@ -13,4 +13,6 @@ server.use('/', function(req, res){
     res.writeHead(200, { 'Content-Type': 'text/plain' });
     res.end('GET /hello or /my/world');
 });
+
 server.listen(3000);
+console.log('Connect server listening on port 3000');

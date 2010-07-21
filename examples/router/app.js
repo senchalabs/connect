@@ -64,3 +64,4 @@ var server = connect.createServer(
 server.use("/users/", connect.router(user));
 server.use(connect.router(main));
 server.listen(3000);
+console.log('Connect server listening on port 3000');

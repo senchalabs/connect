@@ -23,3 +23,4 @@ connect.createServer(
     // http://dev:3000 server with own middleware
     dev
 ).listen(3000);
+console.log('Connect server listening on port 3000');

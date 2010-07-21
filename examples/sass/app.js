@@ -18,3 +18,4 @@ connect.createServer(
     connect.compiler({ src: pub, enable: ['sass'] }),
     connect.staticProvider(pub)
 ).listen(3000);
+console.log('Connect server listening on port 3000');

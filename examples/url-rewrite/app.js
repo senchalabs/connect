@@ -42,3 +42,4 @@ connect.createServer(
     format,
     respond
 ).listen(3000);
+console.log('Connect server listening on port 3000');
