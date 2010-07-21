@@ -55,9 +55,12 @@ function main(app){
     });
 }
 
-var Connect = require('./../../lib/connect');
-var Server = module.exports = Connect.createServer(
-    Connect.logger()
+var connect = require('./../../lib/connect');
+
+var server = connect.createServer(
+    connect.logger()
 );
-Server.use("/users/", Connect.router(user));
-Server.use("/", Connect.router(main));
+
+server.use("/users/", connect.router(user));
+server.use(connect.router(main));
+server.listen(3000);
