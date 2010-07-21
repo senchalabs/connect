@@ -1,4 +1,22 @@
-Just moved to senchalabs.
+
+1.0.0 / 2010-07-21
+==================
+
+  * Added support for callback as first arg to `Server#use()`
+  * Added support for `next(true)` in _router_ to bypass match attempts
+  * Added `Server#listen()` _host_ support
+  * Added _methodOverride_ X-HTTP-Method-Override support
+  * Refactored session internals, adds _secret_ option
+  * Removed connect(1), it is now [spark(1)](http://github.com/senchalabs/spark)
+  * Removed connect(1) dependency on examples, they can all now run with node(1)
+  * Remove a typo that was leaking a global.
+  * Removed a few utils not used
+  * Removed _flash_ middleware
+  * Removed _redirect_ middleware
+  * Changed; _compiler_ no longer 404s
+  * Fixed a require in _session_ for default `MemoryStore`
+  * Fixed nasty request body bug in _router_. Closes #54
+  * Fixed _less_ support in _compiler_
 
 0.2.1 / 2010-07-09
 ==================
