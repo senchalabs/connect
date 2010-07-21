@@ -8,30 +8,27 @@ ExtJS is releasing Connect under the very liberal MIT license in hopes that we c
 
   * High performance api, with nearly no overhead.
   * Several bundled middleware implementations such as _log_, _static_, and _json-rpc_.
-  * The _connect_ executable for daemonizing node, and Connect servers.
 
 ## Hello World
 
 The simplest connect app looks just like `http.Server` instances from node.  In fact `Connect.Server` inherits from `http.Server`.
 
     var Connect = require('connect');
-    module.exports = Connect.createServer(function(req, res) {
-      res.writeHead(200, { 'Content-Type': 'text/plain' });
-      res.end('Hello World');
-    });
 
-Then to run it, save that snippet as `app.js` and either use the `connect` executable in the bin dir or create a simple runner file `server.js`.
-
-    #!/usr/bin/env node
-    require('./app').listen(8080);
-
-Then if you want to add in a pre-built feature like logging just add it to the createServer call.
-
-    module.exports = Connect.createServer(
-      Connect.logger(),
-      function(req, res) {
+    var server = Connect.createServer(function(req, res) {
         res.writeHead(200, { 'Content-Type': 'text/plain' });
         res.end('Hello World');
+    });
+
+    server.listen(3000);
+
+Then if you want to add in a pre-built feature like logging just add it to the `createServer()` call.
+
+    var server = Connect.createServer(
+      Connect.logger(),
+      function(req, res) {
+          res.writeHead(200, { 'Content-Type': 'text/plain' });
+          res.end('Hello World');
       }
     );
 
@@ -45,7 +42,7 @@ Via curl / sh:
 
 Via git (or downloaded tarball):
 
-    $ git clone git://github.com/senchalabs/connect.git && cd Connect && make install
+    $ git clone git://github.com/senchalabs/connect.git && cd connect && make install
 
 Via [npm](http://github.com/isaacs/npm):
 
@@ -59,19 +56,13 @@ View the man page:
 
 View the HTML document:
 
-    $ open docs/api.html
+    $ open docs/index.html
 
 View the online HTML documentation:
 
-	$ open http://extjs.github.com/Connect
+	$ open http://senchalabs.github.com/connect
 
 View one of several examples located within _./examples_.
-
-## Running Benchmarks
-
-To run the benchmarks you must have ApacheBench, and gnuplot installed, then:
-
-    $ make benchmark && make graphs && open results/graphs/*.png
 
 ## Testing
 
