@@ -3,23 +3,23 @@
  * Module dependencies.
  */
 
-var Connect = require('./../../lib/connect');
+var connect = require('./../../lib/connect');
 
-var localhost = Connect.vhost('localhost', Connect.createServer(function(req, res){
+var localhost = connect.vhost('localhost', connect.createServer(function(req, res){
     res.writeHead(200, {});
     res.end('local vhost');
 }));
 
-var dev = Connect.vhost('dev', Connect.createServer(function(req, res){
+var dev = connect.vhost('dev', connect.createServer(function(req, res){
     res.writeHead(200, {});
     res.end('dev vhost');
 }));
 
-module.exports = Connect.createServer(
+connect.createServer(
     // Shared middleware
-    Connect.logger(),
+    connect.logger(),
     // http://localhost:3000 server with own middleware
     localhost,
     // http://dev:3000 server with own middleware
     dev
-);
+).listen(3000);
