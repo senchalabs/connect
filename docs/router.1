@@ -1,7 +1,7 @@
 .\" generated with Ronn/v0.6.6
 .\" http://github.com/rtomayko/ronn/
 .
-.TH "ROUTER" "" "June 2010" "" ""
+.TH "ROUTER" "" "July 2010" "" ""
 .
 .SH "Rest"
 The \fIrouter\fR middleware provides a routing API similar to that of Sinatra and Express\.
@@ -37,7 +37,7 @@ function user(app) {
 
     app\.del(\'/user/:id/file/*\', function(req, res, params){
         // populates params\.id
-        // populates params\.splat[0]
+        // populates params[0]
         // ex:
         //   PUT /user/4/file/javascripts/jquery\.js
         //   PUT /user/4/file/stylecss
@@ -47,8 +47,8 @@ function user(app) {
 function commits(app) {
     // RegExps too!
     app\.get(/\\/commit\\/(\\w+)\\\.\\\.(\\w+)\\/?/i, function(req, res, params){
-        // populates params\.splat[0] with first capture group
-        // populates params\.splat[1] with second capture group
+        // populates params[0] with first capture group
+        // populates params[1] with second capture group
         // ex:
         //   GET /commit/kj4k\.\.d3sdf
     });

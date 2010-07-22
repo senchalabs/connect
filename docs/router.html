@@ -126,14 +126,12 @@
 			<li><a href="api.html">extended api docs</a></li>
 			<li class="title">Middleware</li>
 			<li><a href="lint.html">lint</a></li>
-			<li><a href="flash.html">flash</a></li>
 			<li><a href="logger.html">logger</a></li>
 			<li><a href="format.html">format</a></li>
 			<li><a href="router.html">router</a></li>
 			<li><a href="jsonrpc.html">jsonrpc</a></li>
 			<li><a href="session.html">session</a></li>
 			<li><a href="compiler.html">compiler</a></li>
-			<li><a href="redirect.html">redirect</a></li>
 			<li><a href="errorHandler.html">errorHandler</a></li>
 			<li><a href="bodyDecoder.html">bodyDecoder</a></li>
 			<li><a href="responseTime.html">responseTime</a></li>
@@ -173,7 +171,7 @@
 
     <span class="variable">app</span>.<span class="variable">del</span>(<span class="string">'/user/:id/file/*'</span>, <span class="keyword">function</span>(<span class="variable">req</span>, <span class="variable">res</span>, <span class="variable">params</span>){
         <span class="comment">// populates params.id</span>
-        <span class="comment">// populates params.splat[0]</span>
+        <span class="comment">// populates params[0]</span>
         <span class="comment">// ex:</span>
         <span class="comment">//   PUT /user/4/file/javascripts/jquery.js</span>
         <span class="comment">//   PUT /user/4/file/stylecss</span>
@@ -183,8 +181,8 @@
 <span class="keyword">function</span> <span class="variable">commits</span>(<span class="variable">app</span>) {
     <span class="comment">// RegExps too!</span>
     <span class="variable">app</span>.<span class="variable">get</span>(<span class="regexp">/\/commit</span>\<span class="regexp">/(\w+)\.\.(\w+)\/</span>?/<span class="variable">i</span>, <span class="keyword">function</span>(<span class="variable">req</span>, <span class="variable">res</span>, <span class="variable">params</span>){
-        <span class="comment">// populates params.splat[0] with first capture group</span>
-        <span class="comment">// populates params.splat[1] with second capture group</span>
+        <span class="comment">// populates params[0] with first capture group</span>
+        <span class="comment">// populates params[1] with second capture group</span>
         <span class="comment">// ex:</span>
         <span class="comment">//   GET /commit/kj4k..d3sdf</span>
     });

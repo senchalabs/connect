@@ -29,7 +29,7 @@ The _router_ middleware provides a routing API similar to that of Sinatra and Ex
 		
 		app.del('/user/:id/file/*', function(req, res, params){
 			// populates params.id
-			// populates params.splat[0]
+			// populates params[0]
 			// ex:
 			//   PUT /user/4/file/javascripts/jquery.js
 			//   PUT /user/4/file/stylecss
@@ -39,8 +39,8 @@ The _router_ middleware provides a routing API similar to that of Sinatra and Ex
 	function commits(app) {
 		// RegExps too!
 		app.get(/\/commit\/(\w+)\.\.(\w+)\/?/i, function(req, res, params){
-			// populates params.splat[0] with first capture group
-			// populates params.splat[1] with second capture group
+			// populates params[0] with first capture group
+			// populates params[1] with second capture group
 			// ex:
 			//   GET /commit/kj4k..d3sdf
         });
