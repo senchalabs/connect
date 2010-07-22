@@ -6,6 +6,7 @@
   * Added support for callback as first arg to `Server#use()`
   * Added support for `next(true)` in _router_ to bypass match attempts
   * Added `Server#listen()` _host_ support
+  * Added `Server#route` when `Server#use()` is called with a route on a `Server` instance
   * Added _methodOverride_ X-HTTP-Method-Override support
   * Refactored session internals, adds _secret_ option
   * Removed connect(1), it is now [spark(1)](http://github.com/senchalabs/spark)
