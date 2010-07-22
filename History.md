@@ -14,6 +14,7 @@
   * Removed a few utils not used
   * Removed _flash_ middleware
   * Removed _redirect_ middleware
+  * Removed need for `params.{captures,splat}` in _router_ middleware, `params` is an array
   * Changed; _compiler_ no longer 404s
   * Fixed a require in _session_ for default `MemoryStore`
   * Fixed nasty request body bug in _router_. Closes #54
