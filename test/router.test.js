@@ -48,12 +48,11 @@ function main(app){
     });
     app.get('/public/*', function(req, res, params){
         res.writeHead(200, {});
-        res.end('splat "' + params.splat[0] + '"');
+        res.end('splat "' + params[0] + '"');
     });
     app.get('/files/*.*', function(req, res, params){
         res.writeHead(200, {});
-        assert.equal(params.splat[0], params.captures[0], 'Test params.captures');
-        res.end('path: "' + params.splat[0] + '" ext: "' + params.splat[1] + '"');
+        res.end('path: "' + params[0] + '" ext: "' + params[1] + '"');
     });
     app.get('/user/:id/:operation?', function(req, res, params){
         res.writeHead(200, {});
@@ -69,7 +68,7 @@ function main(app){
     });
     app.get(/\/commit\/(\w+)\.\.(\w+)\/?/i, function(req, res, params){
         res.writeHead(200, {});
-        res.end('captures: ' + params.splat.join(', '));
+        res.end('captures: ' + params.join(', '));
     });
     app.get('/next', function(req, res, params, next){
         next();
