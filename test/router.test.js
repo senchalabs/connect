@@ -52,6 +52,7 @@ function main(app){
     });
     app.get('/files/*.*', function(req, res, params){
         res.writeHead(200, {});
+        assert.equal(params.splat[0], params.captures[0], 'Test params.captures');
         res.end('path: "' + params.splat[0] + '" ext: "' + params.splat[1] + '"');
     });
     app.get('/user/:id/:operation?', function(req, res, params){
