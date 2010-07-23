@@ -50,6 +50,7 @@ module.exports = {
         req.buffer = true;
         req.addListener('response', function(res){
             res.addListener('end', function(){
+                assert.equal('text/plain', res.headers['content-type']);
                 assert.equal(500, res.statusCode, 'Test error-handler 500 status code');
                 assert.ok(res.body.indexOf('Error: keyboard cat!') !== -1, 'Test error-handler showStack message');
                 assert.ok(res.body.indexOf('lib/connect/index.js') !== -1, 'Test error-handler showStack stack trace');
