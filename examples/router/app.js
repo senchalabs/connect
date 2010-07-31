@@ -5,9 +5,9 @@ var users = [
 ];
 
 function user(app){
-    app.get('/(all.:format?)?', function(req, res, params){
+    app.get('/(all.:format?)?', function(req, res, next){
         var body;
-        switch (params.format) {
+        switch (req.params.format) {
             case 'json':
                 body = JSON.stringify(users);
                 break;
@@ -23,11 +23,11 @@ function user(app){
         res.end(body, 'utf8');
     });
 
-    app.get('/:id/:op?', function(req, res, params){
-        var body = users[params.id]
-            ? users[params.id].name
-            : 'User ' + params.id + ' does not exist';
-        body = (params.op || 'view') + 'ing ' + body;
+    app.get('/:id/:op?', function(req, res){
+        var body = users[req.params.id]
+            ? users[req.params.id].name
+            : 'User ' + req.params.id + ' does not exist';
+        body = (req.params.op || 'view') + 'ing ' + body;
         res.writeHead(200, {
             'Content-Type': 'text/html',
             'Content-Length': body.length
@@ -37,7 +37,7 @@ function user(app){
 }
 
 function main(app){
-    app.get('/', function(req, res, params){
+    app.get('/', function(req, res){
         var examples = [
             '/users (or /users/all)',
             '/users/all.json',
