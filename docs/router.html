@@ -145,7 +145,7 @@
 <p>The <em>router</em> middleware provides a routing API similar to that of Sinatra and Express.</p>
 
 <pre><code class="js"><span class="keyword">function</span> <span class="variable">user</span>(<span class="variable">app</span>) {
-    <span class="variable">app</span>.<span class="variable">get</span>(<span class="string">'/users/(all.:format?)?'</span>, <span class="keyword">function</span>(<span class="variable">req</span>, <span class="variable">res</span>){
+    <span class="variable">app</span>.<span class="variable">get</span>(<span class="string">'/users/(all.:format?)?'</span>, <span class="keyword">function</span>(<span class="variable">req</span>, <span class="variable">res</span>, <span class="variable">next</span>){
         <span class="comment">// populates req.format</span>
         <span class="comment">// ex:</span>
         <span class="comment">//   GET /users</span>
@@ -154,24 +154,24 @@
         <span class="comment">//   GET /users/all.xml</span>
     });
 
-    <span class="variable">app</span>.<span class="variable">get</span>(<span class="string">'/users/:id.:format?'</span>: <span class="keyword">function</span>(<span class="variable">req</span>, <span class="variable">res</span>){
+    <span class="variable">app</span>.<span class="variable">get</span>(<span class="string">'/users/:id.:format?'</span>: <span class="keyword">function</span>(<span class="variable">req</span>, <span class="variable">res</span>, <span class="variable">next</span>){
         <span class="comment">// populates req.format</span>
-        <span class="comment">// populates params.id</span>
+        <span class="comment">// populates req.params.id</span>
         <span class="comment">// ex:</span>
         <span class="comment">//   GET /user/5</span>
         <span class="comment">//   GET /user/5.json</span>
         <span class="comment">//   GET /user/5.xml</span>
     });
 
-    <span class="variable">app</span>.<span class="variable">put</span>(<span class="string">'/user/:id'</span>, <span class="keyword">function</span>(<span class="variable">req</span>, <span class="variable">res</span>, <span class="variable">params</span>){
-        <span class="comment">// populates params.id</span>
+    <span class="variable">app</span>.<span class="variable">put</span>(<span class="string">'/user/:id'</span>, <span class="keyword">function</span>(<span class="variable">req</span>, <span class="variable">res</span>, <span class="variable">next</span>){
+        <span class="comment">// populates req.params.id</span>
         <span class="comment">// ex:</span>
         <span class="comment">//   PUT /user/2</span>
     });
 
-    <span class="variable">app</span>.<span class="variable">del</span>(<span class="string">'/user/:id/file/*'</span>, <span class="keyword">function</span>(<span class="variable">req</span>, <span class="variable">res</span>, <span class="variable">params</span>){
-        <span class="comment">// populates params.id</span>
-        <span class="comment">// populates params[0]</span>
+    <span class="variable">app</span>.<span class="variable">del</span>(<span class="string">'/user/:id/file/*'</span>, <span class="keyword">function</span>(<span class="variable">req</span>, <span class="variable">res</span>, <span class="variable">next</span>){
+        <span class="comment">// populates req.params.id</span>
+        <span class="comment">// populates req.params[0]</span>
         <span class="comment">// ex:</span>
         <span class="comment">//   PUT /user/4/file/javascripts/jquery.js</span>
         <span class="comment">//   PUT /user/4/file/stylecss</span>
@@ -180,9 +180,9 @@
 
 <span class="keyword">function</span> <span class="variable">commits</span>(<span class="variable">app</span>) {
     <span class="comment">// RegExps too!</span>
-    <span class="variable">app</span>.<span class="variable">get</span>(<span class="regexp">/\/commit</span>\<span class="regexp">/(\w+)\.\.(\w+)\/</span>?/<span class="variable">i</span>, <span class="keyword">function</span>(<span class="variable">req</span>, <span class="variable">res</span>, <span class="variable">params</span>){
-        <span class="comment">// populates params[0] with first capture group</span>
-        <span class="comment">// populates params[1] with second capture group</span>
+    <span class="variable">app</span>.<span class="variable">get</span>(<span class="regexp">/\/commit</span>\<span class="regexp">/(\w+)\.\.(\w+)\/</span>?/<span class="variable">i</span>, <span class="keyword">function</span>(<span class="variable">req</span>, <span class="variable">res</span>, <span class="variable">next</span>){
+        <span class="comment">// populates req.params[0] with first capture group</span>
+        <span class="comment">// populates req.params[1] with second capture group</span>
         <span class="comment">// ex:</span>
         <span class="comment">//   GET /commit/kj4k..d3sdf</span>
     });
