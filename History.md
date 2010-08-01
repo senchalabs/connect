@@ -2,6 +2,7 @@
 1.0.0 / 2010-07-21
 ==================
 
+  * Added option support to _staticProvider_, can now pass _root_ and _lifetime_.
   * Added; mounted `Server` instances now have the `route` property exposed for reflection
   * Added support for callback as first arg to `Server#use()`
   * Added support for `next(true)` in _router_ to bypass match attempts
@@ -17,10 +18,13 @@
   * Removed _redirect_ middleware
   * Removed need for `params.{captures,splat}` in _router_ middleware, `params` is an array
   * Changed; _compiler_ no longer 404s
+  * Changed; _router_ signature now matches connect middleware signature
   * Fixed a require in _session_ for default `MemoryStore`
   * Fixed nasty request body bug in _router_. Closes #54
   * Fixed _less_ support in _compiler_
   * Fixed bug preventing proper bubbling of exceptions in mounted servers
+  * Fixed bug in `Server#use()` preventing `Server` instances as the first arg
+  * Fixed spark env support
 
 0.2.1 / 2010-07-09
 ==================
