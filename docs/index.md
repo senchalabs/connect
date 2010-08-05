@@ -86,7 +86,6 @@ the following are currently provided out of the box:
     lint             Aids in middleware development
     logger           Provides common logger support, and custom log formats
     methodOverride   Provides faux HTTP method support by using the "_method" key by default 
-    responseTime     Responds with the X-Response-Time header in milliseconds
     redirect         Provides req.redirect() with "magic" urls, ex: req.redirect("back")
     compiler         Supports arbitrary static compilation of files, currently supports less and sass.
     cacheManifest    Provides cache manifest for offline apps
