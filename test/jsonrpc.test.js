@@ -11,7 +11,7 @@ var connect = require('connect'),
 
 function run(procedures){
     var server = helpers.run(
-        connect.jsonrpc(procedures);
+        connect.jsonrpc(procedures)
     );
     server.call = function(obj, fn){
         var req = server.request('POST', '/', { 'Content-Type': 'application/json; charset=foobar' });
@@ -75,7 +75,7 @@ module.exports = {
     'test passing method exceptions': function(){
         var server = run({
             add: function(a, b, fn){
-                if (arguments.length === 2) {
+                if (arguments.length === 3) {
                     if (typeof a === 'number' && typeof b === 'number') {
                         fn(null, a + b);
                     } else {
@@ -84,6 +84,7 @@ module.exports = {
                         fn(err);
                     }
                 } else {
+                    fn = arguments[arguments.length - 1];
                     fn(jsonrpc.INVALID_PARAMS);
                 }
             }
