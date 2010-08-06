@@ -7,7 +7,7 @@ var connect = require('connect'),
     helpers = require('./helpers'),
     assert = require('assert'),
     http = require('http'),
-    jsonrpc = require('connect/middleware/jsonrpc')
+    jsonrpc = require('connect/middleware/jsonrpc');
 
 function run(procedures){
     var server = helpers.run(
@@ -74,17 +74,18 @@ module.exports = {
 
     'test passing method exceptions': function(){
         var server = run({
-            add: function(a, b){
-                if (arguments.length === 2) {
+            add: function(a, b, fn){
+                if (arguments.length === 3) {
                     if (typeof a === 'number' && typeof b === 'number') {
-                        this(null, a + b);
+                        fn(null, a + b);
                     } else {
                         var err = new Error('Arguments must be numeric.');
                         err.code = jsonrpc.INVALID_PARAMS;
-                        this(err);
+                        fn(err);
                     }
                 } else {
-                    this(jsonrpc.INVALID_PARAMS);
+                    fn = arguments[arguments.length - 1];
+                    fn(jsonrpc.INVALID_PARAMS);
                 }
             }
         });
@@ -125,8 +126,8 @@ module.exports = {
 
     'test methode call': function(){
         var server = run({
-            add: function(a, b){
-                this(null, a + b);
+            add: function(a, b, fn){
+                fn(null, a + b);
             }
         });
         server.call({
@@ -142,11 +143,13 @@ module.exports = {
     'test variable arguments': function(){
         var server = run({
             add: function(){
-                var sum = 0;
-                for (var i = 0, len = arguments.length; i < len; ++i) {
+                var sum = 0,
+                    fn = arguments[arguments.length - 1],
+                    len = arguments.length - 1;
+                for (var i = 0; i < len; ++i) {
                     sum += arguments[i];
                 }
-                this(null, sum);
+                fn(null, sum);
             }
         });
         server.call({
@@ -161,14 +164,10 @@ module.exports = {
 
     'test named params': function(){
         var server = run({
-            delay: function(ms,   msg, unused){
-                var respond = this;
+            delay: function(ms,   msg, unused, fn){
                 setTimeout(function(){
-                    respond(null, msg);
+                    fn(null, msg);
                 }, ms);
-            },
-            invalid: function(  ){
-                this(null, 'shouldnt reach here because I dont have named param support :)');
             }
         });
 
@@ -180,26 +179,15 @@ module.exports = {
         }, function(res, body){
             assert.eql({ id: 1, result: 'Whoop!', jsonrpc: '2.0' }, body);
         });
-
-        server.call({
-            jsonrpc: '2.0',
-            method: 'invalid',
-            params: { msg: 'Whoop!', ms: 50 },
-            id: 2
-        }, function(res, body){
-            assert.eql({ id: 2, error:
-                { code: jsonrpc.INVALID_PARAMS, message: 'This service does not support named parameters.' },
-                jsonrpc: '2.0' }, body);
-        });
     },
 
     'test batch calls': function(){
         var server = run({
-            multiply: function(a, b){
-                this(null, a * b);
+            multiply: function(a, b, fn){
+                fn(null, a * b);
             },
-            sub: function(a, b){
-                this(null, a - b);
+            sub: function(a, b, fn){
+                fn(null, a - b);
             }
         });
         server.call([{
