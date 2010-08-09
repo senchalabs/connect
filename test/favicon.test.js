@@ -9,9 +9,14 @@ var connect = require('connect'),
     http = require('http');
 
 module.exports = {
-    'test defaults': function(){
+    'test headers': function(){
         var server = helpers.run(connect.favicon());
-        server.assertResponse('GET', '/favicon.ico', 200);
+        var req = server.request('GET', '/favicon.ico');
+        req.addListener('response', function(res){
+            assert.equal('image/x-icon', res.headers['content-type']);
+            assert.ok(res.headers['content-length'], 'Test favicon Content-Length');
+        });
+        req.end();
     },
     
     'test custom favicon': function(){
