@@ -46,7 +46,7 @@ Lets say we now have some middleware that will require a setup step, this can be
 To pass control to the next middleware layer, we may call the `next()` function with an optional instanceof `Error`.
 Middleware with four parameters is an error handling middleware, the `err` object can then be logged, used to issue a response, ignored, etc.
 
-    function break(req, res, next) {
+    function fail(req, res, next) {
 	    // Exceptions thrown will be automatically passed to next()
 	    // however for custom exceptions / async exceptions you may pass them
 	    next(new Error('something broke!'));
@@ -57,7 +57,7 @@ Middleware with four parameters is an error handling middleware, the `err` objec
 	    res.end(err.stack);
     }
 
-    connect.createServer(break, errorHandler).listen(3000);
+    connect.createServer(fail, errorHandler).listen(3000);
 
 To make your middleware available to others, typically you write a module, and export the function itself:
 
