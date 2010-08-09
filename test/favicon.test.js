@@ -12,6 +12,7 @@ module.exports = {
     'test headers': function(){
         var server = helpers.run(connect.favicon());
         var req = server.request('GET', '/favicon.ico');
+        req.buffer = true;
         req.addListener('response', function(res){
             assert.equal('image/x-icon', res.headers['content-type']);
             assert.ok(res.headers['content-length'], 'Test favicon Content-Length');
