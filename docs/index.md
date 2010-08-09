@@ -61,17 +61,17 @@ Middleware with four parameters is an error handling middleware, the `err` objec
 
 To make your middleware available to others, typically you write a module, and export the function itself:
 
-    // delay.js
-    module.exports = function(ms){
-	    ms = ms || 1000;
-	    return function(req, res, next){
-		    setTimeout(next, ms);
- 	    } 
-    };
-
-   // app.js
-   // delay one second before continuing down the stack
-   connect.createServer(require('./delay')(1000)).listen(3000);
+      // delay.js
+      module.exports = function(ms){
+          ms = ms || 1000;
+          return function(req, res, next){
+      	    setTimeout(next, ms);
+          } 
+      };
+     
+     // app.js
+     // delay one second before continuing down the stack
+     connect.createServer(require('./delay')(1000)).listen(3000);
 
 ## Bundled Middleware
 

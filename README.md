@@ -58,11 +58,9 @@ View the HTML document:
 
     $ open docs/index.html
 
-View the online HTML documentation:
+View the online HTML documentation visit [http://senchalabs.github.com/connect](http://senchalabs.github.com/connect).
 
-	$ open http://senchalabs.github.com/connect
-
-View one of several examples located within _./examples_.
+View one of several examples located within [./examples](http://github.com/senchalabs/connect/tree/master/examples/).
 
 ## Testing
 
