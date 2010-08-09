@@ -24,7 +24,6 @@ HTMLDOCS = $(DOCS:.md=.html)
 
 test:
 	@CONNECT_ENV=test ./$(TEST) \
-		--growl \
 		-I lib \
 		-I support/sass/lib \
 		-I support/less/lib \
