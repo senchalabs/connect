@@ -114,6 +114,10 @@ function main(app){
     app.get('/out', function(){
         assert.fail('Called /out');
     });
+    app.get('/cars/:id.:format?', function(req, res, next){
+        res.writeHead(200, {});
+        res.end('format: ' + req.params.format + ' id: ' + req.params.id);
+    });
 }
 
 module.exports = {
@@ -137,6 +141,9 @@ module.exports = {
         
         server.assertResponse('GET', '/next', 404, 'Cannot GET /next');
         server.assertResponse('GET', '/error', 500, 'Error: boom!');
+        
+        server.assertResponse('GET', '/cars/12', 200, 'format: undefined id: 12');
+        server.assertResponse('GET', '/cars/12.json', 200, 'format: json id: 12');
 
         server.assertResponse('GET', '/', 200, 'GET /', 'Test router GET /');
         server.assertResponse('POST', '/', 200, 'POST /', 'Test router POST /');
