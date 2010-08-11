@@ -2,6 +2,9 @@
 1.0.0 / 2010-07-21
 ==================
 
+  * Added connect.middleware to expose the middleware getters
+  * Added `buffer` option to _logger_ for performance increase
+  * Added _favicon_ middleware for serving your own favicon or the connect default
   * Added option support to _staticProvider_, can now pass _root_ and _lifetime_.
   * Added; mounted `Server` instances now have the `route` property exposed for reflection
   * Added support for callback as first arg to `Server#use()`
@@ -24,6 +27,7 @@
   * Fixed _less_ support in _compiler_
   * Fixed bug preventing proper bubbling of exceptions in mounted servers
   * Fixed bug in `Server#use()` preventing `Server` instances as the first arg
+  * Fixed **ENOENT** special case, is now treated as any other exception
   * Fixed spark env support
 
 0.2.1 / 2010-07-09
