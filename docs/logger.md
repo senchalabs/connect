@@ -6,6 +6,12 @@ The _logger_ middleware provides common log format support, as well as custom fo
 		connect.logger(),
 	);
 
+The logger also has built in buffering support to increase performance. When the `buffer` option is set to `true` it defaults to 1000 milliseconds, however you can specify your own duration. When using the `buffer` option log lines are not written to the stream immediately, they are buffered in an array, and flushed periodically.
+
+    connect.createServer(
+		connect.logger({ buffer: 2000 })
+	);
+
 A custom format can also be passed:
 
     connect.createServer(
