@@ -84,6 +84,6 @@ connect.Server.prototype.listen = function(){
         req.end();
     };
 
-    net.Server.prototype.listen.call(this, this.port = port++);
+    net.Server.prototype.listen.call(this, this.port = port++, '127.0.0.1');
     return this;
 }
