@@ -118,6 +118,10 @@ function main(app){
         res.writeHead(200, {});
         res.end('format: ' + req.params.format + ' id: ' + req.params.id);
     });
+    app.get('/account/:id/files/:file', function(req, res){
+        res.writeHead(200);
+        res.end('file: ' + req.params.file);
+    });
 }
 
 module.exports = {
@@ -144,6 +148,8 @@ module.exports = {
         
         server.assertResponse('GET', '/cars/12', 200, 'format: undefined id: 12');
         server.assertResponse('GET', '/cars/12.json', 200, 'format: json id: 12');
+
+        server.assertResponse('GET', '/account/12/files/jquery.js', 200, 'file: jquery.js');
 
         server.assertResponse('GET', '/', 200, 'GET /', 'Test router GET /');
         server.assertResponse('POST', '/', 200, 'POST /', 'Test router POST /');
