@@ -12,7 +12,7 @@ var pub = __dirname + '/public';
  * comment out the next line if you have "less" installed.
  */
 
-require.paths.unshift('../../support/less/lib/less');
+require.paths.unshift(__dirname + '/../../support/less/lib');
 
 var server = connect.createServer(
     connect.compiler({ src: pub, enable: ['less'] }),

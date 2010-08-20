@@ -12,7 +12,7 @@ var pub = __dirname + '/public';
  * or comment out the following line if you have "sass" installed.
  */
 
-require.paths.unshift('../../support/sass/lib');
+require.paths.unshift(__dirname + '/../../support/sass/lib');
 
 connect.createServer(
     connect.compiler({ src: pub, enable: ['sass'] }),
