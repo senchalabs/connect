@@ -81,7 +81,6 @@ the following are currently provided out of the box:
     bodyDecoder      Buffers and parses json and urlencoded request bodies (extenable)
     conditionalGet   Provides 304 "Not Modified" support
     errorHandler     Handles exceptions thrown, or passed through the stack
-    format           Handles url path extensions or "formats"
     gzip             Compresses response bodies with gzip executable
     lint             Aids in middleware development
     logger           Provides common logger support, and custom log formats
