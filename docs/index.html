@@ -191,7 +191,7 @@ a middleware layer that simply responds with "hello world".</p>
 <p>To pass control to the next middleware layer, we may call the <code>next()</code> function with an optional instanceof <code>Error</code>.
 Middleware with four parameters is an error handling middleware, the <code>err</code> object can then be logged, used to issue a response, ignored, etc.</p>
 
-<pre><code class="js"><span class="keyword">function</span> <span class="keyword">break</span>(<span class="variable">req</span>, <span class="variable">res</span>, <span class="variable">next</span>) {
+<pre><code class="js"><span class="keyword">function</span> <span class="variable">fail</span>(<span class="variable">req</span>, <span class="variable">res</span>, <span class="variable">next</span>) {
     <span class="comment">// Exceptions thrown will be automatically passed to next()</span>
     <span class="comment">// however for custom exceptions / async exceptions you may pass them</span>
     <span class="variable">next</span>(<span class="keyword">new</span> <span class="class">Error</span>(<span class="string">'something broke!'</span>));
@@ -202,23 +202,23 @@ Middleware with four parameters is an error handling middleware, the <code>err</
     <span class="variable">res</span>.<span class="variable">end</span>(<span class="variable">err</span>.<span class="variable">stack</span>);
 }
 
-<span class="variable">connect</span>.<span class="variable">createServer</span>(<span class="keyword">break</span>, <span class="variable">errorHandler</span>).<span class="variable">listen</span>(<span class="number integer">3000</span>);
+<span class="variable">connect</span>.<span class="variable">createServer</span>(<span class="variable">fail</span>, <span class="variable">errorHandler</span>).<span class="variable">listen</span>(<span class="number integer">3000</span>);
 </code></pre>
 
 <p>To make your middleware available to others, typically you write a module, and export the function itself:</p>
 
-<pre><code class="js"><span class="comment">// delay.js</span>
-<span class="variable">module</span>.<span class="variable">exports</span> = <span class="keyword">function</span>(<span class="variable">ms</span>){
-    <span class="variable">ms</span> = <span class="variable">ms</span> || <span class="number integer">1000</span>;
-    <span class="keyword">return</span> <span class="keyword">function</span>(<span class="variable">req</span>, <span class="variable">res</span>, <span class="variable">next</span>){
+<pre><code class="js">  <span class="comment">// delay.js</span>
+  <span class="variable">module</span>.<span class="variable">exports</span> = <span class="keyword">function</span>(<span class="variable">ms</span>){
+      <span class="variable">ms</span> = <span class="variable">ms</span> || <span class="number integer">1000</span>;
+      <span class="keyword">return</span> <span class="keyword">function</span>(<span class="variable">req</span>, <span class="variable">res</span>, <span class="variable">next</span>){
         <span class="variable">setTimeout</span>(<span class="variable">next</span>, <span class="variable">ms</span>);
-    } 
-};
-</code></pre>
+      } 
+  };
 
-<p>   // app.js
-   // delay one second before continuing down the stack
-   connect.createServer(require('./delay')(1000)).listen(3000);</p>
+ <span class="comment">// app.js</span>
+ <span class="comment">// delay one second before continuing down the stack</span>
+ <span class="variable">connect</span>.<span class="variable">createServer</span>(<span class="variable">require</span>(<span class="string">'./delay'</span>)(<span class="number integer">1000</span>)).<span class="variable">listen</span>(<span class="number integer">3000</span>);
+</code></pre>
 
 <h2 id="Bundled-Middleware">Bundled Middleware</h2>
 
@@ -233,7 +233,6 @@ gzip             Compresses response bodies with gzip executable
 lint             Aids in middleware development
 logger           Provides common logger support, and custom log formats
 methodOverride   Provides faux HTTP method support by using the "_method" key by default 
-responseTime     Responds with the X-Response-Time header in milliseconds
 redirect         Provides req.redirect() with "magic" urls, ex: req.redirect("back")
 compiler         Supports arbitrary static compilation of files, currently supports less and sass.
 cacheManifest    Provides cache manifest for offline apps

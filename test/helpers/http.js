@@ -54,9 +54,11 @@ connect.Server.prototype.listen = function(){
         req.buffer = true;
         req.addListener('response', function(res){
             res.addListener('end', function(){
-                assert.equal(expectedBody,
-                    res.body,
-                    msg + ' response body of ' + sys.inspect(expectedBody) + ', got ' + sys.inspect(res.body));
+                if (expectedBody !== undefined) {
+                    assert.equal(expectedBody,
+                        res.body,
+                        msg + ' response body of ' + sys.inspect(expectedBody) + ', got ' + sys.inspect(res.body));
+                }
                 assert.equal(expectedStatus,
                     res.statusCode,
                     msg + ' status code of ' + expectedStatus + ', got ' + res.statusCode);
@@ -82,6 +84,6 @@ connect.Server.prototype.listen = function(){
         req.end();
     };
 
-    net.Server.prototype.listen.call(this, this.port = port++);
+    net.Server.prototype.listen.call(this, this.port = port++, '127.0.0.1');
     return this;
 }

@@ -145,25 +145,17 @@
 <p>The <em>jsonrpc</em> middleware provides JSON-RPC 2.0 support. Below is an example exposing the <em>add</em> and <em>sub</em> methods:</p>
 
 <pre><code class="js"><span class="keyword">var</span> <span class="variable">math</span> = {
-    <span class="variable">add</span>: <span class="keyword">function</span>(<span class="variable">a</span>, <span class="variable">b</span>){
-        <span class="keyword">try</span> {
-            <span class="this">this</span>(<span class="keyword">null</span>, <span class="variable">a</span> + <span class="variable">b</span>);
-        } <span class="keyword">catch</span> (<span class="variable">err</span>) {
-            <span class="this">this</span>(<span class="variable">err</span>);
-        }
+    <span class="variable">add</span>: <span class="keyword">function</span>(<span class="variable">a</span>, <span class="variable">b</span>, <span class="variable">fn</span>){
+        <span class="variable">fn</span>(<span class="keyword">null</span>, <span class="variable">a</span> + <span class="variable">b</span>);
     },
-    <span class="variable">sub</span>: <span class="keyword">function</span>(<span class="variable">a</span>, <span class="variable">b</span>){
-        <span class="keyword">try</span> {
-            <span class="this">this</span>(<span class="keyword">null</span>, <span class="variable">a</span> - <span class="variable">b</span>);
-        } <span class="keyword">catch</span> (<span class="variable">err</span>) {
-            <span class="this">this</span>(<span class="variable">err</span>);
-        }
+    <span class="variable">sub</span>: <span class="keyword">function</span>(<span class="variable">a</span>, <span class="variable">b</span>, <span class="variable">fn</span>){
+        <span class="variable">fn</span>(<span class="keyword">null</span>, <span class="variable">a</span> - <span class="variable">b</span>);
     }
 };
 
 <span class="keyword">var</span> <span class="variable">date</span> = {
-    <span class="variable">time</span>: <span class="keyword">function</span>(){
-        <span class="this">this</span>(<span class="keyword">null</span>, <span class="keyword">new</span> <span class="class">Date</span>().<span class="variable">toUTCString</span>());
+    <span class="variable">time</span>: <span class="keyword">function</span>(<span class="variable">fn</span>){
+        <span class="variable">fn</span>(<span class="keyword">null</span>, <span class="keyword">new</span> <span class="class">Date</span>().<span class="variable">toUTCString</span>());
     }
 };
 
@@ -172,7 +164,7 @@
 );
 </code></pre>
 
-<p>The value of <em>this</em> becomes the async callback function. When you wish to pass an exception simply invoke <code>this(err)</code>, or pass the error code <code>this(jsonrpc.INVALID_PARAMS)</code>. Other <code>this(null, result)</code> will respond with the given results.</p>
+<p>When you wish to pass an exception simply invoke <code>fn(err)</code>, or pass the error code <code>fn(jsonrpc.INVALID_PARAMS)</code>. Otherwise <code>fn(null, result)</code> will respond with the given results.</p>
 
 <h3 id="Features">Features</h3>
 

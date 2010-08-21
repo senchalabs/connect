@@ -137,6 +137,7 @@ module.exports = {
     'test mounting': function(){
         var helloWorldServer = connect.createServer();
         helloWorldServer.use('/world', function(req, res){
+            assert.equal('/hello', helloWorldServer.route);
             res.writeHead(200);
             res.end('hello world');
         });

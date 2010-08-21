@@ -17,13 +17,13 @@ var fixturesPath = __dirname + '/fixtures';
 // Faux products app
 
 function products(app){
-    app.get('/.:format?', function(req, res, params){
+    app.get('/.:format?', function(req, res){
         res.writeHead(200, {});
-        res.end('products' + (params.format ? ' as ' + params.format : ''));
+        res.end('products' + (req.params.format ? ' as ' + req.params.format : ''));
     });
-    app.get('/:id', function(req, res, params){
+    app.get('/:id', function(req, res){
         res.writeHead(200, {});
-        res.end('product ' + params.id);
+        res.end('product ' + req.params.id);
     });
 }
 
@@ -46,40 +46,40 @@ function main(app){
         res.writeHead(200, {});
         res.end('GET /');
     });
-    app.get('/public/*', function(req, res, params){
+    app.get('/public/*', function(req, res){
         res.writeHead(200, {});
-        res.end('splat "' + params.splat[0] + '"');
+        res.end('splat "' + req.params[0] + '"');
     });
-    app.get('/files/*.*', function(req, res, params){
+    app.get('/files/*.*', function(req, res){
         res.writeHead(200, {});
-        res.end('path: "' + params.splat[0] + '" ext: "' + params.splat[1] + '"');
+        res.end('path: "' + req.params[0] + '" ext: "' + req.params[1] + '"');
     });
-    app.get('/user/:id/:operation?', function(req, res, params){
+    app.get('/user/:id/:operation?', function(req, res){
         res.writeHead(200, {});
-        res.end((params.operation || 'view') + 'ing user ' + req.params.path.id);
+        res.end((req.params.operation || 'view') + 'ing user ' + req.params.id);
     });
-    app.get('/range/:from-:to?', function(req, res, params){
+    app.get('/range/:from-:to?', function(req, res){
         res.writeHead(200, {});
-        res.end('range ' + params.from + ' to ' + (params.to || 'HEAD'));
+        res.end('range ' + req.params.from + ' to ' + (req.params.to || 'HEAD'));
     });
-    app.get('/users.:format', function(req, res, params){
+    app.get('/users.:format', function(req, res){
         res.writeHead(200, {});
-        res.end(params.format + ' format');
+        res.end(req.params.format + ' format');
     });
-    app.get(/\/commit\/(\w+)\.\.(\w+)\/?/i, function(req, res, params){
+    app.get(/\/commit\/(\w+)\.\.(\w+)\/?/i, function(req, res){
         res.writeHead(200, {});
-        res.end('captures: ' + params.splat.join(', '));
+        res.end('captures: ' + [req.params[0], req.params[1]].join(', '));
     });
-    app.get('/next', function(req, res, params, next){
+    app.get('/next', function(req, res, next){
         next();
     });
     app.get('/error', function(req, res, params, next){
         throw new Error('boom!');
     });
-    app.get('/cookies.:format?', function(req, res, params){
+    app.get('/cookies.:format?', function(req, res, next){
         var cookies = ['num', 'num'];
         res.writeHead(200, {});
-        switch (params.format) {
+        switch (req.params.format) {
             case 'json':
                 res.end(JSON.stringify(cookies));
                 break;
@@ -87,32 +87,40 @@ function main(app){
                 res.end(cookies.join(' '));
         }
     });
-    app.get('/items/:id?', function(req, res, params, next){
-        if (params.id) {
+    app.get('/items/:id?', function(req, res, next){
+        if (req.params.id) {
             res.writeHead(200, {});
-            res.end('item ' + params.id);
+            res.end('item ' + req.params.id);
         } else {
             next();
         }
     });
-    app.get('/items', function(req, res, params, next){
+    app.get('/items', function(req, res, next){
         next()
     });
-    app.get('/items', function(req, res, params){
+    app.get('/items', function(req, res){
         res.writeHead(200, {});
         res.end('items');
     });
-    app.get('/failure/:id?', function(req, res, params, next){
+    app.get('/failure/:id?', function(req, res, next){
         next(new Error('fail boat'));
     });
-    app.get('/failure', function(req, res, params){
+    app.get('/failure', function(req, res){
         assert.fail('next(new Error) passed to next matching router callback');
     });
-    app.get('/out/:id?', function(req, res, params, next){
+    app.get('/out/:id?', function(req, res, next){
         next(true);
     });
     app.get('/out', function(){
         assert.fail('Called /out');
+    });
+    app.get('/cars/:id.:format?', function(req, res, next){
+        res.writeHead(200, {});
+        res.end('format: ' + req.params.format + ' id: ' + req.params.id);
+    });
+    app.get('/account/:id/files/:file', function(req, res){
+        res.writeHead(200);
+        res.end('file: ' + req.params.file);
     });
 }
 
@@ -137,6 +145,11 @@ module.exports = {
         
         server.assertResponse('GET', '/next', 404, 'Cannot GET /next');
         server.assertResponse('GET', '/error', 500, 'Error: boom!');
+        
+        server.assertResponse('GET', '/cars/12', 200, 'format: undefined id: 12');
+        server.assertResponse('GET', '/cars/12.json', 200, 'format: json id: 12');
+
+        server.assertResponse('GET', '/account/12/files/jquery.js', 200, 'file: jquery.js');
 
         server.assertResponse('GET', '/', 200, 'GET /', 'Test router GET /');
         server.assertResponse('POST', '/', 200, 'POST /', 'Test router POST /');

@@ -1,7 +1,7 @@
 .\" generated with Ronn/v0.6.6
 .\" http://github.com/rtomayko/ronn/
 .
-.TH "CONNECT" "1" "July 2010" "" ""
+.TH "CONNECT" "1" "August 2010" "" ""
 .
 .SH "NAME"
 \fBconnect\fR \- high performance middleware framework for node
@@ -75,7 +75,7 @@ To pass control to the next middleware layer, we may call the \fBnext()\fR funct
 .
 .nf
 
-function break(req, res, next) {
+function fail(req, res, next) {
     // Exceptions thrown will be automatically passed to next()
     // however for custom exceptions / async exceptions you may pass them
     next(new Error(\'something broke!\'));
@@ -86,7 +86,7 @@ function errorHandler(err, req, res, next) {
     res\.end(err\.stack);
 }
 
-connect\.createServer(break, errorHandler)\.listen(3000);
+connect\.createServer(fail, errorHandler)\.listen(3000);
 .
 .fi
 .
@@ -99,20 +99,21 @@ To make your middleware available to others, typically you write a module, and e
 .
 .nf
 
-// delay\.js
-module\.exports = function(ms){
-    ms = ms || 1000;
-    return function(req, res, next){
+  // delay\.js
+  module\.exports = function(ms){
+      ms = ms || 1000;
+      return function(req, res, next){
         setTimeout(next, ms);
-    }
-};
+      }
+  };
+
+ // app\.js
+ // delay one second before continuing down the stack
+ connect\.createServer(require(\'\./delay\')(1000))\.listen(3000);
 .
 .fi
 .
 .IP "" 0
-.
-.P
-// app\.js // delay one second before continuing down the stack connect\.createServer(require(\'\./delay\')(1000))\.listen(3000);
 .
 .SH "Bundled Middleware"
 Connect ships with several helpful middleware modules, the following are currently provided out of the box:
@@ -129,7 +130,6 @@ gzip             Compresses response bodies with gzip executable
 lint             Aids in middleware development
 logger           Provides common logger support, and custom log formats
 methodOverride   Provides faux HTTP method support by using the \"_method\" key by default
-responseTime     Responds with the X\-Response\-Time header in milliseconds
 redirect         Provides req\.redirect() with \"magic\" urls, ex: req\.redirect(\"back\")
 compiler         Supports arbitrary static compilation of files, currently supports less and sass\.
 cacheManifest    Provides cache manifest for offline apps

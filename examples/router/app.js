@@ -5,29 +5,52 @@ var users = [
 ];
 
 function user(app){
-    app.get('/(all.:format?)?', function(req, res, params){
-        var body;
-        switch (params.format) {
+    app.get('/.:format?', function(req, res, next){
+        switch (req.params.format) {
             case 'json':
-                body = JSON.stringify(users);
+                var body = JSON.stringify(users);
+                res.writeHead(200, {
+                    'Content-Type': 'application/json',
+                    'Content-Length': body.length
+                });
+                res.end(body);
                 break;
             default:
-                 body = '<ul>'
+                 var body = '<ul>'
                     + users.map(function(user){ return '<li>' + user.name + '</li>'; }).join('\n')
                     + '</ul>';
+                res.writeHead(200, {
+                    'Content-Type': 'text/html',
+                    'Content-Length': body.length
+                });
+                res.end(body);
+                
         }
-        res.writeHead(200, {
-            'Content-Type': 'text/html',
-            'Content-Length': body.length
-        });
-        res.end(body, 'utf8');
+        
+    });
+    
+    app.get('/:id.:format', function(req, res, next){
+        var user = users[req.params.id];
+        if (user && req.params.format === 'json') {
+            user = JSON.stringify(user);
+            res.writeHead(200, {
+                'Content-Type': 'application/json',
+                'Content-Length': user.length
+            });
+            res.end(user);
+        } else {
+            // When true is passed, provide control
+            // back to middleware, skipping route
+            // match attemps
+            next(true); 
+        }
     });
 
-    app.get('/:id/:op?', function(req, res, params){
-        var body = users[params.id]
-            ? users[params.id].name
-            : 'User ' + params.id + ' does not exist';
-        body = (params.op || 'view') + 'ing ' + body;
+    app.get('/:id/:op?', function(req, res){
+        var body = users[req.params.id]
+            ? users[req.params.id].name
+            : 'User ' + req.params.id + ' does not exist';
+        body = (req.params.op || 'view') + 'ing ' + body;
         res.writeHead(200, {
             'Content-Type': 'text/html',
             'Content-Length': body.length
@@ -37,12 +60,13 @@ function user(app){
 }
 
 function main(app){
-    app.get('/', function(req, res, params){
+    app.get('/', function(req, res){
         var examples = [
-            '/users (or /users/all)',
-            '/users/all.json',
+            '/users',
+            '/users.json',
             '/users/0 (or /users/0/view)',
             '/users/0/edit'
+            '/users/0.json'
         ];
         var body = 'Visit one of the following: <ul>'
             + examples.map(function(str){ return '<li>' + str + '</li>' }).join('\n')
@@ -58,7 +82,7 @@ function main(app){
 var connect = require('./../../lib/connect');
 
 var server = connect.createServer(
-    connect.logger()
+    connect.logger({ buffer: true })
 );
 
 server.use("/users/", connect.router(user));

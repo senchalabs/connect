@@ -41,7 +41,6 @@ var server = connect.createServer();
 
 // Add global filters
 server.use("/",
-    connect.responseTime(),
     connect.logger()
 );
 

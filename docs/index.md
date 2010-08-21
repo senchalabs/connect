@@ -46,7 +46,7 @@ Lets say we now have some middleware that will require a setup step, this can be
 To pass control to the next middleware layer, we may call the `next()` function with an optional instanceof `Error`.
 Middleware with four parameters is an error handling middleware, the `err` object can then be logged, used to issue a response, ignored, etc.
 
-    function break(req, res, next) {
+    function fail(req, res, next) {
 	    // Exceptions thrown will be automatically passed to next()
 	    // however for custom exceptions / async exceptions you may pass them
 	    next(new Error('something broke!'));
@@ -57,21 +57,21 @@ Middleware with four parameters is an error handling middleware, the `err` objec
 	    res.end(err.stack);
     }
 
-    connect.createServer(break, errorHandler).listen(3000);
+    connect.createServer(fail, errorHandler).listen(3000);
 
 To make your middleware available to others, typically you write a module, and export the function itself:
 
-    // delay.js
-    module.exports = function(ms){
-	    ms = ms || 1000;
-	    return function(req, res, next){
-		    setTimeout(next, ms);
- 	    } 
-    };
-
-   // app.js
-   // delay one second before continuing down the stack
-   connect.createServer(require('./delay')(1000)).listen(3000);
+      // delay.js
+      module.exports = function(ms){
+          ms = ms || 1000;
+          return function(req, res, next){
+      	    setTimeout(next, ms);
+          } 
+      };
+     
+     // app.js
+     // delay one second before continuing down the stack
+     connect.createServer(require('./delay')(1000)).listen(3000);
 
 ## Bundled Middleware
 
@@ -86,7 +86,6 @@ the following are currently provided out of the box:
     lint             Aids in middleware development
     logger           Provides common logger support, and custom log formats
     methodOverride   Provides faux HTTP method support by using the "_method" key by default 
-    responseTime     Responds with the X-Response-Time header in milliseconds
     redirect         Provides req.redirect() with "magic" urls, ex: req.redirect("back")
     compiler         Supports arbitrary static compilation of files, currently supports less and sass.
     cacheManifest    Provides cache manifest for offline apps
