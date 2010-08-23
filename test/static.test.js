@@ -38,7 +38,7 @@ module.exports = {
 
     'test configurable cache-control': function(){
         var server = helpers.run(
-            connect.staticProvider({ root: fixturesPath, lifetime: 60000 })
+            connect.staticProvider({ root: fixturesPath, maxAge: 60000 })
         );
         var req = server.request('GET', '/user.json');
         req.buffer = true;
