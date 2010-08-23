@@ -94,7 +94,6 @@ the following are currently provided out of the box:
     cookieDecoder    Provides cookie parsing support
     session          Provides session support
     cache            Provides memory caching
-    pubsub           Publish subscribe messaging support
     repl             Read Evaluate Print Loop attached to "/tmp/connect.sock" for inspecting live servers 
     vhost            Virtual host support
 
