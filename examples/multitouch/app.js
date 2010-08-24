@@ -8,46 +8,48 @@ var root = __dirname + "/public";
 
 var subscribers = [];
 
-// This is esentially a broadcaster
-var Backend = {
-    subscribe: function (subscriber) {
-        if (subscribers.indexOf(subscriber) < 0) {
-            subscribers.push(subscriber);
-            if (subscriber.timer) {
-                clearTimeout(subscriber.timer);
-            }
-            subscriber.timer = setTimeout(function () {
-                subscriber.flush();
-            }, 1000);
-
-        }
-    },
-    unsubscribe: function (subscriber) {
-        var pos = subscribers.indexOf(subscriber);
-        if (pos >= 0) {
-            subscribers.slice(pos);
-        }
-    },
-    publish: function (message, callback) {
-        subscribers.forEach(function (subscriber) {
-            subscriber.send(message);
-        });
-        callback();
+function setupRoutes(app) {
+  var callbacks = [];
+  app.get("/:client_id", function (req, res, next) {
+    var localID = req.params.client_id;
+    function handler(sender, buffer) {
+      // Ignore responses to self
+      if (sender == localID) {
+        callbacks.push(handler);
+        return;
+      }
+      res.writeHead(200, {
+        "Content-Type": "application/json",
+        "Content-Length": buffer.length
+      });
+      res.end(buffer);
     }
-};
+    callbacks.push(handler);
+  });
+  app.post("/:client_id", function (req, res, next) {
+    var localID = req.params.client_id;
+    var message = new Buffer(JSON.stringify(req.body));
+    for (var i = 0, l = callbacks.length; i < l; i++) {
+      callbacks[i](localID, message);
+    }
+    callbacks.splice(0, l);
+    res.writeHead(204, {});
+    res.end();
+  });
+}
 
 // Create a server with no initial setup
 var server = connect.createServer();
 
 // Add global filters
 server.use("/",
-    connect.logger()
+    connect.logger({format: ':method :url :status HTTP:http-version :remote-addr'})
 );
 
 // Serve dynamic responses
 server.use("/stream",
     connect.bodyDecoder(),
-    connect.pubsub(Backend)
+    connect.router(setupRoutes)
 );
 
 // Serve static resources

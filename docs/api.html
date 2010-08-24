@@ -1283,23 +1283,6 @@ a method override, othewise defaults to __method_.</p>
 
 </code></pre>
 </td>
-</tr><tr class="filename"><td><h2 id="lib/connect/middleware/pubsub.js"><a href="#">pubsub</a></h2></td><td>lib/connect/middleware/pubsub.js</td></tr><tr class="code">
-<td class="docs">
-<p>Module dependencies.
- </p>
-</td>
-<td class="code">
-<pre><code><span class="keyword">var</span> <span class="variable">sys</span> = <span class="variable">require</span>(<span class="string">'sys'</span>);</code></pre>
-</td>
-</tr>
-<tr class="code">
-<td class="docs">
-<p>Subscriber cache.
- </p>
-</td>
-<td class="code">
-<pre><code><span class="keyword">var</span> <span class="variable">cache</span> = {};</code></pre>
-</td>
 </tr><tr class="filename"><td><h2 id="lib/connect/middleware/repl.js"><a href="#">repl</a></h2></td><td>lib/connect/middleware/repl.js</td></tr><tr class="code">
 <td class="docs">
 <p>Module dependencies.
@@ -1778,12 +1761,12 @@ by passing <code>null</code> to <code>Store#get()</code>.</p>
 </tr>
 <tr class="code">
 <td class="docs">
-<p>Browser cache lifetime of one hour.</p>
+<p>Browser cache maxAge of one hour.</p>
 
 <ul><li><p><strong>type</strong>: <em>Number</em></p></li></ul>
 </td>
 <td class="code">
-<pre><code><span class="keyword">var</span> <span class="variable">lifetime</span> = <span class="number integer">1000</span> * <span class="number integer">60</span> * <span class="number integer">60</span>;</code></pre>
+<pre><code><span class="keyword">var</span> <span class="variable">maxAge</span> = <span class="number integer">1000</span> * <span class="number integer">60</span> * <span class="number integer">60</span>;</code></pre>
 </td>
 </tr>
 <tr class="code">

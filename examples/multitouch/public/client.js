@@ -6,21 +6,17 @@ function longPoll() {
     req.onreadystatechange = function(event) {
       if (req.readyState == 4) {
           if(req.status == 200) {
-              JSON.parse(req.responseText).forEach(function (message) {
-                  if (message.sender === localID) {
-                      return;
-                  }
-                  for (var id in message.locs) {
-                      circles[id].attr(message.locs[id]);
-                  };
-              });
+              var message = JSON.parse(req.responseText);
+              for (var id in message.locs) {
+                  circles[id].attr(message.locs[id]);
+              };
               longPoll();
           } else {
               setTimeout(longPoll, 10000);
           }
       }
     };
-    req.open('GET', '/stream', true);
+    req.open('GET', '/stream/' + localID, true);
     req.send();
 }
 
@@ -55,7 +51,7 @@ function start() {
                 pending = false;
                 setTimeout(send, 10);
             };
-            req.open('POST', '/stream', true);
+            req.open('POST', '/stream/' + localID, true);
             req.setRequestHeader("Content-Type", "application/json");
             req.send(JSON.stringify({sender: localID, locs: locs}));
             pending = true;
