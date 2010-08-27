@@ -3,7 +3,7 @@
  * Module dependencies.
  */
 
-var utils = require('connect/utils'),
+var utils = require('connect').utils,
     assert = require('assert');
 
 module.exports = {
