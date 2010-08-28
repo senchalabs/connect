@@ -50,7 +50,7 @@ module.exports = {
     
     'test compressable': function(){
         var server = helpers.run(
-            connect.staticGzip({ root: fixturesPath, compress: ['text/html'] }),
+            connect.staticGzip({ root: fixturesPath, compress: ['text/css', 'text/html'] }),
             connect.staticProvider(fixturesPath)
         );
 
@@ -60,15 +60,14 @@ module.exports = {
         req.buffer = true;
         req.on('response', function(res){
             res.on('end', function(){
-                assert.notEqual('gzip', res.headers['content-encoding']);
+                assert.notEqual('gzip', res.headers['content-encoding'], 'Content-Encoding: gzip when not gzipped');
 
                 // Post-compression
                 var req = server.request('GET', '/style.css', { Accept: 'gzip' });
                 req.buffer = true;
                 req.on('response', function(res){
                     res.on('end', function(){
-                        console.dir(res.headers)
-                        assert.equal('gzip', res.headers['content-encoding']);
+                        assert.equal('gzip', res.headers['content-encoding'], 'missing Content-Encoding: gzip when gzipped');
                     });
                 });
                 req.end();
