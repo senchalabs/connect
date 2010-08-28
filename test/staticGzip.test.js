@@ -67,6 +67,7 @@ module.exports = {
                 req.buffer = true;
                 req.on('response', function(res){
                     res.on('end', function(){
+                        assert.equal('text/css', res.headers['content-type']);
                         assert.equal('gzip', res.headers['content-encoding'], 'missing Content-Encoding: gzip when gzipped');
                     });
                 });
