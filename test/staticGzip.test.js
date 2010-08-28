@@ -6,7 +6,8 @@
 var connect = require('connect'),
     helpers = require('./helpers'),
     assert = require('assert'),
-    http = require('http');
+    http = require('http'),
+    fs = require('fs');
 
 /**
  * Path to ./test/fixtures/
@@ -54,6 +55,14 @@ module.exports = {
             connect.staticProvider(fixturesPath)
         );
 
+        try {
+            var stat = fs.statSync(fixturesPath + '/style.css'),
+                path = fixturesPath + '/style.css.' + Number(stat.mtime) + '.gz';
+            fs.unlinkSync(path);
+        } catch (err) {
+            // Ignore
+        }
+        
         server.pending = 2;
         // Pre-compression
         var req = server.request('GET', '/style.css', { Accept: 'gzip' });
