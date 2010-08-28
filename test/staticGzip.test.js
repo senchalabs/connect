@@ -65,14 +65,14 @@ module.exports = {
         
         server.pending = 2;
         // Pre-compression
-        var req = server.request('GET', '/style.css', { Accept: 'gzip' });
+        var req = server.request('GET', '/style.css', { 'Accept-Encoding': 'gzip' });
         req.buffer = true;
         req.on('response', function(res){
             res.on('end', function(){
                 assert.notEqual('gzip', res.headers['content-encoding'], 'Content-Encoding: gzip when not gzipped');
 
                 // Post-compression
-                var req = server.request('GET', '/style.css', { Accept: 'gzip' });
+                var req = server.request('GET', '/style.css', { 'Accept-Encoding': 'gzip' });
                 req.buffer = true;
                 req.on('response', function(res){
                     res.on('end', function(){
