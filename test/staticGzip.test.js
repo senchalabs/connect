@@ -46,5 +46,34 @@ module.exports = {
             });
         });
         req.end();
+    },
+    
+    'test compressable': function(){
+        var server = helpers.run(
+            connect.staticGzip({ root: fixturesPath, compress: ['text/html'] }),
+            connect.staticProvider(fixturesPath)
+        );
+
+        server.pending = 2;
+        // Pre-compression
+        var req = server.request('GET', '/style.css', { Accept: 'gzip' });
+        req.buffer = true;
+        req.on('response', function(res){
+            res.on('end', function(){
+                assert.notEqual('gzip', res.headers['content-encoding']);
+
+                // Post-compression
+                var req = server.request('GET', '/style.css', { Accept: 'gzip' });
+                req.buffer = true;
+                req.on('response', function(res){
+                    res.on('end', function(){
+                        console.dir(res.headers)
+                        assert.equal('gzip', res.headers['content-encoding']);
+                    });
+                });
+                req.end();
+            });
+        });
+        req.end();
     }
 }
