@@ -76,5 +76,12 @@ module.exports = {
             connect.staticProvider({ root: fixturesPath })
         );
         server.assertResponse('GET', '/foo.json', 404, 'Cannot GET /foo.json', 'Test invalid static file.');
+    },
+    
+    'test directory': function(){
+        var server = helpers.run(
+            connect.staticProvider({ root: __dirname })
+        );
+        server.assertResponse('GET', '/fixtures', 404, 'Cannot GET /fixtures');
     }
 }
