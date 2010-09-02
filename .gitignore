@@ -3,6 +3,7 @@ pids
 logs
 results
 *.pid
+*.gz
 *.log
 lib-cov
 test/fixtures/foo.bar.baz.css
