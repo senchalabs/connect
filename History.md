@@ -2,6 +2,7 @@
 1.0.0 / 2010-07-21
 ==================
 
+  * Added _staticGzip_ middleware
   * Added `connect.utils` to expose utils
   * Added `connect.session.Session`
   * Added `connect.session.Store`
