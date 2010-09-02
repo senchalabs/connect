@@ -15,9 +15,6 @@ var connect = require('connect'),
 
 var fixturesPath = __dirname + '/fixtures';
 
-// TODO: Accepts: gzip
-// TODO: Transfer-Encoding: gzip
-
 module.exports = {
     'test does not Accept gzip': function(){
         var server = helpers.run(
