@@ -65,5 +65,27 @@ module.exports = {
         var req = server.request('POST', '/', { 'Content-Type': 'application/json' });
         req.write('{"user":{"name":"tj"');
         req.end();
+    },
+    
+    'test custom decoder': function(){
+        connect.bodyDecoder.decode['my/type'] = function(str){
+            return str.replace(/ +/g, '');
+        };
+        var server = helpers.run(
+            connect.bodyDecoder(),
+            function(req, res){
+                res.writeHead(200);
+                res.end(req.body);
+            }
+        );
+        var req = server.request('POST', '/', { 'Content-Type': 'my/type' });
+        req.buffer = true;
+        req.on('response', function(res){
+            res.on('end', function(){
+                assert.equal('foobar', res.body, 'Test custom decoder function');
+            });
+        });
+        req.write('f o o b a r');
+        req.end();
     }
 }
