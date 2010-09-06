@@ -15,6 +15,9 @@ var views = __dirname + '/views';
 
 require.paths.unshift(__dirname + '/../../support/sass/lib');
 
+// To compile simply execute:
+//   $ curl http://localhost:3000/stylesheets/main.css
+
 connect.createServer(
     connect.compiler({ src: views, dest: pub, enable: ['sass'] }),
     connect.staticProvider(pub)
