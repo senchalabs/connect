@@ -146,6 +146,7 @@ module.exports = {
         server.assertResponse('GET', '/next', 404, 'Cannot GET /next');
         server.assertResponse('GET', '/error', 500, 'Error: boom!');
         
+        server.assertResponse('GET', '/cars/%5Bhey%5D', 200, 'format: undefined id: [hey]');
         server.assertResponse('GET', '/cars/12', 200, 'format: undefined id: 12');
         server.assertResponse('GET', '/cars/12.json', 200, 'format: json id: 12');
 
