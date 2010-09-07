@@ -20,7 +20,7 @@ function user(app) {
         //   GET /users/all\.xml
     });
 
-    app\.get(\'/users/:id\.:format?\': function(req, res, next){
+    app\.get(\'/users/:id\.:format?\', function(req, res, next){
         // populates req\.format
         // populates req\.params\.id
         // ex:
