@@ -12,7 +12,7 @@
  - Astro <astro@spaceboyz.net>
  - Guillermo Rauch <rauchg@gmail.com>
  - Aaron Heckmann <aaron@clickdummy.net>
- - Nathan Rajlich <nathan.rajlich@enako.com>
+ - Nathan Rajlich <nathan@tootallnate.net>
  - Jakub Nešetřil <jakub.nesetril@gmail.com>
 
 [Connect CLA]: http://extjs.github.com/Connect/Connect%20Individual%20CLA.pdf
