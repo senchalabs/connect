@@ -19,5 +19,9 @@ module.exports = {
         server.assertResponse('GET', '/style.css', 200, 'body {\n  font-size: 12px;\n  color: #000;}\n');
         server.assertResponse('GET', '/foo.bar.baz.css', 200, 'foo {\n  color: #000;}\n');
         server.assertResponse('GET', '/foo.bar.baz.css', 200, 'foo {\n  color: #000;}\n');
+    },
+    
+    'test .compilers': function(){
+        assert.equal('object', typeof connect.compiler.compilers);
     }
 }
