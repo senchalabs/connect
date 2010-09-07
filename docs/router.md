@@ -12,7 +12,7 @@ The _router_ middleware provides a routing API similar to that of Sinatra and Ex
 	        //   GET /users/all.xml
 		});
 		
-		app.get('/users/:id.:format?': function(req, res, next){
+		app.get('/users/:id.:format?', function(req, res, next){
 			// populates req.format
 		    // populates req.params.id
 		    // ex:
