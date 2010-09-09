@@ -77,71 +77,11 @@ module.exports = {
         );
         server.assertResponse('GET', '/foo.json', 404, 'Cannot GET /foo.json', 'Test invalid static file.');
     },
-
+    
     'test directory': function(){
         var server = helpers.run(
             connect.staticProvider({ root: __dirname })
         );
         server.assertResponse('GET', '/fixtures', 404, 'Cannot GET /fixtures');
-    },
-
-    'test range request header beginning': function() {
-        var server = helpers.run(
-            connect.staticProvider(fixturesPath)
-        );
-        var req = server.request('GET', '/index.html', { 'Range': 'bytes=9-'});
-        req.buffer = true;
-        req.addListener('response', function(res){
-            res.addListener('end', function(){
-                var headers = res.headers,
-                    body = "</p>";
-                assert.equal(206, res.statusCode, 'Test static with range request header beginning status code');
-                assert.equal(body, res.body, 'Test static with range request header beginning response body');
-                assert.equal(body.length, headers['content-length'], 'Test static with range request header beginning Content-Length');
-                assert.equal("bytes", headers['accept-ranges'], 'Test static with range request header beginning Accept-Ranges');
-                assert.equal("bytes 9-12/13", headers['content-range'], 'Test static with range request header beginning Content-Range');
-            });
-        });
-        req.end();
-    },
-
-    'test range request header middle': function() {
-        var server = helpers.run(
-            connect.staticProvider(fixturesPath)
-        );
-        var req = server.request('GET', '/index.html', { 'Range': 'bytes=9-12'});
-        req.buffer = true;
-        req.addListener('response', function(res){
-            res.addListener('end', function(){
-                var headers = res.headers,
-                    body = "</p>";
-                assert.equal(206, res.statusCode, 'Test static with range request header middle status code');
-                assert.equal(body, res.body, 'Test static with range request header middle response body');
-                assert.equal(body.length, headers['content-length'], 'Test static with range request header middle Content-Length');
-                assert.equal("bytes", headers['accept-ranges'], 'Test static with range request header middle Accept-Ranges');
-                assert.equal("bytes 9-12/13", headers['content-range'], 'Test static with range request header end Content-Range');
-            });
-        });
-        req.end();
-    },
-
-    'test range request header end': function() {
-        var server = helpers.run(
-            connect.staticProvider(fixturesPath)
-        );
-        var req = server.request('GET', '/index.html', { 'Range': 'bytes=-4'});
-        req.buffer = true;
-        req.addListener('response', function(res){
-            res.addListener('end', function(){
-                var headers = res.headers,
-                    body = "</p>";
-                assert.equal(206, res.statusCode, 'Test static with range request header end status code');
-                assert.equal(body, res.body, 'Test static with range request header end response body');
-                assert.equal(body.length, headers['content-length'], 'Test static with range request header end Content-Length');
-                assert.equal("bytes", headers['accept-ranges'], 'Test static with range request header end Accept-Ranges');
-                assert.equal("bytes 9-12/13", headers['content-range'], 'Test static with range request header end Content-Range');
-            });
-        });
-        req.end();
     }
 }
