@@ -1,9 +1,13 @@
 body {
   font: 13px "Helvetica Neue", "Lucida Grande", "Arial";
   text-align: center;
+  background: #F8F8F8;
   background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#fff), to(#ECE9E9));
+  background: -moz-linear-gradient(top, #fff, #ECE9E9);
   color: #555;
   -webkit-text-stroke: 1px rgba(255, 255, 255, 0.1);
+  height: 100%;
+  margin: 0;
 }
 h1, h2, h3 {
   margin: 0;
@@ -37,9 +41,14 @@ ul li {
   list-style: none;
   border: 1px solid #eee;
   -webkit-border-radius: 3px;
-  -mox-border-radius: 3px;
+  -moz-border-radius: 3px;
+  border-radius: 3px;
   -webkit-transition-property: color, padding;
+  -moz-transition-property: color, padding;
+  -o-transition-property: color, padding-left;
   -webkit-transition-duration: 0.1s;
+  -moz-transition-duration: 0.1s;
+  -o-transition-duration: 0.1s;
 }
 ul li:hover {
   padding: 3px 20px;
@@ -66,8 +75,10 @@ pre {
   border: 1px solid #eee;
   -webkit-border-radius: 10px;
   -moz-border-radius: 10px;
+  border-radius: 10px;
   -webkit-box-shadow: 1px 1px 6px #ddd;
   -moz-box-shadow: 1px 1px 6px #ddd;
+  box-shadow: 1px 1px 6px #ddd;
 }
 table {
   margin-bottom: 35px;
@@ -89,10 +100,18 @@ table td:first-child {
   color: #343434;
 }
 #wrapper {
-  margin: 50px auto;
+  margin: 0px auto;
+  padding: 50px 0px;
   width: 750px;
   text-align: left;
 }
 #stacktrace {
 	margin-top: 15px;
+}
+#stacktrace li a:link, #stacktrace li a:visited {
+    color: inherit;
+    text-decoration: none;
+}
+#stacktrace li a:hover {
+    background-color: #ece9e9;
 }
