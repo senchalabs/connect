@@ -24,6 +24,7 @@ HTMLDOCS = $(DOCS:.md=.html)
 test:
 	@CONNECT_ENV=test ./$(TEST) \
 		-I lib \
+		-I support/coffee-script/lib \
 		-I support/sass/lib \
 		-I support/less/lib \
 		$(TEST_FLAGS) $(TESTS)
