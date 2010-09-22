@@ -9,7 +9,7 @@ var connect = require('connect'),
     http = require('http');
 
 module.exports = {
-    test: function(){
+    'test with host': function(){
         var server = helpers.run(
             connect.vhost('foo.com', connect.createServer(
                 function(req, res){
@@ -40,6 +40,22 @@ module.exports = {
             res.addListener('end', function(){
                 assert.equal('from bar', res.body);
             });
+        });
+        req.end();
+    },
+    'test without host': function(){
+        var server = helpers.run(
+            connect.vhost('foo.com', connect.createServer(
+                function(req, res){
+                    res.writeHead(200, {});
+                    res.end('from foo');
+                }
+            ))
+        );
+        
+        var req = server.request('GET', '/');
+        req.addListener('response', function(res){
+            assert.equal(404, res.statusCode);
         });
         req.end();
     }
