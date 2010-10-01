@@ -139,6 +139,10 @@
 			<li><a href="methodOverride.html">methodOverride</a></li>
 			<li><a href="staticProvider.html">staticProvider</a></li>
 		</ul><div class='mp'>
+<h2 id="Connect">Connect</h2>
+<p class="man-name">
+  <code>router</code>
+</p>
 <h2 id="Rest">Rest</h2>
 
 <p>The <em>router</em> middleware provides a routing API similar to that of Sinatra and Express.</p>
@@ -153,7 +157,7 @@
         <span class="comment">//   GET /users/all.xml</span>
     });
 
-    <span class="variable">app</span>.<span class="variable">get</span>(<span class="string">'/users/:id.:format?'</span>: <span class="keyword">function</span>(<span class="variable">req</span>, <span class="variable">res</span>, <span class="variable">next</span>){
+    <span class="variable">app</span>.<span class="variable">get</span>(<span class="string">'/users/:id.:format?'</span>, <span class="keyword">function</span>(<span class="variable">req</span>, <span class="variable">res</span>, <span class="variable">next</span>){
         <span class="comment">// populates req.format</span>
         <span class="comment">// populates req.params.id</span>
         <span class="comment">// ex:</span>

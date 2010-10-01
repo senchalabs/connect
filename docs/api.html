@@ -119,19 +119,6 @@ code .this { color: #19469D; }</style>
 </tr>
 <tr class="code">
 <td class="docs">
-<p>Supported decoders.</p>
-
-<ul><li>application/x-www-form-urlencoded</li><li>application/json</li></ul>
-</td>
-<td class="code">
-<pre><code><span class="variable">exports</span>.<span class="variable">decode</span> = {
-    <span class="string">'application/x-www-form-urlencoded'</span>: <span class="variable">queryString</span>.<span class="variable">parse</span>,
-    <span class="string">'application/json'</span>: <span class="class">JSON</span>.<span class="variable">parse</span>
-};</code></pre>
-</td>
-</tr>
-<tr class="code">
-<td class="docs">
 <p>Decode request bodies.</p>
 
 <h2></h2>
@@ -139,10 +126,10 @@ code .this { color: #19469D; }</style>
 <ul><li><p><strong>return</strong>: <em>Function</em> </p></li><li><p><strong>api</strong>: <em>public</em></p></li></ul>
 </td>
 <td class="code">
-<pre><code><span class="variable">module</span>.<span class="variable">exports</span> = <span class="keyword">function</span> <span class="variable">bodyDecoder</span>(){
+<pre><code><span class="variable">exports</span> = <span class="variable">module</span>.<span class="variable">exports</span> = <span class="keyword">function</span> <span class="variable">bodyDecoder</span>(){
     <span class="keyword">return</span> <span class="keyword">function</span> <span class="variable">bodyDecoder</span>(<span class="variable">req</span>, <span class="variable">res</span>, <span class="variable">next</span>) {
         <span class="keyword">var</span> <span class="variable">decoder</span> = <span class="variable">exports</span>.<span class="variable">decode</span>[<span class="variable">mime</span>(<span class="variable">req</span>)];
-        <span class="keyword">if</span> (<span class="variable">decoder</span>) {
+        <span class="keyword">if</span> (<span class="variable">decoder</span> &<span class="variable">amp</span>;&<span class="variable">amp</span>; !<span class="variable">req</span>.<span class="variable">body</span>) {
             <span class="keyword">var</span> <span class="variable">data</span> = <span class="string">''</span>;
             <span class="variable">req</span>.<span class="variable">setEncoding</span>(<span class="string">'utf8'</span>);
             <span class="variable">req</span>.<span class="variable">addListener</span>(<span class="string">'data'</span>, <span class="keyword">function</span>(<span class="variable">chunk</span>) { <span class="variable">data</span> += <span class="variable">chunk</span>; });
@@ -161,6 +148,19 @@ code .this { color: #19469D; }</style>
             <span class="variable">next</span>();
         }
     }
+};</code></pre>
+</td>
+</tr>
+<tr class="code">
+<td class="docs">
+<p>Supported decoders.</p>
+
+<ul><li>application/x-www-form-urlencoded</li><li>application/json</li></ul>
+</td>
+<td class="code">
+<pre><code><span class="variable">exports</span>.<span class="variable">decode</span> = {
+    <span class="string">'application/x-www-form-urlencoded'</span>: <span class="variable">queryString</span>.<span class="variable">parse</span>,
+    <span class="string">'application/json'</span>: <span class="class">JSON</span>.<span class="variable">parse</span>
 };</code></pre>
 </td>
 </tr><tr class="filename"><td><h2 id="lib/connect/middleware/cache.js"><a href="#">cache</a></h2></td><td>lib/connect/middleware/cache.js</td></tr><tr class="code">
@@ -205,8 +205,8 @@ code .this { color: #19469D; }</style>
         <span class="keyword">function</span> <span class="variable">serve</span>() {
             <span class="keyword">var</span> <span class="variable">resp</span> = <span class="variable">cache</span>[<span class="variable">key</span>];
             <span class="keyword">var</span> <span class="variable">headers</span> = <span class="variable">resp</span>.<span class="variable">headers</span>;
-            <span class="variable">headers</span>[&<span class="variable">quot</span>;<span class="class">Date</span>&<span class="variable">quot</span>;] = (<span class="keyword">new</span> <span class="class">Date</span>).<span class="variable">toUTCString</span>();
             <span class="variable">headers</span>[&<span class="variable">quot</span>;<span class="class">Content</span>-<span class="class">Length</span>&<span class="variable">quot</span>;] = <span class="variable">resp</span>.<span class="variable">body</span>.<span class="variable">length</span>;
+            <span class="keyword">if</span> (!<span class="variable">resp</span>.<span class="variable">body</span>.<span class="variable">length</span>) <span class="variable">resp</span>.<span class="variable">body</span> = <span class="variable">undefined</span>;
 
             <span class="keyword">if</span> (<span class="variable">localQueue</span>) {
                 <span class="comment">// Send everyone in the wait queue the response.</span>
@@ -260,7 +260,7 @@ code .this { color: #19469D; }</style>
         };
 
         <span class="variable">res</span>.<span class="variable">end</span> = <span class="keyword">function</span> (<span class="variable">chunk</span>, <span class="variable">encoding</span>) {
-            <span class="keyword">if</span> (<span class="variable">chunk</span>) {
+            <span class="keyword">if</span> (<span class="variable">chunk</span> &<span class="variable">amp</span>;&<span class="variable">amp</span>; <span class="variable">chunk</span>.<span class="variable">length</span>) {
                 <span class="variable">res</span>.<span class="variable">write</span>(<span class="variable">chunk</span>, <span class="variable">encoding</span>);
             }
 
@@ -377,52 +377,18 @@ and <code>fallbacks</code>.</p>
 </td>
 <td class="code">
 <pre><code><span class="keyword">var</span> <span class="variable">fs</span> = <span class="variable">require</span>(<span class="string">'fs'</span>),
-    <span class="variable">path</span> = <span class="variable">require</span>(<span class="string">'path'</span>);</code></pre>
+    <span class="variable">path</span> = <span class="variable">require</span>(<span class="string">'path'</span>),
+    <span class="variable">url</span> = <span class="variable">require</span>(<span class="string">'url'</span>);</code></pre>
 </td>
 </tr>
 <tr class="code">
 <td class="docs">
-<p>Bundled compilers:</p>
+<p>Require cache.</p>
 
-<ul><li><a href="http://github.com/visionmedia/sass.js">sass</a> to <em>css</em></li><li><a href="http://github.com/cloudhead/less.js">less</a> to <em>css</em></li></ul>
+<ul><li><p><strong>type</strong>: <em>Object</em></p></li></ul>
 </td>
 <td class="code">
-<pre><code><span class="keyword">var</span> <span class="variable">compilers</span> = <span class="variable">exports</span>.<span class="variable">compilers</span> = {
-    <span class="variable">sass</span>: {
-        <span class="variable">match</span>: <span class="regexp">/\.css$/</span>,
-        <span class="variable">ext</span>: <span class="string">'.sass'</span>,
-        <span class="variable">compile</span>: <span class="keyword">function</span>(<span class="variable">str</span>, <span class="variable">fn</span>){
-            <span class="variable">require</span>.<span class="variable">async</span>(<span class="string">'sass'</span>, <span class="keyword">function</span>(<span class="variable">err</span>, <span class="variable">sass</span>){
-                <span class="keyword">if</span> (<span class="variable">err</span>) {
-                    <span class="variable">fn</span>(<span class="variable">err</span>);
-                } <span class="keyword">else</span> {
-                    <span class="keyword">try</span> {
-                        <span class="variable">fn</span>(<span class="keyword">null</span>, <span class="variable">sass</span>.<span class="variable">render</span>(<span class="variable">str</span>));
-                    } <span class="keyword">catch</span> (<span class="variable">err</span>) {
-                        <span class="variable">fn</span>(<span class="variable">err</span>);
-                    }
-                }
-            });
-        }
-    },
-    <span class="variable">less</span>: {
-        <span class="variable">match</span>: <span class="regexp">/\.css$/</span>,
-        <span class="variable">ext</span>: <span class="string">'.less'</span>,
-        <span class="variable">compile</span>: <span class="keyword">function</span>(<span class="variable">str</span>, <span class="variable">fn</span>){
-            <span class="variable">require</span>.<span class="variable">async</span>(<span class="string">'less'</span>, <span class="keyword">function</span>(<span class="variable">err</span>, <span class="variable">less</span>){
-                <span class="keyword">if</span> (<span class="variable">err</span>) {
-                    <span class="variable">fn</span>(<span class="variable">err</span>);
-                } <span class="keyword">else</span> {
-                    <span class="keyword">try</span> {
-                        <span class="variable">less</span>.<span class="variable">render</span>(<span class="variable">str</span>, <span class="variable">fn</span>);
-                    } <span class="keyword">catch</span> (<span class="variable">err</span>) {
-                        <span class="variable">fn</span>(<span class="variable">err</span>);
-                    }
-                }
-            });
-        }
-    }
-};</code></pre>
+<pre><code><span class="keyword">var</span> <span class="variable">cache</span> = {};</code></pre>
 </td>
 </tr>
 <tr class="code">
@@ -435,14 +401,14 @@ and <code>fallbacks</code>.</p>
 
 <h2>Compilers</h2>
 
-<ul><li><code>sass</code>   Compiles cass to css</li><li><code>less</code>   Compiles less to css</li></ul>
+<ul><li><code>sass</code>   Compiles cass to css</li><li><code>less</code>   Compiles less to css</li><li><code>coffeescript</code>   Compiles coffee to js</li></ul>
 
 <h2></h2>
 
 <ul><li><p><strong>param</strong>: <em>Object</em>  options</p></li><li><p><strong>api</strong>: <em>public</em></p></li></ul>
 </td>
 <td class="code">
-<pre><code><span class="variable">module</span>.<span class="variable">exports</span> = <span class="keyword">function</span> <span class="variable">compiler</span>(<span class="variable">options</span>){
+<pre><code><span class="variable">exports</span> = <span class="variable">module</span>.<span class="variable">exports</span> = <span class="keyword">function</span> <span class="variable">compiler</span>(<span class="variable">options</span>){
     <span class="variable">options</span> = <span class="variable">options</span> || {};
 
     <span class="keyword">var</span> <span class="variable">srcDir</span> = <span class="variable">process</span>.<span class="variable">connectEnv</span>.<span class="variable">compilerSrc</span> || <span class="variable">options</span>.<span class="variable">src</span> || <span class="variable">process</span>.<span class="variable">cwd</span>(),
@@ -454,19 +420,20 @@ and <code>fallbacks</code>.</p>
     }
 
     <span class="keyword">return</span> <span class="keyword">function</span> <span class="variable">compiler</span>(<span class="variable">req</span>, <span class="variable">res</span>, <span class="variable">next</span>){
+        <span class="keyword">if</span> (<span class="variable">req</span>.<span class="variable">method</span> !== <span class="string">'GET'</span>) <span class="keyword">return</span> <span class="variable">next</span>();
+        <span class="keyword">var</span> <span class="variable">pathname</span> = <span class="variable">url</span>.<span class="variable">parse</span>(<span class="variable">req</span>.<span class="variable">url</span>).<span class="variable">pathname</span>;
         <span class="keyword">for</span> (<span class="keyword">var</span> <span class="variable">i</span> = <span class="number integer">0</span>, <span class="variable">len</span> = <span class="variable">enable</span>.<span class="variable">length</span>; <span class="variable">i</span> &<span class="variable">lt</span>; <span class="variable">len</span>; ++<span class="variable">i</span>) {
             <span class="keyword">var</span> <span class="variable">name</span> = <span class="variable">enable</span>[<span class="variable">i</span>],
                 <span class="variable">compiler</span> = <span class="variable">compilers</span>[<span class="variable">name</span>];
-            <span class="keyword">if</span> (<span class="variable">compiler</span>.<span class="variable">match</span>.<span class="variable">test</span>(<span class="variable">req</span>.<span class="variable">url</span>)) {
-                <span class="keyword">var</span> <span class="variable">src</span> = (<span class="variable">srcDir</span> + <span class="variable">req</span>.<span class="variable">url</span>).<span class="variable">replace</span>(<span class="variable">compiler</span>.<span class="variable">match</span>, <span class="variable">compiler</span>.<span class="variable">ext</span>),
-                    <span class="variable">dest</span> = <span class="variable">destDir</span> + <span class="variable">req</span>.<span class="variable">url</span>;
+            <span class="keyword">if</span> (<span class="variable">compiler</span>.<span class="variable">match</span>.<span class="variable">test</span>(<span class="variable">pathname</span>)) {
+                <span class="keyword">var</span> <span class="variable">src</span> = (<span class="variable">srcDir</span> + <span class="variable">pathname</span>).<span class="variable">replace</span>(<span class="variable">compiler</span>.<span class="variable">match</span>, <span class="variable">compiler</span>.<span class="variable">ext</span>),
+                    <span class="variable">dest</span> = <span class="variable">destDir</span> + <span class="variable">pathname</span>;
 
                 <span class="comment">// Compare mtimes</span>
                 <span class="variable">fs</span>.<span class="variable">stat</span>(<span class="variable">src</span>, <span class="keyword">function</span>(<span class="variable">err</span>, <span class="variable">srcStats</span>){
                     <span class="keyword">if</span> (<span class="variable">err</span>) {
                         <span class="keyword">if</span> (<span class="variable">err</span>.<span class="variable">errno</span> === <span class="variable">process</span>.<span class="class">ENOENT</span>) {
-                            <span class="variable">res</span>.<span class="variable">writeHead</span>(<span class="number integer">404</span>, { <span class="string">'Content-Type'</span>: <span class="string">'text/plain'</span> });
-                            <span class="variable">res</span>.<span class="variable">end</span>(<span class="string">'Not Found'</span>);
+                            <span class="variable">next</span>();
                         } <span class="keyword">else</span> {
                             <span class="variable">next</span>(<span class="variable">err</span>);
                         }
@@ -488,7 +455,7 @@ and <code>fallbacks</code>.</p>
                                     <span class="variable">next</span>();
                                 }
                             }
-                        })
+                        });
                     }
                 });
 
@@ -515,6 +482,53 @@ and <code>fallbacks</code>.</p>
         }
         <span class="variable">next</span>();
     };
+};</code></pre>
+</td>
+</tr>
+<tr class="code">
+<td class="docs">
+<p>Bundled compilers:</p>
+
+<ul><li><a href="http://github.com/visionmedia/sass.js">sass</a> to <em>css</em></li><li><a href="http://github.com/cloudhead/less.js">less</a> to <em>css</em></li><li><a href="http://github.com/jashkenas/coffee-script">coffee</a> to <em>js</em></li></ul>
+</td>
+<td class="code">
+<pre><code><span class="keyword">var</span> <span class="variable">compilers</span> = <span class="variable">exports</span>.<span class="variable">compilers</span> = {
+    <span class="variable">sass</span>: {
+        <span class="variable">match</span>: <span class="regexp">/\.css$/</span>,
+        <span class="variable">ext</span>: <span class="string">'.sass'</span>,
+        <span class="variable">compile</span>: <span class="keyword">function</span>(<span class="variable">str</span>, <span class="variable">fn</span>){
+            <span class="keyword">var</span> <span class="variable">sass</span> = <span class="variable">cache</span>.<span class="variable">sass</span> || (<span class="variable">cache</span>.<span class="variable">sass</span> = <span class="variable">require</span>(<span class="string">'sass'</span>));
+            <span class="keyword">try</span> {
+                <span class="variable">fn</span>(<span class="keyword">null</span>, <span class="variable">sass</span>.<span class="variable">render</span>(<span class="variable">str</span>));
+            } <span class="keyword">catch</span> (<span class="variable">err</span>) {
+                <span class="variable">fn</span>(<span class="variable">err</span>);
+            }
+        }
+    },
+    <span class="variable">less</span>: {
+        <span class="variable">match</span>: <span class="regexp">/\.css$/</span>,
+        <span class="variable">ext</span>: <span class="string">'.less'</span>,
+        <span class="variable">compile</span>: <span class="keyword">function</span>(<span class="variable">str</span>, <span class="variable">fn</span>){
+            <span class="keyword">var</span> <span class="variable">less</span> = <span class="variable">cache</span>.<span class="variable">less</span> || (<span class="variable">cache</span>.<span class="variable">less</span> = <span class="variable">require</span>(<span class="string">'less'</span>));
+            <span class="keyword">try</span> {
+                <span class="variable">less</span>.<span class="variable">render</span>(<span class="variable">str</span>, <span class="variable">fn</span>);
+            } <span class="keyword">catch</span> (<span class="variable">err</span>) {
+                <span class="variable">fn</span>(<span class="variable">err</span>);
+            }
+        }
+    },
+    <span class="variable">coffeescript</span>: {
+      <span class="variable">match</span>: <span class="regexp">/\.js$/</span>,
+      <span class="variable">ext</span>: <span class="string">'.coffee'</span>,
+      <span class="variable">compile</span>: <span class="keyword">function</span>(<span class="variable">str</span>, <span class="variable">fn</span>){
+          <span class="keyword">var</span> <span class="variable">coffee</span> = <span class="variable">cache</span>.<span class="variable">coffee</span> || (<span class="variable">cache</span>.<span class="variable">coffee</span> = <span class="variable">require</span>(<span class="string">'coffee-script'</span>));
+          <span class="keyword">try</span> {
+              <span class="variable">fn</span>(<span class="keyword">null</span>, <span class="variable">coffee</span>.<span class="variable">compile</span>(<span class="variable">str</span>));
+          } <span class="keyword">catch</span> (<span class="variable">err</span>) {
+              <span class="variable">fn</span>(<span class="variable">err</span>);
+          }
+      }
+    }
 };</code></pre>
 </td>
 </tr><tr class="filename"><td><h2 id="lib/connect/middleware/conditionalGet.js"><a href="#">conditionalGet</a></h2></td><td>lib/connect/middleware/conditionalGet.js</td></tr><tr class="code">
@@ -546,12 +560,12 @@ and <code>fallbacks</code>.</p>
 
         <span class="variable">res</span>.<span class="variable">writeHead</span> = <span class="keyword">function</span> (<span class="variable">code</span>, <span class="variable">headers</span>) {
             <span class="keyword">var</span> <span class="variable">lastModified</span> = <span class="variable">headers</span>[&<span class="variable">quot</span>;<span class="class">Last</span>-<span class="class">Modified</span>&<span class="variable">quot</span>;],
-                <span class="variable">etag</span> = <span class="variable">headers</span>[&<span class="variable">quot</span>;<span class="class">Etag</span>&<span class="variable">quot</span>;];
+                <span class="variable">etag</span> = <span class="variable">headers</span>[&<span class="variable">quot</span>;<span class="class">ETag</span>&<span class="variable">quot</span>;];
             <span class="variable">lastModified</span> = <span class="variable">lastModified</span> &<span class="variable">amp</span>;&<span class="variable">amp</span>; <span class="class">Date</span>.<span class="variable">parse</span>(<span class="variable">lastModified</span>).<span class="variable">valueOf</span>();
 
             <span class="comment">// If there is no match, then move on.</span>
             <span class="keyword">if</span> (!(<span class="variable">code</span> === <span class="number integer">200</span> &<span class="variable">amp</span>;&<span class="variable">amp</span>;
-                  (<span class="variable">lastModified</span> === <span class="variable">since</span> || <span class="variable">oldEtag</span> === <span class="variable">etag</span>)
+                  ((<span class="variable">since</span> &<span class="variable">amp</span>;&<span class="variable">amp</span>; <span class="variable">lastModified</span> === <span class="variable">since</span>) || (<span class="variable">etag</span> &<span class="variable">amp</span>;&<span class="variable">amp</span>; <span class="variable">oldEtag</span> === <span class="variable">etag</span>))
                )) {
                 <span class="variable">res</span>.<span class="variable">writeHead</span> = <span class="variable">writeHead</span>;
                 <span class="variable">res</span>.<span class="variable">writeHead</span>(<span class="variable">code</span>, <span class="variable">headers</span>);
@@ -570,9 +584,9 @@ and <code>fallbacks</code>.</p>
                 <span class="comment">// Filter out any Content based headers since there is no</span>
                 <span class="comment">// content.</span>
                 <span class="keyword">var</span> <span class="variable">newHeaders</span> = {};
-                <span class="variable">headers</span>.<span class="variable">forEach</span>(<span class="keyword">function</span> (<span class="variable">value</span>, <span class="variable">key</span>) {
+                <span class="class">Object</span>.<span class="variable">keys</span>(<span class="variable">headers</span>).<span class="variable">forEach</span>(<span class="keyword">function</span> (<span class="variable">key</span>) {
                     <span class="keyword">if</span> (<span class="variable">key</span>.<span class="variable">indexOf</span>(&<span class="variable">quot</span>;<span class="class">Content</span>&<span class="variable">quot</span>;) &<span class="variable">lt</span>; <span class="number integer">0</span>) {
-                        <span class="variable">newHeaders</span>[<span class="variable">key</span>] = <span class="variable">value</span>;
+                        <span class="variable">newHeaders</span>[<span class="variable">key</span>] = <span class="variable">headers</span>[<span class="variable">key</span>];
                     }
                 });
                 <span class="variable">res</span>.<span class="variable">writeHead</span>(<span class="number integer">304</span>, <span class="variable">newHeaders</span>);
@@ -582,7 +596,8 @@ and <code>fallbacks</code>.</p>
 
         <span class="variable">next</span>();
     };
-};</code></pre>
+};
+</code></pre>
 </td>
 </tr><tr class="filename"><td><h2 id="lib/connect/middleware/cookieDecoder.js"><a href="#">cookieDecoder</a></h2></td><td>lib/connect/middleware/cookieDecoder.js</td></tr><tr class="code">
 <td class="docs">
@@ -628,6 +643,7 @@ and <code>fallbacks</code>.</p>
 <td class="code">
 <pre><code><span class="keyword">var</span> <span class="variable">utils</span> = <span class="variable">require</span>(<span class="string">'./../utils'</span>),
     <span class="variable">sys</span> = <span class="variable">require</span>(<span class="string">'sys'</span>),
+    <span class="variable">url</span> = <span class="variable">require</span>(<span class="string">'url'</span>),
     <span class="variable">fs</span> = <span class="variable">require</span>(<span class="string">'fs'</span>);</code></pre>
 </td>
 </tr>
@@ -650,13 +666,13 @@ and <code>fallbacks</code>.</p>
     <span class="comment">// Defaults</span>
     <span class="keyword">var</span> <span class="variable">showStack</span> = <span class="variable">options</span>.<span class="variable">showStack</span>,
         <span class="variable">showMessage</span> = <span class="variable">options</span>.<span class="variable">showMessage</span>,
-        <span class="variable">dumpExceptions</span> = <span class="variable">options</span>.<span class="variable">dumpExceptions</span>;
+        <span class="variable">dumpExceptions</span> = <span class="variable">options</span>.<span class="variable">dumpExceptions</span>,
+        <span class="variable">formatUrl</span> = <span class="variable">options</span>.<span class="variable">formatUrl</span>;
 
     <span class="comment">// --showErrorStack</span>
     <span class="keyword">if</span> (<span class="variable">process</span>.<span class="variable">connectEnv</span>.<span class="variable">showErrorStack</span> !== <span class="variable">undefined</span>) {
-        <span class="variable">showStack</span> = <span class="variable">op</span> = <span class="variable">utils</span>.<span class="variable">toBoolean</span>(<span class="variable">process</span>.<span class="variable">connectEnv</span>.<span class="variable">showErrorStack</span>);
+        <span class="variable">showStack</span> = <span class="variable">utils</span>.<span class="variable">toBoolean</span>(<span class="variable">process</span>.<span class="variable">connectEnv</span>.<span class="variable">showErrorStack</span>);
     }
-
     <span class="comment">// --showErrorMessage</span>
     <span class="keyword">if</span> (<span class="variable">process</span>.<span class="variable">connectEnv</span>.<span class="variable">showErrorMessage</span> !== <span class="variable">undefined</span>) {
         <span class="variable">showMessage</span> = <span class="variable">utils</span>.<span class="variable">toBoolean</span>(<span class="variable">process</span>.<span class="variable">connectEnv</span>.<span class="variable">showErrorMessage</span>);
@@ -666,6 +682,25 @@ and <code>fallbacks</code>.</p>
     <span class="keyword">if</span> (<span class="variable">process</span>.<span class="variable">connectEnv</span>.<span class="variable">dumpExceptions</span> !== <span class="variable">undefined</span>) {
         <span class="variable">dumpExceptions</span> = <span class="variable">utils</span>.<span class="variable">toBoolean</span>(<span class="variable">process</span>.<span class="variable">connectEnv</span>.<span class="variable">dumpExceptions</span>);
     }
+    
+    <span class="comment">// --decorate stack trace file URLs</span>
+    <span class="keyword">var</span> <span class="variable">formatLine</span> = <span class="keyword">function</span>(<span class="variable">v</span>){ <span class="keyword">return</span> <span class="string">'&lt;li&gt;'</span> + <span class="variable">v</span> + <span class="string">'&lt;/li&gt;'</span>; }; <span class="comment">// pass straight by default</span>
+    <span class="keyword">if</span> (<span class="variable">formatUrl</span>) {
+        <span class="keyword">var</span> <span class="variable">parts</span>, <span class="variable">re</span> = <span class="regexp">/(\/</span>[^\(\)]+):(\<span class="variable">d</span>+):(\<span class="variable">d</span>+)/;
+        <span class="keyword">var</span> <span class="variable">formatters</span> = {
+            <span class="string">'file'</span>: <span class="keyword">function</span>(<span class="variable">parts</span>) { <span class="keyword">return</span> {<span class="string">'protocol'</span>:<span class="string">'file'</span>, <span class="string">'hostname'</span>:<span class="string">''</span>+<span class="variable">parts</span>[<span class="number integer">1</span>]}; }, <span class="comment">// file: URL (will probably be blocked by the browser)</span>
+            <span class="string">'txmt'</span>: <span class="keyword">function</span>(<span class="variable">parts</span>) { <span class="keyword">return</span> {      <span class="comment">// TextMate formatter</span>
+                <span class="string">'protocol'</span>:<span class="string">'txmt'</span>, <span class="string">'hostname'</span>:<span class="string">'//open'</span>,
+                <span class="string">'query'</span>:{<span class="string">'url'</span>:<span class="string">'file://'</span>+<span class="variable">parts</span>[<span class="number integer">1</span>],<span class="string">'line'</span>:<span class="variable">parts</span>[<span class="number integer">2</span>],<span class="string">'column'</span>:<span class="variable">parts</span>[<span class="number integer">3</span>]}};
+            }
+        };
+        <span class="variable">formatLine</span> = <span class="keyword">function</span>(<span class="variable">v</span>) {
+            <span class="variable">parts</span> = <span class="variable">v</span>.<span class="variable">match</span>(<span class="variable">re</span>);
+            <span class="keyword">if</span> (<span class="variable">parts</span>) <span class="variable">v</span> = <span class="variable">v</span>.<span class="variable">replace</span>(<span class="variable">parts</span>[<span class="number integer">0</span>],<span class="string">'&lt;a href=&quot;'</span>+<span class="variable">url</span>.<span class="variable">format</span>( <span class="variable">formatters</span>[<span class="variable">formatUrl</span>](<span class="variable">parts</span>) )+<span class="string">'&quot;&gt;'</span>+<span class="variable">parts</span>[<span class="number integer">0</span>]+<span class="string">'&lt;/a&gt;'</span>);
+            <span class="keyword">return</span> <span class="string">'&lt;li&gt;'</span> + <span class="variable">v</span> + <span class="string">'&lt;/li&gt;'</span>;
+        };
+    }
+
 
     <span class="keyword">return</span> <span class="keyword">function</span> <span class="variable">errorHandler</span>(<span class="variable">err</span>, <span class="variable">req</span>, <span class="variable">res</span>, <span class="variable">next</span>){
         <span class="keyword">if</span> (<span class="variable">dumpExceptions</span>) {
@@ -679,7 +714,7 @@ and <code>fallbacks</code>.</p>
                     <span class="variable">fs</span>.<span class="variable">readFile</span>(<span class="variable">__dirname</span> + <span class="string">'/../public/error.html'</span>, <span class="keyword">function</span>(<span class="variable">e</span>, <span class="variable">html</span>){
                         <span class="keyword">var</span> <span class="variable">stack</span> = <span class="variable">err</span>.<span class="variable">stack</span>
                             .<span class="variable">split</span>(<span class="string">'\n'</span>).<span class="variable">slice</span>(<span class="number integer">1</span>)
-                            .<span class="variable">map</span>(<span class="keyword">function</span>(<span class="variable">v</span>){ <span class="keyword">return</span> <span class="string">'&lt;li&gt;'</span> + <span class="variable">v</span> + <span class="string">'&lt;/li&gt;'</span>; }).<span class="variable">join</span>(<span class="string">''</span>);
+                            .<span class="variable">map</span>(<span class="variable">formatLine</span>).<span class="variable">join</span>(<span class="string">''</span>);
                         <span class="variable">html</span> = <span class="variable">html</span>
                             .<span class="variable">toString</span>(<span class="string">'utf8'</span>)
                             .<span class="variable">replace</span>(<span class="string">'{style}'</span>, <span class="variable">style</span>)
@@ -694,7 +729,7 @@ and <code>fallbacks</code>.</p>
                 <span class="variable">res</span>.<span class="variable">writeHead</span>(<span class="number integer">500</span>, { <span class="string">'Content-Type'</span>: <span class="string">'application/json'</span> });
                 <span class="variable">res</span>.<span class="variable">end</span>(<span class="variable">json</span>);
             } <span class="keyword">else</span> {
-                <span class="variable">res</span>.<span class="variable">writeHead</span>(<span class="number integer">500</span>, { <span class="string">'Content-Type'</span>: <span class="string">'application/json'</span> });
+                <span class="variable">res</span>.<span class="variable">writeHead</span>(<span class="number integer">500</span>, { <span class="string">'Content-Type'</span>: <span class="string">'text/plain'</span> });
                 <span class="variable">res</span>.<span class="variable">end</span>(<span class="variable">err</span>.<span class="variable">stack</span>);
             }
         } <span class="keyword">else</span> {
@@ -708,15 +743,82 @@ and <code>fallbacks</code>.</p>
 };
 </code></pre>
 </td>
+</tr><tr class="filename"><td><h2 id="lib/connect/middleware/favicon.js"><a href="#">favicon</a></h2></td><td>lib/connect/middleware/favicon.js</td></tr><tr class="code">
+<td class="docs">
+<p>Module dependencies.
+ </p>
+</td>
+<td class="code">
+<pre><code><span class="keyword">var</span> <span class="variable">fs</span> = <span class="variable">require</span>(<span class="string">'fs'</span>),
+    <span class="variable">utils</span> = <span class="variable">require</span>(<span class="string">'../utils'</span>);</code></pre>
+</td>
+</tr>
+<tr class="code">
+<td class="docs">
+<p>Favicon cache.</p>
+
+<ul><li><p><strong>type</strong>: <em>Object</em></p></li></ul>
+</td>
+<td class="code">
+<pre><code><span class="keyword">var</span> <span class="variable">icon</span>;</code></pre>
+</td>
+</tr>
+<tr class="code">
+<td class="docs">
+<p>By default serves the connect favicon, or the favicon
+located by the given path.</p>
+
+<h2>Examples</h2>
+
+<pre><code>connect.createServer(
+    connect.favicon()    
+);
+
+connect.createServer(
+    connect.favicon(__dirname + '/public/favicon.ico')    
+);</code></pre>
+
+<h2></h2>
+
+<ul><li><p><strong>param</strong>: <em>String</em>  path</p></li><li><p><strong>return</strong>: <em>Function</em> </p></li><li><p><strong>api</strong>: <em>public</em></p></li></ul>
+</td>
+<td class="code">
+<pre><code><span class="variable">module</span>.<span class="variable">exports</span> = <span class="keyword">function</span> <span class="variable">favicon</span>(<span class="variable">path</span>){
+    <span class="variable">path</span> = <span class="variable">path</span> || <span class="variable">__dirname</span> + <span class="string">'/../public/favicon.ico'</span>;
+    <span class="keyword">return</span> <span class="keyword">function</span> <span class="variable">favicon</span>(<span class="variable">req</span>, <span class="variable">res</span>, <span class="variable">next</span>){
+        <span class="keyword">if</span> (<span class="variable">req</span>.<span class="variable">url</span> === <span class="string">'/favicon.ico'</span>) {
+            <span class="keyword">if</span> (<span class="variable">icon</span>) {
+                <span class="variable">res</span>.<span class="variable">writeHead</span>(<span class="number integer">200</span>, <span class="variable">icon</span>.<span class="variable">headers</span>);
+                <span class="variable">res</span>.<span class="variable">end</span>(<span class="variable">icon</span>.<span class="variable">body</span>);
+            } <span class="keyword">else</span> {
+                <span class="variable">fs</span>.<span class="variable">readFile</span>(<span class="variable">path</span>, <span class="keyword">function</span>(<span class="variable">err</span>, <span class="variable">buf</span>){
+                    <span class="keyword">if</span> (<span class="variable">err</span>) <span class="keyword">return</span> <span class="variable">next</span>(<span class="variable">err</span>);
+                    <span class="variable">icon</span> = {
+                        <span class="variable">headers</span>: {
+                            <span class="string">'Content-Type'</span>: <span class="string">'image/x-icon'</span>,
+                            <span class="string">'Content-Length'</span>: <span class="variable">buf</span>.<span class="variable">length</span>,
+                            <span class="string">'ETag'</span>: <span class="variable">utils</span>.<span class="variable">md5</span>(<span class="variable">buf</span>),
+                            <span class="string">'Cache-Control'</span>: <span class="string">'public max-age=3600'</span>
+                        },
+                        <span class="variable">body</span>: <span class="variable">buf</span>
+                    }
+                    <span class="variable">res</span>.<span class="variable">writeHead</span>(<span class="number integer">200</span>, <span class="variable">icon</span>.<span class="variable">headers</span>);
+                    <span class="variable">res</span>.<span class="variable">end</span>(<span class="variable">icon</span>.<span class="variable">body</span>);
+                });
+            }
+        } <span class="keyword">else</span> {
+            <span class="variable">next</span>();
+        }
+    };
+};</code></pre>
+</td>
 </tr><tr class="filename"><td><h2 id="lib/connect/middleware/gzip-compress.js"><a href="#">gzip-compress</a></h2></td><td>lib/connect/middleware/gzip-compress.js</td></tr><tr class="code">
 <td class="docs">
 <p>Module dependencies.
  </p>
 </td>
 <td class="code">
-<pre><code><span class="keyword">var</span> <span class="variable">child_process</span> = <span class="variable">require</span>(<span class="string">'child_process'</span>),
-    <span class="variable">sys</span> = <span class="variable">require</span>(<span class="string">'sys'</span>),
-    <span class="variable">compress</span> = <span class="variable">require</span>(<span class="string">'compress'</span>);</code></pre>
+<pre><code><span class="keyword">var</span> <span class="variable">compress</span> = <span class="variable">require</span>(<span class="string">'compress'</span>);</code></pre>
 </td>
 </tr>
 <tr class="code">
@@ -873,253 +975,6 @@ and <code>fallbacks</code>.</p>
 <td class="code">
 
 </td>
-</tr><tr class="filename"><td><h2 id="lib/connect/middleware/jsonrpc.js"><a href="#">jsonrpc</a></h2></td><td>lib/connect/middleware/jsonrpc.js</td></tr><tr class="code">
-<td class="docs">
-<p>Module dependencies.
- </p>
-</td>
-<td class="code">
-<pre><code><span class="keyword">var</span> <span class="variable">sys</span> = <span class="variable">require</span>(<span class="string">'sys'</span>),
-    <span class="variable">parse</span> = <span class="variable">require</span>(<span class="string">'url'</span>).<span class="variable">parse</span>,
-    <span class="class">Buffer</span> = <span class="variable">require</span>(<span class="string">'buffer'</span>).<span class="class">Buffer</span>,
-    <span class="variable">http</span> = <span class="variable">require</span>(<span class="string">'http'</span>);</code></pre>
-</td>
-</tr>
-<tr class="code">
-<td class="docs">
-<p>Export the <code>setup()</code> function.
- </p>
-</td>
-<td class="code">
-<pre><code><span class="variable">exports</span> = <span class="variable">module</span>.<span class="variable">exports</span> = <span class="variable">jsonrpc</span>;</code></pre>
-</td>
-</tr>
-<tr class="code">
-<td class="docs">
-<p>JSON-RPC version.
- </p>
-</td>
-<td class="code">
-<pre><code><span class="keyword">var</span> <span class="class">VERSION</span> = <span class="variable">exports</span>.<span class="class">VERSION</span> = <span class="string">'2.0'</span>;</code></pre>
-</td>
-</tr>
-<tr class="code">
-<td class="docs">
-<p>JSON parse error.
- </p>
-</td>
-<td class="code">
-<pre><code><span class="keyword">var</span> <span class="class">PARSE_ERROR</span> = <span class="variable">exports</span>.<span class="class">PARSE_ERROR</span> = -<span class="number integer">32700</span>;</code></pre>
-</td>
-</tr>
-<tr class="code">
-<td class="docs">
-<p>Invalid request due to invalid or missing properties.
- </p>
-</td>
-<td class="code">
-<pre><code><span class="keyword">var</span> <span class="class">INVALID_REQUEST</span> = <span class="variable">exports</span>.<span class="class">INVALID_REQUEST</span> = -<span class="number integer">32600</span>;</code></pre>
-</td>
-</tr>
-<tr class="code">
-<td class="docs">
-<p>Service method does not exist.
- </p>
-</td>
-<td class="code">
-<pre><code><span class="keyword">var</span> <span class="class">METHOD_NOT_FOUND</span> = <span class="variable">exports</span>.<span class="class">METHOD_NOT_FOUND</span> = -<span class="number integer">32601</span>;</code></pre>
-</td>
-</tr>
-<tr class="code">
-<td class="docs">
-<p>Invalid parameters.
- </p>
-</td>
-<td class="code">
-<pre><code><span class="keyword">var</span> <span class="class">INVALID_PARAMS</span> = <span class="variable">exports</span>.<span class="class">INVALID_PARAMS</span> = -<span class="number integer">32602</span>;</code></pre>
-</td>
-</tr>
-<tr class="code">
-<td class="docs">
-<p>Internal JSON-RPC error.
- </p>
-</td>
-<td class="code">
-<pre><code><span class="keyword">var</span> <span class="class">INTERNAL_ERROR</span> = <span class="variable">exports</span>.<span class="class">INTERNAL_ERROR</span> = -<span class="number integer">32603</span>;</code></pre>
-</td>
-</tr>
-<tr class="code">
-<td class="docs">
-<p>Default error messages.
- </p>
-</td>
-<td class="code">
-<pre><code><span class="keyword">var</span> <span class="variable">errorMessages</span> = <span class="variable">exports</span>.<span class="variable">errorMessages</span> = {};
-<span class="variable">errorMessages</span>[<span class="class">PARSE_ERROR</span>] = <span class="string">'Parse Error.'</span>;
-<span class="variable">errorMessages</span>[<span class="class">INVALID_REQUEST</span>] = <span class="string">'Invalid Request.'</span>;
-<span class="variable">errorMessages</span>[<span class="class">METHOD_NOT_FOUND</span>] = <span class="string">'Method Not Found.'</span>;
-<span class="variable">errorMessages</span>[<span class="class">INVALID_PARAMS</span>] = <span class="string">'Invalid Params.'</span>;
-<span class="variable">errorMessages</span>[<span class="class">INTERNAL_ERROR</span>] = <span class="string">'Internal Error.'</span>;</code></pre>
-</td>
-</tr>
-<tr class="code">
-<td class="docs">
-<p>Accepts any number of objects, exposing their methods.</p>
-
-<h2></h2>
-
-<ul><li><p><strong>param</strong>: <em>Object</em>  ...</p></li><li><p><strong>return</strong>: <em>Function</em> </p></li><li><p><strong>api</strong>: <em>public</em></p></li></ul>
-</td>
-<td class="code">
-<pre><code><span class="keyword">function</span> <span class="variable">jsonrpc</span>(<span class="variable">services</span>) {
-    <span class="variable">services</span> = <span class="variable">services</span> || {};
-
-    <span class="comment">// Merge methods</span>
-    <span class="keyword">for</span> (<span class="keyword">var</span> <span class="variable">i</span> = <span class="number integer">0</span>, <span class="variable">len</span> = <span class="variable">arguments</span>.<span class="variable">length</span>; <span class="variable">i</span> &<span class="variable">lt</span>; <span class="variable">len</span>; ++<span class="variable">i</span>) {
-        <span class="variable">arguments</span>[<span class="variable">i</span>].<span class="variable">forEach</span>(<span class="keyword">function</span>(<span class="variable">val</span>, <span class="variable">key</span>){
-            <span class="variable">services</span>[<span class="variable">key</span>] = <span class="variable">val</span>;
-        });
-    }</code></pre>
-</td>
-</tr>
-<tr class="code">
-<td class="docs">
-<p>Handle JSON-RPC request.</p>
-
-<h2></h2>
-
-<ul><li><p><strong>param</strong>: <em>Object</em>  rpc</p></li><li><p><strong>param</strong>: <em>Function</em>  respond</p><p> </p></li></ul>
-</td>
-<td class="code">
-<pre><code><span class="keyword">function</span> <span class="variable">handleRequest</span>(<span class="variable">rpc</span>, <span class="variable">respond</span>){
-        <span class="keyword">if</span> (<span class="variable">validRequest</span>(<span class="variable">rpc</span>)) {
-            <span class="keyword">var</span> <span class="variable">method</span> = <span class="variable">services</span>[<span class="variable">rpc</span>.<span class="variable">method</span>];
-            <span class="keyword">if</span> (<span class="keyword">typeof</span> <span class="variable">method</span> === <span class="string">'function'</span>) {
-                <span class="keyword">var</span> <span class="variable">params</span> = [];
-                <span class="keyword">if</span> (<span class="variable">rpc</span>.<span class="variable">params</span> <span class="variable">instanceof</span> <span class="class">Array</span>) {
-                    <span class="variable">params</span> = <span class="variable">rpc</span>.<span class="variable">params</span>;
-                } <span class="keyword">else</span> <span class="keyword">if</span> (<span class="keyword">typeof</span> <span class="variable">rpc</span>.<span class="variable">params</span> === <span class="string">'object'</span>) {
-                    <span class="keyword">var</span> <span class="variable">names</span> = <span class="variable">method</span>.<span class="variable">toString</span>().<span class="variable">match</span>(<span class="regexp">/\((.*?)\)/</span>)[<span class="number integer">1</span>].<span class="variable">match</span>(<span class="regexp">/[\w]+/g</span>);
-                    <span class="keyword">if</span> (<span class="variable">names</span>) {
-                        <span class="keyword">for</span> (<span class="keyword">var</span> <span class="variable">i</span> = <span class="number integer">0</span>, <span class="variable">len</span> = <span class="variable">names</span>.<span class="variable">length</span>; <span class="variable">i</span> &<span class="variable">lt</span>; <span class="variable">len</span>; ++<span class="variable">i</span>) {
-                            <span class="variable">params</span>.<span class="variable">push</span>(<span class="variable">rpc</span>.<span class="variable">params</span>[<span class="variable">names</span>[<span class="variable">i</span>]]);
-                        }
-                    } <span class="keyword">else</span> {
-                        <span class="comment">// Function does not have named parameters</span>
-                        <span class="keyword">return</span> <span class="variable">respond</span>({ <span class="variable">error</span>: { <span class="variable">code</span>: <span class="class">INVALID_PARAMS</span>, <span class="variable">message</span>: <span class="string">'This service does not support named parameters.'</span> }});
-                    }
-                }
-                <span class="keyword">function</span> <span class="variable">reply</span>(<span class="variable">err</span>, <span class="variable">result</span>){
-                    <span class="keyword">if</span> (<span class="variable">err</span>) {
-                        <span class="keyword">if</span> (<span class="keyword">typeof</span> <span class="variable">err</span> === <span class="string">'number'</span>) {
-                            <span class="variable">respond</span>({
-                                <span class="variable">error</span>: {
-                                    <span class="variable">code</span>: <span class="variable">err</span>
-                                }
-                            });
-                        } <span class="keyword">else</span> {
-                            <span class="variable">respond</span>({
-                                <span class="variable">error</span>: {
-                                    <span class="variable">code</span>: <span class="variable">err</span>.<span class="variable">code</span> || <span class="class">INTERNAL_ERROR</span>,
-                                    <span class="variable">message</span>: <span class="variable">err</span>.<span class="variable">message</span>
-                                }
-                            });
-                        }
-                    } <span class="keyword">else</span> {
-                        <span class="variable">respond</span>({
-                            <span class="variable">result</span>: <span class="variable">result</span>
-                        });
-                    }
-                }
-                <span class="variable">method</span>.<span class="variable">apply</span>(<span class="variable">reply</span>, <span class="variable">params</span>);
-            } <span class="keyword">else</span> {
-                <span class="variable">respond</span>({ <span class="variable">error</span>: { <span class="variable">code</span>: <span class="class">METHOD_NOT_FOUND</span> }});
-            }
-        } <span class="keyword">else</span> {
-            <span class="variable">respond</span>({ <span class="variable">error</span>: { <span class="variable">code</span>: <span class="class">INVALID_REQUEST</span> }});
-        }
-    }
-
-    <span class="keyword">return</span> <span class="keyword">function</span> <span class="variable">jsonrpc</span>(<span class="variable">req</span>, <span class="variable">res</span>, <span class="variable">next</span>) {
-        <span class="keyword">var</span> <span class="variable">me</span> = <span class="this">this</span>,
-            <span class="variable">contentType</span> = <span class="variable">req</span>.<span class="variable">headers</span>[<span class="string">'content-type'</span>] || <span class="string">''</span>;
-        <span class="keyword">if</span> (<span class="variable">req</span>.<span class="variable">method</span> === <span class="string">'POST'</span> &<span class="variable">amp</span>;&<span class="variable">amp</span>; <span class="variable">contentType</span>.<span class="variable">indexOf</span>(<span class="string">'application/json'</span>) &<span class="variable">gt</span>;= <span class="number integer">0</span>) {
-            <span class="keyword">var</span> <span class="variable">data</span> = <span class="string">''</span>;
-            <span class="variable">req</span>.<span class="variable">setEncoding</span>(<span class="string">'utf8'</span>);
-            <span class="variable">req</span>.<span class="variable">addListener</span>(<span class="string">'data'</span>, <span class="keyword">function</span>(<span class="variable">chunk</span>) { <span class="variable">data</span> += <span class="variable">chunk</span>; });
-            <span class="variable">req</span>.<span class="variable">addListener</span>(<span class="string">'end'</span>, <span class="keyword">function</span>() {
-
-                <span class="comment">// Attempt to parse incoming JSON string</span>
-
-                <span class="keyword">try</span> {
-                    <span class="keyword">var</span> <span class="variable">rpc</span> = <span class="class">JSON</span>.<span class="variable">parse</span>(<span class="variable">data</span>),
-                        <span class="variable">batch</span> = <span class="variable">rpc</span> <span class="variable">instanceof</span> <span class="class">Array</span>;
-                } <span class="keyword">catch</span> (<span class="variable">err</span>) {
-                    <span class="keyword">return</span> <span class="variable">respond</span>(<span class="variable">normalize</span>(<span class="variable">rpc</span>, { <span class="variable">error</span>: { <span class="variable">code</span>: <span class="class">PARSE_ERROR</span> }}));
-                }</code></pre>
-</td>
-</tr>
-<tr class="code">
-<td class="docs">
-<p>Normalize response object.
-                 </p>
-</td>
-<td class="code">
-<pre><code><span class="keyword">function</span> <span class="variable">normalize</span>(<span class="variable">rpc</span>, <span class="variable">obj</span>) {
-                    <span class="variable">obj</span>.<span class="variable">id</span> = <span class="variable">rpc</span> &<span class="variable">amp</span>;&<span class="variable">amp</span>; <span class="keyword">typeof</span> <span class="variable">rpc</span>.<span class="variable">id</span> === <span class="string">'number'</span>
-                        ? <span class="variable">rpc</span>.<span class="variable">id</span>
-                        : <span class="keyword">null</span>;
-                    <span class="variable">obj</span>.<span class="variable">jsonrpc</span> = <span class="class">VERSION</span>;
-                    <span class="keyword">if</span> (<span class="variable">obj</span>.<span class="variable">error</span> &<span class="variable">amp</span>;&<span class="variable">amp</span>; !<span class="variable">obj</span>.<span class="variable">error</span>.<span class="variable">message</span>) {
-                        <span class="variable">obj</span>.<span class="variable">error</span>.<span class="variable">message</span> = <span class="variable">errorMessages</span>[<span class="variable">obj</span>.<span class="variable">error</span>.<span class="variable">code</span>];
-                    }
-                    <span class="keyword">return</span> <span class="variable">obj</span>;
-                }</code></pre>
-</td>
-</tr>
-<tr class="code">
-<td class="docs">
-<p>Respond with the given response object.
-                 </p>
-</td>
-<td class="code">
-<pre><code><span class="keyword">function</span> <span class="variable">respond</span>(<span class="variable">obj</span>) {
-                    <span class="keyword">var</span> <span class="variable">body</span> = <span class="class">JSON</span>.<span class="variable">stringify</span>(<span class="variable">obj</span>);
-                    <span class="variable">res</span>.<span class="variable">writeHead</span>(<span class="number integer">200</span>, {
-                        <span class="string">'Content-Type'</span>: <span class="string">'application/json'</span>,
-                        <span class="string">'Content-Length'</span>: <span class="class">Buffer</span>.<span class="variable">byteLength</span>(<span class="variable">body</span>)
-                    });
-                    <span class="variable">res</span>.<span class="variable">end</span>(<span class="variable">body</span>);
-                }
-
-                <span class="comment">// Handle requests</span>
-
-                <span class="keyword">if</span> (<span class="variable">batch</span>) {
-                    <span class="keyword">var</span> <span class="variable">responses</span> = [],
-                        <span class="variable">len</span> = <span class="variable">rpc</span>.<span class="variable">length</span>,
-                        <span class="variable">pending</span> = <span class="variable">len</span>;
-                    <span class="keyword">for</span> (<span class="keyword">var</span> <span class="variable">i</span> = <span class="number integer">0</span>; <span class="variable">i</span> &<span class="variable">lt</span>; <span class="variable">len</span>; ++<span class="variable">i</span>) {
-                        (<span class="keyword">function</span>(<span class="variable">rpc</span>){
-                            <span class="variable">handleRequest</span>.<span class="variable">call</span>(<span class="variable">me</span>, <span class="variable">rpc</span>, <span class="keyword">function</span>(<span class="variable">obj</span>){
-                                <span class="variable">responses</span>.<span class="variable">push</span>(<span class="variable">normalize</span>(<span class="variable">rpc</span>, <span class="variable">obj</span>));
-                                <span class="keyword">if</span> (!--<span class="variable">pending</span>) {
-                                    <span class="variable">respond</span>(<span class="variable">responses</span>);
-                                }
-                            });
-                        })(<span class="variable">rpc</span>[<span class="variable">i</span>]);
-                    }
-                } <span class="keyword">else</span> {
-                    <span class="variable">handleRequest</span>.<span class="variable">call</span>(<span class="variable">me</span>, <span class="variable">rpc</span>, <span class="keyword">function</span>(<span class="variable">obj</span>){
-                        <span class="variable">respond</span>(<span class="variable">normalize</span>(<span class="variable">rpc</span>, <span class="variable">obj</span>));
-                    });
-                }
-            });
-        } <span class="keyword">else</span> {
-            <span class="variable">next</span>();
-        }
-    };
-};</code></pre>
-</td>
 </tr><tr class="filename"><td><h2 id="lib/connect/middleware/lint.js"><a href="#">lint</a></h2></td><td>lib/connect/middleware/lint.js</td></tr><tr class="code">
 <td class="docs">
 <p>Module dependencies.
@@ -1162,11 +1017,31 @@ and <code>fallbacks</code>.</p>
 </td>
 </tr><tr class="filename"><td><h2 id="lib/connect/middleware/logger.js"><a href="#">logger</a></h2></td><td>lib/connect/middleware/logger.js</td></tr><tr class="code">
 <td class="docs">
+<p>Log buffer.</p>
+
+<ul><li><p><strong>type</strong>: <em>Array</em></p></li></ul>
+</td>
+<td class="code">
+<pre><code><span class="keyword">var</span> <span class="variable">buf</span> = [];</code></pre>
+</td>
+</tr>
+<tr class="code">
+<td class="docs">
+<p>Default log buffer duration.</p>
+
+<ul><li><p><strong>type</strong>: <em>Number</em></p></li></ul>
+</td>
+<td class="code">
+<pre><code><span class="keyword">var</span> <span class="variable">defaultBufferDuration</span> = <span class="number integer">1000</span>;</code></pre>
+</td>
+</tr>
+<tr class="code">
+<td class="docs">
 <p>Log requests with the given <code>options</code>.</p>
 
 <h2>Options</h2>
 
-<ul><li><code>format</code>  Format string, see below for tokens</li><li><code>stream</code>  Output stream, defaults to <em>stdout</em></li></ul>
+<ul><li><code>format</code>  Format string, see below for tokens</li><li><code>stream</code>  Output stream, defaults to <em>stdout</em></li><li><code>buffer</code>  Buffer duration, defaults to 1000ms when <em>true</em></li></ul>
 
 <h2>Tokens</h2>
 
@@ -1181,7 +1056,24 @@ and <code>fallbacks</code>.</p>
     <span class="variable">options</span> = <span class="variable">options</span> || {};
 
     <span class="keyword">var</span> <span class="variable">fmt</span> = <span class="variable">process</span>.<span class="variable">connectEnv</span>.<span class="variable">logFormat</span> || <span class="variable">options</span>.<span class="variable">format</span>,
-        <span class="variable">stream</span> = <span class="variable">options</span>.<span class="variable">stream</span> || <span class="variable">process</span>.<span class="variable">stdout</span>;
+        <span class="variable">stream</span> = <span class="variable">options</span>.<span class="variable">stream</span> || <span class="variable">process</span>.<span class="variable">stdout</span>,
+        <span class="variable">buffer</span> = <span class="variable">options</span>.<span class="variable">buffer</span>;
+
+    <span class="comment">// Buffering support</span>
+    <span class="keyword">if</span> (<span class="variable">buffer</span>) {
+        <span class="keyword">var</span> <span class="variable">realStream</span> = <span class="variable">stream</span>;
+        <span class="variable">setInterval</span>(<span class="keyword">function</span>(){
+            <span class="keyword">if</span> (<span class="variable">buf</span>.<span class="variable">length</span>) {
+                <span class="variable">realStream</span>.<span class="variable">write</span>(<span class="variable">buf</span>.<span class="variable">join</span>(<span class="string">''</span>), <span class="string">'ascii'</span>);
+                <span class="variable">buf</span>.<span class="variable">length</span> = <span class="number integer">0</span>;
+            }
+        }, <span class="keyword">typeof</span> <span class="variable">buffer</span> === <span class="string">'number'</span> ? <span class="variable">buffer</span> : <span class="variable">defaultBufferDuration</span>); 
+        <span class="variable">stream</span> = {
+            <span class="variable">write</span>: <span class="keyword">function</span>(<span class="variable">str</span>){
+                <span class="variable">buf</span>.<span class="variable">push</span>(<span class="variable">str</span>);
+            }
+        };
+    }
 
     <span class="keyword">return</span> <span class="keyword">function</span> <span class="variable">logger</span>(<span class="variable">req</span>, <span class="variable">res</span>, <span class="variable">next</span>) {
         <span class="keyword">var</span> <span class="variable">start</span> = +<span class="keyword">new</span> <span class="class">Date</span>,
@@ -1196,7 +1088,7 @@ and <code>fallbacks</code>.</p>
             <span class="variable">res</span>.<span class="variable">writeHead</span> = <span class="variable">writeHead</span>;
             <span class="variable">res</span>.<span class="variable">writeHead</span>(<span class="variable">code</span>, <span class="variable">headers</span>);
             <span class="variable">res</span>.<span class="variable">statusCode</span> = <span class="variable">statusCode</span> = <span class="variable">code</span>;
-            <span class="variable">res</span>.<span class="variable">headers</span> = <span class="variable">resHeaders</span> = <span class="variable">headers</span>;
+            <span class="variable">res</span>.<span class="variable">headers</span> = <span class="variable">resHeaders</span> = <span class="variable">headers</span> || {};
         };
 
         <span class="comment">// Proxy end to output a line to the provided logger.</span>
@@ -1290,7 +1182,7 @@ a method override, othewise defaults to __method_.</p>
 </td>
 <td class="code">
 <pre><code><span class="keyword">var</span> <span class="variable">net</span> = <span class="variable">require</span>(<span class="string">'net'</span>),
-    <span class="variable">repl</span> = <span class="variable">require</span>(<span class="string">'repl'</span>);</code></pre>
+    <span class="variable">_repl</span> = <span class="variable">require</span>(<span class="string">'repl'</span>);</code></pre>
 </td>
 </tr>
 <tr class="code">
@@ -1313,8 +1205,8 @@ a method override, othewise defaults to __method_.</p>
 <pre><code><span class="variable">module</span>.<span class="variable">exports</span> = <span class="keyword">function</span> <span class="variable">repl</span>(<span class="variable">prompt</span>, <span class="variable">socket</span>){
     <span class="variable">prompt</span> = <span class="variable">process</span>.<span class="variable">connectEnv</span>.<span class="variable">replPrompt</span> || <span class="variable">prompt</span> || <span class="string">'node&gt; '</span>;
     <span class="variable">socket</span> = <span class="variable">process</span>.<span class="variable">connectEnv</span>.<span class="variable">replSocket</span> || <span class="variable">socket</span> || <span class="string">'/tmp/connect.sock'</span>;
-    <span class="variable">net</span>.<span class="variable">createServer</span>(<span class="keyword">function</span> (<span class="variable">stream</span>) {
-        <span class="variable">repl</span>.<span class="variable">start</span>(<span class="variable">prompt</span>, <span class="variable">stream</span>);
+    <span class="variable">net</span>.<span class="variable">createServer</span>(<span class="keyword">function</span>(<span class="variable">stream</span>){
+        <span class="variable">_repl</span>.<span class="variable">start</span>(<span class="variable">prompt</span>, <span class="variable">stream</span>);
     }).<span class="variable">listen</span>(<span class="variable">socket</span>);
     <span class="keyword">return</span> <span class="keyword">function</span> <span class="variable">repl</span>(<span class="variable">req</span>, <span class="variable">res</span>, <span class="variable">next</span>){
         <span class="comment">// Pass through for now</span>
@@ -1323,37 +1215,14 @@ a method override, othewise defaults to __method_.</p>
 };
 </code></pre>
 </td>
-</tr><tr class="filename"><td><h2 id="lib/connect/middleware/responseTime.js"><a href="#">responseTime</a></h2></td><td>lib/connect/middleware/responseTime.js</td></tr><tr class="code">
-<td class="docs">
-<p>Responds with the <em>X-Response-Time</em> header in milliseconds.</p>
-
-<h2></h2>
-
-<ul><li><p><strong>return</strong>: <em>Function</em> </p></li><li><p><strong>api</strong>: <em>public</em></p></li></ul>
-</td>
-<td class="code">
-<pre><code><span class="variable">module</span>.<span class="variable">exports</span> = <span class="keyword">function</span> <span class="variable">responseTime</span>(){
-    <span class="keyword">return</span> <span class="keyword">function</span> <span class="variable">responseTime</span>(<span class="variable">req</span>, <span class="variable">res</span>, <span class="variable">next</span>){
-        <span class="keyword">var</span> <span class="variable">start</span> = <span class="keyword">new</span> <span class="class">Date</span>,
-            <span class="variable">writeHead</span> = <span class="variable">res</span>.<span class="variable">writeHead</span>;
-
-        <span class="variable">res</span>.<span class="variable">writeHead</span> = <span class="keyword">function</span>(<span class="variable">code</span>, <span class="variable">headers</span>){
-            <span class="variable">res</span>.<span class="variable">writeHead</span> = <span class="variable">writeHead</span>;
-            <span class="variable">headers</span>[<span class="string">'X-Response-Time'</span>] = (<span class="keyword">new</span> <span class="class">Date</span> - <span class="variable">start</span>) + &<span class="variable">quot</span>;<span class="variable">ms</span>&<span class="variable">quot</span>;;
-            <span class="variable">res</span>.<span class="variable">writeHead</span>(<span class="variable">code</span>, <span class="variable">headers</span>);
-        };
-
-        <span class="variable">next</span>();
-    };
-};</code></pre>
-</td>
 </tr><tr class="filename"><td><h2 id="lib/connect/middleware/router.js"><a href="#">router</a></h2></td><td>lib/connect/middleware/router.js</td></tr><tr class="code">
 <td class="docs">
 <p>Module dependencies.
  </p>
 </td>
 <td class="code">
-<pre><code><span class="keyword">var</span> <span class="variable">parse</span> = <span class="variable">require</span>(<span class="string">'url'</span>).<span class="variable">parse</span>;</code></pre>
+<pre><code><span class="keyword">var</span> <span class="variable">parse</span> = <span class="variable">require</span>(<span class="string">'url'</span>).<span class="variable">parse</span>,
+    <span class="variable">querystring</span> = <span class="variable">require</span>(<span class="string">'querystring'</span>);</code></pre>
 </td>
 </tr>
 <tr class="code">
@@ -1363,8 +1232,8 @@ a method override, othewise defaults to __method_.</p>
 <h2>Examples</h2>
 
 <pre><code>connect.router(function(app){
-    app.get('/user/:id', function(req, res, params){
-        // populates params.id
+    app.get('/user/:id', function(req, res, next){
+        // populates req.params.id
     });
 })</code></pre>
 
@@ -1396,7 +1265,11 @@ a method override, othewise defaults to __method_.</p>
             <span class="variable">path</span> = <span class="variable">path</span> <span class="variable">instanceof</span> <span class="class">RegExp</span>
                 ? <span class="variable">path</span>
                 : <span class="variable">normalizePath</span>(<span class="variable">path</span>, <span class="variable">keys</span>);
-            <span class="variable">localRoutes</span>.<span class="variable">push</span>(<span class="variable">fn</span>, <span class="variable">path</span>, <span class="variable">keys</span>);
+            <span class="variable">localRoutes</span>.<span class="variable">push</span>({
+                <span class="variable">fn</span>: <span class="variable">fn</span>,
+                <span class="variable">path</span>: <span class="variable">path</span>,
+                <span class="variable">keys</span>: <span class="variable">keys</span>
+            });
             <span class="keyword">return</span> <span class="variable">self</span>;
         };
     }
@@ -1406,14 +1279,15 @@ a method override, othewise defaults to __method_.</p>
             <span class="variable">self</span> = <span class="this">this</span>;
         (<span class="keyword">function</span> <span class="variable">pass</span>(<span class="variable">i</span>){
             <span class="keyword">if</span> (<span class="variable">route</span> = <span class="variable">match</span>(<span class="variable">req</span>, <span class="variable">routes</span>, <span class="variable">i</span>)) {
-                <span class="variable">req</span>.<span class="variable">params</span> = <span class="variable">req</span>.<span class="variable">params</span> || {};
-                <span class="variable">req</span>.<span class="variable">params</span>.<span class="variable">path</span> = <span class="variable">route</span>.<span class="variable">_params</span>;
+                <span class="variable">req</span>.<span class="variable">params</span> = <span class="variable">route</span>.<span class="variable">_params</span>;
                 <span class="keyword">try</span> { 
-                    <span class="variable">route</span>.<span class="variable">call</span>(<span class="variable">self</span>, <span class="variable">req</span>, <span class="variable">res</span>, <span class="variable">route</span>.<span class="variable">_params</span>, <span class="keyword">function</span>(<span class="variable">err</span>){
-                        <span class="keyword">if</span> (<span class="variable">err</span>) {
+                    <span class="variable">route</span>.<span class="variable">call</span>(<span class="variable">self</span>, <span class="variable">req</span>, <span class="variable">res</span>, <span class="keyword">function</span>(<span class="variable">err</span>){
+                        <span class="keyword">if</span> (<span class="variable">err</span> === <span class="variable">true</span>) {
+                            <span class="variable">next</span>();
+                        } <span class="keyword">else</span> <span class="keyword">if</span> (<span class="variable">err</span>) {
                             <span class="variable">next</span>(<span class="variable">err</span>);
                         } <span class="keyword">else</span> {
-                            <span class="variable">pass</span>(++<span class="variable">route</span>.<span class="variable">_index</span>);
+                            <span class="variable">pass</span>(<span class="variable">route</span>.<span class="variable">_index</span>+<span class="number integer">1</span>);
                         }
                     });
                 } <span class="keyword">catch</span> (<span class="variable">err</span>) {
@@ -1468,16 +1342,16 @@ a method override, othewise defaults to __method_.</p>
 </tr>
 <tr class="code">
 <td class="docs">
-<p>Attempt to fetch session by the given <code>hash</code>.</p>
+<p>Attempt to fetch session by the given <code>sid</code>.</p>
 
 <h2></h2>
 
-<ul><li><p><strong>param</strong>: <em>String</em>  hash</p></li><li><p><strong>param</strong>: <em>Function</em>  fn</p></li><li><p><strong>api</strong>: <em>public</em></p></li></ul>
+<ul><li><p><strong>param</strong>: <em>String</em>  sid</p></li><li><p><strong>param</strong>: <em>Function</em>  fn</p></li><li><p><strong>api</strong>: <em>public</em></p></li></ul>
 </td>
 <td class="code">
-<pre><code><span class="class">MemoryStore</span>.<span class="variable">prototype</span>.<span class="variable">get</span> = <span class="keyword">function</span>(<span class="variable">hash</span>, <span class="variable">fn</span>){
-    <span class="keyword">if</span> (<span class="variable">hash</span> <span class="keyword">in</span> <span class="this">this</span>.<span class="variable">sessions</span>) {
-        <span class="variable">fn</span>(<span class="keyword">null</span>, <span class="this">this</span>.<span class="variable">sessions</span>[<span class="variable">hash</span>]);
+<pre><code><span class="class">MemoryStore</span>.<span class="variable">prototype</span>.<span class="variable">get</span> = <span class="keyword">function</span>(<span class="variable">sid</span>, <span class="variable">fn</span>){
+    <span class="keyword">if</span> (<span class="variable">sid</span> <span class="keyword">in</span> <span class="this">this</span>.<span class="variable">sessions</span>) {
+        <span class="variable">fn</span>(<span class="keyword">null</span>, <span class="this">this</span>.<span class="variable">sessions</span>[<span class="variable">sid</span>]);
     } <span class="keyword">else</span> {
         <span class="variable">fn</span>();
     }
@@ -1486,30 +1360,30 @@ a method override, othewise defaults to __method_.</p>
 </tr>
 <tr class="code">
 <td class="docs">
-<p>Commit the given <code>sess</code> object associated with the given <code>hash</code>.</p>
+<p>Commit the given <code>sess</code> object associated with the given <code>sid</code>.</p>
 
 <h2></h2>
 
-<ul><li><p><strong>param</strong>: <em>String</em>  hash</p></li><li><p><strong>param</strong>: <em>Session</em>  sess</p></li><li><p><strong>param</strong>: <em>Function</em>  fn</p></li><li><p><strong>api</strong>: <em>public</em></p></li></ul>
+<ul><li><p><strong>param</strong>: <em>String</em>  sid</p></li><li><p><strong>param</strong>: <em>Session</em>  sess</p></li><li><p><strong>param</strong>: <em>Function</em>  fn</p></li><li><p><strong>api</strong>: <em>public</em></p></li></ul>
 </td>
 <td class="code">
-<pre><code><span class="class">MemoryStore</span>.<span class="variable">prototype</span>.<span class="variable">set</span> = <span class="keyword">function</span>(<span class="variable">hash</span>, <span class="variable">sess</span>, <span class="variable">fn</span>){
-    <span class="this">this</span>.<span class="variable">sessions</span>[<span class="variable">hash</span>] = <span class="variable">sess</span>;
+<pre><code><span class="class">MemoryStore</span>.<span class="variable">prototype</span>.<span class="variable">set</span> = <span class="keyword">function</span>(<span class="variable">sid</span>, <span class="variable">sess</span>, <span class="variable">fn</span>){
+    <span class="this">this</span>.<span class="variable">sessions</span>[<span class="variable">sid</span>] = <span class="variable">sess</span>;
     <span class="variable">fn</span> &<span class="variable">amp</span>;&<span class="variable">amp</span>; <span class="variable">fn</span>();
 };</code></pre>
 </td>
 </tr>
 <tr class="code">
 <td class="docs">
-<p>Destroy the session associated with the given <code>hash</code>.</p>
+<p>Destroy the session associated with the given <code>sid</code>.</p>
 
 <h2></h2>
 
-<ul><li><p><strong>param</strong>: <em>String</em>  hash</p></li><li><p><strong>api</strong>: <em>public</em></p></li></ul>
+<ul><li><p><strong>param</strong>: <em>String</em>  sid</p></li><li><p><strong>api</strong>: <em>public</em></p></li></ul>
 </td>
 <td class="code">
-<pre><code><span class="class">MemoryStore</span>.<span class="variable">prototype</span>.<span class="variable">destroy</span> = <span class="keyword">function</span>(<span class="variable">hash</span>, <span class="variable">fn</span>){
-    <span class="keyword">delete</span> <span class="this">this</span>.<span class="variable">sessions</span>[<span class="variable">hash</span>];
+<pre><code><span class="class">MemoryStore</span>.<span class="variable">prototype</span>.<span class="variable">destroy</span> = <span class="keyword">function</span>(<span class="variable">sid</span>, <span class="variable">fn</span>){
+    <span class="keyword">delete</span> <span class="this">this</span>.<span class="variable">sessions</span>[<span class="variable">sid</span>];
     <span class="variable">fn</span> &<span class="variable">amp</span>;&<span class="variable">amp</span>; <span class="variable">fn</span>();
 };</code></pre>
 </td>
@@ -1594,7 +1468,7 @@ a method override, othewise defaults to __method_.</p>
 <td class="code">
 <pre><code><span class="class">Session</span>.<span class="variable">prototype</span>.<span class="variable">destroy</span> = <span class="keyword">function</span>(<span class="variable">fn</span>){
     <span class="keyword">delete</span> <span class="this">this</span>.<span class="variable">req</span>.<span class="variable">session</span>;
-    <span class="this">this</span>.<span class="variable">req</span>.<span class="variable">sessionStore</span>.<span class="variable">destroy</span>(<span class="this">this</span>.<span class="variable">req</span>.<span class="variable">sessionHash</span>, <span class="variable">fn</span>);
+    <span class="this">this</span>.<span class="variable">req</span>.<span class="variable">sessionStore</span>.<span class="variable">destroy</span>(<span class="this">this</span>.<span class="variable">req</span>.<span class="variable">sessionID</span>, <span class="variable">fn</span>);
 };</code></pre>
 </td>
 </tr>
@@ -1625,16 +1499,16 @@ a method override, othewise defaults to __method_.</p>
 </tr>
 <tr class="code">
 <td class="docs">
-<p>Destroy session associated with the given <code>hash</code>
+<p>Destroy session associated with the given <code>sid</code>
 by passing <code>null</code> to <code>Store#get()</code>.</p>
 
 <h2></h2>
 
-<ul><li><p><strong>param</strong>: <em>String</em>  hash</p></li><li><p><strong>param</strong>: <em>Function</em>  fn</p></li><li><p><strong>api</strong>: <em>public</em></p></li></ul>
+<ul><li><p><strong>param</strong>: <em>String</em>  sid</p></li><li><p><strong>param</strong>: <em>Function</em>  fn</p></li><li><p><strong>api</strong>: <em>public</em></p></li></ul>
 </td>
 <td class="code">
-<pre><code><span class="class">Store</span>.<span class="variable">prototype</span>.<span class="variable">destroy</span> = <span class="keyword">function</span>(<span class="variable">hash</span>, <span class="variable">fn</span>){
-    <span class="this">this</span>.<span class="variable">set</span>(<span class="variable">hash</span>, <span class="keyword">null</span>, <span class="variable">fn</span>);
+<pre><code><span class="class">Store</span>.<span class="variable">prototype</span>.<span class="variable">destroy</span> = <span class="keyword">function</span>(<span class="variable">sid</span>, <span class="variable">fn</span>){
+    <span class="this">this</span>.<span class="variable">set</span>(<span class="variable">sid</span>, <span class="keyword">null</span>, <span class="variable">fn</span>);
 };</code></pre>
 </td>
 </tr>
@@ -1649,9 +1523,8 @@ by passing <code>null</code> to <code>Store#get()</code>.</p>
 <td class="code">
 <pre><code><span class="class">Store</span>.<span class="variable">prototype</span>.<span class="variable">regenerate</span> = <span class="keyword">function</span>(<span class="variable">req</span>, <span class="variable">fn</span>){
     <span class="keyword">var</span> <span class="variable">self</span> = <span class="this">this</span>;
-    <span class="this">this</span>.<span class="variable">destroy</span>(<span class="variable">req</span>.<span class="variable">sessionHash</span>, <span class="keyword">function</span>(<span class="variable">err</span>, <span class="variable">destroyed</span>){
-        <span class="variable">req</span>.<span class="variable">session</span> = <span class="keyword">new</span> <span class="class">Session</span>(<span class="variable">req</span>, <span class="variable">utils</span>.<span class="variable">uid</span>());
-        <span class="variable">req</span>.<span class="variable">sessionHash</span> = <span class="variable">self</span>.<span class="variable">hash</span>(<span class="variable">req</span>);
+    <span class="this">this</span>.<span class="variable">destroy</span>(<span class="variable">req</span>.<span class="variable">sessionID</span>, <span class="keyword">function</span>(<span class="variable">err</span>, <span class="variable">destroyed</span>){
+        <span class="variable">self</span>.<span class="variable">generate</span>();
         <span class="variable">fn</span>(<span class="variable">err</span>, <span class="variable">destroyed</span>);
     });
 };</code></pre>
@@ -1662,8 +1535,7 @@ by passing <code>null</code> to <code>Store#get()</code>.</p>
  </p>
 </td>
 <td class="code">
-<pre><code><span class="keyword">var</span> <span class="class">MemoryStore</span> = <span class="variable">require</span>(<span class="string">'./session/memory'</span>),
-    <span class="class">Session</span> = <span class="variable">require</span>(<span class="string">'./session/session'</span>),
+<pre><code><span class="keyword">var</span> <span class="class">Session</span> = <span class="variable">require</span>(<span class="string">'./session/session'</span>),
     <span class="variable">utils</span> = <span class="variable">require</span>(<span class="string">'./../utils'</span>);</code></pre>
 </td>
 </tr>
@@ -1673,75 +1545,248 @@ by passing <code>null</code> to <code>Store#get()</code>.</p>
 
 <h2>Options</h2>
 
-<ul><li><code>store</code>         Session store instance</li><li><code>fingerprint</code>   Custom fingerprint hashing function</li></ul>
+<ul><li><code>store</code>         Session store instance</li><li><code>fingerprint</code>   Custom fingerprint generating function</li></ul>
 
 <h2></h2>
 
 <ul><li><p><strong>param</strong>: <em>Object</em>  options</p></li><li><p><strong>return</strong>: <em>Function</em> </p></li><li><p><strong>api</strong>: <em>public</em></p></li></ul>
 </td>
 <td class="code">
-<pre><code><span class="variable">module</span>.<span class="variable">exports</span> = <span class="keyword">function</span> <span class="variable">session</span>(<span class="variable">options</span>){
+<pre><code><span class="variable">exports</span> = <span class="variable">module</span>.<span class="variable">exports</span> = <span class="keyword">function</span> <span class="variable">sessionSetup</span>(<span class="variable">options</span>){
     <span class="variable">options</span> = <span class="variable">options</span> || {};
-    <span class="keyword">var</span> <span class="variable">key</span> = <span class="string">'connect.sid'</span>;
+
+    <span class="comment">// The cookie key to store the session id in.</span>
+    <span class="keyword">var</span> <span class="variable">key</span> = <span class="variable">options</span>.<span class="variable">key</span> || <span class="string">'connect.sid'</span>;
 
     <span class="comment">// Default memory store</span>
-    <span class="variable">store</span> = <span class="variable">options</span>.<span class="variable">store</span> || <span class="keyword">new</span> <span class="class">MemoryStore</span>;
+    <span class="keyword">var</span> <span class="variable">store</span> = <span class="variable">options</span>.<span class="variable">store</span> || <span class="keyword">new</span> (<span class="variable">require</span>(<span class="string">'./session/memory'</span>));
 
-    <span class="comment">// Default fingerprint hashing function</span>
-    <span class="keyword">var</span> <span class="variable">hash</span> = <span class="variable">store</span>.<span class="variable">hash</span> = <span class="variable">options</span>.<span class="variable">fingerprint</span> || <span class="keyword">function</span>(<span class="variable">req</span>){
-        <span class="keyword">return</span> <span class="variable">utils</span>.<span class="variable">md5</span>(<span class="variable">req</span>.<span class="variable">session</span>.<span class="variable">id</span>
-            + <span class="variable">req</span>.<span class="variable">socket</span>.<span class="variable">remoteAddress</span>
-            + (<span class="variable">req</span>.<span class="variable">headers</span>[<span class="string">'user-agent'</span>] || <span class="string">''</span>));
+    <span class="comment">// Used to verify session ids / defaults to user agent</span>
+    <span class="keyword">var</span> <span class="variable">fingerprint</span> = <span class="variable">options</span>.<span class="variable">fingerprint</span> || <span class="keyword">function</span> <span class="variable">fingerprint</span>(<span class="variable">req</span>) {
+        <span class="keyword">return</span> <span class="variable">req</span>.<span class="variable">headers</span>[<span class="string">'user-agent'</span>] || <span class="string">''</span>;
     };
 
-    <span class="keyword">return</span> <span class="keyword">function</span> <span class="variable">session</span>(<span class="variable">req</span>, <span class="variable">res</span>, <span class="variable">next</span>){
+    <span class="comment">// This should be set by the app to make the session key tamper proof</span>
+    <span class="keyword">var</span> <span class="variable">secret</span> = <span class="variable">options</span>.<span class="variable">secret</span> || &<span class="variable">quot</span>;<span class="variable">hackme</span>&<span class="variable">quot</span>;;
+
+    <span class="keyword">return</span> <span class="keyword">function</span> <span class="variable">sessionHandle</span>(<span class="variable">req</span>, <span class="variable">res</span>, <span class="variable">next</span>) {
+
+        <span class="keyword">if</span> (!<span class="variable">req</span>.<span class="variable">cookies</span>) {
+            <span class="variable">next</span>(<span class="keyword">new</span> <span class="class">Error</span>(&<span class="variable">quot</span>;<span class="variable">session</span> <span class="variable">requires</span> <span class="variable">cookieDecoder</span> <span class="variable">to</span> <span class="variable">work</span> <span class="variable">properly</span>&<span class="variable">quot</span>;));
+            <span class="keyword">return</span>;
+        }
+
+        <span class="comment">// Wrap writeHead as a hook to save the session and send the cookie</span>
+        <span class="keyword">var</span> <span class="variable">writeHead</span> = <span class="variable">res</span>.<span class="variable">writeHead</span>;
+        <span class="variable">res</span>.<span class="variable">writeHead</span> = <span class="keyword">function</span>(<span class="variable">status</span>, <span class="variable">headers</span>){
+
+            <span class="comment">// Update the session in the store if there is one</span>
+            <span class="keyword">if</span> (<span class="variable">req</span>.<span class="variable">session</span>) {
+                <span class="variable">req</span>.<span class="variable">session</span>.<span class="variable">touch</span>();
+                <span class="variable">store</span>.<span class="variable">set</span>(<span class="variable">req</span>.<span class="variable">sessionID</span>, <span class="variable">req</span>.<span class="variable">session</span>);
+            }
+
+            <span class="comment">// Send an updated cookie to the browser</span>
+            <span class="variable">store</span>.<span class="variable">cookie</span>.<span class="variable">expires</span> = <span class="keyword">new</span> <span class="class">Date</span>(<span class="class">Date</span>.<span class="variable">now</span>() + <span class="variable">store</span>.<span class="variable">maxAge</span>);
+
+            <span class="comment">// Multiple Set-Cookie headers</span>
+            <span class="variable">headers</span> = <span class="variable">headers</span> || {};
+            <span class="keyword">var</span> <span class="variable">cookie</span> = <span class="variable">utils</span>.<span class="variable">serializeCookie</span>(<span class="variable">key</span>, <span class="variable">req</span>.<span class="variable">sessionID</span>, <span class="variable">store</span>.<span class="variable">cookie</span>);
+            <span class="keyword">if</span> (<span class="variable">headers</span>[<span class="string">'Set-Cookie'</span>]) {
+                <span class="variable">headers</span>[<span class="string">'Set-Cookie'</span>] += <span class="string">'\r\nSet-Cookie: '</span> + <span class="variable">cookie</span>;
+            } <span class="keyword">else</span> {
+                <span class="variable">headers</span>[<span class="string">'Set-Cookie'</span>] = <span class="variable">cookie</span>;
+            }
+
+            <span class="comment">// Pass through the writeHead call</span>
+            <span class="variable">res</span>.<span class="variable">writeHead</span> = <span class="variable">writeHead</span>;
+            <span class="keyword">return</span> <span class="variable">res</span>.<span class="variable">writeHead</span>(<span class="variable">status</span>, <span class="variable">headers</span>);
+        };
+
+        <span class="comment">// Calculates the security hash to prevent session hijacking</span>
+        <span class="comment">// Uses information on the user-agent that created the session as it's fingerprint</span>
+        <span class="keyword">function</span> <span class="variable">hash</span>(<span class="variable">base</span>) {
+          <span class="keyword">return</span> <span class="variable">utils</span>.<span class="variable">md5</span>(<span class="variable">base</span> + <span class="variable">fingerprint</span>(<span class="variable">req</span>) + <span class="variable">secret</span>, <span class="string">'base64'</span>).<span class="variable">replace</span>(<span class="regexp">/=*$/</span>, <span class="string">''</span>);
+        }
+
+        <span class="comment">// Generates the new session</span>
+        <span class="keyword">var</span> <span class="variable">generate</span> = <span class="variable">store</span>.<span class="variable">generate</span> = <span class="keyword">function</span>(){
+            <span class="keyword">var</span> <span class="variable">base</span> = <span class="variable">utils</span>.<span class="variable">uid</span>();
+            <span class="keyword">var</span> <span class="variable">sessionID</span> = <span class="variable">base</span> + &<span class="variable">quot</span>;.&<span class="variable">quot</span>; + <span class="variable">hash</span>(<span class="variable">base</span>);
+            <span class="variable">req</span>.<span class="variable">session</span> = <span class="keyword">new</span> <span class="class">Session</span>(<span class="variable">req</span>, <span class="variable">sessionID</span>);
+            <span class="variable">req</span>.<span class="variable">sessionID</span> = <span class="variable">sessionID</span>;
+        };
+
         <span class="comment">// Expose store</span>
         <span class="variable">req</span>.<span class="variable">sessionStore</span> = <span class="variable">store</span>;
 
-        <span class="keyword">if</span> (<span class="variable">req</span>.<span class="variable">cookies</span>) {
-            <span class="comment">// Commit session</span>
-            <span class="keyword">var</span> <span class="variable">writeHead</span> = <span class="variable">res</span>.<span class="variable">writeHead</span>;
-            <span class="variable">res</span>.<span class="variable">writeHead</span> = <span class="keyword">function</span>(<span class="variable">status</span>, <span class="variable">headers</span>){
-                <span class="variable">headers</span> = <span class="variable">headers</span> || {};
-                <span class="variable">res</span>.<span class="variable">writeHead</span> = <span class="variable">writeHead</span>;
-                <span class="variable">store</span>.<span class="variable">set</span>(<span class="variable">req</span>.<span class="variable">sessionHash</span>, <span class="variable">req</span>.<span class="variable">session</span>);
-                <span class="variable">store</span>.<span class="variable">cookie</span>.<span class="variable">expires</span> = <span class="keyword">new</span> <span class="class">Date</span>(+<span class="keyword">new</span> <span class="class">Date</span>() + <span class="variable">store</span>.<span class="variable">maxAge</span>);
-                <span class="variable">headers</span>[<span class="string">'Set-Cookie'</span>] = <span class="variable">utils</span>.<span class="variable">serializeCookie</span>(<span class="variable">key</span>, <span class="variable">req</span>.<span class="variable">session</span>.<span class="variable">id</span>, <span class="variable">store</span>.<span class="variable">cookie</span>);
-                <span class="keyword">return</span> <span class="variable">res</span>.<span class="variable">writeHead</span>(<span class="variable">status</span>, <span class="variable">headers</span>);
-            };
+        <span class="comment">// Get the sessionID from the cookie</span>
+        <span class="variable">req</span>.<span class="variable">sessionID</span> = <span class="variable">req</span>.<span class="variable">cookies</span>[<span class="variable">key</span>];
 
-            <span class="comment">// Generates the new session</span>
-            <span class="keyword">function</span> <span class="variable">generate</span>() {
-                <span class="variable">req</span>.<span class="variable">session</span> = <span class="keyword">new</span> <span class="class">Session</span>(<span class="variable">req</span>, <span class="variable">utils</span>.<span class="variable">uid</span>());
-                <span class="variable">req</span>.<span class="variable">sessionHash</span> = <span class="variable">hash</span>(<span class="variable">req</span>);
+        <span class="comment">// Make a new session if the browser doesn't send a sessionID</span>
+        <span class="keyword">if</span> (!<span class="variable">req</span>.<span class="variable">sessionID</span>) {
+            <span class="variable">generate</span>();
+            <span class="variable">next</span>();
+            <span class="keyword">return</span>;
+        }
+
+        <span class="comment">// Check the fingerprint</span>
+        <span class="keyword">var</span> <span class="variable">parts</span> = <span class="variable">req</span>.<span class="variable">sessionID</span>.<span class="variable">split</span>(<span class="string">'.'</span>);
+        <span class="keyword">if</span> (<span class="variable">parts</span>[<span class="number integer">1</span>] !== <span class="variable">hash</span>(<span class="variable">parts</span>[<span class="number integer">0</span>])) {
+            <span class="comment">// Make a new session if it doesn't check out</span>
+            <span class="variable">generate</span>();
+            <span class="variable">next</span>();
+            <span class="keyword">return</span>;
+        }
+
+        <span class="comment">// Generate the session object</span>
+        <span class="variable">store</span>.<span class="variable">get</span>(<span class="variable">req</span>.<span class="variable">sessionID</span>, <span class="keyword">function</span> (<span class="variable">err</span>, <span class="variable">sess</span>) {
+            <span class="comment">// Error/missing handling</span>
+            <span class="keyword">if</span> (<span class="variable">err</span>) {
+                <span class="keyword">if</span> (<span class="variable">err</span>.<span class="variable">errno</span> === <span class="variable">process</span>.<span class="class">ENOENT</span>) {
+                    <span class="comment">// If the session ID is invalid, generate a new session</span>
+                    <span class="variable">generate</span>();
+                    <span class="variable">next</span>();
+                } <span class="keyword">else</span> {
+                    <span class="comment">// Otherwise pass the exception along</span>
+                    <span class="variable">next</span>(<span class="variable">err</span>);
+                }
+                <span class="keyword">return</span>;
+            }
+            <span class="keyword">if</span> (!<span class="variable">sess</span>) {
+              <span class="comment">// Some stores use a falsy result to signify no result</span>
+              <span class="variable">generate</span>();
+              <span class="variable">next</span>();
+              <span class="keyword">return</span>;
+            }
+
+            <span class="comment">// Load the session into the request</span>
+            <span class="variable">req</span>.<span class="variable">session</span> = <span class="keyword">new</span> <span class="class">Session</span>(<span class="variable">req</span>, <span class="variable">sess</span>);
+            <span class="variable">next</span>();
+        });
+    };
+};</code></pre>
+</td>
+</tr>
+<tr class="code">
+<td class="docs">
+<p>Expose constructors.
+ </p>
+</td>
+<td class="code">
+<pre><code><span class="variable">exports</span>.<span class="class">Session</span> = <span class="class">Session</span>;
+<span class="variable">exports</span>.<span class="class">Store</span> = <span class="variable">require</span>(<span class="string">'./session/store'</span>);
+<span class="variable">exports</span>.<span class="class">MemoryStore</span> = <span class="variable">require</span>(<span class="string">'./session/memory'</span>);
+</code></pre>
+</td>
+</tr><tr class="filename"><td><h2 id="lib/connect/middleware/staticGzip.js"><a href="#">staticGzip</a></h2></td><td>lib/connect/middleware/staticGzip.js</td></tr><tr class="code">
+<td class="docs">
+<p>Module dependencies.
+ </p>
+</td>
+<td class="code">
+<pre><code><span class="keyword">var</span> <span class="variable">fs</span> = <span class="variable">require</span>(<span class="string">'fs'</span>),
+    <span class="variable">parse</span> = <span class="variable">require</span>(<span class="string">'url'</span>).<span class="variable">parse</span>
+    <span class="variable">utils</span> = <span class="variable">require</span>(<span class="string">'../utils'</span>),
+    <span class="variable">path</span> = <span class="variable">require</span>(<span class="string">'path'</span>),
+    <span class="variable">exec</span> = <span class="variable">require</span>(<span class="string">'child_process'</span>).<span class="variable">exec</span>;</code></pre>
+</td>
+</tr>
+<tr class="code">
+<td class="docs">
+<p>Expose staticGzip as the module.
+ </p>
+</td>
+<td class="code">
+<pre><code><span class="variable">exports</span> = <span class="variable">module</span>.<span class="variable">exports</span> = <span class="variable">staticGzip</span>;</code></pre>
+</td>
+</tr>
+<tr class="code">
+<td class="docs">
+<p>Gzip binary.</p>
+
+<ul><li><p><strong>type</strong>: <em>String</em></p></li></ul>
+</td>
+<td class="code">
+<pre><code><span class="variable">exports</span>.<span class="variable">bin</span> = <span class="string">'gzip'</span>;</code></pre>
+</td>
+</tr>
+<tr class="code">
+<td class="docs">
+<p>Flags passed to gzip.</p>
+
+<ul><li><p><strong>type</strong>: <em>String</em></p></li></ul>
+</td>
+<td class="code">
+<pre><code><span class="variable">exports</span>.<span class="variable">flags</span> = <span class="string">'--best'</span>;</code></pre>
+</td>
+</tr>
+<tr class="code">
+<td class="docs">
+<p>staticGzip gzips statics via whitelist of mime types specified
+by the <code>compress</code> option. Once created <code>staticProvider</code> can continue
+on to serve the gzipped version of the file.</p>
+
+<h2>Options</h2>
+
+<ul><li><code>root</code>      Root direction from which to generate gzipped statics</li><li><code>compress</code>  Array of mime types serving as a whitelist</li><li><code>flags</code>     String of flags passed to the binary</li><li><code>bin</code>       Binary executable defaulting to "gzip"</li></ul>
+
+<h2></h2>
+
+<ul><li><p><strong>param</strong>: <em>Object</em>  options</p></li><li><p><strong>api</strong>: <em>public</em></p></li></ul>
+</td>
+<td class="code">
+<pre><code><span class="keyword">function</span> <span class="variable">staticGzip</span>(<span class="variable">options</span>){
+    <span class="keyword">var</span> <span class="variable">options</span> = <span class="variable">options</span> || {},
+        <span class="variable">root</span> = <span class="variable">options</span>.<span class="variable">root</span>,
+        <span class="variable">compress</span> = <span class="variable">options</span>.<span class="variable">compress</span>,
+        <span class="variable">flags</span> = <span class="variable">options</span>.<span class="variable">flags</span> || <span class="variable">exports</span>.<span class="variable">flags</span>,
+        <span class="variable">bin</span> = <span class="variable">options</span>.<span class="variable">bin</span> || <span class="variable">exports</span>.<span class="variable">bin</span>;
+
+    <span class="keyword">if</span> (!<span class="variable">root</span>) <span class="keyword">throw</span> <span class="keyword">new</span> <span class="class">Error</span>(<span class="string">'staticGzip root must be set'</span>);
+    <span class="keyword">if</span> (!<span class="variable">compress</span>) <span class="keyword">throw</span> <span class="keyword">new</span> <span class="class">Error</span>(<span class="string">'staticGzip compress array must be passed'</span>);
+
+    <span class="keyword">return</span> <span class="keyword">function</span>(<span class="variable">req</span>, <span class="variable">res</span>, <span class="variable">next</span>){
+        <span class="keyword">if</span> (<span class="variable">req</span>.<span class="variable">method</span> !== <span class="string">'GET'</span>) <span class="keyword">return</span> <span class="variable">next</span>();
+
+        <span class="keyword">var</span> <span class="variable">acceptEncoding</span> = <span class="variable">req</span>.<span class="variable">headers</span>[<span class="string">'accept-encoding'</span>] || <span class="string">''</span>;
+
+        <span class="comment">// Ignore when Accept-Encoding does not allow gzip</span>
+        <span class="keyword">if</span> (<span class="variable">acceptEncoding</span> &<span class="variable">amp</span>;&<span class="variable">amp</span>; !~<span class="variable">acceptEncoding</span>.<span class="variable">indexOf</span>(<span class="string">'gzip'</span>)) <span class="keyword">return</span> <span class="variable">next</span>();
+
+        <span class="comment">// Parse the url</span>
+        <span class="keyword">var</span> <span class="variable">url</span> = <span class="variable">parse</span>(<span class="variable">req</span>.<span class="variable">url</span>),
+            <span class="variable">filename</span> = <span class="variable">path</span>.<span class="variable">join</span>(<span class="variable">root</span>, <span class="variable">url</span>.<span class="variable">pathname</span>),
+            <span class="variable">mime</span> = <span class="variable">utils</span>.<span class="variable">mime</span>.<span class="variable">type</span>(<span class="variable">filename</span>).<span class="variable">split</span>(<span class="string">';'</span>)[<span class="number integer">0</span>];
+
+        <span class="comment">// MIME type not white-listed</span>
+        <span class="keyword">if</span> (!~<span class="variable">compress</span>.<span class="variable">indexOf</span>(<span class="variable">mime</span>)) <span class="keyword">return</span> <span class="variable">next</span>();
+
+        <span class="comment">// Check if gzipped static is available</span>
+        <span class="variable">gzipped</span>(<span class="variable">filename</span>, <span class="keyword">function</span>(<span class="variable">err</span>, <span class="variable">path</span>, <span class="variable">ext</span>){
+            <span class="keyword">if</span> (<span class="variable">err</span> &<span class="variable">amp</span>;&<span class="variable">amp</span>; <span class="variable">err</span>.<span class="variable">errno</span> === <span class="variable">process</span>.<span class="class">ENOENT</span>) {
+                <span class="variable">next</span>();
+                <span class="comment">// We were looking for a gzipped static,</span>
+                <span class="comment">// so lets gzip it!</span>
+                <span class="keyword">if</span> (<span class="variable">err</span>.<span class="variable">path</span>.<span class="variable">indexOf</span>(<span class="string">'.gz'</span>) === <span class="variable">err</span>.<span class="variable">path</span>.<span class="variable">length</span> - <span class="number integer">3</span>) {
+                    <span class="variable">gzip</span>(<span class="variable">filename</span>, <span class="variable">path</span>, <span class="variable">flags</span>, <span class="variable">bin</span>);
+                }
+            } <span class="keyword">else</span> <span class="keyword">if</span> (<span class="variable">err</span>) {
+                <span class="variable">next</span>(<span class="variable">err</span>);
+            } <span class="keyword">else</span> {
+                <span class="comment">// Re-write the url to serve the gzipped static</span>
+                <span class="variable">req</span>.<span class="variable">url</span> = <span class="variable">url</span>.<span class="variable">pathname</span> + <span class="variable">ext</span>;
+                <span class="keyword">var</span> <span class="variable">writeHead</span> = <span class="variable">res</span>.<span class="variable">writeHead</span>;
+                <span class="variable">res</span>.<span class="variable">writeHead</span> = <span class="keyword">function</span>(<span class="variable">status</span>, <span class="variable">headers</span>){
+                    <span class="variable">headers</span> = <span class="variable">headers</span> || {};
+                    <span class="variable">res</span>.<span class="variable">writeHead</span> = <span class="variable">writeHead</span>;
+                    <span class="variable">headers</span>[<span class="string">'Content-Type'</span>] = <span class="variable">mime</span>;
+                    <span class="variable">headers</span>[<span class="string">'Content-Encoding'</span>] = <span class="string">'gzip'</span>;
+                    <span class="variable">res</span>.<span class="variable">writeHead</span>(<span class="variable">status</span>, <span class="variable">headers</span>);
+                };
                 <span class="variable">next</span>();
             }
-            
-            <span class="comment">// We have an sid</span>
-            <span class="keyword">if</span> (<span class="variable">req</span>.<span class="variable">cookies</span>[<span class="variable">key</span>]) {
-                <span class="variable">req</span>.<span class="variable">session</span> = <span class="keyword">new</span> <span class="class">Session</span>(<span class="variable">req</span>, <span class="variable">req</span>.<span class="variable">cookies</span>[<span class="variable">key</span>]);
-                <span class="variable">req</span>.<span class="variable">sessionHash</span> = <span class="variable">hash</span>(<span class="variable">req</span>);
-                <span class="comment">// See if the hash is valid</span>
-                <span class="variable">store</span>.<span class="variable">get</span>(<span class="variable">req</span>.<span class="variable">sessionHash</span>, <span class="keyword">function</span>(<span class="variable">err</span>, <span class="variable">sess</span>){
-                    <span class="keyword">if</span> (<span class="variable">err</span>) {
-                        <span class="variable">next</span>(<span class="variable">err</span>);
-                    } <span class="keyword">else</span> <span class="keyword">if</span> (<span class="variable">sess</span>) {
-                        <span class="comment">// Valid; apply session data and update lastAccess</span>
-                        <span class="variable">req</span>.<span class="variable">session</span> = <span class="keyword">new</span> <span class="class">Session</span>(<span class="variable">req</span>, <span class="variable">sess</span>);
-                        <span class="variable">req</span>.<span class="variable">session</span>.<span class="variable">touch</span>();
-                        <span class="variable">next</span>();
-                    } <span class="keyword">else</span> {
-                        <span class="comment">// Invalid; generate</span>
-                        <span class="variable">generate</span>();
-                    }
-                });
-            } <span class="keyword">else</span> {
-                <span class="comment">// No sid; generate</span>
-                <span class="variable">generate</span>();
-            }
-        } <span class="keyword">else</span> {
-            <span class="variable">next</span>();
-        }
+        });
     }
 };</code></pre>
 </td>
@@ -1752,21 +1797,29 @@ by passing <code>null</code> to <code>Store#get()</code>.</p>
 </td>
 <td class="code">
 <pre><code><span class="keyword">var</span> <span class="variable">fs</span> = <span class="variable">require</span>(<span class="string">'fs'</span>),
-    <span class="class">Url</span> = <span class="variable">require</span>(<span class="string">'url'</span>),
-    <span class="class">Buffer</span> = <span class="variable">require</span>(<span class="string">'buffer'</span>).<span class="class">Buffer</span>,
     <span class="class">Path</span> = <span class="variable">require</span>(<span class="string">'path'</span>),
-    <span class="variable">queryString</span> = <span class="variable">require</span>(<span class="string">'querystring'</span>),
-    <span class="variable">utils</span> = <span class="variable">require</span>(<span class="string">'./../utils'</span>);</code></pre>
+    <span class="variable">utils</span> = <span class="variable">require</span>(<span class="string">'../utils'</span>),
+    <span class="class">Buffer</span> = <span class="variable">require</span>(<span class="string">'buffer'</span>).<span class="class">Buffer</span>,
+    <span class="variable">parseUrl</span> = <span class="variable">require</span>(<span class="string">'url'</span>).<span class="variable">parse</span>,
+    <span class="variable">queryString</span> = <span class="variable">require</span>(<span class="string">'querystring'</span>);</code></pre>
 </td>
 </tr>
 <tr class="code">
 <td class="docs">
-<p>Browser cache maxAge of one hour.</p>
-
-<ul><li><p><strong>type</strong>: <em>Number</em></p></li></ul>
+<p>Default browser cache maxAge of one year.
+ </p>
 </td>
 <td class="code">
-<pre><code><span class="keyword">var</span> <span class="variable">maxAge</span> = <span class="number integer">1000</span> * <span class="number integer">60</span> * <span class="number integer">60</span>;</code></pre>
+<pre><code><span class="keyword">const</span> <span class="class">MAX_AGE</span> = <span class="number integer">31557600000</span>;</code></pre>
+</td>
+</tr>
+<tr class="code">
+<td class="docs">
+<p>File buffer cache.
+ </p>
+</td>
+<td class="code">
+<pre><code><span class="keyword">var</span> <span class="variable">_cache</span> = {};</code></pre>
 </td>
 </tr>
 <tr class="code">
@@ -1775,99 +1828,120 @@ by passing <code>null</code> to <code>Store#get()</code>.</p>
 
 <h2>Options</h2>
 
-<ul><li><code>root</code>    Root path from which to serve static files.</li></ul>
+<ul><li><code>root</code>     Root path from which to serve static files.</li><li><code>maxAge</code>   Browser cache maxAge in milliseconds</li><li><code>cache</code>    When true cache files in memory indefinitely,
+           until invalidated by a conditional GET request.
+           When given, maxAge will be derived from this value.</li></ul>
 
 <h2></h2>
 
-<ul><li><p><strong>param</strong>: <em>String</em>  root</p></li><li><p><strong>return</strong>: <em>Function</em> </p></li><li><p><strong>api</strong>: <em>public</em></p></li></ul>
+<ul><li><p><strong>param</strong>: <em>Object</em>  options</p></li><li><p><strong>return</strong>: <em>Function</em> </p></li><li><p><strong>api</strong>: <em>public</em></p></li></ul>
 </td>
 <td class="code">
-<pre><code><span class="variable">module</span>.<span class="variable">exports</span> = <span class="keyword">function</span> <span class="variable">staticProvider</span>(<span class="variable">root</span>){
-    <span class="variable">root</span> = <span class="variable">process</span>.<span class="variable">connectEnv</span>.<span class="variable">staticRoot</span> || <span class="variable">root</span> || <span class="variable">process</span>.<span class="variable">cwd</span>();
+<pre><code><span class="variable">module</span>.<span class="variable">exports</span> = <span class="keyword">function</span> <span class="variable">staticProvider</span>(<span class="variable">options</span>){
+    <span class="keyword">var</span> <span class="variable">cache</span>, <span class="variable">maxAge</span>, <span class="variable">root</span>;
+
+    <span class="comment">// Support options object and root string</span>
+    <span class="keyword">if</span> (<span class="keyword">typeof</span> <span class="variable">options</span> == <span class="string">'string'</span>) {
+        <span class="variable">root</span> = <span class="variable">options</span>;
+        <span class="variable">maxAge</span> = <span class="class">MAX_AGE</span>;
+    } <span class="keyword">else</span> {
+        <span class="variable">options</span> = <span class="variable">options</span> || {};
+        <span class="variable">maxAge</span> = <span class="variable">options</span>.<span class="variable">maxAge</span>;
+        <span class="variable">root</span> = <span class="variable">process</span>.<span class="variable">connectEnv</span>.<span class="variable">staticRoot</span> || <span class="variable">options</span>.<span class="variable">root</span> || <span class="variable">process</span>.<span class="variable">cwd</span>();
+        <span class="variable">cache</span> = <span class="variable">options</span>.<span class="variable">cache</span>;
+        <span class="keyword">if</span> (<span class="variable">cache</span> &<span class="variable">amp</span>;&<span class="variable">amp</span>; !<span class="variable">maxAge</span>) <span class="variable">maxAge</span> = <span class="variable">cache</span>;
+        <span class="variable">maxAge</span> = <span class="variable">maxAge</span> || <span class="class">MAX_AGE</span>;
+    }
+
     <span class="keyword">return</span> <span class="keyword">function</span> <span class="variable">staticProvider</span>(<span class="variable">req</span>, <span class="variable">res</span>, <span class="variable">next</span>) {
-        <span class="keyword">if</span> (<span class="variable">req</span>.<span class="variable">method</span> !== &<span class="variable">quot</span>;<span class="class">GET</span>&<span class="variable">quot</span>;) {
-            <span class="variable">next</span>();
-            <span class="keyword">return</span>;
+        <span class="keyword">if</span> (<span class="variable">req</span>.<span class="variable">method</span> != <span class="string">'GET'</span> &<span class="variable">amp</span>;&<span class="variable">amp</span>; <span class="variable">req</span>.<span class="variable">method</span> != <span class="string">'HEAD'</span>) <span class="keyword">return</span> <span class="variable">next</span>();
+
+        <span class="keyword">var</span> <span class="variable">hit</span>, 
+            <span class="variable">head</span> = <span class="variable">req</span>.<span class="variable">method</span> == <span class="string">'HEAD'</span>,
+            <span class="variable">filename</span>, <span class="variable">url</span> = <span class="variable">parseUrl</span>(<span class="variable">req</span>.<span class="variable">url</span>);
+
+        <span class="comment">// Potentially malicious path</span>
+        <span class="keyword">if</span> (~<span class="variable">url</span>.<span class="variable">pathname</span>.<span class="variable">indexOf</span>(<span class="string">'..'</span>)) {
+            <span class="keyword">return</span> <span class="variable">forbidden</span>(<span class="variable">res</span>);
         }
-        <span class="keyword">var</span> <span class="variable">url</span> = <span class="class">Url</span>.<span class="variable">parse</span>(<span class="variable">req</span>.<span class="variable">url</span>);
 
-        <span class="keyword">var</span> <span class="variable">pathname</span> = <span class="variable">url</span>.<span class="variable">pathname</span>.<span class="variable">replace</span>(<span class="regexp">/\.\.+/g</span>, <span class="string">'.'</span>),
-            <span class="variable">filename</span> = <span class="class">Path</span>.<span class="variable">join</span>(<span class="variable">root</span>, <span class="variable">queryString</span>.<span class="variable">unescape</span>(<span class="variable">pathname</span>));
+        <span class="comment">// Absolute path</span>
+        <span class="variable">filename</span> = <span class="class">Path</span>.<span class="variable">join</span>(<span class="variable">root</span>, <span class="variable">queryString</span>.<span class="variable">unescape</span>(<span class="variable">url</span>.<span class="variable">pathname</span>));
 
-        <span class="keyword">if</span> (<span class="variable">filename</span>[<span class="variable">filename</span>.<span class="variable">length</span> - <span class="number integer">1</span>] === &<span class="variable">quot</span>;/&<span class="variable">quot</span>;) {
+        <span class="comment">// Index.html support</span>
+        <span class="keyword">if</span> (<span class="variable">filename</span>[<span class="variable">filename</span>.<span class="variable">length</span> - <span class="number integer">1</span>] === <span class="string">'/'</span>) {
             <span class="variable">filename</span> += &<span class="variable">quot</span>;<span class="variable">index</span>.<span class="variable">html</span>&<span class="variable">quot</span>;;
         }
-
-        <span class="comment">// Buffer any events that fire while waiting on the stat.</span>
-        <span class="keyword">var</span> <span class="variable">events</span> = [];
-        <span class="keyword">function</span> <span class="variable">onData</span>() {
-            <span class="variable">events</span>.<span class="variable">push</span>([&<span class="variable">quot</span>;<span class="variable">data</span>&<span class="variable">quot</span>;].<span class="variable">concat</span>(<span class="variable">toArray</span>(<span class="variable">arguments</span>)));
+        
+        <span class="comment">// Cache hit</span>
+        <span class="keyword">if</span> (<span class="variable">cache</span> &<span class="variable">amp</span>;&<span class="variable">amp</span>; !<span class="variable">conditionalGET</span>(<span class="variable">req</span>) &<span class="variable">amp</span>;&<span class="variable">amp</span>; (<span class="variable">hit</span> = <span class="variable">_cache</span>[<span class="variable">req</span>.<span class="variable">url</span>])) {
+            <span class="variable">res</span>.<span class="variable">writeHead</span>(<span class="number integer">200</span>, <span class="variable">hit</span>.<span class="variable">headers</span>);
+            <span class="variable">res</span>.<span class="variable">end</span>(<span class="variable">head</span> ? <span class="variable">undefined</span> : <span class="variable">hit</span>.<span class="variable">body</span>);
+            <span class="keyword">return</span>;
         }
-        <span class="keyword">function</span> <span class="variable">onEnd</span>() {
-            <span class="variable">events</span>.<span class="variable">push</span>([&<span class="variable">quot</span>;<span class="variable">end</span>&<span class="variable">quot</span>;].<span class="variable">concat</span>(<span class="variable">toArray</span>(<span class="variable">arguments</span>)));
-        }
-        <span class="variable">req</span>.<span class="variable">addListener</span>(&<span class="variable">quot</span>;<span class="variable">data</span>&<span class="variable">quot</span>;, <span class="variable">onData</span>);
-        <span class="variable">req</span>.<span class="variable">addListener</span>(&<span class="variable">quot</span>;<span class="variable">end</span>&<span class="variable">quot</span>;, <span class="variable">onEnd</span>);
 
-        <span class="variable">fs</span>.<span class="variable">stat</span>(<span class="variable">filename</span>, <span class="keyword">function</span> (<span class="variable">err</span>, <span class="variable">stat</span>) {
+        <span class="variable">fs</span>.<span class="variable">stat</span>(<span class="variable">filename</span>, <span class="keyword">function</span>(<span class="variable">err</span>, <span class="variable">stat</span>){
 
-            <span class="comment">// Stop buffering events</span>
-            <span class="variable">req</span>.<span class="variable">removeListener</span>(&<span class="variable">quot</span>;<span class="variable">data</span>&<span class="variable">quot</span>;, <span class="variable">onData</span>);
-            <span class="variable">req</span>.<span class="variable">removeListener</span>(&<span class="variable">quot</span>;<span class="variable">end</span>&<span class="variable">quot</span>;, <span class="variable">onEnd</span>);
-
-            <span class="comment">// Fall through for missing files, thow error for other problems</span>
+            <span class="comment">// Pass through for missing files, thow error for other problems</span>
             <span class="keyword">if</span> (<span class="variable">err</span>) {
-                <span class="keyword">if</span> (<span class="variable">err</span>.<span class="variable">errno</span> === <span class="variable">process</span>.<span class="class">ENOENT</span>) {
-                    <span class="variable">next</span>();
-                    <span class="comment">// Refire the buffered events</span>
-                    <span class="keyword">for</span> (<span class="keyword">var</span> <span class="variable">i</span> = <span class="number integer">0</span>, <span class="variable">len</span> = <span class="variable">events</span>.<span class="variable">length</span>; <span class="variable">i</span> &<span class="variable">lt</span>; <span class="variable">len</span>; ++<span class="variable">i</span>) {
-                        <span class="variable">req</span>.<span class="variable">emit</span>.<span class="variable">apply</span>(<span class="variable">req</span>, <span class="variable">events</span>[<span class="variable">i</span>]);
-                    }
-                    <span class="keyword">return</span>;
-                }
-                <span class="variable">next</span>(<span class="variable">err</span>);
-                <span class="keyword">return</span>;
+                <span class="keyword">return</span> <span class="variable">err</span>.<span class="variable">errno</span> === <span class="variable">process</span>.<span class="class">ENOENT</span>
+                    ? <span class="variable">next</span>()
+                    : <span class="variable">next</span>(<span class="variable">err</span>);
+            } <span class="keyword">else</span> <span class="keyword">if</span> (<span class="variable">stat</span>.<span class="variable">isDirectory</span>()) {
+                <span class="keyword">return</span> <span class="variable">next</span>();
             }
 
             <span class="comment">// Serve the file directly using buffers</span>
             <span class="keyword">function</span> <span class="variable">onRead</span>(<span class="variable">err</span>, <span class="variable">data</span>) {
-                <span class="keyword">if</span> (<span class="variable">err</span>) {
-                    <span class="variable">next</span>(<span class="variable">err</span>);
-                    <span class="keyword">return</span>;
-                }
+                <span class="keyword">if</span> (<span class="variable">err</span>) <span class="keyword">return</span> <span class="variable">next</span>(<span class="variable">err</span>);
 
-                <span class="comment">// For older versions of node convert the string to a buffer.</span>
-                <span class="keyword">if</span> (<span class="keyword">typeof</span> <span class="variable">data</span> === <span class="string">'string'</span>) {
-                    <span class="keyword">var</span> <span class="variable">b</span> = <span class="keyword">new</span> <span class="class">Buffer</span>(<span class="variable">data</span>.<span class="variable">length</span>);
-                    <span class="variable">b</span>.<span class="variable">write</span>(<span class="variable">data</span>, &<span class="variable">quot</span>;<span class="variable">binary</span>&<span class="variable">quot</span>;);
-                    <span class="variable">data</span> = <span class="variable">b</span>;
-                }
-
-                <span class="comment">// Zero length buffers act funny, use a string</span>
-                <span class="keyword">if</span> (<span class="variable">data</span>.<span class="variable">length</span> === <span class="number integer">0</span>) {
-                  <span class="variable">data</span> = &<span class="variable">quot</span>;&<span class="variable">quot</span>;;
-                }
-
-                <span class="variable">res</span>.<span class="variable">writeHead</span>(<span class="number integer">200</span>, {
+                <span class="comment">// Response headers</span>
+                <span class="keyword">var</span> <span class="variable">headers</span> = {
                     &<span class="variable">quot</span>;<span class="class">Content</span>-<span class="class">Type</span>&<span class="variable">quot</span>;: <span class="variable">utils</span>.<span class="variable">mime</span>.<span class="variable">type</span>(<span class="variable">filename</span>),
-                    &<span class="variable">quot</span>;<span class="class">Content</span>-<span class="class">Length</span>&<span class="variable">quot</span>;: <span class="variable">data</span>.<span class="variable">length</span>,
+                    &<span class="variable">quot</span>;<span class="class">Content</span>-<span class="class">Length</span>&<span class="variable">quot</span>;: <span class="variable">stat</span>.<span class="variable">size</span>,
                     &<span class="variable">quot</span>;<span class="class">Last</span>-<span class="class">Modified</span>&<span class="variable">quot</span>;: <span class="variable">stat</span>.<span class="variable">mtime</span>.<span class="variable">toUTCString</span>(),
-                    <span class="comment">// Cache in browser for 1 year</span>
-                    &<span class="variable">quot</span>;<span class="class">Cache</span>-<span class="class">Control</span>&<span class="variable">quot</span>;: &<span class="variable">quot</span>;<span class="variable">public</span> <span class="variable">max</span>-<span class="variable">age</span>=&<span class="variable">quot</span>; + <span class="number integer">31536000</span>
-                });
-                <span class="variable">res</span>.<span class="variable">end</span>(<span class="variable">data</span>);
+                    &<span class="variable">quot</span>;<span class="class">Cache</span>-<span class="class">Control</span>&<span class="variable">quot</span>;: &<span class="variable">quot</span>;<span class="variable">public</span> <span class="variable">max</span>-<span class="variable">age</span>=&<span class="variable">quot</span>; + (<span class="variable">maxAge</span> / <span class="number integer">1000</span>),
+                    &<span class="variable">quot</span>;<span class="class">ETag</span>&<span class="variable">quot</span>;: <span class="variable">etag</span>(<span class="variable">stat</span>)
+                };
+
+                <span class="comment">// Conditional GET</span>
+                <span class="keyword">if</span> (!<span class="variable">modified</span>(<span class="variable">req</span>, <span class="variable">headers</span>)) {
+                    <span class="keyword">return</span> <span class="variable">notModified</span>(<span class="variable">res</span>, <span class="variable">headers</span>);
+                }
+                
+                <span class="variable">res</span>.<span class="variable">writeHead</span>(<span class="number integer">200</span>, <span class="variable">headers</span>);
+                <span class="variable">res</span>.<span class="variable">end</span>(<span class="variable">head</span> ? <span class="variable">undefined</span> : <span class="variable">data</span>);
+
+                <span class="comment">// Cache support</span>
+                <span class="keyword">if</span> (<span class="variable">cache</span>) {
+                    <span class="variable">_cache</span>[<span class="variable">req</span>.<span class="variable">url</span>] = {
+                        <span class="variable">headers</span>: <span class="variable">headers</span>,
+                        <span class="variable">body</span>: <span class="variable">data</span>
+                    };
+                }
             }
 
-            <span class="comment">// Node before 0.1.95 doesn't do buffers for fs.readFile</span>
-            <span class="keyword">if</span> (<span class="variable">process</span>.<span class="variable">version</span> &<span class="variable">lt</span>; &<span class="variable">quot</span>;<span class="number float">0.1</span>.<span class="number integer">95</span>&<span class="variable">quot</span>; &<span class="variable">amp</span>;&<span class="variable">amp</span>; <span class="variable">process</span>.<span class="variable">version</span> &<span class="variable">gt</span>; &<span class="variable">quot</span>;<span class="number float">0.1</span>.<span class="number integer">100</span>&<span class="variable">quot</span>;) {
-                <span class="comment">// sys.debug(&quot;Warning: Old node version has slower static file loading&quot;);</span>
-                <span class="variable">fs</span>.<span class="variable">readFile</span>(<span class="variable">filename</span>, &<span class="variable">quot</span>;<span class="variable">binary</span>&<span class="variable">quot</span>;, <span class="variable">onRead</span>);
-            } <span class="keyword">else</span> {
-                <span class="variable">fs</span>.<span class="variable">readFile</span>(<span class="variable">filename</span>, <span class="variable">onRead</span>);
-            }
+            <span class="variable">fs</span>.<span class="variable">readFile</span>(<span class="variable">filename</span>, <span class="variable">onRead</span>);
         });
     };
+};</code></pre>
+</td>
+</tr>
+<tr class="code">
+<td class="docs">
+<p>Clear the memory cache for <code>key</code> or the entire store.</p>
 
+<h2></h2>
+
+<ul><li><p><strong>param</strong>: <em>String</em>  key</p></li><li><p><strong>api</strong>: <em>public</em></p></li></ul>
+</td>
+<td class="code">
+<pre><code><span class="variable">exports</span>.<span class="variable">clearCache</span> = <span class="keyword">function</span>(<span class="variable">key</span>){
+    <span class="keyword">if</span> (<span class="variable">key</span>) {
+        <span class="keyword">delete</span> <span class="variable">_cache</span>[<span class="variable">key</span>];
+    } <span class="keyword">else</span> {
+        <span class="variable">_cache</span> = {};
+    }
 };</code></pre>
 </td>
 </tr><tr class="filename"><td><h2 id="lib/connect/middleware/vhost.js"><a href="#">vhost</a></h2></td><td>lib/connect/middleware/vhost.js</td></tr><tr class="code">
@@ -1898,9 +1972,10 @@ by passing <code>null</code> to <code>Store#get()</code>.</p>
         <span class="keyword">throw</span> <span class="keyword">new</span> <span class="class">Error</span>(<span class="string">'vhost server required'</span>);
     }
     <span class="keyword">return</span> <span class="keyword">function</span> <span class="variable">vhost</span>(<span class="variable">req</span>, <span class="variable">res</span>, <span class="variable">next</span>){
+        <span class="keyword">if</span> (!<span class="variable">req</span>.<span class="variable">headers</span>.<span class="variable">host</span>) <span class="variable">next</span>();
         <span class="keyword">var</span> <span class="variable">host</span> = <span class="variable">req</span>.<span class="variable">headers</span>.<span class="variable">host</span>.<span class="variable">split</span>(<span class="string">':'</span>)[<span class="number integer">0</span>];
         <span class="keyword">if</span> (<span class="variable">host</span> === <span class="variable">hostname</span>) {
-            <span class="variable">server</span>.<span class="variable">handle</span>(<span class="variable">req</span>, <span class="variable">res</span>);
+            <span class="variable">server</span>.<span class="variable">handle</span>(<span class="variable">req</span>, <span class="variable">res</span>, <span class="variable">next</span>);
         } <span class="keyword">else</span> {
             <span class="variable">next</span>();
         }

@@ -1,7 +1,10 @@
-.\" generated with Ronn/v0.6.6
-.\" http://github.com/rtomayko/ronn/
+.\" generated with Ronn/v0.7.3
+.\" http://github.com/rtomayko/ronn/tree/0.7.3
 .
-.TH "SESSION" "" "July 2010" "" ""
+.TH "SESSION" "" "September 2010" "" ""
+.
+.SH "NAME"
+\fBsession\fR
 .
 .SH "Session"
 The \fIsession\fR middleware provides persistence between requests\. If we wish to supply a custom \fBStore\fR subclass, or pass options to the store itself, we can configure it like so:
@@ -10,10 +13,10 @@ The \fIsession\fR middleware provides persistence between requests\. If we wish 
 .
 .nf
 
-var MemoryStore = require(\'connect/middleware/session/memory\');
+var MemoryStore = connect\.session\.MemoryStore;
 connect\.createServer(
-    connect\.cookieDecoder(),
-    connect\.session({ store: new MemoryStore({ reapInterval: 60000 * 10 }) }),
+      connect\.cookieDecoder(),
+      connect\.session({ store: new MemoryStore({ reapInterval: 60000 * 10 }) }),
 );
 .
 .fi
