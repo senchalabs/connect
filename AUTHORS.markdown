@@ -9,6 +9,7 @@
  - Jakub Nešetřil <jakub.nesetril@gmail.com>
  - Jacques Crocker <railsjedi@gmail.com>
  - Dennis Blöte <mail@dennisbloete.de>
+ - Greg McWhirter <greg@ideafreemonoid.org>
 
 # People who have signed the [Connect CLA][]
 
@@ -22,5 +23,6 @@ This applies for both spark and connect.
  - Jakub Nešetřil <jakub.nesetril@gmail.com>
  - Jacques Crocker <railsjedi@gmail.com>
  - Dennis Blöte <mail@dennisbloete.de>
+ - Greg McWhirter <greg@ideafreemonoid.org>
 
 [Connect CLA]: http://extjs.github.com/Connect/Connect%20Individual%20CLA.pdf
