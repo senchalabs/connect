@@ -22,7 +22,7 @@ MANPAGES = $(DOCS:.md=.1)
 HTMLDOCS = $(DOCS:.md=.html)
 
 test:
-	@CONNECT_ENV=test ./$(TEST) \
+	@NODE_ENV=test ./$(TEST) \
 		-I lib \
 		-I support/coffee-script/lib \
 		-I support/sass/lib \
