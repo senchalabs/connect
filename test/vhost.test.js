@@ -80,6 +80,12 @@ module.exports = {
                     res.writeHead(200, {});
                     res.end('from foo');
                 }
+            )),
+            connect.vhost('baz.com', connect.createServer(
+                function(req, res){
+                    res.writeHead(200, {});
+                    res.end('from baz');
+                }
             ))
         );
         
@@ -116,6 +122,13 @@ module.exports = {
             res.addListener('end', function(){
                 assert.equal('from bar someone', res.body);
             });
+        });
+        req.end();
+        
+        var req = server.request('GET', '/', { Host: 'something.baz.com' });
+        req.buffer = true;
+        req.addListener('response', function(res){
+            assert.equal(404, res.statusCode);
         });
         req.end();
     }
