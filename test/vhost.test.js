@@ -131,5 +131,25 @@ module.exports = {
             assert.equal(404, res.statusCode);
         });
         req.end();
+    },
+    
+    'test standard http server': function() {
+        var server = helpers.run(
+            connect.vhost('foo.com', http.createServer(
+                function(req, res){
+                    res.writeHead(200);
+                    res.end('from foo');
+                }
+            ))
+        );
+
+        var req = server.request('GET', '/', { Host: 'foo.com' });
+        req.buffer = true;
+        req.addListener('response', function(res){
+            res.addListener('end', function(){
+                assert.equal('from foo', res.body);
+            });
+        });
+        req.end();
     }
 }
