@@ -65,7 +65,7 @@ function main(app){
             '/users',
             '/users.json',
             '/users/0 (or /users/0/view)',
-            '/users/0/edit'
+            '/users/0/edit',
             '/users/0.json'
         ];
         var body = 'Visit one of the following: <ul>'
