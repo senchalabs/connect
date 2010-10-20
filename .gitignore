@@ -9,3 +9,4 @@ lib-cov
 test/fixtures/foo.bar.baz.css
 test/fixtures/style.css
 test/fixtures/script.js
+test.js
