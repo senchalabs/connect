@@ -7,5 +7,20 @@
     { "name": "TJ Holowaychuk", "email": "tj@vision-media.ca" }
   ],
   "directories": { "lib": "./lib/connect" },
-  "engines": { "node": ">= 0.1.98" }
+  "engines": { "node": ">= 0.1.98" },
+  "man": [
+    "./docs/bodyDecoder.1",
+    "./docs/compiler.1",
+    "./docs/conditionalGet.1",
+    "./docs/cookieDecoder.1",
+    "./docs/errorHandler.1",
+    "./docs/index.1",
+    "./docs/jsonrpc.1",
+    "./docs/lint.1",
+    "./docs/logger.1",
+    "./docs/methodOverride.1",
+    "./docs/router.1",
+    "./docs/session.1",
+    "./docs/staticProvider.1"
+  ]
 }
