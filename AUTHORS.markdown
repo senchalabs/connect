@@ -10,6 +10,7 @@
  - Jacques Crocker <railsjedi@gmail.com>
  - Dennis Blöte <mail@dennisbloete.de>
  - Greg McWhirter <greg@ideafreemonoid.org>
+ - James Campos <james.r.campos@gmail.com>
 
 # People who have signed the [Connect CLA][]
 
@@ -24,5 +25,6 @@ This applies for both spark and connect.
  - Jacques Crocker <railsjedi@gmail.com>
  - Dennis Blöte <mail@dennisbloete.de>
  - Greg McWhirter <greg@ideafreemonoid.org>
+ - James Campos <james.r.campos@gmail.com>
 
 [Connect CLA]: http://extjs.github.com/Connect/Connect%20Individual%20CLA.pdf
