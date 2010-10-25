@@ -6,7 +6,7 @@
 var connect = require('./../../lib/connect');
 
 var localhostUser = connect.vhost('*.localhost', connect.createServer(function(req, res){
-    res.writeHead(300, { Location: 'http://localhost:3000/' + req.subdomains[0] });
+    res.writeHead(302, { Location: 'http://localhost:3000/' + req.subdomains[0] });
     res.end('Moved to http://localhost:3000/' + req.subdomains[0]);
 }));
 
