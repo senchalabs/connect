@@ -6,7 +6,7 @@ var connect = require('../../lib/connect');
 var server = connect.createServer(function(req, res){
   var body = 'Hello World';
   res.writeHead(200, {
-      'Content-Type': 'text/plain',
+      'Content-Type': 'text/plain'
     , 'Content-Length': body.length
   });
   res.end(body);
