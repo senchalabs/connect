@@ -53,7 +53,7 @@ module.exports = {
                 assert.equal('text/plain', res.headers['content-type']);
                 assert.equal(500, res.statusCode, 'Test error-handler 500 status code');
                 assert.ok(res.body.indexOf('Error: keyboard cat!') !== -1, 'Test error-handler showStack message');
-                assert.ok(res.body.indexOf('lib/connect/index.js') !== -1, 'Test error-handler showStack stack trace');
+                assert.ok(res.body.indexOf('/connect/index.js') !== -1, 'Test error-handler showStack stack trace');
             })
         })
         req.end();

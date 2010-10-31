@@ -118,9 +118,9 @@ function main(app){
         res.writeHead(200, {});
         res.end('format: ' + req.params.format + ' id: ' + req.params.id);
     });
-    app.get('/account/:id/files/:file', function(req, res){
+    app.get('/account/:id/files/:file.:format', function(req, res){
         res.writeHead(200);
-        res.end('file: ' + req.params.file);
+        res.end('file: ' + req.params.file + '.' + req.params.format);
     });
 }
 
