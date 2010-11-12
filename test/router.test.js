@@ -129,6 +129,18 @@ function main(app){
         res.writeHead(200);
         res.end('file: ' + req.params.file);
     });
+    app.all('/staff/:id', function(req, res, next){
+        req.staff = { name: 'tj', id: req.params.id };
+        next();
+    });
+    app.get('/staff/:id', function(req, res, next){
+        res.writeHead(200);
+        res.end('GET staff ' + req.staff.id);
+    });
+    app.post('/staff/:id', function(req, res, next){
+        res.writeHead(200);
+        res.end('POST staff ' + req.staff.id);
+    });
 }
 
 module.exports = {
@@ -142,6 +154,9 @@ module.exports = {
 
         server.assertResponse('GET', '/items/12', 200, 'item 12');
         server.assertResponse('GET', '/items', 200, 'items');
+        
+        server.assertResponse('GET', '/staff/12', 200, 'GET staff 12');
+        server.assertResponse('POST', '/staff/12', 200, 'POST staff 12');
 
         server.assertResponse('GET', '/failure/12', 500, 'Error: fail boat');
 
