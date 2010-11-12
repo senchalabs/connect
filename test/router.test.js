@@ -17,6 +17,13 @@ var fixturesPath = __dirname + '/fixtures';
 // Faux products app
 
 function products(app){
+    app.all('*', function(req, res, next){
+        if ('GET' == req.method) {
+          return next();
+        }
+        res.writeHead(404, {});
+        res.end('only GET is allowed to /products');
+    });
     app.get('/.:format?', function(req, res){
         res.writeHead(200, {});
         res.end('products' + (req.params.format ? ' as ' + req.params.format : ''));
@@ -135,17 +142,20 @@ module.exports = {
 
         server.assertResponse('GET', '/items/12', 200, 'item 12');
         server.assertResponse('GET', '/items', 200, 'items');
-        
+
         server.assertResponse('GET', '/failure/12', 500, 'Error: fail boat');
-        
+
         server.assertResponse('GET', '/products', 200, 'products');
         server.assertResponse('GET', '/products/', 200, 'products');
         server.assertResponse('GET', '/products.json', 200, 'products as json');
         server.assertResponse('GET', '/products/12', 200, 'product 12');
-        
+        server.assertResponse('POST', '/products.json', 404, 'only GET is allowed to /products');
+        server.assertResponse('PUT', '/products/12', 404, 'only GET is allowed to /products');
+        server.assertResponse('DELETE', '/products', 404, 'only GET is allowed to /products');
+
         server.assertResponse('GET', '/next', 404, 'Cannot GET /next');
         server.assertResponse('GET', '/error', 500, 'Error: boom!');
-        
+
         server.assertResponse('GET', '/cars/%5Bhey%5D', 200, 'format: undefined id: [hey]');
         server.assertResponse('GET', '/cars/12', 200, 'format: undefined id: 12');
         server.assertResponse('GET', '/cars/12.json', 200, 'format: json id: 12');
