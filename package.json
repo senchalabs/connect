@@ -1,7 +1,7 @@
 {
   "name": "connect",
   "description": "High performance middleware framework",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "contributors": [ 
     { "name": "Tim Caswell", "email": "tim@sencha.com" },
     { "name": "TJ Holowaychuk", "email": "tj@vision-media.ca" }
