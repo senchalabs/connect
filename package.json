@@ -7,5 +7,9 @@
     { "name": "TJ Holowaychuk", "email": "tj@vision-media.ca" }
   ],
   "directories": { "lib": "./lib/connect" },
-  "engines": { "node": ">= 0.1.98" }
+  "engines": { "node": ">= 0.1.98" },
+  "repository" : { 
+      "type" : "git",
+      "url" : "https://github.com/senchalabs/connect.git"
+  }
 }
