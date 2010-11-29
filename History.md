@@ -1,4 +1,10 @@
 
+0.4.0 / 2010-11-29 
+==================
+
+  * Added `basicAuth` middleware
+  * Added more HTTP methods to the `router` middleware
+
 0.3.0 / 2010-07-21
 ==================
 
