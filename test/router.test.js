@@ -141,6 +141,10 @@ function main(app){
         res.writeHead(200);
         res.end('POST staff ' + req.staff.id);
     });
+    app.get('/lang/[a-z]{2}', function(req, res, next){
+      res.writeHead(200);
+      res.end(req.url);
+    });
 }
 
 module.exports = {
@@ -149,6 +153,9 @@ module.exports = {
         server.use('/products', connect.router(products));
         server.use('/', connect.router(main));
         server.use('/', connect.errorHandler({ showMessage: true }));
+
+        server.assertResponse('GET', '/lang/en', 200, '/lang/en');
+        server.assertResponse('GET', '/lang/foobar', 404, 'Cannot GET /lang/foobar');
 
         server.assertResponse('GET', '/out', 404, 'Cannot GET /out');
 
