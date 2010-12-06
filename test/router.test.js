@@ -141,9 +141,9 @@ function main(app){
         res.writeHead(200);
         res.end('POST staff ' + req.staff.id);
     });
-    app.get('/lang/[a-z]{2}', function(req, res, next){
+    app.get('/lang/:lang([a-z]{2})', function(req, res, next){
       res.writeHead(200);
-      res.end(req.url);
+      res.end(req.params.lang);
     });
 }
 
