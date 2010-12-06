@@ -65,7 +65,7 @@ function main(app){
         res.writeHead(200, {});
         res.end((req.params.operation || 'view') + 'ing user ' + req.params.id);
     });
-    app.get('/range/:from-:to?', function(req, res){
+    app.get('/range/:from([0-9]{1,5})-:to([0-9]{1,5})?', function(req, res){
         res.writeHead(200, {});
         res.end('range ' + req.params.from + ' to ' + (req.params.to || 'HEAD'));
     });
@@ -194,6 +194,7 @@ module.exports = {
         server.assertResponse('GET', '/user/99/edit', 200, 'editing user 99', 'Test router GET matched path with several params');
         server.assertResponse('GET', '/user/99/edit/', 200, 'editing user 99', 'Test router GET matched path with several params with trailing slash');
         server.assertResponse('GET', '/range/11-99', 200, 'range 11 to 99');
+        server.assertResponse('GET', '/range/11-aa', 404, 'Cannot GET /range/11-aa');
         server.assertResponse('GET', '/range/11-', 200, 'range 11 to HEAD');
         server.assertResponse('GET', '/users.json', 200, 'json format');
         server.assertResponse('GET', '/cookies', 200, 'num num', 'Test router optional placeholder without value');
