@@ -1,38 +1,53 @@
 # Connect
 
-Connect is a high performance middleware framework built by the combined forces of Tim Caswell ([creationix][]) and TJ Holowaychuk ([visionmedia][]) and the other skilled developers of [Sencha][]. Connect takes the familiar concepts of Ruby's [Rack](http://rack.rubyforge.org/) and applies it to the asynchronous world of [node](http://nodejs.org).
+Connect is a high performance middleware framework built by the combined forces of TJ Holowaychuk ([visionmedia][]) and Tim Caswell ([creationix][]). Connect takes the familiar concepts of Ruby's [Rack](http://rack.rubyforge.org/) and applies it to the asynchronous world of [node](http://nodejs.org).
 
-ExtJS is releasing Connect under the very liberal MIT license in hopes that we can provide some level of leadership and stability for application frameworks to build on.
+## Bundled Middleware
 
-## Features
-
-  * High performance api, with nearly no overhead.
-  * Several bundled middleware implementations such as _log_, _static_, and _json-rpc_.
+  * basicAuth - basic auth support
+  * bodyDecoder - body parser (json and x-form-urlencoded)
+  * logger - customizable request logger
+  * compiler - statically compiles languages such as _sass_ and _less_ down to their native form
+  * staticProvider - static file server with http caching
+  * favicon - serve a default favicon, or the one provided
+  * methodOverride - provide HTTP method overriding support
+  * router - restful routing capabilities
+  * session - abstract session support with default `MemoryStore`
+  * vhost - virtual host support
+  * cacheManifest
 
 ## Hello World
 
-The simplest connect app looks just like `http.Server` instances from node.  In fact `Connect.Server` inherits from `http.Server`.
+The simplest connect app looks just like `http.Server` instances from node.  In fact `connect.Server` inherits from `http.Server`.
 
-    var Connect = require('connect');
+    var connect = require('connect');
 
-    var server = Connect.createServer(function(req, res) {
-        res.writeHead(200, { 'Content-Type': 'text/plain' });
-        res.end('Hello World');
+    var server = connect.createServer(function(req, res) {
+      res.writeHead(200, { 'Content-Type': 'text/plain' });
+      res.end('Hello World');
     });
 
     server.listen(3000);
 
 Then if you want to add in a pre-built feature like logging just add it to the `createServer()` call.
 
-    var server = Connect.createServer(
-      Connect.logger(),
+    var server = connect.createServer(
+      connect.logger(),
       function(req, res) {
-          res.writeHead(200, { 'Content-Type': 'text/plain' });
-          res.end('Hello World');
+        res.writeHead(200, { 'Content-Type': 'text/plain' });
+        res.end('Hello World');
       }
     );
 
-It's that simple.
+Or the progressive form of middleware usage via `Server#use()`:
+
+    var server = connect.createServer();
+    
+    server.use(connect.logger());
+    server.use(function(req, res){
+      res.writeHead(200);
+      res.end('Hello World');
+    });
 
 ## Installation
 
