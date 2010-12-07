@@ -1,4 +1,11 @@
 
+0.5.0 / 2010-12-06 
+==================
+
+  * Added _./index.js_
+  * Added route segment precondition support and example
+  * Added named capture group support to router
+
 0.4.0 / 2010-11-29 
 ==================
 
