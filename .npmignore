@@ -1,0 +1,10 @@
+*.markdown
+*.md
+.git*
+Makefile
+benchmarks/
+docs/
+examples/
+install.sh
+support/
+test/
