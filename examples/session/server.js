@@ -4,14 +4,14 @@
  */
 
 var sys = require('sys'),
-    MemoryStore = require('./../../lib/connect/middleware/session/memory'),
-    connect = require('./../../lib/connect');
+    connect = require('./../../lib/connect'),
+    MemoryStore = connect.session.MemoryStore;
 
 // One minute
 var minute = 60000;
 
 // Setup memory store
-var memory = new MemoryStore({ reapInterval: minute, maxAge: minute * 5 });
+var memory = new connect.session.MemoryStore({ reapInterval: minute, maxAge: minute * 5 });
 
 var server = connect.createServer(
     connect.logger({ format: ':method :url' }),

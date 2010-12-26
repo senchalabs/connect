@@ -1,7 +1,10 @@
-.\" generated with Ronn/v0.6.6
-.\" http://github.com/rtomayko/ronn/
+.\" generated with Ronn/v0.7.3
+.\" http://github.com/rtomayko/ronn/tree/0.7.3
 .
-.TH "BODYDECODER" "" "June 2010" "" ""
+.TH "BODYDECODER" "" "September 2010" "" ""
+.
+.SH "NAME"
+\fBbodyDecoder\fR
 .
 .SH "Body Decoder"
 The \fIbodyDecoder\fR middleware sniffs the \fIContent\-Type\fR header, and decodes the request body appropriately\. Supported by default are the \fIapplication/x\-www\-form\-urlencoded\fR, and \fIapplication/json\fR content types\. To extend simply:
@@ -10,7 +13,7 @@ The \fIbodyDecoder\fR middleware sniffs the \fIContent\-Type\fR header, and deco
 .
 .nf
 
-require(\'connect/filters/body\-decoder\')\.decode[\'some\-mime/type\'] = function(str){
+connect\.bodyDecoder\.decode[\'some\-mime/type\'] = function(str){
     return \'whatever\';
 };
 .

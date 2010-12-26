@@ -65,7 +65,7 @@ function main(app){
             '/users',
             '/users.json',
             '/users/0 (or /users/0/view)',
-            '/users/0/edit'
+            '/users/0/edit',
             '/users/0.json'
         ];
         var body = 'Visit one of the following: <ul>'
@@ -81,10 +81,7 @@ function main(app){
 
 var connect = require('./../../lib/connect');
 
-var server = connect.createServer(
-    connect.logger({ buffer: true })
-);
-
+var server = connect.createServer();
 server.use("/users/", connect.router(user));
 server.use(connect.router(main));
 server.listen(3000);

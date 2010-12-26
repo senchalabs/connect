@@ -12,7 +12,6 @@ DOCS = docs/index.md \
 	   docs/errorHandler.md \
 	   docs/session.md \
 	   docs/jsonrpc.md \
-	   docs/format.md \
 	   docs/staticProvider.md \
 	   docs/compiler.md \
 	   docs/router.md \
@@ -23,8 +22,9 @@ MANPAGES = $(DOCS:.md=.1)
 HTMLDOCS = $(DOCS:.md=.html)
 
 test:
-	@CONNECT_ENV=test ./$(TEST) \
+	@NODE_ENV=test ./$(TEST) \
 		-I lib \
+		-I support/coffee-script/lib \
 		-I support/sass/lib \
 		-I support/less/lib \
 		$(TEST_FLAGS) $(TESTS)
@@ -46,7 +46,6 @@ install-docs:
 	cp -f docs/conditionalGet.1 $(PREFIX)/share/man/man1/connect-conditionalGet.1
 	cp -f docs/errorHandler.1 $(PREFIX)/share/man/man1/connect-errorHandler.1
 	cp -f docs/methodOverride.1 $(PREFIX)/share/man/man1/connect-methodOverride.1
-	cp -f docs/format.1 $(PREFIX)/share/man/man1/connect-format.1
 	cp -f docs/lint.1 $(PREFIX)/share/man/man1/connect-lint.1
 	cp -f docs/staticProvider.1 $(PREFIX)/share/man/man1/connect-staticProvider.1
 	cp -f docs/logger.1 $(PREFIX)/share/man/man1/connect-logger.1

@@ -126,14 +126,11 @@
 			<li><a href="api.html">extended api docs</a></li>
 			<li class="title">Middleware</li>
 			<li><a href="lint.html">lint</a></li>
-			<li><a href="flash.html">flash</a></li>
 			<li><a href="logger.html">logger</a></li>
-			<li><a href="format.html">format</a></li>
 			<li><a href="router.html">router</a></li>
 			<li><a href="jsonrpc.html">jsonrpc</a></li>
 			<li><a href="session.html">session</a></li>
 			<li><a href="compiler.html">compiler</a></li>
-			<li><a href="redirect.html">redirect</a></li>
 			<li><a href="errorHandler.html">errorHandler</a></li>
 			<li><a href="bodyDecoder.html">bodyDecoder</a></li>
 			<li><a href="responseTime.html">responseTime</a></li>
@@ -142,6 +139,10 @@
 			<li><a href="methodOverride.html">methodOverride</a></li>
 			<li><a href="staticProvider.html">staticProvider</a></li>
 		</ul><div class='mp'>
+<h2 id="Connect">Connect</h2>
+<p class="man-name">
+  <code>compiler</code>
+</p>
 <h2 id="Compiler">Compiler</h2>
 
 <p>The <em>compiler</em> middleware compiles files that have not yet been compiled, or have been modified. Good examples of this are <em>sass</em> and <em>less</em>, both of which compile to css. The compiled data is written to disk, and serving is delegated to the <em>static</em> middleware, therefore the <em>dest</em> should be accessible (or the same) as <em>static</em>'s <em>root</em> option.</p>

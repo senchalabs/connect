@@ -127,7 +127,6 @@
 			<li class="title">Middleware</li>
 			<li><a href="lint.html">lint</a></li>
 			<li><a href="logger.html">logger</a></li>
-			<li><a href="format.html">format</a></li>
 			<li><a href="router.html">router</a></li>
 			<li><a href="jsonrpc.html">jsonrpc</a></li>
 			<li><a href="session.html">session</a></li>
@@ -140,14 +139,18 @@
 			<li><a href="methodOverride.html">methodOverride</a></li>
 			<li><a href="staticProvider.html">staticProvider</a></li>
 		</ul><div class='mp'>
+<h2 id="Connect">Connect</h2>
+<p class="man-name">
+  <code>session</code>
+</p>
 <h2 id="Session">Session</h2>
 
 <p>The <em>session</em> middleware provides persistence between requests. If we wish to supply a custom <code>Store</code> subclass, or pass options to the store itself, we can configure it like so:</p>
 
-<pre><code class="js"><span class="keyword">var</span> <span class="class">MemoryStore</span> = <span class="variable">require</span>(<span class="string">'connect/middleware/session/memory'</span>);
+<pre><code class="js"><span class="keyword">var</span> <span class="class">MemoryStore</span> = <span class="variable">connect</span>.<span class="variable">session</span>.<span class="class">MemoryStore</span>;
 <span class="variable">connect</span>.<span class="variable">createServer</span>(
-    <span class="variable">connect</span>.<span class="variable">cookieDecoder</span>(),
-    <span class="variable">connect</span>.<span class="variable">session</span>({ <span class="variable">store</span>: <span class="keyword">new</span> <span class="class">MemoryStore</span>({ <span class="variable">reapInterval</span>: <span class="number integer">60000</span> * <span class="number integer">10</span> }) }),
+      <span class="variable">connect</span>.<span class="variable">cookieDecoder</span>(),
+      <span class="variable">connect</span>.<span class="variable">session</span>({ <span class="variable">store</span>: <span class="keyword">new</span> <span class="class">MemoryStore</span>({ <span class="variable">reapInterval</span>: <span class="number integer">60000</span> * <span class="number integer">10</span> }) }),
 );
 </code></pre>
 

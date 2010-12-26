@@ -7,4 +7,5 @@ get '/' do
 end
 
 disable :logging
+set :environment, :production
 run Sinatra::Application

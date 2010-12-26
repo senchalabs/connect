@@ -1,8 +1,26 @@
 
-1.0.0 / 2010-07-21
+0.5.0 / 2010-12-06 
 ==================
 
-  * Added connect.middleware to expose the middleware getters
+  * Added _./index.js_
+  * Added route segment precondition support and example
+  * Added named capture group support to router
+
+0.4.0 / 2010-11-29 
+==================
+
+  * Added `basicAuth` middleware
+  * Added more HTTP methods to the `router` middleware
+
+0.3.0 / 2010-07-21
+==================
+
+  * Added _staticGzip_ middleware
+  * Added `connect.utils` to expose utils
+  * Added `connect.session.Session`
+  * Added `connect.session.Store`
+  * Added `connect.session.MemoryStore`
+  * Added `connect.middleware` to expose the middleware getters
   * Added `buffer` option to _logger_ for performance increase
   * Added _favicon_ middleware for serving your own favicon or the connect default
   * Added option support to _staticProvider_, can now pass _root_ and _lifetime_.
@@ -13,12 +31,19 @@
   * Added `Server#route` when `Server#use()` is called with a route on a `Server` instance
   * Added _methodOverride_ X-HTTP-Method-Override support
   * Refactored session internals, adds _secret_ option
+  * Renamed `lifetime` option to `maxAge` in _staticProvider_
   * Removed connect(1), it is now [spark(1)](http://github.com/senchalabs/spark)
   * Removed connect(1) dependency on examples, they can all now run with node(1)
   * Remove a typo that was leaking a global.
+  * Removed `Object.prototype` forEach() and map() methods
   * Removed a few utils not used
+  * Removed `connect.createApp()`
+  * Removed `res.simpleBody()`
+  * Removed _format_ middleware
   * Removed _flash_ middleware
   * Removed _redirect_ middleware
+  * Removed _jsonrpc_ middleware, use [visionmedia/connect-jsonrpc](http://github.com/visionmedia/connect-jsonrpc)
+  * Removed _pubsub_ middleware
   * Removed need for `params.{captures,splat}` in _router_ middleware, `params` is an array
   * Changed; _compiler_ no longer 404s
   * Changed; _router_ signature now matches connect middleware signature

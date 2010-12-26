@@ -30,7 +30,7 @@ module.exports = {
                 assert.equal('application/json', headers['content-type'], 'Test static with valid file Content-Type');
                 assert.equal(body.length, headers['content-length'], 'Test static with valid file Content-Length');
                 assert.ok(headers['last-modified'], 'Test static with valid file Last-Modified');
-                assert.ok(headers['cache-control'] == 'public max-age=31536000', 'Test static with valid file Cache-Control');
+                assert.ok(headers['cache-control'] == 'public max-age=31557600', 'Test static with valid file Cache-Control');
             });
         });
         req.end();
@@ -38,13 +38,13 @@ module.exports = {
 
     'test configurable cache-control': function(){
         var server = helpers.run(
-            connect.staticProvider({ root: fixturesPath, lifetime: 60000 })
+            connect.staticProvider({ root: fixturesPath, maxAge: 60000 })
         );
         var req = server.request('GET', '/user.json');
         req.buffer = true;
         req.addListener('response', function(res){
             res.addListener('end', function(){
-                assert.ok(res.headers['cache-control'] == 'public max-age=60000', 'Test configurable Cache-Control support');
+                assert.ok(res.headers['cache-control'] == 'public max-age=60', 'Test configurable Cache-Control support');
             });
         });
         req.end();
@@ -76,5 +76,19 @@ module.exports = {
             connect.staticProvider({ root: fixturesPath })
         );
         server.assertResponse('GET', '/foo.json', 404, 'Cannot GET /foo.json', 'Test invalid static file.');
+    },
+    
+    'test directory': function(){
+        var server = helpers.run(
+            connect.staticProvider({ root: __dirname })
+        );
+        server.assertResponse('GET', '/fixtures', 404, 'Cannot GET /fixtures');
+    },
+    
+    'test forbidden': function(){
+        var server = helpers.run(
+            connect.staticProvider({ root: fixturesPath })
+        );
+        server.assertResponse('GET', '/../gzip.test.js', 403, 'Forbidden');
     }
 }

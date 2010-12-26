@@ -4,8 +4,12 @@
 var connect = require('../../lib/connect');
 
 var server = connect.createServer(function(req, res){
-    res.writeHead(200, { 'Content-Type': 'text/plain' });
-    res.end('Hello World');
+  var body = 'Hello World';
+  res.writeHead(200, {
+      'Content-Type': 'text/plain'
+    , 'Content-Length': body.length
+  });
+  res.end(body);
 });
 
 server.listen(3000);
