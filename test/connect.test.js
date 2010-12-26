@@ -33,6 +33,24 @@ module.exports = {
         server.assertResponse('GET', '/blog', 200, 'blog');
     },
 
+    'test use() scope': function(){
+        var server = helpers.run();
+
+        // some middleware
+        server.use(function(req, res, next){
+          req.middlewareScope = this;
+          next();
+        });
+
+        // some route
+        server.use('/test', function(req, res){
+          res.writeHead(200);
+          res.end(server == this && server == req.middlewareScope ? 'wahoo' : 'no');
+        });
+
+        server.assertResponse('GET', '/test', 200, 'wahoo');
+    },
+
     'test path matching': function(){
         var n = 0;
         var server = helpers.run();
