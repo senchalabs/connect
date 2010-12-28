@@ -1,4 +1,12 @@
 
+0.5.1 / 2010-12-28 
+==================
+
+  * Added `req.session.id` mirroring `req.sessionID`
+  * Refactored router, exposing `connect.router.methods`
+  * Exclude non-lib files from npm
+  * Removed imposed headers `X-Powered-By`, `Server`, etc
+
 0.5.0 / 2010-12-06 
 ==================
 
