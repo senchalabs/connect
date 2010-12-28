@@ -145,6 +145,10 @@ function main(app){
       res.writeHead(200);
       res.end(req.params.lang);
     });
+    app.options('/options', function(req, res){
+      res.writeHead(204, { Allow: 'GET' });
+      res.end();
+    });
 }
 
 module.exports = {
@@ -154,6 +158,7 @@ module.exports = {
         server.use('/', connect.router(main));
         server.use('/', connect.errorHandler({ showMessage: true }));
 
+        server.assertResponse('OPTIONS', '/options', 204);
         server.assertResponse('OPTIONS', '/items', 200, 'GET');
         server.assertResponse('OPTIONS', '/', 200, 'GET,POST,PUT,DELETE');
 
