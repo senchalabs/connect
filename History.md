@@ -1,4 +1,9 @@
 
+0.5.2 / 2010-12-28 
+==================
+
+  * Added default __OPTIONS__ support to _router_ middleware
+
 0.5.1 / 2010-12-28 
 ==================
 
