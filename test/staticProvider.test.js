@@ -30,7 +30,7 @@ module.exports = {
                 assert.equal('application/json', headers['content-type'], 'Test static with valid file Content-Type');
                 assert.equal(body.length, headers['content-length'], 'Test static with valid file Content-Length');
                 assert.ok(headers['last-modified'], 'Test static with valid file Last-Modified');
-                assert.ok(headers['cache-control'] == 'public max-age=31557600', 'Test static with valid file Cache-Control');
+                assert.ok(headers['cache-control'] == 'public max-age=0', 'Test static with valid file Cache-Control');
             });
         });
         req.end();
