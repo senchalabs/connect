@@ -1,4 +1,13 @@
 
+0.5.3 / 2011-01-05 
+==================
+
+  * Added _docs/api.html_
+  * Added `utils.pathname()`, memoized url.parse(str).pathname
+  * Fixed `session.id` issue. Closes #183
+  * Changed; Defaulting `staticProvider` maxAge to 0 not 1 year. Closes #179
+  * Removed bad outdated docs, we need something new / automated eventually
+
 0.5.2 / 2010-12-28 
 ==================
 
