@@ -11,7 +11,10 @@ var sys = require('sys'),
 var minute = 60000;
 
 // Setup memory store
-var memory = new connect.session.MemoryStore({ reapInterval: minute, maxAge: minute * 5 });
+var memory = new connect.session.MemoryStore({
+    reapInterval: minute
+  , maxAge: minute * 2
+});
 
 var server = connect.createServer(
     connect.logger({ format: ':method :url' }),
