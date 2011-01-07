@@ -1,4 +1,11 @@
 
+0.5.4 / 2011-01-07 
+==================
+
+  * Added; throw when router path or callback is missing
+  * Fixed; `next(err)` on cookie parse exception instead of ignoring
+  * Revert "Added utils.pathname(), memoized url.parse(str).pathname"
+
 0.5.3 / 2011-01-05 
 ==================
 
