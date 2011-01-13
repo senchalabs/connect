@@ -4,7 +4,7 @@
   , "contributors": [ 
       { "name": "TJ Holowaychuk", "email": "tj@vision-media.ca" }
     , { "name": "Tim Caswell", "email": "tim@sencha.com" }
-  ],
+  ]
   , "directories": { "lib": "./lib/connect" }
   , "engines": { "node": ">= 0.2.2" }
 }
