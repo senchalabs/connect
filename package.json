@@ -1,11 +1,10 @@
-{
-  "name": "connect",
-  "description": "High performance middleware framework",
-  "version": "0.5.4",
-  "contributors": [ 
-    { "name": "TJ Holowaychuk", "email": "tj@vision-media.ca" },
-    { "name": "Tim Caswell", "email": "tim@sencha.com" }
+{   "name": "connect"
+  , "description": "High performance middleware framework"
+  , "version": "0.5.5"
+  , "contributors": [ 
+      { "name": "TJ Holowaychuk", "email": "tj@vision-media.ca" }
+    , { "name": "Tim Caswell", "email": "tim@sencha.com" }
   ],
-  "directories": { "lib": "./lib/connect" },
-  "engines": { "node": ">= 0.1.98" }
+  , "directories": { "lib": "./lib/connect" }
+  , "engines": { "node": ">= 0.2.2" }
 }

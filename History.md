@@ -1,4 +1,11 @@
 
+0.5.5 / 2011-01-13 
+==================
+
+  * Changed; using sha256 HMAC instead of md5. [Paul Querna]
+  * Changed; generated a longer random UID, without time influence. [Paul Querna]
+  * Fixed; session middleware throws when secret is not present. [Paul Querna]
+
 0.5.4 / 2011-01-07 
 ==================
 
