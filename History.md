@@ -1,4 +1,12 @@
 
+0.5.6 / 2011-01-23 
+==================
+
+  * Added stylus support to `compiler`
+  * _favicon.js_ cleanup
+  * _compiler.js_ cleanup
+  * _bodyDecoder.js_ cleanup
+
 0.5.5 / 2011-01-13 
 ==================
 
