@@ -12,6 +12,12 @@ module.exports = {
         assert.equal('e493298061761236c96b02ea6aa8a2ad', utils.md5('wahoo'));
     },
 
+    'test uid()': function(){
+        for(var i = 0; i < 100; ++i){
+          assert.length(utils.uid(i), i);
+        }
+    },
+
     'test merge()': function(){
         assert.eql({ foo: 'bar' }, utils.merge({ foo: 'bar' }));
         assert.eql({ foo: 'bar', bar: 'baz' }, utils.merge({ foo: 'bar' }, { bar: 'baz' }));
