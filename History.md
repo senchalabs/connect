@@ -1,4 +1,14 @@
 
+0.5.7 / 2011-02-01 
+==================
+
+  * Added `onvhost()` call so Express (and others) can know when they are
+  * Revert "Added stylus support" (use the middleware which ships with stylus)
+  * Removed custom `Server#listen()` to allow regular `http.Server#listen()` args to work properly
+  * Fixed long standing router issue (#83) that causes '.' to be disallowed within named placeholders in routes [Andreas Lind Petersen]
+  * Fixed `utils.uid()` length error [Jxck]
+mounted
+
 0.5.6 / 2011-01-23 
 ==================
 
