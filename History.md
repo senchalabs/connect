@@ -1,4 +1,12 @@
 
+0.5.8 / 2011-02-04 
+==================
+
+  * Added `qs` dependency
+  * Fixed router race-condition causing possible failure
+    when `next()`ing to one or more routes with parallel
+    requests
+
 0.5.7 / 2011-02-01 
 ==================
 
