@@ -8,6 +8,7 @@ LIB_PREFIX = $(HOME)/.node_libraries
 test:
 	@NODE_ENV=test ./$(TEST) \
 		-I lib \
+		-I support \
 		-I support/coffee-script/lib \
 		-I support/sass/lib \
 		-I support/less/lib \
