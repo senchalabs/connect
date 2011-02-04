@@ -19,6 +19,3 @@
 [submodule "support/coffee-script"]
 	path = support/coffee-script
 	url = http://github.com/jashkenas/coffee-script.git
-[submodule "support/querystring"]
-	path = support/querystring
-	url = git://github.com/visionmedia/node-querystring.git
