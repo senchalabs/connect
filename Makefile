@@ -17,14 +17,6 @@ test:
 test-cov:
 	@$(MAKE) test TEST_FLAGS="--cov"
 
-install:
-	cp -fr lib/connect $(LIB_PREFIX)/connect
-
-uninstall:
-	rm -f $(PREFIX)/share/man/man1/connect.1
-	rm -f $(PREFIX)/share/man/man1/connect-*.1
-	rm -fr $(LIB_PREFIX)/connect
-
 benchmark: benchmarks/run
 	@./benchmarks/run
 
@@ -38,4 +30,4 @@ docs/api.html:
 		--desc "High performance middleware for [node](http://nodejs.org)." \
 		$(shell find lib/connect/middleware/* -type f) > $@
 
-.PHONY: install uninstall docs test test-cov benchmark graphs
+.PHONY: docs test test-cov benchmark graphs

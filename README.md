@@ -51,16 +51,6 @@ Or the progressive form of middleware usage via `Server#use()`:
 
 ## Installation
 
-Via curl / sh:
-
-    $ curl -# http://github.com/senchalabs/connect/raw/master/install.sh | sh
-
-Via git (or downloaded tarball):
-
-    $ git clone git://github.com/senchalabs/connect.git && cd connect && make install
-
-Via [npm](http://github.com/isaacs/npm):
-
     $ npm install connect
 
 ## Documentation
