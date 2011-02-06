@@ -53,7 +53,7 @@ module.exports = {
         req.write('__method__=put');
         req.end();
     },
-    
+
     'test X-HTTP-Method-Override header': function(){
         var server = helpers.run(
             connect.methodOverride(),

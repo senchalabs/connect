@@ -24,11 +24,11 @@ function user(app){
                     'Content-Length': body.length
                 });
                 res.end(body);
-                
+
         }
-        
+
     });
-    
+
     app.get('/:id.:format', function(req, res, next){
         var user = users[req.params.id];
         if (user && req.params.format === 'json') {
@@ -42,7 +42,7 @@ function user(app){
             // When true is passed, provide control
             // back to middleware, skipping route
             // match attemps
-            next(true); 
+            next(true);
         }
     });
 

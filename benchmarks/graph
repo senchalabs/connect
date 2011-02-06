@@ -4,7 +4,7 @@ COL=${COL-9}
 ABFLAGS=$(cat results/flags)
 
 # Log <msg ...>
-# 
+#
 # <msg ...>
 #
 
@@ -14,7 +14,7 @@ log(){
 
 #
 # Output gnuplot script for line graph.
-# 
+#
 # <title> <node> <connect>
 #
 
@@ -37,7 +37,7 @@ EOF
 
 #
 # Output gnuplot script for bar graph.
-# 
+#
 # <title> <node> <connect>
 #
 
@@ -56,7 +56,7 @@ EOF
 
 #
 # Graph the output of the given <dir>.
-# 
+#
 # <dir>
 #
 

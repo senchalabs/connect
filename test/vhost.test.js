@@ -53,14 +53,14 @@ module.exports = {
                 }
             ))
         );
-        
+
         var req = server.request('GET', '/');
         req.addListener('response', function(res){
             assert.equal(404, res.statusCode);
         });
         req.end();
     },
-    
+
     'test wildcard': function(){
         var server = helpers.run(
             connect.vhost('*.foo.com', connect.createServer(
@@ -88,7 +88,7 @@ module.exports = {
                 }
             ))
         );
-        
+
         var req = server.request('GET', '/', { Host: 'tj.foo.com' });
         req.buffer = true;
         req.addListener('response', function(res){
@@ -97,7 +97,7 @@ module.exports = {
             });
         });
         req.end();
-        
+
         var req = server.request('GET', '/', { Host: 'tobi.foo.com' });
         req.buffer = true;
         req.addListener('response', function(res){
@@ -106,7 +106,7 @@ module.exports = {
             });
         });
         req.end();
-        
+
         var req = server.request('GET', '/', { Host: 'foo.com' });
         req.buffer = true;
         req.addListener('response', function(res){
@@ -115,7 +115,7 @@ module.exports = {
             });
         });
         req.end();
-        
+
         var req = server.request('GET', '/', { Host: 'someone.bar.com' });
         req.buffer = true;
         req.addListener('response', function(res){
@@ -124,7 +124,7 @@ module.exports = {
             });
         });
         req.end();
-        
+
         var req = server.request('GET', '/', { Host: 'something.baz.com' });
         req.buffer = true;
         req.addListener('response', function(res){
@@ -132,7 +132,7 @@ module.exports = {
         });
         req.end();
     },
-    
+
     'test standard http server': function() {
         var server = helpers.run(
             connect.vhost('foo.com', http.createServer(

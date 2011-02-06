@@ -30,7 +30,7 @@ module.exports = {
         });
         req.end();
     },
-    
+
     'test non-compressable': function(){
         var server = helpers.run(
             connect.staticGzip({ root: fixturesPath, compress: ['text/html'] }),
@@ -45,7 +45,7 @@ module.exports = {
         });
         req.end();
     },
-    
+
     'test compressable': function(){
         var server = helpers.run(
             connect.staticGzip({ root: fixturesPath, compress: ['text/css', 'text/html'] }),
@@ -59,7 +59,7 @@ module.exports = {
         } catch (err) {
             // Ignore
         }
-        
+
         server.pending = 2;
         // Pre-compression
         var req = server.request('GET', '/style.css', { 'Accept-Encoding': 'gzip' });

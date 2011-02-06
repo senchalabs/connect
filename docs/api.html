@@ -446,7 +446,7 @@ if (callback(credentials[0], credentials[1])) {
     <span class="keyword">if</span> (<span class="variable">process</span>.<span class="variable">connectEnv</span>.<span class="variable">dumpExceptions</span> !== <span class="variable">undefined</span>) {
         <span class="variable">dumpExceptions</span> = <span class="variable">utils</span>.<span class="variable">toBoolean</span>(<span class="variable">process</span>.<span class="variable">connectEnv</span>.<span class="variable">dumpExceptions</span>);
     }
-    
+
     <span class="comment">// --decorate stack trace file URLs</span>
     <span class="keyword">var</span> <span class="variable">formatLine</span> = <span class="keyword">function</span>(<span class="variable">v</span>){ <span class="keyword">return</span> <span class="string">'&lt;li&gt;'</span> + <span class="variable">v</span> + <span class="string">'&lt;/li&gt;'</span>; }; <span class="comment">// pass straight by default</span>
     <span class="keyword">if</span> (<span class="variable">formatUrl</span>) {
@@ -535,11 +535,11 @@ located by the given path.</p>
 <h2>Examples</h2>
 
 <pre><code>connect.createServer(
-    connect.favicon()    
+    connect.favicon()
 );
 
 connect.createServer(
-    connect.favicon(__dirname + '/public/favicon.ico')    
+    connect.favicon(__dirname + '/public/favicon.ico')
 );</code></pre>
 
 <h2></h2>
@@ -935,7 +935,7 @@ connect.createServer(
                 <span class="variable">realStream</span>.<span class="variable">write</span>(<span class="variable">buf</span>.<span class="variable">join</span>(<span class="string">''</span>), <span class="string">'ascii'</span>);
                 <span class="variable">buf</span>.<span class="variable">length</span> = <span class="number integer">0</span>;
             }
-        }, <span class="keyword">typeof</span> <span class="variable">buffer</span> === <span class="string">'number'</span> ? <span class="variable">buffer</span> : <span class="variable">defaultBufferDuration</span>); 
+        }, <span class="keyword">typeof</span> <span class="variable">buffer</span> === <span class="string">'number'</span> ? <span class="variable">buffer</span> : <span class="variable">defaultBufferDuration</span>);
         <span class="variable">stream</span> = {
             <span class="variable">write</span>: <span class="keyword">function</span>(<span class="variable">str</span>){
                 <span class="variable">buf</span>.<span class="variable">push</span>(<span class="variable">str</span>);
@@ -1036,7 +1036,7 @@ a method override, othewise defaults to __method_.</p>
         <span class="keyword">if</span> (<span class="variable">methods</span>.<span class="variable">indexOf</span>(<span class="variable">method</span>) &<span class="variable">gt</span>;= <span class="number integer">0</span>) {
             <span class="variable">req</span>.<span class="variable">method</span> = <span class="variable">method</span>;
         }
-        
+
         <span class="variable">next</span>();
     };
 };
@@ -1207,7 +1207,7 @@ and <code>fallbacks</code>.</p>
   <span class="variable">methods</span>.<span class="variable">param</span> = <span class="keyword">function</span>(<span class="variable">name</span>, <span class="variable">fn</span>){
     <span class="variable">params</span>[<span class="variable">name</span>] = <span class="variable">fn</span>;
   };
-      
+
   <span class="variable">fn</span>.<span class="variable">call</span>(<span class="this">this</span>, <span class="variable">methods</span>);
 
   <span class="keyword">function</span> <span class="variable">generateMethodFunction</span>(<span class="variable">name</span>) {
@@ -1235,7 +1235,7 @@ and <code>fallbacks</code>.</p>
           , <span class="variable">keys</span> = <span class="variable">route</span>.<span class="variable">_keys</span>;
 
         <span class="variable">req</span>.<span class="variable">params</span> = <span class="variable">route</span>.<span class="variable">_params</span>;
-        
+
         <span class="comment">// Param preconditions</span>
         (<span class="keyword">function</span> <span class="variable">param</span>(<span class="variable">err</span>) {
           <span class="keyword">try</span> {
@@ -1758,7 +1758,7 @@ on to serve the gzipped version of the file.</p>
     <span class="keyword">return</span> <span class="keyword">function</span> <span class="variable">staticProvider</span>(<span class="variable">req</span>, <span class="variable">res</span>, <span class="variable">next</span>) {
         <span class="keyword">if</span> (<span class="variable">req</span>.<span class="variable">method</span> != <span class="string">'GET'</span> &<span class="variable">amp</span>;&<span class="variable">amp</span>; <span class="variable">req</span>.<span class="variable">method</span> != <span class="string">'HEAD'</span>) <span class="keyword">return</span> <span class="variable">next</span>();
 
-        <span class="keyword">var</span> <span class="variable">hit</span>, 
+        <span class="keyword">var</span> <span class="variable">hit</span>,
             <span class="variable">head</span> = <span class="variable">req</span>.<span class="variable">method</span> == <span class="string">'HEAD'</span>,
             <span class="variable">filename</span>, <span class="variable">url</span> = <span class="variable">parseUrl</span>(<span class="variable">req</span>.<span class="variable">url</span>);
 
@@ -1774,7 +1774,7 @@ on to serve the gzipped version of the file.</p>
         <span class="keyword">if</span> (<span class="variable">filename</span>[<span class="variable">filename</span>.<span class="variable">length</span> - <span class="number integer">1</span>] === <span class="string">'/'</span>) {
             <span class="variable">filename</span> += &<span class="variable">quot</span>;<span class="variable">index</span>.<span class="variable">html</span>&<span class="variable">quot</span>;;
         }
-        
+
         <span class="comment">// Cache hit</span>
         <span class="keyword">if</span> (<span class="variable">cache</span> &<span class="variable">amp</span>;&<span class="variable">amp</span>; !<span class="variable">conditionalGET</span>(<span class="variable">req</span>) &<span class="variable">amp</span>;&<span class="variable">amp</span>; (<span class="variable">hit</span> = <span class="variable">_cache</span>[<span class="variable">req</span>.<span class="variable">url</span>])) {
             <span class="variable">res</span>.<span class="variable">writeHead</span>(<span class="number integer">200</span>, <span class="variable">hit</span>.<span class="variable">headers</span>);
@@ -1810,7 +1810,7 @@ on to serve the gzipped version of the file.</p>
                 <span class="keyword">if</span> (!<span class="variable">modified</span>(<span class="variable">req</span>, <span class="variable">headers</span>)) {
                     <span class="keyword">return</span> <span class="variable">notModified</span>(<span class="variable">res</span>, <span class="variable">headers</span>);
                 }
-                
+
                 <span class="variable">res</span>.<span class="variable">writeHead</span>(<span class="number integer">200</span>, <span class="variable">headers</span>);
                 <span class="variable">res</span>.<span class="variable">end</span>(<span class="variable">head</span> ? <span class="variable">undefined</span> : <span class="variable">data</span>);
 

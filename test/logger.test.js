@@ -36,7 +36,7 @@ module.exports = {
         req.write('foobar');
         req.end();
     },
-    
+
     'test custom format': function(){
         var logs = [];
         var fakeStream = { write: function(str){ logs.push(str); }};

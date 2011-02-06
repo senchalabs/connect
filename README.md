@@ -42,7 +42,7 @@ Then if you want to add in a pre-built feature like logging just add it to the `
 Or the progressive form of middleware usage via `Server#use()`:
 
     var server = connect.createServer();
-    
+
     server.use(connect.logger());
     server.use(function(req, res){
       res.writeHead(200);
@@ -89,7 +89,7 @@ Run a single test, or use a custom glob pattern:
 [Rack]: http://rack.rubyforge.org/
 [Node.JS]: http://nodejs.org/
 
-## License 
+## License
 
 (The MIT License)
 

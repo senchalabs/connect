@@ -169,7 +169,7 @@ module.exports = {
 
         server.assertResponse('GET', '/items/12', 200, 'item 12');
         server.assertResponse('GET', '/items', 200, 'items');
-        
+
         server.assertResponse('GET', '/staff/12', 200, 'GET staff 12');
         server.assertResponse('POST', '/staff/12', 200, 'POST staff 12');
 

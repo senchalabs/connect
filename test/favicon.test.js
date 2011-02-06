@@ -19,7 +19,7 @@ module.exports = {
         });
         req.end();
     },
-    
+
     'test custom favicon': function(){
         var server = helpers.run(
             connect.favicon(__dirname + '/../lib/connect/public/favicon.ico')

@@ -66,7 +66,7 @@ module.exports = {
         req.write('{"user":{"name":"tj"');
         req.end();
     },
-    
+
     'test custom decoder': function(){
         connect.bodyDecoder.decode['my/type'] = function(str){
             return str.replace(/ +/g, '');
