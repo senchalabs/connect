@@ -17,7 +17,7 @@ var fixturesPath = __dirname + '/fixtures';
 module.exports = {
     'test valid file': function(){
         var server = helpers.run(
-            connect.staticProvider(fixturesPath)
+            connect.static(fixturesPath)
         );
         var req = server.request('GET', '/user.json');
         req.buffer = true;
@@ -38,7 +38,7 @@ module.exports = {
 
     'test configurable cache-control': function(){
         var server = helpers.run(
-            connect.staticProvider({ root: fixturesPath, maxAge: 60000 })
+            connect.static({ root: fixturesPath, maxAge: 60000 })
         );
         var req = server.request('GET', '/user.json');
         req.buffer = true;
@@ -52,42 +52,42 @@ module.exports = {
 
     'test urlencoded': function(){
         var server = helpers.run(
-            connect.staticProvider({ root: fixturesPath })
+            connect.static({ root: fixturesPath })
         );
         server.assertResponse('GET', '/some%20text.txt', 200, 'whoop', 'Test urlencoded path');
     },
 
     'test index.html support': function(){
         var server = helpers.run(
-            connect.staticProvider({ root: fixturesPath })
+            connect.static({ root: fixturesPath })
         );
         server.assertResponse('GET', '/', 200, '<p>Wahoo!</p>', 'Test static index.html support.');
     },
 
     'test index.html support when missing': function(){
         var server = helpers.run(
-            connect.staticProvider({ root: __dirname })
+            connect.static({ root: __dirname })
         );
         server.assertResponse('GET', '/', 404, 'Cannot GET /', 'Test static index.html support when missing.');
     },
 
     'test invalid file': function(){
         var server = helpers.run(
-            connect.staticProvider({ root: fixturesPath })
+            connect.static({ root: fixturesPath })
         );
         server.assertResponse('GET', '/foo.json', 404, 'Cannot GET /foo.json', 'Test invalid static file.');
     },
     
     'test directory': function(){
         var server = helpers.run(
-            connect.staticProvider({ root: __dirname })
+            connect.static({ root: __dirname })
         );
         server.assertResponse('GET', '/fixtures', 404, 'Cannot GET /fixtures');
     },
     
     'test forbidden': function(){
         var server = helpers.run(
-            connect.staticProvider({ root: fixturesPath })
+            connect.static({ root: fixturesPath })
         );
         server.assertResponse('GET', '/../gzip.test.js', 403, 'Forbidden');
     }

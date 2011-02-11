@@ -12,7 +12,7 @@ module.exports = {
     test: function(){
         var server = helpers.run(
             connect.compiler({ src: __dirname + '/fixtures', enable: ['sass', 'coffeescript'] }),
-            connect.staticProvider({ root: __dirname + '/fixtures' })
+            connect.static({ root: __dirname + '/fixtures' })
         );
         server.assertResponse('GET', '/doesnotexist.css', 404, 'Cannot GET /doesnotexist.css');
         server.assertResponse('GET', '/style.css', 200, 'body {\n  font-size: 12px;\n  color: #000;}\n');
