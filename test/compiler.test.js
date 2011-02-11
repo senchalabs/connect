@@ -3,26 +3,43 @@
  * Module dependencies.
  */
 
-var connect = require('connect'),
-    helpers = require('./helpers'),
-    assert = require('assert'),
-    http = require('http');
+var connect = require('connect')
+  , assert = require('assert')
+  , should = require('should')
+  , http = require('http');
 
 module.exports = {
-    test: function(){
-        var server = helpers.run(
-            connect.compiler({ src: __dirname + '/fixtures', enable: ['sass', 'coffeescript'] }),
-            connect.static({ root: __dirname + '/fixtures' })
-        );
-        server.assertResponse('GET', '/doesnotexist.css', 404, 'Cannot GET /doesnotexist.css');
-        server.assertResponse('GET', '/style.css', 200, 'body {\n  font-size: 12px;\n  color: #000;}\n');
-        server.assertResponse('GET', '/style.css', 200, 'body {\n  font-size: 12px;\n  color: #000;}\n');
-        server.assertResponse('GET', '/foo.bar.baz.css', 200, 'foo {\n  color: #000;}\n');
-        server.assertResponse('GET', '/foo.bar.baz.css', 200, 'foo {\n  color: #000;}\n');
-        server.assertResponse('GET', '/script.js', 200, '(function() {\n  var $;\n  $ = jQuery;\n  $(document).ready(function() {\n    return console.log("Say Hello to CoffeeScript");\n  });\n})();\n');
-    },
+  test: function(){
+    var app = connect.createServer(
+      connect.compiler({
+          src: __dirname + '/fixtures'
+        , enable: ['sass', 'coffeescript']
+      }),
+      connect.static({ root: __dirname + '/fixtures' })
+    );
 
-    'test .compilers': function(){
-        assert.equal('object', typeof connect.compiler.compilers);
-    }
-}
+    assert.response(app,
+      { url: '/doesnotexist.css' },
+      { status: 404 });
+
+    assert.response(app,
+      { url: '/style.css' },
+      { body: 'body {\n  font-size: 12px;\n  color: #000;}\n' });
+
+    assert.response(app,
+      { url: '/style.css' },
+      { body: 'body {\n  font-size: 12px;\n  color: #000;}\n' });
+
+    assert.response(app,
+      { url: '/foo.bar.baz.css' },
+      { body: 'foo {\n  color: #000;}\n' });
+
+    assert.response(app,
+      { url: '/script.js' },
+      { body: /^\(function\(\)/ });
+  },
+
+  'test .compilers': function(){
+    connect.compiler.compilers.should.be.a('object');
+  }
+};
