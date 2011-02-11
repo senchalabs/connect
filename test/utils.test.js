@@ -27,6 +27,9 @@ module.exports = {
 
       utils.parseCookie('fbs="uid=0987654321&name=Test+User"')
         .should.eql({ fbs: 'uid=0987654321&name=Test User' });
+
+      utils.parseCookie('email=tobi%2Bferret@foo.com')
+        .should.eql({ email: 'tobi+ferret@foo.com' });
     },
 
     'test serializeCookie()': function(){
