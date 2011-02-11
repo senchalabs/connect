@@ -17,12 +17,6 @@ test:
 test-cov:
 	@$(MAKE) test TEST_FLAGS="--cov"
 
-benchmark: benchmarks/run
-	@./benchmarks/run
-
-graphs: benchmarks/graph
-	@./benchmarks/graph
-
 docs: docs/api.html
 
 docs/api.html:
@@ -30,4 +24,4 @@ docs/api.html:
 		--desc "High performance middleware for [node](http://nodejs.org)." \
 		$(shell find lib/connect/middleware/* -type f) > $@
 
-.PHONY: docs test test-cov benchmark graphs
+.PHONY: docs test test-cov graphs
