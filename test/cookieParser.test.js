@@ -22,7 +22,7 @@ module.exports = {
       { body: '{}' });
     
     assert.response(app,
-      { url: '/', headers: { Cookie: 'sid=123' }},
-      { body: '{"sid":"123"}' });
+      { url: '/', headers: { Cookie: ['sid=123', 'foo=bar'] }},
+      { body: '{"sid":"123","foo":"bar"}' });
   }
 };
