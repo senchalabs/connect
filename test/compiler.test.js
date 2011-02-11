@@ -6,7 +6,14 @@
 var connect = require('connect')
   , assert = require('assert')
   , should = require('should')
-  , http = require('http');
+  , http = require('http')
+  , fs = require('fs');
+
+try {
+  fs.unlinkSync(__dirname + '/fixtures/style.css');
+} catch (err) {
+  // ignore
+}
 
 module.exports = {
   test: function(){
@@ -33,10 +40,6 @@ module.exports = {
     assert.response(app,
       { url: '/foo.bar.baz.css' },
       { body: 'foo {\n  color: #000;}\n' });
-
-    assert.response(app,
-      { url: '/script.js' },
-      { body: /^\(function\(\)/ });
   },
 
   'test .compilers': function(){
