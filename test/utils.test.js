@@ -21,8 +21,12 @@ module.exports = {
     'test parseCookie()': function(){
       utils.parseCookie('foo=bar').should.eql({ foo: 'bar' });
       utils.parseCookie('SID=123').should.eql({ sid: '123' });
-      utils.parseCookie('foo   = bar;  baz    =  raz').should.eql({ foo: 'bar', baz: 'raz' });  
-      utils.parseCookie('fbs="uid=0987654321&name=Test+User"').should.eql({ fbs: 'uid=0987654321&name=Test User' });
+
+      utils.parseCookie('foo   = bar;  baz    =  raz')
+        .should.eql({ foo: 'bar', baz: 'raz' });  
+
+      utils.parseCookie('fbs="uid=0987654321&name=Test+User"')
+        .should.eql({ fbs: 'uid=0987654321&name=Test User' });
     },
 
     'test serializeCookie()': function(){
@@ -41,5 +45,8 @@ module.exports = {
       utils
         .serializeCookie('foo', 'foo bar')
         .should.equal('foo=foo%20bar');
+
+      utils.parseCookie(utils.serializeCookie('fbs', 'uid=123&name=Test User'))
+        .should.eql({ fbs: 'uid=123&name=Test User' });
     }
 };
