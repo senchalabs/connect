@@ -4,28 +4,25 @@
  */
 
 var connect = require('connect')
-  , helpers = require('./helpers')
   , assert = require('assert')
   , http = require('http');
 
 module.exports = {
   test: function(){
     var n = 0;
-    var server = helpers.run(
+    var app = connect.createServer(
       connect.cookieParser(),
       function(req, res, next){
-        switch (n++) {
-          case 0:
-            assert.eql({}, req.cookies, 'Test cookies default to blank object');
-            break;
-          case 1:
-            assert.eql({ sid: '123' }, req.cookies, 'Test cookie parsing');
-            break;
-        }
-        next();
+        res.end(JSON.stringify(req.cookies));
       }
     );
-    server.request('GET', '/').end();
-    server.request('GET', '/', { 'Cookie': 'sid=123' }).end();
+
+    assert.response(app,
+      { url: '/' },
+      { body: '{}' });
+    
+    assert.response(app,
+      { url: '/', headers: { Cookie: 'sid=123' }},
+      { body: '{"sid":"123"}' });
   }
 };
