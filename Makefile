@@ -1,8 +1,6 @@
 
-NODE = node
 TEST = support/expresso/bin/expresso
 TESTS ?= test/*.test.js
-PREFIX = /usr/local
 LIB_PREFIX = $(HOME)/.node_libraries
 
 test:
