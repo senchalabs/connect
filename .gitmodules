@@ -25,3 +25,6 @@
 [submodule "support/mime"]
 	path = support/mime
 	url = https://github.com/bentomas/node-mime.git
+[submodule "support/should"]
+	path = support/should
+	url = git://github.com/visionmedia/should.js.git
