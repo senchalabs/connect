@@ -161,6 +161,24 @@ module.exports = {
   },
   
   'test format': function(){
-    
+    var app = connect.createServer(
+      connect.router(function(app){
+        app.get('/users.:format', function(req, res){
+          res.end('format ' + req.params.format);
+        });
+
+        app.get('/users', function(req, res){
+          res.end('users');
+        });
+      })
+    );
+
+    assert.response(app,
+      { url: '/users' },
+      { body: 'users' });
+
+    assert.response(app,
+      { url: '/users.json' },
+      { body: 'format json' });
   }
 };
