@@ -92,5 +92,23 @@ module.exports = {
     assert.response(app,
       { url: '/account/12/edit' },
       { body: 'editing user 12' });
+  },
+  
+  'test splat': function(){
+    var app = connect.createServer(
+      connect.router(function(app){
+        app.get('/file/*', function(req, res){
+          res.end('file ' + req.params[0]);
+        });
+      })
+    );
+
+    assert.response(app,
+      { url: '/file/jquery.js' },
+      { body: 'file jquery.js' });
+    
+    assert.response(app,
+      { url: '/file/public/javascripts/jquery.js' },
+      { body: 'file public/javascripts/jquery.js' });
   }
 };
