@@ -4,58 +4,67 @@
  */
 
 var connect = require('connect')
-  , helpers = require('./helpers')
   , assert = require('assert')
+  , should  = require('should')
   , http = require('http');
 
 module.exports = {
-  'test defaults': function(){
-    var server = helpers.run(
+  'test defaults with next(err)': function(){
+    var app = connect.createServer(
       function(req, res, next){
         next(new Error('keyboard cat!'));
       },
       connect.errorHandler()
     );
-    server.assertResponse('GET', '/', 500, 'Internal Server Error', 'Test error-handler defaults');
-  },
 
+    assert.response(app,
+      { url: '/' },
+      { body: 'Internal Server Error'
+      , status: 500 });
+  },
+  
   'test defaults with caught exception': function(){
-    var server = helpers.run(
+    var app = connect.createServer(
       function(req, res, next){
         throw new Error('keyboard cat!');
       },
       connect.errorHandler()
     );
-    server.assertResponse('GET', '/', 500, 'Internal Server Error', 'Test error-handler defaults');
-  },
 
+    assert.response(app,
+      { url: '/' },
+      { body: 'Internal Server Error'
+      , status: 500 });
+  },
+  
   'test showMessage': function(){
-    var server = helpers.run(
+    var app = connect.createServer(
       function(req, res, next){
         next(new Error('keyboard cat!'));
       },
       connect.errorHandler({ showMessage: true })
     );
-    server.assertResponse('GET', '/', 500, 'Error: keyboard cat!', 'Test error-handler showMessage');
-  },
 
+    assert.response(app,
+      { url: '/' },
+      { body: 'Error: keyboard cat!'
+      , status: 500 });
+  },
+  
   'test showStack': function(){
-    var server = helpers.run(
+    var app = connect.createServer(
       function(req, res, next){
         next(new Error('keyboard cat!'));
       },
       connect.errorHandler({ showStack: true })
     );
-    var req = server.request('GET', '/');
-    req.buffer = true;
-    req.addListener('response', function(res){
-      res.addListener('end', function(){
-        assert.equal('text/plain', res.headers['content-type']);
-        assert.equal(500, res.statusCode, 'Test error-handler 500 status code');
-        assert.ok(res.body.indexOf('Error: keyboard cat!') !== -1, 'Test error-handler showStack message');
-        assert.ok(res.body.indexOf('lib/connect/index.js') !== -1, 'Test error-handler showStack stack trace');
+
+    assert.response(app,
+      { url: '/' },
+      function(res){
+        var buf = '';
+        res.body.should.include.string('Error: keyboard cat!');
+        res.body.should.include.string('test/errorHandler.test.js');
       });
-    });
-    req.end();
   }
 }
