@@ -8,7 +8,7 @@ var connect = require('connect'),
     http = require('http');
 
 var app = connect.createServer(
-  connect.bodyDecoder(),
+  connect.bodyParser(),
   function(req, res){
   res.writeHead(200);
   res.end(JSON.stringify(req.body));
