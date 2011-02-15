@@ -36,5 +36,19 @@ module.exports = {
     assert.response(app,
       { url: '/', method: 'PUT' },
       { body: 'PUT /' });
+  },
+  
+  'test params': function(){
+    var app = connect.createServer(
+      connect.router(function(app){
+        app.get('/user/:id', function(req, res){
+          res.end('user ' + req.params.id);
+        });
+      });
+    );
+
+    assert.response(app,
+      { url: '/user/12' },
+      { body: 'user 12' });
   }
 };
