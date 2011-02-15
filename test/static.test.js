@@ -3,10 +3,10 @@
  * Module dependencies.
  */
 
-var connect = require('connect'),
-    helpers = require('./helpers'),
-    assert = require('assert'),
-    http = require('http');
+var connect = require('connect')
+  , assert = require('assert')
+  , should = require('should')
+  , http = require('http');
 
 /**
  * Path to ./test/fixtures/
@@ -15,80 +15,95 @@ var connect = require('connect'),
 var fixturesPath = __dirname + '/fixtures';
 
 module.exports = {
-    'test valid file': function(){
-        var server = helpers.run(
-            connect.static(fixturesPath)
-        );
-        var req = server.request('GET', '/user.json');
-        req.buffer = true;
-        req.addListener('response', function(res){
-            res.addListener('end', function(){
-                var headers = res.headers,
-                    body = '{\n    "name": "tj",\n    "email": "tj@sencha.com"\n}';
-                assert.equal(200, res.statusCode, 'Test static with valid file status code');
-                assert.equal(body, res.body, 'Test static with valid file response body');
-                assert.equal('application/json', headers['content-type'], 'Test static with valid file Content-Type');
-                assert.equal(body.length, headers['content-length'], 'Test static with valid file Content-Length');
-                assert.ok(headers['last-modified'], 'Test static with valid file Last-Modified');
-                assert.ok(headers['cache-control'] == 'public max-age=0', 'Test static with valid file Cache-Control');
-            });
-        });
-        req.end();
-    },
+  'test valid file': function(){
+    var app = connect.createServer(
+      connect.static(fixturesPath)
+    );
 
-    'test configurable cache-control': function(){
-        var server = helpers.run(
-            connect.static({ root: fixturesPath, maxAge: 60000 })
-        );
-        var req = server.request('GET', '/user.json');
-        req.buffer = true;
-        req.addListener('response', function(res){
-            res.addListener('end', function(){
-                assert.ok(res.headers['cache-control'] == 'public max-age=60', 'Test configurable Cache-Control support');
-            });
-        });
-        req.end();
-    },
+    assert.response(app,
+      { url: '/user.json' },
+      function(res){
+        res.statusCode.should.equal(200);
+        JSON.parse(res.body).should.eql({ name: 'tj', email: 'tj@vision-media.ca' });
+        res.headers['content-length'].should.equal('55');
+        res.headers['cache-control'].should.equal('public max-age=0');
+        res.headers.should.have.property('last-modified');
+    });
+  },
+  
+  'test maxAge': function(){
+    var app = connect.createServer(
+      connect.static({ root: fixturesPath, maxAge: 60000 })
+    );
 
-    'test urlencoded': function(){
-        var server = helpers.run(
-            connect.static({ root: fixturesPath })
-        );
-        server.assertResponse('GET', '/some%20text.txt', 200, 'whoop', 'Test urlencoded path');
-    },
+    assert.response(app,
+      { url: '/user.json' },
+      function(res){
+        res.statusCode.should.equal(200);
+        JSON.parse(res.body).should.eql({ name: 'tj', email: 'tj@vision-media.ca' });
+        res.headers['content-length'].should.equal('55');
+        res.headers['cache-control'].should.equal('public max-age=60');
+        res.headers.should.have.property('last-modified');
+    });
+  },
+  
+  'test url encoding': function(){
+    var app = connect.createServer(
+      connect.static({ root: fixturesPath })
+    );
 
-    'test index.html support': function(){
-        var server = helpers.run(
-            connect.static({ root: fixturesPath })
-        );
-        server.assertResponse('GET', '/', 200, '<p>Wahoo!</p>', 'Test static index.html support.');
-    },
+    assert.response(app,
+      { url: '/some%20text.txt' },
+      { body: 'whoop', status: 200 });
+  },
+  
+  'test index.html support': function(){
+    var app = connect.createServer(
+      connect.static(fixturesPath)
+    );
 
-    'test index.html support when missing': function(){
-        var server = helpers.run(
-            connect.static({ root: __dirname })
-        );
-        server.assertResponse('GET', '/', 404, 'Cannot GET /', 'Test static index.html support when missing.');
-    },
+    assert.response(app,
+      { url: '/' },
+      { body: '<p>Wahoo!</p>', status: 200 });
+  },
+  
+  'test index.html support when missing': function(){
+    var app = connect.createServer(
+      connect.static(__dirname)
+    );
 
-    'test invalid file': function(){
-        var server = helpers.run(
-            connect.static({ root: fixturesPath })
-        );
-        server.assertResponse('GET', '/foo.json', 404, 'Cannot GET /foo.json', 'Test invalid static file.');
-    },
-    
-    'test directory': function(){
-        var server = helpers.run(
-            connect.static({ root: __dirname })
-        );
-        server.assertResponse('GET', '/fixtures', 404, 'Cannot GET /fixtures');
-    },
-    
-    'test forbidden': function(){
-        var server = helpers.run(
-            connect.static({ root: fixturesPath })
-        );
-        server.assertResponse('GET', '/../gzip.test.js', 403, 'Forbidden');
-    }
-}
+    assert.response(app,
+      { url: '/' },
+      { body: 'Cannot GET /', status: 404 });
+  },
+  
+  'test invalid file': function(){
+    var app = connect.createServer(
+      connect.static(fixturesPath)
+    );
+
+    assert.response(app,
+      { url: '/foo.json' },
+      { body: 'Cannot GET /foo.json', status: 404 });
+  },
+  
+  'test directory': function(){
+    var app = connect.createServer(
+      connect.static(fixturesPath)
+    );
+
+    assert.response(app,
+      { url: '/fixtures' },
+      { body: 'Cannot GET /fixtures', status: 404 });
+  },
+  
+  'test forbidden': function(){
+    var app = connect.createServer(
+      connect.static(fixturesPath)
+    );
+
+    assert.response(app,
+      { url: '/../gzip.test.js' },
+      { body: 'Forbidden', status: 403 });
+  }
+};
