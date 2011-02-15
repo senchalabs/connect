@@ -110,5 +110,31 @@ module.exports = {
     assert.response(app,
       { url: '/file/public/javascripts/jquery.js' },
       { body: 'file public/javascripts/jquery.js' });
+  },
+  
+  'test several splats': function(){
+    var app = connect.createServer(
+      connect.router(function(app){
+        app.get('/file/*.*', function(req, res){
+          res.end('file ' + req.params[0] + ' ext ' + req.params[1]);
+        });
+
+        app.get('/move/*/to/*', function(req, res){
+          res.end('moved ' + req.params[0] + ' to ' + req.params[1]);
+        });
+      })
+    );
+
+    assert.response(app,
+      { url: '/file/jquery.js' },
+      { body: 'file jquery ext js' });
+    
+    assert.response(app,
+      { url: '/file/public/javascripts/jquery.js' },
+      { body: 'file public/javascripts/jquery ext js' });
+
+    assert.response(app,
+      { url: '/move/jquery/to/jquery.js' },
+      { body: 'moved jquery to jquery.js' });
   }
 };
