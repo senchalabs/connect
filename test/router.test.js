@@ -104,6 +104,10 @@ module.exports = {
     );
 
     assert.response(app,
+      { url: '/file' },
+      { status: 404 });
+
+    assert.response(app,
       { url: '/file/jquery.js' },
       { body: 'file jquery.js' });
     
@@ -136,5 +140,27 @@ module.exports = {
     assert.response(app,
       { url: '/move/jquery/to/jquery.js' },
       { body: 'moved jquery to jquery.js' });
+  },
+  
+  'test named captures': function(){
+    var app = connect.createServer(
+      connect.router(function(app){
+        app.get('/page/:from(\\d+)-:to(\\d+)', function(req, res){
+          res.end('viewing ' + req.params.from + ' to ' + req.params.to);
+        });
+      })
+    );
+
+    assert.response(app,
+      { url: '/page/1-9' },
+      { body: 'viewing 1 to 9' });
+
+    assert.response(app,
+      { url: '/page/3-b' },
+      { status: 404 });
+  },
+  
+  'test format': function(){
+    
   }
 };
