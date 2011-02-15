@@ -52,9 +52,12 @@ module.exports = {
     );
 
     assert.response(app,
+      { url: '/user/12/' },
+      { body: 'user 12' });
+
+    assert.response(app,
       { url: '/user/12' },
       { body: 'user 12' });
-    
     
     assert.response(app,
       { url: '/user/tj.holowaychuk' },
@@ -62,6 +65,32 @@ module.exports = {
     
     assert.response(app,
       { url: '/user/12/edit' },
+      { body: 'editing user 12' });
+  },
+  
+  'test optional params': function(){
+    var app = connect.createServer(
+      connect.router(function(app){
+        app.get('/user/:id?', function(req, res){
+          res.end('user ' + (req.params.id || 'account'));
+        });
+
+        app.get('/account/:id?/:op', function(req, res){
+          res.end(req.params.op + 'ing user ' + (req.params.id || 'account'));
+        });
+      })
+    );
+
+    assert.response(app,
+      { url: '/user/12' },
+      { body: 'user 12' });
+    
+    assert.response(app,
+      { url: '/account/edit' },
+      { body: 'editing user account' });
+
+    assert.response(app,
+      { url: '/account/12/edit' },
       { body: 'editing user 12' });
   }
 };
