@@ -4,7 +4,8 @@
  */
 
 var utils = require('connect').utils
-  , should = require('should');
+  , should = require('should')
+  , Stream = require('stream').Stream;
 
 module.exports = {
   'test md5()': function(){
@@ -51,5 +52,39 @@ module.exports = {
 
     utils.parseCookie(utils.serializeCookie('fbs', 'uid=123&name=Test User'))
       .should.eql({ fbs: 'uid=123&name=Test User' });
+  },
+  
+  'test pause()': function(defer){
+    var calls = 0
+      , data = []
+      , req = new Stream;
+
+    req.write = function(data){
+      this.emit('data', data);
+    };
+    req.end = function(){
+      this.emit('end');
+    };
+
+    var pause = utils.pause(req);
+
+    req.write('one');
+    req.write('two');
+    req.end();
+
+    req.on('data', function(chunk){
+      ++calls;
+      data.push(chunk);
+    });
+    req.on('end', function(){
+      ++calls;
+      data.should.have.length(2);
+    });
+
+    pause.resume();
+
+    defer(function(){
+      calls.should.equal(3);
+    });
   }
 };
