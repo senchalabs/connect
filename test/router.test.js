@@ -44,11 +44,24 @@ module.exports = {
         app.get('/user/:id', function(req, res){
           res.end('user ' + req.params.id);
         });
-      });
+
+        app.get('/user/:id/:op', function(req, res){
+          res.end(req.params.op + 'ing user ' + req.params.id);
+        });
+      })
     );
 
     assert.response(app,
       { url: '/user/12' },
       { body: 'user 12' });
+    
+    
+    assert.response(app,
+      { url: '/user/tj.holowaychuk' },
+      { body: 'user tj.holowaychuk' });
+    
+    assert.response(app,
+      { url: '/user/12/edit' },
+      { body: 'editing user 12' });
   }
 };
