@@ -14,12 +14,12 @@ var connect = require('connect')
 
 var fixturesPath = __dirname + '/fixtures';
 
+var app = connect.createServer(
+  connect.static(fixturesPath)
+);
+
 module.exports = {
   'test valid file': function(){
-    var app = connect.createServer(
-      connect.static(fixturesPath)
-    );
-
     assert.response(app,
       { url: '/user.json' },
       function(res){
@@ -48,20 +48,12 @@ module.exports = {
   },
   
   'test url encoding': function(){
-    var app = connect.createServer(
-      connect.static({ root: fixturesPath })
-    );
-
     assert.response(app,
       { url: '/some%20text.txt' },
       { body: 'whoop', status: 200 });
   },
   
   'test index.html support': function(){
-    var app = connect.createServer(
-      connect.static(fixturesPath)
-    );
-
     assert.response(app,
       { url: '/' },
       { body: '<p>Wahoo!</p>', status: 200 });
@@ -78,40 +70,24 @@ module.exports = {
   },
   
   'test invalid file': function(){
-    var app = connect.createServer(
-      connect.static(fixturesPath)
-    );
-
     assert.response(app,
       { url: '/foo.json' },
       { body: 'Cannot GET /foo.json', status: 404 });
   },
   
   'test directory': function(){
-    var app = connect.createServer(
-      connect.static(fixturesPath)
-    );
-
     assert.response(app,
       { url: '/fixtures' },
       { body: 'Cannot GET /fixtures', status: 404 });
   },
   
   'test forbidden': function(){
-    var app = connect.createServer(
-      connect.static(fixturesPath)
-    );
-
     assert.response(app,
       { url: '/../gzip.test.js' },
       { body: 'Forbidden', status: 403 });
   },
   
   'test forbidden urlencoded': function(){
-    var app = connect.createServer(
-      connect.static(fixturesPath)
-    );
-
     assert.response(app,
       { url: '/%2e%2e/gzip.test.js' },
       { body: 'Forbidden', status: 403 });
