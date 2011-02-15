@@ -22,7 +22,7 @@ module.exports = {
           src: __dirname + '/fixtures'
         , enable: ['sass', 'coffeescript']
       }),
-      connect.static({ root: __dirname + '/fixtures' })
+      connect.static(__dirname + '/fixtures')
     );
 
     assert.response(app,
