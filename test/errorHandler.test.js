@@ -51,12 +51,43 @@ module.exports = {
       , status: 500 });
   },
   
+  'test message': function(){
+    var app = connect.createServer(
+      function(req, res, next){
+        next(new Error('keyboard cat!'));
+      },
+      connect.errorHandler({ message: true })
+    );
+
+    assert.response(app,
+      { url: '/' },
+      { body: 'Error: keyboard cat!'
+      , status: 500 });
+  },
+  
   'test showStack': function(){
     var app = connect.createServer(
       function(req, res, next){
         next(new Error('keyboard cat!'));
       },
       connect.errorHandler({ showStack: true })
+    );
+
+    assert.response(app,
+      { url: '/' },
+      function(res){
+        var buf = '';
+        res.body.should.include.string('Error: keyboard cat!');
+        res.body.should.include.string('test/errorHandler.test.js');
+      });
+  },
+  
+  'test stack': function(){
+    var app = connect.createServer(
+      function(req, res, next){
+        next(new Error('keyboard cat!'));
+      },
+      connect.errorHandler({ stack: true })
     );
 
     assert.response(app,
