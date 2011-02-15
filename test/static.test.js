@@ -33,7 +33,7 @@ module.exports = {
   
   'test maxAge': function(){
     var app = connect.createServer(
-      connect.static({ root: fixturesPath, maxAge: 60000 })
+      connect.static(fixturesPath, { maxAge: 60000 })
     );
 
     assert.response(app,
