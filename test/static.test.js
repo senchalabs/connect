@@ -105,5 +105,15 @@ module.exports = {
     assert.response(app,
       { url: '/../gzip.test.js' },
       { body: 'Forbidden', status: 403 });
+  },
+  
+  'test forbidden urlencoded': function(){
+    var app = connect.createServer(
+      connect.static(fixturesPath)
+    );
+
+    assert.response(app,
+      { url: '/%2e%2e/gzip.test.js' },
+      { body: 'Forbidden', status: 403 });
   }
 };
