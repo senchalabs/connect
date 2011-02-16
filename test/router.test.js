@@ -245,5 +245,38 @@ module.exports = {
       function(){
         hits.should.eql(['a', 'b', 'c']);
       });
+  },
+  
+  'test next(err)': function(){
+    var hits = [];
+
+    var app = connect.createServer(
+      connect.router(function(app){
+        app.get('/:user', function(req, res, next){
+          hits.push('a');
+          next();
+        });
+        
+        app.get('/:user', function(req, res, next){
+          hits.push('b');
+          next(new Error('keyboard cat'));
+        });
+        
+        app.get('/:user', function(req, res, next){
+          hits.push('c');
+          res.end(req.params.user);
+        });
+      }),
+      function(err, req, res, next) {
+        res.end(err.toString());
+      }
+    );
+    
+    assert.response(app,
+      { url: '/tj' },
+      { body: 'Error: keyboard cat' },
+      function(){
+        hits.should.eql(['a', 'b']);
+      });
   }
 };
