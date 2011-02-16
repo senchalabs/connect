@@ -180,5 +180,23 @@ module.exports = {
     assert.response(app,
       { url: '/users.json' },
       { body: 'format json' });
+  },
+  
+  'test optional format': function(){
+    var app = connect.createServer(
+      connect.router(function(app){
+        app.get('/users.:format?', function(req, res){
+          res.end('format ' + (req.params.format || 'html'));
+        });
+      })
+    );
+
+    assert.response(app,
+      { url: '/users' },
+      { body: 'format html' });
+
+    assert.response(app,
+      { url: '/users.json' },
+      { body: 'format json' });
   }
 };
