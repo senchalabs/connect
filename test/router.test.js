@@ -198,5 +198,21 @@ module.exports = {
     assert.response(app,
       { url: '/users.json' },
       { body: 'format json' });
+  },
+  
+  'test regular expressions': function(){
+    var app = connect.createServer(
+      connect.router(function(app){
+        app.get(/\/commits\/(\w+)\.\.(\w+)\/?/i, function(req, res){
+          res.end(
+              'from ' + req.params[0]
+            + ' to ' + req.params[1]);
+        });
+      })
+    );
+
+    assert.response(app,
+      { url: '/commits/abc..def' },
+      { body: 'from abc to def' });
   }
 };
