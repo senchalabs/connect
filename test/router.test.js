@@ -5,6 +5,7 @@
 
 var connect = require('connect')
   , assert = require('assert')
+  , should = require('should')
   , http = require('http');
 
 module.exports = {
@@ -214,5 +215,35 @@ module.exports = {
     assert.response(app,
       { url: '/commits/abc..def' },
       { body: 'from abc to def' });
+  },
+  
+  'test next()': function(){
+    var hits = [];
+
+    var app = connect.createServer(
+      connect.router(function(app){
+        app.get('/:user', function(req, res, next){
+          hits.push('a');
+          next();
+        });
+        
+        app.get('/:user', function(req, res, next){
+          hits.push('b');
+          next();
+        });
+        
+        app.get('/:user', function(req, res, next){
+          hits.push('c');
+          res.end(req.params.user);
+        });
+      })
+    );
+    
+    assert.response(app,
+      { url: '/tj' },
+      { body: 'tj' },
+      function(){
+        hits.should.eql(['a', 'b', 'c']);
+      });
   }
 };
