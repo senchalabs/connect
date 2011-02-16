@@ -280,6 +280,22 @@ module.exports = {
       });
   },
   
+  'test HEAD': function(){
+    var app = connect.createServer(
+      connect.router(function(app){
+        app.get('/items', function(req, res){
+          res.end('HEAD' == req.method
+            ? ''
+            : 'foo, bar, baz');
+        });
+      })
+    );
+
+    assert.response(app,
+      { url: '/items', method: 'HEAD' },
+      { body: '' });
+  },
+  
   'test OPTIONS': function(){
     var app = connect.createServer(
       connect.router(function(app){
