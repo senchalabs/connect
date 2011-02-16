@@ -322,7 +322,7 @@ module.exports = {
       { headers: { Allow: 'GET' }});
   },
   
-  'test mutable params': function(){
+  'test immutable params': function(){
     var app = connect.createServer(
       connect.router(function(app){
         app.get('/user/:id', function(req, res, next){
@@ -338,6 +338,6 @@ module.exports = {
 
     assert.response(app,
       { url: '/user/12' },
-      { body: 'number' });
+      { body: 'string' });
   }
 };
