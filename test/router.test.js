@@ -302,6 +302,10 @@ module.exports = {
         app.get('/items', function(){});
         app.post('/items', function(){});
         app.get('/users', function(){});
+        app.options('/accounts', function(req, res){
+          res.writeHead(204, { Allow: 'GET' });
+          res.end();
+        });
       })
     );
 
@@ -312,5 +316,9 @@ module.exports = {
     assert.response(app,
       { url: '/users', method: 'OPTIONS' },
       { body: 'GET', headers: { Allow: 'GET' }});
+
+    assert.response(app,
+      { url: '/accounts', method: 'OPTIONS' },
+      { headers: { Allow: 'GET' }});
   }
 };
