@@ -278,5 +278,23 @@ module.exports = {
       function(){
         hits.should.eql(['a', 'b']);
       });
+  },
+  
+  'test OPTIONS': function(){
+    var app = connect.createServer(
+      connect.router(function(app){
+        app.get('/items', function(){});
+        app.post('/items', function(){});
+        app.get('/users', function(){});
+      })
+    );
+
+    assert.response(app,
+      { url: '/items', method: 'OPTIONS' },
+      { body: 'GET,POST', headers: { Allow: 'GET,POST' }});
+    
+    assert.response(app,
+      { url: '/users', method: 'OPTIONS' },
+      { body: 'GET', headers: { Allow: 'GET' }});
   }
 };
