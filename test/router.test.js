@@ -320,5 +320,24 @@ module.exports = {
     assert.response(app,
       { url: '/accounts', method: 'OPTIONS' },
       { headers: { Allow: 'GET' }});
+  },
+  
+  'test mutable params': function(){
+    var app = connect.createServer(
+      connect.router(function(app){
+        app.get('/user/:id', function(req, res, next){
+          req.params.id = parseInt(req.params.id, 10);
+          next();
+        });
+
+        app.get('/user/:id', function(req, res){
+          res.end(typeof req.params.id);
+        });
+      })
+    );
+
+    assert.response(app,
+      { url: '/user/12' },
+      { body: 'number' });
   }
 };
