@@ -1830,7 +1830,8 @@ on to serve the gzipped version of the file.</p>
 
 <ul><li><code>root</code>     Root path from which to serve static files.</li><li><code>maxAge</code>   Browser cache maxAge in milliseconds</li><li><code>cache</code>    When true cache files in memory indefinitely,
            until invalidated by a conditional GET request.
-           When given, maxAge will be derived from this value.</li></ul>
+           When given, maxAge will be derived from this value.</li><li><code>exclude</code>  Regular expression that prevents sending for paths
+           who pass the test method of the expression.</li></ul>
 
 <h2></h2>
 
@@ -1838,7 +1839,7 @@ on to serve the gzipped version of the file.</p>
 </td>
 <td class="code">
 <pre><code><span class="variable">module</span>.<span class="variable">exports</span> = <span class="keyword">function</span> <span class="variable">staticProvider</span>(<span class="variable">options</span>){
-    <span class="keyword">var</span> <span class="variable">cache</span>, <span class="variable">maxAge</span>, <span class="variable">root</span>;
+    <span class="keyword">var</span> <span class="variable">cache</span>, <span class="variable">maxAge</span>, <span class="variable">root</span>, <span class="variable">exclude</span>;
 
     <span class="comment">// Support options object and root string</span>
     <span class="keyword">if</span> (<span class="keyword">typeof</span> <span class="variable">options</span> == <span class="string">'string'</span>) {
@@ -1848,6 +1849,7 @@ on to serve the gzipped version of the file.</p>
         <span class="variable">options</span> = <span class="variable">options</span> || {};
         <span class="variable">maxAge</span> = <span class="variable">options</span>.<span class="variable">maxAge</span>;
         <span class="variable">root</span> = <span class="variable">process</span>.<span class="variable">connectEnv</span>.<span class="variable">staticRoot</span> || <span class="variable">options</span>.<span class="variable">root</span> || <span class="variable">process</span>.<span class="variable">cwd</span>();
+        <span class="variable">exclude</span> = <span class="variable">options</span>.<span class="variable">exclude</span>;
         <span class="variable">cache</span> = <span class="variable">options</span>.<span class="variable">cache</span>;
         <span class="keyword">if</span> (<span class="variable">cache</span> &<span class="variable">amp</span>;&<span class="variable">amp</span>; !<span class="variable">maxAge</span>) <span class="variable">maxAge</span> = <span class="variable">cache</span>;
         <span class="variable">maxAge</span> = <span class="variable">maxAge</span> || <span class="class">MAX_AGE</span>;
@@ -1865,6 +1867,14 @@ on to serve the gzipped version of the file.</p>
             <span class="keyword">return</span> <span class="variable">forbidden</span>(<span class="variable">res</span>);
         }
 
+        <span class="comment">// Filter out any excluded content</span>
+        <span class="keyword">if</span> (<span class="variable">exclude</span>) {
+            <span class="keyword">if</span> (<span class="variable">exclude</span>.<span class="variable">test</span>(<span class="variable">url</span>.<span class="variable">pathname</span>)) {
+                <span class="variable">console</span>.<span class="variable">log</span>(&<span class="variable">quot</span>;<span class="variable">restricting</span> <span class="variable">access</span> <span class="variable">to</span> <span class="variable">file</span>:&<span class="variable">quot</span>;, <span class="variable">url</span>.<span class="variable">pathname</span>);
+                <span class="keyword">return</span> <span class="variable">next</span>();
+            }
+        }
+
         <span class="comment">// Absolute path</span>
         <span class="variable">filename</span> = <span class="class">Path</span>.<span class="variable">join</span>(<span class="variable">root</span>, <span class="variable">queryString</span>.<span class="variable">unescape</span>(<span class="variable">url</span>.<span class="variable">pathname</span>));
 
@@ -1872,7 +1882,7 @@ on to serve the gzipped version of the file.</p>
         <span class="keyword">if</span> (<span class="variable">filename</span>[<span class="variable">filename</span>.<span class="variable">length</span> - <span class="number integer">1</span>] === <span class="string">'/'</span>) {
             <span class="variable">filename</span> += &<span class="variable">quot</span>;<span class="variable">index</span>.<span class="variable">html</span>&<span class="variable">quot</span>;;
         }
-        
+
         <span class="comment">// Cache hit</span>
         <span class="keyword">if</span> (<span class="variable">cache</span> &<span class="variable">amp</span>;&<span class="variable">amp</span>; !<span class="variable">conditionalGET</span>(<span class="variable">req</span>) &<span class="variable">amp</span>;&<span class="variable">amp</span>; (<span class="variable">hit</span> = <span class="variable">_cache</span>[<span class="variable">req</span>.<span class="variable">url</span>])) {
             <span class="variable">res</span>.<span class="variable">writeHead</span>(<span class="number integer">200</span>, <span class="variable">hit</span>.<span class="variable">headers</span>);
@@ -1908,7 +1918,7 @@ on to serve the gzipped version of the file.</p>
                 <span class="keyword">if</span> (!<span class="variable">modified</span>(<span class="variable">req</span>, <span class="variable">headers</span>)) {
                     <span class="keyword">return</span> <span class="variable">notModified</span>(<span class="variable">res</span>, <span class="variable">headers</span>);
                 }
-                
+
                 <span class="variable">res</span>.<span class="variable">writeHead</span>(<span class="number integer">200</span>, <span class="variable">headers</span>);
                 <span class="variable">res</span>.<span class="variable">end</span>(<span class="variable">head</span> ? <span class="variable">undefined</span> : <span class="variable">data</span>);
 

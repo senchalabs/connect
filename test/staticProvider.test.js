@@ -90,5 +90,16 @@ module.exports = {
             connect.staticProvider({ root: fixturesPath })
         );
         server.assertResponse('GET', '/../gzip.test.js', 403, 'Forbidden');
+    },
+
+    'test exclude': function(){
+        var server = helpers.run(
+            connect.staticProvider({
+                root: fixturesPath,
+                exclude: /.*\.sass$/
+            })
+        );
+        server.assertResponse('GET', '/some%20text.txt', 200, 'whoop', 'Test urlencoded path');
+        server.assertResponse('GET', '/style.sass', 404, 'Cannot GET /style.sass');
     }
-}
+};

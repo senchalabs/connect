@@ -152,6 +152,26 @@
 );
 </code></pre>
 
+<p>Alternatively if specifying additional options:</p>
+
+<pre><code class="js"><span class="variable">connect</span>.<span class="variable">createServer</span>(
+    <span class="variable">connect</span>.<span class="variable">staticProvider</span>({
+        <span class="variable">root</span>: <span class="variable">__dirname</span> + <span class="string">'/public'</span>,
+        <span class="variable">exclude</span>: <span class="regexp">/.*\/server</span>\<span class="regexp">/.*/</span>
+    })
+);
+</code></pre>
+
+<h3 id="Options">Options</h3>
+
+<pre><code>root            Root directory from which to serve static files.
+maxAge          Browser cache maxAge in milliseconds
+cache           When true cache files in memory indefinitely, until invalidated by
+                a conditional GET request. When given, maxAge will be derived from
+                this value.
+exclude         Regular expression used to prevent specific paths from being returned.
+</code></pre>
+
 <h3 id="Environment-Variables">Environment Variables</h3>
 
 <pre><code>--staticRoot
