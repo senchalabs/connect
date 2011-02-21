@@ -1,5 +1,92 @@
 
-1.0.0 / 2010-07-21
+0.5.10 / 2011-02-14 
+==================
+
+  * Fixed SID space issue. Closes #196
+  * Fixed; proxy `res.end()` to commit session data
+  * Fixed directory traversal attack in `staticProvider`. Closes #198
+
+0.5.9 / 2011-02-09 
+==================
+
+  * qs >= 0.0.4
+
+0.5.8 / 2011-02-04 
+==================
+
+  * Added `qs` dependency
+  * Fixed router race-condition causing possible failure
+    when `next()`ing to one or more routes with parallel
+    requests
+
+0.5.7 / 2011-02-01 
+==================
+
+  * Added `onvhost()` call so Express (and others) can know when they are
+  * Revert "Added stylus support" (use the middleware which ships with stylus)
+  * Removed custom `Server#listen()` to allow regular `http.Server#listen()` args to work properly
+  * Fixed long standing router issue (#83) that causes '.' to be disallowed within named placeholders in routes [Andreas Lind Petersen]
+  * Fixed `utils.uid()` length error [Jxck]
+mounted
+
+0.5.6 / 2011-01-23 
+==================
+
+  * Added stylus support to `compiler`
+  * _favicon.js_ cleanup
+  * _compiler.js_ cleanup
+  * _bodyDecoder.js_ cleanup
+
+0.5.5 / 2011-01-13 
+==================
+
+  * Changed; using sha256 HMAC instead of md5. [Paul Querna]
+  * Changed; generated a longer random UID, without time influence. [Paul Querna]
+  * Fixed; session middleware throws when secret is not present. [Paul Querna]
+
+0.5.4 / 2011-01-07 
+==================
+
+  * Added; throw when router path or callback is missing
+  * Fixed; `next(err)` on cookie parse exception instead of ignoring
+  * Revert "Added utils.pathname(), memoized url.parse(str).pathname"
+
+0.5.3 / 2011-01-05 
+==================
+
+  * Added _docs/api.html_
+  * Added `utils.pathname()`, memoized url.parse(str).pathname
+  * Fixed `session.id` issue. Closes #183
+  * Changed; Defaulting `staticProvider` maxAge to 0 not 1 year. Closes #179
+  * Removed bad outdated docs, we need something new / automated eventually
+
+0.5.2 / 2010-12-28 
+==================
+
+  * Added default __OPTIONS__ support to _router_ middleware
+
+0.5.1 / 2010-12-28 
+==================
+
+  * Added `req.session.id` mirroring `req.sessionID`
+  * Refactored router, exposing `connect.router.methods`
+  * Exclude non-lib files from npm
+  * Removed imposed headers `X-Powered-By`, `Server`, etc
+
+0.5.0 / 2010-12-06 
+==================
+
+  * Added _./index.js_
+  * Added route segment precondition support and example
+  * Added named capture group support to router
+
+0.4.0 / 2010-11-29 
+==================
+
+  * Added `basicAuth` middleware
+  * Added more HTTP methods to the `router` middleware
+
+0.3.0 / 2010-07-21
 ==================
 
   * Added _staticGzip_ middleware

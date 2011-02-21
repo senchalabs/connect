@@ -81,10 +81,7 @@ function main(app){
 
 var connect = require('./../../lib/connect');
 
-var server = connect.createServer(
-    connect.logger({ buffer: true })
-);
-
+var server = connect.createServer();
 server.use("/users/", connect.router(user));
 server.use(connect.router(main));
 server.listen(3000);

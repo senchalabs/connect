@@ -1,11 +1,11 @@
 {
   "name": "connect",
   "description": "High performance middleware framework",
-  "version": "0.2.7",
-  "contributors": [ 
-    { "name": "Tim Caswell", "email": "tim@sencha.com" },
-    { "name": "TJ Holowaychuk", "email": "tj@vision-media.ca" }
-  ],
-  "directories": { "lib": "./lib/connect" },
-  "engines": { "node": ">= 0.1.98" }
+  "keywords": ["framework", "web", "middleware", "connect", "rack"],
+  "version": "0.5.10",
+  "repository": "git://github.com/senchalabs/connect.git",
+  "author": "TJ Holowaychuk <tj@vision-media.ca> (http://tjholowaychuk.com)",
+  "dependencies": { "qs": ">= 0.0.6" },
+  "main": "index",
+  "engines": { "node": ">= 0.2.5" }
 }

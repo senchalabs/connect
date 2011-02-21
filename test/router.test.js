@@ -17,6 +17,13 @@ var fixturesPath = __dirname + '/fixtures';
 // Faux products app
 
 function products(app){
+    app.all('*', function(req, res, next){
+        if ('GET' == req.method) {
+          return next();
+        }
+        res.writeHead(404, {});
+        res.end('only GET is allowed to /products');
+    });
     app.get('/.:format?', function(req, res){
         res.writeHead(200, {});
         res.end('products' + (req.params.format ? ' as ' + req.params.format : ''));
@@ -58,7 +65,7 @@ function main(app){
         res.writeHead(200, {});
         res.end((req.params.operation || 'view') + 'ing user ' + req.params.id);
     });
-    app.get('/range/:from-:to?', function(req, res){
+    app.get('/range/:from([0-9]{1,5})-:to([0-9]{1,5})?', function(req, res){
         res.writeHead(200, {});
         res.end('range ' + req.params.from + ' to ' + (req.params.to || 'HEAD'));
     });
@@ -122,6 +129,26 @@ function main(app){
         res.writeHead(200);
         res.end('file: ' + req.params.file);
     });
+    app.all('/staff/:id', function(req, res, next){
+        req.staff = { name: 'tj', id: req.params.id };
+        next();
+    });
+    app.get('/staff/:id', function(req, res, next){
+        res.writeHead(200);
+        res.end('GET staff ' + req.staff.id);
+    });
+    app.post('/staff/:id', function(req, res, next){
+        res.writeHead(200);
+        res.end('POST staff ' + req.staff.id);
+    });
+    app.get('/lang/:lang([a-z]{2})', function(req, res, next){
+      res.writeHead(200);
+      res.end(req.params.lang);
+    });
+    app.options('/options', function(req, res){
+      res.writeHead(204, { Allow: 'GET' });
+      res.end();
+    });
 }
 
 module.exports = {
@@ -131,21 +158,34 @@ module.exports = {
         server.use('/', connect.router(main));
         server.use('/', connect.errorHandler({ showMessage: true }));
 
+        server.assertResponse('OPTIONS', '/options', 204);
+        server.assertResponse('OPTIONS', '/items', 200, 'GET');
+        server.assertResponse('OPTIONS', '/', 200, 'GET,POST,PUT,DELETE');
+
+        server.assertResponse('GET', '/lang/en', 200, 'en');
+        server.assertResponse('GET', '/lang/foobar', 404, 'Cannot GET /lang/foobar');
+
         server.assertResponse('GET', '/out', 404, 'Cannot GET /out');
 
         server.assertResponse('GET', '/items/12', 200, 'item 12');
         server.assertResponse('GET', '/items', 200, 'items');
         
+        server.assertResponse('GET', '/staff/12', 200, 'GET staff 12');
+        server.assertResponse('POST', '/staff/12', 200, 'POST staff 12');
+
         server.assertResponse('GET', '/failure/12', 500, 'Error: fail boat');
-        
+
         server.assertResponse('GET', '/products', 200, 'products');
         server.assertResponse('GET', '/products/', 200, 'products');
         server.assertResponse('GET', '/products.json', 200, 'products as json');
         server.assertResponse('GET', '/products/12', 200, 'product 12');
-        
+        server.assertResponse('POST', '/products.json', 404, 'only GET is allowed to /products');
+        server.assertResponse('PUT', '/products/12', 404, 'only GET is allowed to /products');
+        server.assertResponse('DELETE', '/products', 404, 'only GET is allowed to /products');
+
         server.assertResponse('GET', '/next', 404, 'Cannot GET /next');
         server.assertResponse('GET', '/error', 500, 'Error: boom!');
-        
+
         server.assertResponse('GET', '/cars/%5Bhey%5D', 200, 'format: undefined id: [hey]');
         server.assertResponse('GET', '/cars/12', 200, 'format: undefined id: 12');
         server.assertResponse('GET', '/cars/12.json', 200, 'format: json id: 12');
@@ -162,6 +202,7 @@ module.exports = {
         server.assertResponse('GET', '/user/99/edit', 200, 'editing user 99', 'Test router GET matched path with several params');
         server.assertResponse('GET', '/user/99/edit/', 200, 'editing user 99', 'Test router GET matched path with several params with trailing slash');
         server.assertResponse('GET', '/range/11-99', 200, 'range 11 to 99');
+        server.assertResponse('GET', '/range/11-aa', 404, 'Cannot GET /range/11-aa');
         server.assertResponse('GET', '/range/11-', 200, 'range 11 to HEAD');
         server.assertResponse('GET', '/users.json', 200, 'json format');
         server.assertResponse('GET', '/cookies', 200, 'num num', 'Test router optional placeholder without value');
