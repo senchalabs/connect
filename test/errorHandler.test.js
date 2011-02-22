@@ -97,5 +97,47 @@ module.exports = {
         res.body.should.include.string('Error: keyboard cat!');
         res.body.should.include.string('test/errorHandler.test.js');
       });
+  },
+  
+  'test showStack html': function(){
+    var app = connect.createServer(
+      function(req, res, next){
+        next(new Error('keyboard cat!'));
+      },
+      connect.errorHandler({ stack: true })
+    );
+
+    assert.response(app,
+      { url: '/', headers: { Accept: 'text/html, application/json' }},
+      { status: 500
+      , headers: { 'Content-Type': 'text/html' }});
+  },
+  
+  'test showStack json': function(){
+    var app = connect.createServer(
+      function(req, res, next){
+        next(new Error('keyboard cat!'));
+      },
+      connect.errorHandler({ stack: true })
+    );
+
+    assert.response(app,
+      { url: '/', headers: { Accept: 'application/json' }},
+      { status: 500
+      , headers: { 'Content-Type': 'application/json' }});
+  },
+  
+  'test showStack text': function(){
+    var app = connect.createServer(
+      function(req, res, next){
+        next(new Error('keyboard cat!'));
+      },
+      connect.errorHandler({ stack: true })
+    );
+    
+    assert.response(app,
+      { url: '/', headers: { Accept: 'text/plain' }},
+      { status: 500
+      , headers: { 'Content-Type': 'text/plain' }});
   }
 }
