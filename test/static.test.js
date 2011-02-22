@@ -19,31 +19,29 @@ var app = connect.createServer(
 );
 
 module.exports = {
-  'test valid file': function(){
-    assert.response(app,
-      { url: '/user.json' },
-      function(res){
-        res.statusCode.should.equal(200);
-        JSON.parse(res.body).should.eql({ name: 'tj', email: 'tj@vision-media.ca' });
-        res.headers['content-length'].should.equal('55');
-        res.headers['cache-control'].should.equal('public max-age=0');
-        res.headers.should.have.property('last-modified');
-    });
-  },
-  
+   'test valid file': function(){
+     assert.response(app,
+       { url: '/user.json' },
+       function(res){
+         res.statusCode.should.equal(200);
+         JSON.parse(res.body).should.eql({ name: 'tj', email: 'tj@vision-media.ca' });
+         res.headers.should.have.property('content-length', '55');
+         res.headers.should.have.property('cache-control', 'public max-age=0');
+         res.headers.should.have.property('last-modified');
+         res.headers.should.have.property('etag');
+     });
+   },
+    
   'test maxAge': function(){
     var app = connect.createServer(
       connect.static(fixturesPath, { maxAge: 60000 })
     );
-
+  
     assert.response(app,
       { url: '/user.json' },
       function(res){
         res.statusCode.should.equal(200);
-        JSON.parse(res.body).should.eql({ name: 'tj', email: 'tj@vision-media.ca' });
-        res.headers['content-length'].should.equal('55');
-        res.headers['cache-control'].should.equal('public max-age=60');
-        res.headers.should.have.property('last-modified');
+        res.headers.should.have.property('cache-control', 'public max-age=60');
     });
   },
   
@@ -63,7 +61,7 @@ module.exports = {
     var app = connect.createServer(
       connect.static(__dirname)
     );
-
+  
     assert.response(app,
       { url: '/' },
       { body: 'Cannot GET /', status: 404 });
@@ -83,13 +81,51 @@ module.exports = {
   
   'test forbidden': function(){
     assert.response(app,
-      { url: '/../gzip.test.js' },
+      { url: '/../favicon.test.js' },
       { body: 'Forbidden', status: 403 });
   },
   
   'test forbidden urlencoded': function(){
     assert.response(app,
-      { url: '/%2e%2e/gzip.test.js' },
+      { url: '/%2e%2e/favicon.test.js' },
       { body: 'Forbidden', status: 403 });
+  },
+  
+  'test HEAD': function(){
+    assert.response(app,
+      { url: '/user.json', method: 'HEAD' },
+      { status: 200, headers: { 'Content-Length': '55' }});
+  },
+  
+  'test Range': function(){
+    assert.response(app,
+      { url: '/list', headers: { Range: 'bytes=0-4' }},
+      { body: '12345', status: 206 });
+  },
+  
+  'test Range 2': function(){
+    assert.response(app,
+      { url: '/list', headers: { Range: 'bytes=5-9' }},
+      { body: '6789', status: 206 });
+  },
+  
+  'test invalid Range': function(){
+    assert.response(app,
+      { url: '/list', headers: { Range: 'bytes=RAWR' }},
+      { body: 'Requested Range Not Satisfiable', status: 416 });
+  },
+  
+  'test callback': function(){
+    var app = connect.createServer(
+      function(req, res, next){
+        connect.static.send(req, res, function(err){
+          res.end('done');
+        });
+      }
+    );
+
+    assert.response(app,
+      { url: '/list' },
+      { body: 'done' });
   }
 };
