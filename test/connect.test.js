@@ -89,53 +89,55 @@ module.exports = {
   },
   
   'test unmatched path': function(){
-      var app = connect.createServer();
+    var app = connect.createServer();
 
-      assert.response(app,
-        { url: '/' },
-        { body: 'Cannot GET /', status: 404 });
+    assert.response(app,
+      { url: '/' },
+      { body: 'Cannot GET /', status: 404 });
 
-      assert.response(app,
-        { url: '/foo', method: 'POST' },
-        { body: 'Cannot POST /foo', status: 404 });
+    assert.response(app,
+      { url: '/foo', method: 'POST' },
+      { body: 'Cannot POST /foo', status: 404 });
   },
-  // 
-  // 'test handleError': function(){
-  //     var called = 0;
-  //     var server = helpers.run(
-  //         function(req, res, next){
-  //             // Pass error
-  //             next(new Error('shitty deal'));
-  //         },
-  //         function(err, req, res, next){
-  //             ++called;
-  //             assert.ok(err instanceof Error, 'Test handleError() Error as first param');
-  //             assert.equal('object', typeof req);
-  //             assert.equal('object', typeof res);
-  //             assert.equal('function', typeof next);
-  //             req.body = err.message;
-  //             next(err);
-  //         },
-  //         function(err, req, res, next){
-  //             ++called;
-  //             assert.ok(err instanceof Error, 'Test handleError() next(error)');
-  //             assert.equal('object', typeof req);
-  //             assert.equal('object', typeof res);
-  //             assert.equal('function', typeof next);
-  //             // Recover exceptional state
-  //             next();
-  //         },
-  //         function(req, res, next){
-  //             res.writeHead(200, {});
-  //             res.end(req.body);
-  //         },
-  //         connect.errorHandler()
-  //     );
-  //     server.assertResponse('GET', '/', 200, 'shitty deal', 'Test handleError next()', function(){
-  //         var expected = 2;
-  //         assert.equal(expected, called, 'Test handleError calls, expected ' + expected + ' but got ' + called);
-  //     });
-  // },
+  
+  'test error handling': function(){
+    var calls = 0;
+    var app = connect.createServer(
+      function(req, res, next){
+        // Pass error
+        next(new Error('lame'));
+      },
+      function(err, req, res, next){
+        ++calls;
+        err.should.be.an.instanceof(Error);
+        req.should.be.a('object');
+        res.should.be.a('object');
+        next.should.be.a('function');
+        req.body = err.message;
+        next(err);
+      },
+      function(err, req, res, next){
+        ++calls;
+        err.should.be.an.instanceof(Error);
+        req.should.be.a('object');
+        res.should.be.a('object');
+        next.should.be.a('function');
+        // Recover exceptional state
+        next();
+      },
+      function(req, res, next){
+        res.end(req.body);
+      },
+      connect.errorHandler()
+    );
+
+    assert.response(app,
+      { url: '/' },
+      { body: 'lame', status: 200 },
+      function(){
+        calls.should.equal(2);
+      });
+  },
   // 
   // 'test catch error': function(){
   //     var server = helpers.run(
