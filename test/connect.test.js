@@ -150,25 +150,28 @@ module.exports = {
       { url: '/' },
       { status: 500 });
   },
-  // 
-  // 'test mounting': function(){
-  //     var helloWorldServer = connect.createServer();
-  //     helloWorldServer.use('/world', function(req, res){
-  //         assert.equal('/hello', helloWorldServer.route);
-  //         res.writeHead(200);
-  //         res.end('hello world');
-  //     });
-  // 
-  //     var server = helpers.run();
-  //     server.use('/hello', helloWorldServer);
-  //     server.use('/hello', function(req, res){
-  //         res.writeHead(200);
-  //         res.end('hello');
-  //     });
-  // 
-  //     server.assertResponse('GET', '/hello/world', 200, 'hello world', 'Test mounting /hello/world');
-  //     server.assertResponse('GET', '/hello', 200, 'hello', 'Test mounting /hello');
-  // },
+  
+  'test mounting': function(){
+    var app1 = connect.createServer();
+    app1.use('/world', function(req, res){
+      app1.route.should.equal('/hello');
+      res.end('hello world');
+    });
+
+    var app2 = connect.createServer();
+    app2.use('/hello', app1);
+    app2.use('/hello', function(req, res){
+      res.end('hello');
+    });
+
+    assert.response(app2,
+      { url: '/hello/world' },
+      { body: 'hello world' });
+
+    assert.response(app2,
+      { url: '/hello' },
+      { body: 'hello' });
+  },
   // 
   // 'test connect as middleware': function(){
   //     var inner = connect.createServer();
