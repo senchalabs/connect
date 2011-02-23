@@ -8,11 +8,17 @@ var connect = require('connect')
   , should = require('should')
   , http = require('http');
 
+// session store
+
 var MemoryStore = connect.session.MemoryStore
   , store = new MemoryStore({ reapInterval: -1 });
 
+// settings
+
 var port = 9900
   , pending = 0
+
+// main test app
 
 var app = connect.createServer(
     connect.cookieParser()
@@ -24,9 +30,23 @@ var app = connect.createServer(
 
 app.listen(port);
 
+// SID helper
+
 function sid(cookie) {
   return /^connect\.sid=([^;]+);/.exec(cookie)[1];
 }
+
+// proxy http.get() to buffer body
+
+var get = http.get;
+http.get = function(options, fn){
+  if (!options.buffer) return get.apply(this, arguments);
+  get(options, function(res){
+    res.body = '';
+    res.on('data', function(chunk){ res.body += chunk });
+    res.on('end', function(){ fn(res); });
+  });
+};
 
 module.exports = {
   'test exports': function(){
@@ -158,30 +178,18 @@ module.exports = {
 
     app.listen(portno, function(){
       // 0
-      http.get({ port: portno }, function(res){
-        var body = ''
-          , headers = { Cookie: 'connect.sid=' + sid(res.headers['set-cookie']) };
-        res.on('data', function(chunk){ body += chunk; });
-        res.on('end', function(){
-          body.should.equal('count: 0');
+      http.get({ port: portno, buffer: true }, function(res){
+        var headers = { Cookie: 'connect.sid=' + sid(res.headers['set-cookie']) };
+        res.body.should.equal('count: 0');
 
-          // 1
-          http.get({ port: portno, headers: headers }, function(res){
-            var body = '';
-            res.on('data', function(chunk){ body += chunk; });
-            res.on('end', function(){
-              body.should.equal('count: 1');
+        // 1
+        http.get({ port: portno, headers: headers, buffer: true }, function(res){
+          res.body.should.equal('count: 1');
 
-              // no sid
-              http.get({ port: portno }, function(res){
-                var body = '';
-                res.on('data', function(chunk){ body += chunk; });
-                res.on('end', function(){
-                  body.should.equal('count: 0');
-                  app.close();
-                });
-              });
-            });
+          // no sid
+          http.get({ port: portno, buffer: true }, function(res){
+            res.body.should.equal('count: 0');
+            app.close();
           });
         });
       });
