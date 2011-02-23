@@ -4,6 +4,7 @@
  */
 
 var connect = require('connect')
+  , assert = require('assert')
   , should = require('should')
   , http = require('http');
 
@@ -77,5 +78,21 @@ module.exports = {
         --pending || app.close();
       });
     }
-  }
+  },
+  
+  'test key option': function(){
+    var app = connect.createServer(
+      connect.cookieParser()
+      , connect.session({ secret: 'keyboard cat', store: store, key: 'sid' })
+      , function(req, res, next){
+        res.end('wahoo');
+      }
+    );
+
+    assert.response(app,
+      { url: '/' },
+      { headers: {
+        'Set-Cookie': /^sid=([^;]+); path=\/; httpOnly; expires=/
+      }});
+  },
 };
