@@ -80,7 +80,7 @@ module.exports = {
     }
   },
 
-  'test multiple Set-Cookie headers': function(){
+  'test multiple Set-Cookie headers via writeHead()': function(){
     var app = connect.createServer(
       connect.cookieParser()
       , connect.session({ secret: 'keyboard cat', store: store, key: 'sid' })
@@ -95,6 +95,25 @@ module.exports = {
       function(res){
         var cookies = res.headers['set-cookie'];
         cookies.should.have.length(2);
+      });
+  },
+  
+  'test multiple Set-Cookie headers via setHeader()': function(){
+    var app = connect.createServer(
+      connect.cookieParser()
+      , connect.session({ secret: 'keyboard cat', store: store, key: 'sid' })
+      , function(req, res, next){
+        res.setHeader('Set-Cookie', 'foo=bar');
+        res.setHeader('Set-Cookie', 'bar=baz');
+        res.end('wahoo');
+      }
+    );
+
+    assert.response(app,
+      { url: '/' },
+      function(res){
+        var cookies = res.headers['set-cookie'];
+        cookies.should.have.length(3);
       });
   },
   
