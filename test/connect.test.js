@@ -194,7 +194,7 @@ module.exports = {
         res.end('world');
       });
 
-    app.use('/hello', world);
+    app.use('/hello/', world);
 
     assert.response(app,
       { url: '/hello' },
