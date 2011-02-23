@@ -9,7 +9,7 @@ var connect = require('connect')
   , http = require('http');
 
 var app = connect.createServer(
-  connect.bodyDecoder(),
+  connect.bodyParser(),
   connect.methodOverride(),
   function(req, res){
     res.end(req.method);
