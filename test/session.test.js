@@ -233,5 +233,25 @@ module.exports = {
         });
       });
     });
+  },
+  
+  'test Set-Cookie when secure': function(){
+    var store = new MemoryStore({ reapInterval: -1, cookie: { secure: true }});
+    var portno = port + 3
+      , app = connect.createServer(
+        connect.cookieParser()
+      , connect.session({ secret: 'foo', store: store })
+      , function(req, res){
+        res.end('wahoo');
+      }
+    );
+
+    app.listen(portno, function(){
+      var options = { port: portno, buffer: true };
+      http.get(options, function(res){
+        res.headers.should.not.have.property('set-cookie');
+        app.close();
+      });
+    });
   }
 };
