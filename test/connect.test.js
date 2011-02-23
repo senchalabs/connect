@@ -87,12 +87,18 @@ module.exports = {
       { url: '/hello/world/images/foo.png?with=query&string' },
       { body: 'hello world' });
   },
-  // 
-  // 'test unmatched path': function(){
-  //     var server = helpers.run();
-  //     server.assertResponse('GET', '/', 404, 'Cannot GET /', 'Test unmatched path');
-  //     server.assertResponse('GET', '/foo', 404, 'Cannot GET /foo', 'Test unmatched path');
-  // },
+  
+  'test unmatched path': function(){
+      var app = connect.createServer();
+
+      assert.response(app,
+        { url: '/' },
+        { body: 'Cannot GET /', status: 404 });
+
+      assert.response(app,
+        { url: '/foo', method: 'POST' },
+        { body: 'Cannot POST /foo', status: 404 });
+  },
   // 
   // 'test handleError': function(){
   //     var called = 0;
