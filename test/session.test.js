@@ -45,15 +45,22 @@ module.exports = {
   'test Set-Cookie with Cookie': function(){
     ++pending;
     http.get({ port: port }, function(res){
+      --pending;
       var prev = res.headers['set-cookie'];
       prev.should.match(/^connect\.sid=([^;]+); path=\/; httpOnly; expires=/);
-      var headers = { Cookie: 'connect.sid=' + sid(prev) };
-      http.get({ port: port, headers: headers }, function(res){
-        var curr = res.headers['set-cookie'];
-        curr.should.match(/^connect\.sid=([^;]+); path=\/; httpOnly; expires=/);
-        sid(prev).should.equal(sid(curr));
-        --pending || app.close();
-      });
+      var headers = { Cookie: 'connect.sid=' + sid(prev) }
+        , n = 5;
+
+      // ensure subsequent requests maintain the SID
+      while (n--) {
+        ++pending;
+        http.get({ port: port, headers: headers }, function(res){
+          var curr = res.headers['set-cookie'];
+          curr.should.match(/^connect\.sid=([^;]+); path=\/; httpOnly; expires=/);
+          sid(prev).should.equal(sid(curr));
+          --pending || app.close();
+        });
+      }
     });
   }
 };
