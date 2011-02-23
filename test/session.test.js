@@ -301,6 +301,7 @@ module.exports = {
           // 1
           options.path = '/';
           http.get(options, function(res){
+            prev.should.not.equal(sid(res.headers['set-cookie']));
             res.body.should.equal('count: 0');
             app.close();
           });
