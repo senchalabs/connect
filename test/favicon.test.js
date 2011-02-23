@@ -26,17 +26,5 @@ module.exports = {
     assert.response(app,
       { url: '/favicon.ico' },
       { status: 200, headers: { 'Content-Type': 'image/x-icon' }});
-  },
-  
-  'test custom maxAge': function(){
-    var app = connect.createServer(connect.favicon(null, { maxAge: 3600000 }));
-
-    assert.response(app,
-      { url: '/favicon.ico' },
-      { status: 200
-      , headers: {
-          'Content-Type': 'image/x-icon'
-        , 'Cache-Control': 'public max-age=3600'
-      }});
-  },
+  }
 };
