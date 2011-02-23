@@ -85,7 +85,8 @@ module.exports = {
       connect.cookieParser()
       , connect.session({ secret: 'keyboard cat', store: store, key: 'sid' })
       , function(req, res, next){
-        res.writeHead(200, { 'Set-Cookie': 'foo=bar' });
+        res.setHeader('Set-Cookie', 'foo=bar');
+        res.writeHead(200, { 'Set-Cookie': 'bar=baz' });
         res.end('wahoo');
       }
     );
@@ -94,7 +95,7 @@ module.exports = {
       { url: '/' },
       function(res){
         var cookies = res.headers['set-cookie'];
-        cookies.should.have.length(2);
+        cookies.should.have.length(3);
       });
   },
   
