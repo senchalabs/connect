@@ -79,6 +79,24 @@ module.exports = {
       });
     }
   },
+
+  'test multiple Set-Cookie headers': function(){
+    var app = connect.createServer(
+      connect.cookieParser()
+      , connect.session({ secret: 'keyboard cat', store: store, key: 'sid' })
+      , function(req, res, next){
+        res.writeHead(200, { 'Set-Cookie': 'foo=bar' });
+        res.end('wahoo');
+      }
+    );
+
+    assert.response(app,
+      { url: '/' },
+      function(res){
+        var cookies = res.headers['set-cookie'];
+        cookies.should.have.length(2);
+      });
+  },
   
   'test key option': function(){
     var app = connect.createServer(
