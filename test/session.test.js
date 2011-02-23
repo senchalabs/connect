@@ -171,7 +171,7 @@ module.exports = {
         connect.cookieParser()
       , connect.session({ secret: 'keyboard cat', store: store })
       , function(req, res, next){
-        req.session.lastAccess.should.not.equal(prev);
+        req.session.lastAccess.should.not.equal(prev);  
         req.session.count = req.session.count || 0;
         var n = req.session.count++;
         res.end('count: ' + n);
