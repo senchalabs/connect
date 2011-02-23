@@ -414,5 +414,25 @@ module.exports = {
         app.close();
       });
     });
+  },
+  
+  'test different UA strings': function(){
+    ++pending;
+
+    var options = {
+        port: port
+      , headers: {
+        'User-Agent': 'tobi/0.5'
+      }
+    };
+
+    http.get(options, function(res){
+      var prev = sid(res.headers['set-cookie'])
+      options.headers['User-Agent'] = 'tobi/1.0';
+      http.get(options, function(res){
+        prev.should.not.equal(sid(res.headers['set-cookie']));
+        --pending || app.close();
+      });
+    });
   }
 };
