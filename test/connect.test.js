@@ -36,47 +36,57 @@ module.exports = {
       { url: '/blog' },
       { body: 'blog', status: 200 });
   },
-  // 
-  // 'test path matching': function(){
-  //     var n = 0;
-  //     var server = helpers.run();
-  // 
-  //     server.use('/hello/world', function(req, res, next){
-  //         switch (++n) {
-  //             case 1:
-  //             case 2:
-  //                 assert.equal('/', req.url, 'Test request url after matching a path');
-  //                 break;
-  //             case 3:
-  //                 assert.equal('/hello/world/and/more/segments',
-  //                     req.originalUrl,
-  //                     'Test request originalUrl');
-  //                 assert.equal('/and/more/segments',
-  //                     req.url,
-  //                     'Test request url after matching a path with additional segments');
-  //                 break;
-  //             case 4:
-  //                 assert.equal('/images/foo.png?with=query&string',
-  //                     req.url,
-  //                     'Test request url after matching a path with query string');
-  //                 break;
-  //         }
-  //         res.writeHead(200);
-  //         res.end('hello world');
-  //     });
-  // 
-  //     server.use('/hello', function(req, res, next){
-  //         res.writeHead(200);
-  //         res.end('hello');
-  //     });
-  // 
-  //     server.assertResponse('GET', '/hello', 200, 'hello', 'Test path matching /hello');
-  //     server.assertResponse('GET', '/hello/', 200, 'hello', 'Test path matching /hello/');
-  //     server.assertResponse('GET', '/hello/world', 200, 'hello world', 'Test path matching /hello/world');
-  //     server.assertResponse('GET', '/hello/world/', 200, 'hello world', 'Test path matching /hello/world/');
-  //     server.assertResponse('GET', '/hello/world/and/more/segments', 200, 'hello world', 'Test path matching /hello/world/and/more/segments');
-  //     server.assertResponse('GET', '/hello/world/images/foo.png?with=query&string', 200, 'hello world', 'Test path matching /hello/world/images/foo.png?with=query&string');
-  // },
+  
+  'test path matching': function(){
+    var n = 0
+      , app = connect.createServer();
+
+    app.use('/hello/world', function(req, res, next){
+      switch (++n) {
+        case 1:
+        case 2:
+          req.url.should.equal('/');
+          break;
+        case 3:
+          req.originalUrl.should.equal('/hello/world/and/more/segments');
+          req.url.should.equal('/and/more/segments');
+          break;
+        case 4:
+          req.url.should.equal('/images/foo.png?with=query&string');
+          break;
+      }
+
+      res.end('hello world');
+    });
+
+    app.use('/hello', function(req, res, next){
+      res.end('hello');
+    });
+
+    assert.response(app,
+      { url: '/hello' },
+      { body: 'hello' });
+    
+    assert.response(app,
+      { url: '/hello/' },
+      { body: 'hello' });
+
+    assert.response(app,
+      { url: '/hello/world' },
+      { body: 'hello world' });
+
+    assert.response(app,
+      { url: '/hello/world/' },
+      { body: 'hello world' });
+
+    assert.response(app,
+      { url: '/hello/world/and/more/segments' },
+      { body: 'hello world' });
+
+    assert.response(app,
+      { url: '/hello/world/images/foo.png?with=query&string' },
+      { body: 'hello world' });
+  },
   // 
   // 'test unmatched path': function(){
   //     var server = helpers.run();
