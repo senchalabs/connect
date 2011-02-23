@@ -88,7 +88,7 @@ module.exports = {
 
   'test multiple Set-Cookie headers via writeHead()': function(){
     var app = connect.createServer(
-      connect.cookieParser()
+        connect.cookieParser()
       , connect.session({ secret: 'keyboard cat', store: store, key: 'sid' })
       , function(req, res, next){
         res.setHeader('Set-Cookie', 'foo=bar');
@@ -109,7 +109,7 @@ module.exports = {
   
   'test multiple Set-Cookie headers via setHeader()': function(){
     var app = connect.createServer(
-      connect.cookieParser()
+        connect.cookieParser()
       , connect.session({ secret: 'keyboard cat', store: store, key: 'sid' })
       , function(req, res, next){
         res.setHeader('Set-Cookie', 'foo=bar');
@@ -130,7 +130,7 @@ module.exports = {
   
   'test key option': function(){
     var app = connect.createServer(
-      connect.cookieParser()
+        connect.cookieParser()
       , connect.session({ secret: 'keyboard cat', store: store, key: 'sid' })
       , function(req, res, next){
         res.end('wahoo');
@@ -143,4 +143,39 @@ module.exports = {
         'Set-Cookie': /^sid=([^;]+); path=\/; httpOnly; expires=/
       }});
   },
+  
+  'test req.session data persistence': function(){
+    var portno = port + 1
+      , app = connect.createServer(
+        connect.cookieParser()
+      , connect.session({ secret: 'keyboard cat', store: store })
+      , function(req, res, next){
+        req.session.count = req.session.count || 0;
+        var n = req.session.count++;
+        res.end('count: ' + n);
+      }
+    );
+
+    app.listen(portno, function(){
+      // 0
+      http.get({ port: portno }, function(res){
+        var body = ''
+          , headers = { Cookie: 'connect.sid=' + sid(res.headers['set-cookie']) };
+        res.on('data', function(chunk){ body += chunk; });
+        res.on('end', function(){
+          body.should.equal('count: 0');
+
+          // 1
+          http.get({ port: portno, headers: headers }, function(res){
+            var body = '';
+            res.on('data', function(chunk){ body += chunk; });
+            res.on('end', function(){
+              body.should.equal('count: 1');
+              app.close();
+            });
+          });
+        });
+      });
+    });
+  }
 };
