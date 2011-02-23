@@ -33,7 +33,7 @@ app.listen(port);
 // SID helper
 
 function sid(cookie) {
-  return /^connect\.sid=([^;]+);/.exec(cookie)[1];
+  return /^connect\.sid=([^;]+);/.exec(cookie[0])[1];
 }
 
 // proxy http.get() to buffer body
@@ -191,6 +191,43 @@ module.exports = {
             res.body.should.equal('count: 0');
             app.close();
           });
+        });
+      });
+    });
+  },
+  
+  'test event pausing': function(){
+    var request
+      , store = new MemoryStore({ reapInterval: -1 });
+
+    store.get = function(sid, fn){
+      request.emit('data', 'foo');
+      request.emit('data', 'bar');
+      request.emit('data', 'baz');
+      setTimeout(function(){
+        fn(null, {});
+      }, 1000);
+    };
+
+    var portno = port + 2
+      , app = connect.createServer(
+        function(req, res, next){
+          request = req;
+          next();
+        }
+      , connect.cookieParser()
+      , connect.session({ secret: 'keyboard cat', store: store })
+      , function(req, res, next){
+        req.pipe(res);
+      }
+    );
+
+    app.listen(portno, function(){
+      http.get({ port: portno, buffer: true }, function(res){
+        var headers = { Cookie: 'connect.sid=' + sid(res.headers['set-cookie']) };
+        http.get({ port: portno, buffer: true, headers: headers }, function(res){
+          res.body.should.equal('foobarbaz');
+          app.close();
         });
       });
     });
