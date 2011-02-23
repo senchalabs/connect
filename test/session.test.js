@@ -5,11 +5,13 @@
 
 var connect = require('connect')
   , should = require('should')
-  , assert = require('assert')
   , http = require('http');
 
 var MemoryStore = connect.session.MemoryStore
   , store = new MemoryStore({ reapInterval: -1 });
+
+var port = 9900
+  , pending = 0
 
 var app = connect.createServer(
     connect.cookieParser()
@@ -19,13 +21,39 @@ var app = connect.createServer(
   }
 );
 
+app.listen(port);
+
+function sid(cookie) {
+  return /^connect\.sid=([^;]+);/.exec(cookie)[1];
+}
+
 module.exports = {
-  'test Set-Cookie header': function(){
-    assert.response(app,
-      { url: '/' },
-      { body: 'wahoo'
-      , headers: {
-        'Set-Cookie': /^connect\.sid=\w+\.\w+; path=\/; httpOnly; expires=/
-      }});
+  'test Set-Cookie': function(){
+    ++pending;
+    http.get({ port: port }, function(res){
+      var prev = res.headers['set-cookie'];
+      prev.should.match(/^connect\.sid=([^;]+); path=\/; httpOnly; expires=/);
+      http.get({ port: port }, function(res){
+        var curr = res.headers['set-cookie'];
+        curr.should.match(/^connect\.sid=([^;]+); path=\/; httpOnly; expires=/);
+        sid(prev).should.not.equal(sid(curr));
+        --pending || app.close();
+      });
+    });
+  },
+  
+  'test Set-Cookie with Cookie': function(){
+    ++pending;
+    http.get({ port: port }, function(res){
+      var prev = res.headers['set-cookie'];
+      prev.should.match(/^connect\.sid=([^;]+); path=\/; httpOnly; expires=/);
+      var headers = { Cookie: 'connect.sid=' + sid(prev) };
+      http.get({ port: port, headers: headers }, function(res){
+        var curr = res.headers['set-cookie'];
+        curr.should.match(/^connect\.sid=([^;]+); path=\/; httpOnly; expires=/);
+        sid(prev).should.equal(sid(curr));
+        --pending || app.close();
+      });
+    });
   }
 };
