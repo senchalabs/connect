@@ -96,6 +96,8 @@ module.exports = {
       function(res){
         var cookies = res.headers['set-cookie'];
         cookies.should.have.length(3);
+        cookies[0].should.equal('foo=bar');
+        cookies[2].should.equal('bar=baz');
       });
   },
   
@@ -115,6 +117,8 @@ module.exports = {
       function(res){
         var cookies = res.headers['set-cookie'];
         cookies.should.have.length(3);
+        cookies[0].should.equal('foo=bar');
+        cookies[1].should.equal('bar=baz');
       });
   },
   
