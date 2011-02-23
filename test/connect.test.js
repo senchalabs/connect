@@ -153,6 +153,7 @@ module.exports = {
   
   'test mounting': function(){
     var app = connect.createServer();
+
     app.use('/', function(req, res){
       // TODO: should inherit parent's /hello
       // to become /hello/world/view
@@ -185,5 +186,18 @@ module.exports = {
     assert.response(app2,
       { url: '/hello' },
       { body: 'hello' });
+  },
+  
+  'test mounting http.Server': function(){
+    var app = connect.createServer()
+      , world = http.createServer(function(req, res){
+        res.end('world');
+      });
+
+    app.use('/hello', world);
+
+    assert.response(app,
+      { url: '/hello' },
+      { body: 'world' });
   }
 };
