@@ -210,12 +210,19 @@ module.exports = {
       , function(req, res, next){
         req.session.lastAccess.should.not.equal(prev);  
         req.session.count = req.session.count || 0;
-        var n = req.session.count++;
+        var n = req.session.count++
+          , sid = req.session.id;
+
+        req.sessionID.should.equal(sid);
 
         switch (req.url) {
           case '/regenerate':
-            req.session.regenerate(function(){
+            req.session.regenerate(function(err){
+              should.equal(null, err);
               res.end('count: ' + n);
+              req.session.id.should.not.equal(sid);
+              req.sessionID.should.not.equal(sid);
+              req.sessionID.should.equal(req.session.id);
             });
             break;
         }
