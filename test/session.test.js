@@ -201,6 +201,54 @@ module.exports = {
     });
   },
   
+  'test req.session.regenerate()': function(){
+    var prev
+      , port = ++portno
+      , app = connect.createServer(
+        connect.cookieParser()
+      , connect.session({ secret: 'keyboard cat', store: store })
+      , function(req, res, next){
+        req.session.lastAccess.should.not.equal(prev);  
+        req.session.count = req.session.count || 0;
+        var n = req.session.count++;
+
+        switch (req.url) {
+          case '/regenerate':
+            req.session.regenerate(function(){
+              res.end('count: ' + n);
+            });
+            break;
+        }
+
+        res.end('count: ' + n);
+      }
+    );
+
+    app.listen(port, function(){
+      var options = { port: port, buffer: true };
+      // 0
+      http.get(options, function(res){
+        var prev = sid(res.headers['set-cookie']);
+        options.headers = { Cookie: 'connect.sid=' + prev };
+        res.body.should.equal('count: 0');
+
+        // regenerated
+        options.path = '/regenerate';
+        http.get(options, function(res){
+          prev.should.not.equal(sid(res.headers['set-cookie']));
+          res.body.should.equal('count: 1');
+
+          // 1
+          options.path = '/';
+          http.get(options, function(res){
+            res.body.should.equal('count: 0');
+            app.close();
+          });
+        });
+      });
+    });
+  },
+  
   'test event pausing': function(){
     var request
       , store = new MemoryStore({ reapInterval: -1 });
