@@ -42,8 +42,8 @@ module.exports = {
     });
   },
   
-  'test Set-Cookie with Cookie': function(){
-    ++pending;
+  'test SID maintenance': function(){
+    pending += 6;
     http.get({ port: port }, function(res){
       --pending;
       var prev = res.headers['set-cookie'];
@@ -53,7 +53,6 @@ module.exports = {
 
       // ensure subsequent requests maintain the SID
       while (n--) {
-        ++pending;
         http.get({ port: port, headers: headers }, function(res){
           var curr = res.headers['set-cookie'];
           curr.should.match(/^connect\.sid=([^;]+); path=\/; httpOnly; expires=/);
@@ -62,5 +61,21 @@ module.exports = {
         });
       }
     });
+  },
+  
+  'test SID changing': function(){
+    pending += 5;
+    var sids = []
+      , n = 5;
+
+    // ensure different SIDs
+    while (n--) {
+      http.get({ port: port }, function(res){
+        var curr = sid(res.headers['set-cookie']);
+        sids.should.not.contain(curr);
+        sids.push(curr);
+        --pending || app.close();
+      });
+    }
   }
 };
