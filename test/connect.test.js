@@ -154,6 +154,8 @@ module.exports = {
   'test mounting': function(){
     var app = connect.createServer();
     app.use('/', function(req, res){
+      // TODO: should inherit parent's /hello
+      // to become /hello/world/view
       app.route.should.equal('/world/view');
       res.end('viewing hello world');
     });
@@ -168,6 +170,7 @@ module.exports = {
     var app2 = connect.createServer();
     app2.use('/hello', app1);
     app2.use('/hello', function(req, res){
+      app2.route.should.equal('/');
       res.end('hello');
     });
 
