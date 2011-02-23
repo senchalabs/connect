@@ -165,6 +165,54 @@ module.exports = {
       }});
   },
   
+  'test default maxAge': function(){
+    var app = connect.createServer(
+        connect.cookieParser()
+      , connect.session({ secret: 'keyboard cat', store: store })
+      , function(req, res, next){
+        res.end('wahoo');
+      }
+    );
+
+    assert.response(app,
+      { url: '/' },
+      function(res){
+        var cookie = res.headers['set-cookie'][0]
+          , expires = cookie.split('expires=')[1]
+          , expires = new Date(expires)
+          , now = new Date;
+
+        now.getYear().should.equal(expires.getYear());
+        now.getDate().should.equal(expires.getDate());
+        expires.getHours().should.equal(now.getHours() + 4);
+      });
+  },
+  
+  'test maxAge option': function(){
+    // 1 hour
+    var store = new MemoryStore({ reapInterval: -1, maxAge: 3600000 })
+      , app = connect.createServer(
+        connect.cookieParser()
+      , connect.session({ secret: 'keyboard cat', store: store })
+      , function(req, res, next){
+        res.end('wahoo');
+      }
+    );
+
+    assert.response(app,
+      { url: '/' },
+      function(res){
+        var cookie = res.headers['set-cookie'][0]
+          , expires = cookie.split('expires=')[1]
+          , expires = new Date(expires)
+          , now = new Date;
+
+        now.getYear().should.equal(expires.getYear());
+        now.getDate().should.equal(expires.getDate());
+        expires.getHours().should.equal(now.getHours() + 1);
+      });
+  },
+  
   'test req.session data persistence': function(){
     var prev
       , port = ++portno
