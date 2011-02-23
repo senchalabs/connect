@@ -16,6 +16,7 @@ var MemoryStore = connect.session.MemoryStore
 // settings
 
 var port = 9900
+  , portno = port
   , pending = 0
 
 // main test app
@@ -166,7 +167,7 @@ module.exports = {
   
   'test req.session data persistence': function(){
     var prev
-      , portno = port + 1
+      , port = ++portno
       , app = connect.createServer(
         connect.cookieParser()
       , connect.session({ secret: 'keyboard cat', store: store })
@@ -178,18 +179,20 @@ module.exports = {
       }
     );
 
-    app.listen(portno, function(){
+    app.listen(port, function(){
+      var options = { port: port, buffer: true };
       // 0
-      http.get({ port: portno, buffer: true }, function(res){
-        var headers = { Cookie: 'connect.sid=' + sid(res.headers['set-cookie']) };
+      http.get(options, function(res){
+        options.headers = { Cookie: 'connect.sid=' + sid(res.headers['set-cookie']) };
         res.body.should.equal('count: 0');
 
         // 1
-        http.get({ port: portno, headers: headers, buffer: true }, function(res){
+        http.get(options, function(res){
           res.body.should.equal('count: 1');
 
           // no sid
-          http.get({ port: portno, buffer: true }, function(res){
+          delete options.headers;
+          http.get(options, function(res){
             res.body.should.equal('count: 0');
             app.close();
           });
@@ -211,7 +214,7 @@ module.exports = {
       }, 100);
     };
 
-    var portno = port + 2
+    var port = ++portno
       , app = connect.createServer(
         function(req, res, next){
           request = req;
@@ -224,10 +227,11 @@ module.exports = {
       }
     );
 
-    app.listen(portno, function(){
-      http.get({ port: portno, buffer: true }, function(res){
-        var headers = { Cookie: 'connect.sid=' + sid(res.headers['set-cookie']) };
-        http.get({ port: portno, buffer: true, headers: headers }, function(res){
+    app.listen(port, function(){
+      var options = { port: port, buffer: true };
+      http.get(options, function(res){
+        options.headers = { Cookie: 'connect.sid=' + sid(res.headers['set-cookie']) };
+        http.get(options, function(res){
           res.body.should.equal('foobarbaz');
           app.close();
         });
@@ -237,7 +241,7 @@ module.exports = {
   
   'test Set-Cookie when secure': function(){
     var store = new MemoryStore({ reapInterval: -1, cookie: { secure: true }});
-    var portno = port + 3
+    var port = ++portno
       , app = connect.createServer(
         connect.cookieParser()
       , connect.session({ secret: 'foo', store: store })
@@ -246,8 +250,8 @@ module.exports = {
       }
     );
 
-    app.listen(portno, function(){
-      var options = { port: portno, buffer: true };
+    app.listen(port, function(){
+      var options = { port: port, buffer: true };
       http.get(options, function(res){
         res.headers.should.not.have.property('set-cookie');
         app.close();
