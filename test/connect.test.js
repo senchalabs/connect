@@ -138,23 +138,18 @@ module.exports = {
         calls.should.equal(2);
       });
   },
-  // 
-  // 'test catch error': function(){
-  //     var server = helpers.run(
-  //         function(req, res, next){
-  //             doesNotExist();
-  //         }
-  //     );
-  // 
-  //     var req = server.request('GET', '/');
-  //     req.buffer = true;
-  //     req.addListener('response', function(res){
-  //         res.addListener('end', function(){
-  //             assert.equal(500, res.statusCode, 'Test 500 by default on exception');
-  //         });
-  //     });
-  //     req.end();
-  // },
+  
+  'test catch error': function(){
+    var app = connect.createServer(
+      function(req, res, next){
+        doesNotExist();
+      }
+    );
+
+    assert.response(app,
+      { url: '/' },
+      { status: 500 });
+  },
   // 
   // 'test mounting': function(){
   //     var helloWorldServer = connect.createServer();
