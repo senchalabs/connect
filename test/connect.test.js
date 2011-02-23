@@ -152,7 +152,14 @@ module.exports = {
   },
   
   'test mounting': function(){
+    var app = connect.createServer();
+    app.use('/', function(req, res){
+      app.route.should.equal('/world/view');
+      res.end('viewing hello world');
+    });
+
     var app1 = connect.createServer();
+    app1.use('/world/view', app);
     app1.use('/world', function(req, res){
       app1.route.should.equal('/hello');
       res.end('hello world');
@@ -165,44 +172,15 @@ module.exports = {
     });
 
     assert.response(app2,
+      { url: '/hello/world/view' },
+      { body: 'viewing hello world' });
+
+    assert.response(app2,
       { url: '/hello/world' },
       { body: 'hello world' });
 
     assert.response(app2,
       { url: '/hello' },
       { body: 'hello' });
-  },
-  // 
-  // 'test connect as middleware': function(){
-  //     var inner = connect.createServer();
-  //     inner.use('/inner', function(req, res){
-  //         if (req.method === 'POST') {
-  //             res.writeHead(200);
-  //             res.end('inner stack');
-  //         } else {
-  //             next();
-  //         }
-  //     });
-  // 
-  //     var middle = connect.createServer(inner);
-  //     middle.use('/', function(req, res, next){
-  //         if (req.method === 'POST') {
-  //             res.writeHead(200);
-  //             res.end('middle stack');
-  //         } else {
-  //             next();
-  //         }
-  //     });
-  // 
-  //     var server = helpers.run(middle);
-  //     server.use('/outer', function(req, res){
-  //         res.writeHead(200);
-  //         res.end('outer stack');
-  //     });
-  // 
-  //     server.assertResponse('GET', '/outer', 200, 'outer stack', 'Test outer stack');
-  //     server.assertResponse('POST', '/', 200, 'middle stack', 'Test middle stack');
-  //     server.assertResponse('POST', '/inner', 200, 'inner stack', 'Test inner stack');
-  //     server.assertResponse('GET', '/', 404, 'Cannot GET /', 'Test multiple stacks unmatched path');
-  // }
+  }
 };
