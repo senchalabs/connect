@@ -22,7 +22,7 @@ module.exports = {
   
   'test custom favicon': function(){
     var app = connect.createServer();
-    app.use(connect.favicon(__dirname + '/../lib/connect/public/favicon.ico'));
+    app.use(connect.favicon(__dirname + '/../lib/public/favicon.ico'));
     assert.response(app,
       { url: '/favicon.ico' },
       { status: 200, headers: { 'Content-Type': 'image/x-icon' }});

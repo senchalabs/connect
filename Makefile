@@ -22,4 +22,4 @@ docs/api.html:
 		--desc "High performance middleware for [node](http://nodejs.org)." \
 		$(shell find lib/connect/middleware/* -type f) > $@
 
-.PHONY: docs test test-cov graphs
+.PHONY: docs test test-cov
