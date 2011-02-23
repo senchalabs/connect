@@ -206,7 +206,7 @@ module.exports = {
       request.emit('data', 'baz');
       setTimeout(function(){
         fn(null, {});
-      }, 1000);
+      }, 100);
     };
 
     var portno = port + 2
