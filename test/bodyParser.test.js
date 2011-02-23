@@ -3,9 +3,9 @@
  * Module dependencies.
  */
 
-var connect = require('connect'),
-    assert = require('assert'),
-    http = require('http');
+var connect = require('connect')
+  , assert = require('assert')
+  , http = require('http');
 
 var app = connect.createServer(
   connect.bodyParser(),
