@@ -127,5 +127,47 @@ module.exports = {
     assert.response(app,
       { url: '/list' },
       { body: 'done' });
+  },
+  
+  'test If-Modified-Since modified': function(){
+    assert.response(app,
+      { url: '/list', headers: { 'If-Modified-Since': new Date('2000').toUTCString() }},
+      { body: '123456789', status: 200 });
+  },
+  
+  'test If-Modified-Since unmodified': function(){
+    assert.response(app,
+      { url: '/list', headers: { 'If-Modified-Since': new Date('2050').toUTCString() }},
+      { body: '', status: 304 },
+      function(res){
+        Object.keys(res.headers).forEach(function(field){
+          if (0 == field.indexOf('content')) {
+            should.fail('failed to strip ' + field);
+          }
+        });
+      });
+  },
+  
+  'test ETag unmodified': function(){
+    var app = connect.createServer(
+      connect.static(fixturesPath)
+    );
+
+    app.listen(9898, function(){
+      var options = { path: '/list', port: 9898, host: '127.0.0.1' };
+      http.get(options, function(res){
+        res.statusCode.should.equal(200);
+        res.headers.should.have.property('etag');
+        var etag = res.headers.etag;
+        options.headers = { 'If-None-Match': etag };
+        http.get(options, function(res){
+          etag.should.equal(res.headers.etag);
+          res.statusCode.should.equal(304);
+          res.headers.should.not.have.property('content-length');
+          res.headers.should.not.have.property('content-type');
+          app.close();
+        });
+      });
+    });
   }
 };
