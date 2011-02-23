@@ -171,7 +171,16 @@ module.exports = {
             res.on('data', function(chunk){ body += chunk; });
             res.on('end', function(){
               body.should.equal('count: 1');
-              app.close();
+
+              // no sid
+              http.get({ port: portno }, function(res){
+                var body = '';
+                res.on('data', function(chunk){ body += chunk; });
+                res.on('end', function(){
+                  body.should.equal('count: 0');
+                  app.close();
+                });
+              });
             });
           });
         });
