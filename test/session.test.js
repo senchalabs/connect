@@ -29,6 +29,12 @@ function sid(cookie) {
 }
 
 module.exports = {
+  'test exports': function(){
+    connect.session.Session.should.be.a('function');
+    connect.session.Store.should.be.a('function');
+    connect.session.MemoryStore.should.be.a('function');
+  },
+
   'test Set-Cookie': function(){
     ++pending;
     http.get({ port: port }, function(res){
