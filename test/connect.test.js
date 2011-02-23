@@ -4,9 +4,12 @@
  */
 
 var connect = require('connect')
+  , exec = require('child_process').exec
   , should = require('should')
   , assert = require('assert')
-  , http = require('http');
+  , https = require('https')
+  , http = require('http')
+  , fs = require('fs');
 
 module.exports = {
   'test version': function(){
