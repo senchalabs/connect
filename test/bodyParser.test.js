@@ -62,5 +62,24 @@ module.exports = {
       , data: 'foo.bar'
       , headers: { 'Content-Type': 'application/x-awesome' }},
       { body: '{"foo":"bar"}' });
+  },
+  
+  'test mount-safety': function(){
+    var app = connect(
+        connect.bodyParser()
+      , function(req, res){
+        res.end(req.body.name);
+      }
+    );
+
+    var app2 = connect(connect.bodyParser());
+    app2.use('/test', app);
+
+    assert.response(app2,
+      { url: '/test'
+      , method: 'POST'
+      , data: '{"name":"tj"}'
+      , headers: { 'Content-Type': 'application/json' }},
+      { body: 'tj' });
   }
 };
