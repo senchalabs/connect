@@ -52,12 +52,37 @@ module.exports = {
     req.write(new Buffer(1024));
   },
   
-  'test limit': function(){
-    var app = create(5 * 1024);
+  'test limit string syntax': function(){
+    var app = create('5kb');
 
     app.listen(10001);
 
     var options = { method: 'POST', port: 10001 }
+      , req = http.request(options, function(res){
+        var body = '';
+      res.statusCode.should.equal(413);
+      res.on('data', function(chunk){ body += chunk });
+      res.on('end', function(){
+        body.should.equal('limit exceeded, cut off at 5120');
+        app.close();
+      });
+    });
+
+    req.write(new Buffer(1024));
+    req.write(new Buffer(1024));
+    req.write(new Buffer(1024));
+    req.write(new Buffer(1024));
+    req.write(new Buffer(1024));
+    req.write(new Buffer(1024));
+    req.write(new Buffer(1024));
+  },
+  
+  'test limit': function(){
+    var app = create(5 * 1024);
+
+    app.listen(10002);
+
+    var options = { method: 'POST', port: 10002 }
       , req = http.request(options, function(res){
       res.statusCode.should.equal(200);
       app.close();
