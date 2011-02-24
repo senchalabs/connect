@@ -151,6 +151,10 @@ button[disabled].download-itunes:active {
   padding: 0;
 }
 
+.comment {
+  margin-bottom: 80px;
+}
+
 #content {
   width: 600px;
 }
