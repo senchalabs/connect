@@ -15,6 +15,18 @@ module.exports = {
   'test version': function(){
     connect.version.should.match(/^\d+\.\d+\.\d+$/);
   },
+  
+  'test connect()': function(){
+    var app = connect(
+      function(req, res){
+        res.end('wahoo');
+      }
+    );
+
+    assert.response(app,
+      { url: '/' },
+      { body: 'wahoo' });
+  },
 
   'test use()': function(){
     var app = connect.createServer();
