@@ -23,8 +23,7 @@ var files = meta.files = process.argv.slice(2)
 
 // templates
 
-var layout = fs.readFileSync(__dirname + '/template.html', 'utf8')
-  , page = ejs.compile(fs.readFileSync(__dirname + '/page.html', 'utf8'));
+var page = ejs.compile(fs.readFileSync(__dirname + '/page.html', 'utf8'));
 
 // destination
 
@@ -175,7 +174,6 @@ function parseTagTypes(str) {
 
 function render(docs) {
   fs.writeFile(dest + '/meta.json', JSON.stringify(meta));
-  fs.writeFile(dest + '/index.html', layout);
   docs.forEach(renderFile);
 }
 
