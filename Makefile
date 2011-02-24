@@ -1,7 +1,7 @@
 
 TEST = support/expresso/bin/expresso
 TESTS ?= test/*.test.js
-LIB_PREFIX = $(HOME)/.node_libraries
+SRC = $(shell find lib -type f -name "*.js")
 
 test:
 	@NODE_ENV=test ./$(TEST) \
@@ -15,11 +15,11 @@ test:
 test-cov:
 	@$(MAKE) test TEST_FLAGS="--cov"
 
-docs: docs/api.html
+docs:
+	@mkdir -p docs
+	@node support/docs.js $(SRC)
 
-docs/api.html:
-	dox --title Connect \
-		--desc "High performance middleware for [node](http://nodejs.org)." \
-		$(shell find lib/connect/middleware/* -type f) > $@
+docclean:
+	rm -fr docs
 
-.PHONY: docs test test-cov
+.PHONY: docs test test-cov docclean
