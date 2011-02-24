@@ -51,6 +51,31 @@ module.exports = {
       { url: '/blog' },
       { body: 'blog', status: 200 });
   },
+
+  'test use() several': function(beforeExit){
+    var app = connect.createServer()
+      , calls = 0;
+
+    function a(req, res, next){
+      ++calls;
+      next();
+    }
+    
+    function b(req, res, next){
+      ++calls;
+      res.end('admin');
+    }
+
+    app.use('/admin', a, b);
+
+    assert.response(app,
+      { url: '/admin' },
+      { body: 'admin' });
+
+    beforeExit(function(){
+      calls.should.equal(2);
+    });
+  },
   
   'test path matching': function(){
     var n = 0
