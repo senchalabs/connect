@@ -46,6 +46,27 @@ p code {
   color: #3b88d8;
 }
 
+ul.tags {
+  list-style: none;
+  padding: 0;
+}
+
+ul.tags li {
+  margin: 0;
+}
+
+ul.tags li em {
+  font-weight: bold;
+}
+
+ul.tags li .types {
+  color: #3b88d8;
+}
+
+ul.tags li.api {
+  display: none;
+}
+
 .filename {
   margin-top: -40px;
   display: block;
