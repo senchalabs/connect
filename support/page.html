@@ -7,48 +7,54 @@
         Connect - <%= name %>
       <% } %>
     </title>
+    <link rel='stylesheet' href='main.css' />
   </head>
   <body>
-    <% if ('index' != name ){ %>
-      <h1><%= name %></h1>
-      <span class="filename"><%= filename %></span>
-    <% } %>
-
-    <% comments.forEach(function(comment){ %>
-      <% if ('index' != name && (!comment.tags.length || comment.isPrivate)) return %>
-      <% if (!comment.ignore) { %>
-        <div class="comment">
-          <p class="description"><%- comment.description %></p>
-
-          <% if (comment.body) { %>
-            <div class="body">
-              <%- comment.body %>
-            </div>
-          <% } %>
-
-          <% if (comment.tags.length) { %>
-            <ul class="tags">
-            <% comment.tags.forEach(function(tag){ %>
-              <% if ('return' == tag.type) { %>
-                <li class="return"><em>returns</em> <span class="types"><%= tag.types.join(', ') %></span></li>
-              <% } %>
-
-              <% if ('api' == tag.type) { %>
-                <li class="api"><em>api</em> <span class="visibility"><%= tag.visibility %></span></li>
-              <% } %>
-
-              <% if ('type' == tag.type) { %>
-                <li class="type"><em>type</em> <span class="type"><%= tag.value %></span></li>
-              <% } %>
-
-              <% if ('param' == tag.type) { %>
-                <li class="param"><em>param</em> <span class="types"><%= tag.types.join(', ') %></span> <span class="name"><%= tag.name %></span> <span class="description"><%= tag.description %></span></li>
-              <% } %>
-            <% }) %>
-            </ul>
-          <% }%>
-        </div>
+    <div id="content">
+      <% if ('index' != name ){ %>
+        <h1><%= name %></h1>
+        <span class="filename"><%= filename %></span>
       <% } %>
-    <% }) %>
+
+      <% comments.forEach(function(comment){ %>
+        <% if ('index' != name && (!comment.tags.length || comment.isPrivate)) return %>
+        <% if (!comment.ignore) { %>
+          <div class="comment">
+            <p class="description"><%- comment.description %></p>
+
+            <% if (comment.body) { %>
+              <div class="body">
+                <%- comment.body %>
+              </div>
+            <% } %>
+
+            <% if (comment.tags.length) { %>
+              <ul class="tags">
+              <% comment.tags.forEach(function(tag){ %>
+                <% if ('return' == tag.type) { %>
+                  <li class="return"><em>returns</em> <span class="types"><%= tag.types.join(', ') %></span></li>
+                <% } %>
+
+                <% if ('api' == tag.type) { %>
+                  <li class="api"><em>api</em> <span class="visibility"><%= tag.visibility %></span></li>
+                <% } %>
+
+                <% if ('type' == tag.type) { %>
+                  <li class="type"><em>type</em> <span class="type"><%= tag.value %></span></li>
+                <% } %>
+
+                <% if ('param' == tag.type) { %>
+                  <li class="param"><em>param</em> <span class="types"><%= tag.types.join(', ') %></span> <span class="name"><%= tag.name %></span> <span class="description"><%= tag.description %></span></li>
+                <% } %>
+              <% }) %>
+              </ul>
+            <% }%>
+          </div>
+        <% } %>
+      <% }) %>
+      <% if ('index' == name) { %>
+        <a class='button' href='http://github.com/senchalabs/connect'>View Source</a>
+      <% } %>
+    </div>
   </body>
 </html>

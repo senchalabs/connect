@@ -20,6 +20,6 @@ docs:
 	@node support/docs.js $(SRC)
 
 docclean:
-	rm -fr docs
+	rm -f docs/*.{html,json}
 
 .PHONY: docs test test-cov docclean
