@@ -1,42 +1,54 @@
+<html>
+  <head>
+    <title>
+      <% if ('index' == name) { %>
+        Connect - middleware framework for nodejs
+      <% } else { %>
+        Connect - <%= name %>
+      <% } %>
+    </title>
+  </head>
+  <body>
+    <% if ('index' != name ){ %>
+      <h1><%= name %></h1>
+      <span class="filename"><%= filename %></span>
+    <% } %>
 
-<% if ('index' != name ){ %>
-  <h1><%= name %></h1>
-  <span class="filename"><%= filename %></span>
-<% } %>
+    <% comments.forEach(function(comment){ %>
+      <% if ('index' != name && (!comment.tags.length || comment.isPrivate)) return %>
+      <% if (!comment.ignore) { %>
+        <div class="comment">
+          <p class="description"><%- comment.description %></p>
 
-<% comments.forEach(function(comment){ %>
-  <% if ('index' != name && (!comment.tags.length || comment.isPrivate)) return %>
-  <% if (!comment.ignore) { %>
-    <div class="comment">
-      <p class="description"><%- comment.description %></p>
-      
-      <% if (comment.body) { %>
-        <div class="body">
-          <%- comment.body %>
+          <% if (comment.body) { %>
+            <div class="body">
+              <%- comment.body %>
+            </div>
+          <% } %>
+
+          <% if (comment.tags.length) { %>
+            <ul class="tags">
+            <% comment.tags.forEach(function(tag){ %>
+              <% if ('return' == tag.type) { %>
+                <li class="return"><em>returns</em> <span class="types"><%= tag.types.join(', ') %></span></li>
+              <% } %>
+
+              <% if ('api' == tag.type) { %>
+                <li class="api"><em>api</em> <span class="visibility"><%= tag.visibility %></span></li>
+              <% } %>
+
+              <% if ('type' == tag.type) { %>
+                <li class="type"><em>type</em> <span class="type"><%= tag.value %></span></li>
+              <% } %>
+
+              <% if ('param' == tag.type) { %>
+                <li class="param"><em>param</em> <span class="types"><%= tag.types.join(', ') %></span> <span class="name"><%= tag.name %></span> <span class="description"><%= tag.description %></span></li>
+              <% } %>
+            <% }) %>
+            </ul>
+          <% }%>
         </div>
       <% } %>
-      
-      <% if (comment.tags.length) { %>
-        <ul class="tags">
-        <% comment.tags.forEach(function(tag){ %>
-          <% if ('return' == tag.type) { %>
-            <li class="return"><em>returns</em> <span class="types"><%= tag.types.join(', ') %></span></li>
-          <% } %>
-          
-          <% if ('api' == tag.type) { %>
-            <li class="api"><em>api</em> <span class="visibility"><%= tag.visibility %></span></li>
-          <% } %>
-          
-          <% if ('type' == tag.type) { %>
-            <li class="type"><em>type</em> <span class="type"><%= tag.value %></span></li>
-          <% } %>
-          
-          <% if ('param' == tag.type) { %>
-            <li class="param"><em>param</em> <span class="types"><%= tag.types.join(', ') %></span> <span class="name"><%= tag.name %></span> <span class="description"><%= tag.description %></span></li>
-          <% } %>
-        <% }) %>
-        </ul>
-      <% }%>
-    </div>
-  <% } %>
-<% }) %>
+    <% }) %>
+  </body>
+</html>
