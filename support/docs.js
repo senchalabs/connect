@@ -106,6 +106,9 @@ function parseComment(str) {
   if (~str.indexOf('@')) {
     var tags = '@' + str.split('@').slice(1).join('@');
     comment.tags = tags.split('\n').map(parseTag);
+    comment.isPrivate = comment.tags.some(function(tag){
+      return 'api' == tag.type && 'private' == tag.visibility;
+    })
   }
 
   // markdown

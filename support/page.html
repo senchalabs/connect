@@ -1,7 +1,7 @@
 <h1><%= name %></h1>
 <span class="filename"><%= filename %></span>
 <% comments.forEach(function(comment){ %>
-  <% if (!comment.tags.length) return %>
+  <% if (!comment.tags.length || comment.isPrivate) return %>
   <% if (!comment.ignore) { %>
     <div class="comment">
       <p class="description"><%- comment.description %></p>
