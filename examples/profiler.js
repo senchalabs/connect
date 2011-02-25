@@ -10,7 +10,6 @@ var connect = require('../');
 
 connect(
     connect.profiler()
-  , connect.logger()
   , connect.favicon()
   , connect.static(__dirname)
   , function(req, res, next){
