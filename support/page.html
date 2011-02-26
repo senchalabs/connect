@@ -49,6 +49,14 @@
               <% }) %>
               </ul>
             <% }%>
+            
+            <% if (comment.code) { %>
+              <pre class="code">
+                <code>
+<%- comment.code %>
+                </code>
+              </pre>
+            <% } %>
           </div>
         <% } %>
       <% }) %>
