@@ -169,28 +169,5 @@ module.exports = {
         });
       });
     });
-  },
-  
-  'test ETag multiple given, unmodified': function(){
-    var app = connect.createServer(
-      connect.static(fixturesPath)
-    );
-
-    app.listen(9899, function(){
-      var options = { path: '/list', port: 9899, host: '127.0.0.1' };
-      http.get(options, function(res){
-        res.statusCode.should.equal(200);
-        res.headers.should.have.property('etag');
-        var etag = res.headers.etag;
-        options.headers = { 'If-None-Match': 'foo, bar, ' + etag };
-        http.get(options, function(res){
-          etag.should.equal(res.headers.etag);
-          res.statusCode.should.equal(304);
-          res.headers.should.not.have.property('content-length');
-          res.headers.should.not.have.property('content-type');
-          app.close();
-        });
-      });
-    });
   }
 };

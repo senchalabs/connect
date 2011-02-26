@@ -8,10 +8,9 @@ var connect = require('connect')
   , should = require('should')
   , http = require('http');
 
-// session store
+// store
 
-var MemoryStore = connect.session.MemoryStore
-  , store = new MemoryStore({ reapInterval: -1 });
+var MemoryStore = connect.session.MemoryStore;
 
 // settings
 
@@ -23,7 +22,7 @@ var port = 9900
 
 var app = connect.createServer(
     connect.cookieParser()
-  , connect.session({ secret: 'keyboard cat', store: store })
+  , connect.session({ secret: 'keyboard cat' })
   , function(req, res, next){
     res.end('wahoo');
   }
@@ -33,8 +32,14 @@ app.listen(port);
 
 // SID helper
 
-function sid(cookie) {
-  return /^connect\.sid=([^;]+);/.exec(cookie[0])[1];
+function sid(res) {
+  return /^connect\.sid=([^;]+);/.exec(res.headers['set-cookie'][0])[1];
+}
+
+// expires helper
+
+function expires(res) {
+  return res.headers['set-cookie'][0].match(/expires=([^;]+)/)[1];
 }
 
 // proxy http.get() to buffer body
@@ -59,12 +64,13 @@ module.exports = {
   'test Set-Cookie': function(){
     ++pending;
     http.get({ port: port }, function(res){
-      var prev = res.headers['set-cookie'];
-      prev.should.match(/^connect\.sid=([^;]+); path=\/; httpOnly; expires=/);
+      var cookie = res.headers['set-cookie']
+        , prev = sid(res);
+      cookie.should.match(/^connect\.sid=([^;]+); path=\/; expires=/);
       http.get({ port: port }, function(res){
-        var curr = res.headers['set-cookie'];
-        curr.should.match(/^connect\.sid=([^;]+); path=\/; httpOnly; expires=/);
-        sid(prev).should.not.equal(sid(curr));
+        var cookie = res.headers['set-cookie'];
+        cookie.should.match(/^connect\.sid=([^;]+); path=\/; expires=/);
+        prev.should.not.equal(sid(res));
         --pending || app.close();
       });
     });
@@ -74,17 +80,18 @@ module.exports = {
     pending += 6;
     http.get({ port: port }, function(res){
       --pending;
-      var prev = res.headers['set-cookie'];
-      prev.should.match(/^connect\.sid=([^;]+); path=\/; httpOnly; expires=/);
-      var headers = { Cookie: 'connect.sid=' + sid(prev) }
+      var cookie = res.headers['set-cookie']
+        , prev = sid(res);
+      cookie.should.match(/^connect\.sid=([^;]+); path=\/; expires=/);
+      var headers = { Cookie: 'connect.sid=' + prev }
         , n = 5;
 
       // ensure subsequent requests maintain the SID
       while (n--) {
         http.get({ port: port, headers: headers }, function(res){
-          var curr = res.headers['set-cookie'];
-          curr.should.match(/^connect\.sid=([^;]+); path=\/; httpOnly; expires=/);
-          sid(prev).should.equal(sid(curr));
+          var cookie = res.headers['set-cookie'];
+          cookie.should.match(/^connect\.sid=([^;]+); path=\/; expires=/);
+          prev.should.equal(sid(res));
           --pending || app.close();
         });
       }
@@ -99,7 +106,7 @@ module.exports = {
     // ensure different SIDs
     while (n--) {
       http.get({ port: port }, function(res){
-        var curr = sid(res.headers['set-cookie']);
+        var curr = sid(res);
         sids.should.not.contain(curr);
         sids.push(curr);
         --pending || app.close();
@@ -110,14 +117,14 @@ module.exports = {
   'test multiple Set-Cookie headers via writeHead()': function(){
     var app = connect.createServer(
         connect.cookieParser()
-      , connect.session({ secret: 'keyboard cat', store: store, key: 'sid' })
+      , connect.session({ secret: 'keyboard cat', key: 'sid' })
       , function(req, res, next){
         res.setHeader('Set-Cookie', 'foo=bar');
         res.writeHead(200, { 'Set-Cookie': 'bar=baz' });
         res.end('wahoo');
       }
     );
-
+  
     assert.response(app,
       { url: '/' },
       function(res){
@@ -131,14 +138,14 @@ module.exports = {
   'test multiple Set-Cookie headers via setHeader()': function(){
     var app = connect.createServer(
         connect.cookieParser()
-      , connect.session({ secret: 'keyboard cat', store: store, key: 'sid' })
+      , connect.session({ secret: 'keyboard cat', key: 'sid' })
       , function(req, res, next){
         res.setHeader('Set-Cookie', 'foo=bar');
         res.setHeader('Set-Cookie', 'bar=baz');
         res.end('wahoo');
       }
     );
-
+  
     assert.response(app,
       { url: '/' },
       function(res){
@@ -152,64 +159,62 @@ module.exports = {
   'test key option': function(){
     var app = connect.createServer(
         connect.cookieParser()
-      , connect.session({ secret: 'keyboard cat', store: store, key: 'sid' })
+      , connect.session({ secret: 'keyboard cat', key: 'sid' })
       , function(req, res, next){
         res.end('wahoo');
       }
     );
-
+  
     assert.response(app,
       { url: '/' },
       { headers: {
-        'Set-Cookie': /^sid=([^;]+); path=\/; httpOnly; expires=/
+        'Set-Cookie': /^sid=([^;]+); path=\/; expires=/
       }});
   },
   
   'test default maxAge': function(){
     var app = connect.createServer(
         connect.cookieParser()
-      , connect.session({ secret: 'keyboard cat', store: store })
+      , connect.session({ secret: 'keyboard cat' })
       , function(req, res, next){
         res.end('wahoo');
       }
     );
-
+  
     assert.response(app,
       { url: '/' },
       function(res){
-        var cookie = res.headers['set-cookie'][0]
-          , expires = cookie.split('expires=')[1]
-          , expires = new Date(expires)
+        var exp = new Date(expires(res))
           , now = new Date;
-
-        now.getYear().should.equal(expires.getYear());
-        now.getDate().should.equal(expires.getDate());
-        expires.getHours().should.equal(now.getHours() + 4);
+  
+        now.getYear().should.equal(exp.getYear());
+        now.getDate().should.equal(exp.getDate());
+        exp.getHours().should.equal(now.getHours() + 4);
       });
   },
   
   'test maxAge option': function(){
     // 1 hour
-    var store = new MemoryStore({ reapInterval: -1, maxAge: 3600000 })
-      , app = connect.createServer(
+    var app = connect.createServer(
         connect.cookieParser()
-      , connect.session({ secret: 'keyboard cat', store: store })
+      , connect.session({
+          secret: 'keyboard cat'
+        , cookie: { maxAge: 3600000 }
+      })
       , function(req, res, next){
         res.end('wahoo');
       }
     );
-
+  
     assert.response(app,
       { url: '/' },
       function(res){
-        var cookie = res.headers['set-cookie'][0]
-          , expires = cookie.split('expires=')[1]
-          , expires = new Date(expires)
+        var exp = new Date(expires(res))
           , now = new Date;
-
-        now.getYear().should.equal(expires.getYear());
-        now.getDate().should.equal(expires.getDate());
-        expires.getHours().should.equal(now.getHours() + 1);
+  
+        now.getYear().should.equal(exp.getYear());
+        now.getDate().should.equal(exp.getDate());
+        exp.getHours().should.equal(now.getHours() + 1);
       });
   },
   
@@ -218,30 +223,32 @@ module.exports = {
       , port = ++portno
       , app = connect.createServer(
         connect.cookieParser()
-      , connect.session({ secret: 'keyboard cat', store: store })
+      , connect.session({ secret: 'keyboard cat' })
       , function(req, res, next){
+        req.session.user = req.session.user || { name: 'tj' };
+        req.session.user.name += '.';
         req.session.lastAccess.should.not.equal(prev);  
         req.session.count = req.session.count || 0;
         var n = req.session.count++;
-        res.end('count: ' + n);
+        res.end('count: ' + n + ' name: ' + req.session.user.name);
       }
     );
-
+  
     app.listen(port, function(){
       var options = { port: port, buffer: true };
       // 0
       http.get(options, function(res){
-        options.headers = { Cookie: 'connect.sid=' + sid(res.headers['set-cookie']) };
-        res.body.should.equal('count: 0');
-
+        options.headers = { Cookie: 'connect.sid=' + sid(res) };
+        res.body.should.equal('count: 0 name: tj.');
+  
         // 1
         http.get(options, function(res){
-          res.body.should.equal('count: 1');
-
+          res.body.should.equal('count: 1 name: tj..');
+  
           // no sid
           delete options.headers;
           http.get(options, function(res){
-            res.body.should.equal('count: 0');
+            res.body.should.equal('count: 0 name: tj.');
             app.close();
           });
         });
@@ -254,47 +261,52 @@ module.exports = {
       , port = ++portno
       , app = connect.createServer(
         connect.cookieParser()
-      , connect.session({ secret: 'keyboard cat', store: store })
+      , connect.session({ secret: 'keyboard cat' })
       , function(req, res, next){
         req.session.lastAccess.should.not.equal(prev);  
         req.session.count = req.session.count || 0;
-        var n = req.session.count++
-          , sid = req.session.id;
-
-        req.sessionID.should.equal(sid);
+        var n = req.session.count++;
 
         switch (req.url) {
+          case '/one':
+            prev = req.session.id;
+            res.end('count: ' + n);
+            break;
+          case '/two':
+            req.session.id.should.not.equal(prev);
+            res.end('count: ' + n);
+            break;
           case '/regenerate':
+            should.equal(req.session.id, prev, 'SIDs did not match before regenerate()');
             req.session.regenerate(function(err){
+              should.notEqual(req.session.id, prev, 'SIDs matched after regenerate()');
+              should.notEqual(req.sessionID, prev, 'SIDs matched after regenerate()');
+              req.sessionID.should.equal(req.session.id);
               should.equal(null, err);
               res.end('count: ' + n);
-              req.session.id.should.not.equal(sid);
-              req.sessionID.should.not.equal(sid);
-              req.sessionID.should.equal(req.session.id);
             });
             break;
         }
-
-        res.end('count: ' + n);
       }
     );
 
     app.listen(port, function(){
       var options = { port: port, buffer: true };
       // 0
+      options.path = '/one';
       http.get(options, function(res){
-        var prev = sid(res.headers['set-cookie']);
+        var prev = sid(res);
         options.headers = { Cookie: 'connect.sid=' + prev };
         res.body.should.equal('count: 0');
-
+  
         // regenerated
         options.path = '/regenerate';
         http.get(options, function(res){
-          prev.should.not.equal(sid(res.headers['set-cookie']));
+          should.notEqual(prev, sid(res), 'SID remained the same after regenerate() request');
           res.body.should.equal('count: 1');
-
+  
           // 1
-          options.path = '/';
+          options.path = '/two';
           http.get(options, function(res){
             res.body.should.equal('count: 0');
             app.close();
@@ -309,7 +321,7 @@ module.exports = {
       , port = ++portno
       , app = connect.createServer(
         connect.cookieParser()
-      , connect.session({ secret: 'keyboard cat', store: store })
+      , connect.session({ secret: 'keyboard cat' })
       , function(req, res, next){
         req.session.lastAccess.should.not.equal(prev);  
         req.session.count = req.session.count || 0;
@@ -336,7 +348,7 @@ module.exports = {
       var options = { port: port, buffer: true };
       // 0
       http.get(options, function(res){
-        var prev = sid(res.headers['set-cookie']);
+        var prev = sid(res);
         options.headers = { Cookie: 'connect.sid=' + prev };
         res.body.should.equal('count: 0');
   
@@ -349,7 +361,7 @@ module.exports = {
           // 1
           options.path = '/';
           http.get(options, function(res){
-            prev.should.not.equal(sid(res.headers['set-cookie']));
+            prev.should.not.equal(sid(res));
             res.body.should.equal('count: 0');
             app.close();
           });
@@ -358,19 +370,220 @@ module.exports = {
     });
   },
   
+  'test req.session.cookie.expires': function(){
+    var n = 0
+      , port = ++portno
+      , app = connect.createServer(
+        connect.cookieParser()
+      , connect.session({ secret: 'keyboard cat', key: 'foobar' })
+      , function(req, res, next){
+        if (!n++) req.session.cookie.expires = new Date(0);
+        res.end(req.session.id);
+      }
+    );
+  
+    app.listen(port, function(){
+      var options = { port: port, buffer: true };
+      http.get(options, function(res){
+        var prev = res.body;
+        options.headers = { Cookie: 'foobar=' + prev };
+        expires(res).should.equal('Thu, 01 Jan 1970 00:00:00 GMT');
+        http.get(options, function(res){
+          res.body.should.not.equal(prev);
+          http.get(options, function(res){
+            res.body.should.not.equal(prev);
+            app.close();
+          });
+        });
+      });
+    });
+  },
+  
+  'test req.session.cookie.maxAge': function(){
+    var n = 0
+      , port = ++portno
+      , app = connect.createServer(
+        connect.cookieParser()
+      , connect.session({ secret: 'keyboard cat', key: 'foobar' })
+      , function(req, res, next){
+        if (!n++) req.session.cookie.maxAge = 0;
+        res.end(req.session.id);
+      }
+    );
+  
+    app.listen(port, function(){
+      var options = { port: port, buffer: true };
+      http.get(options, function(res){
+        var prev = res.body;
+        options.headers = { Cookie: 'foobar=' + prev };
+        http.get(options, function(res){
+          res.body.should.not.equal(prev);
+          http.get(options, function(res){
+            res.body.should.not.equal(prev);
+            app.close();
+          });
+        });
+      });
+    });
+  },
+  
+  'test expiration': function(){
+    var n = 0
+      , port = ++portno
+      , app = connect.createServer(
+        connect.cookieParser()
+      , connect.session({ secret: 'keyboard cat', cookie: { maxAge: 200 }})
+      , function(req, res, next){
+        res.end(req.session.id);
+      }
+    );
+  
+    app.listen(port, function(){
+      var options = { port: port, buffer: true };
+      http.get(options, function(res){
+        var prev = res.body;
+        options.headers = { Cookie: 'connect.sid=' + prev };
+        setTimeout(function(){
+          http.get(options, function(res){
+            res.body.should.not.equal(prev);
+            app.close();
+          });
+        }, 300);
+      });
+    });
+  },
+  
+  'test req.session.cookie properties': function(){
+    var port = ++portno
+      , app = connect.createServer(
+        connect.cookieParser()
+      , connect.session({ secret: 'foo', cookie: { httpOnly: true }})
+      , function(req, res){
+        req.session.cookie.secure = true;
+        req.session.cookie.httpOnly.should.be.true;
+        res.end('wahoo');
+      }
+    );
+  
+    app.listen(port, function(){
+      var options = { port: port, buffer: true };
+      http.get(options, function(res){
+        res.headers.should.not.have.property('set-cookie');
+        app.close();
+      });
+    });
+  },
+  
+  'test mutating req.session.cookie': function(){
+    var port = ++portno
+      , app = connect.createServer(
+        connect.cookieParser()
+      , connect.session({ secret: 'foo', cookie: { httpOnly: true, secure: true }})
+      , function(req, res){
+        req.session.cookie.secure = false;
+        req.session.cookie.expires = false;
+        res.end('wahoo');
+      }
+    );
+  
+    app.listen(port, function(){
+      var options = { port: port, buffer: true };
+      http.get(options, function(res){
+        var cookie = res.headers['set-cookie'][0]
+          , prev = sid(res);
+        cookie.should.include.string('httpOnly');
+        cookie.should.not.include.string('secure');
+        cookie.should.not.include.string('expires');
+        options.headers = { Cookie: 'connect.sid=' + prev };
+        http.get(options, function(res){
+          var cookie = res.headers['set-cookie'][0];
+          sid(res).should.equal(prev);
+          cookie.should.include.string('httpOnly');
+          cookie.should.not.include.string('secure');
+          cookie.should.not.include.string('expires');
+          app.close();
+        });
+      });
+    });
+  },
+  
+  'test req.session.expires = null': function(){
+    var port = ++portno
+      , app = connect.createServer(
+        connect.cookieParser()
+      , connect.session({ secret: 'foo', cookie: { httpOnly: true, secure: true }})
+      , function(req, res){
+        req.session.cookie.secure = false;
+        req.session.cookie.expires = null;
+        res.end('wahoo');
+      }
+    );
+  
+    app.listen(port, function(){
+      var options = { port: port, buffer: true };
+      http.get(options, function(res){
+        var cookie = res.headers['set-cookie'][0]
+          , prev = sid(res);
+        cookie.should.include.string('httpOnly');
+        cookie.should.not.include.string('secure');
+        cookie.should.not.include.string('expires');
+        options.headers = { Cookie: 'connect.sid=' + prev };
+        http.get(options, function(res){
+          var cookie = res.headers['set-cookie'][0];
+          sid(res).should.equal(prev);
+          cookie.should.include.string('httpOnly');
+          cookie.should.not.include.string('secure');
+          cookie.should.not.include.string('expires');
+          app.close();
+        });
+      });
+    });
+  },
+  
+  'test expires: null': function(){
+    var port = ++portno
+      , app = connect.createServer(
+        connect.cookieParser()
+      , connect.session({
+          secret: 'foo'
+        , cookie: { expires: null, httpOnly: true }
+      })
+      , function(req, res){
+        res.end('wahoo');
+      }
+    );
+  
+    app.listen(port, function(){
+      var options = { port: port, buffer: true };
+      http.get(options, function(res){
+        var cookie = res.headers['set-cookie'][0]
+          , prev = sid(res);
+        cookie.should.not.include.string('expires');
+        options.headers = { Cookie: 'connect.sid=' + prev };
+        http.get(options, function(res){
+          var cookie = res.headers['set-cookie'][0];
+          sid(res).should.equal(prev);
+          cookie.should.not.include.string('expires');
+          app.close();
+        });
+      });
+    });
+  },
+  
   'test event pausing': function(){
     var request
-      , store = new MemoryStore({ reapInterval: -1 });
-
+      , store = new MemoryStore
+      , get = store.get;
+  
     store.get = function(sid, fn){
       request.emit('data', 'foo');
       request.emit('data', 'bar');
       request.emit('data', 'baz');
-      setTimeout(function(){
-        fn(null, {});
-      }, 100);
+      setTimeout(function(self){
+        get.call(self, sid, fn);
+      }, 100, this);
     };
-
+  
     var port = ++portno
       , app = connect.createServer(
         function(req, res, next){
@@ -383,11 +596,11 @@ module.exports = {
         req.pipe(res);
       }
     );
-
+  
     app.listen(port, function(){
       var options = { port: port, buffer: true };
       http.get(options, function(res){
-        options.headers = { Cookie: 'connect.sid=' + sid(res.headers['set-cookie']) };
+        options.headers = { Cookie: 'connect.sid=' + sid(res) };
         http.get(options, function(res){
           res.body.should.equal('foobarbaz');
           app.close();
@@ -397,16 +610,15 @@ module.exports = {
   },
   
   'test Set-Cookie when secure': function(){
-    var store = new MemoryStore({ reapInterval: -1, cookie: { secure: true }});
     var port = ++portno
       , app = connect.createServer(
         connect.cookieParser()
-      , connect.session({ secret: 'foo', store: store })
+      , connect.session({ secret: 'foo', cookie: { secure: true }})
       , function(req, res){
         res.end('wahoo');
       }
     );
-
+  
     app.listen(port, function(){
       var options = { port: port, buffer: true };
       http.get(options, function(res){
@@ -418,21 +630,25 @@ module.exports = {
   
   'test different UA strings': function(){
     ++pending;
-
+  
     var options = {
         port: port
       , headers: {
         'User-Agent': 'tobi/0.5'
       }
     };
-
+  
     http.get(options, function(res){
-      var prev = sid(res.headers['set-cookie'])
+      var prev = sid(res);
       options.headers['User-Agent'] = 'tobi/1.0';
       http.get(options, function(res){
-        prev.should.not.equal(sid(res.headers['set-cookie']));
+        prev.should.not.equal(sid(res));
         --pending || app.close();
       });
     });
+  },
+  
+  'test .ignore': function(){
+    connect.session.ignore.should.eql(['/favicon.ico']);
   }
 };
