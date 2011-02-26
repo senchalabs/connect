@@ -196,6 +196,7 @@ function renderFile(doc) {
 
   // save template
   fs.writeFile(out, html, function(err){
+    console.log('  \033[90mcompiled\033[0m \033[36m%s\033[0m', doc.filename);
     if (err) throw err;
   });
 }
