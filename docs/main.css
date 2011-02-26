@@ -162,3 +162,9 @@ button[disabled].download-itunes:active {
 pre {
   overflow-x: auto;
 }
+
+code .keyword { font-weight: bold; }
+code .comment { color: #999; }
+code .string { color: #3b88d8; }
+code .class { color: #3b88d8; font-weight: bold; }
+code .variable { color: #424242; }
