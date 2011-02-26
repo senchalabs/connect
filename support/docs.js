@@ -69,6 +69,7 @@ function comments(js) {
       // code following previous comment
       if (buf.trim().length) {
         comments[comments.length - 1].code = buf.trim();
+        buf = '';
       }
       i += 2;
       within = true;
