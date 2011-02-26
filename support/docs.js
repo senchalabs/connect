@@ -123,10 +123,18 @@ function parseComment(str) {
     })
   }
 
+  // syntax highlighting
+  function highlight(str) {
+    return str.replace(/<pre><code>([^]+?)<\/code>/g, function(_, js){
+      return '<pre><code>' + koala.render('.js', js) + '</code>';
+    });
+  }
+
   // markdown
-  comment.content = markdown(comment.content);
-  comment.description = markdown(comment.description);
-  comment.body = markdown(comment.body);
+  comment.content = highlight(markdown(comment.content));
+  comment.description = highlight(markdown(comment.description));
+  comment.body = highlight(markdown(comment.body));
+
 
   return comment;
 }
