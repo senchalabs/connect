@@ -64,10 +64,16 @@ function comments(js) {
     , within;
 
   for (var i = 0, len = js.length; i < len; ++i) {
+    // start comment
     if ('/' == js[i] && '*' == js[i+1]) {
+      // code following previous comment
+      if (buf.trim().length) {
+        comments[comments.length - 1].code = buf.trim();
+      }
       i += 2;
       within = true;
       ignore = '!' == js[i];
+    // end comment
     } else if ('*' == js[i] && '/' == js[i+1]) {
       i += 2;
       buf = buf.replace(/^ *\* ?/gm, '');
@@ -76,7 +82,8 @@ function comments(js) {
       comments.push(comment);
       within = ignore = false;
       buf = '';
-    } else if (within) {
+    // buffer comment or code
+    } else {
       buf += js[i];
     }
   }
