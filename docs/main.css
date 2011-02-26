@@ -17,7 +17,7 @@ a:hover {
   text-decoration: underline;
 }
 
-.description {
+p.description {
   display: block;
   width: 100%;
 }
