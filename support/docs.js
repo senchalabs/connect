@@ -65,14 +65,15 @@ function comments(js) {
   var comments = []
     , buf = ''
     , ignore
-    , within;
+    , within
+    , code;
 
   for (var i = 0, len = js.length; i < len; ++i) {
     // start comment
     if ('/' == js[i] && '*' == js[i+1]) {
       // code following previous comment
       if (buf.trim().length) {
-        var code = koala.render('.js', buf.trim());
+        code = koala.render('.js', buf.trim());
         comments[comments.length - 1].code = code;
         buf = '';
       }
