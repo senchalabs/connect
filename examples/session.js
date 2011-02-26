@@ -72,12 +72,12 @@ try {
   ).listen(3002);
   console.log('port 3002: redis example');
 } catch (err) {
-  console.log();
+  console.log('\033[33m');
   console.log('failed to start the Redis example.');
   console.log('to try it install redis, start redis');
   console.log('install connect-redis, and run this');
   console.log('script again.');
   console.log('    $ redis-server');
   console.log('    $ npm install connect-redis');
-  console.log();
+  console.log('\033[0m');
 }
