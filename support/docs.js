@@ -1,9 +1,13 @@
 
+// TODO: fix koala... super outdated
+require.paths.unshift(__dirname + '/koala/lib');
+
 /**
  * Module dependencies.
  */
 
 var markdown = require('markdown').markdown.toHTML
+  , koala = require('koala')
   , path = require('path')
   , ejs = require('ejs')
   , fs = require('fs');
@@ -68,7 +72,8 @@ function comments(js) {
     if ('/' == js[i] && '*' == js[i+1]) {
       // code following previous comment
       if (buf.trim().length) {
-        comments[comments.length - 1].code = buf.trim();
+        var code = koala.render('.js', buf.trim());
+        comments[comments.length - 1].code = code;
         buf = '';
       }
       i += 2;
