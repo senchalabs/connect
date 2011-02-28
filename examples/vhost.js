@@ -3,31 +3,34 @@
  * Module dependencies.
  */
 
-var connect = require('./../../lib/connect');
+var connect = require('../');
 
-var localhostUser = connect.vhost('*.localhost', connect.createServer(function(req, res){
-    res.writeHead(302, { Location: 'http://localhost:3000/' + req.subdomains[0] });
-    res.end('Moved to http://localhost:3000/' + req.subdomains[0]);
-}));
+var account = connect(function(req, res){
+  var location = 'http://localhost:3000/account/' + req.subdomains[0];
+  res.statusCode = 302;
+  res.setHeader('Location', location);
+  res.end('Moved to ' + location);
+});
 
-var localhost = connect.vhost('localhost', connect.createServer(function(req, res){
-    res.writeHead(200, {});
-    res.end('local vhost ' + req.url);
-}));
+var blog = connect(function(req, res){
+  res.end('blog app');
+});
 
-var dev = connect.vhost('dev', connect.createServer(function(req, res){
-    res.writeHead(200, {});
-    res.end('dev vhost ' + req.url);
-}));
+var main = connect(
+  connect.router(function(app){
+    app.get('/account/:user', function(req, res){
+      res.end('viewing user account for ' + req.params.user);
+    });
 
-connect.createServer(
-    // Shared middleware
-    connect.logger(),
-    // http://*.localhost:3000 will redirect to http://localhost/*
-    localhostUser,
-    // http://localhost:3000 server with own middleware
-    localhost,
-    // http://dev:3000 server with own middleware
-    dev
+    app.get('/', function(req, res){
+      res.end('main app');
+    });
+  })
+);
+
+connect(
+    connect.logger()
+  , connect.vhost('blog.localhost', blog)
+  , connect.vhost('*.localhost', account)
+  , main
 ).listen(3000);
-console.log('Connect server listening on port 3000');
