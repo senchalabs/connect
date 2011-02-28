@@ -37,18 +37,13 @@ module.exports = {
   },
   
   'test with wildcard': function(){
-    var a = connect.createServer(function(req, res){
+    var server = connect.createServer(function(req, res){
       res.end('from ' + req.subdomains.join(', '));
     });
     
-    var b = connect.createServer(function(req, res){
-      req.subdomains.should.be.empty;
-      res.end('from foo');
-    });
-    
     var app = connect.createServer(
-        connect.vhost('*.foo.com', a)
-      , connect.vhost('foo.com', b)
+        connect.vhost('*.foo.com', server)
+      , connect.vhost('foo.com', server)
     );
 
     assert.response(app,
@@ -57,10 +52,10 @@ module.exports = {
     
     assert.response(app,
       { url: '/', headers: { Host: 'tj.foo.com' }},
-      { body: 'from tj' });
+      { body: 'from tj, foo' });
   
     assert.response(app,
       { url: '/', headers: { Host: 'holowaychuk.tj.foo.com' }},
-      { body: 'from holowaychuk, tj' });
+      { body: 'from holowaychuk, tj, foo' });
   }
 };
