@@ -34,6 +34,22 @@
    - `profiler`
    - `responseTime`
 
+### connect.createServer()
+
+  The `connect.createServer()` method is now optional, and equivalent to `connect()`. For example:
+  
+      connect.createServer(
+          connect.logger()
+        , connect.static(__dirname)
+      ).listen(3000); 
+
+is the same as:
+
+      connect(
+          connect.logger()
+        , connect.static(__dirname)
+      ).listen(3000);
+
 ## Authors
 
  Below is the output from [git-summary](http://github.com/visionmedia/git-extras).
