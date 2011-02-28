@@ -50,6 +50,14 @@ is the same as:
         , connect.static(__dirname)
       ).listen(3000);
 
+When an options _object_ is passed as the first argument it is
+assumed to be an https server:
+
+      connect({ options here }
+          connect.logger()
+        , connect.static(__dirname)
+      ).listen(443);
+
 ## Authors
 
  Below is the output from [git-summary](http://github.com/visionmedia/git-extras).
