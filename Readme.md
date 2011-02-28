@@ -1,7 +1,15 @@
 # Connect
 
- I'm rewriting shit :) come back later.
+ Connect is a middleware framework for [node](http://nodejs.org),
+ providing high performance, and reliable HTTP "plugins" known as
+ _middleware_.
 
+ Connect is bundled with over _14_ commonly used middleware, including
+ a logger, session support, cookie parser, and [more](http://senchalabs.github.com/connect).
+
+## 1.0 Migration Guide
+
+ Connect 1.0 is a near-complete rewrite of Connect.
 
 ## Authors
 
