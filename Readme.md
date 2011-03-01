@@ -3,7 +3,7 @@
   Connect is an extensible HTTP server framework for [node](http://nodejs.org), providing high performance "plugins" known as _middleware_.
 
  Connect is bundled with over _14_ commonly used middleware, including
- a logger, session support, cookie parser, and [more](http://senchalabs.github.com/connect).
+ a logger, session support, cookie parser, and [more](http://senchalabs.github.com/connect). Be sure to view the 1.0 [documentation](http://senchalabs.github.com/connect/).
 
 ## 1.0 Migration Guide
 
