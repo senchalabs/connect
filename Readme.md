@@ -28,9 +28,9 @@
 
 ### Middleware Added
  
-   - `limit`
-   - `profiler`
-   - `responseTime`
+   - [limit](http://senchalabs.github.com/connect/middleware-limit.html)
+   - [profiler](http://senchalabs.github.com/connect/middleware-profiler.html)
+   - [responseTime](http://senchalabs.github.com/connect/middleware-responseTime.html)
 
 ### connect.createServer()
 
