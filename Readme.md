@@ -64,8 +64,7 @@ assumed to be an https server:
       commits: 1408
       files  : 100
       authors: 
-        886	Tj Holowaychuk
-        298	visionmedia
+        1184	Tj Holowaychuk
         191	Tim Caswell
           8	Astro
           5	Nathan Rajlich
