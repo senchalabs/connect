@@ -16,10 +16,14 @@
         <span class="filename"><%= filename %></span>
       <% } %>
 
+      <% var n = 0; %>
       <% comments.forEach(function(comment){ %>
         <% if ('index' != name && (!comment.tags.length || comment.isPrivate)) return %>
         <% if (!comment.ignore) { %>
           <div class="comment">
+            <% if (n++ != 0) { %>
+              <h3 class="method"><%= comment.method %></h3>
+            <% } %>
             <p class="description"><%- comment.description %></p>
 
             <% if (comment.body) { %>
@@ -48,7 +52,7 @@
                 <% } %>
               <% }) %>
               </ul>
-            
+
 <!--            <% if (comment.code) { %>
               <pre class="code">
                 <code>

@@ -63,6 +63,7 @@ files.forEach(function(file){
 
 function comments(js) {
   var comments = []
+    , comment
     , buf = ''
     , ignore
     , within
@@ -73,8 +74,10 @@ function comments(js) {
     if ('/' == js[i] && '*' == js[i+1]) {
       // code following previous comment
       if (buf.trim().length) {
-        code = koala.render('.js', buf.trim());
-        comments[comments.length - 1].code = code;
+        comment = comments[comments.length - 1];
+        comment.method = parseMethod(code = buf.trim());
+        code = koala.render('.js', code);
+        comment.code = code;
         buf = '';
       }
       i += 2;
@@ -185,6 +188,13 @@ function parseTagTypes(str) {
   return str
     .replace(/[{}]/g, '')
     .split(/ *[|,\/] */);
+}
+
+function parseMethod(str) {
+  var captures;
+  if (captures = /exports.(\w+)|function (\w+)/.exec(str)) {
+    return captures[1] || captures[2];
+  }
 }
 
 /**
