@@ -56,6 +56,16 @@ assumed to be an https server:
         , connect.static(__dirname)
       ).listen(443);
 
+## Running Tests
+
+first:
+
+    $ git submodule update --init
+
+then:
+
+    $ make test
+
 ## Authors
 
  Below is the output from [git-summary](http://github.com/visionmedia/git-extras).
