@@ -192,8 +192,8 @@ function parseTagTypes(str) {
 
 function parseMethod(str) {
   var captures;
-  if (captures = /exports.(\w+)|function (\w+)/.exec(str)) {
-    return captures[1] || captures[2];
+  if (captures = /(?:exports\.|function |prototype\.)(\w+)/.exec(str)) {
+    return captures[1];
   }
 }
 

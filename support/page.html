@@ -22,7 +22,7 @@
         <% if (!comment.ignore) { %>
           <div class="comment">
             <% if (n++ != 0) { %>
-              <h3 class="method"><%= comment.method %></h3>
+              <h3 class="method">.<%= comment.method %>()</h3>
             <% } %>
             <p class="description"><%- comment.description %></p>
 
