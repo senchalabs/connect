@@ -120,7 +120,7 @@ module.exports = {
       function(req, res, next){
         connect.static.send(req, res, function(err){
           res.end('done');
-        });
+        }, { path: req.url });
       }
     );
 
