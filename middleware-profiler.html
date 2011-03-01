@@ -1,0 +1,98 @@
+<html>
+  <head>
+    <title>
+      
+        Connect - profiler
+      
+    </title>
+    <link rel='stylesheet' href='main.css' />
+  </head>
+  <body>
+    <div id="content">
+      
+        <h1>profiler</h1>
+        <span class="filename">lib/middleware/profiler.js</span>
+      
+
+      
+      
+        
+        
+        
+          <div class="comment">
+            
+            <p class="description"><p>Profile the duration of a request.</p></p>
+
+            
+              <div class="body">
+                <p>Typically this middleware should be utilized
+<em>above</em> all others, as it proxies the <code>res.end()</code>
+method, being first allows it to encapsulate all
+other middleware.</p>
+
+<h2>Example Output</h2>
+
+<pre><code> <span class="class">GET</span> /
+ <span class="variable">response</span> <span class="variable">time</span> <span class="variable">ms</span>
+ <span class="variable">memory</span> <span class="variable">rss</span> <span class="variable">kb</span>
+ <span class="variable">memory</span> <span class="variable">vsize</span> <span class="variable">mb</span>
+ <span class="variable">heap</span> <span class="variable">before</span> <span class="variable">mb</span> / <span class="variable">mb</span>
+ <span class="variable">heap</span> <span class="variable">after</span> <span class="variable">mb</span> / <span class="variable">mb</span></code></pre>
+              </div>
+            
+
+            
+              <ul class="tags">
+              
+                
+
+                
+                  <li class="api"><em>api</em> <span class="visibility">public</span></li>
+                
+
+                
+
+                
+              
+              </ul>
+
+<!--            
+              <pre class="code">
+                <code>
+<span class="variable">module</span>.<span class="variable">exports</span> = <span class="keyword">function</span> <span class="variable">profiler</span>(){
+  <span class="keyword">return</span> <span class="keyword">function</span>(<span class="variable">req</span>, <span class="variable">res</span>, <span class="variable">next</span>){
+    <span class="keyword">var</span> <span class="variable">end</span> = <span class="variable">res</span>.<span class="variable">end</span>
+      , <span class="variable">start</span> = <span class="variable">snapshot</span>();
+
+    <span class="comment">// state snapshot</span>
+    <span class="keyword">function</span> <span class="variable">snapshot</span>() {
+      <span class="keyword">return</span> {
+          <span class="variable">mem</span>: <span class="variable">process</span>.<span class="variable">memoryUsage</span>()
+        , <span class="variable">time</span>: <span class="keyword">new</span> <span class="class">Date</span>
+      };
+    }
+
+    <span class="comment">// proxy res.end()</span>
+    <span class="variable">res</span>.<span class="variable">end</span> = <span class="keyword">function</span>(<span class="variable">data</span>, <span class="variable">encoding</span>){
+      <span class="variable">res</span>.<span class="variable">end</span> = <span class="variable">end</span>;
+      <span class="variable">res</span>.<span class="variable">end</span>(<span class="variable">data</span>, <span class="variable">encoding</span>);
+      <span class="variable">compare</span>(<span class="variable">req</span>, <span class="variable">start</span>, <span class="variable">snapshot</span>())
+    };
+
+    <span class="variable">next</span>();
+  }
+};
+                </code>
+              </pre>
+             -->
+          
+          </div>
+        
+      
+        
+        
+        
+      
+    </div>
+  </body>
+</html>

@@ -1,0 +1,188 @@
+<html>
+  <head>
+    <title>
+      
+        Connect - session
+      
+    </title>
+    <link rel='stylesheet' href='main.css' />
+  </head>
+  <body>
+    <div id="content">
+      
+        <h1>session</h1>
+        <span class="filename">lib/middleware/session.js</span>
+      
+
+      
+      
+        
+        
+        
+        
+        
+        
+        
+        
+        
+          <div class="comment">
+            
+            <p class="description"><p>Setup session store with the given <code>options</code>.</p></p>
+
+            
+              <div class="body">
+                <p>Session data is <em>not</em> saved in the cookie itself, however
+cookies are used, so we must use the <a href="middleware-cookieParser.html">cookieParser()</a>
+middleware <em>before</em> <code>session()</code>.</p>
+
+<h2>Examples</h2>
+
+<pre><code><span class="variable">connect</span>.<span class="variable">createServer</span>(
+    <span class="variable">connect</span>.<span class="variable">cookieParser</span>()
+  , <span class="variable">connect</span>.<span class="variable">session</span>({ <span class="variable">secret</span>: <span class="string">'keyboard cat'</span> })
+);</code></pre>
+
+<h2>Options</h2>
+
+<ul><li><code>key</code>           cookie name defaulting to <code>connect.sid</code></li><li><code>store</code>         Session store instance</li><li><code>fingerprint</code>   Custom fingerprint generating function</li><li><code>cookie</code>        Session cookie settings, defaulting to <code>{ path: '/', httpOnly: true, maxAge: 14400000 }</code></li><li><code>secret</code>        Secret string used to compute hash</li></ul>
+
+<h2>Ignore Paths</h2>
+
+<p> By default <code>/favicon.ico</code> is the only ignored path, all others
+ will utilize sessions, to manipulate the paths ignored, use
+<code>connect.session.ignore.push('/my/path')</code>. This works for <em>full</em>
+ pathnames only, not segments nor substrings.</p>
+
+<pre><code><span class="variable">connect</span>.<span class="variable">session</span>.<span class="variable">ignore</span>.<span class="variable">push</span>(<span class="string">'/robots.txt'</span>);</code></pre>
+
+<h2>req.session</h2>
+
+<p> To store or access session data, simply use the request property <code>req.session</code>,
+ which is (generally) serialized as JSON by the store, so nested objects 
+ are typically fine. For example below is a user-specific view counter:</p>
+
+<pre><code>  <span class="variable">connect</span>(
+      <span class="variable">connect</span>.<span class="variable">cookieParser</span>()
+    , <span class="variable">connect</span>.<span class="variable">session</span>({ <span class="variable">secret</span>: <span class="string">'keyboard cat'</span>, <span class="variable">cookie</span>: { <span class="variable">maxAge</span>: <span class="number integer">60000</span> }})
+    , <span class="variable">connect</span>.<span class="variable">favicon</span>()
+    , <span class="keyword">function</span>(<span class="variable">req</span>, <span class="variable">res</span>, <span class="variable">next</span>){
+      <span class="keyword">var</span> <span class="variable">sess</span> = <span class="variable">req</span>.<span class="variable">session</span>;
+      <span class="keyword">if</span> (<span class="variable">sess</span>.<span class="variable">views</span>) {
+        <span class="variable">res</span>.<span class="variable">setHeader</span>(<span class="string">'Content-Type'</span>, <span class="string">'text/html'</span>);
+        <span class="variable">res</span>.<span class="variable">write</span>(<span class="string">'&lt;p&gt;views: '</span> + <span class="variable">sess</span>.<span class="variable">views</span> + <span class="string">'&lt;/p&gt;'</span>);
+        <span class="variable">res</span>.<span class="variable">write</span>(<span class="string">'&lt;p&gt;expires in: '</span> + (<span class="variable">sess</span>.<span class="variable">cookie</span>.<span class="variable">maxAge</span> <span class="regexp">/ 1000) + 's&lt;/p</span>&<span class="variable">gt</span>;');
+        <span class="variable">res</span>.<span class="variable">end</span>();
+        <span class="variable">sess</span>.<span class="variable">views</span>++;
+      } <span class="keyword">else</span> {
+        <span class="variable">sess</span>.<span class="variable">views</span> = <span class="number integer">1</span>;
+        <span class="variable">res</span>.<span class="variable">end</span>(<span class="string">'welcome to the session demo. refresh!'</span>);
+      }
+    }
+  ).<span class="variable">listen</span>(<span class="number integer">3000</span>);</code></pre>
+
+<h2>Session#regenerate()</h2>
+
+<p> To regenerate the session simply invoke the method, once complete
+ a new SID and <code>Session</code> instance will be initialized at <code>req.session</code>.</p>
+
+<pre><code> <span class="variable">req</span>.<span class="variable">session</span>.<span class="variable">regenerate</span>(<span class="keyword">function</span>(<span class="variable">err</span>){
+   <span class="comment">// will have a new session here</span>
+ });</code></pre>
+
+<h2>Session#destroy()</h2>
+
+<p> Destroys the session, removing <code>req.session</code>, will be re-generated next request.</p>
+
+<pre><code> <span class="variable">req</span>.<span class="variable">session</span>.<span class="variable">destroy</span>(<span class="keyword">function</span>(<span class="variable">err</span>){
+   <span class="comment">// cannot access session here</span>
+ });</code></pre>
+
+<h2>Session#touch()</h2>
+
+<p>  Updates the <code>.maxAge</code>, and <code>.lastAccess</code> properties. Typically this is
+  not necessary to call, as the session middleware does this for you.</p>
+
+<h2>Session#cookie</h2>
+
+<p> Each session has a unique cookie object accompany it. This allows
+ you to alter the session cookie per visitor. For example we can
+ set <code>req.session.cookie.expires</code> to <code>false</code> to enable the cookie
+ to remain for only the duration of the user-agent.</p>
+
+<h2>Session#maxAge</h2>
+
+<p> Alternatively <code>req.session.cookie.maxAge</code> will return the time
+ remaining in milliseconds, which we may also re-assign a new value
+ to adjust the <code>.expires</code> property appropriately. The following
+ are essentially equivalent</p>
+
+<pre><code><span class="keyword">var</span> <span class="variable">hour</span> = <span class="number integer">3600000</span>;
+<span class="variable">req</span>.<span class="variable">session</span>.<span class="variable">cookie</span>.<span class="variable">expires</span> = <span class="keyword">new</span> <span class="class">Date</span>(<span class="class">Date</span>.<span class="variable">now</span>() + <span class="variable">hour</span>);
+<span class="variable">req</span>.<span class="variable">session</span>.<span class="variable">cookie</span>.<span class="variable">maxAge</span> = <span class="variable">hour</span>;</code></pre>
+
+<p>For example when <code>maxAge</code> is set to <code>60000</code> (one minute), and 30 seconds
+has elapsed it will return <code>30000</code> until the current request has completed,
+at which time <code>req.session.touch()</code> is called to update <code>req.session.lastAccess</code>,
+and reset <code>req.session.maxAge</code> to its original value.</p>
+
+<pre><code><span class="variable">req</span>.<span class="variable">session</span>.<span class="variable">cookie</span>.<span class="variable">maxAge</span>;
+<span class="comment">// =&gt; 30000</span></code></pre>
+
+<h2>Session Store Implementation</h2>
+
+<p>Every session store <em>must</em> implement the following methods</p>
+
+<ul><li><code>.get(sid, callback)</code></li><li><code>.set(sid, session, callback)</code></li><li><code>.destroy(sid, callback)</code></li></ul>
+
+<p>Recommended methods include, but are not limited to:</p>
+
+<ul><li><code>.length(callback)</code></li><li><code>.clear(callback)</code></li></ul>
+
+<p>For an example implementation view the <a href="http://github.com/visionmedia/connect-redis">connect-redis</a> repo.</p>
+              </div>
+            
+
+            
+              <ul class="tags">
+              
+                
+
+                
+
+                
+
+                
+                  <li class="param"><em>param</em> <span class="types">Object</span> <span class="name">options</span> <span class="description"></span></li>
+                
+              
+                
+                  <li class="return"><em>returns</em> <span class="types">Function</span></li>
+                
+
+                
+
+                
+
+                
+              
+                
+
+                
+                  <li class="api"><em>api</em> <span class="visibility">public</span></li>
+                
+
+                
+
+                
+              
+              </ul>
+
+<!--             -->
+          
+          </div>
+        
+      
+      
+    </div>
+  </body>
+</html>

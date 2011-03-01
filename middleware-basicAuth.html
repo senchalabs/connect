@@ -1,0 +1,84 @@
+<html>
+  <head>
+    <title>
+      
+        Connect - basicAuth
+      
+    </title>
+    <link rel='stylesheet' href='main.css' />
+  </head>
+  <body>
+    <div id="content">
+      
+        <h1>basicAuth</h1>
+        <span class="filename">lib/middleware/basicAuth.js</span>
+      
+
+      
+      
+        
+        
+        
+        
+          <div class="comment">
+            
+            <p class="description"><p>Enfore basic authentication by providing a <code>callback(user, pass)</code>,
+which must return <code>true</code> in order to gain access. Populates
+<code>req.removeUser</code>.</p></p>
+
+            
+              <div class="body">
+                <h2>Examples</h2>
+
+<pre><code><span class="variable">connect</span>.<span class="variable">createServer</span>(
+  <span class="variable">connect</span>.<span class="variable">basicAuth</span>(<span class="keyword">function</span>(<span class="variable">user</span>, <span class="variable">pass</span>){
+    <span class="keyword">return</span> <span class="string">'tj'</span> == <span class="variable">user</span> &<span class="variable">amp</span>; <span class="string">'wahoo'</span> == <span class="variable">pass</span>;
+  })
+);</code></pre>
+              </div>
+            
+
+            
+              <ul class="tags">
+              
+                
+
+                
+
+                
+
+                
+                  <li class="param"><em>param</em> <span class="types">Function</span> <span class="name">callback</span> <span class="description"></span></li>
+                
+              
+                
+
+                
+
+                
+
+                
+                  <li class="param"><em>param</em> <span class="types">String</span> <span class="name">realm</span> <span class="description"></span></li>
+                
+              
+                
+
+                
+                  <li class="api"><em>api</em> <span class="visibility">public</span></li>
+                
+
+                
+
+                
+              
+              </ul>
+
+<!--             -->
+          
+          </div>
+        
+      
+      
+    </div>
+  </body>
+</html>

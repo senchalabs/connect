@@ -1,0 +1,271 @@
+<html>
+  <head>
+    <title>
+      
+        Connect - cookie
+      
+    </title>
+    <link rel='stylesheet' href='main.css' />
+  </head>
+  <body>
+    <div id="content">
+      
+        <h1>cookie</h1>
+        <span class="filename">lib/middleware/session/cookie.js</span>
+      
+
+      
+      
+        
+        
+        
+        
+        
+        
+          <div class="comment">
+            
+            <p class="description"><p>Set expires <code>date</code>.</p></p>
+
+            
+
+            
+              <ul class="tags">
+              
+                
+
+                
+
+                
+
+                
+                  <li class="param"><em>param</em> <span class="types">Date</span> <span class="name">date</span> <span class="description"></span></li>
+                
+              
+                
+
+                
+                  <li class="api"><em>api</em> <span class="visibility">public</span></li>
+                
+
+                
+
+                
+              
+              </ul>
+
+<!--            
+              <pre class="code">
+                <code>
+<span class="variable">set</span> <span class="variable">expires</span>(<span class="variable">date</span>) {
+    <span class="this">this</span>.<span class="variable">_expires</span> = <span class="variable">date</span>;
+    <span class="this">this</span>.<span class="variable">originalMaxAge</span> = <span class="this">this</span>.<span class="variable">maxAge</span>;
+  },
+                </code>
+              </pre>
+             -->
+          
+          </div>
+        
+      
+        
+        
+          <div class="comment">
+            
+              <h3 class="method">.undefined()</h3>
+            
+            <p class="description"><p>Get expires <code>date</code>.</p></p>
+
+            
+
+            
+              <ul class="tags">
+              
+                
+                  <li class="return"><em>returns</em> <span class="types">Date</span></li>
+                
+
+                
+
+                
+
+                
+              
+                
+
+                
+                  <li class="api"><em>api</em> <span class="visibility">public</span></li>
+                
+
+                
+
+                
+              
+              </ul>
+
+<!--            
+              <pre class="code">
+                <code>
+<span class="variable">get</span> <span class="variable">expires</span>() {
+    <span class="keyword">return</span> <span class="this">this</span>.<span class="variable">_expires</span>;
+  },
+                </code>
+              </pre>
+             -->
+          
+          </div>
+        
+      
+        
+        
+          <div class="comment">
+            
+              <h3 class="method">.undefined()</h3>
+            
+            <p class="description"><p>Set expires via max-age in <code>ms</code>.</p></p>
+
+            
+
+            
+              <ul class="tags">
+              
+                
+
+                
+
+                
+
+                
+                  <li class="param"><em>param</em> <span class="types">Number</span> <span class="name">ms</span> <span class="description"></span></li>
+                
+              
+                
+
+                
+                  <li class="api"><em>api</em> <span class="visibility">public</span></li>
+                
+
+                
+
+                
+              
+              </ul>
+
+<!--            
+              <pre class="code">
+                <code>
+<span class="variable">set</span> <span class="variable">maxAge</span>(<span class="variable">ms</span>) {
+    <span class="this">this</span>.<span class="variable">expires</span> = <span class="string">'number'</span> == <span class="keyword">typeof</span> <span class="variable">ms</span>
+      ? <span class="keyword">new</span> <span class="class">Date</span>(<span class="class">Date</span>.<span class="variable">now</span>() + <span class="variable">ms</span>)
+      : <span class="variable">ms</span>;
+  },
+                </code>
+              </pre>
+             -->
+          
+          </div>
+        
+      
+        
+        
+          <div class="comment">
+            
+              <h3 class="method">.undefined()</h3>
+            
+            <p class="description"><p>Get expires max-age in <code>ms</code>.</p></p>
+
+            
+
+            
+              <ul class="tags">
+              
+                
+                  <li class="return"><em>returns</em> <span class="types">Number</span></li>
+                
+
+                
+
+                
+
+                
+              
+                
+
+                
+                  <li class="api"><em>api</em> <span class="visibility">public</span></li>
+                
+
+                
+
+                
+              
+              </ul>
+
+<!--            
+              <pre class="code">
+                <code>
+<span class="variable">get</span> <span class="variable">maxAge</span>() {
+    <span class="keyword">return</span> <span class="this">this</span>.<span class="variable">expires</span> <span class="variable">instanceof</span> <span class="class">Date</span>
+      ? <span class="this">this</span>.<span class="variable">expires</span>.<span class="variable">valueOf</span>() - <span class="class">Date</span>.<span class="variable">now</span>()
+      : <span class="this">this</span>.<span class="variable">expires</span>;
+  },
+                </code>
+              </pre>
+             -->
+          
+          </div>
+        
+      
+        
+        
+        
+          <div class="comment">
+            
+              <h3 class="method">.undefined()</h3>
+            
+            <p class="description"><p>Return a serialized cookie string.</p></p>
+
+            
+
+            
+              <ul class="tags">
+              
+                
+                  <li class="return"><em>returns</em> <span class="types">String</span></li>
+                
+
+                
+
+                
+
+                
+              
+                
+
+                
+                  <li class="api"><em>api</em> <span class="visibility">public</span></li>
+                
+
+                
+
+                
+              
+              </ul>
+
+<!--            
+              <pre class="code">
+                <code>
+<span class="variable">serialize</span>: <span class="keyword">function</span>(<span class="variable">name</span>, <span class="variable">val</span>){
+    <span class="keyword">return</span> <span class="variable">utils</span>.<span class="variable">serializeCookie</span>(<span class="variable">name</span>, <span class="variable">val</span>, <span class="this">this</span>.<span class="variable">data</span>);
+  },
+                </code>
+              </pre>
+             -->
+          
+          </div>
+        
+      
+        
+      
+    </div>
+  </body>
+</html>

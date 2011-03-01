@@ -1,0 +1,402 @@
+<html>
+  <head>
+    <title>
+      
+        Connect - memory
+      
+    </title>
+    <link rel='stylesheet' href='main.css' />
+  </head>
+  <body>
+    <div id="content">
+      
+        <h1>memory</h1>
+        <span class="filename">lib/middleware/session/memory.js</span>
+      
+
+      
+      
+        
+        
+        
+        
+          <div class="comment">
+            
+            <p class="description"><p>Initialize a new <code>MemoryStore</code>.</p></p>
+
+            
+
+            
+              <ul class="tags">
+              
+                
+
+                
+                  <li class="api"><em>api</em> <span class="visibility">public</span></li>
+                
+
+                
+
+                
+              
+              </ul>
+
+<!--            
+              <pre class="code">
+                <code>
+<span class="keyword">var</span> <span class="class">MemoryStore</span> = <span class="variable">module</span>.<span class="variable">exports</span> = <span class="keyword">function</span> <span class="class">MemoryStore</span>() {
+  <span class="this">this</span>.<span class="variable">sessions</span> = {};
+};
+                </code>
+              </pre>
+             -->
+          
+          </div>
+        
+      
+        
+        
+        
+          <div class="comment">
+            
+              <h3 class="method">.get()</h3>
+            
+            <p class="description"><p>Attempt to fetch session by the given <code>sid</code>.</p></p>
+
+            
+
+            
+              <ul class="tags">
+              
+                
+
+                
+
+                
+
+                
+                  <li class="param"><em>param</em> <span class="types">String</span> <span class="name">sid</span> <span class="description"></span></li>
+                
+              
+                
+
+                
+
+                
+
+                
+                  <li class="param"><em>param</em> <span class="types">Function</span> <span class="name">fn</span> <span class="description"></span></li>
+                
+              
+                
+
+                
+                  <li class="api"><em>api</em> <span class="visibility">public</span></li>
+                
+
+                
+
+                
+              
+              </ul>
+
+<!--            
+              <pre class="code">
+                <code>
+<span class="class">MemoryStore</span>.<span class="variable">prototype</span>.<span class="variable">get</span> = <span class="keyword">function</span>(<span class="variable">sid</span>, <span class="variable">fn</span>){
+  <span class="keyword">var</span> <span class="variable">self</span> = <span class="this">this</span>;
+  <span class="variable">process</span>.<span class="variable">nextTick</span>(<span class="keyword">function</span>(){
+    <span class="keyword">var</span> <span class="variable">expires</span>
+      , <span class="variable">sess</span> = <span class="variable">self</span>.<span class="variable">sessions</span>[<span class="variable">sid</span>];
+    <span class="keyword">if</span> (<span class="variable">sess</span>) {
+      <span class="variable">sess</span> = <span class="class">JSON</span>.<span class="variable">parse</span>(<span class="variable">sess</span>);
+      <span class="variable">expires</span> = <span class="string">'string'</span> == <span class="keyword">typeof</span> <span class="variable">sess</span>.<span class="variable">cookie</span>.<span class="variable">expires</span>
+        ? <span class="keyword">new</span> <span class="class">Date</span>(<span class="variable">sess</span>.<span class="variable">cookie</span>.<span class="variable">expires</span>)
+        : <span class="variable">sess</span>.<span class="variable">cookie</span>.<span class="variable">expires</span>;
+      <span class="keyword">if</span> (!<span class="variable">expires</span> || <span class="keyword">new</span> <span class="class">Date</span> < <span class="variable">expires</span>) {
+        <span class="variable">fn</span>(<span class="keyword">null</span>, <span class="variable">sess</span>);
+      } <span class="keyword">else</span> {
+        <span class="variable">self</span>.<span class="variable">destroy</span>(<span class="variable">sid</span>, <span class="variable">fn</span>);
+      }
+    } <span class="keyword">else</span> {
+      <span class="variable">fn</span>();
+    }
+  });
+};
+                </code>
+              </pre>
+             -->
+          
+          </div>
+        
+      
+        
+        
+          <div class="comment">
+            
+              <h3 class="method">.set()</h3>
+            
+            <p class="description"><p>Commit the given <code>sess</code> object associated with the given <code>sid</code>.</p></p>
+
+            
+
+            
+              <ul class="tags">
+              
+                
+
+                
+
+                
+
+                
+                  <li class="param"><em>param</em> <span class="types">String</span> <span class="name">sid</span> <span class="description"></span></li>
+                
+              
+                
+
+                
+
+                
+
+                
+                  <li class="param"><em>param</em> <span class="types">Session</span> <span class="name">sess</span> <span class="description"></span></li>
+                
+              
+                
+
+                
+
+                
+
+                
+                  <li class="param"><em>param</em> <span class="types">Function</span> <span class="name">fn</span> <span class="description"></span></li>
+                
+              
+                
+
+                
+                  <li class="api"><em>api</em> <span class="visibility">public</span></li>
+                
+
+                
+
+                
+              
+              </ul>
+
+<!--            
+              <pre class="code">
+                <code>
+<span class="class">MemoryStore</span>.<span class="variable">prototype</span>.<span class="variable">set</span> = <span class="keyword">function</span>(<span class="variable">sid</span>, <span class="variable">sess</span>, <span class="variable">fn</span>){
+  <span class="keyword">var</span> <span class="variable">self</span> = <span class="this">this</span>;
+  <span class="variable">process</span>.<span class="variable">nextTick</span>(<span class="keyword">function</span>(){
+    <span class="variable">self</span>.<span class="variable">sessions</span>[<span class="variable">sid</span>] = <span class="class">JSON</span>.<span class="variable">stringify</span>(<span class="variable">sess</span>);
+    <span class="variable">fn</span> && <span class="variable">fn</span>();
+  });
+};
+                </code>
+              </pre>
+             -->
+          
+          </div>
+        
+      
+        
+        
+          <div class="comment">
+            
+              <h3 class="method">.destroy()</h3>
+            
+            <p class="description"><p>Destroy the session associated with the given <code>sid</code>.</p></p>
+
+            
+
+            
+              <ul class="tags">
+              
+                
+
+                
+
+                
+
+                
+                  <li class="param"><em>param</em> <span class="types">String</span> <span class="name">sid</span> <span class="description"></span></li>
+                
+              
+                
+
+                
+                  <li class="api"><em>api</em> <span class="visibility">public</span></li>
+                
+
+                
+
+                
+              
+              </ul>
+
+<!--            
+              <pre class="code">
+                <code>
+<span class="class">MemoryStore</span>.<span class="variable">prototype</span>.<span class="variable">destroy</span> = <span class="keyword">function</span>(<span class="variable">sid</span>, <span class="variable">fn</span>){
+  <span class="keyword">var</span> <span class="variable">self</span> = <span class="this">this</span>;
+  <span class="variable">process</span>.<span class="variable">nextTick</span>(<span class="keyword">function</span>(){
+    <span class="keyword">delete</span> <span class="variable">self</span>.<span class="variable">sessions</span>[<span class="variable">sid</span>];
+    <span class="variable">fn</span> && <span class="variable">fn</span>();
+  });
+};
+                </code>
+              </pre>
+             -->
+          
+          </div>
+        
+      
+        
+        
+          <div class="comment">
+            
+              <h3 class="method">.all()</h3>
+            
+            <p class="description"><p>Invoke the given callback <code>fn</code> with all active sessions.</p></p>
+
+            
+
+            
+              <ul class="tags">
+              
+                
+
+                
+
+                
+
+                
+                  <li class="param"><em>param</em> <span class="types">Function</span> <span class="name">fn</span> <span class="description"></span></li>
+                
+              
+                
+
+                
+                  <li class="api"><em>api</em> <span class="visibility">public</span></li>
+                
+
+                
+
+                
+              
+              </ul>
+
+<!--            
+              <pre class="code">
+                <code>
+<span class="class">MemoryStore</span>.<span class="variable">prototype</span>.<span class="variable">all</span> = <span class="keyword">function</span>(<span class="variable">fn</span>){
+  <span class="keyword">var</span> <span class="variable">arr</span> = []
+    , <span class="variable">keys</span> = <span class="class">Object</span>.<span class="variable">keys</span>(<span class="this">this</span>.<span class="variable">sessions</span>);
+  <span class="keyword">for</span> (<span class="keyword">var</span> <span class="variable">i</span> = <span class="number integer">0</span>, <span class="variable">len</span> = <span class="variable">keys</span>.<span class="variable">length</span>; <span class="variable">i</span> < <span class="variable">len</span>; ++<span class="variable">i</span>) {
+    <span class="variable">arr</span>.<span class="variable">push</span>(<span class="this">this</span>.<span class="variable">sessions</span>[<span class="variable">keys</span>[<span class="variable">i</span>]]);
+  }
+  <span class="variable">fn</span>(<span class="keyword">null</span>, <span class="variable">arr</span>);
+};
+                </code>
+              </pre>
+             -->
+          
+          </div>
+        
+      
+        
+        
+          <div class="comment">
+            
+              <h3 class="method">.clear()</h3>
+            
+            <p class="description"><p>Clear all sessions.</p></p>
+
+            
+
+            
+              <ul class="tags">
+              
+                
+
+                
+
+                
+
+                
+                  <li class="param"><em>param</em> <span class="types">Function</span> <span class="name">fn</span> <span class="description"></span></li>
+                
+              
+                
+
+                
+                  <li class="api"><em>api</em> <span class="visibility">public</span></li>
+                
+
+                
+
+                
+              
+              </ul>
+
+<!--            
+              <pre class="code">
+                <code>
+<span class="class">MemoryStore</span>.<span class="variable">prototype</span>.<span class="variable">clear</span> = <span class="keyword">function</span>(<span class="variable">fn</span>){
+  <span class="this">this</span>.<span class="variable">sessions</span> = {};
+  <span class="variable">fn</span> && <span class="variable">fn</span>();
+};
+                </code>
+              </pre>
+             -->
+          
+          </div>
+        
+      
+        
+        
+          <div class="comment">
+            
+              <h3 class="method">.undefined()</h3>
+            
+            <p class="description"><p>Fetch number of sessions.</p></p>
+
+            
+
+            
+              <ul class="tags">
+              
+                
+
+                
+
+                
+
+                
+                  <li class="param"><em>param</em> <span class="types">Function</span> <span class="name">fn</span> <span class="description"></span></li>
+                
+              
+                
+
+                
+                  <li class="api"><em>api</em> <span class="visibility">public</span></li>
+                
+
+                
+
+                
+              
+              </ul>
+
+<!--             -->
+          
+          </div>
+        
+      
+      
+    </div>
+  </body>
+</html>

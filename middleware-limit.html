@@ -1,0 +1,116 @@
+<html>
+  <head>
+    <title>
+      
+        Connect - limit
+      
+    </title>
+    <link rel='stylesheet' href='main.css' />
+  </head>
+  <body>
+    <div id="content">
+      
+        <h1>limit</h1>
+        <span class="filename">lib/middleware/limit.js</span>
+      
+
+      
+      
+        
+        
+        
+          <div class="comment">
+            
+            <p class="description"><p>Limit request bodies to the given size in <code>bytes</code>.</p></p>
+
+            
+              <div class="body">
+                <p>When exceeded, the request will emit an "error" event,
+and the limit can be checked via <code>error.limit</code>.</p>
+
+<p>A string representation of the bytesize may also be passed,
+for example "5mb", "200kb", "1gb", etc.</p>
+
+<h2>Examples</h2>
+
+<pre><code><span class="keyword">var</span> <span class="variable">server</span> = <span class="variable">connect</span>(
+  <span class="variable">connect</span>.<span class="variable">limit</span>(<span class="string">'5.5mb'</span>)
+).<span class="variable">listen</span>(<span class="number integer">3000</span>);</code></pre>
+              </div>
+            
+
+            
+              <ul class="tags">
+              
+                
+
+                
+
+                
+
+                
+                  <li class="param"><em>param</em> <span class="types">Number, String</span> <span class="name">bytes</span> <span class="description"></span></li>
+                
+              
+                
+                  <li class="return"><em>returns</em> <span class="types">Function</span></li>
+                
+
+                
+
+                
+
+                
+              
+                
+
+                
+                  <li class="api"><em>api</em> <span class="visibility">public</span></li>
+                
+
+                
+
+                
+              
+              </ul>
+
+<!--            
+              <pre class="code">
+                <code>
+<span class="variable">module</span>.<span class="variable">exports</span> = <span class="keyword">function</span> <span class="variable">limit</span>(<span class="variable">bytes</span>){
+  <span class="keyword">if</span> (<span class="string">'string'</span> == <span class="keyword">typeof</span> <span class="variable">bytes</span>) <span class="variable">bytes</span> = <span class="variable">parse</span>(<span class="variable">bytes</span>);
+  <span class="keyword">if</span> (<span class="string">'number'</span> != <span class="keyword">typeof</span> <span class="variable">bytes</span>) <span class="keyword">throw</span> <span class="keyword">new</span> <span class="class">Error</span>(<span class="string">'limit() bytes required'</span>);
+  <span class="keyword">return</span> <span class="keyword">function</span> <span class="variable">limit</span>(<span class="variable">req</span>, <span class="variable">res</span>, <span class="variable">next</span>){
+    <span class="keyword">var</span> <span class="variable">received</span> = <span class="number integer">0</span>
+      , <span class="variable">done</span>;
+
+    <span class="comment">// self-awareness</span>
+    <span class="keyword">if</span> (<span class="variable">req</span>.<span class="variable">_limit</span>) <span class="keyword">return</span> <span class="variable">next</span>();
+    <span class="variable">req</span>.<span class="variable">_limit</span> = <span class="variable">true</span>;
+
+    <span class="comment">// limit</span>
+    <span class="variable">req</span>.<span class="variable">on</span>(<span class="string">'data'</span>, <span class="keyword">function</span>(<span class="variable">chunk</span>){
+      <span class="variable">received</span> += <span class="variable">chunk</span>.<span class="variable">length</span>;
+      <span class="keyword">if</span> (<span class="variable">received</span> > <span class="variable">bytes</span> && !<span class="variable">done</span>) {
+        <span class="variable">done</span> = <span class="variable">true</span>;
+        <span class="keyword">var</span> <span class="variable">err</span> = <span class="keyword">new</span> <span class="class">Error</span>(<span class="string">'limit of '</span> + <span class="variable">bytes</span> + <span class="string">' bytes exceeded'</span>);
+        <span class="variable">err</span>.<span class="variable">limit</span> = <span class="variable">bytes</span>;
+        <span class="variable">req</span>.<span class="variable">emit</span>(<span class="string">'error'</span>, <span class="variable">err</span>);
+      }
+    });
+
+    <span class="variable">next</span>();
+  };
+};
+                </code>
+              </pre>
+             -->
+          
+          </div>
+        
+      
+        
+      
+    </div>
+  </body>
+</html>

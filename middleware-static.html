@@ -1,0 +1,119 @@
+<html>
+  <head>
+    <title>
+      
+        Connect - static
+      
+    </title>
+    <link rel='stylesheet' href='main.css' />
+  </head>
+  <body>
+    <div id="content">
+      
+        <h1>static</h1>
+        <span class="filename">lib/middleware/static.js</span>
+      
+
+      
+      
+        
+        
+        
+        
+          <div class="comment">
+            
+            <p class="description"><p>Static file server with the given <code>root</code> path.</p></p>
+
+            
+              <div class="body">
+                <h2>Examples</h2>
+
+<pre><code><span class="keyword">var</span> <span class="variable">oneDay</span> = <span class="number integer">86400000</span>;
+
+<span class="variable">connect</span>(
+  <span class="variable">connect</span>.<span class="variable">static</span>(<span class="variable">__dirname</span> + <span class="string">'/public'</span>)
+).<span class="variable">listen</span>(<span class="number integer">3000</span>);
+
+<span class="variable">connect</span>(
+  <span class="variable">connect</span>.<span class="variable">static</span>(<span class="variable">__dirname</span> + <span class="string">'/public'</span>, { <span class="variable">maxAge</span>: <span class="variable">oneDay</span> })
+).<span class="variable">listen</span>(<span class="number integer">3000</span>);</code></pre>
+
+<h2>Options</h2>
+
+<ul><li><code>maxAge</code>   Browser cache maxAge in milliseconds, defaults to 0</li></ul>
+              </div>
+            
+
+            
+              <ul class="tags">
+              
+                
+
+                
+
+                
+
+                
+                  <li class="param"><em>param</em> <span class="types">String</span> <span class="name">root</span> <span class="description"></span></li>
+                
+              
+                
+
+                
+
+                
+
+                
+                  <li class="param"><em>param</em> <span class="types">Object</span> <span class="name">options</span> <span class="description"></span></li>
+                
+              
+                
+                  <li class="return"><em>returns</em> <span class="types">Function</span></li>
+                
+
+                
+
+                
+
+                
+              
+                
+
+                
+                  <li class="api"><em>api</em> <span class="visibility">public</span></li>
+                
+
+                
+
+                
+              
+              </ul>
+
+<!--            
+              <pre class="code">
+                <code>
+<span class="variable">exports</span> = <span class="variable">module</span>.<span class="variable">exports</span> = <span class="keyword">function</span> <span class="variable">static</span>(<span class="variable">root</span>, <span class="variable">options</span>){
+  <span class="variable">options</span> = <span class="variable">options</span> || {};
+
+  <span class="comment">// root required</span>
+  <span class="keyword">if</span> (!<span class="variable">root</span>) <span class="keyword">throw</span> <span class="keyword">new</span> <span class="class">Error</span>(<span class="string">'static() root path required'</span>);
+  <span class="variable">options</span>.<span class="variable">root</span> = <span class="variable">root</span>;
+
+  <span class="keyword">return</span> <span class="keyword">function</span> <span class="variable">static</span>(<span class="variable">req</span>, <span class="variable">res</span>, <span class="variable">next</span>) {
+    <span class="variable">send</span>(<span class="variable">req</span>, <span class="variable">res</span>, <span class="variable">next</span>, <span class="variable">options</span>);
+  };
+};
+                </code>
+              </pre>
+             -->
+          
+          </div>
+        
+      
+        
+        
+        
+      
+    </div>
+  </body>
+</html>

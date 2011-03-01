@@ -1,0 +1,1045 @@
+<html>
+  <head>
+    <title>
+      
+        Connect - utils
+      
+    </title>
+    <link rel='stylesheet' href='main.css' />
+  </head>
+  <body>
+    <div id="content">
+      
+        <h1>utils</h1>
+        <span class="filename">lib/utils.js</span>
+      
+
+      
+      
+        
+        
+        
+        
+          <div class="comment">
+            
+            <p class="description"><p>Return md5 hash of the given string and optional encoding,
+defaulting to hex.</p></p>
+
+            
+              <div class="body">
+                <pre><code><span class="variable">utils</span>.<span class="variable">md5</span>(<span class="string">'wahoo'</span>);
+<span class="comment">// =&gt; "e493298061761236c96b02ea6aa8a2ad"</span></code></pre>
+              </div>
+            
+
+            
+              <ul class="tags">
+              
+                
+
+                
+
+                
+
+                
+                  <li class="param"><em>param</em> <span class="types">String</span> <span class="name">str</span> <span class="description"></span></li>
+                
+              
+                
+
+                
+
+                
+
+                
+                  <li class="param"><em>param</em> <span class="types">String</span> <span class="name">encoding</span> <span class="description"></span></li>
+                
+              
+                
+                  <li class="return"><em>returns</em> <span class="types">String</span></li>
+                
+
+                
+
+                
+
+                
+              
+                
+
+                
+                  <li class="api"><em>api</em> <span class="visibility">public</span></li>
+                
+
+                
+
+                
+              
+              </ul>
+
+<!--            
+              <pre class="code">
+                <code>
+<span class="variable">exports</span>.<span class="variable">md5</span> = <span class="keyword">function</span>(<span class="variable">str</span>, <span class="variable">encoding</span>){
+  <span class="keyword">return</span> <span class="variable">crypto</span>
+    .<span class="variable">createHash</span>(<span class="string">'md5'</span>)
+    .<span class="variable">update</span>(<span class="variable">str</span>)
+    .<span class="variable">digest</span>(<span class="variable">encoding</span> || <span class="string">'hex'</span>);
+};
+                </code>
+              </pre>
+             -->
+          
+          </div>
+        
+      
+        
+        
+          <div class="comment">
+            
+              <h3 class="method">.merge()</h3>
+            
+            <p class="description"><p>Merge object b with object a.</p></p>
+
+            
+              <div class="body">
+                <pre><code><span class="keyword">var</span> <span class="variable">a</span> = { <span class="variable">foo</span>: <span class="string">'bar'</span> }
+  , <span class="variable">b</span> = { <span class="variable">bar</span>: <span class="string">'baz'</span> };
+
+<span class="variable">utils</span>.<span class="variable">merge</span>(<span class="variable">a</span>, <span class="variable">b</span>);
+<span class="comment">// =&gt; { foo: 'bar', bar: 'baz' }</span></code></pre>
+              </div>
+            
+
+            
+              <ul class="tags">
+              
+                
+
+                
+
+                
+
+                
+                  <li class="param"><em>param</em> <span class="types">Object</span> <span class="name">a</span> <span class="description"></span></li>
+                
+              
+                
+
+                
+
+                
+
+                
+                  <li class="param"><em>param</em> <span class="types">Object</span> <span class="name">b</span> <span class="description"></span></li>
+                
+              
+                
+                  <li class="return"><em>returns</em> <span class="types">Object</span></li>
+                
+
+                
+
+                
+
+                
+              
+                
+
+                
+                  <li class="api"><em>api</em> <span class="visibility">public</span></li>
+                
+
+                
+
+                
+              
+              </ul>
+
+<!--            
+              <pre class="code">
+                <code>
+<span class="variable">exports</span>.<span class="variable">merge</span> = <span class="keyword">function</span>(<span class="variable">a</span>, <span class="variable">b</span>){
+  <span class="keyword">if</span> (<span class="variable">a</span> && <span class="variable">b</span>) {
+    <span class="keyword">for</span> (<span class="keyword">var</span> <span class="variable">key</span> <span class="keyword">in</span> <span class="variable">b</span>) {
+      <span class="variable">a</span>[<span class="variable">key</span>] = <span class="variable">b</span>[<span class="variable">key</span>];
+    }
+  }
+  <span class="keyword">return</span> <span class="variable">a</span>;
+};
+                </code>
+              </pre>
+             -->
+          
+          </div>
+        
+      
+        
+        
+          <div class="comment">
+            
+              <h3 class="method">.uid()</h3>
+            
+            <p class="description"><p>Return a unique identifier with the given <code>len</code>.</p></p>
+
+            
+              <div class="body">
+                <pre><code><span class="variable">utils</span>.<span class="variable">uid</span>(<span class="number integer">10</span>);
+<span class="comment">// =&gt; "FDaS435D2z"</span></code></pre>
+              </div>
+            
+
+            
+              <ul class="tags">
+              
+                
+
+                
+
+                
+
+                
+                  <li class="param"><em>param</em> <span class="types">Number</span> <span class="name">len</span> <span class="description"></span></li>
+                
+              
+                
+                  <li class="return"><em>returns</em> <span class="types">String</span></li>
+                
+
+                
+
+                
+
+                
+              
+                
+
+                
+                  <li class="api"><em>api</em> <span class="visibility">public</span></li>
+                
+
+                
+
+                
+              
+              </ul>
+
+<!--            
+              <pre class="code">
+                <code>
+<span class="variable">exports</span>.<span class="variable">uid</span> = <span class="keyword">function</span>(<span class="variable">len</span>) {
+  <span class="keyword">var</span> <span class="variable">buf</span> = []
+    , <span class="variable">chars</span> = <span class="string">'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789'</span>
+    , <span class="variable">charlen</span> = <span class="variable">chars</span>.<span class="variable">length</span>;
+
+  <span class="keyword">for</span> (<span class="keyword">var</span> <span class="variable">i</span> = <span class="number integer">0</span>; <span class="variable">i</span> < <span class="variable">len</span>; ++<span class="variable">i</span>) {
+    <span class="variable">buf</span>.<span class="variable">push</span>(<span class="variable">chars</span>[<span class="variable">getRandomInt</span>(<span class="number integer">0</span>, <span class="variable">charlen</span> - <span class="number integer">1</span>)]);
+  }
+
+  <span class="keyword">return</span> <span class="variable">buf</span>.<span class="variable">join</span>(<span class="string">''</span>);
+};
+                </code>
+              </pre>
+             -->
+          
+          </div>
+        
+      
+        
+        
+          <div class="comment">
+            
+              <h3 class="method">.undefined()</h3>
+            
+            <p class="description"><p>Parse the given cookie string into an object.</p></p>
+
+            
+
+            
+              <ul class="tags">
+              
+                
+
+                
+
+                
+
+                
+                  <li class="param"><em>param</em> <span class="types">String</span> <span class="name">str</span> <span class="description"></span></li>
+                
+              
+                
+                  <li class="return"><em>returns</em> <span class="types">Object</span></li>
+                
+
+                
+
+                
+
+                
+              
+                
+
+                
+                  <li class="api"><em>api</em> <span class="visibility">public</span></li>
+                
+
+                
+
+                
+              
+              </ul>
+
+<!--             -->
+          
+          </div>
+        
+      
+        
+        
+        
+          <div class="comment">
+            
+              <h3 class="method">.serializeCookie()</h3>
+            
+            <p class="description"><p>Serialize the given object into a cookie string.</p></p>
+
+            
+              <div class="body">
+                <pre><code> <span class="variable">utils</span>.<span class="variable">serializeCookie</span>(<span class="string">'name'</span>, <span class="string">'tj'</span>, { <span class="variable">httpOnly</span>: <span class="variable">true</span> })
+ <span class="comment">// =&gt; "name=tj; httpOnly"</span></code></pre>
+              </div>
+            
+
+            
+              <ul class="tags">
+              
+                
+
+                
+
+                
+
+                
+                  <li class="param"><em>param</em> <span class="types">String</span> <span class="name">name</span> <span class="description"></span></li>
+                
+              
+                
+
+                
+
+                
+
+                
+                  <li class="param"><em>param</em> <span class="types">String</span> <span class="name">val</span> <span class="description"></span></li>
+                
+              
+                
+
+                
+
+                
+
+                
+                  <li class="param"><em>param</em> <span class="types">Object</span> <span class="name">obj</span> <span class="description"></span></li>
+                
+              
+                
+                  <li class="return"><em>returns</em> <span class="types">String</span></li>
+                
+
+                
+
+                
+
+                
+              
+                
+
+                
+                  <li class="api"><em>api</em> <span class="visibility">public</span></li>
+                
+
+                
+
+                
+              
+              </ul>
+
+<!--            
+              <pre class="code">
+                <code>
+<span class="variable">exports</span>.<span class="variable">serializeCookie</span> = <span class="keyword">function</span>(<span class="variable">name</span>, <span class="variable">val</span>, <span class="variable">obj</span>){
+  <span class="keyword">var</span> <span class="variable">pairs</span> = [<span class="variable">name</span> + <span class="string">'='</span> + <span class="variable">encodeURIComponent</span>(<span class="variable">val</span>)]
+    , <span class="variable">obj</span> = <span class="variable">obj</span> || {};
+
+  <span class="keyword">if</span> (<span class="variable">obj</span>.<span class="variable">domain</span>) <span class="variable">pairs</span>.<span class="variable">push</span>(<span class="string">'domain='</span> + <span class="variable">obj</span>.<span class="variable">domain</span>);
+  <span class="keyword">if</span> (<span class="variable">obj</span>.<span class="variable">path</span>) <span class="variable">pairs</span>.<span class="variable">push</span>(<span class="string">'path='</span> + <span class="variable">obj</span>.<span class="variable">path</span>);
+  <span class="keyword">if</span> (<span class="variable">obj</span>.<span class="variable">expires</span>) <span class="variable">pairs</span>.<span class="variable">push</span>(<span class="string">'expires='</span> + <span class="variable">obj</span>.<span class="variable">expires</span>.<span class="variable">toUTCString</span>());
+  <span class="keyword">if</span> (<span class="variable">obj</span>.<span class="variable">httpOnly</span>) <span class="variable">pairs</span>.<span class="variable">push</span>(<span class="string">'httpOnly'</span>);
+  <span class="keyword">if</span> (<span class="variable">obj</span>.<span class="variable">secure</span>) <span class="variable">pairs</span>.<span class="variable">push</span>(<span class="string">'secure'</span>);
+
+  <span class="keyword">return</span> <span class="variable">pairs</span>.<span class="variable">join</span>(<span class="string">'; '</span>);
+};
+                </code>
+              </pre>
+             -->
+          
+          </div>
+        
+      
+        
+        
+          <div class="comment">
+            
+              <h3 class="method">.pause()</h3>
+            
+            <p class="description"><p>Pause <code>data</code> and <code>end</code> events on the given <code>obj</code>.
+Middleware performing async tasks <em>should</em> utilize
+this utility (or similar), to re-emit data once
+the async operation has completed, otherwise these
+events may be lost.</p></p>
+
+            
+              <div class="body">
+                <pre><code> <span class="keyword">var</span> <span class="variable">pause</span> = <span class="variable">utils</span>.<span class="variable">pause</span>(<span class="variable">req</span>);
+ <span class="variable">fs</span>.<span class="variable">readFile</span>(<span class="variable">path</span>, <span class="keyword">function</span>(){
+    <span class="variable">next</span>();
+    <span class="variable">pause</span>.<span class="variable">resume</span>();
+ });</code></pre>
+              </div>
+            
+
+            
+              <ul class="tags">
+              
+                
+
+                
+
+                
+
+                
+                  <li class="param"><em>param</em> <span class="types">Object</span> <span class="name">obj</span> <span class="description"></span></li>
+                
+              
+                
+                  <li class="return"><em>returns</em> <span class="types">Object</span></li>
+                
+
+                
+
+                
+
+                
+              
+                
+
+                
+                  <li class="api"><em>api</em> <span class="visibility">public</span></li>
+                
+
+                
+
+                
+              
+              </ul>
+
+<!--            
+              <pre class="code">
+                <code>
+<span class="variable">exports</span>.<span class="variable">pause</span> = <span class="keyword">function</span>(<span class="variable">obj</span>){
+  <span class="keyword">var</span> <span class="variable">onData</span>
+    , <span class="variable">onEnd</span>
+    , <span class="variable">events</span> = [];
+
+  <span class="comment">// buffer data</span>
+  <span class="variable">obj</span>.<span class="variable">on</span>(<span class="string">'data'</span>, <span class="variable">onData</span> = <span class="keyword">function</span>(<span class="variable">data</span>, <span class="variable">encoding</span>){
+    <span class="variable">events</span>.<span class="variable">push</span>([<span class="string">'data'</span>, <span class="variable">data</span>, <span class="variable">encoding</span>]);
+  });
+
+  <span class="comment">// buffer end</span>
+  <span class="variable">obj</span>.<span class="variable">on</span>(<span class="string">'end'</span>, <span class="variable">onEnd</span> = <span class="keyword">function</span>(<span class="variable">data</span>, <span class="variable">encoding</span>){
+    <span class="variable">events</span>.<span class="variable">push</span>([<span class="string">'end'</span>, <span class="variable">data</span>, <span class="variable">encoding</span>]);
+  });
+
+  <span class="keyword">return</span> {
+    <span class="variable">end</span>: <span class="keyword">function</span>(){
+      <span class="variable">obj</span>.<span class="variable">removeListener</span>(<span class="string">'data'</span>, <span class="variable">onData</span>);
+      <span class="variable">obj</span>.<span class="variable">removeListener</span>(<span class="string">'end'</span>, <span class="variable">onEnd</span>);
+    },
+    <span class="variable">resume</span>: <span class="keyword">function</span>(){
+      <span class="this">this</span>.<span class="variable">end</span>();
+      <span class="keyword">for</span> (<span class="keyword">var</span> <span class="variable">i</span> = <span class="number integer">0</span>, <span class="variable">len</span> = <span class="variable">events</span>.<span class="variable">length</span>; <span class="variable">i</span> < <span class="variable">len</span>; ++<span class="variable">i</span>) {
+        <span class="variable">obj</span>.<span class="variable">emit</span>.<span class="variable">apply</span>(<span class="variable">obj</span>, <span class="variable">events</span>[<span class="variable">i</span>]);
+      }
+    }
+  };
+};
+                </code>
+              </pre>
+             -->
+          
+          </div>
+        
+      
+        
+        
+          <div class="comment">
+            
+              <h3 class="method">.undefined()</h3>
+            
+            <p class="description"><p>Check <code>req</code> and <code>res</code> to see if it has been modified.</p></p>
+
+            
+
+            
+              <ul class="tags">
+              
+                
+
+                
+
+                
+
+                
+                  <li class="param"><em>param</em> <span class="types">IncomingMessage</span> <span class="name">req</span> <span class="description"></span></li>
+                
+              
+                
+
+                
+
+                
+
+                
+                  <li class="param"><em>param</em> <span class="types">ServerResponse</span> <span class="name">res</span> <span class="description"></span></li>
+                
+              
+                
+                  <li class="return"><em>returns</em> <span class="types">Boolean</span></li>
+                
+
+                
+
+                
+
+                
+              
+                
+
+                
+                  <li class="api"><em>api</em> <span class="visibility">public</span></li>
+                
+
+                
+
+                
+              
+              </ul>
+
+<!--             -->
+          
+          </div>
+        
+      
+        
+        
+        
+          <div class="comment">
+            
+              <h3 class="method">.removeContentHeaders()</h3>
+            
+            <p class="description"><p>Strip <code>Content-*</code> headers from <code>res</code>.</p></p>
+
+            
+
+            
+              <ul class="tags">
+              
+                
+
+                
+
+                
+
+                
+                  <li class="param"><em>param</em> <span class="types">ServerResponse</span> <span class="name">res</span> <span class="description"></span></li>
+                
+              
+                
+
+                
+                  <li class="api"><em>api</em> <span class="visibility">public</span></li>
+                
+
+                
+
+                
+              
+              </ul>
+
+<!--            
+              <pre class="code">
+                <code>
+<span class="variable">exports</span>.<span class="variable">removeContentHeaders</span> = <span class="keyword">function</span>(<span class="variable">res</span>){
+  <span class="class">Object</span>.<span class="variable">keys</span>(<span class="variable">res</span>.<span class="variable">_headers</span>).<span class="variable">forEach</span>(<span class="keyword">function</span>(<span class="variable">field</span>){
+    <span class="keyword">if</span> (<span class="number integer">0</span> == <span class="variable">field</span>.<span class="variable">indexOf</span>(<span class="string">'content'</span>)) {
+      <span class="variable">res</span>.<span class="variable">removeHeader</span>(<span class="variable">field</span>);
+    }
+  });
+};
+                </code>
+              </pre>
+             -->
+          
+          </div>
+        
+      
+        
+        
+          <div class="comment">
+            
+              <h3 class="method">.conditionalGET()</h3>
+            
+            <p class="description"><p>Check if <code>req</code> is a conditional GET request.</p></p>
+
+            
+
+            
+              <ul class="tags">
+              
+                
+
+                
+
+                
+
+                
+                  <li class="param"><em>param</em> <span class="types">IncomingMessage</span> <span class="name">req</span> <span class="description"></span></li>
+                
+              
+                
+                  <li class="return"><em>returns</em> <span class="types">Boolean</span></li>
+                
+
+                
+
+                
+
+                
+              
+                
+
+                
+                  <li class="api"><em>api</em> <span class="visibility">public</span></li>
+                
+
+                
+
+                
+              
+              </ul>
+
+<!--            
+              <pre class="code">
+                <code>
+<span class="variable">exports</span>.<span class="variable">conditionalGET</span> = <span class="keyword">function</span>(<span class="variable">req</span>) {
+  <span class="keyword">return</span> <span class="variable">req</span>.<span class="variable">headers</span>[<span class="string">'if-modified-since'</span>]
+    || <span class="variable">req</span>.<span class="variable">headers</span>[<span class="string">'if-none-match'</span>];
+};
+                </code>
+              </pre>
+             -->
+          
+          </div>
+        
+      
+        
+        
+          <div class="comment">
+            
+              <h3 class="method">.unauthorized()</h3>
+            
+            <p class="description"><p>Respond with 412 "Unauthorized".</p></p>
+
+            
+
+            
+              <ul class="tags">
+              
+                
+
+                
+
+                
+
+                
+                  <li class="param"><em>param</em> <span class="types">ServerResponse</span> <span class="name">res</span> <span class="description"></span></li>
+                
+              
+                
+
+                
+
+                
+
+                
+                  <li class="param"><em>param</em> <span class="types">String</span> <span class="name">realm</span> <span class="description"></span></li>
+                
+              
+                
+
+                
+                  <li class="api"><em>api</em> <span class="visibility">public</span></li>
+                
+
+                
+
+                
+              
+              </ul>
+
+<!--            
+              <pre class="code">
+                <code>
+<span class="variable">exports</span>.<span class="variable">unauthorized</span> = <span class="keyword">function</span>(<span class="variable">res</span>, <span class="variable">realm</span>) {
+  <span class="variable">res</span>.<span class="variable">statusCode</span> = <span class="number integer">401</span>;
+  <span class="variable">res</span>.<span class="variable">setHeader</span>(<span class="string">'WWW-Authenticate'</span>, <span class="string">'Basic realm="'</span> + <span class="variable">realm</span> + <span class="string">'"'</span>);
+  <span class="variable">res</span>.<span class="variable">end</span>(<span class="string">'Unauthorized'</span>);
+};
+                </code>
+              </pre>
+             -->
+          
+          </div>
+        
+      
+        
+        
+          <div class="comment">
+            
+              <h3 class="method">.badRequest()</h3>
+            
+            <p class="description"><p>Respond with 400 "Bad Request".</p></p>
+
+            
+
+            
+              <ul class="tags">
+              
+                
+
+                
+
+                
+
+                
+                  <li class="param"><em>param</em> <span class="types">ServerResponse</span> <span class="name">res</span> <span class="description"></span></li>
+                
+              
+                
+
+                
+                  <li class="api"><em>api</em> <span class="visibility">public</span></li>
+                
+
+                
+
+                
+              
+              </ul>
+
+<!--            
+              <pre class="code">
+                <code>
+<span class="variable">exports</span>.<span class="variable">badRequest</span> = <span class="keyword">function</span>(<span class="variable">res</span>) {
+  <span class="variable">res</span>.<span class="variable">statusCode</span> = <span class="number integer">400</span>;
+  <span class="variable">res</span>.<span class="variable">end</span>(<span class="string">'Bad Request'</span>);
+};
+                </code>
+              </pre>
+             -->
+          
+          </div>
+        
+      
+        
+        
+          <div class="comment">
+            
+              <h3 class="method">.notModified()</h3>
+            
+            <p class="description"><p>Respond with 304 "Not Modified".</p></p>
+
+            
+
+            
+              <ul class="tags">
+              
+                
+
+                
+
+                
+
+                
+                  <li class="param"><em>param</em> <span class="types">ServerResponse</span> <span class="name">res</span> <span class="description"></span></li>
+                
+              
+                
+
+                
+
+                
+
+                
+                  <li class="param"><em>param</em> <span class="types">Object</span> <span class="name">headers</span> <span class="description"></span></li>
+                
+              
+                
+
+                
+                  <li class="api"><em>api</em> <span class="visibility">public</span></li>
+                
+
+                
+
+                
+              
+              </ul>
+
+<!--            
+              <pre class="code">
+                <code>
+<span class="variable">exports</span>.<span class="variable">notModified</span> = <span class="keyword">function</span>(<span class="variable">res</span>) {
+  <span class="variable">exports</span>.<span class="variable">removeContentHeaders</span>(<span class="variable">res</span>);
+  <span class="variable">res</span>.<span class="variable">statusCode</span> = <span class="number integer">304</span>;
+  <span class="variable">res</span>.<span class="variable">end</span>();
+};
+                </code>
+              </pre>
+             -->
+          
+          </div>
+        
+      
+        
+        
+          <div class="comment">
+            
+              <h3 class="method">.etag()</h3>
+            
+            <p class="description"><p>Return an ETag in the form of <code>"&lt;size&gt;-&lt;mtime&gt;"</code>
+from the given <code>stat</code>.</p></p>
+
+            
+
+            
+              <ul class="tags">
+              
+                
+
+                
+
+                
+
+                
+                  <li class="param"><em>param</em> <span class="types">Object</span> <span class="name">stat</span> <span class="description"></span></li>
+                
+              
+                
+                  <li class="return"><em>returns</em> <span class="types">String</span></li>
+                
+
+                
+
+                
+
+                
+              
+                
+
+                
+                  <li class="api"><em>api</em> <span class="visibility">public</span></li>
+                
+
+                
+
+                
+              
+              </ul>
+
+<!--            
+              <pre class="code">
+                <code>
+<span class="variable">exports</span>.<span class="variable">etag</span> = <span class="keyword">function</span>(<span class="variable">stat</span>) {
+  <span class="keyword">return</span> <span class="string">'"'</span> + <span class="variable">stat</span>.<span class="variable">size</span> + <span class="string">'-'</span> + <span class="class">Number</span>(<span class="variable">stat</span>.<span class="variable">mtime</span>) + <span class="string">'"'</span>;
+};
+                </code>
+              </pre>
+             -->
+          
+          </div>
+        
+      
+        
+        
+          <div class="comment">
+            
+              <h3 class="method">.parseRange()</h3>
+            
+            <p class="description"><p>Parse "Range" header <code>str</code> relative to the given file <code>size</code>.</p></p>
+
+            
+
+            
+              <ul class="tags">
+              
+                
+
+                
+
+                
+
+                
+                  <li class="param"><em>param</em> <span class="types">Number</span> <span class="name">size</span> <span class="description"></span></li>
+                
+              
+                
+
+                
+
+                
+
+                
+                  <li class="param"><em>param</em> <span class="types">String</span> <span class="name">str</span> <span class="description"></span></li>
+                
+              
+                
+                  <li class="return"><em>returns</em> <span class="types">Array</span></li>
+                
+
+                
+
+                
+
+                
+              
+                
+
+                
+                  <li class="api"><em>api</em> <span class="visibility">public</span></li>
+                
+
+                
+
+                
+              
+              </ul>
+
+<!--            
+              <pre class="code">
+                <code>
+<span class="variable">exports</span>.<span class="variable">parseRange</span> = <span class="keyword">function</span>(<span class="variable">size</span>, <span class="variable">str</span>){
+  <span class="keyword">var</span> <span class="variable">valid</span> = <span class="variable">true</span>;
+  <span class="keyword">var</span> <span class="variable">arr</span> = <span class="variable">str</span>.<span class="variable">substr</span>(<span class="number integer">6</span>).<span class="variable">split</span>(<span class="string">','</span>).<span class="variable">map</span>(<span class="keyword">function</span>(<span class="variable">range</span>){
+    <span class="keyword">var</span> <span class="variable">range</span> = <span class="variable">range</span>.<span class="variable">split</span>(<span class="string">'-'</span>)
+      , <span class="variable">start</span> = <span class="variable">parseInt</span>(<span class="variable">range</span>[<span class="number integer">0</span>], <span class="number integer">10</span>)
+      , <span class="variable">end</span> = <span class="variable">parseInt</span>(<span class="variable">range</span>[<span class="number integer">1</span>], <span class="number integer">10</span>);
+
+    <span class="comment">// -500</span>
+    <span class="keyword">if</span> (<span class="variable">isNaN</span>(<span class="variable">start</span>)) {
+      <span class="variable">start</span> = <span class="variable">size</span> - <span class="variable">end</span>;
+      <span class="variable">end</span> = <span class="variable">size</span> - <span class="number integer">1</span>;
+    <span class="comment">// 500-</span>
+    } <span class="keyword">else</span> <span class="keyword">if</span> (<span class="variable">isNaN</span>(<span class="variable">end</span>)) {
+      <span class="variable">end</span> = <span class="variable">size</span> - <span class="number integer">1</span>;
+    }
+
+    <span class="comment">// Invalid</span>
+    <span class="keyword">if</span> (<span class="variable">isNaN</span>(<span class="variable">start</span>) || <span class="variable">isNaN</span>(<span class="variable">end</span>) || <span class="variable">start</span> > <span class="variable">end</span>) <span class="variable">valid</span> = <span class="variable">false</span>;
+
+    <span class="keyword">return</span> { <span class="variable">start</span>: <span class="variable">start</span>, <span class="variable">end</span>: <span class="variable">end</span> };
+  });
+  <span class="keyword">return</span> <span class="variable">valid</span> ? <span class="variable">arr</span> : <span class="variable">undefined</span>;
+};
+                </code>
+              </pre>
+             -->
+          
+          </div>
+        
+      
+        
+        
+          <div class="comment">
+            
+              <h3 class="method">.toArray()</h3>
+            
+            <p class="description"><p>Convert array-like object to an <code>Array</code>.</p></p>
+
+            
+              <div class="body">
+                <p>node-bench measured "16.5 times faster than Array.prototype.slice.call()"</p>
+              </div>
+            
+
+            
+              <ul class="tags">
+              
+                
+
+                
+
+                
+
+                
+                  <li class="param"><em>param</em> <span class="types">Object</span> <span class="name">obj</span> <span class="description"></span></li>
+                
+              
+                
+                  <li class="return"><em>returns</em> <span class="types">Array</span></li>
+                
+
+                
+
+                
+
+                
+              
+                
+
+                
+                  <li class="api"><em>api</em> <span class="visibility">public</span></li>
+                
+
+                
+
+                
+              
+              </ul>
+
+<!--            
+              <pre class="code">
+                <code>
+<span class="keyword">var</span> <span class="variable">toArray</span> = <span class="variable">exports</span>.<span class="variable">toArray</span> = <span class="keyword">function</span>(<span class="variable">obj</span>){
+  <span class="keyword">var</span> <span class="variable">len</span> = <span class="variable">obj</span>.<span class="variable">length</span>
+    , <span class="variable">arr</span> = <span class="keyword">new</span> <span class="class">Array</span>(<span class="variable">len</span>);
+  <span class="keyword">for</span> (<span class="keyword">var</span> <span class="variable">i</span> = <span class="number integer">0</span>; <span class="variable">i</span> < <span class="variable">len</span>; ++<span class="variable">i</span>) {
+    <span class="variable">arr</span>[<span class="variable">i</span>] = <span class="variable">obj</span>[<span class="variable">i</span>];
+  }
+  <span class="keyword">return</span> <span class="variable">arr</span>;
+};
+                </code>
+              </pre>
+             -->
+          
+          </div>
+        
+      
+        
+      
+    </div>
+  </body>
+</html>

@@ -1,0 +1,203 @@
+<html>
+  <head>
+    <title>
+      
+        Connect - router
+      
+    </title>
+    <link rel='stylesheet' href='main.css' />
+  </head>
+  <body>
+    <div id="content">
+      
+        <h1>router</h1>
+        <span class="filename">lib/middleware/router.js</span>
+      
+
+      
+      
+        
+        
+        
+        
+        
+        
+          <div class="comment">
+            
+            <p class="description"><p>Provides Sinatra and Express-like routing capabilities.</p></p>
+
+            
+              <div class="body">
+                <h2>Examples</h2>
+
+<pre><code><span class="variable">connect</span>.<span class="variable">router</span>(<span class="keyword">function</span>(<span class="variable">app</span>){
+  <span class="variable">app</span>.<span class="variable">get</span>(<span class="string">'/user/:id'</span>, <span class="keyword">function</span>(<span class="variable">req</span>, <span class="variable">res</span>, <span class="variable">next</span>){
+    <span class="comment">// populates req.params.id</span>
+  });
+  <span class="variable">app</span>.<span class="variable">put</span>(<span class="string">'/user/:id'</span>, <span class="keyword">function</span>(<span class="variable">req</span>, <span class="variable">res</span>, <span class="variable">next</span>){
+    <span class="comment">// populates req.params.id</span>
+  });
+})</code></pre>
+              </div>
+            
+
+            
+              <ul class="tags">
+              
+                
+
+                
+
+                
+
+                
+                  <li class="param"><em>param</em> <span class="types">Function</span> <span class="name">fn</span> <span class="description"></span></li>
+                
+              
+                
+                  <li class="return"><em>returns</em> <span class="types">Function</span></li>
+                
+
+                
+
+                
+
+                
+              
+                
+
+                
+                  <li class="api"><em>api</em> <span class="visibility">public</span></li>
+                
+
+                
+
+                
+              
+              </ul>
+
+<!--            
+              <pre class="code">
+                <code>
+<span class="keyword">function</span> <span class="variable">router</span>(<span class="variable">fn</span>){
+  <span class="keyword">var</span> <span class="variable">self</span> = <span class="this">this</span>
+    , <span class="variable">methods</span> = {}
+    , <span class="variable">routes</span> = {}
+    , <span class="variable">params</span> = {};
+
+  <span class="keyword">if</span> (!<span class="variable">fn</span>) <span class="keyword">throw</span> <span class="keyword">new</span> <span class="class">Error</span>(<span class="string">'router provider requires a callback function'</span>);
+
+  <span class="comment">// Generate method functions</span>
+  <span class="variable">_methods</span>.<span class="variable">forEach</span>(<span class="keyword">function</span>(<span class="variable">method</span>){
+    <span class="variable">methods</span>[<span class="variable">method</span>] = <span class="variable">generateMethodFunction</span>(<span class="variable">method</span>.<span class="variable">toUpperCase</span>());
+  });
+
+  <span class="comment">// Alias del -> delete</span>
+  <span class="variable">methods</span>.<span class="variable">del</span> = <span class="variable">methods</span>.<span class="keyword">delete</span>;
+
+  <span class="comment">// Apply callback to all methods</span>
+  <span class="variable">methods</span>.<span class="variable">all</span> = <span class="keyword">function</span>(<span class="variable">path</span>, <span class="variable">fn</span>){
+    <span class="variable">_methods</span>.<span class="variable">forEach</span>(<span class="keyword">function</span>(<span class="variable">name</span>){
+      <span class="variable">methods</span>[<span class="variable">name</span>](<span class="variable">path</span>, <span class="variable">fn</span>);
+    });
+    <span class="keyword">return</span> <span class="variable">self</span>;
+  };
+
+  <span class="comment">// Register param callback</span>
+  <span class="variable">methods</span>.<span class="variable">param</span> = <span class="keyword">function</span>(<span class="variable">name</span>, <span class="variable">fn</span>){
+    <span class="variable">params</span>[<span class="variable">name</span>] = <span class="variable">fn</span>;
+  };
+      
+  <span class="variable">fn</span>.<span class="variable">call</span>(<span class="this">this</span>, <span class="variable">methods</span>);
+
+  <span class="keyword">function</span> <span class="variable">generateMethodFunction</span>(<span class="variable">name</span>) {
+    <span class="keyword">var</span> <span class="variable">localRoutes</span> = <span class="variable">routes</span>[<span class="variable">name</span>] = <span class="variable">routes</span>[<span class="variable">name</span>] || [];
+    <span class="keyword">return</span> <span class="keyword">function</span>(<span class="variable">path</span>, <span class="variable">fn</span>){
+      <span class="keyword">var</span> <span class="variable">keys</span> = [];
+      <span class="keyword">if</span> (!<span class="variable">path</span>) <span class="keyword">throw</span> <span class="keyword">new</span> <span class="class">Error</span>(<span class="variable">name</span> + <span class="string">' route requires a path'</span>);
+      <span class="keyword">if</span> (!<span class="variable">fn</span>) <span class="keyword">throw</span> <span class="keyword">new</span> <span class="class">Error</span>(<span class="variable">name</span> + <span class="string">' route '</span> + <span class="variable">path</span> + <span class="string">' requires a callback'</span>);
+      <span class="variable">path</span> = <span class="variable">path</span> <span class="variable">instanceof</span> <span class="class">RegExp</span>
+        ? <span class="variable">path</span>
+        : <span class="variable">normalizePath</span>(<span class="variable">path</span>, <span class="variable">keys</span>);
+      <span class="variable">localRoutes</span>.<span class="variable">push</span>({
+          <span class="variable">fn</span>: <span class="variable">fn</span>
+        , <span class="variable">path</span>: <span class="variable">path</span>
+        , <span class="variable">keys</span>: <span class="variable">keys</span>
+      });
+      <span class="keyword">return</span> <span class="variable">self</span>;
+    };
+  }
+
+  <span class="keyword">return</span> <span class="keyword">function</span> <span class="variable">router</span>(<span class="variable">req</span>, <span class="variable">res</span>, <span class="variable">next</span>){
+    <span class="keyword">var</span> <span class="variable">route</span>
+      , <span class="variable">self</span> = <span class="this">this</span>;
+    (<span class="keyword">function</span> <span class="variable">pass</span>(<span class="variable">i</span>){
+      <span class="keyword">if</span> (<span class="variable">route</span> = <span class="variable">match</span>(<span class="variable">req</span>, <span class="variable">routes</span>, <span class="variable">i</span>)) {
+        <span class="keyword">var</span> <span class="variable">i</span> = <span class="number integer">0</span>
+          , <span class="variable">keys</span> = <span class="variable">route</span>.<span class="variable">_keys</span>;
+
+        <span class="variable">req</span>.<span class="variable">params</span> = <span class="variable">route</span>.<span class="variable">_params</span>;
+        
+        <span class="comment">// Param preconditions</span>
+        (<span class="keyword">function</span> <span class="variable">param</span>(<span class="variable">err</span>) {
+          <span class="keyword">try</span> {
+            <span class="keyword">var</span> <span class="variable">key</span> = <span class="variable">keys</span>[<span class="variable">i</span>++]
+              , <span class="variable">val</span> = <span class="variable">req</span>.<span class="variable">params</span>[<span class="variable">key</span>]
+              , <span class="variable">fn</span> = <span class="variable">params</span>[<span class="variable">key</span>];
+
+            <span class="comment">// Error</span>
+            <span class="keyword">if</span> (<span class="variable">err</span>) {
+              <span class="variable">next</span>(<span class="variable">err</span>);
+            <span class="comment">// Param has callback</span>
+            } <span class="keyword">else</span> <span class="keyword">if</span> (<span class="variable">fn</span>) {
+              <span class="comment">// Return style</span>
+              <span class="keyword">if</span> (<span class="number integer">1</span> == <span class="variable">fn</span>.<span class="variable">length</span>) {
+                <span class="variable">req</span>.<span class="variable">params</span>[<span class="variable">key</span>] = <span class="variable">fn</span>(<span class="variable">val</span>);
+                <span class="variable">param</span>();
+              <span class="comment">// Middleware style</span>
+              } <span class="keyword">else</span> {
+                <span class="variable">fn</span>(<span class="variable">req</span>, <span class="variable">res</span>, <span class="variable">param</span>, <span class="variable">val</span>);
+              }
+            <span class="comment">// Finished processing params</span>
+            } <span class="keyword">else</span> <span class="keyword">if</span> (!<span class="variable">key</span>) {
+              <span class="variable">route</span>.<span class="variable">call</span>(<span class="variable">self</span>, <span class="variable">req</span>, <span class="variable">res</span>, <span class="keyword">function</span>(<span class="variable">err</span>){
+                <span class="keyword">if</span> (<span class="variable">err</span> === <span class="variable">true</span>) {
+                  <span class="variable">next</span>();
+                } <span class="keyword">else</span> <span class="keyword">if</span> (<span class="variable">err</span>) {
+                  <span class="variable">next</span>(<span class="variable">err</span>);
+                } <span class="keyword">else</span> {
+                  <span class="variable">pass</span>(<span class="variable">req</span>.<span class="variable">_route_index</span>+<span class="number integer">1</span>);
+                }
+              });
+            <span class="comment">// More params</span>
+            } <span class="keyword">else</span> {
+              <span class="variable">param</span>();
+            }
+          } <span class="keyword">catch</span> (<span class="variable">err</span>) {
+            <span class="variable">next</span>(<span class="variable">err</span>);
+          }
+        })();
+      } <span class="keyword">else</span> <span class="keyword">if</span> (<span class="string">'OPTIONS'</span> == <span class="variable">req</span>.<span class="variable">method</span>) {
+        <span class="variable">options</span>(<span class="variable">req</span>, <span class="variable">res</span>, <span class="variable">routes</span>);
+      } <span class="keyword">else</span> {
+        <span class="variable">next</span>();
+      }
+    })();
+  };
+}
+                </code>
+              </pre>
+             -->
+          
+          </div>
+        
+      
+        
+        
+        
+        
+        
+      
+    </div>
+  </body>
+</html>

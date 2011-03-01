@@ -1,0 +1,154 @@
+<html>
+  <head>
+    <title>
+      
+        Connect - compiler
+      
+    </title>
+    <link rel='stylesheet' href='main.css' />
+  </head>
+  <body>
+    <div id="content">
+      
+        <h1>compiler</h1>
+        <span class="filename">lib/middleware/compiler.js</span>
+      
+
+      
+      
+        
+        
+        
+        
+        
+          <div class="comment">
+            
+            <p class="description"><p>Setup compiler.</p></p>
+
+            
+              <div class="body">
+                <h2>Options</h2>
+
+<ul><li><code>src</code>     Source directory, defaults to <strong>CWD</strong>.</li><li><code>dest</code>    Destination directory, defaults <code>src</code>.</li><li><code>enable</code>  Array of enabled compilers.</li></ul>
+
+<h2>Compilers</h2>
+
+<ul><li><code>sass</code>   Compiles cass to css</li><li><code>less</code>   Compiles less to css</li><li><code>coffeescript</code>   Compiles coffee to js</li></ul>
+              </div>
+            
+
+            
+              <ul class="tags">
+              
+                
+
+                
+
+                
+
+                
+                  <li class="param"><em>param</em> <span class="types">Object</span> <span class="name">options</span> <span class="description"></span></li>
+                
+              
+                
+
+                
+                  <li class="api"><em>api</em> <span class="visibility">public</span></li>
+                
+
+                
+
+                
+              
+              </ul>
+
+<!--            
+              <pre class="code">
+                <code>
+<span class="variable">exports</span> = <span class="variable">module</span>.<span class="variable">exports</span> = <span class="keyword">function</span> <span class="variable">compiler</span>(<span class="variable">options</span>){
+  <span class="variable">options</span> = <span class="variable">options</span> || {};
+
+  <span class="keyword">var</span> <span class="variable">srcDir</span> = <span class="variable">options</span>.<span class="variable">src</span> || <span class="variable">process</span>.<span class="variable">cwd</span>()
+    , <span class="variable">destDir</span> = <span class="variable">options</span>.<span class="variable">dest</span> || <span class="variable">srcDir</span>
+    , <span class="variable">enable</span> = <span class="variable">options</span>.<span class="variable">enable</span>;
+
+  <span class="keyword">if</span> (!<span class="variable">enable</span> || <span class="variable">enable</span>.<span class="variable">length</span> === <span class="number integer">0</span>) {
+    <span class="keyword">throw</span> <span class="keyword">new</span> <span class="class">Error</span>(<span class="variable">s</span> <span class="string">"enable"</span> <span class="variable">option</span> <span class="variable">is</span> <span class="variable">not</span> <span class="variable">set</span>, <span class="variable">nothing</span> <span class="variable">will</span> <span class="variable">be</span> <span class="variable">compiled</span>.');
+  }
+
+  <span class="keyword">return</span> <span class="keyword">function</span> <span class="variable">compiler</span>(<span class="variable">req</span>, <span class="variable">res</span>, <span class="variable">next</span>){
+    <span class="keyword">if</span> (<span class="string">'GET'</span> != <span class="variable">req</span>.<span class="variable">method</span>) <span class="keyword">return</span> <span class="variable">next</span>();
+    <span class="keyword">var</span> <span class="variable">pathname</span> = <span class="variable">parse</span>(<span class="variable">req</span>.<span class="variable">url</span>).<span class="variable">pathname</span>;
+    <span class="keyword">for</span> (<span class="keyword">var</span> <span class="variable">i</span> = <span class="number integer">0</span>, <span class="variable">len</span> = <span class="variable">enable</span>.<span class="variable">length</span>; <span class="variable">i</span> < <span class="variable">len</span>; ++<span class="variable">i</span>) {
+      <span class="keyword">var</span> <span class="variable">name</span> = <span class="variable">enable</span>[<span class="variable">i</span>]
+        , <span class="variable">compiler</span> = <span class="variable">compilers</span>[<span class="variable">name</span>];
+      <span class="keyword">if</span> (<span class="variable">compiler</span>.<span class="variable">match</span>.<span class="variable">test</span>(<span class="variable">pathname</span>)) {
+        <span class="keyword">var</span> <span class="variable">src</span> = (<span class="variable">srcDir</span> + <span class="variable">pathname</span>).<span class="variable">replace</span>(<span class="variable">compiler</span>.<span class="variable">match</span>, <span class="variable">compiler</span>.<span class="variable">ext</span>)
+          , <span class="variable">dest</span> = <span class="variable">destDir</span> + <span class="variable">pathname</span>;
+
+        <span class="comment">// Compare mtimes</span>
+        <span class="variable">fs</span>.<span class="variable">stat</span>(<span class="variable">src</span>, <span class="keyword">function</span>(<span class="variable">err</span>, <span class="variable">srcStats</span>){
+          <span class="keyword">if</span> (<span class="variable">err</span>) {
+            <span class="keyword">if</span> (<span class="string">'ENOENT'</span> == <span class="variable">err</span>.<span class="variable">code</span>) {
+              <span class="variable">next</span>();
+            } <span class="keyword">else</span> {
+              <span class="variable">next</span>(<span class="variable">err</span>);
+            }
+          } <span class="keyword">else</span> {
+            <span class="variable">fs</span>.<span class="variable">stat</span>(<span class="variable">dest</span>, <span class="keyword">function</span>(<span class="variable">err</span>, <span class="variable">destStats</span>){
+              <span class="keyword">if</span> (<span class="variable">err</span>) {
+                <span class="comment">// Oh snap! it does not exist, compile it</span>
+                <span class="keyword">if</span> (<span class="string">'ENOENT'</span> == <span class="variable">err</span>.<span class="variable">code</span>) {
+                  <span class="variable">compile</span>();
+                } <span class="keyword">else</span> {
+                  <span class="variable">next</span>(<span class="variable">err</span>);
+                }
+              } <span class="keyword">else</span> {
+                <span class="comment">// Source has changed, compile it</span>
+                <span class="keyword">if</span> (<span class="variable">srcStats</span>.<span class="variable">mtime</span> > <span class="variable">destStats</span>.<span class="variable">mtime</span>) {
+                  <span class="variable">compile</span>();
+                } <span class="keyword">else</span> {
+                  <span class="comment">// Defer file serving</span>
+                  <span class="variable">next</span>();
+                }
+              }
+            });
+          }
+        });
+
+        <span class="comment">// Compile to the destination</span>
+        <span class="keyword">function</span> <span class="variable">compile</span>() {
+          <span class="variable">fs</span>.<span class="variable">readFile</span>(<span class="variable">src</span>, <span class="string">'utf8'</span>, <span class="keyword">function</span>(<span class="variable">err</span>, <span class="variable">str</span>){
+            <span class="keyword">if</span> (<span class="variable">err</span>) {
+              <span class="variable">next</span>(<span class="variable">err</span>);
+            } <span class="keyword">else</span> {
+              <span class="variable">compiler</span>.<span class="variable">compile</span>(<span class="variable">str</span>, <span class="keyword">function</span>(<span class="variable">err</span>, <span class="variable">str</span>){
+                <span class="keyword">if</span> (<span class="variable">err</span>) {
+                  <span class="variable">next</span>(<span class="variable">err</span>);
+                } <span class="keyword">else</span> {
+                  <span class="variable">fs</span>.<span class="variable">writeFile</span>(<span class="variable">dest</span>, <span class="variable">str</span>, <span class="string">'utf8'</span>, <span class="keyword">function</span>(<span class="variable">err</span>){
+                    <span class="variable">next</span>(<span class="variable">err</span>);
+                  });
+                }
+              });
+            }
+          });
+        }
+        <span class="keyword">return</span>;
+      }
+    }
+    <span class="variable">next</span>();
+  };
+};
+                </code>
+              </pre>
+             -->
+          
+          </div>
+        
+      
+        
+      
+    </div>
+  </body>
+</html>
