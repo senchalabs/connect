@@ -10,5 +10,5 @@
     "mime": ">= 0.0.1"
   },
   "main": "index",
-  "engines": { "node": ">= 0.2.5" }
+  "engines": { "node": ">= 0.4.0" }
 }
