@@ -22,4 +22,10 @@ docs:
 docclean:
 	rm -f docs/*.{html,json}
 
-.PHONY: docs test test-cov docclean
+site: docclean docs
+	cp -fr docs /tmp/docs \
+	  && git checkout gh-pages \
+	  && cp -fr /tmp/docs/* . \
+	  && echo "done"
+
+.PHONY: site docs test test-cov docclean
