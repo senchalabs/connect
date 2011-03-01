@@ -111,7 +111,7 @@ function parseComment(str) {
   var comment = { tags: [] };
 
   // parse comment body
-  comment.content = str.split('@')[0].replace(/^(\w[^\n:]+):/gm, '## $1');
+  comment.content = str.split('@')[0].replace(/^([\w ]+):/gm, '## $1');
   comment.description = comment.content.split('\n\n')[0];
   comment.body = comment.content.split('\n\n').slice(1).join('\n\n');
 
