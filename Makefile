@@ -23,7 +23,8 @@ docclean:
 	rm -f docs/*.{html,json}
 
 site: docclean docs
-	cp -fr docs /tmp/docs \
+	rm -fr /tmp/docs \
+		&& cp -fr docs /tmp/docs \
 	  && git checkout gh-pages \
 	  && cp -fr /tmp/docs/* . \
 	  && echo "done"
