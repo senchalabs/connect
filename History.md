@@ -1,4 +1,11 @@
 
+0.5.10 / 2011-02-14 
+==================
+
+  * Fixed SID space issue. Closes #196
+  * Fixed; proxy `res.end()` to commit session data
+  * Fixed directory traversal attack in `staticProvider`. Closes #198
+
 0.5.9 / 2011-02-09 
 ==================
 
