@@ -92,6 +92,10 @@ then:
           1	Bart Teeuwisse
           1	Guillermo Rauch
 
+## Node Compatibility
+
+  Connect `< 1.0.0`
+
 ## License
 
 View the [LICENSE](https://github.com/senchalabs/connect/blob/master/LICENSE) file.

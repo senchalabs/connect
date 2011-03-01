@@ -9,26 +9,20 @@
   * Added new [documentation](http://senchalabs.github.com/connect)
   * Added Range support to `static()`
   * Added HTTPS support
-
   * Rewrote session middleware. The session API now allows for
     session-specific cookies, so you may alter each individually.
     Click to view the new [session api](http://senchalabs.github.com/connect/middleware-session.html).
-
   * Added middleware self-awareness. This helps prevent
     middleware breakage when used within mounted servers.
     For example `cookieParser()` will not parse cookies more
-    than once even when within a mounted server.
-  
+    than once even when within a mounted server.  
   * Added new examples in the `./examples` directory
-
   * Added [limit()](http://senchalabs.github.com/connect/middleware-limit.html) middleware
   * Added [profiler()](http://senchalabs.github.com/connect/middleware-profiler.html) middleware
   * Added [responseTime()](http://senchalabs.github.com/connect/middleware-responseTime.html) middleware
-
   * Renamed `staticProvider` to `static`
   * Renamed `bodyDecoder` to `bodyParser`
   * Renamed `cookieDecoder` to `cookieParser`
-
   * Fixed ETag quotes. [reported by papandreou]
   * Fixed If-None-Match comma-delimited ETag support. [reported by papandreou]
   * Fixed; only set req.originalUrl once. Closes #124
