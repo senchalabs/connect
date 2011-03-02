@@ -1,4 +1,12 @@
 
+1.0.1 / 2011-03-02 
+==================
+
+  * Added `Session#save(fn)`. Closes #213
+  * Added callback support to `connect.static.send()` for express
+  * Added `connect.static.send()` "path" option
+  * Fixed content-type in `static()` for _index.html_
+
 1.0.0 / 2011-03-01 
 ==================
 
