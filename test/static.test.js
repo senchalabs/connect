@@ -54,7 +54,11 @@ module.exports = {
   'test index.html support': function(){
     assert.response(app,
       { url: '/' },
-      { body: '<p>Wahoo!</p>', status: 200 });
+      { body: '<p>Wahoo!</p>'
+      , status: 200
+      , headers: {
+        'Content-Type': 'text/html'
+      }});
   },
   
   'test index.html support when missing': function(){
