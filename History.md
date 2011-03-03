@@ -1,4 +1,10 @@
 
+1.0.2 / 2011-03-02 
+==================
+
+  * Fixed exported connect function
+  * Fixed package.json; node ">= 0.4.1 < 0.5.0"
+
 1.0.1 / 2011-03-02 
 ==================
 
