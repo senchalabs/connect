@@ -81,11 +81,11 @@ of "viewing user tj".</p>
 <span class="variable">exports</span> = <span class="variable">module</span>.<span class="variable">exports</span> = <span class="keyword">function</span> <span class="variable">bodyParser</span>(){
   <span class="keyword">return</span> <span class="keyword">function</span> <span class="variable">bodyParser</span>(<span class="variable">req</span>, <span class="variable">res</span>, <span class="variable">next</span>) {
     <span class="keyword">var</span> <span class="variable">parser</span> = <span class="variable">exports</span>.<span class="variable">parse</span>[<span class="variable">mime</span>(<span class="variable">req</span>)];
-    <span class="keyword">if</span> (<span class="variable">parser</span> && !<span class="variable">req</span>.<span class="variable">body</span> && !<span class="variable">req</span>.<span class="variable">complete</span>) {
+    <span class="keyword">if</span> (<span class="variable">parser</span> && !<span class="variable">req</span>.<span class="variable">body</span>) {
       <span class="keyword">var</span> <span class="variable">data</span> = <span class="string">''</span>;
       <span class="variable">req</span>.<span class="variable">setEncoding</span>(<span class="string">'utf8'</span>);
-      <span class="variable">req</span>.<span class="variable">addListener</span>(<span class="string">'data'</span>, <span class="keyword">function</span>(<span class="variable">chunk</span>) { <span class="variable">data</span> += <span class="variable">chunk</span>; });
-      <span class="variable">req</span>.<span class="variable">addListener</span>(<span class="string">'end'</span>, <span class="keyword">function</span>() {
+      <span class="variable">req</span>.<span class="variable">on</span>(<span class="string">'data'</span>, <span class="keyword">function</span>(<span class="variable">chunk</span>) { <span class="variable">data</span> += <span class="variable">chunk</span>; });
+      <span class="variable">req</span>.<span class="variable">on</span>(<span class="string">'end'</span>, <span class="keyword">function</span>(){
         <span class="variable">req</span>.<span class="variable">rawBody</span> = <span class="variable">data</span>;
         <span class="keyword">try</span> {
           <span class="variable">req</span>.<span class="variable">body</span> = <span class="variable">data</span>

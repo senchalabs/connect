@@ -172,6 +172,65 @@ session is still active.</p></p>
         
           <div class="comment">
             
+              <h3 class="method">.save()</h3>
+            
+            <p class="description"><p>Save the session data with optional callback <code>fn(err)</code>.</p></p>
+
+            
+
+            
+              <ul class="tags">
+              
+                
+
+                
+
+                
+
+                
+                  <li class="param"><em>param</em> <span class="types">Function</span> <span class="name">fn</span> <span class="description"></span></li>
+                
+              
+                
+                  <li class="return"><em>returns</em> <span class="types">Session</span></li>
+                
+
+                
+
+                
+
+                
+              
+                
+
+                
+                  <li class="api"><em>api</em> <span class="visibility">public</span></li>
+                
+
+                
+
+                
+              
+              </ul>
+
+<!--            
+              <pre class="code">
+                <code>
+<span class="class">Session</span>.<span class="variable">prototype</span>.<span class="variable">save</span> = <span class="keyword">function</span>(<span class="variable">fn</span>){
+  <span class="this">this</span>.<span class="variable">req</span>.<span class="variable">sessionStore</span>.<span class="variable">set</span>(<span class="this">this</span>.<span class="variable">id</span>, <span class="this">this</span>, <span class="variable">fn</span> || <span class="keyword">function</span>(){});
+  <span class="keyword">return</span> <span class="this">this</span>;
+};
+                </code>
+              </pre>
+             -->
+          
+          </div>
+        
+      
+        
+        
+          <div class="comment">
+            
               <h3 class="method">.destroy()</h3>
             
             <p class="description"><p>Destroy <code>this</code> session.</p></p>
@@ -218,7 +277,7 @@ session is still active.</p></p>
                 <code>
 <span class="class">Session</span>.<span class="variable">prototype</span>.<span class="variable">destroy</span> = <span class="keyword">function</span>(<span class="variable">fn</span>){
   <span class="keyword">delete</span> <span class="this">this</span>.<span class="variable">req</span>.<span class="variable">session</span>;
-  <span class="this">this</span>.<span class="variable">req</span>.<span class="variable">sessionStore</span>.<span class="variable">destroy</span>(<span class="this">this</span>.<span class="variable">req</span>.<span class="variable">sessionID</span>, <span class="variable">fn</span>);
+  <span class="this">this</span>.<span class="variable">req</span>.<span class="variable">sessionStore</span>.<span class="variable">destroy</span>(<span class="this">this</span>.<span class="variable">id</span>, <span class="variable">fn</span>);
   <span class="keyword">return</span> <span class="this">this</span>;
 };
                 </code>

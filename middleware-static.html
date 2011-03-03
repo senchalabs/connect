@@ -100,6 +100,7 @@
   <span class="variable">options</span>.<span class="variable">root</span> = <span class="variable">root</span>;
 
   <span class="keyword">return</span> <span class="keyword">function</span> <span class="variable">static</span>(<span class="variable">req</span>, <span class="variable">res</span>, <span class="variable">next</span>) {
+    <span class="variable">options</span>.<span class="variable">path</span> = <span class="variable">req</span>.<span class="variable">url</span>;
     <span class="variable">send</span>(<span class="variable">req</span>, <span class="variable">res</span>, <span class="variable">next</span>, <span class="variable">options</span>);
   };
 };
