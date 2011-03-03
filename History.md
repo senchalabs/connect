@@ -1,4 +1,9 @@
 
+1.0.3 / 2011-03-03 
+==================
+
+  * Fixed; `static.send()` invokes callback with connection error
+
 1.0.2 / 2011-03-02 
 ==================
 
