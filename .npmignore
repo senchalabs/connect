@@ -8,3 +8,4 @@ examples/
 install.sh
 support/
 test/
+.DS_Store
