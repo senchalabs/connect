@@ -94,7 +94,8 @@ then:
 
 ## Node Compatibility
 
-  Connect `< 1.0.0`
+  Connect `< 1.0.0` is compatible with node 0.2.x
+  Connect `>= 1.0.0` is compatible with node 0.4.x
 
 ## License
 
