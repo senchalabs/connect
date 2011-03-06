@@ -83,3 +83,24 @@ try {
   console.log('    $ npm install connect-redis');
   console.log('\033[0m');
 }
+
+// conditional session support by simply
+// wrapping middleware with middleware.
+
+var sess = connect.session({ secret: 'keyboard cat', cookie: { maxAge: 5000 }});
+
+connect(
+    connect.cookieParser()
+  , function(req, res, next){
+    if ('/foo' == req.url || '/bar' == req.url) {
+      sess(req, res, next);
+    } else {
+      next();
+    }
+  }
+  , connect.favicon()
+  , function(req, res, next){
+    res.end('has session: ' + (req.session ? 'yes' : 'no'));
+  }
+).listen(3003);
+console.log('port 3003: conditional sessions');
