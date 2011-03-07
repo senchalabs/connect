@@ -26,7 +26,7 @@ module.exports = {
          res.statusCode.should.equal(200);
          JSON.parse(res.body).should.eql({ name: 'tj', email: 'tj@vision-media.ca' });
          res.headers.should.have.property('content-length', '55');
-         res.headers.should.have.property('cache-control', 'public max-age=0');
+         res.headers.should.have.property('cache-control', 'public, max-age=0');
          res.headers.should.have.property('last-modified');
          res.headers.should.have.property('etag');
      });
@@ -41,7 +41,7 @@ module.exports = {
       { url: '/user.json' },
       function(res){
         res.statusCode.should.equal(200);
-        res.headers.should.have.property('cache-control', 'public max-age=60');
+        res.headers.should.have.property('cache-control', 'public, max-age=60');
     });
   },
   
