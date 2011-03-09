@@ -1,4 +1,12 @@
 
+1.0.4 / 2011-03-09 
+==================
+
+  * Added `res.charset`
+  * Added conditional sessions example
+  * Added support for `session.ignore` to be replaced. Closes #227
+  * Fixed `Cache-Control` delimiters. Closes #228
+
 1.0.3 / 2011-03-03 
 ==================
 
