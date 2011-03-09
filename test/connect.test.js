@@ -239,5 +239,17 @@ module.exports = {
     assert.response(app,
       { url: '/hello' },
       { body: 'world' });
+  },
+  
+  'test .charset': function(){
+    var app = connect(function(req, res){
+      res.charset = 'utf8';
+      res.setHeader('Content-Type', 'text/html');
+      res.end('test');
+    });
+
+    assert.response(app,
+      { url: '/' },
+      { headers: { 'Content-Type': 'text/html; charset=utf8' }});
   }
 };
