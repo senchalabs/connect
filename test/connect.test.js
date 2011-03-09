@@ -245,7 +245,7 @@ module.exports = {
     var app = connect(function(req, res){
       res.charset = 'utf8';
       res.setHeader('Content-Type', 'text/html');
-      res.end('Hello');
+      res.end('test');
     });
 
     assert.response(app,
