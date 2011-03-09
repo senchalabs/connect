@@ -120,7 +120,7 @@ module.exports = {
       , connect.session({ secret: 'keyboard cat', key: 'sid' })
       , function(req, res, next){
         res.setHeader('Set-Cookie', 'foo=bar');
-        res.writeHead(200, { 'Set-Cookie': 'bar=baz' });
+        res.setHeader('Set-Cookie', 'bar=baz');
         res.end('wahoo');
       }
     );
@@ -131,7 +131,7 @@ module.exports = {
         var cookies = res.headers['set-cookie'];
         cookies.should.have.length(3);
         cookies[0].should.equal('foo=bar');
-        cookies[2].should.equal('bar=baz');
+        cookies[1].should.equal('bar=baz');
       });
   },
   
