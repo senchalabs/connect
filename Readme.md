@@ -56,6 +56,10 @@ assumed to be an https server:
         , connect.static(__dirname)
       ).listen(443);
 
+### Charset
+
+ The charset is not longer forced via `mime.type()` resolution, now you must explicitly assign this via `res.charset = 'utf8'` etc.
+
 ## Running Tests
 
 first:
