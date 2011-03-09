@@ -1,4 +1,9 @@
 
+1.0.5 / 2011-03-09 
+==================
+
+  * Fixed; `logger()` using `req.originalUrl` instead of `req.url`
+
 1.0.4 / 2011-03-09 
 ==================
 
