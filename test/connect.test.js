@@ -103,6 +103,16 @@ module.exports = {
       res.end('hello');
     });
 
+    var foo = connect(function(req, res, next){
+      res.end(foo.route);
+    });
+
+    app.use('/foo', function(req, res, next){ next(); }, foo);
+
+    assert.response(app,
+      { url: '/foo' },
+      { body: '/foo' });
+
     assert.response(app,
       { url: '/hello' },
       { body: 'hello' });
