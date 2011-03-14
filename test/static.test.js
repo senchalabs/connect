@@ -31,7 +31,20 @@ module.exports = {
          res.headers.should.have.property('etag');
      });
    },
+
+  'test mount': function(){
+    var app = connect.createServer(
+      connect.static(fixturesPath, { mount: '/mountPoint' })
+    );
     
+    assert.response(app,
+      { url: '/mountPoint/user.json' },
+      function(res){
+        res.statusCode.should.equal(200);
+        JSON.parse(res.body).should.eql({ name: 'tj', email: 'tj@vision-media.ca' });
+    });
+  },
+   
   'test maxAge': function(){
     var app = connect.createServer(
       connect.static(fixturesPath, { maxAge: 60000 })
