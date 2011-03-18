@@ -1,4 +1,9 @@
 
+1.1.1 / 2011-03-18 
+==================
+
+  * Fixed session middleware for HTTPS. Closes #241 [reported by mt502]
+
 1.1.0 / 2011-03-17 
 ==================
 
