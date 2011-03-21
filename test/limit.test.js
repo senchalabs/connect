@@ -27,9 +27,9 @@ function create(size) {
 module.exports = {
   'test limit exceeded': function(){
     var app = create(5 * 1024);
-
+  
     app.listen(10000);
-
+  
     var options = { method: 'POST', port: 10000 }
       , req = http.request(options, function(res){
         var body = '';
@@ -37,6 +37,42 @@ module.exports = {
       res.on('data', function(chunk){ body += chunk });
       res.on('end', function(){
         body.should.equal('limit exceeded, cut off at 5120');
+        app.close();
+      });
+    });
+  
+    req.write(new Buffer(1024));
+    req.write(new Buffer(1024));
+    req.write(new Buffer(1024));
+    req.write(new Buffer(1024));
+    req.write(new Buffer(1024));
+    req.write(new Buffer(1024));
+    req.write(new Buffer(1024));
+  },
+  
+  'test "limit" event': function(){
+    var app = connect(
+        connect.limit('5kb')
+      , function(req, res, next){
+        req.on('limit', function(err){
+          res.statusCode = 500;
+          res.end('limit of ' + err.limit + ' bytes exceeded');
+        });
+        req.on('end', function(){
+          res.end('upload complete');
+        });
+      }
+    );
+
+    app.listen(10001);
+
+    var options = { method: 'POST', port: 10001 }
+      , req = http.request(options, function(res){
+        var body = '';
+      res.statusCode.should.equal(500);
+      res.on('data', function(chunk){ body += chunk });
+      res.on('end', function(){
+        body.should.equal('limit of 5120 bytes exceeded');
         app.close();
       });
     });
@@ -53,9 +89,9 @@ module.exports = {
   'test limit string syntax': function(){
     var app = create('5kb');
   
-    app.listen(10001);
+    app.listen(10002);
   
-    var options = { method: 'POST', port: 10001 }
+    var options = { method: 'POST', port: 10002 }
       , req = http.request(options, function(res){
         var body = '';
       res.statusCode.should.equal(413);
@@ -78,9 +114,9 @@ module.exports = {
   'test limit': function(){
     var app = create(5 * 1024);
   
-    app.listen(10002);
+    app.listen(10003);
   
-    var options = { method: 'POST', port: 10002 }
+    var options = { method: 'POST', port: 10003 }
       , req = http.request(options, function(res){
       res.statusCode.should.equal(200);
       app.close();
