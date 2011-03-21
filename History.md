@@ -1,4 +1,10 @@
 
+1.1.2 / 2011-03-21 
+==================
+
+  * Added request "limit" event to `limit()` middleware
+  * Changed; `limit()` middleware will `next(err)` on failure
+
 1.1.1 / 2011-03-18 
 ==================
 
