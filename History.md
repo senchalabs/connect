@@ -1,4 +1,10 @@
 
+1.1.4 / 2011-03-23 
+==================
+
+  * Added `logger()` support for format function
+  * Fixed `logger()` to support mess of writeHead()/progressive api for node 0.4.x
+
 1.1.3 / 2011-03-21 
 ==================
 
