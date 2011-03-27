@@ -57,7 +57,7 @@ module.exports = {
       { body: '<p>Wahoo!</p>'
       , status: 200
       , headers: {
-        'Content-Type': 'text/html'
+        'Content-Type': 'text/html; charset=UTF-8'
       }});
   },
   
