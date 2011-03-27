@@ -1,4 +1,10 @@
 
+1.1.5 / 2011-03-27 
+==================
+
+  * Added; allow `logger()` callback function to return an empty string to ignore logging
+  * Fixed; utilizing `mime.charsets.lookup()` for `static()`. Closes 245
+
 1.1.4 / 2011-03-23 
 ==================
 
