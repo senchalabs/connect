@@ -7,9 +7,32 @@ var connect = require('connect')
   , assert = require('assert')
   , http = require('http');
 
-var app = connect.createServer(
+// sync
+
+var app = connect(
   connect.basicAuth(function(user, pass){
     return 'tj' == user && 'tobi' == pass;
+  }),
+  function(req, res){
+    res.end('wahoo');
+  }
+);
+
+// async
+
+var User = {
+  authenticate: function(query, fn){
+    if (query.name == 'tj' && query.pass == 'tobi') {
+      fn(null, { name: 'tj' });
+    } else {
+      fn(new Error('user not found'));
+    }
+  }
+}
+
+var async = connect(
+  connect.basicAuth(function(user, pass, fn){
+    User.authenticate({ name: user, pass: pass }, fn);
   }),
   function(req, res){
     res.end('wahoo');
@@ -43,5 +66,23 @@ module.exports = {
     assert.response(app,
       { url: '/', headers: { Authorization: 'Foo asdfasdf' }},
       { body: 'Bad Request', status: 400 });
-  }
+  },
+  
+  'test async authorized': function(){
+    assert.response(async,
+      { url: '/', headers: { Authorization: 'Basic dGo6dG9iaQ==' }},
+      { body: 'wahoo', status: 200 });
+  },
+  
+  'test async unauthorized': function(){
+    assert.response(async,
+      { url: '/', headers: { Authorization: 'Basic dasdfasdfas' }},
+      { body: 'Unauthorized', status: 401 });
+  },
+  
+  'test async bad request': function(){
+    assert.response(async,
+      { url: '/', headers: { Authorization: 'Foo asdfasdf' }},
+      { body: 'Bad Request', status: 400 });
+  },
 };
