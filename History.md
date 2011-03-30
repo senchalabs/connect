@@ -1,4 +1,11 @@
 
+1.2.0 / 2011-03-30 
+==================
+
+  * Added `router.lookup(path[, method])`
+  * Added `router.match(url[, method])`
+  * Added basicAuth async support. Closes #223
+
 1.1.5 / 2011-03-27 
 ==================
 
