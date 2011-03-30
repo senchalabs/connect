@@ -357,6 +357,12 @@ module.exports = {
       app.post('/user', function(){});
     });
 
+    var fn = router.lookup('/user/:id')[0];
+    fn.regexp.should.be.an.instanceof(RegExp);
+    fn.path.should.equal('/user/:id');
+    fn.method.should.equal('GET');
+    fn.keys.should.eql(['id']);
+
     router.lookup('/user/:id')[0].should.be.a('function');
     router.lookup('/user/:id').should.have.length(3);
     router.lookup('/user/:id', 'GET').should.have.length(2);
@@ -381,6 +387,10 @@ module.exports = {
       app.get('/user/:id/edit', function(){});
       app.post('/user', function(){});
     });
+
+    var fn = router.match('/user/12')[0];
+    fn._keys.should.eql(['id']);
+    fn._params.id.should.equal('12');
 
     router.match('/').should.be.empty;
     router.match('/', 'GET').should.be.empty;
