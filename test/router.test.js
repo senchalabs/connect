@@ -389,8 +389,8 @@ module.exports = {
     });
 
     var fn = router.match('/user/12')[0];
-    fn._keys.should.eql(['id']);
-    fn._params.id.should.equal('12');
+    fn.keys.should.eql(['id']);
+    fn.params.id.should.equal('12');
 
     router.match('/').should.be.empty;
     router.match('/', 'GET').should.be.empty;
