@@ -359,6 +359,7 @@ module.exports = {
 
     router.lookup('/user/:id').should.have.length(3);
     router.lookup('/user/:id', 'GET').should.have.length(2);
+    router.lookup('/user/:id', 'get').should.have.length(2);
     router.lookup('/user/:id/edit', 'GET').should.have.length(1);
     router.lookup('/user/:id', 'PUT').should.have.length(1);
     router.lookup('/user/:id', 'FOO').should.be.empty;
