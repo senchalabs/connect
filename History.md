@@ -1,4 +1,9 @@
 
+1.2.1 / 2011-03-30 
+==================
+
+  * Fixed `logger()` https `remoteAddress` logging [Alexander Simmerl]
+
 1.2.0 / 2011-03-30 
 ==================
 
