@@ -357,6 +357,7 @@ module.exports = {
       app.post('/user', function(){});
     });
 
+    router.lookup('/user/:id')[0].should.be.a('function');
     router.lookup('/user/:id').should.have.length(3);
     router.lookup('/user/:id', 'GET').should.have.length(2);
     router.lookup('/user/:id', 'get').should.have.length(2);
@@ -383,6 +384,7 @@ module.exports = {
 
     router.match('/').should.be.empty;
     router.match('/', 'GET').should.be.empty;
+    router.match('/user/12', 'GET')[0].should.be.a('function');
     router.match('/user/12/edit', 'GET').should.have.length(1);
     router.match('/user/12', 'GET').should.have.length(2);
     router.match('/user/12', 'PUT').should.have.length(1);
