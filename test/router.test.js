@@ -339,5 +339,54 @@ module.exports = {
     assert.response(app,
       { url: '/user/12' },
       { body: 'string' });
+  },
+  
+  'test .lookup()': function(){
+    var router = connect.router(function(app){
+      app.get('/user/:id', function(req, res, next){
+        req.params.id = parseInt(req.params.id, 10);
+        next();
+      });
+
+      app.get('/user/:id', function(req, res){
+        res.end(typeof req.params.id);
+      });
+
+      app.put('/user/:id', function(){});
+      app.get('/user/:id/edit', function(){});
+      app.post('/user', function(){});
+    });
+
+    router.lookup('/user/:id').should.have.length(3);
+    router.lookup('/user/:id', 'GET').should.have.length(2);
+    router.lookup('/user/:id', 'get').should.have.length(2);
+    router.lookup('/user/:id/edit', 'GET').should.have.length(1);
+    router.lookup('/user/:id', 'PUT').should.have.length(1);
+    router.lookup('/user/:id', 'FOO').should.be.empty;
+  },
+  
+  'test .match()': function(){
+    var router = connect.router(function(app){
+      app.get('/user/:id', function(req, res, next){
+        req.params.id = parseInt(req.params.id, 10);
+        next();
+      });
+
+      app.get('/user/:id', function(req, res){
+        res.end(typeof req.params.id);
+      });
+
+      app.put('/user/:id', function(){});
+      app.get('/user/:id/edit', function(){});
+      app.post('/user', function(){});
+    });
+
+    router.match('/').should.be.empty;
+    router.match('/', 'GET').should.be.empty;
+    router.match('/user/12/edit', 'GET').should.have.length(1);
+    router.match('/user/12', 'GET').should.have.length(2);
+    router.match('/user/12', 'PUT').should.have.length(1);
+    router.match('/user', 'POST').should.have.length(1);
+    router.match('/user').should.have.length(1);
   }
 };
