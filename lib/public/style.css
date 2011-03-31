@@ -5,9 +5,8 @@ body {
   background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#fff), to(#ECE9E9));
   background: -moz-linear-gradient(top, #fff, #ECE9E9);
   color: #555;
-  -webkit-text-stroke: 1px rgba(255, 255, 255, 0.1);
-  height: 100%;
   margin: 0;
+  -webkit-font-smoothing: antialiased;
 }
 h1, h2, h3 {
   margin: 0;
@@ -19,7 +18,6 @@ h1 em, h2 em {
   font-weight: normal;
 }
 h1 {
-  text-shadow: 1px 2px 2px #ddd;
   font-size: 60px;
 }
 h2 {
@@ -39,21 +37,10 @@ ul li {
   margin: 5px 0;
   padding: 3px 8px;
   list-style: none;
-  border: 1px solid #eee;
-  -webkit-border-radius: 3px;
-  -moz-border-radius: 3px;
-  border-radius: 3px;
-  -webkit-transition-property: color, padding;
-  -moz-transition-property: color, padding;
-  -o-transition-property: color, padding-left;
-  -webkit-transition-duration: 0.1s;
-  -moz-transition-duration: 0.1s;
-  -o-transition-duration: 0.1s;
 }
 ul li:hover {
-  padding: 3px 20px;
   cursor: pointer;
-  color: #2E2E2E;
+  color: #2e2e2e;
 }
 ul li .path {
   padding-left: 5px;
@@ -69,49 +56,12 @@ ul li:first-child .path {
 p {
   line-height: 1.5;
 }
-pre {
-  margin: 0;
-  padding: 10px;
-  border: 1px solid #eee;
-  -webkit-border-radius: 10px;
-  -moz-border-radius: 10px;
-  border-radius: 10px;
-  -webkit-box-shadow: 1px 1px 6px #ddd;
-  -moz-box-shadow: 1px 1px 6px #ddd;
-  box-shadow: 1px 1px 6px #ddd;
-}
-table {
-  margin-bottom: 35px;
-  width: 100%;
-  border-collapse: collapse;
-}
-table td {
-  padding: 5px 10px;
-  font-size: 14px;
-}
-table tr {
-  border-bottom: 1px solid #fff;
-}
-table tr:last-child {
-  border-bottom: none;
-}
-table td:first-child {
-  width: 150px;
-  color: #343434;
-}
 #wrapper {
   margin: 0px auto;
-  padding: 50px 0px;
-  width: 750px;
+  padding: 100px 0px;
+  width: 600px;
   text-align: left;
 }
 #stacktrace {
 	margin-top: 15px;
-}
-#stacktrace li a:link, #stacktrace li a:visited {
-    color: inherit;
-    text-decoration: none;
-}
-#stacktrace li a:hover {
-    background-color: #ece9e9;
 }
