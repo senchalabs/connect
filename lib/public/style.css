@@ -1,11 +1,11 @@
 body {
+  margin: 0;
+  padding: 80px 100px;
   font: 13px "Helvetica Neue", "Lucida Grande", "Arial";
-  text-align: center;
   background: #F8F8F8;
   background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#fff), to(#ECE9E9));
   background: -moz-linear-gradient(top, #fff, #ECE9E9);
   color: #555;
-  margin: 0;
   -webkit-font-smoothing: antialiased;
 }
 h1, h2, h3 {
@@ -55,12 +55,6 @@ ul li:first-child .path {
 }
 p {
   line-height: 1.5;
-}
-#wrapper {
-  margin: 0px auto;
-  padding: 100px 0px;
-  width: 600px;
-  text-align: left;
 }
 #stacktrace {
 	margin-top: 15px;
