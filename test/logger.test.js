@@ -11,13 +11,13 @@ var connect = require('connect')
 
 module.exports = {
   'test http :req[header]': function(){
-    var logLine = ''
-      , app = connect.createServer(
-          connect.logger({
-            format: ':req[foo]',
-            stream: { write: function(line){ logLine = line; } }
-          })
-        );
+    var logLine = '';
+    var app = connect(
+      connect.logger({
+        format: ':req[foo]',
+        stream: { write: function(line){ logLine = line; } }
+      })
+    );
 
     assert.response(app,
       { url: '/', headers: { Foo: 'Bar' } },
@@ -28,12 +28,12 @@ module.exports = {
 
   'test http :res[header]': function(){
     var logLine = ''
-      , app = connect.createServer(
-          connect.logger({
-            format: ':res[content-type]',
-            stream: { write: function(line){ logLine = line; } }
-          })
-        );
+    var app = connect(
+      connect.logger({
+        format: ':res[content-type]',
+        stream: { write: function(line){ logLine = line; } }
+      })
+    );
 
     assert.response(app,
       { url: '/', headers: { Foo: 'Bar' } },
@@ -43,13 +43,13 @@ module.exports = {
   },
   
   'test http :http-version': function(){
-    var logLine = ''
-      , app = connect.createServer(
-          connect.logger({
-            format: ':http-version',
-            stream: { write: function(line){ logLine = line; } }
-          })
-        );
+    var logLine = '';
+    var app = connect(
+      connect.logger({
+        format: ':http-version',
+        stream: { write: function(line){ logLine = line; } }
+      })
+    );
 
     assert.response(app,
       { url: '/' },
@@ -59,13 +59,13 @@ module.exports = {
   },
   
   'test http :response-time': function(){
-    var logLine = ''
-      , app = connect.createServer(
-          connect.logger({
-            format: ':response-time',
-            stream: { write: function(line){ logLine = line; } }
-          })
-        );
+    var logLine = '';
+    var app = connect(
+      connect.logger({
+        format: ':response-time',
+        stream: { write: function(line){ logLine = line; } }
+      })
+    );
 
     assert.response(app,
       { url: '/' },
@@ -75,13 +75,13 @@ module.exports = {
   },
   
   'test http :remote-addr': function(){
-    var logLine = ''
-      , app = connect.createServer(
-          connect.logger({
-            format: ':remote-addr',
-            stream: { write: function(line){ logLine = line; } }
-          })
-        );
+    var logLine = '';
+    var app = connect(
+      connect.logger({
+        format: ':remote-addr',
+        stream: { write: function(line){ logLine = line; } }
+      })
+    );
 
     assert.response(app,
       { url: '/'},
@@ -91,13 +91,13 @@ module.exports = {
   },
   
   'test http :date': function(){
-    var logLine = ''
-      , app = connect.createServer(
-          connect.logger({
-            format: ':date',
-            stream: { write: function(line){ logLine = line; } }
-          })
-        );
+    var logLine = '';
+    var app = connect(
+      connect.logger({
+        format: ':date',
+        stream: { write: function(line){ logLine = line; } }
+      })
+    );
 
     assert.response(app,
       { url: '/'},
@@ -110,13 +110,13 @@ module.exports = {
   },
   
   'test http :method': function(){
-    var logLine = ''
-      , app = connect.createServer(
-          connect.logger({
-            format: ':method',
-            stream: { write: function(line){ logLine = line; } }
-          })
-        );
+    var logLine = '';
+    var app = connect(
+      connect.logger({
+        format: ':method',
+        stream: { write: function(line){ logLine = line; } }
+      })
+    );
 
     assert.response(app,
       { method: 'post', url: '/' },
@@ -126,13 +126,13 @@ module.exports = {
   },
   
   'test http :url': function(){
-    var logLine = ''
-      , app = connect.createServer(
-          connect.logger({
-            format: ':url',
-            stream: { write: function(line){ logLine = line; } }
-          })
-        );
+    var logLine = '';
+    var app = connect(
+      connect.logger({
+        format: ':url',
+        stream: { write: function(line){ logLine = line; } }
+      })
+    );
 
     assert.response(app,
       { url: '/foo/bar?baz=equals&the#ossom' },
@@ -142,13 +142,13 @@ module.exports = {
   },
   
   'test http :referrer': function(){
-    var logLine = ''
-      , app = connect.createServer(
-          connect.logger({
-            format: ':referrer',
-            stream: { write: function(line){ logLine = line; } }
-          })
-        );
+    var logLine = '';
+    var app = connect(
+      connect.logger({
+        format: ':referrer',
+        stream: { write: function(line){ logLine = line; } }
+      })
+    );
 
     assert.response(app,
       { url: '/', headers: { referrer: 'http://google.com' } },
@@ -158,13 +158,13 @@ module.exports = {
   },
   
   'test http :user-agent': function(){
-    var logLine = ''
-      , app = connect.createServer(
-          connect.logger({
-            format: ':user-agent',
-            stream: { write: function(line){ logLine = line; } }
-          })
-        );
+    var logLine = '';
+    var app = connect(
+      connect.logger({
+        format: ':user-agent',
+        stream: { write: function(line){ logLine = line; } }
+      })
+    );
 
     assert.response(app,
       { url: '/', headers: { 'user-agent': 'FooBarClient 1.1.0' } },
@@ -174,13 +174,13 @@ module.exports = {
   },
   
   'test http :status': function(){
-    var logLine = ''
-      , app = connect.createServer(
-          connect.logger({
-            format: ':status',
-            stream: { write: function(line){ logLine = line; } }
-          })
-        );
+    var logLine = '';
+    var app = connect(
+      connect.logger({
+        format: ':status',
+        stream: { write: function(line){ logLine = line; } }
+      })
+    );
 
     assert.response(app,
       { url: '/' },
@@ -190,24 +190,23 @@ module.exports = {
   },
 
   'test https :remote-addr': function(){
-    var logLine = ''
-      , app = connect.createServer(
-          {
-            key: fs.readFileSync(__dirname + '/fixtures/ssl.key'),
-            cert: fs.readFileSync(__dirname + '/fixtures/ssl.crt')
-          },
-          connect.logger({
-            format: ':remote-addr',
-            stream: { write: function(line){ logLine = line; } }
-          })
-        );
+    var logLine = '';
+    var app = connect({
+        key: fs.readFileSync(__dirname + '/fixtures/ssl.key'),
+        cert: fs.readFileSync(__dirname + '/fixtures/ssl.crt')
+      },
+      connect.logger({
+        format: ':remote-addr',
+        stream: { write: function(line){ logLine = line; } }
+      })
+    );
 
     app.listen(7777, '127.0.0.1', function() {
       var request = https.request({
-        host: '127.0.0.1',
-        port: 7777,
-        method: 'GET',
-        path: '/'
+          host: '127.0.0.1'
+        , port: 7777
+        , method: 'GET'
+        , path: '/'
       });
 
       request.on('response', function(response){
