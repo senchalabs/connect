@@ -1,4 +1,11 @@
 
+1.2.2 / 2011-04-05 
+==================
+
+  * Added `basicAuth(username, password)` support
+  * Added `errorHandler.title` defaulting to "Connect"
+  * Changed `errorHandler` css
+
 1.2.1 / 2011-03-30 
 ==================
 
