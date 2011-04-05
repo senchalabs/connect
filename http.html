@@ -189,7 +189,7 @@ however provides a progressive api.</p>
 
   <span class="comment">// multiples</span>
   <span class="keyword">if</span> (<span class="variable">arguments</span>.<span class="variable">length</span> > <span class="number integer">2</span>) {
-    <span class="class">Array</span>.<span class="variable">prototype</span>.<span class="variable">slice</span>.<span class="variable">call</span>(<span class="variable">arguments</span>, <span class="number integer">1</span>).<span class="variable">forEach</span>(<span class="keyword">function</span>(<span class="variable">fn</span>){
+    <span class="keyword">return</span> <span class="class">Array</span>.<span class="variable">prototype</span>.<span class="variable">slice</span>.<span class="variable">call</span>(<span class="variable">arguments</span>, <span class="number integer">1</span>).<span class="variable">forEach</span>(<span class="keyword">function</span>(<span class="variable">fn</span>){
       <span class="this">this</span>.<span class="variable">use</span>(<span class="variable">route</span>, <span class="variable">fn</span>);
     }, <span class="this">this</span>);
   }

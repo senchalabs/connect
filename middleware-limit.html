@@ -25,10 +25,7 @@
 
             
               <div class="body">
-                <p>When exceeded, the request will emit an "error" event,
-and the limit can be checked via <code>error.limit</code>.</p>
-
-<p>A string representation of the bytesize may also be passed,
+                <p>A string representation of the bytesize may also be passed,
 for example "5mb", "200kb", "1gb", etc.</p>
 
 <h2>Examples</h2>
@@ -36,6 +33,18 @@ for example "5mb", "200kb", "1gb", etc.</p>
 <pre><code><span class="keyword">var</span> <span class="variable">server</span> = <span class="variable">connect</span>(
   <span class="variable">connect</span>.<span class="variable">limit</span>(<span class="string">'5.5mb'</span>)
 ).<span class="variable">listen</span>(<span class="number integer">3000</span>);</code></pre>
+
+<p>Example route usage</p>
+
+<pre><code><span class="variable">req</span>.<span class="variable">on</span>(<span class="string">'limit'</span>, <span class="keyword">function</span>(<span class="variable">err</span>){
+  <span class="variable">res</span>.<span class="variable">end</span>(<span class="string">'uploaded failed due to exceeding '</span> + <span class="variable">err</span>.<span class="variable">limit</span> + <span class="string">' bytes'</span>);
+});
+
+<span class="variable">req</span>.<span class="variable">on</span>(<span class="string">'end'</span>, <span class="keyword">function</span>(<span class="variable">err</span>){
+  <span class="variable">res</span>.<span class="variable">end</span>(<span class="string">'upload successful'</span>);
+});</code></pre>
+
+<h2>TODO utilize Content-Length</h2>
               </div>
             
 
@@ -81,8 +90,7 @@ for example "5mb", "200kb", "1gb", etc.</p>
   <span class="keyword">if</span> (<span class="string">'string'</span> == <span class="keyword">typeof</span> <span class="variable">bytes</span>) <span class="variable">bytes</span> = <span class="variable">parse</span>(<span class="variable">bytes</span>);
   <span class="keyword">if</span> (<span class="string">'number'</span> != <span class="keyword">typeof</span> <span class="variable">bytes</span>) <span class="keyword">throw</span> <span class="keyword">new</span> <span class="class">Error</span>(<span class="string">'limit() bytes required'</span>);
   <span class="keyword">return</span> <span class="keyword">function</span> <span class="variable">limit</span>(<span class="variable">req</span>, <span class="variable">res</span>, <span class="variable">next</span>){
-    <span class="keyword">var</span> <span class="variable">received</span> = <span class="number integer">0</span>
-      , <span class="variable">done</span>;
+    <span class="keyword">var</span> <span class="variable">received</span> = <span class="number integer">0</span>;
 
     <span class="comment">// self-awareness</span>
     <span class="keyword">if</span> (<span class="variable">req</span>.<span class="variable">_limit</span>) <span class="keyword">return</span> <span class="variable">next</span>();
@@ -91,12 +99,7 @@ for example "5mb", "200kb", "1gb", etc.</p>
     <span class="comment">// limit</span>
     <span class="variable">req</span>.<span class="variable">on</span>(<span class="string">'data'</span>, <span class="keyword">function</span>(<span class="variable">chunk</span>){
       <span class="variable">received</span> += <span class="variable">chunk</span>.<span class="variable">length</span>;
-      <span class="keyword">if</span> (<span class="variable">received</span> > <span class="variable">bytes</span> && !<span class="variable">done</span>) {
-        <span class="variable">done</span> = <span class="variable">true</span>;
-        <span class="keyword">var</span> <span class="variable">err</span> = <span class="keyword">new</span> <span class="class">Error</span>(<span class="string">'limit of '</span> + <span class="variable">bytes</span> + <span class="string">' bytes exceeded'</span>);
-        <span class="variable">err</span>.<span class="variable">limit</span> = <span class="variable">bytes</span>;
-        <span class="variable">req</span>.<span class="variable">emit</span>(<span class="string">'error'</span>, <span class="variable">err</span>);
-      }
+      <span class="keyword">if</span> (<span class="variable">received</span> > <span class="variable">bytes</span>) <span class="variable">req</span>.<span class="variable">destroy</span>();
     });
 
     <span class="variable">next</span>();

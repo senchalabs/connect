@@ -231,6 +231,82 @@ session is still active.</p></p>
         
           <div class="comment">
             
+              <h3 class="method">.reload()</h3>
+            
+            <p class="description"><p>Re-loads the session data <em>without</em> altering
+the maxAge or lastAccess properties. Invokes the
+callback <code>fn(err)</code>, after which time if no exception
+has occurred the <code>req.session</code> property will be
+a new <code>Session</code> object, although representing the
+same session.</p></p>
+
+            
+
+            
+              <ul class="tags">
+              
+                
+
+                
+
+                
+
+                
+                  <li class="param"><em>param</em> <span class="types">Function</span> <span class="name">fn</span> <span class="description"></span></li>
+                
+              
+                
+                  <li class="return"><em>returns</em> <span class="types">Session</span></li>
+                
+
+                
+
+                
+
+                
+              
+                
+
+                
+                  <li class="api"><em>api</em> <span class="visibility">public</span></li>
+                
+
+                
+
+                
+              
+              </ul>
+
+<!--            
+              <pre class="code">
+                <code>
+<span class="class">Session</span>.<span class="variable">prototype</span>.<span class="variable">reload</span> = <span class="keyword">function</span>(<span class="variable">fn</span>){
+  <span class="comment">// TODO: refactor duplicate logic</span>
+  <span class="keyword">var</span> <span class="variable">req</span> = <span class="this">this</span>.<span class="variable">req</span>;
+  <span class="variable">req</span>.<span class="variable">sessionStore</span>.<span class="variable">get</span>(<span class="this">this</span>.<span class="variable">id</span>, <span class="keyword">function</span>(<span class="variable">err</span>, <span class="variable">sess</span>){
+    <span class="keyword">if</span> (<span class="variable">err</span>) <span class="keyword">return</span> <span class="variable">fn</span>(<span class="variable">err</span>);
+    <span class="keyword">if</span> (!<span class="variable">sess</span>) <span class="keyword">return</span> <span class="variable">fn</span>(<span class="keyword">new</span> <span class="class">Error</span>(<span class="string">'failed to load session'</span>));
+    <span class="keyword">var</span> <span class="variable">expires</span> = <span class="variable">sess</span>.<span class="variable">cookie</span>.<span class="variable">expires</span>
+      , <span class="variable">orig</span> = <span class="variable">sess</span>.<span class="variable">cookie</span>.<span class="variable">originalMaxAge</span>;
+    <span class="variable">sess</span>.<span class="variable">cookie</span> = <span class="keyword">new</span> <span class="class">Cookie</span>(<span class="variable">sess</span>.<span class="variable">cookie</span>);
+    <span class="keyword">if</span> (<span class="string">'string'</span> == <span class="keyword">typeof</span> <span class="variable">expires</span>) <span class="variable">sess</span>.<span class="variable">cookie</span>.<span class="variable">expires</span> = <span class="keyword">new</span> <span class="class">Date</span>(<span class="variable">expires</span>);
+    <span class="variable">sess</span>.<span class="variable">cookie</span>.<span class="variable">originalMaxAge</span> = <span class="variable">orig</span>;
+    <span class="variable">req</span>.<span class="variable">session</span> = <span class="keyword">new</span> <span class="class">Session</span>(<span class="variable">req</span>, <span class="variable">sess</span>);
+    <span class="variable">fn</span>();
+  });
+  <span class="keyword">return</span> <span class="this">this</span>;
+};
+                </code>
+              </pre>
+             -->
+          
+          </div>
+        
+      
+        
+        
+          <div class="comment">
+            
               <h3 class="method">.destroy()</h3>
             
             <p class="description"><p>Destroy <code>this</code> session.</p></p>

@@ -47,7 +47,7 @@
                 
 
                 
-                  <li class="param"><em>param</em> <span class="types">String, Object</span> <span class="name">format</span> <span class="description">or options</span></li>
+                  <li class="param"><em>param</em> <span class="types">String, Function, Object</span> <span class="name">format</span> <span class="description">or options</span></li>
                 
               
                 
@@ -76,10 +76,12 @@
               <pre class="code">
                 <code>
 <span class="variable">module</span>.<span class="variable">exports</span> = <span class="keyword">function</span> <span class="variable">logger</span>(<span class="variable">options</span>) {
-  <span class="keyword">if</span> (<span class="string">'string'</span> == <span class="keyword">typeof</span> <span class="variable">options</span>) {
+  <span class="keyword">if</span> (<span class="string">'object'</span> == <span class="keyword">typeof</span> <span class="variable">options</span>) {
+    <span class="variable">options</span> = <span class="variable">options</span> || {};
+  } <span class="keyword">else</span> <span class="keyword">if</span> (<span class="variable">options</span>) {
     <span class="variable">options</span> = { <span class="variable">format</span>: <span class="variable">options</span> };
   } <span class="keyword">else</span> {
-    <span class="variable">options</span> = <span class="variable">options</span> || {};
+    <span class="variable">options</span> = {};
   }
 
   <span class="keyword">var</span> <span class="variable">fmt</span> = <span class="variable">options</span>.<span class="variable">format</span>
@@ -112,10 +114,9 @@
   <span class="keyword">return</span> <span class="keyword">function</span> <span class="variable">logger</span>(<span class="variable">req</span>, <span class="variable">res</span>, <span class="variable">next</span>) {
     <span class="keyword">var</span> <span class="variable">start</span> = +<span class="keyword">new</span> <span class="class">Date</span>
       , <span class="variable">statusCode</span>
-      , <span class="variable">resHeaders</span>
       , <span class="variable">writeHead</span> = <span class="variable">res</span>.<span class="variable">writeHead</span>
       , <span class="variable">end</span> = <span class="variable">res</span>.<span class="variable">end</span>
-      , <span class="variable">url</span> = <span class="variable">req</span>.<span class="variable">url</span>;
+      , <span class="variable">url</span> = <span class="variable">req</span>.<span class="variable">originalUrl</span>;
 
     <span class="comment">// mount safety</span>
     <span class="keyword">if</span> (<span class="variable">req</span>.<span class="variable">_logging</span>) <span class="keyword">return</span> <span class="variable">next</span>();
@@ -127,8 +128,8 @@
     <span class="variable">res</span>.<span class="variable">writeHead</span> = <span class="keyword">function</span>(<span class="variable">code</span>, <span class="variable">headers</span>){
       <span class="variable">res</span>.<span class="variable">writeHead</span> = <span class="variable">writeHead</span>;
       <span class="variable">res</span>.<span class="variable">writeHead</span>(<span class="variable">code</span>, <span class="variable">headers</span>);
-      <span class="variable">res</span>.<span class="variable">_statusCode</span> = <span class="variable">statusCode</span> = <span class="variable">code</span>;
-      <span class="variable">res</span>.<span class="variable">_headers</span> = <span class="variable">resHeaders</span> = <span class="variable">headers</span> || {};
+      <span class="variable">res</span>.<span class="variable">__statusCode</span> = <span class="variable">statusCode</span> = <span class="variable">code</span>;
+      <span class="variable">res</span>.<span class="variable">__headers</span> = <span class="variable">headers</span> || {};
     };
 
     <span class="comment">// proxy end to output a line to the provided logger.</span>
@@ -137,18 +138,27 @@
         <span class="variable">res</span>.<span class="variable">end</span> = <span class="variable">end</span>;
         <span class="variable">res</span>.<span class="variable">end</span>(<span class="variable">chunk</span>, <span class="variable">encoding</span>);
         <span class="variable">res</span>.<span class="variable">responseTime</span> = +<span class="keyword">new</span> <span class="class">Date</span> - <span class="variable">start</span>;
-        <span class="variable">stream</span>.<span class="variable">write</span>(<span class="variable">format</span>(<span class="variable">fmt</span>, <span class="variable">req</span>, <span class="variable">res</span>) + <span class="string">'\n'</span>, <span class="string">'ascii'</span>);
+        <span class="keyword">if</span> (<span class="string">'function'</span> == <span class="keyword">typeof</span> <span class="variable">fmt</span>) {
+          <span class="keyword">var</span> <span class="variable">line</span> = <span class="variable">fmt</span>(<span class="variable">req</span>, <span class="variable">res</span>, <span class="keyword">function</span>(<span class="variable">str</span>){ <span class="keyword">return</span> <span class="variable">format</span>(<span class="variable">str</span>, <span class="variable">req</span>, <span class="variable">res</span>); });
+          <span class="keyword">if</span> (<span class="variable">line</span>) <span class="variable">stream</span>.<span class="variable">write</span>(<span class="variable">line</span> + <span class="string">'\n'</span>, <span class="string">'ascii'</span>);
+        } <span class="keyword">else</span> {
+          <span class="variable">stream</span>.<span class="variable">write</span>(<span class="variable">format</span>(<span class="variable">fmt</span>, <span class="variable">req</span>, <span class="variable">res</span>) + <span class="string">'\n'</span>, <span class="string">'ascii'</span>);
+        }
       };
     } <span class="keyword">else</span> {
       <span class="variable">res</span>.<span class="variable">end</span> = <span class="keyword">function</span>(<span class="variable">chunk</span>, <span class="variable">encoding</span>) {
+        <span class="keyword">var</span> <span class="variable">contentLength</span> = (<span class="variable">res</span>.<span class="variable">_headers</span> && <span class="variable">res</span>.<span class="variable">_headers</span>[<span class="string">'content-length'</span>])
+          || (<span class="variable">res</span>.<span class="variable">__headers</span> && <span class="variable">res</span>.<span class="variable">__headers</span>[<span class="string">'Content-Length'</span>])
+          || <span class="string">'-'</span>;
+
         <span class="variable">res</span>.<span class="variable">end</span> = <span class="variable">end</span>;
         <span class="variable">res</span>.<span class="variable">end</span>(<span class="variable">chunk</span>, <span class="variable">encoding</span>);
 
-        <span class="variable">stream</span>.<span class="variable">write</span>((<span class="variable">req</span>.<span class="variable">socket</span> && <span class="variable">req</span>.<span class="variable">socket</span>.<span class="variable">remoteAddress</span>)
+        <span class="variable">stream</span>.<span class="variable">write</span>((<span class="variable">req</span>.<span class="variable">socket</span> && (<span class="variable">req</span>.<span class="variable">socket</span>.<span class="variable">remoteAddress</span> || (<span class="variable">req</span>.<span class="variable">socket</span>.<span class="variable">socket</span> && <span class="variable">req</span>.<span class="variable">socket</span>.<span class="variable">socket</span>.<span class="variable">remoteAddress</span>)))
            + <span class="string">' - - ['</span> + (<span class="keyword">new</span> <span class="class">Date</span>).<span class="variable">toUTCString</span>() + <span class="string">']'</span>
            + <span class="string">' "'</span> + <span class="variable">req</span>.<span class="variable">method</span> + <span class="string">' '</span> + <span class="variable">url</span>
            + <span class="string">' HTTP/'</span> + <span class="variable">req</span>.<span class="variable">httpVersionMajor</span> + <span class="string">'.'</span> + <span class="variable">req</span>.<span class="variable">httpVersionMinor</span> + <span class="string">'" '</span>
-           + <span class="variable">statusCode</span> + <span class="string">' '</span> + (<span class="variable">resHeaders</span>[<span class="string">'Content-Length'</span>] || <span class="string">'-'</span>)
+           + (<span class="variable">statusCode</span> || <span class="variable">res</span>.<span class="variable">statusCode</span>) + <span class="string">' '</span> + <span class="variable">contentLength</span>
            + <span class="string">' "'</span> + (<span class="variable">req</span>.<span class="variable">headers</span>[<span class="string">'referer'</span>] || <span class="variable">req</span>.<span class="variable">headers</span>[<span class="string">'referrer'</span>] || <span class="string">''</span>)
            + <span class="string">'" "'</span> + (<span class="variable">req</span>.<span class="variable">headers</span>[<span class="string">'user-agent'</span>] || <span class="string">''</span>) + <span class="string">'"\n'</span>, <span class="string">'ascii'</span>);
       };

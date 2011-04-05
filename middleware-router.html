@@ -116,27 +116,29 @@
       <span class="keyword">var</span> <span class="variable">keys</span> = [];
       <span class="keyword">if</span> (!<span class="variable">path</span>) <span class="keyword">throw</span> <span class="keyword">new</span> <span class="class">Error</span>(<span class="variable">name</span> + <span class="string">' route requires a path'</span>);
       <span class="keyword">if</span> (!<span class="variable">fn</span>) <span class="keyword">throw</span> <span class="keyword">new</span> <span class="class">Error</span>(<span class="variable">name</span> + <span class="string">' route '</span> + <span class="variable">path</span> + <span class="string">' requires a callback'</span>);
-      <span class="variable">path</span> = <span class="variable">path</span> <span class="variable">instanceof</span> <span class="class">RegExp</span>
+      <span class="keyword">var</span> <span class="variable">regexp</span> = <span class="variable">path</span> <span class="variable">instanceof</span> <span class="class">RegExp</span>
         ? <span class="variable">path</span>
         : <span class="variable">normalizePath</span>(<span class="variable">path</span>, <span class="variable">keys</span>);
       <span class="variable">localRoutes</span>.<span class="variable">push</span>({
           <span class="variable">fn</span>: <span class="variable">fn</span>
-        , <span class="variable">path</span>: <span class="variable">path</span>
+        , <span class="variable">path</span>: <span class="variable">regexp</span>
         , <span class="variable">keys</span>: <span class="variable">keys</span>
+        , <span class="variable">orig</span>: <span class="variable">path</span>
+        , <span class="variable">method</span>: <span class="variable">name</span>
       });
       <span class="keyword">return</span> <span class="variable">self</span>;
     };
   }
 
-  <span class="keyword">return</span> <span class="keyword">function</span> <span class="variable">router</span>(<span class="variable">req</span>, <span class="variable">res</span>, <span class="variable">next</span>){
+  <span class="keyword">function</span> <span class="variable">router</span>(<span class="variable">req</span>, <span class="variable">res</span>, <span class="variable">next</span>){
     <span class="keyword">var</span> <span class="variable">route</span>
       , <span class="variable">self</span> = <span class="this">this</span>;
     (<span class="keyword">function</span> <span class="variable">pass</span>(<span class="variable">i</span>){
       <span class="keyword">if</span> (<span class="variable">route</span> = <span class="variable">match</span>(<span class="variable">req</span>, <span class="variable">routes</span>, <span class="variable">i</span>)) {
         <span class="keyword">var</span> <span class="variable">i</span> = <span class="number integer">0</span>
-          , <span class="variable">keys</span> = <span class="variable">route</span>.<span class="variable">_keys</span>;
+          , <span class="variable">keys</span> = <span class="variable">route</span>.<span class="variable">keys</span>;
 
-        <span class="variable">req</span>.<span class="variable">params</span> = <span class="variable">route</span>.<span class="variable">_params</span>;
+        <span class="variable">req</span>.<span class="variable">params</span> = <span class="variable">route</span>.<span class="variable">params</span>;
         
         <span class="comment">// Param preconditions</span>
         (<span class="keyword">function</span> <span class="variable">param</span>(<span class="variable">err</span>) {
@@ -184,6 +186,60 @@
       }
     })();
   };
+
+  <span class="variable">router</span>.<span class="variable">lookup</span> = <span class="keyword">function</span>(<span class="variable">path</span>, <span class="variable">method</span>, <span class="variable">ret</span>){
+    <span class="variable">ret</span> = <span class="variable">ret</span> || [];
+
+    <span class="comment">// method specific lookup</span>
+    <span class="keyword">if</span> (<span class="variable">method</span>) {
+      <span class="variable">method</span> = <span class="variable">method</span>.<span class="variable">toUpperCase</span>();
+      <span class="keyword">if</span> (<span class="variable">routes</span>[<span class="variable">method</span>]) {
+        <span class="variable">routes</span>[<span class="variable">method</span>].<span class="variable">forEach</span>(<span class="keyword">function</span>(<span class="variable">route</span>){
+          <span class="keyword">if</span> (<span class="variable">path</span> == <span class="variable">route</span>.<span class="variable">orig</span>) {
+            <span class="keyword">var</span> <span class="variable">fn</span> = <span class="variable">route</span>.<span class="variable">fn</span>;
+            <span class="variable">fn</span>.<span class="variable">regexp</span> = <span class="variable">route</span>.<span class="variable">path</span>;
+            <span class="variable">fn</span>.<span class="variable">keys</span> = <span class="variable">route</span>.<span class="variable">keys</span>;
+            <span class="variable">fn</span>.<span class="variable">path</span> = <span class="variable">route</span>.<span class="variable">orig</span>;
+            <span class="variable">fn</span>.<span class="variable">method</span> = <span class="variable">route</span>.<span class="variable">method</span>;
+            <span class="variable">ret</span>.<span class="variable">push</span>(<span class="variable">fn</span>);
+          }
+        });
+      }
+    <span class="comment">// global lookup</span>
+    } <span class="keyword">else</span> {
+      <span class="variable">_methods</span>.<span class="variable">forEach</span>(<span class="keyword">function</span>(<span class="variable">method</span>){
+        <span class="variable">router</span>.<span class="variable">lookup</span>(<span class="variable">path</span>, <span class="variable">method</span>, <span class="variable">ret</span>);
+      });
+    }
+
+    <span class="keyword">return</span> <span class="variable">ret</span>;
+  };
+
+  <span class="variable">router</span>.<span class="variable">match</span> = <span class="keyword">function</span>(<span class="variable">url</span>, <span class="variable">method</span>, <span class="variable">ret</span>){
+    <span class="keyword">var</span> <span class="variable">ret</span> = <span class="variable">ret</span> || []
+      , <span class="variable">i</span> = <span class="number integer">0</span>
+      , <span class="variable">fn</span>
+      , <span class="variable">req</span>;
+
+    <span class="comment">// method specific matches</span>
+    <span class="keyword">if</span> (<span class="variable">method</span>) {
+      <span class="variable">method</span> = <span class="variable">method</span>.<span class="variable">toUpperCase</span>();
+      <span class="variable">req</span> = { <span class="variable">url</span>: <span class="variable">url</span>, <span class="variable">method</span>: <span class="variable">method</span> };
+      <span class="keyword">while</span> (<span class="variable">fn</span> = <span class="variable">match</span>(<span class="variable">req</span>, <span class="variable">routes</span>, <span class="variable">i</span>)) {
+        <span class="variable">i</span> = <span class="variable">req</span>.<span class="variable">_route_index</span> + <span class="number integer">1</span>;
+        <span class="variable">ret</span>.<span class="variable">push</span>(<span class="variable">fn</span>);
+      } 
+    <span class="comment">// global matches</span>
+    } <span class="keyword">else</span> {
+      <span class="variable">_methods</span>.<span class="variable">forEach</span>(<span class="keyword">function</span>(<span class="variable">method</span>){
+        <span class="variable">router</span>.<span class="variable">match</span>(<span class="variable">url</span>, <span class="variable">method</span>, <span class="variable">ret</span>);
+      });
+    }
+
+    <span class="keyword">return</span> <span class="variable">ret</span>;
+  };
+
+  <span class="keyword">return</span> <span class="variable">router</span>;
 }
                 </code>
               </pre>

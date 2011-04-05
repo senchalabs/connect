@@ -23,16 +23,26 @@
           <div class="comment">
             
             <p class="description"><p>Enfore basic authentication by providing a <code>callback(user, pass)</code>,
-which must return <code>true</code> in order to gain access. Populates
-<code>req.remoteUser</code>.</p></p>
+which must return <code>true</code> in order to gain access. Alternatively an async
+method is provided as well, invoking <code>callback(user, pass, callback)</code>. Populates
+<code>req.remoteUser</code>. The final alternative is simply passing username / password
+strings.</p></p>
 
             
               <div class="body">
                 <h2>Examples</h2>
 
-<pre><code><span class="variable">connect</span>.<span class="variable">createServer</span>(
+<pre><code><span class="variable">connect</span>(<span class="variable">connect</span>.<span class="variable">basicAuth</span>(<span class="string">'username'</span>, <span class="string">'password'</span>));
+
+<span class="variable">connect</span>(
   <span class="variable">connect</span>.<span class="variable">basicAuth</span>(<span class="keyword">function</span>(<span class="variable">user</span>, <span class="variable">pass</span>){
     <span class="keyword">return</span> <span class="string">'tj'</span> == <span class="variable">user</span> &<span class="variable">amp</span>; <span class="string">'wahoo'</span> == <span class="variable">pass</span>;
+  })
+);
+
+<span class="variable">connect</span>(
+  <span class="variable">connect</span>.<span class="variable">basicAuth</span>(<span class="keyword">function</span>(<span class="variable">user</span>, <span class="variable">pass</span>, <span class="variable">fn</span>){
+    <span class="class">User</span>.<span class="variable">authenticate</span>({ <span class="variable">user</span>: <span class="variable">user</span>, <span class="variable">pass</span>: <span class="variable">pass</span> }, <span class="variable">fn</span>);
   })
 );</code></pre>
               </div>
@@ -48,7 +58,7 @@ which must return <code>true</code> in order to gain access. Populates
                 
 
                 
-                  <li class="param"><em>param</em> <span class="types">Function</span> <span class="name">callback</span> <span class="description"></span></li>
+                  <li class="param"><em>param</em> <span class="types">Function, String</span> <span class="name">callback</span> <span class="description">or username</span></li>
                 
               
                 
