@@ -40,6 +40,23 @@ var async = connect(
 );
 
 module.exports = {
+  'test user / pass options': function(){
+    var app = connect(
+      connect.basicAuth('tj', 'tobi'),
+      function(req, res){
+        res.send('wahoo');
+      }
+    );
+
+    assert.response(app,
+      { url: '/' },
+      { body: 'Unauthorized' });
+
+    assert.response(app,
+      { url: '/', headers: { Authorization: 'Basic dGo6dG9iaQo=' }},
+      { body: 'Unauthorized' });
+  },
+
   'test missing Authorization field': function(){
     assert.response(app,
       { url: '/' },
