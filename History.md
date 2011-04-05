@@ -1,4 +1,9 @@
 
+1.2.3 / 2011-04-05 
+==================
+
+  * Fixed basicAuth realm issue when passing strings. Closes #253
+
 1.2.2 / 2011-04-05 
 ==================
 
