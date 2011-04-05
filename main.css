@@ -89,8 +89,6 @@ ul.tags li.api {
   -moz-border-radius: 16px;
   -webkit-border-radius: 16px;
   border-radius: 16px;
-  -moz-box-shadow: inset 0 1px 0 0 #72b9eb, 0 1px 2px 0 #b3b3b3;
-  -webkit-box-shadow: inset 0 1px 0 0 #72b9eb, 0 1px 2px 0 #b3b3b3;
   color: #fff;
   font-family: "lucida grande", sans-serif;
   font-size: 11px;
@@ -111,8 +109,6 @@ ul.tags li.api {
   border-right: 1px solid #165899;
   border-bottom: 1px solid #07428f;
   border-left: 1px solid #165899;
-  -moz-box-shadow: inset 0 1px 0 0 #62b1e9;
-  -webkit-box-shadow: inset 0 1px 0 0 #62b1e9;
   cursor: pointer;
   text-shadow: 0 -1px 1px #1d62ab;
   -webkit-background-clip: padding-box;
@@ -123,8 +119,6 @@ ul.tags li.api {
   background: #3282d3;
   border: 1px solid #154c8c;
   border-bottom: 1px solid #0e408e;
-  -moz-box-shadow: inset 0 0 6px 3px #1657b5, 0 1px 0 0 #fff;
-  -webkit-box-shadow: inset 0 0 6px 3px #1657b5, 0 1px 0 0 #fff;
   text-shadow: 0 -1px 1px #2361a4;
   -webkit-background-clip: padding-box;
 }
@@ -139,9 +133,6 @@ button[disabled].download-itunes:active {
   border-bottom: 1px solid #d9d9d9;
   border-left: 1px solid #cecece;
   color: #8f8f8f;
-  box-shadow: none;
-  -moz-box-shadow: none;
-  -webkit-box-shadow: none;
   cursor: not-allowed;
   text-shadow: 0 -1px 1px #ebebeb;
 }
