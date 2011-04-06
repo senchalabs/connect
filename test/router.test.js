@@ -256,12 +256,13 @@ module.exports = {
           hits.push('a');
           next();
         });
-        
+
         app.get('/:user', function(req, res, next){
           hits.push('b');
           next(new Error('keyboard cat'));
+          next(new Error('double next'));
         });
-        
+
         app.get('/:user', function(req, res, next){
           hits.push('c');
           res.end(req.params.user);
