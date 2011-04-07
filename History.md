@@ -1,4 +1,9 @@
 
+1.3.0 / 2011-04-06 
+==================
+
+  * Added `router.remove(path[, method])` to remove a route
+
 1.2.3 / 2011-04-05 
 ==================
 
