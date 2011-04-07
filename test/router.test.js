@@ -400,5 +400,23 @@ module.exports = {
     router.match('/user/12', 'PUT').should.have.length(1);
     router.match('/user', 'POST').should.have.length(1);
     router.match('/user').should.have.length(1);
+  },
+  
+  'test .remove()': function(){
+    var router = connect.router(function(app){
+      app.get('/', function(req, res){});
+      app.get('/foo/bar', function(req, res){});
+      app.get('/bar', function(req, res){});
+      app.put('/bar', function(req, res){});
+      app.post('/bar', function(req, res){});
+    });
+
+    router.remove('/', 'GET');
+    router.remove('/bar');
+    router.lookup('/', 'GET').should.be.empty;
+    router.lookup('/bar', 'GET').should.be.empty;
+    router.lookup('/bar', 'PUT').should.be.empty;
+    router.lookup('/bar', 'POST').should.be.empty;
+    router.lookup('/foo/bar', 'GET').should.not.be.empty;
   }
 };
