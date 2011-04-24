@@ -203,5 +203,23 @@ module.exports = {
     assert.response(app,
       { url: '/script.coffee' },
       { headers: { 'Content-Type': 'application/coffee-script' }});
-  }
+  },
+  
+  'test do not override Content-Type header': function(){
+     var app = connect.createServer(
+       function(req, res, next){
+         res.setHeader('Content-Type', 'text/bozo; charset=ISO-8859-1');
+         next();
+       },
+       connect.static(fixturesPath)
+     );
+     
+     assert.response(app,
+       { url: '/' },
+       { body: '<p>Wahoo!</p>'
+       , status: 200
+       , headers: {
+         'Content-Type': 'text/bozo; charset=ISO-8859-1'
+       }});
+   }
 };
