@@ -1,4 +1,17 @@
 
+1.4.0 / 2011-04-25 
+==================
+
+  * Added route-middleware `next('route')` support to jump passed the route itself
+  * Added Content-Length support to `limit()`
+  * Added route-specific middleware support (used to be in express)
+  * Changed; refactored duplicate session logic
+  * Changed; prevent redefining `store.generate` per request
+  * Fixed; `static()` does not set Content-Type when explicitly set [nateps]
+  * Fixed escape `errorHandler()` {error} contents
+  * NOTE: `router` will be removed in 2.0
+
+
 1.3.0 / 2011-04-06 
 ==================
 
