@@ -281,17 +281,12 @@ same session.</p></p>
               <pre class="code">
                 <code>
 <span class="class">Session</span>.<span class="variable">prototype</span>.<span class="variable">reload</span> = <span class="keyword">function</span>(<span class="variable">fn</span>){
-  <span class="comment">// TODO: refactor duplicate logic</span>
-  <span class="keyword">var</span> <span class="variable">req</span> = <span class="this">this</span>.<span class="variable">req</span>;
-  <span class="variable">req</span>.<span class="variable">sessionStore</span>.<span class="variable">get</span>(<span class="this">this</span>.<span class="variable">id</span>, <span class="keyword">function</span>(<span class="variable">err</span>, <span class="variable">sess</span>){
+  <span class="keyword">var</span> <span class="variable">req</span> = <span class="this">this</span>.<span class="variable">req</span>
+    , <span class="variable">store</span> = <span class="this">this</span>.<span class="variable">req</span>.<span class="variable">sessionStore</span>;
+  <span class="variable">store</span>.<span class="variable">get</span>(<span class="this">this</span>.<span class="variable">id</span>, <span class="keyword">function</span>(<span class="variable">err</span>, <span class="variable">sess</span>){
     <span class="keyword">if</span> (<span class="variable">err</span>) <span class="keyword">return</span> <span class="variable">fn</span>(<span class="variable">err</span>);
     <span class="keyword">if</span> (!<span class="variable">sess</span>) <span class="keyword">return</span> <span class="variable">fn</span>(<span class="keyword">new</span> <span class="class">Error</span>(<span class="string">'failed to load session'</span>));
-    <span class="keyword">var</span> <span class="variable">expires</span> = <span class="variable">sess</span>.<span class="variable">cookie</span>.<span class="variable">expires</span>
-      , <span class="variable">orig</span> = <span class="variable">sess</span>.<span class="variable">cookie</span>.<span class="variable">originalMaxAge</span>;
-    <span class="variable">sess</span>.<span class="variable">cookie</span> = <span class="keyword">new</span> <span class="class">Cookie</span>(<span class="variable">sess</span>.<span class="variable">cookie</span>);
-    <span class="keyword">if</span> (<span class="string">'string'</span> == <span class="keyword">typeof</span> <span class="variable">expires</span>) <span class="variable">sess</span>.<span class="variable">cookie</span>.<span class="variable">expires</span> = <span class="keyword">new</span> <span class="class">Date</span>(<span class="variable">expires</span>);
-    <span class="variable">sess</span>.<span class="variable">cookie</span>.<span class="variable">originalMaxAge</span> = <span class="variable">orig</span>;
-    <span class="variable">req</span>.<span class="variable">session</span> = <span class="keyword">new</span> <span class="class">Session</span>(<span class="variable">req</span>, <span class="variable">sess</span>);
+    <span class="variable">store</span>.<span class="variable">createSession</span>(<span class="variable">req</span>, <span class="variable">sess</span>);
     <span class="variable">fn</span>();
   });
   <span class="keyword">return</span> <span class="this">this</span>;

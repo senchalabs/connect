@@ -111,7 +111,7 @@ or json.</p></p>
                 .<span class="variable">replace</span>(<span class="string">'{style}'</span>, <span class="variable">style</span>)
                 .<span class="variable">replace</span>(<span class="string">'{stack}'</span>, <span class="variable">stack</span>)
                 .<span class="variable">replace</span>(<span class="string">'{title}'</span>, <span class="variable">exports</span>.<span class="variable">title</span>)
-                .<span class="variable">replace</span>(<span class="regexp">/\{error\}/g</span>, <span class="variable">err</span>.<span class="variable">toString</span>());
+                .<span class="variable">replace</span>(<span class="regexp">/\{error\}/g</span>, <span class="variable">utils</span>.<span class="variable">escape</span>(<span class="variable">err</span>.<span class="variable">toString</span>()));
               <span class="variable">res</span>.<span class="variable">setHeader</span>(<span class="string">'Content-Type'</span>, <span class="string">'text/html'</span>);
               <span class="variable">res</span>.<span class="variable">end</span>(<span class="variable">html</span>);
           });

@@ -97,6 +97,22 @@ middleware <em>before</em> <code>session()</code>.</p>
    <span class="comment">// cannot access session here</span>
  });</code></pre>
 
+<h2>Session#reload()</h2>
+
+<p> Reloads the session data.</p>
+
+<pre><code> <span class="variable">req</span>.<span class="variable">session</span>.<span class="variable">reload</span>(<span class="keyword">function</span>(<span class="variable">err</span>){
+   <span class="comment">// session updated</span>
+ });</code></pre>
+
+<h2>Session#save()</h2>
+
+<p> Save the session.</p>
+
+<pre><code> <span class="variable">req</span>.<span class="variable">session</span>.<span class="variable">save</span>(<span class="keyword">function</span>(<span class="variable">err</span>){
+   <span class="comment">// session saved</span>
+ });</code></pre>
+
 <h2>Session#touch()</h2>
 
 <p>  Updates the <code>.maxAge</code>, and <code>.lastAccess</code> properties. Typically this is

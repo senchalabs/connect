@@ -20,6 +20,7 @@
         
         
         
+        
           <div class="comment">
             
             <p class="description"><p>Return md5 hash of the given string and optional encoding,
@@ -166,6 +167,68 @@ defaulting to hex.</p></p>
     }
   }
   <span class="keyword">return</span> <span class="variable">a</span>;
+};
+                </code>
+              </pre>
+             -->
+          
+          </div>
+        
+      
+        
+        
+          <div class="comment">
+            
+              <h3 class="method">.escape()</h3>
+            
+            <p class="description"><p>Escape the given string of <code>html</code>.</p></p>
+
+            
+
+            
+              <ul class="tags">
+              
+                
+
+                
+
+                
+
+                
+                  <li class="param"><em>param</em> <span class="types">String</span> <span class="name">html</span> <span class="description"></span></li>
+                
+              
+                
+                  <li class="return"><em>returns</em> <span class="types">String</span></li>
+                
+
+                
+
+                
+
+                
+              
+                
+
+                
+                  <li class="api"><em>api</em> <span class="visibility">public</span></li>
+                
+
+                
+
+                
+              
+              </ul>
+
+<!--            
+              <pre class="code">
+                <code>
+<span class="variable">exports</span>.<span class="variable">escape</span> = <span class="keyword">function</span>(<span class="variable">html</span>){
+  <span class="keyword">return</span> <span class="class">String</span>(<span class="variable">html</span>)
+    .<span class="variable">replace</span>(<span class="regexp">/&(?!\w+;)/g</span>, <span class="string">'&amp;'</span>)
+    .<span class="variable">replace</span>(<span class="regexp">/</g</span>, <span class="string">'&lt;'</span>)
+    .<span class="variable">replace</span>(<span class="regexp">/>/g</span>, <span class="string">'&gt;'</span>)
+    .<span class="variable">replace</span>(<span class="regexp">/"/g</span>, <span class="string">'&quot;'</span>);
 };
                 </code>
               </pre>

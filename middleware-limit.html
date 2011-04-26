@@ -34,17 +34,7 @@ for example "5mb", "200kb", "1gb", etc.</p>
   <span class="variable">connect</span>.<span class="variable">limit</span>(<span class="string">'5.5mb'</span>)
 ).<span class="variable">listen</span>(<span class="number integer">3000</span>);</code></pre>
 
-<p>Example route usage</p>
-
-<pre><code><span class="variable">req</span>.<span class="variable">on</span>(<span class="string">'limit'</span>, <span class="keyword">function</span>(<span class="variable">err</span>){
-  <span class="variable">res</span>.<span class="variable">end</span>(<span class="string">'uploaded failed due to exceeding '</span> + <span class="variable">err</span>.<span class="variable">limit</span> + <span class="string">' bytes'</span>);
-});
-
-<span class="variable">req</span>.<span class="variable">on</span>(<span class="string">'end'</span>, <span class="keyword">function</span>(<span class="variable">err</span>){
-  <span class="variable">res</span>.<span class="variable">end</span>(<span class="string">'upload successful'</span>);
-});</code></pre>
-
-<h2>TODO utilize Content-Length</h2>
+<h2>TODO pause EV_READ</h2>
               </div>
             
 
@@ -90,16 +80,27 @@ for example "5mb", "200kb", "1gb", etc.</p>
   <span class="keyword">if</span> (<span class="string">'string'</span> == <span class="keyword">typeof</span> <span class="variable">bytes</span>) <span class="variable">bytes</span> = <span class="variable">parse</span>(<span class="variable">bytes</span>);
   <span class="keyword">if</span> (<span class="string">'number'</span> != <span class="keyword">typeof</span> <span class="variable">bytes</span>) <span class="keyword">throw</span> <span class="keyword">new</span> <span class="class">Error</span>(<span class="string">'limit() bytes required'</span>);
   <span class="keyword">return</span> <span class="keyword">function</span> <span class="variable">limit</span>(<span class="variable">req</span>, <span class="variable">res</span>, <span class="variable">next</span>){
-    <span class="keyword">var</span> <span class="variable">received</span> = <span class="number integer">0</span>;
+    <span class="keyword">var</span> <span class="variable">received</span> = <span class="number integer">0</span>
+      , <span class="variable">len</span> = <span class="variable">req</span>.<span class="variable">headers</span>[<span class="string">'content-length'</span>]
+        ? <span class="variable">parseInt</span>(<span class="variable">req</span>.<span class="variable">headers</span>[<span class="string">'content-length'</span>], <span class="number integer">10</span>)
+        : <span class="keyword">null</span>;
+
+    <span class="comment">// deny the request</span>
+    <span class="keyword">function</span> <span class="variable">deny</span>() {
+      <span class="variable">req</span>.<span class="variable">destroy</span>();
+    }
 
     <span class="comment">// self-awareness</span>
     <span class="keyword">if</span> (<span class="variable">req</span>.<span class="variable">_limit</span>) <span class="keyword">return</span> <span class="variable">next</span>();
     <span class="variable">req</span>.<span class="variable">_limit</span> = <span class="variable">true</span>;
 
+    <span class="comment">// limit by content-length</span>
+    <span class="keyword">if</span> (<span class="variable">len</span> && <span class="variable">len</span> > <span class="variable">bytes</span>) <span class="variable">deny</span>();
+
     <span class="comment">// limit</span>
     <span class="variable">req</span>.<span class="variable">on</span>(<span class="string">'data'</span>, <span class="keyword">function</span>(<span class="variable">chunk</span>){
       <span class="variable">received</span> += <span class="variable">chunk</span>.<span class="variable">length</span>;
-      <span class="keyword">if</span> (<span class="variable">received</span> > <span class="variable">bytes</span>) <span class="variable">req</span>.<span class="variable">destroy</span>();
+      <span class="keyword">if</span> (<span class="variable">received</span> > <span class="variable">bytes</span>) <span class="variable">deny</span>();
     });
 
     <span class="variable">next</span>();
