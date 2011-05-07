@@ -237,5 +237,9 @@ module.exports = {
        , headers: {
          'Content-Type': 'text/bozo; charset=ISO-8859-1'
        }});
+   },
+   
+   'test mime export': function(){
+     connect.static.mime.define.should.be.a('function');
    }
 };
