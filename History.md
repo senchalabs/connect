@@ -1,4 +1,11 @@
 
+1.4.1 / 2011-05-08 
+==================
+
+  * Added "hidden" option to `static()`. ignores hidden files by default. Closes   * Added; expose `connect.static.mime.define()`. Closes #251
+  * Fixed `errorHandler` middleware for missing stack traces. [aseemk]
+#274
+
 1.4.0 / 2011-04-25 
 ==================
 
