@@ -12,3 +12,4 @@ test/fixtures/script.js
 test.js
 docs/*.html
 docs/*.json
+node_modules

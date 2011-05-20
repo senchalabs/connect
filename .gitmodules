@@ -4,27 +4,6 @@
 [submodule "examples/sousaball/support/postgres-js"]
 	path = examples/sousaball/support/postgres-js
 	url = git://github.com/creationix/postgres-js.git
-[submodule "support/expresso"]
-	path = support/expresso
-	url = git://github.com/visionmedia/expresso.git
-[submodule "support/sass"]
-	path = support/sass
-	url = git://github.com/visionmedia/sass.js.git
-[submodule "support/less"]
-	path = support/less
-	url = git://github.com/cloudhead/less.js.git
 [submodule "support/coffee-script"]
 	path = support/coffee-script
 	url = http://github.com/jashkenas/coffee-script.git
-[submodule "support/qs"]
-	path = support/qs
-	url = git://github.com/visionmedia/node-querystring.git
-[submodule "support/mime"]
-	path = support/mime
-	url = https://github.com/bentomas/node-mime.git
-[submodule "support/should"]
-	path = support/should
-	url = git://github.com/visionmedia/should.js.git
-[submodule "support/koala"]
-	path = support/koala
-	url = git://github.com/visionmedia/koala.js.git
