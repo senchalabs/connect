@@ -51,7 +51,7 @@ module.exports = {
   'test GET with content-type': function(){
     assert.response(app,
       { url: '/', headers: { 'Content-Type': 'application/json' }},
-      { body: '{}' });
+      { body: '' });
   },
   
   'test custom parser': function(){
