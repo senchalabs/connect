@@ -47,6 +47,12 @@ module.exports = {
       { url: '/', method: 'POST' },
       { body: '' });
   },
+
+  'test GET with content-type': function(){
+    assert.response(app,
+      { url: '/', headers: { 'Content-Type': 'application/json' }},
+      { body: '' });
+  },
   
   'test custom parser': function(){
     connect.bodyParser.parse['application/x-awesome'] = function(str){

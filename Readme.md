@@ -64,7 +64,7 @@ assumed to be an https server:
 
 first:
 
-    $ git submodule update --init
+    $ npm install -d
 
 then:
 

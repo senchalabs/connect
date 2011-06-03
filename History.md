@@ -1,4 +1,32 @@
 
+1.4.2 / 2011-05-27 
+==================
+
+  * Changed to `devDependencies`
+  * Fixed stream creation on `static()` __HEAD__ request. [Andreas Lind Petersen]
+  * Fixed Win32 support for `static()`
+  * Fixed monkey-patch issue. Closes #261
+
+1.4.1 / 2011-05-08 
+==================
+
+  * Added "hidden" option to `static()`. ignores hidden files by default. Closes   * Added; expose `connect.static.mime.define()`. Closes #251
+  * Fixed `errorHandler` middleware for missing stack traces. [aseemk]
+#274
+
+1.4.0 / 2011-04-25 
+==================
+
+  * Added route-middleware `next('route')` support to jump passed the route itself
+  * Added Content-Length support to `limit()`
+  * Added route-specific middleware support (used to be in express)
+  * Changed; refactored duplicate session logic
+  * Changed; prevent redefining `store.generate` per request
+  * Fixed; `static()` does not set Content-Type when explicitly set [nateps]
+  * Fixed escape `errorHandler()` {error} contents
+  * NOTE: `router` will be removed in 2.0
+
+
 1.3.0 / 2011-04-06 
 ==================
 

@@ -105,13 +105,6 @@ connect(
 ).listen(3003);
 console.log('port 3003: conditional sessions');
 
-
-/**
- * Module dependencies.
- */
-
-var connect = require('./');
-
 // Session#reload() will update req.session
 // without altering .maxAge or .lastAccess
 
@@ -124,7 +117,9 @@ connect(
   , connect.session({ secret: 'keyboard cat', cookie: { maxAge: 60000 }})
   , connect.favicon()
   , function(req, res, next){
-    var sess = req.session;
+    var sess = req.session
+      , prev;
+
     if (sess.views) {
       res.setHeader('Content-Type', 'text/html');
       res.write('<p>views: ' + sess.views + '</p>');
@@ -134,11 +129,11 @@ connect(
     } else {
       sess.views = 1;
       setInterval(function(){
-        var prev = sess.views;
         sess.reload(function(){
           console.log();
-          console.log('previous views %d, updated %d', prev, req.session.views);
+          if (prev) console.log('previous views %d, now %d', prev, req.session.views);
           console.log('time remaining until expiry: %ds', (req.session.cookie.maxAge / 1000));
+          prev = req.session.views;
         });
       }, 3000);
       res.end('welcome to the session demo. refresh!');
