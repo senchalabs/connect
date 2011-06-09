@@ -1,4 +1,10 @@
 
+1.4.3 / 2011-06-06 
+==================
+
+  * Fixed fd leak in `connect.static()` when the socket is closed
+  * Fixed; `bodyParser()` ignoring __GET/HEAD__. Closes #285
+
 1.4.2 / 2011-05-27 
 ==================
 
