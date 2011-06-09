@@ -6,10 +6,37 @@
 	objectVersion = 46;
 	objects = {
 
+/* Begin PBXFileReference section */
+		F1CC89E713980C2C008D1E22 /* docs */ = {isa = PBXFileReference; lastKnownFileType = folder; name = docs; path = ../docs; sourceTree = "<group>"; };
+		F1CC89E813980C2C008D1E22 /* examples */ = {isa = PBXFileReference; lastKnownFileType = folder; name = examples; path = ../examples; sourceTree = "<group>"; };
+		F1CC89E913980C2C008D1E22 /* History.md */ = {isa = PBXFileReference; lastKnownFileType = text; name = History.md; path = ../History.md; sourceTree = "<group>"; };
+		F1CC89EA13980C2C008D1E22 /* index.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; name = index.js; path = ../index.js; sourceTree = "<group>"; };
+		F1CC89EB13980C2C008D1E22 /* lib */ = {isa = PBXFileReference; lastKnownFileType = folder; name = lib; path = ../lib; sourceTree = "<group>"; };
+		F1CC89EC13980C2C008D1E22 /* LICENSE */ = {isa = PBXFileReference; lastKnownFileType = text; name = LICENSE; path = ../LICENSE; sourceTree = "<group>"; };
+		F1CC89ED13980C2C008D1E22 /* Makefile */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.make; name = Makefile; path = ../Makefile; sourceTree = "<group>"; };
+		F1CC89EE13980C2C008D1E22 /* nodejs-connect */ = {isa = PBXFileReference; lastKnownFileType = folder; name = "nodejs-connect"; sourceTree = "<group>"; };
+		F1CC89EF13980C2C008D1E22 /* package.json */ = {isa = PBXFileReference; lastKnownFileType = text; name = package.json; path = ../package.json; sourceTree = "<group>"; };
+		F1CC89F013980C2C008D1E22 /* Readme.md */ = {isa = PBXFileReference; lastKnownFileType = text; name = Readme.md; path = ../Readme.md; sourceTree = "<group>"; };
+		F1CC89F113980C2C008D1E22 /* support */ = {isa = PBXFileReference; lastKnownFileType = folder; name = support; path = ../support; sourceTree = "<group>"; };
+		F1CC89F213980C2C008D1E22 /* test */ = {isa = PBXFileReference; lastKnownFileType = folder; name = test; path = ../test; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
 /* Begin PBXGroup section */
 		F1CC89DE13980C01008D1E22 = {
 			isa = PBXGroup;
 			children = (
+				F1CC89E713980C2C008D1E22 /* docs */,
+				F1CC89E813980C2C008D1E22 /* examples */,
+				F1CC89E913980C2C008D1E22 /* History.md */,
+				F1CC89EA13980C2C008D1E22 /* index.js */,
+				F1CC89EB13980C2C008D1E22 /* lib */,
+				F1CC89EC13980C2C008D1E22 /* LICENSE */,
+				F1CC89ED13980C2C008D1E22 /* Makefile */,
+				F1CC89EE13980C2C008D1E22 /* nodejs-connect */,
+				F1CC89EF13980C2C008D1E22 /* package.json */,
+				F1CC89F013980C2C008D1E22 /* Readme.md */,
+				F1CC89F113980C2C008D1E22 /* support */,
+				F1CC89F213980C2C008D1E22 /* test */,
 			);
 			sourceTree = "<group>";
 		};
