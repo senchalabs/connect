@@ -124,8 +124,8 @@ connect(
       res.setHeader('Content-Type', 'text/html');
       res.write('<p>views: ' + sess.views + '</p>');
       res.write('<p>expires in: ' + (sess.cookie.maxAge / 1000) + 's</p>');
-      res.end();
       sess.views++;
+      res.end();
     } else {
       sess.views = 1;
       setInterval(function(){
