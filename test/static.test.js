@@ -94,7 +94,13 @@ module.exports = {
       { url: '/%2e%2e/favicon.test.js' },
       { body: 'Forbidden', status: 403 });
   },
-  
+
+  'test relative': function(){
+    assert.response(app,
+      { url: '/foo/../foo.log' },
+      { body: '127.0.0.1\n' });
+  },
+
   'test 404 on hidden file': function(){
     assert.response(app,
       { url: '/.hidden' },
