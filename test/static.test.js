@@ -95,6 +95,12 @@ module.exports = {
       { body: 'Forbidden', status: 403 });
   },
   
+  'test relative': function(){
+    assert.response(app,
+      { url: '/foo/../foo.log' },
+      { body: '127.0.0.1\n' });
+  },
+  
   'test 404 on hidden file': function(){
     assert.response(app,
       { url: '/.hidden' },
@@ -105,7 +111,7 @@ module.exports = {
     var app = connect.createServer(
       connect.static(fixturesPath, { hidden: true })
     );
-
+  
     assert.response(app,
       { url: '/.hidden' },
       { body: 'hidden\n' });
@@ -143,7 +149,7 @@ module.exports = {
         }, { path: req.url });
       }
     );
-
+  
     assert.response(app,
       { url: '/list' },
       { body: 'done' });
@@ -172,7 +178,7 @@ module.exports = {
     var app = connect.createServer(
       connect.static(fixturesPath)
     );
-
+  
     app.listen(9898, function(){
       var options = { path: '/list', port: 9898, host: '127.0.0.1' };
       http.get(options, function(res){
@@ -195,7 +201,7 @@ module.exports = {
     var app = connect.createServer(
       connect.static(fixturesPath)
     );
-
+  
     app.listen(9899, function(){
       var options = { path: '/list', port: 9899, host: '127.0.0.1' };
       http.get(options, function(res){
