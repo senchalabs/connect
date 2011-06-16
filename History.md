@@ -1,4 +1,9 @@
 
+1.4.4 / 2011-06-16 
+==================
+
+  * Changed `connect.static()` to check resolved dirname. Closes #294
+
 1.4.3 / 2011-06-06 
 ==================
 
