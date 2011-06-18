@@ -1,4 +1,10 @@
 
+1.4.6 / 2011-06-18 
+==================
+
+  * Fixed `connect.static()` root with `..`
+  * Fixed `connect.static()` __EBADF__
+
 1.4.5 / 2011-06-17 
 ==================
 
