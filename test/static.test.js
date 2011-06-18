@@ -18,6 +18,10 @@ var app = connect.createServer(
   connect.static(fixturesPath)
 );
 
+var app2 = connect.createServer(
+  connect.static(fixturesPath + '/foo/bar/../../')
+);
+
 module.exports = {
    'test valid file': function(){
      assert.response(app,
@@ -97,6 +101,12 @@ module.exports = {
   
   'test relative': function(){
     assert.response(app,
+      { url: '/foo/../foo.log' },
+      { body: '127.0.0.1\n' });
+  },
+
+  'test relative root': function(){
+    assert.response(app2,
       { url: '/foo/../foo.log' },
       { body: '127.0.0.1\n' });
   },
