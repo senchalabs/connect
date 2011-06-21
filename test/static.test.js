@@ -101,14 +101,14 @@ module.exports = {
   
   'test relative': function(){
     assert.response(app,
-      { url: '/foo/../foo.log' },
-      { body: '127.0.0.1\n' });
+      { url: '/foo/../some%20text.txt' },
+      { body: 'whoop' });
   },
-
+  
   'test relative root': function(){
     assert.response(app2,
-      { url: '/foo/../foo.log' },
-      { body: '127.0.0.1\n' });
+      { url: '/foo/../some%20text.txt' },
+      { body: 'whoop' });
   },
   
   'test 404 on hidden file': function(){
