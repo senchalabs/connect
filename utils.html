@@ -722,6 +722,58 @@ events may be lost.</p></p>
         
           <div class="comment">
             
+              <h3 class="method">.forbidden()</h3>
+            
+            <p class="description"><p>Respond with 403 &quot;Forbidden&quot;.</p></p>
+
+            
+
+            
+              <ul class="tags">
+              
+                
+
+                
+
+                
+
+                
+                  <li class="param"><em>param</em> <span class="types">ServerResponse</span> <span class="name">res</span> <span class="description"></span></li>
+                
+              
+                
+
+                
+                  <li class="api"><em>api</em> <span class="visibility">public</span></li>
+                
+
+                
+
+                
+              
+              </ul>
+
+<!--            
+              <pre class="code">
+                <code>
+<span class="variable">exports</span>.<span class="variable">forbidden</span> = <span class="keyword">function</span>(<span class="variable">res</span>) {
+  <span class="keyword">var</span> <span class="variable">body</span> = <span class="string">'Forbidden'</span>;
+  <span class="variable">res</span>.<span class="variable">setHeader</span>(<span class="string">'Content-Type'</span>, <span class="string">'text/plain'</span>);
+  <span class="variable">res</span>.<span class="variable">setHeader</span>(<span class="string">'Content-Length'</span>, <span class="variable">body</span>.<span class="variable">length</span>);
+  <span class="variable">res</span>.<span class="variable">statusCode</span> = <span class="number integer">403</span>;
+  <span class="variable">res</span>.<span class="variable">end</span>(<span class="variable">body</span>);
+};
+                </code>
+              </pre>
+             -->
+          
+          </div>
+        
+      
+        
+        
+          <div class="comment">
+            
               <h3 class="method">.unauthorized()</h3>
             
             <p class="description"><p>Respond with 401 &quot;Unauthorized&quot;.</p></p>
