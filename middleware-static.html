@@ -31,16 +31,16 @@
 <pre><code><span class="keyword">var</span> <span class="variable">oneDay</span> = <span class="number integer">86400000</span>;
 
 <span class="variable">connect</span>(
-  <span class="variable">connect</span>.<span class="variable">static</span>(<span class="variable">__dirname</span> + <span class="string">'/public'</span>)
+  <span class="variable">connect</span>.<span class="variable">static</span>(<span class="variable">__dirname</span> + &#<span class="number integer">39</span>;/<span class="variable">public</span>&#<span class="number integer">39</span>;)
 ).<span class="variable">listen</span>(<span class="number integer">3000</span>);
 
 <span class="variable">connect</span>(
-  <span class="variable">connect</span>.<span class="variable">static</span>(<span class="variable">__dirname</span> + <span class="string">'/public'</span>, { <span class="variable">maxAge</span>: <span class="variable">oneDay</span> })
+  <span class="variable">connect</span>.<span class="variable">static</span>(<span class="variable">__dirname</span> + &#<span class="number integer">39</span>;/<span class="variable">public</span>&#<span class="number integer">39</span>;, { <span class="variable">maxAge</span>: <span class="variable">oneDay</span> })
 ).<span class="variable">listen</span>(<span class="number integer">3000</span>);</code></pre>
 
 <h2>Options</h2>
 
-<ul><li><code>maxAge</code>   Browser cache maxAge in milliseconds, defaults to 0</li></ul>
+<ul><li><code>maxAge</code>   Browser cache maxAge in milliseconds. defaults to 0</li><li><code>hidden</code>   Allow transfer of hidden files. defaults to false</li></ul>
               </div>
             
 
@@ -111,6 +111,7 @@
           </div>
         
       
+        
         
         
         

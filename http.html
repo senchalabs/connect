@@ -31,7 +31,7 @@
 <pre><code><span class="keyword">var</span> <span class="variable">server</span> = <span class="variable">connect</span>.<span class="variable">createServer</span>(
     <span class="variable">connect</span>.<span class="variable">favicon</span>()
   , <span class="variable">connect</span>.<span class="variable">logger</span>()
-  , <span class="variable">connect</span>.<span class="variable">static</span>(<span class="variable">__dirname</span> + <span class="string">'/public'</span>)
+  , <span class="variable">connect</span>.<span class="variable">static</span>(<span class="variable">__dirname</span> + &#<span class="number integer">39</span>;/<span class="variable">public</span>&#<span class="number integer">39</span>;)
 );</code></pre>
               </div>
             
@@ -94,9 +94,9 @@
               <h3 class="method">.use()</h3>
             
             <p class="description"><p>Utilize the given middleware <code>handle</code> to the given <code>route</code>,
-defaulting to <em>/</em>. This "route" is the mount-point for the
+defaulting to <em>/</em>. This &quot;route&quot; is the mount-point for the
 middleware, when given a value other than <em>/</em> the middleware
-is only effective when that segment is present in the request's
+is only effective when that segment is present in the request&#39;s
 pathname.</p></p>
 
             
@@ -113,19 +113,19 @@ however provides a progressive api.</p>
 <pre><code> <span class="keyword">var</span> <span class="variable">server</span> = <span class="variable">connect</span>.<span class="variable">createServer</span>();
  <span class="variable">server</span>.<span class="variable">use</span>(<span class="variable">connect</span>.<span class="variable">favicon</span>());
  <span class="variable">server</span>.<span class="variable">use</span>(<span class="variable">connect</span>.<span class="variable">logger</span>());
- <span class="variable">server</span>.<span class="variable">use</span>(<span class="variable">connect</span>.<span class="variable">static</span>(<span class="variable">__dirname</span> + <span class="string">'/public'</span>));</code></pre>
+ <span class="variable">server</span>.<span class="variable">use</span>(<span class="variable">connect</span>.<span class="variable">static</span>(<span class="variable">__dirname</span> + &#<span class="number integer">39</span>;/<span class="variable">public</span>&#<span class="number integer">39</span>;));</code></pre>
 
 <p>If we wanted to prefix static files with <em>/public</em>, we could
-"mount" the <code>static()</code> middleware:</p>
+&quot;mount&quot; the <code>static()</code> middleware:</p>
 
-<pre><code> <span class="variable">server</span>.<span class="variable">use</span>(<span class="string">'/public'</span>, <span class="variable">connect</span>.<span class="variable">static</span>(<span class="variable">__dirname</span> + <span class="string">'/public'</span>));</code></pre>
+<pre><code> <span class="variable">server</span>.<span class="variable">use</span>(&#<span class="number integer">39</span>;<span class="regexp">/public&#39;, connect.static(__dirname + &#39;/public</span>&#<span class="number integer">39</span>;));</code></pre>
 
 <p>This api is chainable, meaning the following is valid:</p>
 
 <pre><code> <span class="variable">connect</span>.<span class="variable">createServer</span>()
    .<span class="variable">use</span>(<span class="variable">connect</span>.<span class="variable">favicon</span>())
    .<span class="variable">use</span>(<span class="variable">connect</span>.<span class="variable">logger</span>())
-   .<span class="variable">use</span>(<span class="variable">connect</span>.<span class="variable">static</span>(<span class="variable">__dirname</span> + <span class="string">'/public'</span>))
+   .<span class="variable">use</span>(<span class="variable">connect</span>.<span class="variable">static</span>(<span class="variable">__dirname</span> + &#<span class="number integer">39</span>;/<span class="variable">public</span>&#<span class="number integer">39</span>;))
    .<span class="variable">listen</span>(<span class="number integer">3000</span>);</code></pre>
               </div>
             

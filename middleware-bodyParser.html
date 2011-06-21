@@ -37,16 +37,16 @@ one for other content-types.</p>
 <pre><code> <span class="variable">connect</span>.<span class="variable">createServer</span>(
      <span class="variable">connect</span>.<span class="variable">bodyParser</span>()
    , <span class="keyword">function</span>(<span class="variable">req</span>, <span class="variable">res</span>) {
-     <span class="variable">res</span>.<span class="variable">end</span>(<span class="string">'viewing user '</span> + <span class="variable">req</span>.<span class="variable">body</span>.<span class="variable">user</span>.<span class="variable">name</span>);
+     <span class="variable">res</span>.<span class="variable">end</span>(&#<span class="number integer">39</span>;<span class="variable">viewing</span> <span class="variable">user</span> &#<span class="number integer">39</span>; + <span class="variable">req</span>.<span class="variable">body</span>.<span class="variable">user</span>.<span class="variable">name</span>);
    }
  );</code></pre>
 
 <p>Since both <em>json</em> and <em>x-www-form-urlencoded</em> are supported by
 default, either of the following requests would result in the response
-of "viewing user tj".</p>
+of &quot;viewing user tj&quot;.</p>
 
-<pre><code> $ <span class="variable">curl</span> -<span class="variable">d</span> <span class="string">'user[name]=tj'</span> <span class="variable">http</span>:<span class="comment">//localhost/</span>
- $ <span class="variable">curl</span> -<span class="variable">d</span> <span class="string">'{"user":{"name":"tj"}}'</span> -<span class="class">H</span> <span class="string">"Content-Type: application/json"</span> <span class="variable">http</span>:<span class="comment">//localhost/</span></code></pre>
+<pre><code> $ <span class="variable">curl</span> -<span class="variable">d</span> &#<span class="number integer">39</span>;<span class="variable">user</span>[<span class="variable">name</span>]=<span class="variable">tj</span>&#<span class="number integer">39</span>; <span class="variable">http</span>:<span class="comment">//localhost/</span>
+ $ <span class="variable">curl</span> -<span class="variable">d</span> &#<span class="number integer">39</span>;{&<span class="variable">quot</span>;<span class="variable">user</span>&<span class="variable">quot</span>;:{&<span class="variable">quot</span>;<span class="variable">name</span>&<span class="variable">quot</span>;:&<span class="variable">quot</span>;<span class="variable">tj</span>&<span class="variable">quot</span>;}}&#<span class="number integer">39</span>; -<span class="class">H</span> &<span class="variable">quot</span>;<span class="class">Content</span>-<span class="class">Type</span>: <span class="regexp">/json&quot; http:/</span><span class="regexp">/localhost/</span></code></pre>
               </div>
             
 
@@ -80,6 +80,7 @@ of "viewing user tj".</p>
                 <code>
 <span class="variable">exports</span> = <span class="variable">module</span>.<span class="variable">exports</span> = <span class="keyword">function</span> <span class="variable">bodyParser</span>(){
   <span class="keyword">return</span> <span class="keyword">function</span> <span class="variable">bodyParser</span>(<span class="variable">req</span>, <span class="variable">res</span>, <span class="variable">next</span>) {
+    <span class="keyword">if</span> (<span class="string">'GET'</span> == <span class="variable">req</span>.<span class="variable">method</span> || <span class="string">'HEAD'</span> == <span class="variable">req</span>.<span class="variable">method</span>) <span class="keyword">return</span> <span class="variable">next</span>();
     <span class="keyword">var</span> <span class="variable">parser</span> = <span class="variable">exports</span>.<span class="variable">parse</span>[<span class="variable">mime</span>(<span class="variable">req</span>)];
     <span class="keyword">if</span> (<span class="variable">parser</span> && !<span class="variable">req</span>.<span class="variable">body</span>) {
       <span class="keyword">var</span> <span class="variable">data</span> = <span class="string">''</span>;

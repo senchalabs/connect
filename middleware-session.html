@@ -39,21 +39,21 @@ middleware <em>before</em> <code>session()</code>.</p>
 
 <pre><code><span class="variable">connect</span>.<span class="variable">createServer</span>(
     <span class="variable">connect</span>.<span class="variable">cookieParser</span>()
-  , <span class="variable">connect</span>.<span class="variable">session</span>({ <span class="variable">secret</span>: <span class="string">'keyboard cat'</span> })
+  , <span class="variable">connect</span>.<span class="variable">session</span>({ <span class="variable">secret</span>: &#<span class="number integer">39</span>;<span class="variable">keyboard</span> <span class="variable">cat</span>&#<span class="number integer">39</span>; })
 );</code></pre>
 
 <h2>Options</h2>
 
-<ul><li><code>key</code>           cookie name defaulting to <code>connect.sid</code></li><li><code>store</code>         Session store instance</li><li><code>fingerprint</code>   Custom fingerprint generating function</li><li><code>cookie</code>        Session cookie settings, defaulting to <code>{ path: '/', httpOnly: true, maxAge: 14400000 }</code></li><li><code>secret</code>        Secret string used to compute hash</li></ul>
+<ul><li><code>key</code>           cookie name defaulting to <code>connect.sid</code></li><li><code>store</code>         Session store instance</li><li><code>fingerprint</code>   Custom fingerprint generating function</li><li><code>cookie</code>        Session cookie settings, defaulting to <code>{ path: &#39;/&#39;, httpOnly: true, maxAge: 14400000 }</code></li><li><code>secret</code>        Secret string used to compute hash</li></ul>
 
 <h2>Ignore Paths</h2>
 
 <p> By default <code>/favicon.ico</code> is the only ignored path, all others
  will utilize sessions, to manipulate the paths ignored, use
-<code>connect.session.ignore.push('/my/path')</code>. This works for <em>full</em>
+<code>connect.session.ignore.push(&#39;/my/path&#39;)</code>. This works for <em>full</em>
  pathnames only, not segments nor substrings.</p>
 
-<pre><code><span class="variable">connect</span>.<span class="variable">session</span>.<span class="variable">ignore</span>.<span class="variable">push</span>(<span class="string">'/robots.txt'</span>);</code></pre>
+<pre><code><span class="variable">connect</span>.<span class="variable">session</span>.<span class="variable">ignore</span>.<span class="variable">push</span>(&#<span class="number integer">39</span>;/<span class="variable">robots</span>.<span class="variable">txt</span>&#<span class="number integer">39</span>;);</code></pre>
 
 <h2>req.session</h2>
 
@@ -63,19 +63,19 @@ middleware <em>before</em> <code>session()</code>.</p>
 
 <pre><code>  <span class="variable">connect</span>(
       <span class="variable">connect</span>.<span class="variable">cookieParser</span>()
-    , <span class="variable">connect</span>.<span class="variable">session</span>({ <span class="variable">secret</span>: <span class="string">'keyboard cat'</span>, <span class="variable">cookie</span>: { <span class="variable">maxAge</span>: <span class="number integer">60000</span> }})
+    , <span class="variable">connect</span>.<span class="variable">session</span>({ <span class="variable">secret</span>: &#<span class="number integer">39</span>;<span class="variable">keyboard</span> <span class="variable">cat</span>&#<span class="number integer">39</span>;, <span class="variable">cookie</span>: { <span class="variable">maxAge</span>: <span class="number integer">60000</span> }})
     , <span class="variable">connect</span>.<span class="variable">favicon</span>()
     , <span class="keyword">function</span>(<span class="variable">req</span>, <span class="variable">res</span>, <span class="variable">next</span>){
       <span class="keyword">var</span> <span class="variable">sess</span> = <span class="variable">req</span>.<span class="variable">session</span>;
       <span class="keyword">if</span> (<span class="variable">sess</span>.<span class="variable">views</span>) {
-        <span class="variable">res</span>.<span class="variable">setHeader</span>(<span class="string">'Content-Type'</span>, <span class="string">'text/html'</span>);
-        <span class="variable">res</span>.<span class="variable">write</span>(<span class="string">'&lt;p&gt;views: '</span> + <span class="variable">sess</span>.<span class="variable">views</span> + <span class="string">'&lt;/p&gt;'</span>);
-        <span class="variable">res</span>.<span class="variable">write</span>(<span class="string">'&lt;p&gt;expires in: '</span> + (<span class="variable">sess</span>.<span class="variable">cookie</span>.<span class="variable">maxAge</span> <span class="regexp">/ 1000) + 's&lt;/p</span>&<span class="variable">gt</span>;');
+        <span class="variable">res</span>.<span class="variable">setHeader</span>(&#<span class="number integer">39</span>;<span class="class">Content</span>-<span class="class">Type</span>&#<span class="number integer">39</span>;, &#<span class="number integer">39</span>;<span class="variable">text</span>/<span class="variable">html</span>&#<span class="number integer">39</span>;);
+        <span class="variable">res</span>.<span class="variable">write</span>(&#<span class="number integer">39</span>;&<span class="variable">lt</span>;<span class="variable">p</span>&<span class="variable">gt</span>;<span class="variable">views</span>: &#<span class="number integer">39</span>; + <span class="variable">sess</span>.<span class="variable">views</span> + &#<span class="number integer">39</span>;&<span class="variable">lt</span>;/<span class="variable">p</span>&<span class="variable">gt</span>;&#<span class="number integer">39</span>;);
+        <span class="variable">res</span>.<span class="variable">write</span>(&#<span class="number integer">39</span>;&<span class="variable">lt</span>;<span class="variable">p</span>&<span class="variable">gt</span>;<span class="variable">expires</span> <span class="keyword">in</span>: &#<span class="number integer">39</span>; + (<span class="variable">sess</span>.<span class="variable">cookie</span>.<span class="variable">maxAge</span> <span class="regexp">/ 1000) + &#39;s&lt;/p</span>&<span class="variable">gt</span>;&#<span class="number integer">39</span>;);
         <span class="variable">res</span>.<span class="variable">end</span>();
         <span class="variable">sess</span>.<span class="variable">views</span>++;
       } <span class="keyword">else</span> {
         <span class="variable">sess</span>.<span class="variable">views</span> = <span class="number integer">1</span>;
-        <span class="variable">res</span>.<span class="variable">end</span>(<span class="string">'welcome to the session demo. refresh!'</span>);
+        <span class="variable">res</span>.<span class="variable">end</span>(&#<span class="number integer">39</span>;<span class="variable">welcome</span> <span class="variable">to</span> <span class="variable">the</span> <span class="variable">session</span> <span class="variable">demo</span>. <span class="variable">refresh</span>!&#<span class="number integer">39</span>;);
       }
     }
   ).<span class="variable">listen</span>(<span class="number integer">3000</span>);</code></pre>

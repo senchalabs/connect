@@ -40,7 +40,7 @@ or json.</p></p>
 <h2>JSON</h2>
 
 <p>  When <em>application/json</em> is accepted, connect will respond with
-  an object in the form of <code>{ "error": error }</code>. </p>
+  an object in the form of <code>{ &quot;error&quot;: error }</code>. </p>
 
 <h2>HTML</h2>
 
@@ -104,7 +104,7 @@ or json.</p></p>
       <span class="keyword">if</span> (~<span class="variable">accept</span>.<span class="variable">indexOf</span>(<span class="string">'html'</span>)) {
         <span class="variable">fs</span>.<span class="variable">readFile</span>(<span class="variable">__dirname</span> + <span class="string">'/../public/style.css'</span>, <span class="string">'utf8'</span>, <span class="keyword">function</span>(<span class="variable">e</span>, <span class="variable">style</span>){
           <span class="variable">fs</span>.<span class="variable">readFile</span>(<span class="variable">__dirname</span> + <span class="string">'/../public/error.html'</span>, <span class="string">'utf8'</span>, <span class="keyword">function</span>(<span class="variable">e</span>, <span class="variable">html</span>){
-            <span class="keyword">var</span> <span class="variable">stack</span> = <span class="variable">err</span>.<span class="variable">stack</span>
+            <span class="keyword">var</span> <span class="variable">stack</span> = (<span class="variable">err</span>.<span class="variable">stack</span> || <span class="string">''</span>)
               .<span class="variable">split</span>(<span class="string">'\n'</span>).<span class="variable">slice</span>(<span class="number integer">1</span>)
               .<span class="variable">map</span>(<span class="keyword">function</span>(<span class="variable">v</span>){ <span class="keyword">return</span> <span class="string">'<li>'</span> + <span class="variable">v</span> + <span class="string">'</li>'</span>; }).<span class="variable">join</span>(<span class="string">''</span>);
               <span class="variable">html</span> = <span class="variable">html</span>
