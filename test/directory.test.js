@@ -27,5 +27,11 @@ module.exports = {
     assert.response(app,
       { url: '/', headers: { Accept: 'application/json' }},
       { body: '["bar","baz.js","foo"]' });
+  },
+  
+  'test forbidden': function(){
+    assert.response(app,
+      { url: '/../../../' },
+      { status: 403 });
   }
 };
