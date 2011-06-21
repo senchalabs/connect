@@ -1,4 +1,9 @@
 
+1.5.0 / 2011-06-20 
+==================
+
+  * Added `connect.directory()` middleware for serving directory listings
+
 1.4.6 / 2011-06-18 
 ==================
 
