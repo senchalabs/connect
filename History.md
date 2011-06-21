@@ -1,4 +1,11 @@
 
+1.5.1 / 2011-06-20 
+==================
+
+  * Added malicious path check to `directory()` middleware
+  * Added `utils.forbidden(res)`
+  * Added `connect.query()` middleware
+
 1.5.0 / 2011-06-20 
 ==================
 
