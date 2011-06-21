@@ -15,6 +15,8 @@
     "koala": "0.1.2",
     "less": "1.1.1",
     "sass": "0.5.0",
+    "markdown": "0.2.1",
+    "ejs": "0.4.3",
     "should": "0.2.1"
   },
   "main": "index",
