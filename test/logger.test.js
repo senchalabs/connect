@@ -42,6 +42,22 @@ module.exports = {
       });
   },
   
+  'test http :res[header] default': function(){
+    var logLine = ''
+    var app = connect(
+      connect.logger({
+        format: ':method :url :res[content-length]',
+        stream: { write: function(line){ logLine = line; } }
+      })
+    );
+
+    assert.response(app,
+      { url: '/' },
+      function(){
+        assert.equal(logLine, 'GET / -\n');
+      });
+  },
+  
   'test http :http-version': function(){
     var logLine = '';
     var app = connect(
