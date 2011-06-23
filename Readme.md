@@ -74,27 +74,34 @@ then:
 
  Below is the output from [git-summary](http://github.com/visionmedia/git-extras).
 
-      project: connect
-      commits: 1408
-      files  : 100
-      authors: 
-        1184	Tj Holowaychuk
-        191	Tim Caswell
-          8	Astro
-          5	Nathan Rajlich
-          4	Jakub Nešetřil
-          2	Aaron Heckmann
-          2	Fabian Jakobs
-          2	Jacques Crocker
-          2	James Campos
-          1	Jakub Nesetril
-          1	Andreas Lind Petersen
-          1	Joshua Peek
-          1	Jxck
-          1	Gregory McWhirter
-          1	Eran Hammer-Lahav
-          1	Bart Teeuwisse
-          1	Guillermo Rauch
+     project: connect
+     commits: 1616
+     files  : 168
+     authors: 
+      1086	Tj Holowaychuk
+       298	visionmedia
+       191	Tim Caswell
+         8	Astro
+         5	Nathan Rajlich
+         4	Jakub Nešetřil
+         3	Alexander Simmerl
+         2	Jacques Crocker
+         2	Andreas Lind Petersen
+         2	Fabian Jakobs
+         2	Aaron Heckmann
+         2	James Campos
+         1	nateps
+         1	Gregory McWhirter
+         1	Adam Malcontenti-Wilson
+         1	Joshua Peek
+         1	Jxck
+         1	Eran Hammer-Lahav
+         1	TJ Holowaychuk
+         1	Bart Teeuwisse
+         1	Aseem Kishore
+         1	Guillermo Rauch
+         1	Jakub Nesetril
+
 
 ## Node Compatibility
 
