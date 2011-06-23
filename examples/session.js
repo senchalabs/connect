@@ -51,7 +51,7 @@ console.log('port 3001: session cookies');
 // $ npm install connect-redis
 
 try {
-  var RedisStore = require('connect-redis');
+  var RedisStore = require('connect-redis')(connect);
   connect(
       connect.cookieParser()
     , connect.session({
