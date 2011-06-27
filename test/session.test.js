@@ -638,9 +638,73 @@ module.exports = {
   
     http.get(options, function(res){
       var prev = sid(res);
+      options.headers['Cookie'] = 'connect.sid=' + prev;
       options.headers['User-Agent'] = 'tobi/1.0';
       http.get(options, function(res){
         prev.should.not.equal(sid(res));
+        --pending || app.close();
+      });
+    });
+  },
+  
+  'test chromeframe UA strings': function(){
+    ++pending;
+  
+    var options = {
+        port: port
+      , headers: {
+        'User-Agent': 'Mozilla/5.0 (compatible; MSIE 9.0; Windows NT 6.1; WOW64; Trident/5.0; BOIE9;ENUS)'
+      }
+    };
+  
+    http.get(options, function(res){
+      var prev = sid(res);
+      options.headers['Cookie'] = 'connect.sid=' + prev;
+      options.headers['User-Agent'] = 'Mozilla/5.0 (compatible; MSIE 9.0; Windows NT 6.1; WOW64; Trident/5.0; BOIE9;ENUS; chromeframe/12.0.742.100)';
+      http.get(options, function(res){
+        prev.should.equal(sid(res));
+        --pending || app.close();
+      });
+    });
+  },
+  
+  'test chromeframe sub resource request UA string': function(){
+    ++pending;
+  
+    var options = {
+        port: port
+      , headers: {
+        'User-Agent': 'Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US) AppleWebKit/534.18 (KHTML, like Gecko) Chrome/11.0.660.0 Safari/534.18'
+      }
+    };
+  
+    http.get(options, function(res){
+      var prev = sid(res);
+      options.headers['Cookie'] = 'connect.sid=' + prev;
+      options.headers['User-Agent'] = 'Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US; chromeframe/11.0.660.0) AppleWebKit/534.18 (KHTML, like Gecko) Chrome/11.0.660.0 Safari/534.18';
+      http.get(options, function(res){
+        prev.should.equal(sid(res));
+        --pending || app.close();
+      });
+    });
+  },
+  
+  'test chromeframe request rare token placement UA string': function(){
+    ++pending;
+  
+    var options = {
+        port: port
+      , headers: {
+        'User-Agent': 'Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1; SV1)'
+      }
+    };
+  
+    http.get(options, function(res){
+      var prev = sid(res);
+      options.headers['Cookie'] = 'connect.sid=' + prev;
+      options.headers['User-Agent'] = 'Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1; SV1) chromeframe/11.0.660.0';
+      http.get(options, function(res){
+        prev.should.equal(sid(res));
         --pending || app.close();
       });
     });
