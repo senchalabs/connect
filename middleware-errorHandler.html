@@ -86,52 +86,52 @@ or json.</p></p>
 <!--            
               <pre class="code">
                 <code>
-<span class="variable">exports</span> = <span class="variable">module</span>.<span class="variable">exports</span> = <span class="keyword">function</span> <span class="variable">errorHandler</span>(<span class="variable">options</span>){
-  <span class="variable">options</span> = <span class="variable">options</span> || {};
+exports = module.exports = function errorHandler(options){
+  options = options || {};
 
-  <span class="comment">// defaults</span>
-  <span class="keyword">var</span> <span class="variable">showStack</span> = <span class="variable">options</span>.<span class="variable">showStack</span> || <span class="variable">options</span>.<span class="variable">stack</span>
-    , <span class="variable">showMessage</span> = <span class="variable">options</span>.<span class="variable">showMessage</span> || <span class="variable">options</span>.<span class="variable">message</span>
-    , <span class="variable">dumpExceptions</span> = <span class="variable">options</span>.<span class="variable">dumpExceptions</span> || <span class="variable">options</span>.<span class="variable">dump</span>
-    , <span class="variable">formatUrl</span> = <span class="variable">options</span>.<span class="variable">formatUrl</span>;
+  // defaults
+  var showStack = options.showStack || options.stack
+    , showMessage = options.showMessage || options.message
+    , dumpExceptions = options.dumpExceptions || options.dump
+    , formatUrl = options.formatUrl;
 
-  <span class="keyword">return</span> <span class="keyword">function</span> <span class="variable">errorHandler</span>(<span class="variable">err</span>, <span class="variable">req</span>, <span class="variable">res</span>, <span class="variable">next</span>){
-    <span class="variable">res</span>.<span class="variable">statusCode</span> = <span class="number integer">500</span>;
-    <span class="keyword">if</span> (<span class="variable">dumpExceptions</span>) <span class="variable">console</span>.<span class="variable">error</span>(<span class="variable">err</span>.<span class="variable">stack</span>);
-    <span class="keyword">if</span> (<span class="variable">showStack</span>) {
-      <span class="keyword">var</span> <span class="variable">accept</span> = <span class="variable">req</span>.<span class="variable">headers</span>.<span class="variable">accept</span> || <span class="string">''</span>;
-      <span class="comment">// html</span>
-      <span class="keyword">if</span> (~<span class="variable">accept</span>.<span class="variable">indexOf</span>(<span class="string">'html'</span>)) {
-        <span class="variable">fs</span>.<span class="variable">readFile</span>(<span class="variable">__dirname</span> + <span class="string">'/../public/style.css'</span>, <span class="string">'utf8'</span>, <span class="keyword">function</span>(<span class="variable">e</span>, <span class="variable">style</span>){
-          <span class="variable">fs</span>.<span class="variable">readFile</span>(<span class="variable">__dirname</span> + <span class="string">'/../public/error.html'</span>, <span class="string">'utf8'</span>, <span class="keyword">function</span>(<span class="variable">e</span>, <span class="variable">html</span>){
-            <span class="keyword">var</span> <span class="variable">stack</span> = (<span class="variable">err</span>.<span class="variable">stack</span> || <span class="string">''</span>)
-              .<span class="variable">split</span>(<span class="string">'\n'</span>).<span class="variable">slice</span>(<span class="number integer">1</span>)
-              .<span class="variable">map</span>(<span class="keyword">function</span>(<span class="variable">v</span>){ <span class="keyword">return</span> <span class="string">'<li>'</span> + <span class="variable">v</span> + <span class="string">'</li>'</span>; }).<span class="variable">join</span>(<span class="string">''</span>);
-              <span class="variable">html</span> = <span class="variable">html</span>
-                .<span class="variable">replace</span>(<span class="string">'{style}'</span>, <span class="variable">style</span>)
-                .<span class="variable">replace</span>(<span class="string">'{stack}'</span>, <span class="variable">stack</span>)
-                .<span class="variable">replace</span>(<span class="string">'{title}'</span>, <span class="variable">exports</span>.<span class="variable">title</span>)
-                .<span class="variable">replace</span>(<span class="regexp">/\{error\}/g</span>, <span class="variable">utils</span>.<span class="variable">escape</span>(<span class="variable">err</span>.<span class="variable">toString</span>()));
-              <span class="variable">res</span>.<span class="variable">setHeader</span>(<span class="string">'Content-Type'</span>, <span class="string">'text/html'</span>);
-              <span class="variable">res</span>.<span class="variable">end</span>(<span class="variable">html</span>);
+  return function errorHandler(err, req, res, next){
+    res.statusCode = 500;
+    if (dumpExceptions) console.error(err.stack);
+    if (showStack) {
+      var accept = req.headers.accept || '';
+      // html
+      if (~accept.indexOf('html')) {
+        fs.readFile(__dirname + '/../public/style.css', 'utf8', function(e, style){
+          fs.readFile(__dirname + '/../public/error.html', 'utf8', function(e, html){
+            var stack = (err.stack || '')
+              .split('\n').slice(1)
+              .map(function(v){ return '<li>' + v + '</li>'; }).join('');
+              html = html
+                .replace('{style}', style)
+                .replace('{stack}', stack)
+                .replace('{title}', exports.title)
+                .replace(/\{error\}/g, utils.escape(err.toString()));
+              res.setHeader('Content-Type', 'text/html');
+              res.end(html);
           });
         });
-      <span class="comment">// json</span>
-      } <span class="keyword">else</span> <span class="keyword">if</span> (~<span class="variable">accept</span>.<span class="variable">indexOf</span>(<span class="string">'json'</span>)) {
-        <span class="keyword">var</span> <span class="variable">json</span> = <span class="class">JSON</span>.<span class="variable">stringify</span>({ <span class="variable">error</span>: <span class="variable">err</span> });
-        <span class="variable">res</span>.<span class="variable">setHeader</span>(<span class="string">'Content-Type'</span>, <span class="string">'application/json'</span>);
-        <span class="variable">res</span>.<span class="variable">end</span>(<span class="variable">json</span>);
-      <span class="comment">// plain text</span>
-      } <span class="keyword">else</span> {
-        <span class="variable">res</span>.<span class="variable">writeHead</span>(<span class="number integer">500</span>, { <span class="string">'Content-Type'</span>: <span class="string">'text/plain'</span> });
-        <span class="variable">res</span>.<span class="variable">end</span>(<span class="variable">err</span>.<span class="variable">stack</span>);
+      // json
+      } else if (~accept.indexOf('json')) {
+        var json = JSON.stringify({ error: err });
+        res.setHeader('Content-Type', 'application/json');
+        res.end(json);
+      // plain text
+      } else {
+        res.writeHead(500, { 'Content-Type': 'text/plain' });
+        res.end(err.stack);
       }
-    } <span class="keyword">else</span> {
-      <span class="keyword">var</span> <span class="variable">body</span> = <span class="variable">showMessage</span>
-        ? <span class="variable">err</span>.<span class="variable">toString</span>()
-        : <span class="string">'Internal Server Error'</span>;
-      <span class="variable">res</span>.<span class="variable">setHeader</span>(<span class="string">'Content-Type'</span>, <span class="string">'text/plain'</span>);
-      <span class="variable">res</span>.<span class="variable">end</span>(<span class="variable">body</span>);
+    } else {
+      var body = showMessage
+        ? err.toString()
+        : 'Internal Server Error';
+      res.setHeader('Content-Type', 'text/plain');
+      res.end(body);
     }
   };
 };

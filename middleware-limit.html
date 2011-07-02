@@ -30,9 +30,9 @@ for example &quot;5mb&quot;, &quot;200kb&quot;, &quot;1gb&quot;, etc.</p>
 
 <h2>Examples</h2>
 
-<pre><code><span class="keyword">var</span> <span class="variable">server</span> = <span class="variable">connect</span>(
-  <span class="variable">connect</span>.<span class="variable">limit</span>(&#<span class="number integer">39</span>;<span class="variable">mb</span>&#<span class="number integer">39</span>;)
-).<span class="variable">listen</span>(<span class="number integer">3000</span>);</code></pre>
+<pre><code>var server = connect(
+  connect.limit(&#39;5.5mb&#39;)
+).listen(3000);</code></pre>
 
 <h2>TODO pause EV_READ</h2>
               </div>
@@ -76,34 +76,34 @@ for example &quot;5mb&quot;, &quot;200kb&quot;, &quot;1gb&quot;, etc.</p>
 <!--            
               <pre class="code">
                 <code>
-<span class="variable">module</span>.<span class="variable">exports</span> = <span class="keyword">function</span> <span class="variable">limit</span>(<span class="variable">bytes</span>){
-  <span class="keyword">if</span> (<span class="string">'string'</span> == <span class="keyword">typeof</span> <span class="variable">bytes</span>) <span class="variable">bytes</span> = <span class="variable">parse</span>(<span class="variable">bytes</span>);
-  <span class="keyword">if</span> (<span class="string">'number'</span> != <span class="keyword">typeof</span> <span class="variable">bytes</span>) <span class="keyword">throw</span> <span class="keyword">new</span> <span class="class">Error</span>(<span class="string">'limit() bytes required'</span>);
-  <span class="keyword">return</span> <span class="keyword">function</span> <span class="variable">limit</span>(<span class="variable">req</span>, <span class="variable">res</span>, <span class="variable">next</span>){
-    <span class="keyword">var</span> <span class="variable">received</span> = <span class="number integer">0</span>
-      , <span class="variable">len</span> = <span class="variable">req</span>.<span class="variable">headers</span>[<span class="string">'content-length'</span>]
-        ? <span class="variable">parseInt</span>(<span class="variable">req</span>.<span class="variable">headers</span>[<span class="string">'content-length'</span>], <span class="number integer">10</span>)
-        : <span class="keyword">null</span>;
+module.exports = function limit(bytes){
+  if ('string' == typeof bytes) bytes = parse(bytes);
+  if ('number' != typeof bytes) throw new Error('limit() bytes required');
+  return function limit(req, res, next){
+    var received = 0
+      , len = req.headers['content-length']
+        ? parseInt(req.headers['content-length'], 10)
+        : null;
 
-    <span class="comment">// deny the request</span>
-    <span class="keyword">function</span> <span class="variable">deny</span>() {
-      <span class="variable">req</span>.<span class="variable">destroy</span>();
+    // deny the request
+    function deny() {
+      req.destroy();
     }
 
-    <span class="comment">// self-awareness</span>
-    <span class="keyword">if</span> (<span class="variable">req</span>.<span class="variable">_limit</span>) <span class="keyword">return</span> <span class="variable">next</span>();
-    <span class="variable">req</span>.<span class="variable">_limit</span> = <span class="variable">true</span>;
+    // self-awareness
+    if (req._limit) return next();
+    req._limit = true;
 
-    <span class="comment">// limit by content-length</span>
-    <span class="keyword">if</span> (<span class="variable">len</span> && <span class="variable">len</span> > <span class="variable">bytes</span>) <span class="variable">deny</span>();
+    // limit by content-length
+    if (len && len > bytes) deny();
 
-    <span class="comment">// limit</span>
-    <span class="variable">req</span>.<span class="variable">on</span>(<span class="string">'data'</span>, <span class="keyword">function</span>(<span class="variable">chunk</span>){
-      <span class="variable">received</span> += <span class="variable">chunk</span>.<span class="variable">length</span>;
-      <span class="keyword">if</span> (<span class="variable">received</span> > <span class="variable">bytes</span>) <span class="variable">deny</span>();
+    // limit
+    req.on('data', function(chunk){
+      received += chunk.length;
+      if (received > bytes) deny();
     });
 
-    <span class="variable">next</span>();
+    next();
   };
 };
                 </code>

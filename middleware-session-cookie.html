@@ -56,9 +56,9 @@
 <!--            
               <pre class="code">
                 <code>
-<span class="variable">set</span> <span class="variable">expires</span>(<span class="variable">date</span>) {
-    <span class="this">this</span>.<span class="variable">_expires</span> = <span class="variable">date</span>;
-    <span class="this">this</span>.<span class="variable">originalMaxAge</span> = <span class="this">this</span>.<span class="variable">maxAge</span>;
+set expires(date) {
+    this._expires = date;
+    this.originalMaxAge = this.maxAge;
   },
                 </code>
               </pre>
@@ -105,8 +105,8 @@
 <!--            
               <pre class="code">
                 <code>
-<span class="variable">get</span> <span class="variable">expires</span>() {
-    <span class="keyword">return</span> <span class="this">this</span>.<span class="variable">_expires</span>;
+get expires() {
+    return this._expires;
   },
                 </code>
               </pre>
@@ -153,10 +153,10 @@
 <!--            
               <pre class="code">
                 <code>
-<span class="variable">set</span> <span class="variable">maxAge</span>(<span class="variable">ms</span>) {
-    <span class="this">this</span>.<span class="variable">expires</span> = <span class="string">'number'</span> == <span class="keyword">typeof</span> <span class="variable">ms</span>
-      ? <span class="keyword">new</span> <span class="class">Date</span>(<span class="class">Date</span>.<span class="variable">now</span>() + <span class="variable">ms</span>)
-      : <span class="variable">ms</span>;
+set maxAge(ms) {
+    this.expires = 'number' == typeof ms
+      ? new Date(Date.now() + ms)
+      : ms;
   },
                 </code>
               </pre>
@@ -203,10 +203,10 @@
 <!--            
               <pre class="code">
                 <code>
-<span class="variable">get</span> <span class="variable">maxAge</span>() {
-    <span class="keyword">return</span> <span class="this">this</span>.<span class="variable">expires</span> <span class="variable">instanceof</span> <span class="class">Date</span>
-      ? <span class="this">this</span>.<span class="variable">expires</span>.<span class="variable">valueOf</span>() - <span class="class">Date</span>.<span class="variable">now</span>()
-      : <span class="this">this</span>.<span class="variable">expires</span>;
+get maxAge() {
+    return this.expires instanceof Date
+      ? this.expires.valueOf() - Date.now()
+      : this.expires;
   },
                 </code>
               </pre>
@@ -254,8 +254,8 @@
 <!--            
               <pre class="code">
                 <code>
-<span class="variable">serialize</span>: <span class="keyword">function</span>(<span class="variable">name</span>, <span class="variable">val</span>){
-    <span class="keyword">return</span> <span class="variable">utils</span>.<span class="variable">serializeCookie</span>(<span class="variable">name</span>, <span class="variable">val</span>, <span class="this">this</span>.<span class="variable">data</span>);
+serialize: function(name, val){
+    return utils.serializeCookie(name, val, this.data);
   },
                 </code>
               </pre>

@@ -32,12 +32,12 @@ other middleware.</p>
 
 <h2>Example Output</h2>
 
-<pre><code> <span class="class">GET</span> /
- <span class="variable">response</span> <span class="variable">time</span> <span class="variable">ms</span>
- <span class="variable">memory</span> <span class="variable">rss</span> <span class="variable">kb</span>
- <span class="variable">memory</span> <span class="variable">vsize</span> <span class="variable">mb</span>
- <span class="variable">heap</span> <span class="variable">before</span> <span class="variable">mb</span> / <span class="variable">mb</span>
- <span class="variable">heap</span> <span class="variable">after</span> <span class="variable">mb</span> / <span class="variable">mb</span></code></pre>
+<pre><code> GET /
+ response time 2ms
+ memory rss 52.00kb
+ memory vsize 2.07mb
+ heap before 3.76mb / 8.15mb
+ heap after 3.80mb / 8.15mb</code></pre>
               </div>
             
 
@@ -59,27 +59,27 @@ other middleware.</p>
 <!--            
               <pre class="code">
                 <code>
-<span class="variable">module</span>.<span class="variable">exports</span> = <span class="keyword">function</span> <span class="variable">profiler</span>(){
-  <span class="keyword">return</span> <span class="keyword">function</span>(<span class="variable">req</span>, <span class="variable">res</span>, <span class="variable">next</span>){
-    <span class="keyword">var</span> <span class="variable">end</span> = <span class="variable">res</span>.<span class="variable">end</span>
-      , <span class="variable">start</span> = <span class="variable">snapshot</span>();
+module.exports = function profiler(){
+  return function(req, res, next){
+    var end = res.end
+      , start = snapshot();
 
-    <span class="comment">// state snapshot</span>
-    <span class="keyword">function</span> <span class="variable">snapshot</span>() {
-      <span class="keyword">return</span> {
-          <span class="variable">mem</span>: <span class="variable">process</span>.<span class="variable">memoryUsage</span>()
-        , <span class="variable">time</span>: <span class="keyword">new</span> <span class="class">Date</span>
+    // state snapshot
+    function snapshot() {
+      return {
+          mem: process.memoryUsage()
+        , time: new Date
       };
     }
 
-    <span class="comment">// proxy res.end()</span>
-    <span class="variable">res</span>.<span class="variable">end</span> = <span class="keyword">function</span>(<span class="variable">data</span>, <span class="variable">encoding</span>){
-      <span class="variable">res</span>.<span class="variable">end</span> = <span class="variable">end</span>;
-      <span class="variable">res</span>.<span class="variable">end</span>(<span class="variable">data</span>, <span class="variable">encoding</span>);
-      <span class="variable">compare</span>(<span class="variable">req</span>, <span class="variable">start</span>, <span class="variable">snapshot</span>())
+    // proxy res.end()
+    res.end = function(data, encoding){
+      res.end = end;
+      res.end(data, encoding);
+      compare(req, start, snapshot())
     };
 
-    <span class="variable">next</span>();
+    next();
   }
 };
                 </code>

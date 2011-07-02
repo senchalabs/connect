@@ -65,79 +65,79 @@
 <!--            
               <pre class="code">
                 <code>
-<span class="variable">exports</span> = <span class="variable">module</span>.<span class="variable">exports</span> = <span class="keyword">function</span> <span class="variable">compiler</span>(<span class="variable">options</span>){
-  <span class="variable">options</span> = <span class="variable">options</span> || {};
+exports = module.exports = function compiler(options){
+  options = options || {};
 
-  <span class="keyword">var</span> <span class="variable">srcDir</span> = <span class="variable">options</span>.<span class="variable">src</span> || <span class="variable">process</span>.<span class="variable">cwd</span>()
-    , <span class="variable">destDir</span> = <span class="variable">options</span>.<span class="variable">dest</span> || <span class="variable">srcDir</span>
-    , <span class="variable">enable</span> = <span class="variable">options</span>.<span class="variable">enable</span>;
+  var srcDir = options.src || process.cwd()
+    , destDir = options.dest || srcDir
+    , enable = options.enable;
 
-  <span class="keyword">if</span> (!<span class="variable">enable</span> || <span class="variable">enable</span>.<span class="variable">length</span> === <span class="number integer">0</span>) {
-    <span class="keyword">throw</span> <span class="keyword">new</span> <span class="class">Error</span>(<span class="variable">s</span> <span class="string">"enable"</span> <span class="variable">option</span> <span class="variable">is</span> <span class="variable">not</span> <span class="variable">set</span>, <span class="variable">nothing</span> <span class="variable">will</span> <span class="variable">be</span> <span class="variable">compiled</span>.');
+  if (!enable || enable.length === 0) {
+    throw new Error('compiler\'s "enable" option is not set, nothing will be compiled.');
   }
 
-  <span class="keyword">return</span> <span class="keyword">function</span> <span class="variable">compiler</span>(<span class="variable">req</span>, <span class="variable">res</span>, <span class="variable">next</span>){
-    <span class="keyword">if</span> (<span class="string">'GET'</span> != <span class="variable">req</span>.<span class="variable">method</span>) <span class="keyword">return</span> <span class="variable">next</span>();
-    <span class="keyword">var</span> <span class="variable">pathname</span> = <span class="variable">parse</span>(<span class="variable">req</span>.<span class="variable">url</span>).<span class="variable">pathname</span>;
-    <span class="keyword">for</span> (<span class="keyword">var</span> <span class="variable">i</span> = <span class="number integer">0</span>, <span class="variable">len</span> = <span class="variable">enable</span>.<span class="variable">length</span>; <span class="variable">i</span> < <span class="variable">len</span>; ++<span class="variable">i</span>) {
-      <span class="keyword">var</span> <span class="variable">name</span> = <span class="variable">enable</span>[<span class="variable">i</span>]
-        , <span class="variable">compiler</span> = <span class="variable">compilers</span>[<span class="variable">name</span>];
-      <span class="keyword">if</span> (<span class="variable">compiler</span>.<span class="variable">match</span>.<span class="variable">test</span>(<span class="variable">pathname</span>)) {
-        <span class="keyword">var</span> <span class="variable">src</span> = (<span class="variable">srcDir</span> + <span class="variable">pathname</span>).<span class="variable">replace</span>(<span class="variable">compiler</span>.<span class="variable">match</span>, <span class="variable">compiler</span>.<span class="variable">ext</span>)
-          , <span class="variable">dest</span> = <span class="variable">destDir</span> + <span class="variable">pathname</span>;
+  return function compiler(req, res, next){
+    if ('GET' != req.method) return next();
+    var pathname = parse(req.url).pathname;
+    for (var i = 0, len = enable.length; i < len; ++i) {
+      var name = enable[i]
+        , compiler = compilers[name];
+      if (compiler.match.test(pathname)) {
+        var src = (srcDir + pathname).replace(compiler.match, compiler.ext)
+          , dest = destDir + pathname;
 
-        <span class="comment">// Compare mtimes</span>
-        <span class="variable">fs</span>.<span class="variable">stat</span>(<span class="variable">src</span>, <span class="keyword">function</span>(<span class="variable">err</span>, <span class="variable">srcStats</span>){
-          <span class="keyword">if</span> (<span class="variable">err</span>) {
-            <span class="keyword">if</span> (<span class="string">'ENOENT'</span> == <span class="variable">err</span>.<span class="variable">code</span>) {
-              <span class="variable">next</span>();
-            } <span class="keyword">else</span> {
-              <span class="variable">next</span>(<span class="variable">err</span>);
+        // Compare mtimes
+        fs.stat(src, function(err, srcStats){
+          if (err) {
+            if ('ENOENT' == err.code) {
+              next();
+            } else {
+              next(err);
             }
-          } <span class="keyword">else</span> {
-            <span class="variable">fs</span>.<span class="variable">stat</span>(<span class="variable">dest</span>, <span class="keyword">function</span>(<span class="variable">err</span>, <span class="variable">destStats</span>){
-              <span class="keyword">if</span> (<span class="variable">err</span>) {
-                <span class="comment">// Oh snap! it does not exist, compile it</span>
-                <span class="keyword">if</span> (<span class="string">'ENOENT'</span> == <span class="variable">err</span>.<span class="variable">code</span>) {
-                  <span class="variable">compile</span>();
-                } <span class="keyword">else</span> {
-                  <span class="variable">next</span>(<span class="variable">err</span>);
+          } else {
+            fs.stat(dest, function(err, destStats){
+              if (err) {
+                // Oh snap! it does not exist, compile it
+                if ('ENOENT' == err.code) {
+                  compile();
+                } else {
+                  next(err);
                 }
-              } <span class="keyword">else</span> {
-                <span class="comment">// Source has changed, compile it</span>
-                <span class="keyword">if</span> (<span class="variable">srcStats</span>.<span class="variable">mtime</span> > <span class="variable">destStats</span>.<span class="variable">mtime</span>) {
-                  <span class="variable">compile</span>();
-                } <span class="keyword">else</span> {
-                  <span class="comment">// Defer file serving</span>
-                  <span class="variable">next</span>();
+              } else {
+                // Source has changed, compile it
+                if (srcStats.mtime > destStats.mtime) {
+                  compile();
+                } else {
+                  // Defer file serving
+                  next();
                 }
               }
             });
           }
         });
 
-        <span class="comment">// Compile to the destination</span>
-        <span class="keyword">function</span> <span class="variable">compile</span>() {
-          <span class="variable">fs</span>.<span class="variable">readFile</span>(<span class="variable">src</span>, <span class="string">'utf8'</span>, <span class="keyword">function</span>(<span class="variable">err</span>, <span class="variable">str</span>){
-            <span class="keyword">if</span> (<span class="variable">err</span>) {
-              <span class="variable">next</span>(<span class="variable">err</span>);
-            } <span class="keyword">else</span> {
-              <span class="variable">compiler</span>.<span class="variable">compile</span>(<span class="variable">str</span>, <span class="keyword">function</span>(<span class="variable">err</span>, <span class="variable">str</span>){
-                <span class="keyword">if</span> (<span class="variable">err</span>) {
-                  <span class="variable">next</span>(<span class="variable">err</span>);
-                } <span class="keyword">else</span> {
-                  <span class="variable">fs</span>.<span class="variable">writeFile</span>(<span class="variable">dest</span>, <span class="variable">str</span>, <span class="string">'utf8'</span>, <span class="keyword">function</span>(<span class="variable">err</span>){
-                    <span class="variable">next</span>(<span class="variable">err</span>);
+        // Compile to the destination
+        function compile() {
+          fs.readFile(src, 'utf8', function(err, str){
+            if (err) {
+              next(err);
+            } else {
+              compiler.compile(str, function(err, str){
+                if (err) {
+                  next(err);
+                } else {
+                  fs.writeFile(dest, str, 'utf8', function(err){
+                    next(err);
                   });
                 }
               });
             }
           });
         }
-        <span class="keyword">return</span>;
+        return;
       }
     }
-    <span class="variable">next</span>();
+    next();
   };
 };
                 </code>

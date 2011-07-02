@@ -28,8 +28,8 @@ defaulting to hex.</p></p>
 
             
               <div class="body">
-                <pre><code><span class="variable">utils</span>.<span class="variable">md5</span>(&#<span class="number integer">39</span>;<span class="variable">wahoo</span>&#<span class="number integer">39</span>;);
-<span class="comment">// =&gt; &quot;e493298061761236c96b02ea6aa8a2ad&quot;</span></code></pre>
+                <pre><code>utils.md5(&#39;wahoo&#39;);
+// =&gt; &quot;e493298061761236c96b02ea6aa8a2ad&quot;</code></pre>
               </div>
             
 
@@ -81,11 +81,11 @@ defaulting to hex.</p></p>
 <!--            
               <pre class="code">
                 <code>
-<span class="variable">exports</span>.<span class="variable">md5</span> = <span class="keyword">function</span>(<span class="variable">str</span>, <span class="variable">encoding</span>){
-  <span class="keyword">return</span> <span class="variable">crypto</span>
-    .<span class="variable">createHash</span>(<span class="string">'md5'</span>)
-    .<span class="variable">update</span>(<span class="variable">str</span>)
-    .<span class="variable">digest</span>(<span class="variable">encoding</span> || <span class="string">'hex'</span>);
+exports.md5 = function(str, encoding){
+  return crypto
+    .createHash('md5')
+    .update(str)
+    .digest(encoding || 'hex');
 };
                 </code>
               </pre>
@@ -104,11 +104,11 @@ defaulting to hex.</p></p>
 
             
               <div class="body">
-                <pre><code><span class="keyword">var</span> <span class="variable">a</span> = { <span class="variable">foo</span>: &#<span class="number integer">39</span>;<span class="variable">bar</span>&#<span class="number integer">39</span>; }
-  , <span class="variable">b</span> = { <span class="variable">bar</span>: &#<span class="number integer">39</span>;<span class="variable">baz</span>&#<span class="number integer">39</span>; };
+                <pre><code>var a = { foo: &#39;bar&#39; }
+  , b = { bar: &#39;baz&#39; };
 
-<span class="variable">utils</span>.<span class="variable">merge</span>(<span class="variable">a</span>, <span class="variable">b</span>);
-<span class="comment">// =&gt; { foo: &#39;bar&#39;, bar: &#39;baz&#39; }</span></code></pre>
+utils.merge(a, b);
+// =&gt; { foo: &#39;bar&#39;, bar: &#39;baz&#39; }</code></pre>
               </div>
             
 
@@ -160,13 +160,13 @@ defaulting to hex.</p></p>
 <!--            
               <pre class="code">
                 <code>
-<span class="variable">exports</span>.<span class="variable">merge</span> = <span class="keyword">function</span>(<span class="variable">a</span>, <span class="variable">b</span>){
-  <span class="keyword">if</span> (<span class="variable">a</span> && <span class="variable">b</span>) {
-    <span class="keyword">for</span> (<span class="keyword">var</span> <span class="variable">key</span> <span class="keyword">in</span> <span class="variable">b</span>) {
-      <span class="variable">a</span>[<span class="variable">key</span>] = <span class="variable">b</span>[<span class="variable">key</span>];
+exports.merge = function(a, b){
+  if (a && b) {
+    for (var key in b) {
+      a[key] = b[key];
     }
   }
-  <span class="keyword">return</span> <span class="variable">a</span>;
+  return a;
 };
                 </code>
               </pre>
@@ -223,12 +223,12 @@ defaulting to hex.</p></p>
 <!--            
               <pre class="code">
                 <code>
-<span class="variable">exports</span>.<span class="variable">escape</span> = <span class="keyword">function</span>(<span class="variable">html</span>){
-  <span class="keyword">return</span> <span class="class">String</span>(<span class="variable">html</span>)
-    .<span class="variable">replace</span>(<span class="regexp">/&(?!\w+;)/g</span>, <span class="string">'&amp;'</span>)
-    .<span class="variable">replace</span>(<span class="regexp">/</g</span>, <span class="string">'&lt;'</span>)
-    .<span class="variable">replace</span>(<span class="regexp">/>/g</span>, <span class="string">'&gt;'</span>)
-    .<span class="variable">replace</span>(<span class="regexp">/"/g</span>, <span class="string">'&quot;'</span>);
+exports.escape = function(html){
+  return String(html)
+    .replace(/&(?!\w+;)/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;');
 };
                 </code>
               </pre>
@@ -247,8 +247,8 @@ defaulting to hex.</p></p>
 
             
               <div class="body">
-                <pre><code><span class="variable">utils</span>.<span class="variable">uid</span>(<span class="number integer">10</span>);
-<span class="comment">// =&gt; &quot;FDaS435D2z&quot;</span></code></pre>
+                <pre><code>utils.uid(10);
+// =&gt; &quot;FDaS435D2z&quot;</code></pre>
               </div>
             
 
@@ -290,16 +290,16 @@ defaulting to hex.</p></p>
 <!--            
               <pre class="code">
                 <code>
-<span class="variable">exports</span>.<span class="variable">uid</span> = <span class="keyword">function</span>(<span class="variable">len</span>) {
-  <span class="keyword">var</span> <span class="variable">buf</span> = []
-    , <span class="variable">chars</span> = <span class="string">'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789'</span>
-    , <span class="variable">charlen</span> = <span class="variable">chars</span>.<span class="variable">length</span>;
+exports.uid = function(len) {
+  var buf = []
+    , chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789'
+    , charlen = chars.length;
 
-  <span class="keyword">for</span> (<span class="keyword">var</span> <span class="variable">i</span> = <span class="number integer">0</span>; <span class="variable">i</span> < <span class="variable">len</span>; ++<span class="variable">i</span>) {
-    <span class="variable">buf</span>.<span class="variable">push</span>(<span class="variable">chars</span>[<span class="variable">getRandomInt</span>(<span class="number integer">0</span>, <span class="variable">charlen</span> - <span class="number integer">1</span>)]);
+  for (var i = 0; i < len; ++i) {
+    buf.push(chars[getRandomInt(0, charlen - 1)]);
   }
 
-  <span class="keyword">return</span> <span class="variable">buf</span>.<span class="variable">join</span>(<span class="string">''</span>);
+  return buf.join('');
 };
                 </code>
               </pre>
@@ -369,8 +369,8 @@ defaulting to hex.</p></p>
 
             
               <div class="body">
-                <pre><code> <span class="variable">utils</span>.<span class="variable">serializeCookie</span>(&#<span class="number integer">39</span>;<span class="variable">name</span>&#<span class="number integer">39</span>;, &#<span class="number integer">39</span>;<span class="variable">tj</span>&#<span class="number integer">39</span>;, { <span class="variable">httpOnly</span>: <span class="variable">true</span> })
- <span class="comment">// =&gt; &quot;name=tj; httpOnly&quot;</span></code></pre>
+                <pre><code> utils.serializeCookie(&#39;name&#39;, &#39;tj&#39;, { httpOnly: true })
+ // =&gt; &quot;name=tj; httpOnly&quot;</code></pre>
               </div>
             
 
@@ -432,17 +432,17 @@ defaulting to hex.</p></p>
 <!--            
               <pre class="code">
                 <code>
-<span class="variable">exports</span>.<span class="variable">serializeCookie</span> = <span class="keyword">function</span>(<span class="variable">name</span>, <span class="variable">val</span>, <span class="variable">obj</span>){
-  <span class="keyword">var</span> <span class="variable">pairs</span> = [<span class="variable">name</span> + <span class="string">'='</span> + <span class="variable">encodeURIComponent</span>(<span class="variable">val</span>)]
-    , <span class="variable">obj</span> = <span class="variable">obj</span> || {};
+exports.serializeCookie = function(name, val, obj){
+  var pairs = [name + '=' + encodeURIComponent(val)]
+    , obj = obj || {};
 
-  <span class="keyword">if</span> (<span class="variable">obj</span>.<span class="variable">domain</span>) <span class="variable">pairs</span>.<span class="variable">push</span>(<span class="string">'domain='</span> + <span class="variable">obj</span>.<span class="variable">domain</span>);
-  <span class="keyword">if</span> (<span class="variable">obj</span>.<span class="variable">path</span>) <span class="variable">pairs</span>.<span class="variable">push</span>(<span class="string">'path='</span> + <span class="variable">obj</span>.<span class="variable">path</span>);
-  <span class="keyword">if</span> (<span class="variable">obj</span>.<span class="variable">expires</span>) <span class="variable">pairs</span>.<span class="variable">push</span>(<span class="string">'expires='</span> + <span class="variable">obj</span>.<span class="variable">expires</span>.<span class="variable">toUTCString</span>());
-  <span class="keyword">if</span> (<span class="variable">obj</span>.<span class="variable">httpOnly</span>) <span class="variable">pairs</span>.<span class="variable">push</span>(<span class="string">'httpOnly'</span>);
-  <span class="keyword">if</span> (<span class="variable">obj</span>.<span class="variable">secure</span>) <span class="variable">pairs</span>.<span class="variable">push</span>(<span class="string">'secure'</span>);
+  if (obj.domain) pairs.push('domain=' + obj.domain);
+  if (obj.path) pairs.push('path=' + obj.path);
+  if (obj.expires) pairs.push('expires=' + obj.expires.toUTCString());
+  if (obj.httpOnly) pairs.push('httpOnly');
+  if (obj.secure) pairs.push('secure');
 
-  <span class="keyword">return</span> <span class="variable">pairs</span>.<span class="variable">join</span>(<span class="string">'; '</span>);
+  return pairs.join('; ');
 };
                 </code>
               </pre>
@@ -465,10 +465,10 @@ events may be lost.</p></p>
 
             
               <div class="body">
-                <pre><code> <span class="keyword">var</span> <span class="variable">pause</span> = <span class="variable">utils</span>.<span class="variable">pause</span>(<span class="variable">req</span>);
- <span class="variable">fs</span>.<span class="variable">readFile</span>(<span class="variable">path</span>, <span class="keyword">function</span>(){
-    <span class="variable">next</span>();
-    <span class="variable">pause</span>.<span class="variable">resume</span>();
+                <pre><code> var pause = utils.pause(req);
+ fs.readFile(path, function(){
+    next();
+    pause.resume();
  });</code></pre>
               </div>
             
@@ -511,30 +511,30 @@ events may be lost.</p></p>
 <!--            
               <pre class="code">
                 <code>
-<span class="variable">exports</span>.<span class="variable">pause</span> = <span class="keyword">function</span>(<span class="variable">obj</span>){
-  <span class="keyword">var</span> <span class="variable">onData</span>
-    , <span class="variable">onEnd</span>
-    , <span class="variable">events</span> = [];
+exports.pause = function(obj){
+  var onData
+    , onEnd
+    , events = [];
 
-  <span class="comment">// buffer data</span>
-  <span class="variable">obj</span>.<span class="variable">on</span>(<span class="string">'data'</span>, <span class="variable">onData</span> = <span class="keyword">function</span>(<span class="variable">data</span>, <span class="variable">encoding</span>){
-    <span class="variable">events</span>.<span class="variable">push</span>([<span class="string">'data'</span>, <span class="variable">data</span>, <span class="variable">encoding</span>]);
+  // buffer data
+  obj.on('data', onData = function(data, encoding){
+    events.push(['data', data, encoding]);
   });
 
-  <span class="comment">// buffer end</span>
-  <span class="variable">obj</span>.<span class="variable">on</span>(<span class="string">'end'</span>, <span class="variable">onEnd</span> = <span class="keyword">function</span>(<span class="variable">data</span>, <span class="variable">encoding</span>){
-    <span class="variable">events</span>.<span class="variable">push</span>([<span class="string">'end'</span>, <span class="variable">data</span>, <span class="variable">encoding</span>]);
+  // buffer end
+  obj.on('end', onEnd = function(data, encoding){
+    events.push(['end', data, encoding]);
   });
 
-  <span class="keyword">return</span> {
-    <span class="variable">end</span>: <span class="keyword">function</span>(){
-      <span class="variable">obj</span>.<span class="variable">removeListener</span>(<span class="string">'data'</span>, <span class="variable">onData</span>);
-      <span class="variable">obj</span>.<span class="variable">removeListener</span>(<span class="string">'end'</span>, <span class="variable">onEnd</span>);
+  return {
+    end: function(){
+      obj.removeListener('data', onData);
+      obj.removeListener('end', onEnd);
     },
-    <span class="variable">resume</span>: <span class="keyword">function</span>(){
-      <span class="this">this</span>.<span class="variable">end</span>();
-      <span class="keyword">for</span> (<span class="keyword">var</span> <span class="variable">i</span> = <span class="number integer">0</span>, <span class="variable">len</span> = <span class="variable">events</span>.<span class="variable">length</span>; <span class="variable">i</span> < <span class="variable">len</span>; ++<span class="variable">i</span>) {
-        <span class="variable">obj</span>.<span class="variable">emit</span>.<span class="variable">apply</span>(<span class="variable">obj</span>, <span class="variable">events</span>[<span class="variable">i</span>]);
+    resume: function(){
+      this.end();
+      for (var i = 0, len = events.length; i < len; ++i) {
+        obj.emit.apply(obj, events[i]);
       }
     }
   };
@@ -645,10 +645,10 @@ events may be lost.</p></p>
 <!--            
               <pre class="code">
                 <code>
-<span class="variable">exports</span>.<span class="variable">removeContentHeaders</span> = <span class="keyword">function</span>(<span class="variable">res</span>){
-  <span class="class">Object</span>.<span class="variable">keys</span>(<span class="variable">res</span>.<span class="variable">_headers</span>).<span class="variable">forEach</span>(<span class="keyword">function</span>(<span class="variable">field</span>){
-    <span class="keyword">if</span> (<span class="number integer">0</span> == <span class="variable">field</span>.<span class="variable">indexOf</span>(<span class="string">'content'</span>)) {
-      <span class="variable">res</span>.<span class="variable">removeHeader</span>(<span class="variable">field</span>);
+exports.removeContentHeaders = function(res){
+  Object.keys(res._headers).forEach(function(field){
+    if (0 == field.indexOf('content')) {
+      res.removeHeader(field);
     }
   });
 };
@@ -707,9 +707,9 @@ events may be lost.</p></p>
 <!--            
               <pre class="code">
                 <code>
-<span class="variable">exports</span>.<span class="variable">conditionalGET</span> = <span class="keyword">function</span>(<span class="variable">req</span>) {
-  <span class="keyword">return</span> <span class="variable">req</span>.<span class="variable">headers</span>[<span class="string">'if-modified-since'</span>]
-    || <span class="variable">req</span>.<span class="variable">headers</span>[<span class="string">'if-none-match'</span>];
+exports.conditionalGET = function(req) {
+  return req.headers['if-modified-since']
+    || req.headers['if-none-match'];
 };
                 </code>
               </pre>
@@ -756,12 +756,12 @@ events may be lost.</p></p>
 <!--            
               <pre class="code">
                 <code>
-<span class="variable">exports</span>.<span class="variable">forbidden</span> = <span class="keyword">function</span>(<span class="variable">res</span>) {
-  <span class="keyword">var</span> <span class="variable">body</span> = <span class="string">'Forbidden'</span>;
-  <span class="variable">res</span>.<span class="variable">setHeader</span>(<span class="string">'Content-Type'</span>, <span class="string">'text/plain'</span>);
-  <span class="variable">res</span>.<span class="variable">setHeader</span>(<span class="string">'Content-Length'</span>, <span class="variable">body</span>.<span class="variable">length</span>);
-  <span class="variable">res</span>.<span class="variable">statusCode</span> = <span class="number integer">403</span>;
-  <span class="variable">res</span>.<span class="variable">end</span>(<span class="variable">body</span>);
+exports.forbidden = function(res) {
+  var body = 'Forbidden';
+  res.setHeader('Content-Type', 'text/plain');
+  res.setHeader('Content-Length', body.length);
+  res.statusCode = 403;
+  res.end(body);
 };
                 </code>
               </pre>
@@ -818,10 +818,10 @@ events may be lost.</p></p>
 <!--            
               <pre class="code">
                 <code>
-<span class="variable">exports</span>.<span class="variable">unauthorized</span> = <span class="keyword">function</span>(<span class="variable">res</span>, <span class="variable">realm</span>) {
-  <span class="variable">res</span>.<span class="variable">statusCode</span> = <span class="number integer">401</span>;
-  <span class="variable">res</span>.<span class="variable">setHeader</span>(<span class="string">'WWW-Authenticate'</span>, <span class="string">'Basic realm="'</span> + <span class="variable">realm</span> + <span class="string">'"'</span>);
-  <span class="variable">res</span>.<span class="variable">end</span>(<span class="string">'Unauthorized'</span>);
+exports.unauthorized = function(res, realm) {
+  res.statusCode = 401;
+  res.setHeader('WWW-Authenticate', 'Basic realm="' + realm + '"');
+  res.end('Unauthorized');
 };
                 </code>
               </pre>
@@ -868,9 +868,9 @@ events may be lost.</p></p>
 <!--            
               <pre class="code">
                 <code>
-<span class="variable">exports</span>.<span class="variable">badRequest</span> = <span class="keyword">function</span>(<span class="variable">res</span>) {
-  <span class="variable">res</span>.<span class="variable">statusCode</span> = <span class="number integer">400</span>;
-  <span class="variable">res</span>.<span class="variable">end</span>(<span class="string">'Bad Request'</span>);
+exports.badRequest = function(res) {
+  res.statusCode = 400;
+  res.end('Bad Request');
 };
                 </code>
               </pre>
@@ -927,10 +927,10 @@ events may be lost.</p></p>
 <!--            
               <pre class="code">
                 <code>
-<span class="variable">exports</span>.<span class="variable">notModified</span> = <span class="keyword">function</span>(<span class="variable">res</span>) {
-  <span class="variable">exports</span>.<span class="variable">removeContentHeaders</span>(<span class="variable">res</span>);
-  <span class="variable">res</span>.<span class="variable">statusCode</span> = <span class="number integer">304</span>;
-  <span class="variable">res</span>.<span class="variable">end</span>();
+exports.notModified = function(res) {
+  exports.removeContentHeaders(res);
+  res.statusCode = 304;
+  res.end();
 };
                 </code>
               </pre>
@@ -988,8 +988,8 @@ from the given <code>stat</code>.</p></p>
 <!--            
               <pre class="code">
                 <code>
-<span class="variable">exports</span>.<span class="variable">etag</span> = <span class="keyword">function</span>(<span class="variable">stat</span>) {
-  <span class="keyword">return</span> <span class="string">'"'</span> + <span class="variable">stat</span>.<span class="variable">size</span> + <span class="string">'-'</span> + <span class="class">Number</span>(<span class="variable">stat</span>.<span class="variable">mtime</span>) + <span class="string">'"'</span>;
+exports.etag = function(stat) {
+  return '"' + stat.size + '-' + Number(stat.mtime) + '"';
 };
                 </code>
               </pre>
@@ -1056,28 +1056,28 @@ from the given <code>stat</code>.</p></p>
 <!--            
               <pre class="code">
                 <code>
-<span class="variable">exports</span>.<span class="variable">parseRange</span> = <span class="keyword">function</span>(<span class="variable">size</span>, <span class="variable">str</span>){
-  <span class="keyword">var</span> <span class="variable">valid</span> = <span class="variable">true</span>;
-  <span class="keyword">var</span> <span class="variable">arr</span> = <span class="variable">str</span>.<span class="variable">substr</span>(<span class="number integer">6</span>).<span class="variable">split</span>(<span class="string">','</span>).<span class="variable">map</span>(<span class="keyword">function</span>(<span class="variable">range</span>){
-    <span class="keyword">var</span> <span class="variable">range</span> = <span class="variable">range</span>.<span class="variable">split</span>(<span class="string">'-'</span>)
-      , <span class="variable">start</span> = <span class="variable">parseInt</span>(<span class="variable">range</span>[<span class="number integer">0</span>], <span class="number integer">10</span>)
-      , <span class="variable">end</span> = <span class="variable">parseInt</span>(<span class="variable">range</span>[<span class="number integer">1</span>], <span class="number integer">10</span>);
+exports.parseRange = function(size, str){
+  var valid = true;
+  var arr = str.substr(6).split(',').map(function(range){
+    var range = range.split('-')
+      , start = parseInt(range[0], 10)
+      , end = parseInt(range[1], 10);
 
-    <span class="comment">// -500</span>
-    <span class="keyword">if</span> (<span class="variable">isNaN</span>(<span class="variable">start</span>)) {
-      <span class="variable">start</span> = <span class="variable">size</span> - <span class="variable">end</span>;
-      <span class="variable">end</span> = <span class="variable">size</span> - <span class="number integer">1</span>;
-    <span class="comment">// 500-</span>
-    } <span class="keyword">else</span> <span class="keyword">if</span> (<span class="variable">isNaN</span>(<span class="variable">end</span>)) {
-      <span class="variable">end</span> = <span class="variable">size</span> - <span class="number integer">1</span>;
+    // -500
+    if (isNaN(start)) {
+      start = size - end;
+      end = size - 1;
+    // 500-
+    } else if (isNaN(end)) {
+      end = size - 1;
     }
 
-    <span class="comment">// Invalid</span>
-    <span class="keyword">if</span> (<span class="variable">isNaN</span>(<span class="variable">start</span>) || <span class="variable">isNaN</span>(<span class="variable">end</span>) || <span class="variable">start</span> > <span class="variable">end</span>) <span class="variable">valid</span> = <span class="variable">false</span>;
+    // Invalid
+    if (isNaN(start) || isNaN(end) || start > end) valid = false;
 
-    <span class="keyword">return</span> { <span class="variable">start</span>: <span class="variable">start</span>, <span class="variable">end</span>: <span class="variable">end</span> };
+    return { start: start, end: end };
   });
-  <span class="keyword">return</span> <span class="variable">valid</span> ? <span class="variable">arr</span> : <span class="variable">undefined</span>;
+  return valid ? arr : undefined;
 };
                 </code>
               </pre>
@@ -1138,13 +1138,13 @@ from the given <code>stat</code>.</p></p>
 <!--            
               <pre class="code">
                 <code>
-<span class="keyword">var</span> <span class="variable">toArray</span> = <span class="variable">exports</span>.<span class="variable">toArray</span> = <span class="keyword">function</span>(<span class="variable">obj</span>){
-  <span class="keyword">var</span> <span class="variable">len</span> = <span class="variable">obj</span>.<span class="variable">length</span>
-    , <span class="variable">arr</span> = <span class="keyword">new</span> <span class="class">Array</span>(<span class="variable">len</span>);
-  <span class="keyword">for</span> (<span class="keyword">var</span> <span class="variable">i</span> = <span class="number integer">0</span>; <span class="variable">i</span> < <span class="variable">len</span>; ++<span class="variable">i</span>) {
-    <span class="variable">arr</span>[<span class="variable">i</span>] = <span class="variable">obj</span>[<span class="variable">i</span>];
+var toArray = exports.toArray = function(obj){
+  var len = obj.length
+    , arr = new Array(len);
+  for (var i = 0; i < len; ++i) {
+    arr[i] = obj[i];
   }
-  <span class="keyword">return</span> <span class="variable">arr</span>;
+  return arr;
 };
                 </code>
               </pre>

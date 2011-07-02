@@ -74,12 +74,12 @@ passing in the optional middleware.</p></p>
 <!--            
               <pre class="code">
                 <code>
-<span class="keyword">var</span> <span class="class">Server</span> = <span class="variable">exports</span>.<span class="class">Server</span> = <span class="keyword">function</span> <span class="class">HTTPSServer</span>(<span class="variable">options</span>, <span class="variable">middleware</span>) {
-  <span class="this">this</span>.<span class="variable">stack</span> = [];
-  <span class="variable">middleware</span>.<span class="variable">forEach</span>(<span class="keyword">function</span>(<span class="variable">fn</span>){
-    <span class="this">this</span>.<span class="variable">use</span>(<span class="variable">fn</span>);
-  }, <span class="this">this</span>);
-  <span class="variable">https</span>.<span class="class">Server</span>.<span class="variable">call</span>(<span class="this">this</span>, <span class="variable">options</span>, <span class="this">this</span>.<span class="variable">handle</span>);
+var Server = exports.Server = function HTTPSServer(options, middleware) {
+  this.stack = [];
+  middleware.forEach(function(fn){
+    this.use(fn);
+  }, this);
+  https.Server.call(this, options, this.handle);
 };
                 </code>
               </pre>

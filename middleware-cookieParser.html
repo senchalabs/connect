@@ -29,10 +29,10 @@ with an object keyed by the cookie names.</p></p>
               <div class="body">
                 <h2>Examples</h2>
 
-<pre><code><span class="variable">connect</span>.<span class="variable">createServer</span>(
-    <span class="variable">connect</span>.<span class="variable">cookieParser</span>()
-  , <span class="keyword">function</span>(<span class="variable">req</span>, <span class="variable">res</span>, <span class="variable">next</span>){
-    <span class="variable">res</span>.<span class="variable">end</span>(<span class="class">JSON</span>.<span class="variable">stringify</span>(<span class="variable">req</span>.<span class="variable">cookies</span>));
+<pre><code>connect.createServer(
+    connect.cookieParser()
+  , function(req, res, next){
+    res.end(JSON.stringify(req.cookies));
   }
 );</code></pre>
               </div>

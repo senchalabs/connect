@@ -44,8 +44,8 @@
 <!--            
               <pre class="code">
                 <code>
-<span class="keyword">var</span> <span class="class">MemoryStore</span> = <span class="variable">module</span>.<span class="variable">exports</span> = <span class="keyword">function</span> <span class="class">MemoryStore</span>() {
-  <span class="this">this</span>.<span class="variable">sessions</span> = {};
+var MemoryStore = module.exports = function MemoryStore() {
+  this.sessions = {};
 };
                 </code>
               </pre>
@@ -103,23 +103,23 @@
 <!--            
               <pre class="code">
                 <code>
-<span class="class">MemoryStore</span>.<span class="variable">prototype</span>.<span class="variable">get</span> = <span class="keyword">function</span>(<span class="variable">sid</span>, <span class="variable">fn</span>){
-  <span class="keyword">var</span> <span class="variable">self</span> = <span class="this">this</span>;
-  <span class="variable">process</span>.<span class="variable">nextTick</span>(<span class="keyword">function</span>(){
-    <span class="keyword">var</span> <span class="variable">expires</span>
-      , <span class="variable">sess</span> = <span class="variable">self</span>.<span class="variable">sessions</span>[<span class="variable">sid</span>];
-    <span class="keyword">if</span> (<span class="variable">sess</span>) {
-      <span class="variable">sess</span> = <span class="class">JSON</span>.<span class="variable">parse</span>(<span class="variable">sess</span>);
-      <span class="variable">expires</span> = <span class="string">'string'</span> == <span class="keyword">typeof</span> <span class="variable">sess</span>.<span class="variable">cookie</span>.<span class="variable">expires</span>
-        ? <span class="keyword">new</span> <span class="class">Date</span>(<span class="variable">sess</span>.<span class="variable">cookie</span>.<span class="variable">expires</span>)
-        : <span class="variable">sess</span>.<span class="variable">cookie</span>.<span class="variable">expires</span>;
-      <span class="keyword">if</span> (!<span class="variable">expires</span> || <span class="keyword">new</span> <span class="class">Date</span> < <span class="variable">expires</span>) {
-        <span class="variable">fn</span>(<span class="keyword">null</span>, <span class="variable">sess</span>);
-      } <span class="keyword">else</span> {
-        <span class="variable">self</span>.<span class="variable">destroy</span>(<span class="variable">sid</span>, <span class="variable">fn</span>);
+MemoryStore.prototype.get = function(sid, fn){
+  var self = this;
+  process.nextTick(function(){
+    var expires
+      , sess = self.sessions[sid];
+    if (sess) {
+      sess = JSON.parse(sess);
+      expires = 'string' == typeof sess.cookie.expires
+        ? new Date(sess.cookie.expires)
+        : sess.cookie.expires;
+      if (!expires || new Date < expires) {
+        fn(null, sess);
+      } else {
+        self.destroy(sid, fn);
       }
-    } <span class="keyword">else</span> {
-      <span class="variable">fn</span>();
+    } else {
+      fn();
     }
   });
 };
@@ -188,11 +188,11 @@
 <!--            
               <pre class="code">
                 <code>
-<span class="class">MemoryStore</span>.<span class="variable">prototype</span>.<span class="variable">set</span> = <span class="keyword">function</span>(<span class="variable">sid</span>, <span class="variable">sess</span>, <span class="variable">fn</span>){
-  <span class="keyword">var</span> <span class="variable">self</span> = <span class="this">this</span>;
-  <span class="variable">process</span>.<span class="variable">nextTick</span>(<span class="keyword">function</span>(){
-    <span class="variable">self</span>.<span class="variable">sessions</span>[<span class="variable">sid</span>] = <span class="class">JSON</span>.<span class="variable">stringify</span>(<span class="variable">sess</span>);
-    <span class="variable">fn</span> && <span class="variable">fn</span>();
+MemoryStore.prototype.set = function(sid, sess, fn){
+  var self = this;
+  process.nextTick(function(){
+    self.sessions[sid] = JSON.stringify(sess);
+    fn && fn();
   });
 };
                 </code>
@@ -240,11 +240,11 @@
 <!--            
               <pre class="code">
                 <code>
-<span class="class">MemoryStore</span>.<span class="variable">prototype</span>.<span class="variable">destroy</span> = <span class="keyword">function</span>(<span class="variable">sid</span>, <span class="variable">fn</span>){
-  <span class="keyword">var</span> <span class="variable">self</span> = <span class="this">this</span>;
-  <span class="variable">process</span>.<span class="variable">nextTick</span>(<span class="keyword">function</span>(){
-    <span class="keyword">delete</span> <span class="variable">self</span>.<span class="variable">sessions</span>[<span class="variable">sid</span>];
-    <span class="variable">fn</span> && <span class="variable">fn</span>();
+MemoryStore.prototype.destroy = function(sid, fn){
+  var self = this;
+  process.nextTick(function(){
+    delete self.sessions[sid];
+    fn && fn();
   });
 };
                 </code>
@@ -292,13 +292,13 @@
 <!--            
               <pre class="code">
                 <code>
-<span class="class">MemoryStore</span>.<span class="variable">prototype</span>.<span class="variable">all</span> = <span class="keyword">function</span>(<span class="variable">fn</span>){
-  <span class="keyword">var</span> <span class="variable">arr</span> = []
-    , <span class="variable">keys</span> = <span class="class">Object</span>.<span class="variable">keys</span>(<span class="this">this</span>.<span class="variable">sessions</span>);
-  <span class="keyword">for</span> (<span class="keyword">var</span> <span class="variable">i</span> = <span class="number integer">0</span>, <span class="variable">len</span> = <span class="variable">keys</span>.<span class="variable">length</span>; <span class="variable">i</span> < <span class="variable">len</span>; ++<span class="variable">i</span>) {
-    <span class="variable">arr</span>.<span class="variable">push</span>(<span class="this">this</span>.<span class="variable">sessions</span>[<span class="variable">keys</span>[<span class="variable">i</span>]]);
+MemoryStore.prototype.all = function(fn){
+  var arr = []
+    , keys = Object.keys(this.sessions);
+  for (var i = 0, len = keys.length; i < len; ++i) {
+    arr.push(this.sessions[keys[i]]);
   }
-  <span class="variable">fn</span>(<span class="keyword">null</span>, <span class="variable">arr</span>);
+  fn(null, arr);
 };
                 </code>
               </pre>
@@ -345,9 +345,9 @@
 <!--            
               <pre class="code">
                 <code>
-<span class="class">MemoryStore</span>.<span class="variable">prototype</span>.<span class="variable">clear</span> = <span class="keyword">function</span>(<span class="variable">fn</span>){
-  <span class="this">this</span>.<span class="variable">sessions</span> = {};
-  <span class="variable">fn</span> && <span class="variable">fn</span>();
+MemoryStore.prototype.clear = function(fn){
+  this.sessions = {};
+  fn && fn();
 };
                 </code>
               </pre>

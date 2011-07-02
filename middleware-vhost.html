@@ -27,12 +27,12 @@
               <div class="body">
                 <h2>Examples</h2>
 
-<pre><code><span class="variable">connect</span>(
-  <span class="variable">connect</span>.<span class="variable">vhost</span>(&#<span class="number integer">39</span>;<span class="variable">foo</span>.<span class="variable">com</span>&#<span class="number integer">39</span>;,
-    <span class="variable">connect</span>.<span class="variable">createServer</span>(...<span class="variable">middleware</span>...)
+<pre><code>connect(
+  connect.vhost(&#39;foo.com&#39;,
+    connect.createServer(...middleware...)
   ),
-  <span class="variable">connect</span>.<span class="variable">vhost</span>(&#<span class="number integer">39</span>;<span class="variable">bar</span>.<span class="variable">com</span>&#<span class="number integer">39</span>;,
-    <span class="variable">connect</span>.<span class="variable">createServer</span>(...<span class="variable">middleware</span>...)
+  connect.vhost(&#39;bar.com&#39;,
+    connect.createServer(...middleware...)
   )
 );</code></pre>
               </div>

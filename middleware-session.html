@@ -37,9 +37,9 @@ middleware <em>before</em> <code>session()</code>.</p>
 
 <h2>Examples</h2>
 
-<pre><code><span class="variable">connect</span>.<span class="variable">createServer</span>(
-    <span class="variable">connect</span>.<span class="variable">cookieParser</span>()
-  , <span class="variable">connect</span>.<span class="variable">session</span>({ <span class="variable">secret</span>: &#<span class="number integer">39</span>;<span class="variable">keyboard</span> <span class="variable">cat</span>&#<span class="number integer">39</span>; })
+<pre><code>connect.createServer(
+    connect.cookieParser()
+  , connect.session({ secret: &#39;keyboard cat&#39; })
 );</code></pre>
 
 <h2>Options</h2>
@@ -53,7 +53,7 @@ middleware <em>before</em> <code>session()</code>.</p>
 <code>connect.session.ignore.push(&#39;/my/path&#39;)</code>. This works for <em>full</em>
  pathnames only, not segments nor substrings.</p>
 
-<pre><code><span class="variable">connect</span>.<span class="variable">session</span>.<span class="variable">ignore</span>.<span class="variable">push</span>(&#<span class="number integer">39</span>;/<span class="variable">robots</span>.<span class="variable">txt</span>&#<span class="number integer">39</span>;);</code></pre>
+<pre><code>connect.session.ignore.push(&#39;/robots.txt&#39;);</code></pre>
 
 <h2>req.session</h2>
 
@@ -61,56 +61,56 @@ middleware <em>before</em> <code>session()</code>.</p>
  which is (generally) serialized as JSON by the store, so nested objects 
  are typically fine. For example below is a user-specific view counter:</p>
 
-<pre><code>  <span class="variable">connect</span>(
-      <span class="variable">connect</span>.<span class="variable">cookieParser</span>()
-    , <span class="variable">connect</span>.<span class="variable">session</span>({ <span class="variable">secret</span>: &#<span class="number integer">39</span>;<span class="variable">keyboard</span> <span class="variable">cat</span>&#<span class="number integer">39</span>;, <span class="variable">cookie</span>: { <span class="variable">maxAge</span>: <span class="number integer">60000</span> }})
-    , <span class="variable">connect</span>.<span class="variable">favicon</span>()
-    , <span class="keyword">function</span>(<span class="variable">req</span>, <span class="variable">res</span>, <span class="variable">next</span>){
-      <span class="keyword">var</span> <span class="variable">sess</span> = <span class="variable">req</span>.<span class="variable">session</span>;
-      <span class="keyword">if</span> (<span class="variable">sess</span>.<span class="variable">views</span>) {
-        <span class="variable">res</span>.<span class="variable">setHeader</span>(&#<span class="number integer">39</span>;<span class="class">Content</span>-<span class="class">Type</span>&#<span class="number integer">39</span>;, &#<span class="number integer">39</span>;<span class="variable">text</span>/<span class="variable">html</span>&#<span class="number integer">39</span>;);
-        <span class="variable">res</span>.<span class="variable">write</span>(&#<span class="number integer">39</span>;&<span class="variable">lt</span>;<span class="variable">p</span>&<span class="variable">gt</span>;<span class="variable">views</span>: &#<span class="number integer">39</span>; + <span class="variable">sess</span>.<span class="variable">views</span> + &#<span class="number integer">39</span>;&<span class="variable">lt</span>;/<span class="variable">p</span>&<span class="variable">gt</span>;&#<span class="number integer">39</span>;);
-        <span class="variable">res</span>.<span class="variable">write</span>(&#<span class="number integer">39</span>;&<span class="variable">lt</span>;<span class="variable">p</span>&<span class="variable">gt</span>;<span class="variable">expires</span> <span class="keyword">in</span>: &#<span class="number integer">39</span>; + (<span class="variable">sess</span>.<span class="variable">cookie</span>.<span class="variable">maxAge</span> <span class="regexp">/ 1000) + &#39;s&lt;/p</span>&<span class="variable">gt</span>;&#<span class="number integer">39</span>;);
-        <span class="variable">res</span>.<span class="variable">end</span>();
-        <span class="variable">sess</span>.<span class="variable">views</span>++;
-      } <span class="keyword">else</span> {
-        <span class="variable">sess</span>.<span class="variable">views</span> = <span class="number integer">1</span>;
-        <span class="variable">res</span>.<span class="variable">end</span>(&#<span class="number integer">39</span>;<span class="variable">welcome</span> <span class="variable">to</span> <span class="variable">the</span> <span class="variable">session</span> <span class="variable">demo</span>. <span class="variable">refresh</span>!&#<span class="number integer">39</span>;);
+<pre><code>  connect(
+      connect.cookieParser()
+    , connect.session({ secret: &#39;keyboard cat&#39;, cookie: { maxAge: 60000 }})
+    , connect.favicon()
+    , function(req, res, next){
+      var sess = req.session;
+      if (sess.views) {
+        res.setHeader(&#39;Content-Type&#39;, &#39;text/html&#39;);
+        res.write(&#39;&lt;p&gt;views: &#39; + sess.views + &#39;&lt;/p&gt;&#39;);
+        res.write(&#39;&lt;p&gt;expires in: &#39; + (sess.cookie.maxAge / 1000) + &#39;s&lt;/p&gt;&#39;);
+        res.end();
+        sess.views++;
+      } else {
+        sess.views = 1;
+        res.end(&#39;welcome to the session demo. refresh!&#39;);
       }
     }
-  ).<span class="variable">listen</span>(<span class="number integer">3000</span>);</code></pre>
+  ).listen(3000);</code></pre>
 
 <h2>Session#regenerate()</h2>
 
 <p> To regenerate the session simply invoke the method, once complete
  a new SID and <code>Session</code> instance will be initialized at <code>req.session</code>.</p>
 
-<pre><code> <span class="variable">req</span>.<span class="variable">session</span>.<span class="variable">regenerate</span>(<span class="keyword">function</span>(<span class="variable">err</span>){
-   <span class="comment">// will have a new session here</span>
+<pre><code> req.session.regenerate(function(err){
+   // will have a new session here
  });</code></pre>
 
 <h2>Session#destroy()</h2>
 
 <p> Destroys the session, removing <code>req.session</code>, will be re-generated next request.</p>
 
-<pre><code> <span class="variable">req</span>.<span class="variable">session</span>.<span class="variable">destroy</span>(<span class="keyword">function</span>(<span class="variable">err</span>){
-   <span class="comment">// cannot access session here</span>
+<pre><code> req.session.destroy(function(err){
+   // cannot access session here
  });</code></pre>
 
 <h2>Session#reload()</h2>
 
 <p> Reloads the session data.</p>
 
-<pre><code> <span class="variable">req</span>.<span class="variable">session</span>.<span class="variable">reload</span>(<span class="keyword">function</span>(<span class="variable">err</span>){
-   <span class="comment">// session updated</span>
+<pre><code> req.session.reload(function(err){
+   // session updated
  });</code></pre>
 
 <h2>Session#save()</h2>
 
 <p> Save the session.</p>
 
-<pre><code> <span class="variable">req</span>.<span class="variable">session</span>.<span class="variable">save</span>(<span class="keyword">function</span>(<span class="variable">err</span>){
-   <span class="comment">// session saved</span>
+<pre><code> req.session.save(function(err){
+   // session saved
  });</code></pre>
 
 <h2>Session#touch()</h2>
@@ -132,17 +132,17 @@ middleware <em>before</em> <code>session()</code>.</p>
  to adjust the <code>.expires</code> property appropriately. The following
  are essentially equivalent</p>
 
-<pre><code><span class="keyword">var</span> <span class="variable">hour</span> = <span class="number integer">3600000</span>;
-<span class="variable">req</span>.<span class="variable">session</span>.<span class="variable">cookie</span>.<span class="variable">expires</span> = <span class="keyword">new</span> <span class="class">Date</span>(<span class="class">Date</span>.<span class="variable">now</span>() + <span class="variable">hour</span>);
-<span class="variable">req</span>.<span class="variable">session</span>.<span class="variable">cookie</span>.<span class="variable">maxAge</span> = <span class="variable">hour</span>;</code></pre>
+<pre><code>var hour = 3600000;
+req.session.cookie.expires = new Date(Date.now() + hour);
+req.session.cookie.maxAge = hour;</code></pre>
 
 <p>For example when <code>maxAge</code> is set to <code>60000</code> (one minute), and 30 seconds
 has elapsed it will return <code>30000</code> until the current request has completed,
 at which time <code>req.session.touch()</code> is called to update <code>req.session.lastAccess</code>,
 and reset <code>req.session.maxAge</code> to its original value.</p>
 
-<pre><code><span class="variable">req</span>.<span class="variable">session</span>.<span class="variable">cookie</span>.<span class="variable">maxAge</span>;
-<span class="comment">// =&gt; 30000</span></code></pre>
+<pre><code>req.session.cookie.maxAge;
+// =&gt; 30000</code></pre>
 
 <h2>Session Store Implementation</h2>
 

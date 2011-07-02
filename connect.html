@@ -33,25 +33,25 @@ we assume these are the tls options, and return a <code>connect.HTTPSServer</cod
 
 <p>An example HTTP server, accepting several middleware.</p>
 
-<pre><code><span class="keyword">var</span> <span class="variable">server</span> = <span class="variable">connect</span>.<span class="variable">createServer</span>(
-    <span class="variable">connect</span>.<span class="variable">logger</span>()
-  , <span class="variable">connect</span>.<span class="variable">static</span>(<span class="variable">__dirname</span> + &#<span class="number integer">39</span>;/<span class="variable">public</span>&#<span class="number integer">39</span>;)
+<pre><code>var server = connect.createServer(
+    connect.logger()
+  , connect.static(__dirname + &#39;/public&#39;)
 );</code></pre>
 
 <p>An HTTPS server, utilizing the same middleware as above.</p>
 
-<pre><code><span class="keyword">var</span> <span class="variable">server</span> = <span class="variable">connect</span>.<span class="variable">createServer</span>(
-    { <span class="variable">key</span>: <span class="variable">key</span>, <span class="variable">cert</span>: <span class="variable">cert</span> }
-  , <span class="variable">connect</span>.<span class="variable">logger</span>()
-  , <span class="variable">connect</span>.<span class="variable">static</span>(<span class="variable">__dirname</span> + &#<span class="number integer">39</span>;/<span class="variable">public</span>&#<span class="number integer">39</span>;)
+<pre><code>var server = connect.createServer(
+    { key: key, cert: cert }
+  , connect.logger()
+  , connect.static(__dirname + &#39;/public&#39;)
 );</code></pre>
 
 <p>Alternatively with connect 1.0 we may omit <code>createServer()</code>.</p>
 
-<pre><code><span class="variable">connect</span>(
-    <span class="variable">connect</span>.<span class="variable">logger</span>()
-  , <span class="variable">connect</span>.<span class="variable">static</span>(<span class="variable">__dirname</span> + &#<span class="number integer">39</span>;/<span class="variable">public</span>&#<span class="number integer">39</span>;)
-).<span class="variable">listen</span>(<span class="number integer">3000</span>);</code></pre>
+<pre><code>connect(
+    connect.logger()
+  , connect.static(__dirname + &#39;/public&#39;)
+).listen(3000);</code></pre>
               </div>
             
 
@@ -93,21 +93,21 @@ we assume these are the tls options, and return a <code>connect.HTTPSServer</cod
 <!--            
               <pre class="code">
                 <code>
-<span class="keyword">function</span> <span class="variable">createServer</span>() {
-  <span class="keyword">if</span> (<span class="string">'object'</span> == <span class="keyword">typeof</span> <span class="variable">arguments</span>[<span class="number integer">0</span>]) {
-    <span class="keyword">return</span> <span class="keyword">new</span> <span class="class">HTTPSServer</span>(<span class="variable">arguments</span>[<span class="number integer">0</span>], <span class="class">Array</span>.<span class="variable">prototype</span>.<span class="variable">slice</span>.<span class="variable">call</span>(<span class="variable">arguments</span>, <span class="number integer">1</span>));
-  } <span class="keyword">else</span> {
-    <span class="keyword">return</span> <span class="keyword">new</span> <span class="class">HTTPServer</span>(<span class="class">Array</span>.<span class="variable">prototype</span>.<span class="variable">slice</span>.<span class="variable">call</span>(<span class="variable">arguments</span>));
+function createServer() {
+  if ('object' == typeof arguments[0]) {
+    return new HTTPSServer(arguments[0], Array.prototype.slice.call(arguments, 1));
+  } else {
+    return new HTTPServer(Array.prototype.slice.call(arguments));
   }
 };
 
-<span class="comment">// support connect.createServer()</span>
+// support connect.createServer()
 
-<span class="variable">exports</span>.<span class="variable">createServer</span> = <span class="variable">createServer</span>;
+exports.createServer = createServer;
 
-<span class="comment">// auto-load getters</span>
+// auto-load getters
 
-<span class="variable">exports</span>.<span class="variable">middleware</span> = {};
+exports.middleware = {};
                 </code>
               </pre>
              -->

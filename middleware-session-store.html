@@ -65,11 +65,11 @@
 <!--            
               <pre class="code">
                 <code>
-<span class="class">Store</span>.<span class="variable">prototype</span>.<span class="variable">regenerate</span> = <span class="keyword">function</span>(<span class="variable">req</span>, <span class="variable">fn</span>){
-  <span class="keyword">var</span> <span class="variable">self</span> = <span class="this">this</span>;
-  <span class="this">this</span>.<span class="variable">destroy</span>(<span class="variable">req</span>.<span class="variable">sessionID</span>, <span class="keyword">function</span>(<span class="variable">err</span>){
-    <span class="variable">self</span>.<span class="variable">generate</span>(<span class="variable">req</span>);
-    <span class="variable">fn</span>(<span class="variable">err</span>);
+Store.prototype.regenerate = function(req, fn){
+  var self = this;
+  this.destroy(req.sessionID, function(err){
+    self.generate(req);
+    fn(err);
   });
 };
                 </code>

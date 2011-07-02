@@ -28,15 +28,15 @@
               <div class="body">
                 <h2>Examples</h2>
 
-<pre><code><span class="keyword">var</span> <span class="variable">oneDay</span> = <span class="number integer">86400000</span>;
+<pre><code>var oneDay = 86400000;
 
-<span class="variable">connect</span>(
-  <span class="variable">connect</span>.<span class="variable">static</span>(<span class="variable">__dirname</span> + &#<span class="number integer">39</span>;/<span class="variable">public</span>&#<span class="number integer">39</span>;)
-).<span class="variable">listen</span>(<span class="number integer">3000</span>);
+connect(
+  connect.static(__dirname + &#39;/public&#39;)
+).listen(3000);
 
-<span class="variable">connect</span>(
-  <span class="variable">connect</span>.<span class="variable">static</span>(<span class="variable">__dirname</span> + &#<span class="number integer">39</span>;/<span class="variable">public</span>&#<span class="number integer">39</span>;, { <span class="variable">maxAge</span>: <span class="variable">oneDay</span> })
-).<span class="variable">listen</span>(<span class="number integer">3000</span>);</code></pre>
+connect(
+  connect.static(__dirname + &#39;/public&#39;, { maxAge: oneDay })
+).listen(3000);</code></pre>
 
 <h2>Options</h2>
 
@@ -92,16 +92,16 @@
 <!--            
               <pre class="code">
                 <code>
-<span class="variable">exports</span> = <span class="variable">module</span>.<span class="variable">exports</span> = <span class="keyword">function</span> <span class="variable">static</span>(<span class="variable">root</span>, <span class="variable">options</span>){
-  <span class="variable">options</span> = <span class="variable">options</span> || {};
+exports = module.exports = function static(root, options){
+  options = options || {};
 
-  <span class="comment">// root required</span>
-  <span class="keyword">if</span> (!<span class="variable">root</span>) <span class="keyword">throw</span> <span class="keyword">new</span> <span class="class">Error</span>(<span class="string">'static() root path required'</span>);
-  <span class="variable">options</span>.<span class="variable">root</span> = <span class="variable">root</span>;
+  // root required
+  if (!root) throw new Error('static() root path required');
+  options.root = root;
 
-  <span class="keyword">return</span> <span class="keyword">function</span> <span class="variable">static</span>(<span class="variable">req</span>, <span class="variable">res</span>, <span class="variable">next</span>) {
-    <span class="variable">options</span>.<span class="variable">path</span> = <span class="variable">req</span>.<span class="variable">url</span>;
-    <span class="variable">send</span>(<span class="variable">req</span>, <span class="variable">res</span>, <span class="variable">next</span>, <span class="variable">options</span>);
+  return function static(req, res, next) {
+    options.path = req.url;
+    send(req, res, next, options);
   };
 };
                 </code>
