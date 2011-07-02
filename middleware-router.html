@@ -31,10 +31,10 @@
                 <h2>Examples</h2>
 
 <pre><code><span class="variable">connect</span>.<span class="variable">router</span>(<span class="keyword">function</span>(<span class="variable">app</span>){
-  <span class="variable">app</span>.<span class="variable">get</span>(&#<span class="number integer">39</span>;<span class="regexp">/user/</span>:<span class="variable">id</span>&#<span class="number integer">39</span>;, <span class="keyword">function</span>(<span class="variable">req</span>, <span class="variable">res</span>, <span class="variable">next</span>){
+  <span class="variable">app</span>.<span class="variable">get</span>("<span class="regexp">/user/</span>:<span class="variable">id</span>", <span class="keyword">function</span>(<span class="variable">req</span>, <span class="variable">res</span>, <span class="variable">next</span>){
     <span class="comment">// populates req.params.id</span>
   });
-  <span class="variable">app</span>.<span class="variable">put</span>(&#<span class="number integer">39</span>;<span class="regexp">/user/</span>:<span class="variable">id</span>&#<span class="number integer">39</span>;, <span class="keyword">function</span>(<span class="variable">req</span>, <span class="variable">res</span>, <span class="variable">next</span>){
+  <span class="variable">app</span>.<span class="variable">put</span>("<span class="regexp">/user/</span>:<span class="variable">id</span>", <span class="keyword">function</span>(<span class="variable">req</span>, <span class="variable">res</span>, <span class="variable">next</span>){
     <span class="comment">// populates req.params.id</span>
   });
 })</code></pre>

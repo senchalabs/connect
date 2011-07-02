@@ -37,7 +37,7 @@ one for other content-types.</p>
 <pre><code> <span class="variable">connect</span>.<span class="variable">createServer</span>(
      <span class="variable">connect</span>.<span class="variable">bodyParser</span>()
    , <span class="keyword">function</span>(<span class="variable">req</span>, <span class="variable">res</span>) {
-     <span class="variable">res</span>.<span class="variable">end</span>(&#<span class="number integer">39</span>;<span class="variable">viewing</span> <span class="variable">user</span> &#<span class="number integer">39</span>; + <span class="variable">req</span>.<span class="variable">body</span>.<span class="variable">user</span>.<span class="variable">name</span>);
+     <span class="variable">res</span>.<span class="variable">end</span>("<span class="variable">viewing</span> <span class="variable">user</span> " + <span class="variable">req</span>.<span class="variable">body</span>.<span class="variable">user</span>.<span class="variable">name</span>);
    }
  );</code></pre>
 
@@ -45,8 +45,8 @@ one for other content-types.</p>
 default, either of the following requests would result in the response
 of &quot;viewing user tj&quot;.</p>
 
-<pre><code> $ <span class="variable">curl</span> -<span class="variable">d</span> &#<span class="number integer">39</span>;<span class="variable">user</span>[<span class="variable">name</span>]=<span class="variable">tj</span>&#<span class="number integer">39</span>; <span class="variable">http</span>:<span class="comment">//localhost/</span>
- $ <span class="variable">curl</span> -<span class="variable">d</span> &#<span class="number integer">39</span>;{&<span class="variable">quot</span>;<span class="variable">user</span>&<span class="variable">quot</span>;:{&<span class="variable">quot</span>;<span class="variable">name</span>&<span class="variable">quot</span>;:&<span class="variable">quot</span>;<span class="variable">tj</span>&<span class="variable">quot</span>;}}&#<span class="number integer">39</span>; -<span class="class">H</span> &<span class="variable">quot</span>;<span class="class">Content</span>-<span class="class">Type</span>: <span class="regexp">/json&quot; http:/</span><span class="regexp">/localhost/</span></code></pre>
+<pre><code> $ <span class="variable">curl</span> -<span class="variable">d</span> "<span class="variable">user</span>[<span class="variable">name</span>]=<span class="variable">tj</span>" <span class="variable">http</span>:<span class="comment">//localhost/</span>
+ $ <span class="variable">curl</span> -<span class="variable">d</span> "{&<span class="variable">quot</span>;<span class="variable">user</span>&<span class="variable">quot</span>;:{&<span class="variable">quot</span>;<span class="variable">name</span>&<span class="variable">quot</span>;:&<span class="variable">quot</span>;<span class="variable">tj</span>&<span class="variable">quot</span>;}}" -<span class="class">H</span> &<span class="variable">quot</span>;<span class="class">Content</span>-<span class="class">Type</span>: <span class="regexp">/json&quot; http:/</span><span class="regexp">/localhost/</span></code></pre>
               </div>
             
 

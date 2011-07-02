@@ -28,7 +28,7 @@ defaulting to hex.</p></p>
 
             
               <div class="body">
-                <pre><code><span class="variable">utils</span>.<span class="variable">md5</span>(&#<span class="number integer">39</span>;<span class="variable">wahoo</span>&#<span class="number integer">39</span>;);
+                <pre><code><span class="variable">utils</span>.<span class="variable">md5</span>("<span class="variable">wahoo</span>");
 <span class="comment">// =&gt; &quot;e493298061761236c96b02ea6aa8a2ad&quot;</span></code></pre>
               </div>
             
@@ -104,8 +104,8 @@ defaulting to hex.</p></p>
 
             
               <div class="body">
-                <pre><code><span class="keyword">var</span> <span class="variable">a</span> = { <span class="variable">foo</span>: &#<span class="number integer">39</span>;<span class="variable">bar</span>&#<span class="number integer">39</span>; }
-  , <span class="variable">b</span> = { <span class="variable">bar</span>: &#<span class="number integer">39</span>;<span class="variable">baz</span>&#<span class="number integer">39</span>; };
+                <pre><code><span class="keyword">var</span> <span class="variable">a</span> = { <span class="variable">foo</span>: "<span class="variable">bar</span>" }
+  , <span class="variable">b</span> = { <span class="variable">bar</span>: "<span class="variable">baz</span>" };
 
 <span class="variable">utils</span>.<span class="variable">merge</span>(<span class="variable">a</span>, <span class="variable">b</span>);
 <span class="comment">// =&gt; { foo: &#39;bar&#39;, bar: &#39;baz&#39; }</span></code></pre>
@@ -369,7 +369,7 @@ defaulting to hex.</p></p>
 
             
               <div class="body">
-                <pre><code> <span class="variable">utils</span>.<span class="variable">serializeCookie</span>(&#<span class="number integer">39</span>;<span class="variable">name</span>&#<span class="number integer">39</span>;, &#<span class="number integer">39</span>;<span class="variable">tj</span>&#<span class="number integer">39</span>;, { <span class="variable">httpOnly</span>: <span class="variable">true</span> })
+                <pre><code> <span class="variable">utils</span>.<span class="variable">serializeCookie</span>("<span class="variable">name</span>", "<span class="variable">tj</span>", { <span class="variable">httpOnly</span>: <span class="variable">true</span> })
  <span class="comment">// =&gt; &quot;name=tj; httpOnly&quot;</span></code></pre>
               </div>
             
