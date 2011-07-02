@@ -32,11 +32,11 @@ strings.</p></p>
               <div class="body">
                 <h2>Examples</h2>
 
-<pre><code><span class="variable">connect</span>(<span class="variable">connect</span>.<span class="variable">basicAuth</span>(&#<span class="number integer">39</span>;<span class="variable">username</span>&#<span class="number integer">39</span>;, &#<span class="number integer">39</span>;<span class="variable">password</span>&#<span class="number integer">39</span>;));
+<pre><code><span class="variable">connect</span>(<span class="variable">connect</span>.<span class="variable">basicAuth</span>("<span class="variable">username</span>", "<span class="variable">password</span>"));
 
 <span class="variable">connect</span>(
   <span class="variable">connect</span>.<span class="variable">basicAuth</span>(<span class="keyword">function</span>(<span class="variable">user</span>, <span class="variable">pass</span>){
-    <span class="keyword">return</span> &#<span class="number integer">39</span>;<span class="variable">tj</span>&#<span class="number integer">39</span>; == <span class="variable">user</span> &<span class="variable">amp</span>; &#<span class="number integer">39</span>;<span class="variable">wahoo</span>&#<span class="number integer">39</span>; == <span class="variable">pass</span>;
+    <span class="keyword">return</span> "<span class="variable">tj</span>" == <span class="variable">user</span> &<span class="variable">amp</span>; "<span class="variable">wahoo</span>" == <span class="variable">pass</span>;
   })
 );
 
