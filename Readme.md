@@ -55,6 +55,10 @@ then:
 
   Connect `>= 1.0.0` is compatible with node 0.4.x
 
+## CLA
+
+ [http://code.google.com/legal/individual-cla-v1.0.html](http://code.google.com/legal/individual-cla-v1.0.html)
+
 ## License
 
 View the [LICENSE](https://github.com/senchalabs/connect/blob/master/LICENSE) file. The [Silk](http://www.famfamfam.com/lab/icons/silk/) icons used by the `directory` middleware created by/copyright of [FAMFAMFAM](http://www.famfamfam.com/).
