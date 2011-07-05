@@ -1,5 +1,4 @@
 
-// TODO: fix koala... super outdated
 require.paths.unshift(__dirname + '/koala/lib');
 
 /**
@@ -7,7 +6,6 @@ require.paths.unshift(__dirname + '/koala/lib');
  */
 
 var markdown = require('markdown').markdown.toHTML
-  , koala = require('koala')
   , path = require('path')
   , ejs = require('ejs')
   , fs = require('fs');
@@ -76,7 +74,6 @@ function comments(js) {
       if (buf.trim().length) {
         comment = comments[comments.length - 1];
         comment.method = parseMethod(code = buf.trim());
-        code = koala.render('.js', code);
         comment.code = code;
         buf = '';
       }
@@ -130,7 +127,7 @@ function parseComment(str) {
   // syntax highlighting
   function highlight(str) {
     return str.replace(/<pre><code>([^]+?)<\/code>/g, function(_, js){
-      return '<pre><code>' + koala.render('.js', js) + '</code>';
+      return '<pre><code>' + js + '</code>';
     });
   }
 

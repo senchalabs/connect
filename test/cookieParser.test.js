@@ -31,5 +31,11 @@ module.exports = {
     assert.response(app,
       { url: '/', headers: { Cookie: ['sid=123', 'name=tj'] }},
       { body: '{"sid":"123","name":"tj"}' });
+  },
+
+  'test malformed cookie': function() {
+    assert.response(app,
+      { url: '/', headers: { Cookie: ['sid=%g23'] }},
+      { body: '{"sid":"%g23"}' });
   }
 };
