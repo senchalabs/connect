@@ -34,6 +34,36 @@
 <h2>Tokens</h2>
 
 <ul><li><code>:req[header]</code> ex: <code>:req[Accept]</code></li><li><code>:res[header]</code> ex: <code>:res[Content-Length]</code></li><li><code>:http-version</code></li><li><code>:response-time</code></li><li><code>:remote-addr</code></li><li><code>:date</code></li><li><code>:method</code></li><li><code>:url</code></li><li><code>:referrer</code></li><li><code>:user-agent</code></li><li><code>:status</code></li></ul>
+
+<h2>Formats</h2>
+
+<p>  Pre-defined formats that ship with connect:</p>
+
+<ul><li><code>default</code> &#39;:remote-addr - - [:date] &quot;:method :url HTTP/:http-version&quot; :status :res[content-length] &quot;:referrer&quot; &quot;:user-agent&quot;&#39;</li><li><code>short</code> &#39;:remote-addr - :method :url HTTP/:http-version :status :res[content-length] - :response-time ms&#39;</li><li><code>tiny</code>  &#39;:method :url :status :res[content-length] - :response-time ms&#39;</li><li><code>dev</code> concise output colored by response status for development use</li></ul>
+
+<h2>Examples</h2>
+
+<pre><code> connect.logger() // default
+ connect.logger(&#39;short&#39;)
+ connect.logger(&#39;tiny&#39;)
+ connect.logger(&#39;dev&#39;)
+ connect.logger(&#39;:method :url - :referrer&#39;)
+ connect.logger(&#39;:req[content-type] -&gt; :res[content-type]&#39;)
+ connect.logger(function(req, res){ return &#39;some format string&#39; })</code></pre>
+
+<h2>Defining Tokens</h2>
+
+<p>  To define a token, simply invoke <code>connect.logger.token()</code> with the
+  name and a callback function. The value returned is then available
+  as &quot;:type&quot; in this case.</p>
+
+<pre><code> connect.logger.token(&#39;type&#39;, function(req, res){ return req.headers[&#39;content-type&#39;]; })</code></pre>
+
+<h2>Defining Formats</h2>
+
+<p>  All default formats are defined this way, however it&#39;s public API as well:</p>
+
+<pre><code>  connect.logger.format(&#39;name&#39;, &#39;string or function&#39;)</code></pre>
               </div>
             
 
@@ -75,7 +105,7 @@
 <!--            
               <pre class="code">
                 <code>
-module.exports = function logger(options) {
+exports = module.exports = function logger(options) {
   if ('object' == typeof options) {
     options = options || {};
   } else if (options) {
@@ -84,8 +114,14 @@ module.exports = function logger(options) {
     options = {};
   }
 
-  var fmt = options.format
-    , stream = options.stream || process.stdout
+  // format name
+  var fmt = exports[options.format] || options.format || exports.default;
+
+  // compile format
+  if ('function' != typeof fmt) fmt = compile(fmt);
+
+  // options
+  var stream = options.stream || process.stdout
     , buffer = options.buffer;
 
   // buffering support
@@ -112,11 +148,7 @@ module.exports = function logger(options) {
   }
 
   return function logger(req, res, next) {
-    var start = +new Date
-      , statusCode
-      , writeHead = res.writeHead
-      , end = res.end
-      , url = req.originalUrl;
+    req._startTime = new Date;
 
     // mount safety
     if (req._logging) return next();
@@ -124,45 +156,13 @@ module.exports = function logger(options) {
     // flag as logging
     req._logging = true;
 
-    // proxy for statusCode.
-    res.writeHead = function(code, headers){
-      res.writeHead = writeHead;
-      res.writeHead(code, headers);
-      res.__statusCode = statusCode = code;
-      res.__headers = headers || {};
+    // proxy end to output loggging
+    var end = res.end;
+    res.end = function(chunk, encoding){
+      res.end = end;
+      res.end(chunk, encoding);
+      stream.write(fmt(exports, req, res) + '\n', 'ascii');
     };
-
-    // proxy end to output a line to the provided logger.
-    if (fmt) {
-      res.end = function(chunk, encoding) {
-        res.end = end;
-        res.end(chunk, encoding);
-        res.responseTime = +new Date - start;
-        if ('function' == typeof fmt) {
-          var line = fmt(req, res, function(str){ return format(str, req, res); });
-          if (line) stream.write(line + '\n', 'ascii');
-        } else {
-          stream.write(format(fmt, req, res) + '\n', 'ascii');
-        }
-      };
-    } else {
-      res.end = function(chunk, encoding) {
-        var contentLength = (res._headers && res._headers['content-length'])
-          || (res.__headers && res.__headers['Content-Length'])
-          || '-';
-
-        res.end = end;
-        res.end(chunk, encoding);
-
-        stream.write((req.socket && (req.socket.remoteAddress || (req.socket.socket && req.socket.socket.remoteAddress)))
-           + ' - - [' + (new Date).toUTCString() + ']'
-           + ' "' + req.method + ' ' + url
-           + ' HTTP/' + req.httpVersionMajor + '.' + req.httpVersionMinor + '" '
-           + (statusCode || res.statusCode) + ' ' + contentLength
-           + ' "' + (req.headers['referer'] || req.headers['referrer'] || '')
-           + '" "' + (req.headers['user-agent'] || '') + '"\n', 'ascii');
-      };
-    }
 
     next();
   };
@@ -175,6 +175,136 @@ module.exports = function logger(options) {
         
       
         
+        
+        
+          <div class="comment">
+            
+              <h3 class="method">.token()</h3>
+            
+            <p class="description"><p>Define a token function with the given <code>name</code>,
+and callback <code>fn(req, res)</code>.</p></p>
+
+            
+
+            
+              <ul class="tags">
+              
+                
+
+                
+
+                
+
+                
+                  <li class="param"><em>param</em> <span class="types">String</span> <span class="name">name</span> <span class="description"></span></li>
+                
+              
+                
+
+                
+
+                
+
+                
+                  <li class="param"><em>param</em> <span class="types">Function</span> <span class="name">fn</span> <span class="description"></span></li>
+                
+              
+                
+                  <li class="return"><em>returns</em> <span class="types">Object</span></li>
+                
+
+                
+
+                
+
+                
+              
+                
+
+                
+                  <li class="api"><em>api</em> <span class="visibility">public</span></li>
+                
+
+                
+
+                
+              
+              </ul>
+
+<!--            
+              <pre class="code">
+                <code>
+exports.token = function(name, fn) {
+  exports[name] = fn;
+  return this;
+};
+                </code>
+              </pre>
+             -->
+          
+          </div>
+        
+      
+        
+        
+          <div class="comment">
+            
+              <h3 class="method">.undefined()</h3>
+            
+            <p class="description"><p>Define a <code>fmt</code> with the given <code>name</code>.</p></p>
+
+            
+
+            
+              <ul class="tags">
+              
+                
+
+                
+
+                
+
+                
+                  <li class="param"><em>param</em> <span class="types">String</span> <span class="name">name</span> <span class="description"></span></li>
+                
+              
+                
+
+                
+
+                
+
+                
+                  <li class="param"><em>param</em> <span class="types">String, Function</span> <span class="name">fmt</span> <span class="description"></span></li>
+                
+              
+                
+                  <li class="return"><em>returns</em> <span class="types">Object</span></li>
+                
+
+                
+
+                
+
+                
+              
+                
+
+                
+                  <li class="api"><em>api</em> <span class="visibility">public</span></li>
+                
+
+                
+
+                
+              
+              </ul>
+
+<!--             -->
+          
+          </div>
+        
+      
       
     </div>
   </body>
