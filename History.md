@@ -1,4 +1,12 @@
 
+1.6.0 / 2011-07-10 
+==================
+
+  * Added :response-time to "dev" logger format
+  * Added simple `csrf()` middleware. Closes #315
+  * Fixed `res._headers` logger regression. Closes #318
+  * Removed support for multiple middleware being passed to `.use()`
+
 1.5.2 / 2011-07-06 
 ==================
 
