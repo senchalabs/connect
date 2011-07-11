@@ -1,4 +1,22 @@
 
+1.6.0 / 2011-07-10 
+==================
+
+  * Added :response-time to "dev" logger format
+  * Added simple `csrf()` middleware. Closes #315
+  * Fixed `res._headers` logger regression. Closes #318
+  * Removed support for multiple middleware being passed to `.use()`
+
+1.5.2 / 2011-07-06 
+==================
+
+  * Added `filter` function option to `directory()` [David Rio Deiros] 
+  * Changed: re-write of the `logger()` middleware, with extensible tokens and formats
+  * Changed: `static.send()` ".." in path without root considered malicious
+  * Fixed quotes in docs. Closes #312
+  * Fixed urls when mounting `directory()`, use `originalUrl` [Daniel Dickison]
+
+
 1.5.1 / 2011-06-20 
 ==================
 
