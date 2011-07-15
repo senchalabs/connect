@@ -50,10 +50,13 @@ then:
 
 ## Node Compatibility
 
-  Connect `< 1.0.0` is compatible with node 0.2.x
+  Connect `< 1.x` is compatible with node 0.2.x
 
 
-  Connect `>= 1.0.0` is compatible with node 0.4.x
+  Connect `1.x` is compatible with node 0.4.x
+
+
+  Connect `2.x` is compatible with node 0.6.x
 
 ## CLA
 
