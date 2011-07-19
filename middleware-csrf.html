@@ -33,8 +33,8 @@ token is validated against the visitor&#39;s <code>req.session._csrf</code>
 property which is re-generated per request.</p>
 
 <p>The default <code>value</code> function checks <code>req.body</code> generated
-by the <code>bodyParser()</code> middleware, and <code>req.query</code> generated
-by <code>query()</code>.</p>
+by the <code>bodyParser()</code> middleware, <code>req.query</code> generated
+by <code>query()</code>, and the &quot;X-CSRF-Token&quot; header field.</p>
 
 <p>This middleware requires session support, thus should be added
 somewhere <em>below</em> <code>session()</code> and <code>cookieParser()</code>.</p>
@@ -111,8 +111,7 @@ module.exports = function csrf(options) {
 
   return function(req, res, next){
     // generate CSRF token
-    var token = req.session._csrf;
-    req.session._csrf = utils.uid(24);
+    var token = req.session._csrf || (req.session._csrf = utils.uid(24));
 
     // ignore GET (for now)
     if ('GET' == req.method) return next();
