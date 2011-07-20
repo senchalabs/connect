@@ -6,11 +6,12 @@
 var connect = require('connect')
   , assert = require('assert')
   , should = require('should')
-  , http = require('http');
+  , http = require('http')
+  , create = require('./common').create;
 
 module.exports = {
   'test methods': function(){
-    var app = connect.createServer(
+    var app = create(
       connect.router(function(app){
         app.get('/', function(req, res){
           res.end('GET /');
@@ -40,7 +41,7 @@ module.exports = {
   },
   
   'test params': function(){
-    var app = connect.createServer(
+    var app = create(
       connect.router(function(app){
         app.get('/user/:id', function(req, res){
           res.end('user ' + req.params.id);
@@ -70,7 +71,7 @@ module.exports = {
   },
   
   'test optional params': function(){
-    var app = connect.createServer(
+    var app = create(
       connect.router(function(app){
         app.get('/user/:id?', function(req, res){
           res.end('user ' + (req.params.id || 'account'));
@@ -96,7 +97,7 @@ module.exports = {
   },
   
   'test splat': function(){
-    var app = connect.createServer(
+    var app = create(
       connect.router(function(app){
         app.get('/file/*', function(req, res){
           res.end('file ' + req.params[0]);
@@ -118,7 +119,7 @@ module.exports = {
   },
   
   'test several splats': function(){
-    var app = connect.createServer(
+    var app = create(
       connect.router(function(app){
         app.get('/file/*.*', function(req, res){
           res.end('file ' + req.params[0] + ' ext ' + req.params[1]);
@@ -144,7 +145,7 @@ module.exports = {
   },
   
   'test named captures': function(){
-    var app = connect.createServer(
+    var app = create(
       connect.router(function(app){
         app.get('/page/:from(\\d+)-:to(\\d+)', function(req, res){
           res.end('viewing ' + req.params.from + ' to ' + req.params.to);
@@ -162,7 +163,7 @@ module.exports = {
   },
   
   'test format': function(){
-    var app = connect.createServer(
+    var app = create(
       connect.router(function(app){
         app.get('/users.:format', function(req, res){
           res.end('format ' + req.params.format);
@@ -184,7 +185,7 @@ module.exports = {
   },
   
   'test optional format': function(){
-    var app = connect.createServer(
+    var app = create(
       connect.router(function(app){
         app.get('/users.:format?', function(req, res){
           res.end('format ' + (req.params.format || 'html'));
@@ -202,7 +203,7 @@ module.exports = {
   },
   
   'test regular expressions': function(){
-    var app = connect.createServer(
+    var app = create(
       connect.router(function(app){
         app.get(/\/commits\/(\w+)\.\.(\w+)\/?/i, function(req, res){
           res.end(
@@ -220,7 +221,7 @@ module.exports = {
   'test next()': function(){
     var hits = [];
 
-    var app = connect.createServer(
+    var app = create(
       connect.router(function(app){
         app.get('/:user', function(req, res, next){
           hits.push('a');
@@ -250,7 +251,7 @@ module.exports = {
   'test next(err)': function(){
     var hits = [];
 
-    var app = connect.createServer(
+    var app = create(
       connect.router(function(app){
         app.get('/:user', function(req, res, next){
           hits.push('a');
@@ -281,7 +282,7 @@ module.exports = {
   },
   
   'test HEAD': function(){
-    var app = connect.createServer(
+    var app = create(
       connect.router(function(app){
         app.get('/items', function(req, res){
           res.end('HEAD' == req.method
@@ -297,7 +298,7 @@ module.exports = {
   },
   
   'test OPTIONS': function(){
-    var app = connect.createServer(
+    var app = create(
       connect.router(function(app){
         app.get('/items', function(){});
         app.post('/items', function(){});
@@ -323,7 +324,7 @@ module.exports = {
   },
   
   'test immutable params': function(){
-    var app = connect.createServer(
+    var app = create(
       connect.router(function(app){
         app.get('/user/:id', function(req, res, next){
           req.params.id = parseInt(req.params.id, 10);
