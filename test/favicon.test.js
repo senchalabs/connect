@@ -5,11 +5,12 @@
 
 var connect = require('connect')
   , assert = require('assert')
-  , http = require('http');
+  , http = require('http')
+  , create = require('./common').create;
 
 module.exports = {
   'test headers': function(){
-    var app = connect.createServer(connect.favicon());
+    var app = create(connect.favicon());
 
     assert.response(app,
       { url: '/favicon.ico' },
@@ -21,9 +22,9 @@ module.exports = {
   },
   
   'test custom favicon': function(){
-    var app = connect.createServer();
+    var app = connect();
     app.use(connect.favicon(__dirname + '/../lib/public/favicon.ico'));
-    assert.response(app,
+    assert.response(http.createServer(app),
       { url: '/favicon.ico' },
       { status: 200, headers: { 'Content-Type': 'image/x-icon' }});
   }
