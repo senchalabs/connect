@@ -6,7 +6,8 @@
 var connect = require('connect')
   , assert = require('assert')
   , should = require('should')
-  , http = require('http');
+  , http = require('http')
+  , create = require('./common').create;
 
 // store
 
@@ -20,7 +21,7 @@ var port = 9900
 
 // main test app
 
-var app = connect.createServer(
+var app = create(
     connect.cookieParser()
   , connect.session({ secret: 'keyboard cat' })
   , function(req, res, next){
@@ -115,7 +116,7 @@ module.exports = {
   },
 
   'test multiple Set-Cookie headers via writeHead()': function(){
-    var app = connect.createServer(
+    var app = create(
         connect.cookieParser()
       , connect.session({ secret: 'keyboard cat', key: 'sid' })
       , function(req, res, next){
@@ -136,7 +137,7 @@ module.exports = {
   },
   
   'test multiple Set-Cookie headers via setHeader()': function(){
-    var app = connect.createServer(
+    var app = create(
         connect.cookieParser()
       , connect.session({ secret: 'keyboard cat', key: 'sid' })
       , function(req, res, next){
@@ -157,7 +158,7 @@ module.exports = {
   },
   
   'test key option': function(){
-    var app = connect.createServer(
+    var app = create(
         connect.cookieParser()
       , connect.session({ secret: 'keyboard cat', key: 'sid' })
       , function(req, res, next){
@@ -173,7 +174,7 @@ module.exports = {
   },
   
   'test default maxAge': function(){
-    var app = connect.createServer(
+    var app = create(
         connect.cookieParser()
       , connect.session({ secret: 'keyboard cat' })
       , function(req, res, next){
@@ -194,7 +195,7 @@ module.exports = {
   
   'test maxAge option': function(){
     // 1 hour
-    var app = connect.createServer(
+    var app = create(
         connect.cookieParser()
       , connect.session({
           secret: 'keyboard cat'
@@ -219,7 +220,7 @@ module.exports = {
   'test req.session data persistence': function(){
     var prev
       , port = ++portno
-      , app = connect.createServer(
+      , app = create(
         connect.cookieParser()
       , connect.session({ secret: 'keyboard cat' })
       , function(req, res, next){
@@ -257,7 +258,7 @@ module.exports = {
   'test req.session.regenerate()': function(){
     var prev
       , port = ++portno
-      , app = connect.createServer(
+      , app = create(
         connect.cookieParser()
       , connect.session({ secret: 'keyboard cat' })
       , function(req, res, next){
@@ -317,7 +318,7 @@ module.exports = {
   'test req.session.destroy()': function(){
     var prev
       , port = ++portno
-      , app = connect.createServer(
+      , app = create(
         connect.cookieParser()
       , connect.session({ secret: 'keyboard cat' })
       , function(req, res, next){
@@ -371,7 +372,7 @@ module.exports = {
   'test req.session.cookie.expires': function(){
     var n = 0
       , port = ++portno
-      , app = connect.createServer(
+      , app = create(
         connect.cookieParser()
       , connect.session({ secret: 'keyboard cat', key: 'foobar' })
       , function(req, res, next){
@@ -400,7 +401,7 @@ module.exports = {
   'test req.session.cookie.maxAge': function(){
     var n = 0
       , port = ++portno
-      , app = connect.createServer(
+      , app = create(
         connect.cookieParser()
       , connect.session({ secret: 'keyboard cat', key: 'foobar' })
       , function(req, res, next){
@@ -428,7 +429,7 @@ module.exports = {
   'test expiration': function(){
     var n = 0
       , port = ++portno
-      , app = connect.createServer(
+      , app = create(
         connect.cookieParser()
       , connect.session({ secret: 'keyboard cat', cookie: { maxAge: 200 }})
       , function(req, res, next){
@@ -453,7 +454,7 @@ module.exports = {
   
   'test req.session.cookie properties': function(){
     var port = ++portno
-      , app = connect.createServer(
+      , app = create(
         connect.cookieParser()
       , connect.session({ secret: 'foo', cookie: { httpOnly: true }})
       , function(req, res){
@@ -474,7 +475,7 @@ module.exports = {
   
   'test mutating req.session.cookie': function(){
     var port = ++portno
-      , app = connect.createServer(
+      , app = create(
         connect.cookieParser()
       , connect.session({ secret: 'foo', cookie: { httpOnly: true, secure: true }})
       , function(req, res){
@@ -507,7 +508,7 @@ module.exports = {
   
   'test req.session.expires = null': function(){
     var port = ++portno
-      , app = connect.createServer(
+      , app = create(
         connect.cookieParser()
       , connect.session({ secret: 'foo', cookie: { httpOnly: true, secure: true }})
       , function(req, res){
@@ -540,7 +541,7 @@ module.exports = {
   
   'test expires: null': function(){
     var port = ++portno
-      , app = connect.createServer(
+      , app = create(
         connect.cookieParser()
       , connect.session({
           secret: 'foo'
@@ -583,7 +584,7 @@ module.exports = {
     };
   
     var port = ++portno
-      , app = connect.createServer(
+      , app = create(
         function(req, res, next){
           request = req;
           next();
@@ -609,7 +610,7 @@ module.exports = {
   
   'test Set-Cookie when secure': function(){
     var port = ++portno
-      , app = connect.createServer(
+      , app = create(
         connect.cookieParser()
       , connect.session({ secret: 'foo', cookie: { secure: true }})
       , function(req, res){
