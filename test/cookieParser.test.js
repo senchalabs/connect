@@ -5,9 +5,10 @@
 
 var connect = require('connect')
   , assert = require('assert')
-  , http = require('http');
+  , http = require('http')
+  , create = require('./common').create;
 
-var app = connect.createServer(
+var app = create(
   connect.cookieParser(),
   function(req, res, next){
     res.end(JSON.stringify(req.cookies));
