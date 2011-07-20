@@ -56,7 +56,7 @@ then:
   Connect `1.x` is compatible with node 0.4.x
 
 
-  Connect `2.x` is compatible with node 0.6.x
+  Connect (_master_) `2.x` is compatible with node 0.6.x
 
 ## CLA
 
