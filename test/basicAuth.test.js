@@ -5,15 +5,8 @@
 
 var connect = require('connect')
   , assert = require('assert')
-  , http = require('http');
-
-function create() {
-  var app = connect();
-  for (var i = 0, len = arguments.length; i < len; ++i) {
-    app.use(arguments[i]);
-  }
-  return http.createServer(app);
-}
+  , http = require('http')
+  , create = require('./common').create;
 
 // sync
 
