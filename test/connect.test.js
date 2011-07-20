@@ -233,16 +233,15 @@ module.exports = {
   },
   
   'test .charset': function(){
-    var app = connect(function(req, res){
+    var app = create(function(req, res){
       res.charset = 'utf8';
       res.setHeader('Content-Type', 'text/html');
       res.end('test');
     });
 
-    app = http.createServer(app);
-
     assert.response(app,
       { url: '/' },
-      { headers: { 'Content-Type': 'text/html; charset=utf8' }});
+      { body: 'test'
+      , headers: { 'Content-Type': 'text/html; charset=utf8' }});
   }
 };
