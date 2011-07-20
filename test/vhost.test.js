@@ -6,19 +6,20 @@
 var connect = require('connect')
   , assert = require('assert')
   , should = require('should')
-  , http = require('http');
+  , http = require('http')
+  , create = require('./common').create;
 
 module.exports = {
   'test with host': function(){
-    var a = connect.createServer(function(req, res){
+    var a = create(function(req, res){
       res.end('from foo');
     });
     
-    var b = connect.createServer(function(req, res){
+    var b = create(function(req, res){
       res.end('from bar');
     });
     
-    var app = connect.createServer(
+    var app = create(
         connect.vhost('foo.com', a)
       , connect.vhost('bar.com', b)
     );
@@ -37,11 +38,11 @@ module.exports = {
   },
   
   'test with wildcard': function(){
-    var server = connect.createServer(function(req, res){
+    var server = create(function(req, res){
       res.end('from ' + req.subdomains.join(', '));
     });
     
-    var app = connect.createServer(
+    var app = create(
         connect.vhost('*.foo.com', server)
       , connect.vhost('foo.com', server)
     );
