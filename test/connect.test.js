@@ -23,7 +23,7 @@ module.exports = {
         res.end('wahoo');
       }
     );
-
+  
     assert.response(app,
       { url: '/' },
       { body: 'wahoo' });
@@ -80,7 +80,8 @@ module.exports = {
       res.end('hello');
     });
   
-    var foo = connect(function(req, res, next){
+    var foo = connect();
+    foo.use(function(req, res, next){
       res.end(foo.route);
     });
   
@@ -202,9 +203,9 @@ module.exports = {
       app2.route.should.equal('/');
       res.end('hello');
     });
-
+  
     var server = http.createServer(app2);
-
+  
     assert.response(server,
       { url: '/hello/world/view' },
       { body: 'viewing hello world' });
@@ -226,7 +227,7 @@ module.exports = {
   
     app.use('/hello/', world);
     app = http.createServer(app);
-
+  
     assert.response(app,
       { url: '/hello' },
       { body: 'world' });
@@ -238,7 +239,7 @@ module.exports = {
       res.setHeader('Content-Type', 'text/html');
       res.end('test');
     });
-
+  
     assert.response(app,
       { url: '/' },
       { body: 'test'
