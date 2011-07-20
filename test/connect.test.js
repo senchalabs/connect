@@ -52,6 +52,37 @@ module.exports = {
       { body: 'blog', status: 200 });
   },
 
+  'test "header" event': function(){
+    var app = connect.createServer();
+
+    app.use(function(req, res, next){
+      res.on('header', function(){
+        if (req.headers['x-foo']) {
+          res.setHeader('X-Bar', 'baz');
+        }
+      });
+
+      next();
+    });
+
+    app.use(function(req, res){
+      // FIXME: this fails if you do not have any res._headers
+      res.setHeader('Content-Length', 5);
+      res.end('hello');
+    });
+
+    assert.response(app,
+      { url: '/' },
+      function(res){
+        res.headers.should.not.have.property('x-foo');
+        res.headers.should.not.have.property('x-bar');
+      });
+
+    assert.response(app,
+      { url: '/', headers: { 'X-Foo': 'bar' }},
+      { body: 'hello', headers: { 'X-Bar': 'baz' }});
+  },
+
   'test path matching': function(){
     var n = 0
       , app = connect.createServer();
