@@ -6,7 +6,8 @@
 var connect = require('connect')
   , assert = require('assert')
   , should = require('should')
-  , http = require('http');
+  , http = require('http')
+  , create = require('./common').create;
 
 /**
  * Path to ./test/fixtures/
@@ -14,11 +15,11 @@ var connect = require('connect')
 
 var fixturesPath = __dirname + '/fixtures';
 
-var app = connect.createServer(
+var app = create(
   connect.static(fixturesPath)
 );
 
-var app2 = connect.createServer(
+var app2 = create(
   connect.static(fixturesPath + '/foo/bar/../../')
 );
 
@@ -37,7 +38,7 @@ module.exports = {
    },
     
   'test maxAge': function(){
-    var app = connect.createServer(
+    var app = create(
       connect.static(fixturesPath, { maxAge: 60000 })
     );
   
@@ -66,7 +67,7 @@ module.exports = {
   },
   
   'test index.html support when missing': function(){
-    var app = connect.createServer(
+    var app = create(
       connect.static(__dirname)
     );
   
@@ -118,7 +119,7 @@ module.exports = {
   },
   
   'test "hidden" option': function(){
-    var app = connect.createServer(
+    var app = create(
       connect.static(fixturesPath, { hidden: true })
     );
   
@@ -152,7 +153,7 @@ module.exports = {
   },
   
   'test callback': function(){
-    var app = connect.createServer(
+    var app = create(
       function(req, res, next){
         connect.static.send(req, res, function(err){
           res.end('done');
@@ -185,7 +186,7 @@ module.exports = {
   },
   
   'test ETag unmodified': function(){
-    var app = connect.createServer(
+    var app = create(
       connect.static(fixturesPath)
     );
   
@@ -208,7 +209,7 @@ module.exports = {
   },
   
   'test ETag multiple given, unmodified': function(){
-    var app = connect.createServer(
+    var app = create(
       connect.static(fixturesPath)
     );
   
@@ -238,7 +239,7 @@ module.exports = {
   },
   
   'test do not override Content-Type header': function(){
-     var app = connect.createServer(
+     var app = create(
        function(req, res, next){
          res.setHeader('Content-Type', 'text/bozo; charset=ISO-8859-1');
          next();
