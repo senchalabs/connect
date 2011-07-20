@@ -5,6 +5,7 @@
 
 var connect = require('connect')
   , exec = require('child_process').exec
+  , create = require('./common').create
   , should = require('should')
   , assert = require('assert')
   , https = require('https')
@@ -29,7 +30,7 @@ module.exports = {
   },
 
   'test use()': function(){
-    var app = connect.createServer();
+    var app = connect();
 
     app.use('/blog', function(req, res){
       res.end('blog');
@@ -42,6 +43,7 @@ module.exports = {
     );
 
     ret.should.equal(app);
+    app = http.createServer(app);
 
     assert.response(app,
       { url: '/' },
@@ -54,7 +56,7 @@ module.exports = {
 
   'test path matching': function(){
     var n = 0
-      , app = connect.createServer();
+      , app = connect();
 
     app.use('/hello/world', function(req, res, next){
       switch (++n) {
@@ -114,7 +116,7 @@ module.exports = {
   },
   
   'test unmatched path': function(){
-    var app = connect.createServer();
+    var app = create();
 
     assert.response(app,
       { url: '/' },
@@ -127,7 +129,7 @@ module.exports = {
   
   'test error handling': function(){
     var calls = 0;
-    var app = connect.createServer(
+    var app = create(
       function(req, res, next){
         // Pass error
         next(new Error('lame'));
@@ -165,7 +167,7 @@ module.exports = {
   },
   
   'test catch error': function(){
-    var app = connect.createServer(
+    var app = create(
       function(req, res, next){
         doesNotExist();
       }
