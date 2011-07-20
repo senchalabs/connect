@@ -4,9 +4,10 @@
  */
 
 var connect = require('connect')
-  , assert = require('assert');
+  , assert = require('assert')
+  , create = require('./common').create;
 
-var app = connect(
+var app = create(
   connect.directory(__dirname + '/fixtures/directory')
 );
 
