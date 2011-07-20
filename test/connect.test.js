@@ -54,67 +54,67 @@ module.exports = {
       { body: 'blog', status: 200 });
   },
   
-  // 'test path matching': function(){
-  //   var n = 0
-  //     , app = connect();
-  // 
-  //   app.use('/hello/world', function(req, res, next){
-  //     switch (++n) {
-  //       case 1:
-  //       case 2:
-  //         req.url.should.equal('/');
-  //         break;
-  //       case 3:
-  //         req.originalUrl.should.equal('/hello/world/and/more/segments');
-  //         req.url.should.equal('/and/more/segments');
-  //         break;
-  //       case 4:
-  //         req.url.should.equal('/images/foo.png?with=query&string');
-  //         break;
-  //     }
-  // 
-  //     res.end('hello world');
-  //   });
-  // 
-  //   app.use('/hello', function(req, res, next){
-  //     res.end('hello');
-  //   });
-  // 
-  //   var foo = connect(function(req, res, next){
-  //     res.end(foo.route);
-  //   });
-  // 
-  //   app.use('/foo', foo);
-  //   app = http.createServer(app);
-  // 
-  //   assert.response(app,
-  //     { url: '/foo' },
-  //     { body: '/foo' });
-  // 
-  //   assert.response(app,
-  //     { url: '/hello' },
-  //     { body: 'hello' });
-  //   
-  //   assert.response(app,
-  //     { url: '/hello/' },
-  //     { body: 'hello' });
-  // 
-  //   assert.response(app,
-  //     { url: '/hello/world' },
-  //     { body: 'hello world' });
-  // 
-  //   assert.response(app,
-  //     { url: '/hello/world/' },
-  //     { body: 'hello world' });
-  // 
-  //   assert.response(app,
-  //     { url: '/hello/world/and/more/segments' },
-  //     { body: 'hello world' });
-  // 
-  //   assert.response(app,
-  //     { url: '/hello/world/images/foo.png?with=query&string' },
-  //     { body: 'hello world' });
-  // },
+  'test path matching': function(){
+    var n = 0
+      , app = connect();
+  
+    app.use('/hello/world', function(req, res, next){
+      switch (++n) {
+        case 1:
+        case 2:
+          req.url.should.equal('/');
+          break;
+        case 3:
+          req.originalUrl.should.equal('/hello/world/and/more/segments');
+          req.url.should.equal('/and/more/segments');
+          break;
+        case 4:
+          req.url.should.equal('/images/foo.png?with=query&string');
+          break;
+      }
+  
+      res.end('hello world');
+    });
+  
+    app.use('/hello', function(req, res, next){
+      res.end('hello');
+    });
+  
+    var foo = connect(function(req, res, next){
+      res.end(foo.route);
+    });
+  
+    app.use('/foo', foo);
+    app = http.createServer(app);
+  
+    assert.response(app,
+      { url: '/foo' },
+      { body: '/foo' });
+  
+    assert.response(app,
+      { url: '/hello' },
+      { body: 'hello' });
+    
+    assert.response(app,
+      { url: '/hello/' },
+      { body: 'hello' });
+  
+    assert.response(app,
+      { url: '/hello/world' },
+      { body: 'hello world' });
+  
+    assert.response(app,
+      { url: '/hello/world/' },
+      { body: 'hello world' });
+  
+    assert.response(app,
+      { url: '/hello/world/and/more/segments' },
+      { body: 'hello world' });
+  
+    assert.response(app,
+      { url: '/hello/world/images/foo.png?with=query&string' },
+      { body: 'hello world' });
+  },
   
   'test unmatched path': function(){
     var app = create();
