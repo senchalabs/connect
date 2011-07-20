@@ -7,9 +7,17 @@ var connect = require('connect')
   , assert = require('assert')
   , http = require('http');
 
+function create() {
+  var app = connect();
+  for (var i = 0, len = arguments.length; i < len; ++i) {
+    app.use(arguments[i]);
+  }
+  return http.createServer(app);
+}
+
 // sync
 
-var app = connect(
+var app = create(
   connect.basicAuth(function(user, pass){
     return 'tj' == user && 'tobi' == pass;
   }),
@@ -30,7 +38,7 @@ var User = {
   }
 }
 
-var async = connect(
+var async = create(
   connect.basicAuth(function(user, pass, fn){
     User.authenticate({ name: user, pass: pass }, fn);
   }),
@@ -41,7 +49,7 @@ var async = connect(
 
 module.exports = {
   'test user / pass options': function(){
-    var app = connect(
+    var app = create(
       connect.basicAuth('tj', 'tobi'),
       function(req, res){
         res.send('wahoo');
