@@ -55,7 +55,7 @@ module.exports = {
   },
 
   'test "header" event': function(){
-    var app = connect.createServer();
+    var app = connect();
 
     app.use(function(req, res, next){
       res.on('header', function(){
@@ -72,6 +72,8 @@ module.exports = {
       res.setHeader('Content-Length', 5);
       res.end('hello');
     });
+
+    app = http.createServer(app);
 
     assert.response(app,
       { url: '/' },
