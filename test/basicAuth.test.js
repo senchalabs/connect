@@ -11,7 +11,8 @@ var connect = require('connect')
 
 var app = connect(
   connect.basicAuth(function(user, pass){
-    return 'tj' == user && 'tobi' == pass;
+    return (('tj' == user && 'tobi' == pass)
+      || ('trent' == user && 'my:cat' == pass));
   }),
   function(req, res){
     res.end('wahoo');
@@ -70,6 +71,12 @@ module.exports = {
   'test authorized': function(){
     assert.response(app,
       { url: '/', headers: { Authorization: 'Basic dGo6dG9iaQ==' }},
+      { body: 'wahoo', status: 200 });
+  },
+
+  'test authorized with colon in password': function(){
+    assert.response(app,
+      { url: '/', headers: { Authorization: 'Basic dHJlbnQ6bXk6Y2F0' }},
       { body: 'wahoo', status: 200 });
   },
   
