@@ -140,5 +140,19 @@ module.exports = {
       { url: '/', headers: { Accept: 'text/plain' }},
       { status: 500
       , headers: { 'Content-Type': 'text/plain' }});
+  },
+  
+  'test custom response code': function(){
+    var app = create(
+      function(req, res, next){
+        res.statusCode = 501;
+        throw new Error('oh no');
+      },
+      connect.errorHandler({ stack: true })
+    );
+
+    assert.response(app,
+      { url: '/' },
+      { status: 501 });
   }
 }
