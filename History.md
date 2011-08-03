@@ -1,4 +1,15 @@
 
+1.6.1 / 2011-08-03 
+==================
+
+  * Added: allow retval `== null` from logger callback to ignore line
+  * Added `getOnly` option to `connect.static.send()`
+  * Added response "header" event allowing augmentation
+  * Added `X-CSRF-Token` header field check
+  * Changed dep `qs >= 0.3.0`
+  * Changed: persist csrf token. Closes #322
+  * Changed: sort directory middleware files alphabetically
+
 1.6.0 / 2011-07-10 
 ==================
 
