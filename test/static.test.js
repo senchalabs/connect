@@ -81,10 +81,10 @@ module.exports = {
       { body: 'Cannot GET /foo.json', status: 404 });
   },
   
-  'test directory': function(){
+  'test directory redirect': function(){
     assert.response(app,
-      { url: '/fixtures' },
-      { body: 'Cannot GET /fixtures', status: 404 });
+      { url: '/directory' },
+      { body: 'Redirecting to /directory/', status: 301 });
   },
   
   'test forbidden': function(){
