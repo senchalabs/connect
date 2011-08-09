@@ -36,7 +36,24 @@ module.exports = {
          res.headers.should.have.property('etag');
      });
    },
-    
+
+  'test custom ETag': function(){
+    var app = create(
+      function(req, res, next){
+        res.setHeader('ETag', 'foobar');
+        next();
+      },
+      connect.static(fixturesPath, { maxAge: 60000 })
+    );
+  
+    assert.response(app,
+      { url: '/user.json' },
+      function(res){
+        res.statusCode.should.equal(200);
+        res.headers.should.have.property('etag', 'foobar');
+    });
+  },
+
   'test maxAge': function(){
     var app = create(
       connect.static(fixturesPath, { maxAge: 60000 })
