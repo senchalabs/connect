@@ -60,7 +60,7 @@ then:
 
 ## CLA
 
- [http://code.google.com/legal/individual-cla-v1.0.html](http://code.google.com/legal/individual-cla-v1.0.html)
+ [http://sencha.com/cla](http://sencha.com/cla)
 
 ## License
 
