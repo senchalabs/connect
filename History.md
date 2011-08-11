@@ -1,4 +1,11 @@
 
+1.6.2 / 2011-08-11 
+==================
+
+  * Fixed `connect.static()` null byte vulnerability
+  * Fixed `connect.directory()` null byte vulnerability
+  * Changed: 301 redirect in `static()` to postfix "/" on directory. Closes #289
+
 1.6.1 / 2011-08-03 
 ==================
 
