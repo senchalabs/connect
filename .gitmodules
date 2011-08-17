@@ -1,9 +1,9 @@
 [submodule "examples/sousaball/support/microtemplates"]
 	path = examples/sousaball/support/microtemplates
-	url = git://github.com/creationix/microtemplates.git
+	url = http://github.com/creationix/microtemplates.git
 [submodule "examples/sousaball/support/postgres-js"]
 	path = examples/sousaball/support/postgres-js
-	url = git://github.com/creationix/postgres-js.git
+	url = http://github.com/creationix/postgres-js.git
 [submodule "support/coffee-script"]
 	path = support/coffee-script
 	url = http://github.com/jashkenas/coffee-script.git
