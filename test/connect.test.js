@@ -316,6 +316,8 @@ module.exports = {
 
     assert.response(app,
       { url: '/' },
-      { body: 'Length Required', status: 411 });
+      { body: 'Length Required'
+      , status: 411
+      , headers: { 'Content-Length': 15 } });
   }
 };
