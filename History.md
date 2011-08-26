@@ -1,4 +1,11 @@
 
+1.6.3 / 2011-08-26 
+==================
+
+  * Added double-`next()` reporting
+  * Added `immediate` option to `logger()`. Closes #321
+  * Dependency `qs >= 0.3.1`
+
 1.6.2 / 2011-08-11 
 ==================
 
