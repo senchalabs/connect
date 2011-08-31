@@ -19,6 +19,18 @@ module.exports = {
     }
   },
 
+  'test utils.parseCacheControl()': function(){
+    var parse = utils.parseCacheControl;
+    parse('no-cache').should.eql({ 'no-cache': true });
+    parse('no-store').should.eql({ 'no-store': true });
+    parse('no-transform').should.eql({ 'no-transform': true });
+    parse('only-if-cached').should.eql({ 'only-if-cached': true });
+    parse('max-age=0').should.eql({ 'max-age': 0 });
+    parse('max-age=60').should.eql({ 'max-age': 60 });
+    parse('max-stale=60').should.eql({ 'max-stale': 60 });
+    parse('min-fresh=60').should.eql({ 'min-fresh': 60 });
+  },
+
   'test parseCookie()': function(){
     utils.parseCookie('foo=bar').should.eql({ foo: 'bar' });
     utils.parseCookie('SID=123').should.eql({ sid: '123' });
