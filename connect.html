@@ -21,19 +21,55 @@
         
         
         
-        
-        
           <div class="comment">
             
-            <p class="description"><p>Create a new connect server.</p></p>
+            <p class="description"><p>Initialize a new <code>connect.HTTPServer</code> with the middleware
+passed to this function. When an object is passed <em>first</em>,
+we assume these are the tls options, and return a <code>connect.HTTPSServer</code>.</p></p>
 
+            
+              <div class="body">
+                <h2>Examples</h2>
+
+<p>An example HTTP server, accepting several middleware.</p>
+
+<pre><code>var server = connect.createServer(
+    connect.logger()
+  , connect.static(__dirname + &#39;/public&#39;)
+);</code></pre>
+
+<p>An HTTPS server, utilizing the same middleware as above.</p>
+
+<pre><code>var server = connect.createServer(
+    { key: key, cert: cert }
+  , connect.logger()
+  , connect.static(__dirname + &#39;/public&#39;)
+);</code></pre>
+
+<p>Alternatively with connect 1.0 we may omit <code>createServer()</code>.</p>
+
+<pre><code>connect(
+    connect.logger()
+  , connect.static(__dirname + &#39;/public&#39;)
+).listen(3000);</code></pre>
+              </div>
             
 
             
               <ul class="tags">
               
                 
-                  <li class="return"><em>returns</em> <span class="types">Function</span></li>
+
+                
+
+                
+
+                
+                  <li class="param"><em>param</em> <span class="types">Object, Function</span> <span class="name">...</span> <span class="description"></span></li>
+                
+              
+                
+                  <li class="return"><em>returns</em> <span class="types">Server</span></li>
                 
 
                 
@@ -58,11 +94,20 @@
               <pre class="code">
                 <code>
 function createServer() {
-  function app(req, res){ app.handle(req, res); }
-  utils.merge(app, proto);
-  app.stack = [];
-  return app;
+  if ('object' == typeof arguments[0]) {
+    return new HTTPSServer(arguments[0], Array.prototype.slice.call(arguments, 1));
+  } else {
+    return new HTTPServer(Array.prototype.slice.call(arguments));
+  }
 };
+
+// support connect.createServer()
+
+exports.createServer = createServer;
+
+// auto-load getters
+
+exports.middleware = {};
                 </code>
               </pre>
              -->
@@ -70,7 +115,6 @@ function createServer() {
           </div>
         
       
-        
         
       
     </div>

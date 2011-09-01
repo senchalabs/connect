@@ -22,6 +22,55 @@
         
           <div class="comment">
             
+            <p class="description"><p>Provide a public &quot;header sent&quot; flag
+until node does.</p></p>
+
+            
+
+            
+              <ul class="tags">
+              
+                
+                  <li class="return"><em>returns</em> <span class="types">Boolean</span></li>
+                
+
+                
+
+                
+
+                
+              
+                
+
+                
+                  <li class="api"><em>api</em> <span class="visibility">public</span></li>
+                
+
+                
+
+                
+              
+              </ul>
+
+<!--            
+              <pre class="code">
+                <code>
+res.__defineGetter__('headerSent', function(){
+  return this._headerSent;
+});
+                </code>
+              </pre>
+             -->
+          
+          </div>
+        
+      
+        
+        
+          <div class="comment">
+            
+              <h3 class="method">.undefined()</h3>
+            
             <p class="description"><p>Set header <code>field</code> to <code>val</code>, special-casing
 the <code>Set-Cookie</code> field for multiple support.</p></p>
 
@@ -62,11 +111,35 @@ the <code>Set-Cookie</code> field for multiple support.</p></p>
               
               </ul>
 
-<!--             -->
+<!--            
+              <pre class="code">
+                <code>
+res.setHeader = function(field, val){
+  var key = field.toLowerCase()
+    , prev;
+
+  // special-case Set-Cookie
+  if (this._headers && 'set-cookie' == key) {
+    if (prev = this.getHeader(field)) {
+      val = Array.isArray(prev)
+        ? prev.concat(val)
+        : [prev, val];
+    }
+  // charset
+  } else if ('content-type' == key && this.charset) {
+    val += '; charset=' + this.charset;
+  }
+
+  return setHeader.call(this, field, val);
+};
+                </code>
+              </pre>
+             -->
           
           </div>
         
       
+        
       
     </div>
   </body>

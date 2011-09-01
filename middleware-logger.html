@@ -29,7 +29,7 @@
               <div class="body">
                 <h2>Options</h2>
 
-<ul><li><code>format</code>  Format string, see below for tokens</li><li><code>stream</code>  Output stream, defaults to <em>stdout</em></li><li><code>buffer</code>  Buffer duration, defaults to 1000ms when <em>true</em></li></ul>
+<ul><li><code>format</code>  Format string, see below for tokens</li><li><code>stream</code>  Output stream, defaults to <em>stdout</em></li><li><code>buffer</code>  Buffer duration, defaults to 1000ms when <em>true</em></li><li><code>immediate</code>  Write log line on request instead of response (for response times)</li></ul>
 
 <h2>Tokens</h2>
 
@@ -114,6 +114,9 @@ exports = module.exports = function logger(options) {
     options = {};
   }
 
+  // output on request instead of response
+  var immediate = options.immediate;
+
   // format name
   var fmt = exports[options.format] || options.format || exports.default;
 
@@ -156,13 +159,23 @@ exports = module.exports = function logger(options) {
     // flag as logging
     req._logging = true;
 
-    // proxy end to output loggging
-    var end = res.end;
-    res.end = function(chunk, encoding){
-      res.end = end;
-      res.end(chunk, encoding);
-      stream.write(fmt(exports, req, res) + '\n', 'ascii');
-    };
+    // immediate
+    if (immediate) {
+      var line = fmt(exports, req, res);
+      if (null == line) return;
+      stream.write(line + '\n', 'ascii');
+    } else {
+      // proxy end to output loggging
+      var end = res.end;
+      res.end = function(chunk, encoding){
+        res.end = end;
+        res.end(chunk, encoding);
+        var line = fmt(exports, req, res);
+        if (null == line) return;
+        stream.write(line + '\n', 'ascii');
+      };
+    }
+
 
     next();
   };

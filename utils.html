@@ -1090,6 +1090,69 @@ exports.parseRange = function(size, str){
         
           <div class="comment">
             
+              <h3 class="method">.parseCacheControl()</h3>
+            
+            <p class="description"><p>Parse the given Cache-Control <code>str</code>.</p></p>
+
+            
+
+            
+              <ul class="tags">
+              
+                
+
+                
+
+                
+
+                
+                  <li class="param"><em>param</em> <span class="types">String</span> <span class="name">str</span> <span class="description"></span></li>
+                
+              
+                
+                  <li class="return"><em>returns</em> <span class="types">Object</span></li>
+                
+
+                
+
+                
+
+                
+              
+                
+
+                
+                  <li class="api"><em>api</em> <span class="visibility">public</span></li>
+                
+
+                
+
+                
+              
+              </ul>
+
+<!--            
+              <pre class="code">
+                <code>
+exports.parseCacheControl = function(str){
+  var parts = str.split('=')
+    , key = parts.shift()
+    , val = parseInt(parts.shift(), 10)
+    , obj = {};
+  obj[key] = isNaN(val) ? true : val;
+  return obj;
+};
+                </code>
+              </pre>
+             -->
+          
+          </div>
+        
+      
+        
+        
+          <div class="comment">
+            
               <h3 class="method">.toArray()</h3>
             
             <p class="description"><p>Convert array-like object to an <code>Array</code>.</p></p>
