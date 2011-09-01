@@ -1,0 +1,100 @@
+<html>
+  <head>
+    <title>
+      
+        Connect - staticCache
+      
+    </title>
+    <link rel='stylesheet' href='main.css' />
+  </head>
+  <body>
+    <div id="content">
+      
+        <h1>staticCache</h1>
+        <span class="filename">lib/middleware/staticCache.js</span>
+      
+
+      
+      
+        
+        
+        
+        
+          <div class="comment">
+            
+            <p class="description"><p>Enables a memory cache layer on top of
+the <code>static()</code> middleware, serving popular
+static files.</p></p>
+
+            
+              <div class="body">
+                <p>By default a maximum of 128 objects are
+held in cache, with a max of 256k each,
+totalling ~32mb.</p>
+
+<p>A Least-Recently-Used (LRU) cache algo
+is implemented through the <code>Cache</code> object,
+simply rotating cache objects as they are
+hit. This means that increasingly popular
+objects maintain their positions while
+others get shoved out of the stack and
+garbage collected.</p>
+
+<h2>Benchmarks</h2>
+
+<p>   static(): 2700 rps
+   node-static: 5300 rps
+   static() + staticCache(): 7500 rps</p>
+
+<h2>Options</h2>
+
+<ul><li><code>maxObjects</code>  max cache objects [128]</li><li><code>maxLength</code>  max cache object length 256kb</li></ul>
+
+<h2>TODO refactore to accept data stores (redis etc)</h2>
+              </div>
+            
+
+            
+              <ul class="tags">
+              
+                
+
+                
+
+                
+
+                
+                  <li class="param"><em>param</em> <span class="types">Type</span> <span class="name">name</span> <span class="description"></span></li>
+                
+              
+                
+                  <li class="return"><em>returns</em> <span class="types">Type</span></li>
+                
+
+                
+
+                
+
+                
+              
+                
+
+                
+                  <li class="api"><em>api</em> <span class="visibility">public</span></li>
+                
+
+                
+
+                
+              
+              </ul>
+
+<!--             -->
+          
+          </div>
+        
+      
+      
+    </div>
+  </body>
+</html>
