@@ -1,4 +1,12 @@
 
+1.7.0 / 2011-08-31 
+==================
+
+  * Added `staticCache()` middleware, a memory cache for `static()`
+  * Added public `res.headerSent` checking nodes `res._headerSent` (remove when node adds this)
+  * Changed: ignore error handling middleware when header is sent
+  * Changed: dispatcher errors after header is sent destroy the sock
+
 1.6.4 / 2011-08-26 
 ==================
 
