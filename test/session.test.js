@@ -9,9 +9,11 @@ var connect = require('connect')
   , http = require('http')
   , create = require('./common').create;
 
-// store
+// constructors
 
-var MemoryStore = connect.session.MemoryStore;
+var MemoryStore = connect.session.MemoryStore
+  , Cookie = connect.session.Cookie
+  , Session = connect.session.Session;
 
 // settings
 
@@ -626,7 +628,43 @@ module.exports = {
       });
     });
   },
+
+  'test Store#load(sid, fn)': function(){
+    var port = ++portno
+      , store = new MemoryStore
+      , app = connect.createServer(
+        connect.cookieParser()
+      , connect.session({ secret: 'foo', store: store })
+      , function(req, res){
+        res.end('wahoo');
+      }
+    );
   
+    app.listen(port, function(){
+      var options = { port: port, buffer: true };
+      http.get(options, function(res){
+        var id = decodeURIComponent(sid(res));
+        store.load(id, function(err, sess){
+          should.equal(null, err);
+          sess.should.be.an.instanceof(Session);
+          sess.cookie.should.be.an.instanceof(Cookie);
+          sess.foo = 'bar';
+          var a = sess;
+          sess.save(function(){
+            store.load(id, function(err, sess){
+              should.equal(null, err);
+              sess.should.be.an.instanceof(Session);
+              sess.cookie.should.be.an.instanceof(Cookie);
+              sess.foo.should.equal('bar');
+              a.lastAccess.should.equal(sess.lastAccess);
+              app.close();
+            });
+          });
+        });
+      });
+    });
+  },
+
   'test different UA strings': function(){
     ++pending;
   
