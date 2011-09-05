@@ -632,7 +632,7 @@ module.exports = {
   'test Store#load(sid, fn)': function(){
     var port = ++portno
       , store = new MemoryStore
-      , app = connect.createServer(
+      , app = create(
         connect.cookieParser()
       , connect.session({ secret: 'foo', store: store })
       , function(req, res){
