@@ -16,9 +16,7 @@ var MemoryStore = connect.session.MemoryStore
 
 // settings
 
-var port = 9900
-  , portno = port
-  , pending = 0
+var portno = 9900;
 
 // main test app
 
@@ -29,8 +27,6 @@ var app = connect.createServer(
     res.end('wahoo');
   }
 );
-
-app.listen(port);
 
 // SID helper
 
@@ -64,24 +60,20 @@ module.exports = {
   },
 
   'test Set-Cookie': function(){
-    ++pending;
-    http.get({ port: port }, function(res){
+    assert.response(app, { url: '/' }, function(res) {
       var cookie = res.headers['set-cookie']
         , prev = sid(res);
       cookie.should.match(/^connect\.sid=([^;]+); path=\/; expires=/);
-      http.get({ port: port }, function(res){
+      assert.response(app, { url: '/' }, function(res){
         var cookie = res.headers['set-cookie'];
         cookie.should.match(/^connect\.sid=([^;]+); path=\/; expires=/);
         prev.should.not.equal(sid(res));
-        --pending || app.close();
       });
     });
   },
   
   'test SID maintenance': function(){
-    pending += 6;
-    http.get({ port: port }, function(res){
-      --pending;
+    assert.response(app, { url: '/' }, function(res){
       var cookie = res.headers['set-cookie']
         , prev = sid(res);
       cookie.should.match(/^connect\.sid=([^;]+); path=\/; expires=/);
@@ -90,28 +82,25 @@ module.exports = {
 
       // ensure subsequent requests maintain the SID
       while (n--) {
-        http.get({ port: port, headers: headers }, function(res){
+        assert.response(app, { url: '/', headers: headers }, function(res){
           var cookie = res.headers['set-cookie'];
           cookie.should.match(/^connect\.sid=([^;]+); path=\/; expires=/);
           prev.should.equal(sid(res));
-          --pending || app.close();
         });
       }
     });
   },
   
   'test SID changing': function(){
-    pending += 5;
     var sids = []
       , n = 5;
 
     // ensure different SIDs
     while (n--) {
-      http.get({ port: port }, function(res){
+      assert.response(app, { url: '/'}, function(res){
         var curr = sid(res);
         sids.should.not.contain(curr);
         sids.push(curr);
-        --pending || app.close();
       });
     }
   },
@@ -665,85 +654,61 @@ module.exports = {
   },
 
   'test different UA strings': function(){
-    ++pending;
-  
-    var options = {
-        port: port
-      , headers: {
-        'User-Agent': 'tobi/0.5'
-      }
+    var headers = {
+      'User-Agent': 'tobi/0.5'
     };
   
-    http.get(options, function(res){
+    assert.response(app,{ url: '/', headers: headers }, function(res){
       var prev = sid(res);
-      options.headers['Cookie'] = 'connect.sid=' + prev;
-      options.headers['User-Agent'] = 'tobi/1.0';
-      http.get(options, function(res){
+      headers['Cookie'] = 'connect.sid=' + prev;
+      headers['User-Agent'] = 'tobi/1.0';
+      assert.response(app, { url: '/', headers: headers }, function(res){
         prev.should.not.equal(sid(res));
-        --pending || app.close();
       });
     });
   },
   
   'test chromeframe UA strings': function(){
-    ++pending;
-  
-    var options = {
-        port: port
-      , headers: {
-        'User-Agent': 'Mozilla/5.0 (compatible; MSIE 9.0; Windows NT 6.1; WOW64; Trident/5.0; BOIE9;ENUS)'
-      }
+    var headers = {
+      'User-Agent': 'Mozilla/5.0 (compatible; MSIE 9.0; Windows NT 6.1; WOW64; Trident/5.0; BOIE9;ENUS)'
     };
   
-    http.get(options, function(res){
+    assert.response(app, { url: '/', headers: headers }, function(res){
       var prev = sid(res);
-      options.headers['Cookie'] = 'connect.sid=' + prev;
-      options.headers['User-Agent'] = 'Mozilla/5.0 (compatible; MSIE 9.0; Windows NT 6.1; WOW64; Trident/5.0; BOIE9;ENUS; chromeframe/12.0.742.100)';
-      http.get(options, function(res){
+      headers['Cookie'] = 'connect.sid=' + prev;
+      headers['User-Agent'] = 'Mozilla/5.0 (compatible; MSIE 9.0; Windows NT 6.1; WOW64; Trident/5.0; BOIE9;ENUS; chromeframe/12.0.742.100)';
+      assert.response(app,  { url: '/', headers: headers }, function(res){
         prev.should.equal(sid(res));
-        --pending || app.close();
       });
     });
   },
   
   'test chromeframe sub resource request UA string': function(){
-    ++pending;
-  
-    var options = {
-        port: port
-      , headers: {
-        'User-Agent': 'Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US) AppleWebKit/534.18 (KHTML, like Gecko) Chrome/11.0.660.0 Safari/534.18'
-      }
+    var headers = {
+    'User-Agent': 'Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US) AppleWebKit/534.18 (KHTML, like Gecko) Chrome/11.0.660.0 Safari/534.18'
     };
   
-    http.get(options, function(res){
+    assert.response(app, { url: '/', headers: headers },function(res){
       var prev = sid(res);
-      options.headers['Cookie'] = 'connect.sid=' + prev;
-      options.headers['User-Agent'] = 'Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US; chromeframe/11.0.660.0) AppleWebKit/534.18 (KHTML, like Gecko) Chrome/11.0.660.0 Safari/534.18';
-      http.get(options, function(res){
+      headers['Cookie'] = 'connect.sid=' + prev;
+      headers['User-Agent'] = 'Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US; chromeframe/11.0.660.0) AppleWebKit/534.18 (KHTML, like Gecko) Chrome/11.0.660.0 Safari/534.18';
+      assert.response(app, { url: '/', headers: headers }, function(res){
         prev.should.equal(sid(res));
-        --pending || app.close();
       });
     });
   },
   
   'test chromeframe request rare token placement UA string': function(){
-    ++pending;
-  
-    var options = {
-        port: port
-      , headers: {
-        'User-Agent': 'Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1; SV1)'
-      }
+    var headers = {
+      'User-Agent': 'Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1; SV1)'
     };
   
-    http.get(options, function(res){
+    assert.response(app,{ url: '/', headers: headers }, function(res){
       var prev = sid(res);
-      options.headers['Cookie'] = 'connect.sid=' + prev;
-      options.headers['User-Agent'] = 'Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1; SV1) chromeframe/11.0.660.0';
-      http.get(options, function(res){
+      headers['Cookie'] = 'connect.sid=' + prev;
+      headers['User-Agent'] = 'Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1; SV1) chromeframe/11.0.660.0';
+      assert.response(app, { url: '/', headers: headers }, function(res) {
         prev.should.equal(sid(res));
-        --pending || app.close();
       });
     });
   },
