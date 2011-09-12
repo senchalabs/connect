@@ -1,4 +1,12 @@
 
+1.7.1 / 2011-09-12 
+==================
+
+  * Added: make `Store` inherit from `EventEmitter`
+  * Added session `Store#load(sess, fn)` to fetch a `Session` instance
+  * Added backpressure support to `staticCache()`
+  * Changed `res.socket.destroy()` to `req.socket.destroy()`
+
 1.7.0 / 2011-08-31 
 ==================
 
