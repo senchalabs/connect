@@ -277,45 +277,5 @@ module.exports = {
       { url: '/' },
       { body: 'test'
       , headers: { 'Content-Type': 'text/html; charset=utf8' }});
-  },
-  
-  'test next(statusCode)': function(){
-    var app = create(function(req, res, next){
-      next(404);
-    }, function(req, res, next){
-      assert.ok(false, 'regular route hit when using next(status)');
-    }, function(err, req, res, next){
-      res.end(res.statusCode + ': ' + err.message);
-    });
-
-    assert.response(app,
-      { url: '/' },
-      { body: '404: Not Found', status: 404 });
-  },
-  
-  'test next(statusCode) redundancy': function(){
-    var app = create(function(req, res, next){
-      next(403);
-    }, function(req, res, next){
-      assert.ok(false, 'regular route hit when using next(status)');
-    }, function(err, req, res, next){
-      res.end(res.statusCode + ': ' + err.message);
-    });
-
-    assert.response(app,
-      { url: '/' },
-      { body: '403: Forbidden', status: 403 });
-  },
-  
-  'test next(statusCode) response': function(){
-    var app = create(function(req, res, next){
-      next(411);
-    }, function(req, res, next){
-      assert.ok(false, 'regular route hit when using next(status)');
-    });
-
-    assert.response(app,
-      { url: '/' },
-      { body: 'Length Required', status: 411 });
   }
 };
