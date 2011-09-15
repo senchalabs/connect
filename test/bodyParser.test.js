@@ -46,13 +46,13 @@ module.exports = {
   'test POST with no data': function(){
     assert.response(app,
       { url: '/', method: 'POST' },
-      { body: '' });
+      { body: '{}' });
   },
 
   'test GET with content-type': function(){
     assert.response(app,
       { url: '/', headers: { 'Content-Type': 'application/json' }},
-      { body: '' });
+      { body: '{}' });
   },
   
   'test custom parser': function(){
