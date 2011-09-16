@@ -98,6 +98,20 @@ module.exports = {
       { url: '/foo.json' },
       { body: 'Cannot GET /foo.json', status: 404 });
   },
+
+  'test ENAMETOOLONG handling': function(){
+    var longFilename = '/a-' + (function(n) {
+      var str = 'very-';
+      for(var i = 0; i < n; i++) { 
+        str += 'very-';
+      }
+      return str; 
+    }(50)) + 'long-filename.png';   
+
+    assert.response(app,
+      { url: longFilename },
+      { body: 'Cannot GET ' + longFilename });
+  },
   
   'test directory redirect': function(){
     assert.response(app,
