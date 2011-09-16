@@ -5,9 +5,10 @@
 
 var connect = require('connect')
   , assert = require('assert')
-  , http = require('http');
+  , http = require('http')
+  , create = require('./common').create;
 
-var app = connect(
+var app = create(
     connect.query()
   , function(req, res){
     res.end(JSON.stringify(req.query));

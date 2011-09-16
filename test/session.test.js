@@ -6,29 +6,28 @@
 var connect = require('connect')
   , assert = require('assert')
   , should = require('should')
-  , http = require('http');
+  , http = require('http')
+  , create = require('./common').create;
 
-// store
+// constructors
 
-var MemoryStore = connect.session.MemoryStore;
+var MemoryStore = connect.session.MemoryStore
+  , Cookie = connect.session.Cookie
+  , Session = connect.session.Session;
 
 // settings
 
-var port = 9900
-  , portno = port
-  , pending = 0
+var portno = 9900;
 
 // main test app
 
-var app = connect.createServer(
+var app = create(
     connect.cookieParser()
   , connect.session({ secret: 'keyboard cat' })
   , function(req, res, next){
     res.end('wahoo');
   }
 );
-
-app.listen(port);
 
 // SID helper
 
@@ -62,24 +61,20 @@ module.exports = {
   },
 
   'test Set-Cookie': function(){
-    ++pending;
-    http.get({ port: port }, function(res){
+    assert.response(app, { url: '/' }, function(res) {
       var cookie = res.headers['set-cookie']
         , prev = sid(res);
       cookie.should.match(/^connect\.sid=([^;]+); path=\/; expires=/);
-      http.get({ port: port }, function(res){
+      assert.response(app, { url: '/' }, function(res){
         var cookie = res.headers['set-cookie'];
         cookie.should.match(/^connect\.sid=([^;]+); path=\/; expires=/);
         prev.should.not.equal(sid(res));
-        --pending || app.close();
       });
     });
   },
   
   'test SID maintenance': function(){
-    pending += 6;
-    http.get({ port: port }, function(res){
-      --pending;
+    assert.response(app, { url: '/' }, function(res){
       var cookie = res.headers['set-cookie']
         , prev = sid(res);
       cookie.should.match(/^connect\.sid=([^;]+); path=\/; expires=/);
@@ -88,34 +83,31 @@ module.exports = {
 
       // ensure subsequent requests maintain the SID
       while (n--) {
-        http.get({ port: port, headers: headers }, function(res){
+        assert.response(app, { url: '/', headers: headers }, function(res){
           var cookie = res.headers['set-cookie'];
           cookie.should.match(/^connect\.sid=([^;]+); path=\/; expires=/);
           prev.should.equal(sid(res));
-          --pending || app.close();
         });
       }
     });
   },
   
   'test SID changing': function(){
-    pending += 5;
     var sids = []
       , n = 5;
 
     // ensure different SIDs
     while (n--) {
-      http.get({ port: port }, function(res){
+      assert.response(app, { url: '/'}, function(res){
         var curr = sid(res);
         sids.should.not.contain(curr);
         sids.push(curr);
-        --pending || app.close();
       });
     }
   },
 
   'test multiple Set-Cookie headers via writeHead()': function(){
-    var app = connect.createServer(
+    var app = create(
         connect.cookieParser()
       , connect.session({ secret: 'keyboard cat', key: 'sid' })
       , function(req, res, next){
@@ -136,7 +128,7 @@ module.exports = {
   },
   
   'test multiple Set-Cookie headers via setHeader()': function(){
-    var app = connect.createServer(
+    var app = create(
         connect.cookieParser()
       , connect.session({ secret: 'keyboard cat', key: 'sid' })
       , function(req, res, next){
@@ -157,7 +149,7 @@ module.exports = {
   },
   
   'test key option': function(){
-    var app = connect.createServer(
+    var app = create(
         connect.cookieParser()
       , connect.session({ secret: 'keyboard cat', key: 'sid' })
       , function(req, res, next){
@@ -173,7 +165,7 @@ module.exports = {
   },
   
   'test default maxAge': function(){
-    var app = connect.createServer(
+    var app = create(
         connect.cookieParser()
       , connect.session({ secret: 'keyboard cat' })
       , function(req, res, next){
@@ -194,7 +186,7 @@ module.exports = {
   
   'test maxAge option': function(){
     // 1 hour
-    var app = connect.createServer(
+    var app = create(
         connect.cookieParser()
       , connect.session({
           secret: 'keyboard cat'
@@ -219,7 +211,7 @@ module.exports = {
   'test req.session data persistence': function(){
     var prev
       , port = ++portno
-      , app = connect.createServer(
+      , app = create(
         connect.cookieParser()
       , connect.session({ secret: 'keyboard cat' })
       , function(req, res, next){
@@ -257,7 +249,7 @@ module.exports = {
   'test req.session.regenerate()': function(){
     var prev
       , port = ++portno
-      , app = connect.createServer(
+      , app = create(
         connect.cookieParser()
       , connect.session({ secret: 'keyboard cat' })
       , function(req, res, next){
@@ -317,7 +309,7 @@ module.exports = {
   'test req.session.destroy()': function(){
     var prev
       , port = ++portno
-      , app = connect.createServer(
+      , app = create(
         connect.cookieParser()
       , connect.session({ secret: 'keyboard cat' })
       , function(req, res, next){
@@ -371,7 +363,7 @@ module.exports = {
   'test req.session.cookie.expires': function(){
     var n = 0
       , port = ++portno
-      , app = connect.createServer(
+      , app = create(
         connect.cookieParser()
       , connect.session({ secret: 'keyboard cat', key: 'foobar' })
       , function(req, res, next){
@@ -400,7 +392,7 @@ module.exports = {
   'test req.session.cookie.maxAge': function(){
     var n = 0
       , port = ++portno
-      , app = connect.createServer(
+      , app = create(
         connect.cookieParser()
       , connect.session({ secret: 'keyboard cat', key: 'foobar' })
       , function(req, res, next){
@@ -428,7 +420,7 @@ module.exports = {
   'test expiration': function(){
     var n = 0
       , port = ++portno
-      , app = connect.createServer(
+      , app = create(
         connect.cookieParser()
       , connect.session({ secret: 'keyboard cat', cookie: { maxAge: 200 }})
       , function(req, res, next){
@@ -453,7 +445,7 @@ module.exports = {
   
   'test req.session.cookie properties': function(){
     var port = ++portno
-      , app = connect.createServer(
+      , app = create(
         connect.cookieParser()
       , connect.session({ secret: 'foo', cookie: { httpOnly: true }})
       , function(req, res){
@@ -474,7 +466,7 @@ module.exports = {
   
   'test mutating req.session.cookie': function(){
     var port = ++portno
-      , app = connect.createServer(
+      , app = create(
         connect.cookieParser()
       , connect.session({ secret: 'foo', cookie: { httpOnly: true, secure: true }})
       , function(req, res){
@@ -507,7 +499,7 @@ module.exports = {
   
   'test req.session.expires = null': function(){
     var port = ++portno
-      , app = connect.createServer(
+      , app = create(
         connect.cookieParser()
       , connect.session({ secret: 'foo', cookie: { httpOnly: true, secure: true }})
       , function(req, res){
@@ -540,7 +532,7 @@ module.exports = {
   
   'test expires: null': function(){
     var port = ++portno
-      , app = connect.createServer(
+      , app = create(
         connect.cookieParser()
       , connect.session({
           secret: 'foo'
@@ -583,7 +575,7 @@ module.exports = {
     };
   
     var port = ++portno
-      , app = connect.createServer(
+      , app = create(
         function(req, res, next){
           request = req;
           next();
@@ -609,7 +601,7 @@ module.exports = {
   
   'test Set-Cookie when secure': function(){
     var port = ++portno
-      , app = connect.createServer(
+      , app = create(
         connect.cookieParser()
       , connect.session({ secret: 'foo', cookie: { secure: true }})
       , function(req, res){
@@ -625,87 +617,99 @@ module.exports = {
       });
     });
   },
-  
-  'test different UA strings': function(){
-    ++pending;
-  
-    var options = {
-        port: port
-      , headers: {
-        'User-Agent': 'tobi/0.5'
+
+  'test Store#load(sid, fn)': function(){
+    var port = ++portno
+      , store = new MemoryStore
+      , app = create(
+        connect.cookieParser()
+      , connect.session({ secret: 'foo', store: store })
+      , function(req, res){
+        res.end('wahoo');
       }
+    );
+  
+    app.listen(port, function(){
+      var options = { port: port, buffer: true };
+      http.get(options, function(res){
+        var id = decodeURIComponent(sid(res));
+        store.load(id, function(err, sess){
+          should.equal(null, err);
+          sess.should.be.an.instanceof(Session);
+          sess.cookie.should.be.an.instanceof(Cookie);
+          sess.foo = 'bar';
+          var a = sess;
+          sess.save(function(){
+            store.load(id, function(err, sess){
+              should.equal(null, err);
+              sess.should.be.an.instanceof(Session);
+              sess.cookie.should.be.an.instanceof(Cookie);
+              sess.foo.should.equal('bar');
+              a.lastAccess.should.equal(sess.lastAccess);
+              app.close();
+            });
+          });
+        });
+      });
+    });
+  },
+
+  'test different UA strings': function(){
+    var headers = {
+      'User-Agent': 'tobi/0.5'
     };
   
-    http.get(options, function(res){
+    assert.response(app,{ url: '/', headers: headers }, function(res){
       var prev = sid(res);
-      options.headers['Cookie'] = 'connect.sid=' + prev;
-      options.headers['User-Agent'] = 'tobi/1.0';
-      http.get(options, function(res){
+      headers['Cookie'] = 'connect.sid=' + prev;
+      headers['User-Agent'] = 'tobi/1.0';
+      assert.response(app, { url: '/', headers: headers }, function(res){
         prev.should.not.equal(sid(res));
-        --pending || app.close();
       });
     });
   },
   
   'test chromeframe UA strings': function(){
-    ++pending;
-  
-    var options = {
-        port: port
-      , headers: {
-        'User-Agent': 'Mozilla/5.0 (compatible; MSIE 9.0; Windows NT 6.1; WOW64; Trident/5.0; BOIE9;ENUS)'
-      }
+    var headers = {
+      'User-Agent': 'Mozilla/5.0 (compatible; MSIE 9.0; Windows NT 6.1; WOW64; Trident/5.0; BOIE9;ENUS)'
     };
   
-    http.get(options, function(res){
+    assert.response(app, { url: '/', headers: headers }, function(res){
       var prev = sid(res);
-      options.headers['Cookie'] = 'connect.sid=' + prev;
-      options.headers['User-Agent'] = 'Mozilla/5.0 (compatible; MSIE 9.0; Windows NT 6.1; WOW64; Trident/5.0; BOIE9;ENUS; chromeframe/12.0.742.100)';
-      http.get(options, function(res){
+      headers['Cookie'] = 'connect.sid=' + prev;
+      headers['User-Agent'] = 'Mozilla/5.0 (compatible; MSIE 9.0; Windows NT 6.1; WOW64; Trident/5.0; BOIE9;ENUS; chromeframe/12.0.742.100)';
+      assert.response(app,  { url: '/', headers: headers }, function(res){
         prev.should.equal(sid(res));
-        --pending || app.close();
       });
     });
   },
   
   'test chromeframe sub resource request UA string': function(){
-    ++pending;
-  
-    var options = {
-        port: port
-      , headers: {
-        'User-Agent': 'Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US) AppleWebKit/534.18 (KHTML, like Gecko) Chrome/11.0.660.0 Safari/534.18'
-      }
+    var headers = {
+    'User-Agent': 'Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US) AppleWebKit/534.18 (KHTML, like Gecko) Chrome/11.0.660.0 Safari/534.18'
     };
   
-    http.get(options, function(res){
+    assert.response(app, { url: '/', headers: headers },function(res){
       var prev = sid(res);
-      options.headers['Cookie'] = 'connect.sid=' + prev;
-      options.headers['User-Agent'] = 'Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US; chromeframe/11.0.660.0) AppleWebKit/534.18 (KHTML, like Gecko) Chrome/11.0.660.0 Safari/534.18';
-      http.get(options, function(res){
+      headers['Cookie'] = 'connect.sid=' + prev;
+      headers['User-Agent'] = 'Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US; chromeframe/11.0.660.0) AppleWebKit/534.18 (KHTML, like Gecko) Chrome/11.0.660.0 Safari/534.18';
+      assert.response(app, { url: '/', headers: headers }, function(res){
         prev.should.equal(sid(res));
-        --pending || app.close();
       });
     });
   },
   
   'test chromeframe request rare token placement UA string': function(){
-    ++pending;
-  
-    var options = {
-        port: port
-      , headers: {
-        'User-Agent': 'Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1; SV1)'
-      }
+    var headers = {
+      'User-Agent': 'Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1; SV1)'
     };
   
-    http.get(options, function(res){
+    assert.response(app,{ url: '/', headers: headers }, function(res){
       var prev = sid(res);
-      options.headers['Cookie'] = 'connect.sid=' + prev;
-      options.headers['User-Agent'] = 'Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1; SV1) chromeframe/11.0.660.0';
-      http.get(options, function(res){
+      headers['Cookie'] = 'connect.sid=' + prev;
+      headers['User-Agent'] = 'Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1; SV1) chromeframe/11.0.660.0';
+      assert.response(app, { url: '/', headers: headers }, function(res) {
         prev.should.equal(sid(res));
-        --pending || app.close();
       });
     });
   },

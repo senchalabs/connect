@@ -6,11 +6,12 @@
 var connect = require('connect')
   , assert = require('assert')
   , should  = require('should')
-  , http = require('http');
+  , http = require('http')
+  , create = require('./common').create;
 
 module.exports = {
   'test defaults with next(err)': function(){
-    var app = connect.createServer(
+    var app = create(
       function(req, res, next){
         next(new Error('keyboard cat!'));
       },
@@ -24,7 +25,7 @@ module.exports = {
   },
   
   'test defaults with caught exception': function(){
-    var app = connect.createServer(
+    var app = create(
       function(req, res, next){
         throw new Error('keyboard cat!');
       },
@@ -38,7 +39,7 @@ module.exports = {
   },
   
   'test showMessage': function(){
-    var app = connect.createServer(
+    var app = create(
       function(req, res, next){
         next(new Error('keyboard cat!'));
       },
@@ -52,7 +53,7 @@ module.exports = {
   },
   
   'test message': function(){
-    var app = connect.createServer(
+    var app = create(
       function(req, res, next){
         next(new Error('keyboard cat!'));
       },
@@ -66,7 +67,7 @@ module.exports = {
   },
   
   'test showStack': function(){
-    var app = connect.createServer(
+    var app = create(
       function(req, res, next){
         next(new Error('keyboard cat!'));
       },
@@ -83,7 +84,7 @@ module.exports = {
   },
   
   'test stack': function(){
-    var app = connect.createServer(
+    var app = create(
       function(req, res, next){
         next(new Error('keyboard cat!'));
       },
@@ -100,7 +101,7 @@ module.exports = {
   },
   
   'test showStack html': function(){
-    var app = connect.createServer(
+    var app = create(
       function(req, res, next){
         next(new Error('keyboard cat!'));
       },
@@ -114,7 +115,7 @@ module.exports = {
   },
   
   'test showStack json': function(){
-    var app = connect.createServer(
+    var app = create(
       function(req, res, next){
         next(new Error('keyboard cat!'));
       },
@@ -128,7 +129,7 @@ module.exports = {
   },
   
   'test showStack text': function(){
-    var app = connect.createServer(
+    var app = create(
       function(req, res, next){
         next(new Error('keyboard cat!'));
       },
@@ -139,5 +140,19 @@ module.exports = {
       { url: '/', headers: { Accept: 'text/plain' }},
       { status: 500
       , headers: { 'Content-Type': 'text/plain' }});
+  },
+  
+  'test custom response code': function(){
+    var app = create(
+      function(req, res, next){
+        res.statusCode = 501;
+        throw new Error('oh no');
+      },
+      connect.errorHandler({ stack: true })
+    );
+
+    assert.response(app,
+      { url: '/' },
+      { status: 501 });
   }
 }

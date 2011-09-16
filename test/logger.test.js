@@ -7,12 +7,13 @@ var connect = require('connect')
   , assert = require('assert')
   , should = require('should')
   , https = require('https')
+  , create = require('./common').create
   , fs = require('fs');
 
 module.exports = {
   'test http :req[header]': function(){
     var logLine = '';
-    var app = connect(
+    var app = create(
       connect.logger({
         format: ':req[foo]',
         stream: { write: function(line){ logLine = line; } }
@@ -28,7 +29,7 @@ module.exports = {
 
   'test http :res[header]': function(){
     var logLine = ''
-    var app = connect(
+    var app = create(
       connect.logger({
         format: ':res[content-type]',
         stream: { write: function(line){ logLine = line; } }
@@ -44,7 +45,7 @@ module.exports = {
   
   'test http :res[header] default': function(){
     var logLine = ''
-    var app = connect(
+    var app = create(
       connect.logger({
         format: ':method :url :res[content-length]',
         stream: { write: function(line){ logLine = line; } }
@@ -60,7 +61,7 @@ module.exports = {
   
   'test http :http-version': function(){
     var logLine = '';
-    var app = connect(
+    var app = create(
       connect.logger({
         format: ':http-version',
         stream: { write: function(line){ logLine = line; } }
@@ -76,7 +77,7 @@ module.exports = {
   
   'test http :response-time': function(){
     var logLine = '';
-    var app = connect(
+    var app = create(
       connect.logger({
         format: ':response-time',
         stream: { write: function(line){ logLine = line; } }
@@ -92,7 +93,7 @@ module.exports = {
   
   'test http :remote-addr': function(){
     var logLine = '';
-    var app = connect(
+    var app = create(
       connect.logger({
         format: ':remote-addr',
         stream: { write: function(line){ logLine = line; } }
@@ -108,7 +109,7 @@ module.exports = {
   
   'test http :date': function(){
     var logLine = '';
-    var app = connect(
+    var app = create(
       connect.logger({
         format: ':date',
         stream: { write: function(line){ logLine = line; } }
@@ -127,7 +128,7 @@ module.exports = {
   
   'test http :method': function(){
     var logLine = '';
-    var app = connect(
+    var app = create(
       connect.logger({
         format: ':method',
         stream: { write: function(line){ logLine = line; } }
@@ -143,7 +144,7 @@ module.exports = {
   
   'test http :url': function(){
     var logLine = '';
-    var app = connect(
+    var app = create(
       connect.logger({
         format: ':url',
         stream: { write: function(line){ logLine = line; } }
@@ -159,7 +160,7 @@ module.exports = {
   
   'test http :referrer': function(){
     var logLine = '';
-    var app = connect(
+    var app = create(
       connect.logger({
         format: ':referrer',
         stream: { write: function(line){ logLine = line; } }
@@ -175,7 +176,7 @@ module.exports = {
   
   'test http :user-agent': function(){
     var logLine = '';
-    var app = connect(
+    var app = create(
       connect.logger({
         format: ':user-agent',
         stream: { write: function(line){ logLine = line; } }
@@ -191,7 +192,7 @@ module.exports = {
   
   'test http :status': function(){
     var logLine = '';
-    var app = connect(
+    var app = create(
       connect.logger({
         format: ':status',
         stream: { write: function(line){ logLine = line; } }
@@ -203,44 +204,5 @@ module.exports = {
       function(){
         assert.equal(logLine, '404\n');
       });
-  },
-
-  'test https :remote-addr': function(){
-    var logLine = '';
-    var app = connect({
-        key: fs.readFileSync(__dirname + '/fixtures/ssl.key'),
-        cert: fs.readFileSync(__dirname + '/fixtures/ssl.crt')
-      },
-      connect.logger({
-        format: ':remote-addr',
-        stream: { write: function(line){ logLine = line; } }
-      })
-    );
-
-    app.listen(7777, '127.0.0.1', function() {
-      var request = https.request({
-          host: '127.0.0.1'
-        , port: 7777
-        , method: 'GET'
-        , path: '/'
-      });
-
-      request.on('response', function(response){
-        response.body = '';
-
-        response.setEncoding('utf8');
-        response.on('data', function(data) { response.body += data; });
-        response.on('end', function(){
-          var status = 404;
-
-          assert.equal(response.statusCode, status);
-          assert.equal(logLine, '127.0.0.1\n');
-
-          app.close();
-        });
-      });
-
-      request.end();
-    });
   }
 };

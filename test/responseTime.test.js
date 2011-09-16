@@ -6,9 +6,10 @@
 var connect = require('connect')
   , assert = require('assert')
   , should = require('should')
-  , http = require('http');
+  , http = require('http')
+  , create = require('./common').create;
 
-var app = connect.createServer(
+var app = create(
   connect.responseTime(),
   function(req, res){
     setTimeout(function(){

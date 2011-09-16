@@ -1,13 +1,13 @@
 {
   "name": "connect",
-  "version": "1.5.1",
+  "version": "1.6.1",
   "description": "High performance middleware framework",
   "keywords": ["framework", "web", "middleware", "connect", "rack"],
   "repository": "git://github.com/senchalabs/connect.git",
   "author": "TJ Holowaychuk <tj@vision-media.ca> (http://tjholowaychuk.com)",
   "repository": "git://github.com/senchalabs/connect",
   "dependencies": {
-    "qs": ">= 0.0.6",
+    "qs": ">= 0.3.1",
     "mime": ">= 0.0.1"
   },
   "devDependencies": {
