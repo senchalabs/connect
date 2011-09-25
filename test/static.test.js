@@ -231,7 +231,7 @@ module.exports = {
   },
   
   'test custom mime type definition': function(){
-    require('mime').define({ 'application/coffee-script': ['coffee'] });
+    connect.static.mime.define({ 'application/coffee-script': ['coffee'] });
     assert.response(app,
       { url: '/script.coffee' },
       { headers: { 'Content-Type': 'application/coffee-script' }});
