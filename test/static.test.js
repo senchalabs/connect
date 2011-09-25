@@ -183,6 +183,18 @@ module.exports = {
       { url: '/list', headers: { Range: 'bytes=3-6' }},
       { body: '4567', 'Content-Range': 'bytes 3-6/9', status: 206 });
   },
+
+  'test conditional range': function(){
+    assert.response(app,
+      { url: '/list' },
+      function(res) {
+        res.headers.should.have.property('etag');
+        assert.response(app,
+          { url: '/list', headers: { Range: 'bytes=3-6', 'If-None-Match': res.headers.etag }},
+          { status: 304 }
+        );           
+      });    
+  },
   
   'test invalid Range': function(){
     assert.response(app,
