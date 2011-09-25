@@ -30,6 +30,7 @@ module.exports = {
        function(res){
          res.statusCode.should.equal(200);
          JSON.parse(res.body).should.eql({ name: 'tj', email: 'tj@vision-media.ca' });
+         res.headers.should.have.property('date');
          res.headers.should.have.property('content-length', '55');
          res.headers.should.have.property('cache-control', 'public, max-age=0');
          res.headers.should.have.property('last-modified');

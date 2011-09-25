@@ -29,6 +29,8 @@ module.exports = {
     parse('max-age=60').should.eql({ 'max-age': 60 });
     parse('max-stale=60').should.eql({ 'max-stale': 60 });
     parse('min-fresh=60').should.eql({ 'min-fresh': 60 });
+    parse('public, max-age=60').should.eql({ 'public': true, 'max-age': 60 });
+    parse('must-revalidate, max-age=60').should.eql({ 'must-revalidate': true, 'max-age': 60 });
   },
 
   'test parseCookie()': function(){
