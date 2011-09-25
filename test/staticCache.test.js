@@ -108,7 +108,6 @@ module.exports = {
       function(res) {
         res.statusCode.should.equal(200);
         res.headers.should.have.property('last-modified');
-        console.log(res.headers['last-modified']);
         assert.response(
           app,
           {
