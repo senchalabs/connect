@@ -15,6 +15,14 @@ var app = create(
   }
 );
 
+var app2 = create(
+  connect.cookieParser(),
+  function(req, res, next){
+    res.end(JSON.stringify(req.cookies.cart));
+  }
+);
+
+
 module.exports = {
   'test without cookies': function(){
     assert.response(app,
@@ -38,5 +46,17 @@ module.exports = {
     assert.response(app,
       { url: '/', headers: { Cookie: ['sid=%g23'] }},
       { body: '{"sid":"%g23"}' });
+  },
+  
+  'test json cookie': function() {
+    assert.response(app2,
+      { url: '/', headers: { Cookie: ['cart=json{"foo":"bar"}'] }},
+      { body: '{"foo":"bar"}' });
+  },
+  
+  'test malformed json cookie': function() {
+    assert.response(app2,
+      { url: '/', headers: { Cookie: ['cart=jsonfoo'] }},
+      { body: '"jsonfoo"' });
   }
 };
