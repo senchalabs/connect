@@ -3,7 +3,7 @@
  * Module dependencies.
  */
 
-var utils = require('connect').utils
+var utils = require('../').utils
   , should = require('should')
   , Stream = require('stream').Stream;
 
