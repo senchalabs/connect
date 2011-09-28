@@ -67,6 +67,12 @@ module.exports = {
       { url: '/', headers: { Cookie: ['cart=j:foo'] }},
       { body: '"j:foo"' });
   },
+
+  'test signed cookie without secret': function(){
+    assert.response(app,
+      { url: '/', headers: { Cookie: ['cart=dG9iaSBpcyBjb29s.RH4vT0xcdOwqpYbHhj8RMzwpQoE'] }},
+      { body: '{"cart":"dG9iaSBpcyBjb29s.RH4vT0xcdOwqpYbHhj8RMzwpQoE"}' });
+  },
   
   'test signed cookie': function(){
     assert.response(app3,
