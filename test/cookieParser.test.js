@@ -58,14 +58,14 @@ module.exports = {
   
   'test json cookie': function() {
     assert.response(app2,
-      { url: '/', headers: { Cookie: ['cart=json{"foo":"bar"}'] }},
+      { url: '/', headers: { Cookie: ['cart=j:{"foo":"bar"}'] }},
       { body: '{"foo":"bar"}' });
   },
   
   'test malformed json cookie': function() {
     assert.response(app2,
-      { url: '/', headers: { Cookie: ['cart=jsonfoo'] }},
-      { body: '"jsonfoo"' });
+      { url: '/', headers: { Cookie: ['cart=j:foo'] }},
+      { body: '"j:foo"' });
   },
   
   'test signed cookie': function(){
