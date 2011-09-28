@@ -67,7 +67,14 @@ module.exports = {
     utils.parseCookie(utils.serializeCookie('fbs', 'uid=123&name=Test User'))
       .should.eql({ fbs: 'uid=123&name=Test User' });
   },
-  
+
+  'test sign()': function(){
+    var val = utils.sign('something', 'foo');
+    val.should.equal('c29tZXRoaW5n.Qi3Ycilr2sRuiifOTOoFINXpdxI');
+    val = utils.unsign('c29tZXRoaW5n.Qi3Ycilr2sRuiifOTOoFINXpdxI', 'foo');
+    val.should.equal('something');
+  },
+
   'test pause()': function(defer){
     var calls = 0
       , data = []
