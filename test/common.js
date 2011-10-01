@@ -3,7 +3,7 @@
  * Module dependencies.
  */
 
-var connect = require('connect')
+var connect = require('../')
   , http = require('http');
 
 /**

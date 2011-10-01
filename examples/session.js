@@ -1,15 +1,16 @@
 
-var connect = require('../');
+var connect = require('../')
+  , http = require('http');
 
 // expire sessions within a minute
 // /favicon.ico is ignored, and will not 
 // receive req.session
 
-connect(
-    connect.cookieParser()
-  , connect.session({ secret: 'keyboard cat', cookie: { maxAge: 60000 }})
-  , connect.favicon()
-  , function(req, res, next){
+http.createServer(connect()
+  .use(connect.cookieParser('keyboard cat'))
+  .use(connect.session({ cookie: { maxAge: 60000 }}))
+  .use(connect.favicon())
+  .use(function(req, res, next){
     var sess = req.session;
     if (sess.views) {
       res.setHeader('Content-Type', 'text/html');
@@ -21,19 +22,19 @@ connect(
       sess.views = 1;
       res.end('welcome to the session demo. refresh!');
     }
-  }
-).listen(3000);
+  })).listen(3000);
+
 console.log('port 3000: 1 minute expiration demo');
 
 // session cookie example
 // existing as long as the browser
 // session is active
 
-connect(
-    connect.cookieParser()
-  , connect.session({ secret: 'keyboard cat', cookie: { maxAge: 5000 }})
-  , connect.favicon()
-  , function(req, res, next){
+http.createServer(connect()
+  .use(connect.cookieParser('keyboard cat'))
+  .use(connect.session({ cookie: { maxAge: 5000 }}))
+  .use(connect.favicon())
+  .use(function(req, res, next){
     var sess = req.session;
     if (sess.views) {
       sess.views++;
@@ -44,23 +45,22 @@ connect(
       sess.cookie.expires = false;
       res.end('welcome to the session demo. refresh!');
     }
-  }
-).listen(3001);
+  })).listen(3001);
+
 console.log('port 3001: session cookies');
 
 // $ npm install connect-redis
 
 try {
   var RedisStore = require('connect-redis')(connect);
-  connect(
-      connect.cookieParser()
-    , connect.session({
-        secret: 'keyboard cat'
-      , cookie: { maxAge: 60000 * 3 }
+  http.createServer(connect()
+    .use(connect.cookieParser('keyboard cat'))
+    .use(connect.session({
+        cookie: { maxAge: 60000 * 3 }
       , store: new RedisStore
-    })
-    , connect.favicon()
-    , function(req, res, next){
+    }))
+    .use(connect.favicon())
+    .use(function(req, res, next){
       var sess = req.session;
       if (sess.views) {
         sess.views++;
@@ -70,8 +70,8 @@ try {
         sess.views = 1;
         res.end('welcome to the redis demo. refresh!');
       }
-    }
-  ).listen(3002);
+    })).listen(3002);
+  
   console.log('port 3002: redis example');
 } catch (err) {
   console.log('\033[33m');
@@ -87,22 +87,22 @@ try {
 // conditional session support by simply
 // wrapping middleware with middleware.
 
-var sess = connect.session({ secret: 'keyboard cat', cookie: { maxAge: 5000 }});
+var sess = connect.session({ cookie: { maxAge: 5000 }});
 
-connect(
-    connect.cookieParser()
-  , function(req, res, next){
+http.createServer(connect()
+  .use(connect.cookieParser('keyboard cat'))
+  .use(function(req, res, next){
     if ('/foo' == req.url || '/bar' == req.url) {
       sess(req, res, next);
     } else {
       next();
     }
-  }
-  , connect.favicon()
-  , function(req, res, next){
+  })
+  .use(connect.favicon())
+  .use(function(req, res, next){
     res.end('has session: ' + (req.session ? 'yes' : 'no'));
-  }
-).listen(3003);
+  })).listen(3003);
+
 console.log('port 3003: conditional sessions');
 
 // Session#reload() will update req.session
@@ -112,11 +112,11 @@ console.log('port 3003: conditional sessions');
 // setInterval can still gain access to new
 // session data
 
-connect(
-    connect.cookieParser()
-  , connect.session({ secret: 'keyboard cat', cookie: { maxAge: 60000 }})
-  , connect.favicon()
-  , function(req, res, next){
+http.createServer(connect()
+  .use(connect.cookieParser('keyboard cat'))
+  .use(connect.session({ cookie: { maxAge: 60000 }}))
+  .use(connect.favicon())
+  .use(function(req, res, next){
     var sess = req.session
       , prev;
 
@@ -138,6 +138,6 @@ connect(
       }, 3000);
       res.end('welcome to the session demo. refresh!');
     }
-  }
-).listen(3004);
+  })).listen(3004);
+
 console.log('port 3004: Session#reload() demo');
