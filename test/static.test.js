@@ -136,13 +136,31 @@ module.exports = {
   'test Range': function(){
     assert.response(app,
       { url: '/list', headers: { Range: 'bytes=0-4' }},
-      { body: '12345', status: 206 });
+      { body: '12345', 'Content-Range': 'bytes 0-4/9', status: 206 });
   },
   
   'test Range 2': function(){
     assert.response(app,
-      { url: '/list', headers: { Range: 'bytes=5-9' }},
-      { body: '6789', status: 206 });
+      { url: '/list', headers: { Range: 'bytes=5-8' }},
+      { body: '6789', 'Content-Range': 'bytes 5-8/9', status: 206 });
+  },
+  
+  'test Range 3': function(){     
+    assert.response(app,
+      { url: '/list', headers: { Range: 'bytes=3-6' }},
+      { body: '4567', 'Content-Range': 'bytes 3-6/9', status: 206 });
+  },
+  
+  'test conditional range': function(){
+    assert.response(app,
+      { url: '/list' },
+      function(res) {
+        res.headers.should.have.property('etag');
+        assert.response(app,
+          { url: '/list', headers: { Range: 'bytes=3-6', 'If-None-Match': res.headers.etag }},
+          { status: 304 }
+        );
+      });
   },
   
   'test invalid Range': function(){
