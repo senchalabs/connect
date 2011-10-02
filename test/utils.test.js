@@ -75,9 +75,15 @@ module.exports = {
     val = utils.unsign('c29tZXRoaW5n.Qi3Ycilr2sRuiifOTOoFINXpdxI', 'foo');
     val.should.equal('something');
 
+    // invalid secret
+    val = utils.unsign('c29tZXRoaW5n.Qi3Ycilr2sRuiifOTOoFINXpdxI', 'something');
+    val.should.be.false;
+
+    // invalid value
     val = utils.unsign('c29tZXRoaW5sn.Qi3Ycilr2sRuiifOTOoFINXpdxI', 'foo');
     val.should.be.false;
 
+    // invalid sig
     val = utils.unsign('c29tZXRoaW5n.Qi3Ycilr2sRuiisfOTOoFINXpdxI', 'foo');
     val.should.be.false;
   },
