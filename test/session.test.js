@@ -709,9 +709,5 @@ module.exports = {
   //       prev.should.equal(sid(res));
   //     });
   //   });
-  // },
-  
-  'test .ignore': function(){
-    connect.session.ignore.should.eql(['/favicon.ico']);
-  }
+  // }
 };
