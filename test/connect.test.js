@@ -277,5 +277,15 @@ module.exports = {
       { url: '/' },
       { body: 'test'
       , headers: { 'Content-Type': 'text/html; charset=utf8' }});
+  },
+  
+  'test next(status)': function(){
+    var app = create(function(req, res, next){
+      next(413);
+    });
+  
+    assert.response(app,
+      { url: '/' },
+      { body: /Request Entity Too Large/, status: 413 });
   }
 };
