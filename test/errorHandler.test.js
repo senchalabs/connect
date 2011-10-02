@@ -10,102 +10,12 @@ var connect = require('../')
   , create = require('./common').create;
 
 module.exports = {
-  'test defaults with next(err)': function(){
+  'test html': function(){
     var app = create(
       function(req, res, next){
         next(new Error('keyboard cat!'));
       },
       connect.errorHandler()
-    );
-
-    assert.response(app,
-      { url: '/' },
-      { body: 'Internal Server Error'
-      , status: 500 });
-  },
-  
-  'test defaults with caught exception': function(){
-    var app = create(
-      function(req, res, next){
-        throw new Error('keyboard cat!');
-      },
-      connect.errorHandler()
-    );
-
-    assert.response(app,
-      { url: '/' },
-      { body: 'Internal Server Error'
-      , status: 500 });
-  },
-  
-  'test showMessage': function(){
-    var app = create(
-      function(req, res, next){
-        next(new Error('keyboard cat!'));
-      },
-      connect.errorHandler({ showMessage: true })
-    );
-
-    assert.response(app,
-      { url: '/' },
-      { body: 'Error: keyboard cat!'
-      , status: 500 });
-  },
-  
-  'test message': function(){
-    var app = create(
-      function(req, res, next){
-        next(new Error('keyboard cat!'));
-      },
-      connect.errorHandler({ message: true })
-    );
-
-    assert.response(app,
-      { url: '/' },
-      { body: 'Error: keyboard cat!'
-      , status: 500 });
-  },
-  
-  'test showStack': function(){
-    var app = create(
-      function(req, res, next){
-        next(new Error('keyboard cat!'));
-      },
-      connect.errorHandler({ showStack: true })
-    );
-
-    assert.response(app,
-      { url: '/' },
-      function(res){
-        var buf = '';
-        res.body.should.include.string('Error: keyboard cat!');
-        res.body.should.include.string('test/errorHandler.test.js');
-      });
-  },
-  
-  'test stack': function(){
-    var app = create(
-      function(req, res, next){
-        next(new Error('keyboard cat!'));
-      },
-      connect.errorHandler({ stack: true })
-    );
-
-    assert.response(app,
-      { url: '/' },
-      function(res){
-        var buf = '';
-        res.body.should.include.string('Error: keyboard cat!');
-        res.body.should.include.string('test/errorHandler.test.js');
-      });
-  },
-  
-  'test showStack html': function(){
-    var app = create(
-      function(req, res, next){
-        next(new Error('keyboard cat!'));
-      },
-      connect.errorHandler({ stack: true })
     );
 
     assert.response(app,
@@ -114,12 +24,12 @@ module.exports = {
       , headers: { 'Content-Type': 'text/html' }});
   },
   
-  'test showStack json': function(){
+  'test json': function(){
     var app = create(
       function(req, res, next){
         next(new Error('keyboard cat!'));
       },
-      connect.errorHandler({ stack: true })
+      connect.errorHandler()
     );
 
     assert.response(app,
@@ -128,12 +38,12 @@ module.exports = {
       , headers: { 'Content-Type': 'application/json' }});
   },
   
-  'test showStack text': function(){
+  'test text': function(){
     var app = create(
       function(req, res, next){
         next(new Error('keyboard cat!'));
       },
-      connect.errorHandler({ stack: true })
+      connect.errorHandler()
     );
     
     assert.response(app,
@@ -141,14 +51,29 @@ module.exports = {
       { status: 500
       , headers: { 'Content-Type': 'text/plain' }});
   },
-  
+
+  'test err.status': function(){
+    var app = create(
+      function(req, res, next){
+        var err = new Error('oh no');
+        err.status = 501;
+        next(err);
+      },
+      connect.errorHandler()
+    );
+
+    assert.response(app,
+      { url: '/' },
+      { status: 501 });
+  },
+
   'test custom response code': function(){
     var app = create(
       function(req, res, next){
         res.statusCode = 501;
         throw new Error('oh no');
       },
-      connect.errorHandler({ stack: true })
+      connect.errorHandler()
     );
 
     assert.response(app,
