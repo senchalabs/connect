@@ -185,9 +185,9 @@ module.exports = {
     assert.response(app,
       { url: '/list' },
       function(res) {
-        assert.response(app,
-          { url: '/list', headers: { Range: 'bytes=3-6' }},
-                        { body: '4567', 'Content-Range': 'bytes 3-6/9', status: 206 });
+        assert.response(app
+          , { url: '/list', headers: { Range: 'bytes=3-6' }}
+          , { body: '4567', 'Content-Range': 'bytes 3-6/9', status: 206 });
       });
   }
 };
