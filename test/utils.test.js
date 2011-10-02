@@ -70,21 +70,21 @@ module.exports = {
 
   'test sign()': function(){
     var val = utils.sign('something', 'foo');
-    val.should.equal('c29tZXRoaW5n.Qi3Ycilr2sRuiifOTOoFINXpdxI');
+    val.should.equal('something.KnUAgnazIiUClhgLhvg91JfTBAo');
 
-    val = utils.unsign('c29tZXRoaW5n.Qi3Ycilr2sRuiifOTOoFINXpdxI', 'foo');
+    val = utils.unsign('something.KnUAgnazIiUClhgLhvg91JfTBAo', 'foo');
     val.should.equal('something');
 
     // invalid secret
-    val = utils.unsign('c29tZXRoaW5n.Qi3Ycilr2sRuiifOTOoFINXpdxI', 'something');
+    val = utils.unsign('something.KnUAgnazIiUClhgLhvg91JfTBAo', 'something');
     val.should.be.false;
 
     // invalid value
-    val = utils.unsign('c29tZXRoaW5sn.Qi3Ycilr2sRuiifOTOoFINXpdxI', 'foo');
+    val = utils.unsign('somethingsss.KnUAgnazIiUClhgLhvg91JfTBAo', 'foo');
     val.should.be.false;
 
     // invalid sig
-    val = utils.unsign('c29tZXRoaW5n.Qi3Ycilr2sRuiisfOTOoFINXpdxI', 'foo');
+    val = utils.unsign('something.KnUAgssssssnazIiUClhgLhvg91JfTBAo', 'foo');
     val.should.be.false;
   },
 
