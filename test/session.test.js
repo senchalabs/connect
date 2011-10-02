@@ -206,415 +206,415 @@ module.exports = {
       });
   },
   
-  // 'test req.session data persistence': function(){
-  //   var prev
-  //     , port = ++portno
-  //     , app = create(
-  //       connect.cookieParser('keyboard cat')
-  //     , connect.session()
-  //     , function(req, res, next){
-  //       req.session.user = req.session.user || { name: 'tj' };
-  //       req.session.user.name += '.';
-  //       req.session.lastAccess.should.not.equal(prev);  
-  //       req.session.count = req.session.count || 0;
-  //       var n = req.session.count++;
-  //       res.end('count: ' + n + ' name: ' + req.session.user.name);
-  //     }
-  //   );
-  // 
-  //   app.listen(port, function(){
-  //     var options = { port: port, buffer: true };
-  //     // 0
-  //     http.get(options, function(res){
-  //       options.headers = { Cookie: 'connect.sid=' + sid(res) };
-  //       res.body.should.equal('count: 0 name: tj.');
-  // 
-  //       // 1
-  //       http.get(options, function(res){
-  //         res.body.should.equal('count: 1 name: tj..');
-  // 
-  //         // no sid
-  //         delete options.headers;
-  //         http.get(options, function(res){
-  //           res.body.should.equal('count: 0 name: tj.');
-  //           app.close();
-  //         });
-  //       });
-  //     });
-  //   });
-  // },
-  // 
-  // 'test req.session.regenerate()': function(){
-  //   var prev
-  //     , port = ++portno
-  //     , app = create(
-  //       connect.cookieParser('keyboard cat')
-  //     , connect.session()
-  //     , function(req, res, next){
-  //       req.session.lastAccess.should.not.equal(prev);  
-  //       req.session.count = req.session.count || 0;
-  //       var n = req.session.count++;
-  // 
-  //       switch (req.url) {
-  //         case '/one':
-  //           prev = req.session.id;
-  //           res.end('count: ' + n);
-  //           break;
-  //         case '/two':
-  //           req.session.id.should.not.equal(prev);
-  //           res.end('count: ' + n);
-  //           break;
-  //         case '/regenerate':
-  //           should.equal(req.session.id, prev, 'SIDs did not match before regenerate()');
-  //           req.session.regenerate(function(err){
-  //             should.notEqual(req.session.id, prev, 'SIDs matched after regenerate()');
-  //             should.notEqual(req.sessionID, prev, 'SIDs matched after regenerate()');
-  //             req.sessionID.should.equal(req.session.id);
-  //             should.equal(null, err);
-  //             res.end('count: ' + n);
-  //           });
-  //           break;
-  //       }
-  //     }
-  //   );
-  // 
-  //   app.listen(port, function(){
-  //     var options = { port: port, buffer: true };
-  //     // 0
-  //     options.path = '/one';
-  //     http.get(options, function(res){
-  //       var prev = sid(res);
-  //       options.headers = { Cookie: 'connect.sid=' + prev };
-  //       res.body.should.equal('count: 0');
-  // 
-  //       // regenerated
-  //       options.path = '/regenerate';
-  //       http.get(options, function(res){
-  //         should.notEqual(prev, sid(res), 'SID remained the same after regenerate() request');
-  //         res.body.should.equal('count: 1');
-  // 
-  //         // 1
-  //         options.path = '/two';
-  //         http.get(options, function(res){
-  //           res.body.should.equal('count: 0');
-  //           app.close();
-  //         });
-  //       });
-  //     });
-  //   });
-  // },
-  // 
-  // 'test req.session.destroy()': function(){
-  //   var prev
-  //     , port = ++portno
-  //     , app = create(
-  //       connect.cookieParser('keyboard cat')
-  //     , connect.session()
-  //     , function(req, res, next){
-  //       req.session.lastAccess.should.not.equal(prev);  
-  //       req.session.count = req.session.count || 0;
-  //       var n = req.session.count++
-  //         , sid = req.session.id;
-  // 
-  //       req.sessionID.should.equal(sid);
-  // 
-  //       switch (req.url) {
-  //         case '/destroy':
-  //           req.session.destroy(function(err){
-  //             should.equal(null, err);
-  //             should.equal(null, req.session);
-  //             res.end('count: ' + n);
-  //           });
-  //           break;
-  //       }
-  // 
-  //       res.end('count: ' + n);
-  //     }
-  //   );
-  // 
-  //   app.listen(port, function(){
-  //     var options = { port: port, buffer: true };
-  //     // 0
-  //     http.get(options, function(res){
-  //       var prev = sid(res);
-  //       options.headers = { Cookie: 'connect.sid=' + prev };
-  //       res.body.should.equal('count: 0');
-  // 
-  //       // destroy
-  //       options.path = '/destroy';
-  //       http.get(options, function(res){
-  //         res.headers.should.not.have.property('set-cookie');
-  //         res.body.should.equal('count: 1');
-  // 
-  //         // 1
-  //         options.path = '/';
-  //         http.get(options, function(res){
-  //           prev.should.not.equal(sid(res));
-  //           res.body.should.equal('count: 0');
-  //           app.close();
-  //         });
-  //       });
-  //     });
-  //   });
-  // },
-  // 
-  // 'test req.session.cookie.expires': function(){
-  //   var n = 0
-  //     , port = ++portno
-  //     , app = create(
-  //       connect.cookieParser('keyboard cat')
-  //     , connect.session({ key: 'foobar' })
-  //     , function(req, res, next){
-  //       if (!n++) req.session.cookie.expires = new Date(0);
-  //       res.end(req.session.id);
-  //     }
-  //   );
-  // 
-  //   app.listen(port, function(){
-  //     var options = { port: port, buffer: true };
-  //     http.get(options, function(res){
-  //       var prev = res.body;
-  //       options.headers = { Cookie: 'foobar=' + prev };
-  //       expires(res).should.equal('Thu, 01 Jan 1970 00:00:00 GMT');
-  //       http.get(options, function(res){
-  //         res.body.should.not.equal(prev);
-  //         http.get(options, function(res){
-  //           res.body.should.not.equal(prev);
-  //           app.close();
-  //         });
-  //       });
-  //     });
-  //   });
-  // },
-  // 
-  // 'test req.session.cookie.maxAge': function(){
-  //   var n = 0
-  //     , port = ++portno
-  //     , app = create(
-  //       connect.cookieParser('keyboard cat')
-  //     , connect.session({ key: 'foobar' })
-  //     , function(req, res, next){
-  //       if (!n++) req.session.cookie.maxAge = 0;
-  //       res.end(req.session.id);
-  //     }
-  //   );
-  // 
-  //   app.listen(port, function(){
-  //     var options = { port: port, buffer: true };
-  //     http.get(options, function(res){
-  //       var prev = res.body;
-  //       options.headers = { Cookie: 'foobar=' + prev };
-  //       http.get(options, function(res){
-  //         res.body.should.not.equal(prev);
-  //         http.get(options, function(res){
-  //           res.body.should.not.equal(prev);
-  //           app.close();
-  //         });
-  //       });
-  //     });
-  //   });
-  // },
-  // 
-  // 'test expiration': function(){
-  //   var n = 0
-  //     , port = ++portno
-  //     , app = create(
-  //       connect.cookieParser('keyboard cat')
-  //     , connect.session({ cookie: { maxAge: 200 }})
-  //     , function(req, res, next){
-  //       res.end(req.session.id);
-  //     }
-  //   );
-  // 
-  //   app.listen(port, function(){
-  //     var options = { port: port, buffer: true };
-  //     http.get(options, function(res){
-  //       var prev = res.body;
-  //       options.headers = { Cookie: 'connect.sid=' + prev };
-  //       setTimeout(function(){
-  //         http.get(options, function(res){
-  //           res.body.should.not.equal(prev);
-  //           app.close();
-  //         });
-  //       }, 300);
-  //     });
-  //   });
-  // },
-  // 
-  // 'test req.session.cookie properties': function(){
-  //   var port = ++portno
-  //     , app = create(
-  //       connect.cookieParser('foo')
-  //     , connect.session({ cookie: { httpOnly: true }})
-  //     , function(req, res){
-  //       req.session.cookie.secure = true;
-  //       req.session.cookie.httpOnly.should.be.true;
-  //       res.end('wahoo');
-  //     }
-  //   );
-  // 
-  //   app.listen(port, function(){
-  //     var options = { port: port, buffer: true };
-  //     http.get(options, function(res){
-  //       res.headers.should.not.have.property('set-cookie');
-  //       app.close();
-  //     });
-  //   });
-  // },
-  // 
-  // 'test mutating req.session.cookie': function(){
-  //   var port = ++portno
-  //     , app = create(
-  //       connect.cookieParser('foo')
-  //     , connect.session({ cookie: { httpOnly: true, secure: true }})
-  //     , function(req, res){
-  //       req.session.cookie.secure = false;
-  //       req.session.cookie.expires = false;
-  //       res.end('wahoo');
-  //     }
-  //   );
-  // 
-  //   app.listen(port, function(){
-  //     var options = { port: port, buffer: true };
-  //     http.get(options, function(res){
-  //       var cookie = res.headers['set-cookie'][0]
-  //         , prev = sid(res);
-  //       cookie.should.include.string('httpOnly');
-  //       cookie.should.not.include.string('secure');
-  //       cookie.should.not.include.string('expires');
-  //       options.headers = { Cookie: 'connect.sid=' + prev };
-  //       http.get(options, function(res){
-  //         var cookie = res.headers['set-cookie'][0];
-  //         sid(res).should.equal(prev);
-  //         cookie.should.include.string('httpOnly');
-  //         cookie.should.not.include.string('secure');
-  //         cookie.should.not.include.string('expires');
-  //         app.close();
-  //       });
-  //     });
-  //   });
-  // },
-  // 
-  // 'test req.session.expires = null': function(){
-  //   var port = ++portno
-  //     , app = create(
-  //       connect.cookieParser('foo')
-  //     , connect.session({ cookie: { httpOnly: true, secure: true }})
-  //     , function(req, res){
-  //       req.session.cookie.secure = false;
-  //       req.session.cookie.expires = null;
-  //       res.end('wahoo');
-  //     }
-  //   );
-  // 
-  //   app.listen(port, function(){
-  //     var options = { port: port, buffer: true };
-  //     http.get(options, function(res){
-  //       var cookie = res.headers['set-cookie'][0]
-  //         , prev = sid(res);
-  //       cookie.should.include.string('httpOnly');
-  //       cookie.should.not.include.string('secure');
-  //       cookie.should.not.include.string('expires');
-  //       options.headers = { Cookie: 'connect.sid=' + prev };
-  //       http.get(options, function(res){
-  //         var cookie = res.headers['set-cookie'][0];
-  //         sid(res).should.equal(prev);
-  //         cookie.should.include.string('httpOnly');
-  //         cookie.should.not.include.string('secure');
-  //         cookie.should.not.include.string('expires');
-  //         app.close();
-  //       });
-  //     });
-  //   });
-  // },
-  // 
-  // 'test expires: null': function(){
-  //   var port = ++portno
-  //     , app = create(
-  //       connect.cookieParser('foo')
-  //     , connect.session({
-  //       cookie: { expires: null, httpOnly: true }
-  //     })
-  //     , function(req, res){
-  //       res.end('wahoo');
-  //     }
-  //   );
-  // 
-  //   app.listen(port, function(){
-  //     var options = { port: port, buffer: true };
-  //     http.get(options, function(res){
-  //       var cookie = res.headers['set-cookie'][0]
-  //         , prev = sid(res);
-  //       cookie.should.not.include.string('expires');
-  //       options.headers = { Cookie: 'connect.sid=' + prev };
-  //       http.get(options, function(res){
-  //         var cookie = res.headers['set-cookie'][0];
-  //         sid(res).should.equal(prev);
-  //         cookie.should.not.include.string('expires');
-  //         app.close();
-  //       });
-  //     });
-  //   });
-  // },
-  // 
-  // 'test event pausing': function(){
-  //   var request
-  //     , store = new MemoryStore
-  //     , get = store.get;
-  // 
-  //   store.get = function(sid, fn){
-  //     request.emit('data', 'foo');
-  //     request.emit('data', 'bar');
-  //     request.emit('data', 'baz');
-  //     setTimeout(function(self){
-  //       get.call(self, sid, fn);
-  //     }, 100, this);
-  //   };
-  // 
-  //   var port = ++portno
-  //     , app = create(
-  //       function(req, res, next){
-  //         request = req;
-  //         next();
-  //       }
-  //     , connect.cookieParser('keyboard cat')
-  //     , connect.session({ store: store })
-  //     , function(req, res, next){
-  //       req.pipe(res);
-  //     }
-  //   );
-  // 
-  //   app.listen(port, function(){
-  //     var options = { port: port, buffer: true };
-  //     http.get(options, function(res){
-  //       options.headers = { Cookie: 'connect.sid=' + sid(res) };
-  //       http.get(options, function(res){
-  //         res.body.should.equal('foobarbaz');
-  //         app.close();
-  //       });
-  //     });
-  //   });
-  // },
-  // 
-  // 'test Set-Cookie when secure': function(){
-  //   var port = ++portno
-  //     , app = create(
-  //       connect.cookieParser('foo')
-  //     , connect.session({ cookie: { secure: true }})
-  //     , function(req, res){
-  //       res.end('wahoo');
-  //     }
-  //   );
-  // 
-  //   app.listen(port, function(){
-  //     var options = { port: port, buffer: true };
-  //     http.get(options, function(res){
-  //       res.headers.should.not.have.property('set-cookie');
-  //       app.close();
-  //     });
-  //   });
-  // },
-  // 
+  'test req.session data persistence': function(){
+    var prev
+      , port = ++portno
+      , app = create(
+        connect.cookieParser('keyboard cat')
+      , connect.session()
+      , function(req, res, next){
+        req.session.user = req.session.user || { name: 'tj' };
+        req.session.user.name += '.';
+        req.session.lastAccess.should.not.equal(prev);  
+        req.session.count = req.session.count || 0;
+        var n = req.session.count++;
+        res.end('count: ' + n + ' name: ' + req.session.user.name);
+      }
+    );
+  
+    app.listen(port, function(){
+      var options = { port: port, buffer: true };
+      // 0
+      http.get(options, function(res){
+        options.headers = { Cookie: 'connect.sid=' + sid(res) };
+        res.body.should.equal('count: 0 name: tj.');
+  
+        // 1
+        http.get(options, function(res){
+          res.body.should.equal('count: 1 name: tj..');
+  
+          // no sid
+          delete options.headers;
+          http.get(options, function(res){
+            res.body.should.equal('count: 0 name: tj.');
+            app.close();
+          });
+        });
+      });
+    });
+  },
+  
+  'test req.session.regenerate()': function(){
+    var prev
+      , port = ++portno
+      , app = create(
+        connect.cookieParser('keyboard cat')
+      , connect.session()
+      , function(req, res, next){
+        req.session.lastAccess.should.not.equal(prev);  
+        req.session.count = req.session.count || 0;
+        var n = req.session.count++;
+  
+        switch (req.url) {
+          case '/one':
+            prev = req.session.id;
+            res.end('count: ' + n);
+            break;
+          case '/two':
+            req.session.id.should.not.equal(prev);
+            res.end('count: ' + n);
+            break;
+          case '/regenerate':
+            should.equal(req.session.id, prev, 'SIDs did not match before regenerate()');
+            req.session.regenerate(function(err){
+              should.notEqual(req.session.id, prev, 'SIDs matched after regenerate()');
+              should.notEqual(req.sessionID, prev, 'SIDs matched after regenerate()');
+              req.sessionID.should.equal(req.session.id);
+              should.equal(null, err);
+              res.end('count: ' + n);
+            });
+            break;
+        }
+      }
+    );
+  
+    app.listen(port, function(){
+      var options = { port: port, buffer: true };
+      // 0
+      options.path = '/one';
+      http.get(options, function(res){
+        var prev = sid(res);
+        options.headers = { Cookie: 'connect.sid=' + prev };
+        res.body.should.equal('count: 0');
+  
+        // regenerated
+        options.path = '/regenerate';
+        http.get(options, function(res){
+          should.notEqual(prev, sid(res), 'SID remained the same after regenerate() request');
+          res.body.should.equal('count: 1');
+  
+          // 1
+          options.path = '/two';
+          http.get(options, function(res){
+            res.body.should.equal('count: 0');
+            app.close();
+          });
+        });
+      });
+    });
+  },
+  
+  'test req.session.destroy()': function(){
+    var prev
+      , port = ++portno
+      , app = create(
+        connect.cookieParser('keyboard cat')
+      , connect.session()
+      , function(req, res, next){
+        req.session.lastAccess.should.not.equal(prev);  
+        req.session.count = req.session.count || 0;
+        var n = req.session.count++
+          , sid = req.session.id;
+  
+        req.sessionID.should.equal(sid);
+  
+        switch (req.url) {
+          case '/destroy':
+            req.session.destroy(function(err){
+              should.equal(null, err);
+              should.equal(null, req.session);
+              res.end('count: ' + n);
+            });
+            break;
+        }
+  
+        res.end('count: ' + n);
+      }
+    );
+  
+    app.listen(port, function(){
+      var options = { port: port, buffer: true };
+      // 0
+      http.get(options, function(res){
+        var prev = sid(res);
+        options.headers = { Cookie: 'connect.sid=' + prev };
+        res.body.should.equal('count: 0');
+  
+        // destroy
+        options.path = '/destroy';
+        http.get(options, function(res){
+          res.headers.should.not.have.property('set-cookie');
+          res.body.should.equal('count: 1');
+  
+          // 1
+          options.path = '/';
+          http.get(options, function(res){
+            prev.should.not.equal(sid(res));
+            res.body.should.equal('count: 0');
+            app.close();
+          });
+        });
+      });
+    });
+  },
+  
+  'test req.session.cookie.expires': function(){
+    var n = 0
+      , port = ++portno
+      , app = create(
+        connect.cookieParser('keyboard cat')
+      , connect.session({ key: 'foobar' })
+      , function(req, res, next){
+        if (!n++) req.session.cookie.expires = new Date(0);
+        res.end(req.session.id);
+      }
+    );
+  
+    app.listen(port, function(){
+      var options = { port: port, buffer: true };
+      http.get(options, function(res){
+        var prev = res.body;
+        options.headers = { Cookie: 'foobar=' + prev };
+        expires(res).should.equal('Thu, 01 Jan 1970 00:00:00 GMT');
+        http.get(options, function(res){
+          res.body.should.not.equal(prev);
+          http.get(options, function(res){
+            res.body.should.not.equal(prev);
+            app.close();
+          });
+        });
+      });
+    });
+  },
+  
+  'test req.session.cookie.maxAge': function(){
+    var n = 0
+      , port = ++portno
+      , app = create(
+        connect.cookieParser('keyboard cat')
+      , connect.session({ key: 'foobar' })
+      , function(req, res, next){
+        if (!n++) req.session.cookie.maxAge = 0;
+        res.end(req.session.id);
+      }
+    );
+  
+    app.listen(port, function(){
+      var options = { port: port, buffer: true };
+      http.get(options, function(res){
+        var prev = res.body;
+        options.headers = { Cookie: 'foobar=' + prev };
+        http.get(options, function(res){
+          res.body.should.not.equal(prev);
+          http.get(options, function(res){
+            res.body.should.not.equal(prev);
+            app.close();
+          });
+        });
+      });
+    });
+  },
+  
+  'test expiration': function(){
+    var n = 0
+      , port = ++portno
+      , app = create(
+        connect.cookieParser('keyboard cat')
+      , connect.session({ cookie: { maxAge: 200 }})
+      , function(req, res, next){
+        res.end(req.session.id);
+      }
+    );
+  
+    app.listen(port, function(){
+      var options = { port: port, buffer: true };
+      http.get(options, function(res){
+        var prev = res.body;
+        options.headers = { Cookie: 'connect.sid=' + prev };
+        setTimeout(function(){
+          http.get(options, function(res){
+            res.body.should.not.equal(prev);
+            app.close();
+          });
+        }, 300);
+      });
+    });
+  },
+  
+  'test req.session.cookie properties': function(){
+    var port = ++portno
+      , app = create(
+        connect.cookieParser('foo')
+      , connect.session({ cookie: { httpOnly: true }})
+      , function(req, res){
+        req.session.cookie.secure = true;
+        req.session.cookie.httpOnly.should.be.true;
+        res.end('wahoo');
+      }
+    );
+  
+    app.listen(port, function(){
+      var options = { port: port, buffer: true };
+      http.get(options, function(res){
+        res.headers.should.not.have.property('set-cookie');
+        app.close();
+      });
+    });
+  },
+  
+  'test mutating req.session.cookie': function(){
+    var port = ++portno
+      , app = create(
+        connect.cookieParser('foo')
+      , connect.session({ cookie: { httpOnly: true, secure: true }})
+      , function(req, res){
+        req.session.cookie.secure = false;
+        req.session.cookie.expires = false;
+        res.end('wahoo');
+      }
+    );
+  
+    app.listen(port, function(){
+      var options = { port: port, buffer: true };
+      http.get(options, function(res){
+        var cookie = res.headers['set-cookie'][0]
+          , prev = sid(res);
+        cookie.should.include.string('httpOnly');
+        cookie.should.not.include.string('secure');
+        cookie.should.not.include.string('expires');
+        options.headers = { Cookie: 'connect.sid=' + prev };
+        http.get(options, function(res){
+          var cookie = res.headers['set-cookie'][0];
+          sid(res).should.equal(prev);
+          cookie.should.include.string('httpOnly');
+          cookie.should.not.include.string('secure');
+          cookie.should.not.include.string('expires');
+          app.close();
+        });
+      });
+    });
+  },
+  
+  'test req.session.expires = null': function(){
+    var port = ++portno
+      , app = create(
+        connect.cookieParser('foo')
+      , connect.session({ cookie: { httpOnly: true, secure: true }})
+      , function(req, res){
+        req.session.cookie.secure = false;
+        req.session.cookie.expires = null;
+        res.end('wahoo');
+      }
+    );
+  
+    app.listen(port, function(){
+      var options = { port: port, buffer: true };
+      http.get(options, function(res){
+        var cookie = res.headers['set-cookie'][0]
+          , prev = sid(res);
+        cookie.should.include.string('httpOnly');
+        cookie.should.not.include.string('secure');
+        cookie.should.not.include.string('expires');
+        options.headers = { Cookie: 'connect.sid=' + prev };
+        http.get(options, function(res){
+          var cookie = res.headers['set-cookie'][0];
+          sid(res).should.equal(prev);
+          cookie.should.include.string('httpOnly');
+          cookie.should.not.include.string('secure');
+          cookie.should.not.include.string('expires');
+          app.close();
+        });
+      });
+    });
+  },
+  
+  'test expires: null': function(){
+    var port = ++portno
+      , app = create(
+        connect.cookieParser('foo')
+      , connect.session({
+        cookie: { expires: null, httpOnly: true }
+      })
+      , function(req, res){
+        res.end('wahoo');
+      }
+    );
+  
+    app.listen(port, function(){
+      var options = { port: port, buffer: true };
+      http.get(options, function(res){
+        var cookie = res.headers['set-cookie'][0]
+          , prev = sid(res);
+        cookie.should.not.include.string('expires');
+        options.headers = { Cookie: 'connect.sid=' + prev };
+        http.get(options, function(res){
+          var cookie = res.headers['set-cookie'][0];
+          sid(res).should.equal(prev);
+          cookie.should.not.include.string('expires');
+          app.close();
+        });
+      });
+    });
+  },
+  
+  'test event pausing': function(){
+    var request
+      , store = new MemoryStore
+      , get = store.get;
+  
+    store.get = function(sid, fn){
+      request.emit('data', 'foo');
+      request.emit('data', 'bar');
+      request.emit('data', 'baz');
+      setTimeout(function(self){
+        get.call(self, sid, fn);
+      }, 100, this);
+    };
+  
+    var port = ++portno
+      , app = create(
+        function(req, res, next){
+          request = req;
+          next();
+        }
+      , connect.cookieParser('keyboard cat')
+      , connect.session({ store: store })
+      , function(req, res, next){
+        req.pipe(res);
+      }
+    );
+  
+    app.listen(port, function(){
+      var options = { port: port, buffer: true };
+      http.get(options, function(res){
+        options.headers = { Cookie: 'connect.sid=' + sid(res) };
+        http.get(options, function(res){
+          res.body.should.equal('foobarbaz');
+          app.close();
+        });
+      });
+    });
+  },
+  
+  'test Set-Cookie when secure': function(){
+    var port = ++portno
+      , app = create(
+        connect.cookieParser('foo')
+      , connect.session({ cookie: { secure: true }})
+      , function(req, res){
+        res.end('wahoo');
+      }
+    );
+  
+    app.listen(port, function(){
+      var options = { port: port, buffer: true };
+      http.get(options, function(res){
+        res.headers.should.not.have.property('set-cookie');
+        app.close();
+      });
+    });
+  },
+  
   // 'test Store#load(sid, fn)': function(){
   //   var port = ++portno
   //     , store = new MemoryStore
@@ -650,7 +650,7 @@ module.exports = {
   //     });
   //   });
   // },
-  // 
+  
   // 'test different UA strings': function(){
   //   var headers = {
   //     'User-Agent': 'tobi/0.5'
@@ -710,8 +710,8 @@ module.exports = {
   //     });
   //   });
   // },
-  // 
-  // 'test .ignore': function(){
-  //   connect.session.ignore.should.eql(['/favicon.ico']);
-  // }
+  
+  'test .ignore': function(){
+    connect.session.ignore.should.eql(['/favicon.ico']);
+  }
 };
