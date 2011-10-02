@@ -71,8 +71,15 @@ module.exports = {
   'test sign()': function(){
     var val = utils.sign('something', 'foo');
     val.should.equal('c29tZXRoaW5n.Qi3Ycilr2sRuiifOTOoFINXpdxI');
+
     val = utils.unsign('c29tZXRoaW5n.Qi3Ycilr2sRuiifOTOoFINXpdxI', 'foo');
     val.should.equal('something');
+
+    val = utils.unsign('c29tZXRoaW5sn.Qi3Ycilr2sRuiifOTOoFINXpdxI', 'foo');
+    val.should.be.false;
+
+    val = utils.unsign('c29tZXRoaW5n.Qi3Ycilr2sRuiisfOTOoFINXpdxI', 'foo');
+    val.should.be.false;
   },
 
   'test pause()': function(defer){
