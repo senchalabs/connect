@@ -123,13 +123,13 @@ module.exports = {
   'test forbidden': function(){
     assert.response(app,
       { url: '/../favicon.test.js' },
-      { body: 'Forbidden', status: 403 });
+      { body: /Forbidden/, status: 403 });
   },
   
   'test forbidden urlencoded': function(){
     assert.response(app,
       { url: '/%2e%2e/favicon.test.js' },
-      { body: 'Forbidden', status: 403 });
+      { body: /Forbidden/, status: 403 });
   },
   
   'test relative': function(){
@@ -181,7 +181,7 @@ module.exports = {
   'test invalid Range': function(){
     assert.response(app,
       { url: '/list', headers: { Range: 'bytes=RAWR' }},
-      { body: 'Requested Range Not Satisfiable', status: 416 });
+      { body: /Requested Range Not Satisfiable/, status: 416 });
   },
   
   'test callback': function(){
