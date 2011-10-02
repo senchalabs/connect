@@ -96,5 +96,11 @@ module.exports = {
     assert.response(app3,
       { url: '/', headers: { Cookie: ['cart=tobi.DDm3AcVxE9oneYnbmpqxoyhyKsk', 'foo=bar', 'bar=baz'] }},
       { body: '{"foo":"bar","bar":"baz"}{"cart":"tobi"}' });
+  },
+
+  'test signed cookie & json cookie': function(){
+    assert.response(app3,
+      { url: '/', headers: { Cookie: ['cart=j:"test".qBsQN8eUVjODgORcXh8Cbcm1CuM'] }},
+      { body: '{}{"cart":"test"}' });
   }
 };
