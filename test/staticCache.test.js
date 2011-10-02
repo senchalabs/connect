@@ -6,8 +6,7 @@
 var connect = require('../')
   , assert = require('assert')
   , should = require('should')
-  , http = require('http')
-  , create = require('./common').create;
+  , http = require('http');
 
 /**
  * Path to ./test/fixtures/
@@ -15,12 +14,12 @@ var connect = require('../')
 
 var fixturesPath = __dirname + '/fixtures';
 
-var app = create(
+var app = connect(
   connect.staticCache(),
   connect.static(fixturesPath, { maxAge: 60000 })
 );
 
-var app2 = create(
+var app2 = connect(
   connect.staticCache(),
   connect.static(fixturesPath, { maxAge: 0 })
 );
