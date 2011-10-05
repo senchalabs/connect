@@ -1,4 +1,24 @@
 
+2.0.0alpha1 / 2011-10-05 
+==================
+
+  * Added `next(statusCode)` support
+  * Added `cookieParser(secret)` support 
+  * Added signed cookie support to `cookieParser()`
+  * Added support for JSON-serialized cookies
+  * Added `err.status` support
+  * Added public `res.headerSent` checking nodes `res._headerSent`
+  * Changed node dependency to ">= 0.5.0 < 0.7.0"
+  * Changed: no longer lowercase cookie names
+  * Changed: `errorHandler()` is now a development only middleware
+  * Changed middleware to next() errors when possible so applications can unify logging / handling
+  * Improved handling of __ENAMETOOLONG__ per #369
+  * Removed `http[s].Server` inheritance (now just a function)
+  * Removed `.createServer()` (use `connect()`)
+  * Removed `secret` option from `session()` 
+  * Removed `connect.session.ignore` array support
+  * Removed `router()` middleware. Closes #262
+
 1.7.1 / 2011-09-12 
 ==================
 
