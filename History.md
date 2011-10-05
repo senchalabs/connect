@@ -1,4 +1,39 @@
 
+1.7.1 / 2011-09-12 
+==================
+
+  * Added: make `Store` inherit from `EventEmitter`
+  * Added session `Store#load(sess, fn)` to fetch a `Session` instance
+  * Added backpressure support to `staticCache()`
+  * Changed `res.socket.destroy()` to `req.socket.destroy()`
+
+1.7.0 / 2011-08-31 
+==================
+
+  * Added `staticCache()` middleware, a memory cache for `static()`
+  * Added public `res.headerSent` checking nodes `res._headerSent` (remove when node adds this)
+  * Changed: ignore error handling middleware when header is sent
+  * Changed: dispatcher errors after header is sent destroy the sock
+
+1.6.4 / 2011-08-26 
+==================
+
+  * Revert "Added double-next reporting"
+
+1.6.3 / 2011-08-26 
+==================
+
+  * Added double-`next()` reporting
+  * Added `immediate` option to `logger()`. Closes #321
+  * Dependency `qs >= 0.3.1`
+
+1.6.2 / 2011-08-11 
+==================
+
+  * Fixed `connect.static()` null byte vulnerability
+  * Fixed `connect.directory()` null byte vulnerability
+  * Changed: 301 redirect in `static()` to postfix "/" on directory. Closes #289
+
 1.6.1 / 2011-08-03 
 ==================
 
