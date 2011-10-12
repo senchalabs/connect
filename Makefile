@@ -5,11 +5,7 @@ SRC = $(shell find lib -type f -name "*.js")
 
 test:
 	@NODE_ENV=test ./$(TEST) \
-		-I lib \
 		$(TEST_FLAGS) $(TESTS)
-
-test-cov:
-	@$(MAKE) test TEST_FLAGS="--cov"
 
 docs:
 	@mkdir -p docs
@@ -25,4 +21,4 @@ site: docclean docs
 	  && cp -fr /tmp/docs/* . \
 	  && echo "done"
 
-.PHONY: site docs test test-cov docclean
+.PHONY: site docs test docclean
