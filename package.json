@@ -11,7 +11,7 @@
     "mime": ">= 0.0.1"
   },
   "devDependencies": {
-    "expresso": "0.7.6",
+    "expresso": "0.9.2",
     "koala": "0.1.2",
     "less": "1.1.1",
     "sass": "0.5.0",
