@@ -17,7 +17,7 @@
     "sass": "0.5.0",
     "markdown": "0.2.1",
     "ejs": "0.4.3",
-    "should": "0.2.1"
+    "should": "0.3.2"
   },
   "main": "index",
   "engines": { "node": ">= 0.4.1 < 0.5.0" }
