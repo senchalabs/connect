@@ -84,10 +84,10 @@ then:
   Connect `< 1.x` is compatible with node 0.2.x
 
 
-  Connect `1.x` is compatible with node 0.4.x
+  Connect `1.x` is compatible with node 0.4.x and 0.6.x
 
 
-  Connect `2.x` is compatible with node 0.6.x
+  Connect `2.x` (master) will be compatible with node 0.6.x
 
 ## CLA
 

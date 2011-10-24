@@ -20,5 +20,5 @@
     "should": "0.3.2"
   },
   "main": "index",
-  "engines": { "node": ">= 0.4.1 < 0.5.0" }
+  "engines": { "node": ">= 0.4.1 < 0.7.0" }
 }
