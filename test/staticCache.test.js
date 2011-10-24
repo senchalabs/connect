@@ -24,8 +24,11 @@ var app2 = connect(
   connect.static(fixturesPath, { maxAge: 0 })
 );
 
-
 module.exports = {
+  todo: function(){
+    
+  },
+  
   // 
   // 'unconditional request': function() {
   //   assert.response(
