@@ -4,7 +4,8 @@ TESTS ?= test/*.test.js
 SRC = $(shell find lib -type f -name "*.js")
 
 test:
-	@NODE_ENV=test ./node_modules/.bin/expresso $(TEST_FLAGS) $(TESTS)
+	@NODE_ENV=test ./$(TEST) \
+		$(TEST_FLAGS) $(TESTS)
 
 docs:
 	@mkdir -p docs
