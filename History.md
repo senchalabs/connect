@@ -1,4 +1,14 @@
 
+1.7.2 / 2011-10-24 
+==================
+
+  * "node": ">= 0.4.1 < 0.7.0"
+  * Added `static()` redirect option. Closes #398
+  * Changed `limit()`: respond with 413 when content-length exceeds the limit
+  * Removed socket error listener in static(). Closes #389
+  * Fixed `staticCache()` Age header field
+  * Fixed race condition causing errors reported in #329.
+
 1.7.1 / 2011-09-12 
 ==================
 
