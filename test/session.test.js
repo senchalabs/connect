@@ -3,7 +3,7 @@
  * Module dependencies.
  */
 
-var connect = require('connect')
+var connect = require('../')
   , assert = require('assert')
   , should = require('should')
   , http = require('http');
@@ -714,6 +714,6 @@ module.exports = {
   },
   
   'test .ignore': function(){
-    connect.session.ignore.should.eql(['/favicon.ico']);
+    connect.session.ignore.should.eql([]);
   }
 };

@@ -3,7 +3,7 @@
  * Module dependencies.
  */
 
-var connect = require('connect')
+var connect = require('../')
   , assert = require('assert')
   , should = require('should')
   , http = require('http');
@@ -263,5 +263,15 @@ module.exports = {
    
    'test mime export': function(){
      connect.static.mime.define.should.be.a('function');
+   },
+   
+   'test redirect option': function(){
+     var app = connect.createServer(
+       connect.static(fixturesPath, { redirect: false })
+     );
+
+     assert.response(app,
+       { url: '/directory' },
+       { status: 404 });
    }
 };

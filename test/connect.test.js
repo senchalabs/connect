@@ -3,7 +3,7 @@
  * Module dependencies.
  */
 
-var connect = require('connect')
+var connect = require('../')
   , exec = require('child_process').exec
   , should = require('should')
   , assert = require('assert')

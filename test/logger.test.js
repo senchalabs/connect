@@ -3,7 +3,7 @@
  * Module dependencies.
  */
 
-var connect = require('connect')
+var connect = require('../')
   , assert = require('assert')
   , should = require('should')
   , https = require('https')
