@@ -1,4 +1,10 @@
 
+1.7.3 / 2011-11-11 
+==================
+
+  * Fixed `req.body`, always default to {}
+  * Fixed HEAD support for 404s and 500s
+
 1.7.2 / 2011-10-24 
 ==================
 
