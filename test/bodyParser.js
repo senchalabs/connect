@@ -11,6 +11,15 @@ app.use(function(req, res){
 });
 
 describe('connect.bodyParser()', function(){
+  it('should default to {}', function(done){
+    request(app)
+    .post('/')
+    .end(function(res){
+      res.body.should.equal('');
+      done();
+    })
+  })
+
   it('should parse JSON', function(done){
     request(app)
     .post('/')
