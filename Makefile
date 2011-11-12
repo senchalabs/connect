@@ -1,15 +1,14 @@
 
-TEST = node_modules/.bin/expresso
-TESTS ?= test/*.test.js
 SRC = $(shell find lib -type f -name "*.js")
+TESTS = test/*.js
+REPORTER = dot
 
 test:
-	@NODE_ENV=test ./$(TEST) \
-		-I lib \
-		$(TEST_FLAGS) $(TESTS)
-
-test-cov:
-	@$(MAKE) test TEST_FLAGS="--cov"
+	@NODE_ENV=test ./node_modules/.bin/mocha \
+		--require should \
+		--reporter $(REPORTER) \
+		--growl \
+		$(TESTS)
 
 docs:
 	@mkdir -p docs
@@ -25,4 +24,4 @@ site: docclean docs
 	  && cp -fr /tmp/docs/* . \
 	  && echo "done"
 
-.PHONY: site docs test test-cov docclean
+.PHONY: site docs test docclean
