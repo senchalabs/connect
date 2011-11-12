@@ -58,11 +58,41 @@ describe('connect.static()', function(){
     .get('/users/../todo.txt')
     .expect('- groceries', done);
   })
-  
+
+  it('should support HEAD', function(done){
+    app.request()
+    .head('/todo.txt')
+    .expect('', done);
+  })
+
+  describe('hidden files', function(){
+    it('should be ignored by default', function(done){
+      app.request()
+      .get('/.hidden')
+      .expect(404, done);
+    })
+    
+    it('should be served when hidden: true is given', function(done){
+      var app = connect();
+
+      app.use(connect.static(fixtures, { hidden: true }));
+
+      app.request()
+      .get('/.hidden')
+      .expect('I am hidden', done);
+    })
+  })
+
   describe('when traversing passed root', function(){
     it('should respond with 403 Forbidden', function(done){
       app.request()
       .get('/users/../../todo.txt')
+      .expect(403, done);
+    })
+    
+    it('should catch urlencoded ../', function(done){
+      app.request()
+      .get('/users/%2e%2e/%2e%2e/todo.txt')
       .expect(403, done);
     })
   })
