@@ -105,6 +105,22 @@ describe('connect.static()', function(){
     })
   })
 
+  describe('Range', function(){
+    it('should support byte ranges', function(done){
+      app.request()
+      .get('/nums')
+      .set('Range', 'bytes=0-4')
+      .expect('12345', done);
+    })
+    
+    it('should respond with 206 "Partial Content"', function(done){
+      app.request()
+      .get('/nums')
+      .set('Range', 'bytes=0-4')
+      .expect(206, done);
+    })
+  })
+
   // TODO: node bug
   // describe('on ENAMETOOLONG', function(){
   //   it('should next()', function(done){
