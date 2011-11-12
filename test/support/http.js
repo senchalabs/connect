@@ -61,13 +61,21 @@ Request.prototype.request = function(method, path){
 };
 
 Request.prototype.expect = function(body, fn){
+  var args = arguments;
   this.end(function(res){
-    if ('number' == typeof body) {
-      res.statusCode.should.equal(body);
-    } else {
-      res.body.should.equal(body);
+    switch (args.length) {
+      case 3:
+        res.headers.should.have.property(body.toLowerCase(), args[1]);
+        args[2]();
+        break;
+      default:
+        if ('number' == typeof body) {
+          res.statusCode.should.equal(body);
+        } else {
+          res.body.should.equal(body);
+        }
+        fn();
     }
-    fn();
   });
 };
 
