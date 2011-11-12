@@ -53,6 +53,28 @@ describe('connect.static()', function(){
     })
   })
 
+  it('should support ../', function(done){
+    app.request()
+    .get('/users/../todo.txt')
+    .expect('- groceries', done);
+  })
+  
+  describe('when traversing passed root', function(){
+    it('should respond with 403 Forbidden', function(done){
+      app.request()
+      .get('/users/../../todo.txt')
+      .expect(403, done);
+    })
+  })
+
+  describe('on ENOENT', function(){
+    it('should next()', function(done){
+      app.request()
+      .get('/does-not-exist')
+      .expect(404, done);
+    })
+  })
+
   // TODO: node bug
   // describe('on ENAMETOOLONG', function(){
   //   it('should next()', function(done){
