@@ -9,7 +9,7 @@ app.use(connect.responseTime());
 app.use(function(req, res){
   setTimeout(function(){
     res.end();
-  }, 200);
+  }, 20);
 });
 
 describe('connect.responseTime()', function(){
@@ -18,7 +18,7 @@ describe('connect.responseTime()', function(){
     .get('/')
     .end(function(res){
       var n = parseInt(res.headers['x-response-time']);
-      n.should.be.above(200);
+      n.should.be.above(20);
       done();
     });
   })
