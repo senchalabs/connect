@@ -148,6 +148,9 @@ describe('connect.static()', function(){
       .expect(206, done);
     })
 
+    // TODO: invalid range lengths
+    // TODO: multiple ranges
+
     describe('when syntactically invalid', function(){
       it('should respond with 416 Request Range Not Satisfiable', function(done){
         app.request()
