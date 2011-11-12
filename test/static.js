@@ -1,6 +1,5 @@
 
-var connect = require('../')
-  , request = require('./support/http');
+var connect = require('../');
 
 var fixtures = __dirname + '/fixtures';
 
@@ -9,7 +8,7 @@ app.use(connect.static(fixtures));
 
 describe('connect.static()', function(){
   it('should serve static files', function(done){
-    request(app)
+    app.request()
     .get('/todo.txt')
     .expect('- groceries', done);
   })

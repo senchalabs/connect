@@ -5,9 +5,14 @@
 
 var EventEmitter = require('events').EventEmitter
   , methods = ['get', 'post', 'put', 'delete', 'head']
+  , connect = require('../../')
   , http = require('http');
 
 module.exports = request;
+
+connect.proto.request = function(){
+  return request(this);
+};
 
 function request(app) {
   return new Request(app);

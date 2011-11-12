@@ -1,6 +1,5 @@
 
-var connect = require('../')
-  , request = require('./support/http');
+var connect = require('../');
 
 var app = connect();
 
@@ -14,7 +13,7 @@ app.use(function(req, res){
 
 describe('connect.responseTime()', function(){
   it('should set X-Response-Time', function(done){
-    request(app)
+    app.request()
     .get('/')
     .end(function(res){
       var n = parseInt(res.headers['x-response-time']);

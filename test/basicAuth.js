@@ -6,7 +6,7 @@ function test(app, signature) {
   describe(signature, function(){
     describe('when missing Authorization', function(){
       it('should respond with 401 and WWW-Authenticate', function(done){
-        request(app)
+        app.request()
         .get('/')
         .end(function(res){
           res.statusCode.should.equal(401);
@@ -18,7 +18,7 @@ function test(app, signature) {
 
     describe('when valid', function(){
       it('should next()', function(done){
-        request(app)
+        app.request()
         .get('/')
         .set('Authorization', 'Basic dGo6dG9iaQ==')
         .end(function(res){
@@ -31,7 +31,7 @@ function test(app, signature) {
 
     describe('when invalid', function(){
       it('should respond with 401', function(done){
-        request(app)
+        app.request()
         .get('/')
         .set('Authorization', 'Basic dGo69iaQ==')
         .end(function(res){

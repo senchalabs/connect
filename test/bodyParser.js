@@ -1,6 +1,5 @@
 
-var connect = require('../')
-  , request = require('./support/http');
+var connect = require('../');
 
 var app = connect();
 
@@ -12,7 +11,7 @@ app.use(function(req, res){
 
 describe('connect.bodyParser()', function(){
   it('should default to {}', function(done){
-    request(app)
+    app.request()
     .post('/')
     .end(function(res){
       res.body.should.equal('');
@@ -21,7 +20,7 @@ describe('connect.bodyParser()', function(){
   })
 
   it('should parse JSON', function(done){
-    request(app)
+    app.request()
     .post('/')
     .set('Content-Type', 'application/json')
     .write('{"user":"tobi"}')
@@ -32,7 +31,7 @@ describe('connect.bodyParser()', function(){
   })
   
   it('should parse x-www-form-urlencoded', function(done){
-    request(app)
+    app.request()
     .post('/')
     .set('Content-Type', 'application/x-www-form-urlencoded')
     .write('user=tobi')
