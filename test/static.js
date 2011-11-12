@@ -113,6 +113,13 @@ describe('connect.static()', function(){
       .expect('12345', done);
     })
     
+    it('should be inclusive', function(done){
+      app.request()
+      .get('/nums')
+      .set('Range', 'bytes=0-0')
+      .expect('1', done);
+    })
+    
     it('should respond with 206 "Partial Content"', function(done){
       app.request()
       .get('/nums')
