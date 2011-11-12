@@ -40,7 +40,7 @@ describe('connect.static()', function(){
   it('should redirect directories', function(done){
     app.request()
     .get('/users')
-    .end(302, done);
+    .expect(301, done);
   })
 
   it('should support index.html', function(done){
