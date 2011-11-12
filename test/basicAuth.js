@@ -70,6 +70,7 @@ app.use(function(req, res, next){
 test(app, 'connect.basicAuth(callback)');
 
 
+
 var app = connect();
 
 app.use(connect.basicAuth(function(user, pass, fn){
