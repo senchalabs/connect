@@ -11,9 +11,6 @@ describe('connect.static()', function(){
   it('should serve static files', function(done){
     request(app)
     .get('/todo.txt')
-    .end(function(res){
-      res.body.should.equal('- groceries');
-      done();
-    });
+    .expect('- groceries', done);
   })
 })
