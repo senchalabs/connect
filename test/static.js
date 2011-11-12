@@ -147,6 +147,15 @@ describe('connect.static()', function(){
       .set('Range', 'bytes=0-4')
       .expect(206, done);
     })
+
+    describe('when syntactically invalid', function(){
+      it('should respond with 416 Request Range Not Satisfiable', function(done){
+        app.request()
+        .get('/nums')
+        .set('Range', 'bytes=4-0')
+        .expect(416, done);
+      })
+    })
   })
 
   // TODO: node bug
