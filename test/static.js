@@ -37,6 +37,22 @@ describe('connect.static()', function(){
     .expect('baz', done);
   })
 
+  it('should redirect directories', function(done){
+    app.request()
+    .get('/users')
+    .end(302, done);
+  })
+
+  it('should support index.html', function(done){
+    app.request()
+    .get('/users/')
+    .end(function(res){
+      res.body.should.equal('<p>tobi, loki, jane</p>');
+      res.headers.should.have.property('content-type', 'text/html; charset=UTF-8');
+      done();
+    })
+  })
+
   // TODO: node bug
   // describe('on ENAMETOOLONG', function(){
   //   it('should next()', function(done){
