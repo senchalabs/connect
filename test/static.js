@@ -126,7 +126,21 @@ describe('connect.static()', function(){
       .set('Range', 'bytes=2-5')
       .expect('Content-Range', 'bytes 2-5/9', done);
     })
+
+    it('should support -n', function(done){
+      app.request()
+      .get('/nums')
+      .set('Range', 'bytes=-3')
+      .expect('789', done);
+    })
     
+    it('should support n-', function(done){
+      app.request()
+      .get('/nums')
+      .set('Range', 'bytes=3-')
+      .expect('456789', done);
+    })
+
     it('should respond with 206 "Partial Content"', function(done){
       app.request()
       .get('/nums')
