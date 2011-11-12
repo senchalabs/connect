@@ -120,6 +120,13 @@ describe('connect.static()', function(){
       .expect('1', done);
     })
     
+    it('should set Content-Range', function(done){
+      app.request()
+      .get('/nums')
+      .set('Range', 'bytes=2-5')
+      .expect('Content-Range', 'bytes 2-5/9', done);
+    })
+    
     it('should respond with 206 "Partial Content"', function(done){
       app.request()
       .get('/nums')
