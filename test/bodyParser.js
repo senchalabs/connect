@@ -135,12 +135,8 @@ describe('connect.bodyParser()', function(){
 
       app.use(function(req, res){
         req.body.text.should.have.length(2);
-        var foo = req.body.text.shift();
-        var bar = req.body.text.shift();
-        foo.name.should.equal('foo.txt');
-        foo.size.should.equal(14);
-        bar.name.should.equal('bar.txt');
-        bar.size.should.equal(20);
+        req.body.text[0].constructor.name.should.equal('File');
+        req.body.text[1].constructor.name.should.equal('File');
         res.end();
       });
 
