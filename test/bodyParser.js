@@ -75,5 +75,24 @@ describe('connect.bodyParser()', function(){
         done();
       });
     })
+    
+    it('should support nesting', function(done){
+      app.request()
+      .post('/')
+      .set('Content-Type', 'multipart/form-data; boundary=foo')
+      .write('--foo\r\n')
+      .write('Content-Disposition: form-data; name="user[name]"\r\n')
+      .write('\r\n')
+      .write('tobi')
+      .write('\r\n--foo\r\n')
+      .write('Content-Disposition: form-data; name="user[age]"\r\n')
+      .write('\r\n')
+      .write('1')
+      .write('\r\n--foo--')
+      .end(function(res){
+        res.body.should.equal('{"user":{"name":"tobi","age":"1"}}');
+        done();
+      });
+    })
   })
 })
