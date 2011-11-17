@@ -56,5 +56,24 @@ describe('connect.bodyParser()', function(){
         done();
       });
     })
+    
+    it('should work with multiple fields', function(done){
+      app.request()
+      .post('/')
+      .set('Content-Type', 'multipart/form-data; boundary=foo')
+      .write('--foo\r\n')
+      .write('Content-Disposition: form-data; name="user"\r\n')
+      .write('\r\n')
+      .write('Tobi')
+      .write('\r\n--foo\r\n')
+      .write('Content-Disposition: form-data; name="age"\r\n')
+      .write('\r\n')
+      .write('1')
+      .write('\r\n--foo--')
+      .end(function(res){
+        res.body.should.equal('{"user":"Tobi","age":"1"}');
+        done();
+      });
+    })
   })
 })
