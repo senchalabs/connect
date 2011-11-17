@@ -40,4 +40,21 @@ describe('connect.bodyParser()', function(){
       done();
     });
   })
+  
+  describe('with multipart/form-data', function(){
+    it('should populate req.body', function(){
+      app.request()
+      .post('/')
+      .set('Content-Type', 'multipart/form-data; boundary=foo')
+      .write('--foo\r\n')
+      .write('Content-Disposition: form-data; name="name"\r\n')
+      .write('\r\n')
+      .write('Tobi')
+      .write('\r\n--foo--')
+      .end(function(res){
+        res.body.should.equal('tobi');
+        done();
+      });
+    })
+  })
 })
