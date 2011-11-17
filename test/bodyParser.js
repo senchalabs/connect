@@ -57,6 +57,35 @@ describe('connect.bodyParser()', function(){
       });
     })
     
+    it('should support files', function(done){
+      var app = connect();
+
+      app.use(connect.bodyParser());
+
+      app.use(function(req, res){
+        req.body.user.should.eql({ name: 'Tobi' });
+        req.body.text.constructor.name.should.equal('File');
+        res.end(req.body.text.name);
+      });
+
+      app.request()
+      .post('/')
+      .set('Content-Type', 'multipart/form-data; boundary=foo')
+      .write('--foo\r\n')
+      .write('Content-Disposition: form-data; name="user[name]"\r\n')
+      .write('\r\n')
+      .write('Tobi')
+      .write('\r\n--foo\r\n')
+      .write('Content-Disposition: form-data; name="text"; filename="foo.txt"\r\n')
+      .write('\r\n')
+      .write('some text here')
+      .write('\r\n--foo--')
+      .end(function(res){
+        res.body.should.equal('foo.txt');
+        done();
+      });
+    })
+    
     it('should work with multiple fields', function(done){
       app.request()
       .post('/')
