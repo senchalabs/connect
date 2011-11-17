@@ -52,6 +52,7 @@ describe('connect.bodyParser()', function(){
       .write('Tobi')
       .write('\r\n--foo--')
       .end(function(res){
+        console.log(res.body);
         res.body.should.equal('tobi');
         done();
       });
