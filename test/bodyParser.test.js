@@ -55,11 +55,16 @@ module.exports = {
   },
   
   'test custom parser': function(){
-    connect.bodyParser.parse['application/x-awesome'] = function(str){
-      var obj = {}
-        , parts = str.split('.');
-      obj[parts.shift()] = parts.shift();
-      return obj;
+    connect.bodyParser.parse['application/x-awesome'] = function(req, options, fn){
+      var buf = '';
+      req.setEncoding('utf8');
+      req.on('data', function(chunk){ buf += chunk; });
+      req.on('end', function(){
+        var parts = buf.split('.');
+        req.body = {};
+        req.body[parts.shift()] = parts.shift();
+        fn();
+      });
     };
 
     assert.response(app,
