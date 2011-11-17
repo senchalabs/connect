@@ -157,40 +157,6 @@ describe('connect.bodyParser()', function(){
         done();
       });
     })
-    
-    it('should support nested files', function(done){
-      var app = connect();
-
-      app.use(connect.bodyParser());
-
-      app.use(function(req, res){
-        req.body.text.should.have.length(2);
-        req.body.text[0].constructor.name.should.equal('File');
-        req.body.text[1].constructor.name.should.equal('File');
-        res.end();
-      });
-
-      app.request()
-      .post('/')
-      .set('Content-Type', 'multipart/form-data; boundary=foo')
-      .write('--foo\r\n')
-      .write('Content-Disposition: form-data; name="post[images]"; filename="foo.txt"\r\n')
-      .write('\r\n')
-      .write('foo')
-      .write('\r\n--foo\r\n')
-      .write('Content-Disposition: form-data; name="post[images]"; filename="bar.txt"\r\n')
-      .write('\r\n')
-      .write('bar')
-      .write('\r\n--foo\r\n')
-      .write('Content-Disposition: form-data; name="text"; filename="bar.txt"\r\n')
-      .write('\r\n')
-      .write('baz')
-      .write('\r\n--foo--')
-      .end(function(res){
-        res.statusCode.should.equal(200);
-        done();
-      });
-    })
 
   })
 })
