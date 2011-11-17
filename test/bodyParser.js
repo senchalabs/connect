@@ -190,6 +190,38 @@ describe('connect.bodyParser()', function(){
         done();
       });
     })
+    
+    it('should next(err) on multipart failure', function(done){
+      var app = connect();
+
+      app.use(connect.bodyParser());
+
+      app.use(function(req, res){
+        res.end('whoop');
+      });
+
+      app.use(function(err, req, res, next){
+        err.message.should.equal('parser error, 16 of 28 bytes parsed');
+        res.statusCode = 500;
+        res.end();
+      });
+
+      app.request()
+      .post('/')
+      .set('Content-Type', 'multipart/form-data; boundary=foo')
+      .write('--foo\r\n')
+      .write('Content-filename="foo.txt"\r\n')
+      .write('\r\n')
+      .write('some text here')
+      .write('Content-Disposition: form-data; name="text"; filename="bar.txt"\r\n')
+      .write('\r\n')
+      .write('some more text stuff')
+      .write('\r\n--foo--')
+      .end(function(res){
+        res.statusCode.should.equal(500);
+        done();
+      });
+    })
 
   })
 })
