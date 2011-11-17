@@ -1,4 +1,9 @@
 
+1.8.0 / 2011-11-17 
+==================
+
+  * Added _multipart/form-data_ support to `bodyParser()` using formidable
+
 1.7.3 / 2011-11-11 
 ==================
 
