@@ -42,7 +42,7 @@ describe('connect.bodyParser()', function(){
   })
   
   describe('with multipart/form-data', function(){
-    it('should populate req.body', function(){
+    it('should populate req.body', function(done){
       app.request()
       .post('/')
       .set('Content-Type', 'multipart/form-data; boundary=foo')
