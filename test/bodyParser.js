@@ -6,7 +6,7 @@ var app = connect();
 app.use(connect.bodyParser());
 
 app.use(function(req, res){
-  res.end(req.body.user);
+  res.end(JSON.stringify(req.body));
 });
 
 describe('connect.bodyParser()', function(){
@@ -14,7 +14,7 @@ describe('connect.bodyParser()', function(){
     app.request()
     .post('/')
     .end(function(res){
-      res.body.should.equal('');
+      res.body.should.equal('{}');
       done();
     })
   })
@@ -25,7 +25,7 @@ describe('connect.bodyParser()', function(){
     .set('Content-Type', 'application/json')
     .write('{"user":"tobi"}')
     .end(function(res){
-      res.body.should.equal('tobi');
+      res.body.should.equal('{"user":"tobi"}');
       done();
     });
   })
@@ -36,7 +36,7 @@ describe('connect.bodyParser()', function(){
     .set('Content-Type', 'application/x-www-form-urlencoded')
     .write('user=tobi')
     .end(function(res){
-      res.body.should.equal('tobi');
+      res.body.should.equal('{"user":"tobi"}');
       done();
     });
   })
@@ -47,13 +47,12 @@ describe('connect.bodyParser()', function(){
       .post('/')
       .set('Content-Type', 'multipart/form-data; boundary=foo')
       .write('--foo\r\n')
-      .write('Content-Disposition: form-data; name="name"\r\n')
+      .write('Content-Disposition: form-data; name="user"\r\n')
       .write('\r\n')
       .write('Tobi')
       .write('\r\n--foo--')
       .end(function(res){
-        console.log(res.body);
-        res.body.should.equal('tobi');
+        res.body.should.equal('{"user":"Tobi"}');
         done();
       });
     })
