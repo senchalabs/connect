@@ -88,9 +88,13 @@ describe('connect.bodyParser()', function(){
       .write('Content-Disposition: form-data; name="user[age]"\r\n')
       .write('\r\n')
       .write('1')
+      .write('\r\n--foo\r\n')
+      .write('Content-Disposition: form-data; name="species"\r\n')
+      .write('\r\n')
+      .write('ferret')
       .write('\r\n--foo--')
       .end(function(res){
-        res.body.should.equal('{"user":{"name":"tobi","age":"1"}}');
+        res.body.should.equal('{"user":{"name":"tobi","age":"1"},"species":"ferret"}');
         done();
       });
     })
