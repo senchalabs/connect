@@ -127,5 +127,40 @@ describe('connect.bodyParser()', function(){
         done();
       });
     })
+
+    it('should support multiple files of the same name', function(done){
+      var app = connect();
+
+      app.use(connect.bodyParser());
+
+      app.use(function(req, res){
+        req.body.text.should.have.length(2);
+        var foo = req.body.text.shift();
+        var bar = req.body.text.shift();
+        foo.name.should.equal('foo.txt');
+        foo.size.should.equal(14);
+        bar.name.should.equal('bar.txt');
+        bar.size.should.equal(20);
+        res.end();
+      });
+
+      app.request()
+      .post('/')
+      .set('Content-Type', 'multipart/form-data; boundary=foo')
+      .write('--foo\r\n')
+      .write('Content-Disposition: form-data; name="text"; filename="foo.txt"\r\n')
+      .write('\r\n')
+      .write('some text here')
+      .write('\r\n--foo\r\n')
+      .write('Content-Disposition: form-data; name="text"; filename="bar.txt"\r\n')
+      .write('\r\n')
+      .write('some more text stuff')
+      .write('\r\n--foo--')
+      .end(function(res){
+        res.statusCode.should.equal(200);
+        done();
+      });
+    })
+
   })
 })
