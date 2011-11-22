@@ -191,6 +191,36 @@ describe('connect.bodyParser()', function(){
       });
     })
     
+    it('should support nested files', function(done){
+      var app = connect();
+
+      app.use(connect.bodyParser());
+
+      app.use(function(req, res){
+        Object.keys(req.body.docs).should.have.length(2);
+        req.body.docs.foo.name.should.equal('foo.txt');
+        req.body.docs.bar.name.should.equal('bar.txt');
+        res.end();
+      });
+
+      app.request()
+      .post('/')
+      .set('Content-Type', 'multipart/form-data; boundary=foo')
+      .write('--foo\r\n')
+      .write('Content-Disposition: form-data; name="docs[foo]"; filename="foo.txt"\r\n')
+      .write('\r\n')
+      .write('some text here')
+      .write('\r\n--foo\r\n')
+      .write('Content-Disposition: form-data; name="docs[bar]"; filename="bar.txt"\r\n')
+      .write('\r\n')
+      .write('some more text stuff')
+      .write('\r\n--foo--')
+      .end(function(res){
+        res.statusCode.should.equal(200);
+        done();
+      });
+    })
+    
     it('should next(err) on multipart failure', function(done){
       var app = connect();
 
