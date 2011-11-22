@@ -143,9 +143,13 @@ describe('connect.bodyParser()', function(){
       .post('/')
       .set('Content-Type', 'multipart/form-data; boundary=foo')
       .write('--foo\r\n')
-      .write('Content-Disposition: form-data; name="user[name]"\r\n')
+      .write('Content-Disposition: form-data; name="user[name][first]"\r\n')
       .write('\r\n')
       .write('tobi')
+      .write('\r\n--foo\r\n')
+      .write('Content-Disposition: form-data; name="user[name][last]"\r\n')
+      .write('\r\n')
+      .write('holowaychuk')
       .write('\r\n--foo\r\n')
       .write('Content-Disposition: form-data; name="user[age]"\r\n')
       .write('\r\n')
@@ -156,7 +160,10 @@ describe('connect.bodyParser()', function(){
       .write('ferret')
       .write('\r\n--foo--')
       .end(function(res){
-        res.body.should.equal('{"user":{"name":"tobi","age":"1"},"species":"ferret"}');
+        var obj = JSON.parse(res.body);
+        obj.user.age.should.equal('1');
+        obj.user.name.should.eql({ first: 'tobi', last: 'holowaychuk' });
+        obj.species.should.equal('ferret');
         done();
       });
     })
