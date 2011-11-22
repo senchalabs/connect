@@ -8,7 +8,6 @@ var app = connect()
   .use(connect.static(__dirname + '/public'))
   .use(connect.bodyParser())
   .use(function(req, res, next){
-    console.log(req.method);
     if ('GET' != req.method) return next();
     res.statusCode = 302;
     res.setHeader('Location', 'form.html');
