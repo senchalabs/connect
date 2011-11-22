@@ -1,4 +1,9 @@
 
+1.8.1 / 2011-11-21 
+==================
+
+  * Added nesting support for _multipart/form-data_ [jackyz]
+
 1.8.0 / 2011-11-17 
 ==================
 
