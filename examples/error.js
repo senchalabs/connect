@@ -1,21 +1,19 @@
 
-/**
- * Module dependencies.
- */
-
-var connect = require('../');
+var connect = require('../')
+  , http = require('http');
 
 // try:
 //   - viewing in a browser
 //   - curl http://localhost:3000
 //   - curl -H "Accept: application/json" http://localhost:3000
 
-var server = connect.createServer(
-  function(req, res, next){
-    throw new Error('oh noes!');
-  },
-  connect.errorHandler({ stack: true, dump: true })
-);
+var app = connect()
+  .use(function(req, res, next){
+    var err = new Error('oh noes!');
+    err.number = 7;
+    throw err;
+  })
+  .use(connect.errorHandler());
 
-server.listen(3000);
-console.log('Connect server listening on port 3000');
+http.Server(app).listen(3000);
+console.log('Server started on port 3000');
