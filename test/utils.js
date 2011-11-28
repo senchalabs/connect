@@ -99,3 +99,16 @@ describe('utils.parseRange(len, str)', function(){
     utils.parseRange(1000, 'bytes=-1').should.eql([{ start: 999, end: 999 }]);
   })
 })
+
+describe('utils.mime(req)', function(){
+  it('should return the mime-type from Content-Type', function(){
+    utils.mime({ headers: { 'content-type': 'text/html; charset=utf8' }})
+      .should.equal('text/html');
+
+    utils.mime({ headers: { 'content-type': 'text/html; charset=utf8' }})
+      .should.equal('text/html');
+
+    utils.mime({ headers: { 'content-type': 'text/html' }})
+      .should.equal('text/html');
+  })
+})
