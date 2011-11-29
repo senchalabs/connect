@@ -4,7 +4,7 @@ var connect = require('../')
 
 var app = connect();
 
-app.use(connect.bodyParser());
+app.use(connect.json());
 
 app.use(function(req, res){
   res.end(JSON.stringify(req.body));
