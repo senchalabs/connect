@@ -14,7 +14,7 @@ app.use(function(err, req, res, next){
   res.end(err.message);
 });
 
-describe('connect.bodyParser()', function(){
+describe('connect.json()', function(){
   should['default request body'](app);
 
   it('should ignore GET', function(done){
