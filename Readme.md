@@ -51,41 +51,46 @@ then:
  Below is the output from [git-summary](http://github.com/visionmedia/git-extras).
 
      project: connect
-     commits: 1727
-     files  : 165
+     commits: 1914
+     files  : 161
      authors: 
-      1175	Tj Holowaychuk
-       298	visionmedia
-       191	Tim Caswell
-         8	TJ Holowaychuk
-         8	Astro
-         5	Nathan Rajlich
-         4	Jakub Nešetřil
-         3	Daniel Dickison
-         3	Alexander Simmerl
-         3	Andreas Lind Petersen
-         3	David Rio Deiros
-         2	Jacques Crocker
-         2	Aaron Heckmann
-         2	Adam Malcontenti-Wilson
-         2	Fabian Jakobs
-         2	James Campos
-         1	Guillermo Rauch
-         1	Jakub Nesetril
-         1	Gregory McWhirter
-         1	Arthur Taylor
-         1	Joshua Peek
-         1	Jxck
-         1	Marco Sanson
-         1	Michael Hemesath
-         1	Eran Hammer-Lahav
-         1	Craig Barnes
-         1	Bart Teeuwisse
-         1	Aseem Kishore
-         1	Tom Jensen
-         1	Trent Mick
-         1	nateps
-         1	AJ ONeal
+      1336	Tj Holowaychuk          69.8%
+       298	visionmedia             15.6%
+       191	Tim Caswell             10.0%
+        18	TJ Holowaychuk          0.9%
+        10	Ryan Olds               0.5%
+         8	Astro                   0.4%
+         5	Jakub Nešetřil        0.3%
+         5	Nathan Rajlich          0.3%
+         3	Daniel Dickison         0.2%
+         3	Alexander Simmerl       0.2%
+         3	Andreas Lind Petersen   0.2%
+         3	David Rio Deiros        0.2%
+         2	Jacques Crocker         0.1%
+         2	Aaron Heckmann          0.1%
+         2	Adam Malcontenti-Wilson 0.1%
+         2	Fabian Jakobs           0.1%
+         2	Glen Mailer             0.1%
+         2	James Campos            0.1%
+         1	Guillermo Rauch         0.1%
+         1	Jakub Nesetril          0.1%
+         1	Gregory McWhirter       0.1%
+         1	Arthur Taylor           0.1%
+         1	Joshua Peek             0.1%
+         1	Jxck                    0.1%
+         1	Marco Sanson            0.1%
+         1	Michael Hemesath        0.1%
+         1	Morten Siebuhr          0.1%
+         1	Eran Hammer-Lahav       0.1%
+         1	Craig Barnes            0.1%
+         1	Samori Gorse            0.1%
+         1	Cameron Howey           0.1%
+         1	Bart Teeuwisse          0.1%
+         1	Aseem Kishore           0.1%
+         1	Tom Jensen              0.1%
+         1	Trent Mick              0.1%
+         1	nateps                  0.1%
+         1	AJ ONeal                0.1%
 
 
 
