@@ -1135,11 +1135,17 @@ exports.parseRange = function(size, str){
               <pre class="code">
                 <code>
 exports.parseCacheControl = function(str){
-  var parts = str.split('=')
-    , key = parts.shift()
-    , val = parseInt(parts.shift(), 10)
+  var directives = str.split(',')
     , obj = {};
-  obj[key] = isNaN(val) ? true : val;
+
+  for(var i = 0, len = directives.length; i < len; i++) {
+    var parts = directives[i].split('=')
+      , key = parts.shift().trim()
+      , val = parseInt(parts.shift(), 10);
+
+    obj[key] = isNaN(val) ? true : val;
+  }
+
   return obj;
 };
                 </code>

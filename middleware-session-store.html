@@ -21,6 +21,7 @@
         
         
         
+        
           <div class="comment">
             
             <p class="description"><p>Re-generate the given requests&#39;s session.</p></p>
@@ -70,6 +71,72 @@ Store.prototype.regenerate = function(req, fn){
   this.destroy(req.sessionID, function(err){
     self.generate(req);
     fn(err);
+  });
+};
+                </code>
+              </pre>
+             -->
+          
+          </div>
+        
+      
+        
+        
+          <div class="comment">
+            
+              <h3 class="method">.load()</h3>
+            
+            <p class="description"><p>Load a <code>Session</code> instance via the given <code>sid</code>
+and invoke the callback <code>fn(err, sess)</code>.</p></p>
+
+            
+
+            
+              <ul class="tags">
+              
+                
+
+                
+
+                
+
+                
+                  <li class="param"><em>param</em> <span class="types">String</span> <span class="name">sid</span> <span class="description"></span></li>
+                
+              
+                
+
+                
+
+                
+
+                
+                  <li class="param"><em>param</em> <span class="types">Function</span> <span class="name">fn</span> <span class="description"></span></li>
+                
+              
+                
+
+                
+                  <li class="api"><em>api</em> <span class="visibility">public</span></li>
+                
+
+                
+
+                
+              
+              </ul>
+
+<!--            
+              <pre class="code">
+                <code>
+Store.prototype.load = function(sid, fn){
+  var self = this;
+  this.get(sid, function(err, sess){
+    if (err) return fn(err);
+    if (!sess) return fn();
+    var req = { sessionID: sid, sessionStore: self };
+    sess = self.createSession(req, sess, false);
+    fn(null, sess);
   });
 };
                 </code>

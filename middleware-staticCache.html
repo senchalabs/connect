@@ -42,15 +42,13 @@ garbage collected.</p>
 
 <h2>Benchmarks</h2>
 
-<p>   static(): 2700 rps
-   node-static: 5300 rps
-   static() + staticCache(): 7500 rps</p>
+<pre><code>static(): 2700 rps
+node-static: 5300 rps
+static() + staticCache(): 7500 rps</code></pre>
 
 <h2>Options</h2>
 
 <ul><li><code>maxObjects</code>  max cache objects [128]</li><li><code>maxLength</code>  max cache object length 256kb</li></ul>
-
-<h2>TODO refactore to accept data stores (redis etc)</h2>
               </div>
             
 
@@ -89,11 +87,129 @@ garbage collected.</p>
               
               </ul>
 
-<!--             -->
+<!--            
+              <pre class="code">
+                <code>
+module.exports = function staticCache(options){
+  var options = options || {}
+    , cache = new Cache(options.maxObjects || 128)
+    , maxlen = options.maxLength || 1024 * 256;
+
+  return function staticCache(req, res, next){
+    var path = url.parse(req.url).pathname
+      , ranges = req.headers.range
+      , hit = cache.get(path)
+      , hitCC
+      , uaCC
+      , header
+      , age;
+
+    // cache static
+    req.on('static', function(stream){
+      var headers = res._headers
+        , cc = utils.parseCacheControl(headers['cache-control'] || '')
+        , contentLength = headers['content-length']
+        , hit;
+
+      // ignore larger files
+      if (!contentLength || contentLength > maxlen) return;
+
+      // dont cache items we shouldn't be
+      if ( cc['no-cache']
+        || cc['no-store']
+        || cc['private']
+        || cc['must-revalidate']) return;
+
+      // if already in cache then validate
+      if (hit = cache.get(path)){
+        if (headers.etag == hit[0].etag) {
+          hit[0].date = new Date;
+          return;
+        } else {
+          cache.remove(path);
+        }
+      }
+
+      // validation notifiactions don't contain a steam
+      if (null == stream) return;
+
+      // add the cache object
+      var arr = cache.add(path);
+      arr.push(headers);
+
+      // store the chunks
+      stream.on('data', function(chunk){
+        arr.push(chunk);
+      });
+
+      // flag it as complete
+      stream.on('end', function(){
+        arr.complete = true;
+      });
+    });
+
+    // cache hit, doesnt support range requests
+    if (hit && hit.complete && !ranges) {
+      header = utils.merge({}, hit[0]);
+      header.Age = age = (new Date - new Date(header.date)) / 1000 | 0;
+      header.date = new Date().toUTCString();
+
+      // parse cache-controls
+      hitCC = utils.parseCacheControl(header['cache-control'] || '');
+      uaCC = utils.parseCacheControl(req.headers['cache-control'] || '');
+
+      // check if we must revalidate(bypass)
+      if (hitCC['no-cache'] || uaCC['no-cache']) return next();
+
+      // check freshness of entity
+      if (isStale(hitCC, age) || isStale(uaCC, age)) return next();
+
+      // conditional GET support
+      if (utils.conditionalGET(req)) {
+        if (!utils.modified(req, res, header)) {
+          header['content-length'] = 0;
+          res.writeHead(304, header);
+          return res.end();
+        }
+      }
+
+      // HEAD support
+      if ('HEAD' == req.method) {
+        header['content-length'] = 0;
+        res.writeHead(200, header);
+        return res.end();
+      }
+
+      // respond with cache
+      res.writeHead(200, header);
+
+      // backpressure
+      function write(i) {
+        var buf = hit[i];
+        if (!buf) return res.end();
+        if (false === res.write(buf)) {
+          res.once('drain', function(){
+            write(++i);
+          });
+        } else {
+          write(++i);
+        }
+      }
+
+      return write(1);
+    }
+
+    next();
+  }
+};
+                </code>
+              </pre>
+             -->
           
           </div>
         
       
+        
       
     </div>
   </body>

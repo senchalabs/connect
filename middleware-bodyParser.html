@@ -27,10 +27,9 @@
 
             
               <div class="body">
-                <p>By default <em>application/json</em> and <em>application/x-www-form-urlencoded</em>
-are supported, however you may map <code>connect.bodyParser.parse[contentType]</code>
-to a function of your choice to replace existing parsers, or implement
-one for other content-types.</p>
+                <p>By default <em>application/json</em>, <em>application/x-www-form-urlencoded</em>,
+and <em>multipart/form-data</em> are supported, however you may map <code>connect.bodyParser.parse[contentType]</code>
+to a function receiving <code>(req, options, callback)</code>.</p>
 
 <h2>Examples</h2>
 
@@ -39,19 +38,58 @@ one for other content-types.</p>
    , function(req, res) {
      res.end(&#39;viewing user &#39; + req.body.user.name);
    }
- );</code></pre>
+ );
 
-<p>Since both <em>json</em> and <em>x-www-form-urlencoded</em> are supported by
-default, either of the following requests would result in the response
-of &quot;viewing user tj&quot;.</p>
-
-<pre><code> $ curl -d &#39;user[name]=tj&#39; http://localhost/
+ $ curl -d &#39;user[name]=tj&#39; http://localhost/
  $ curl -d &#39;{&quot;user&quot;:{&quot;name&quot;:&quot;tj&quot;}}&#39; -H &quot;Content-Type: application/json&quot; http://localhost/</code></pre>
+
+<p>Multipart req.files:</p>
+
+<p>  As a security measure files are stored in a separate object, stored
+  as <code>req.files</code>. This prevents attacks that may potentially alter
+  filenames, and depending on the application gain access to restricted files.</p>
+
+<h2>Multipart configuration</h2>
+
+<p> The <code>options</code> passed are provided to each parser function.
+ The <em>multipart/form-data</em> parser merges these with formidable&#39;s
+ IncomingForm object, allowing you to tweak the upload directory,
+ size limits, etc. For example you may wish to retain the file extension
+##  and change the upload directory</p>
+
+<pre><code> server.use(bodyParser({</code></pre>
+
+<h2>keepExtensions true</h2>
+
+<pre><code>   , uploadDir: &#39;/www/mysite.com/uploads&#39;
+ }));</code></pre>
+
+<p> View <a href="https://github.com/felixge/node-formidable">node-formidable</a> for more information.</p>
+
+<p> If you wish to use formidable directly within your app, and do not
+ desire this behaviour for multipart requests simply remove the
+##  parser </p>
+
+<pre><code>delete connect.bodyParser.parse[&#39;multipart/form-data&#39;];</code></pre>
+
+<p> Or</p>
+
+<pre><code>delete express.bodyParser.parse[&#39;multipart/form-data&#39;];</code></pre>
               </div>
             
 
             
               <ul class="tags">
+              
+                
+
+                
+
+                
+
+                
+                  <li class="param"><em>param</em> <span class="types">Object</span> <span class="name">options</span> <span class="description"></span></li>
+                
               
                 
                   <li class="return"><em>returns</em> <span class="types">Function</span></li>
@@ -78,25 +116,16 @@ of &quot;viewing user tj&quot;.</p>
 <!--            
               <pre class="code">
                 <code>
-exports = module.exports = function bodyParser(){
+exports = module.exports = function bodyParser(options){
+  options = options || {};
   return function bodyParser(req, res, next) {
+    if (req.body) return next();
+    req.body = {};
+
     if ('GET' == req.method || 'HEAD' == req.method) return next();
     var parser = exports.parse[mime(req)];
-    if (parser && !req.body) {
-      var data = '';
-      req.setEncoding('utf8');
-      req.on('data', function(chunk) { data += chunk; });
-      req.on('end', function(){
-        req.rawBody = data;
-        try {
-          req.body = data
-            ? parser(data)
-            : {};
-        } catch (err) {
-          return next(err);
-        }
-        next();
-      });
+    if (parser) {
+      parser(req, options, next);
     } else {
       next();
     }
@@ -109,6 +138,9 @@ exports = module.exports = function bodyParser(){
           </div>
         
       
+        
+        
+        
         
       
     </div>
