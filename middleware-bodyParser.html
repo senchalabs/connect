@@ -57,12 +57,7 @@ to a function receiving <code>(req, options, callback)</code>.</p>
  size limits, etc. For example you may wish to retain the file extension
 ##  and change the upload directory</p>
 
-<pre><code> server.use(bodyParser({</code></pre>
-
-<h2>keepExtensions true</h2>
-
-<pre><code>   , uploadDir: &#39;/www/mysite.com/uploads&#39;
- }));</code></pre>
+<pre><code> server.use(bodyParser({ uploadDir: &#39;/www/mysite.com/uploads&#39; }));</code></pre>
 
 <p> View <a href="https://github.com/felixge/node-formidable">node-formidable</a> for more information.</p>
 
