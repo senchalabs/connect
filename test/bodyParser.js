@@ -64,9 +64,9 @@ describe('connect.bodyParser()', function(){
 
       app.use(function(req, res){
         req.body.user.should.eql({ name: 'Tobi' });
-        req.body.text.path.should.not.include.string('.txt');
-        req.body.text.constructor.name.should.equal('File');
-        res.end(req.body.text.name);
+        req.files.text.path.should.not.include.string('.txt');
+        req.files.text.constructor.name.should.equal('File');
+        res.end(req.files.text.name);
       });
 
       app.request()
@@ -96,9 +96,9 @@ describe('connect.bodyParser()', function(){
 
       app.use(function(req, res){
         req.body.user.should.eql({ name: 'Tobi' });
-        req.body.text.path.should.include.string('.txt');
-        req.body.text.constructor.name.should.equal('File');
-        res.end(req.body.text.name);
+        req.files.text.path.should.include.string('.txt');
+        req.files.text.constructor.name.should.equal('File');
+        res.end(req.files.text.name);
       });
 
       app.request()
@@ -174,9 +174,9 @@ describe('connect.bodyParser()', function(){
       app.use(connect.bodyParser());
 
       app.use(function(req, res){
-        req.body.text.should.have.length(2);
-        req.body.text[0].constructor.name.should.equal('File');
-        req.body.text[1].constructor.name.should.equal('File');
+        req.files.text.should.have.length(2);
+        req.files.text[0].constructor.name.should.equal('File');
+        req.files.text[1].constructor.name.should.equal('File');
         res.end();
       });
 
@@ -204,9 +204,9 @@ describe('connect.bodyParser()', function(){
       app.use(connect.bodyParser());
 
       app.use(function(req, res){
-        Object.keys(req.body.docs).should.have.length(2);
-        req.body.docs.foo.name.should.equal('foo.txt');
-        req.body.docs.bar.name.should.equal('bar.txt');
+        Object.keys(req.files.docs).should.have.length(2);
+        req.files.docs.foo.name.should.equal('foo.txt');
+        req.files.docs.bar.name.should.equal('bar.txt');
         res.end();
       });
 
