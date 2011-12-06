@@ -24,6 +24,13 @@ describe('app.use()', function(){
       .get('/blog')
       .expect('blog', done);
     })
+
+    it('should set .route', function(){
+      var blog = connect();
+      app.use('/blog', blog);
+      app.route.should.equal('/');
+      blog.route.should.equal('/blog');
+    })
   })
 
   describe('with a node app', function(){
@@ -40,6 +47,7 @@ describe('app.use()', function(){
       .expect('blog', done);
     })
   })
+  
 })
 
 // describe('app.route', function(){
