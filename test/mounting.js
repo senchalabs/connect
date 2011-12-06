@@ -24,6 +24,21 @@ describe('app.use()', function(){
       .get('/blog')
       .expect('blog', done);
     })
+    
+    it('should strip trailing slash', function(done){
+      var blog = connect();
+    
+      blog.use(function(req, res){
+        req.url.should.equal('/');
+        res.end('blog');
+      });
+    
+      app.use('/blog/', blog);
+    
+      app.request()
+      .get('/blog')
+      .expect('blog', done);
+    })
 
     it('should set .route', function(){
       var blog = connect();
