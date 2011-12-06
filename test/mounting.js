@@ -27,9 +27,12 @@ describe('app.use()', function(){
 
     it('should set .route', function(){
       var blog = connect();
+      var admin = connect();
       app.use('/blog', blog);
+      blog.use('/admin', admin);
       app.route.should.equal('/');
       blog.route.should.equal('/blog');
+      admin.route.should.equal('/admin');
     })
   })
 
@@ -49,18 +52,3 @@ describe('app.use()', function(){
   })
   
 })
-
-// describe('app.route', function(){
-//   it('should return the mounted path', function(){
-//     var app = express()
-//       , blog = express()
-//       , blogAdmin = express();
-// 
-//     app.use('/blog', blog);
-//     blog.use('/admin', blogAdmin);
-// 
-//     app.route.should.equal('/');
-//     blog.route.should.equal('/blog');
-//     blogAdmin.route.should.equal('/admin');
-//   })
-// })
