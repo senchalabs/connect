@@ -12,14 +12,14 @@ describe('app.use()', function(){
   describe('with a connect app', function(){
     it('should mount', function(done){
       var blog = connect();
-
+    
       blog.use(function(req, res){
         req.url.should.equal('/');
         res.end('blog');
       });
-
+    
       app.use('/blog', blog);
-
+    
       app.request()
       .get('/blog')
       .expect('blog', done);
@@ -42,9 +42,9 @@ describe('app.use()', function(){
         req.url.should.equal('/');
         res.end('blog');
       });
-
+    
       app.use('/blog', blog);
-
+    
       app.request()
       .get('/blog')
       .expect('blog', done);
