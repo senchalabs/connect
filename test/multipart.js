@@ -10,7 +10,7 @@ app.use(function(req, res){
   res.end(JSON.stringify(req.body));
 });
 
-describe('connect.bodyParser()', function(){
+describe('connect.multipart()', function(){
   should['default request body'](app);
 
   it('should ignore GET', function(done){
@@ -47,13 +47,13 @@ describe('connect.bodyParser()', function(){
     it('should support files', function(done){
       var app = connect();
 
-      app.use(connect.bodyParser());
+      app.use(connect.multipart());
 
       app.use(function(req, res){
         req.body.user.should.eql({ name: 'Tobi' });
-        req.body.text.path.should.not.include.string('.txt');
-        req.body.text.constructor.name.should.equal('File');
-        res.end(req.body.text.name);
+        req.files.text.path.should.not.include.string('.txt');
+        req.files.text.constructor.name.should.equal('File');
+        res.end(req.files.text.name);
       });
 
       app.request()
@@ -77,15 +77,15 @@ describe('connect.bodyParser()', function(){
     it('should expose options to formidable', function(done){
       var app = connect();
 
-      app.use(connect.bodyParser({
+      app.use(connect.multipart({
         keepExtensions: true
       }));
 
       app.use(function(req, res){
         req.body.user.should.eql({ name: 'Tobi' });
-        req.body.text.path.should.include.string('.txt');
-        req.body.text.constructor.name.should.equal('File');
-        res.end(req.body.text.name);
+        req.files.text.path.should.include.string('.txt');
+        req.files.text.constructor.name.should.equal('File');
+        res.end(req.files.text.name);
       });
 
       app.request()
@@ -158,12 +158,12 @@ describe('connect.bodyParser()', function(){
     it('should support multiple files of the same name', function(done){
       var app = connect();
 
-      app.use(connect.bodyParser());
+      app.use(connect.multipart());
 
       app.use(function(req, res){
-        req.body.text.should.have.length(2);
-        req.body.text[0].constructor.name.should.equal('File');
-        req.body.text[1].constructor.name.should.equal('File');
+        req.files.text.should.have.length(2);
+        req.files.text[0].constructor.name.should.equal('File');
+        req.files.text[1].constructor.name.should.equal('File');
         res.end();
       });
 
@@ -188,12 +188,12 @@ describe('connect.bodyParser()', function(){
     it('should support nested files', function(done){
       var app = connect();
 
-      app.use(connect.bodyParser());
+      app.use(connect.multipart());
 
       app.use(function(req, res){
-        Object.keys(req.body.docs).should.have.length(2);
-        req.body.docs.foo.name.should.equal('foo.txt');
-        req.body.docs.bar.name.should.equal('bar.txt');
+        Object.keys(req.files.docs).should.have.length(2);
+        req.files.docs.foo.name.should.equal('foo.txt');
+        req.files.docs.bar.name.should.equal('bar.txt');
         res.end();
       });
 
@@ -218,7 +218,7 @@ describe('connect.bodyParser()', function(){
     it('should next(err) on multipart failure', function(done){
       var app = connect();
 
-      app.use(connect.bodyParser());
+      app.use(connect.multipart());
 
       app.use(function(req, res){
         res.end('whoop');

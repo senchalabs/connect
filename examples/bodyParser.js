@@ -17,10 +17,18 @@ var app = connect()
     res.setHeader('Content-Type', 'text/html');
     res.write('<p>thanks ' + req.body.name + '</p>');
     res.write('<ul>');
-    req.body.images.forEach(function(image){
+
+    if (Array.isArray(req.files.images)) {
+      req.files.images.forEach(function(image){
+        var kb = image.size / 1024 | 0;
+        res.write('<li>uploaded ' + image.name + ' ' + kb + 'kb</li>');
+      });
+    } else {
+      var image = req.files.images;
       var kb = image.size / 1024 | 0;
       res.write('<li>uploaded ' + image.name + ' ' + kb + 'kb</li>');
-    });
+    }
+
     res.end('</ul>');
   });
 
