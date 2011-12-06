@@ -1,5 +1,6 @@
 
-var connect = require('../');
+var connect = require('../')
+  , http = require('http');
 
 describe('app.use()', function(){
   var app;
@@ -13,6 +14,21 @@ describe('app.use()', function(){
       var blog = connect();
 
       blog.use(function(req, res){
+        req.url.should.equal('/');
+        res.end('blog');
+      });
+
+      app.use('/blog', blog);
+
+      app.request()
+      .get('/blog')
+      .expect('blog', done);
+    })
+  })
+
+  describe('with a node app', function(){
+    it('should mount', function(done){
+      var blog = http.createServer(function(req, res){
         req.url.should.equal('/');
         res.end('blog');
       });
