@@ -23,6 +23,15 @@ describe('connect.staticCache()', function(){
     });
   })
 
+  it('should set X-Cache', function(done){
+    app.request()
+    .get('/todo.txt')
+    .end(function(res){
+      res.should.have.header('x-cache', 'HIT');
+      done();
+    });
+  })
+
   it('should retain header fields', function(done){
     app.request()
     .get('/todo.txt')
