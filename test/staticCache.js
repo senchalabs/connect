@@ -30,19 +30,13 @@ describe('connect.staticCache()', function(){
     app.request()
     .get('/todo.txt')
     .set('Cache-Control', 'no-cache')
-    .end(function(res){
-      res.should.have.header('x-cache', 'MISS');
-      done();
-    });
+    .expect('X-Cache', 'MISS', done);
   })
 
   it('should set X-Cache to HIT when hit', function(done){
     app.request()
     .get('/todo.txt')
-    .end(function(res){
-      res.should.have.header('x-cache', 'HIT');
-      done();
-    });
+    .expect('X-Cache', 'HIT', done);
   })
 
   it('should retain header fields', function(done){
