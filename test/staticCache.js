@@ -77,4 +77,18 @@ describe('connect.staticCache()', function(){
     .head('/todo.txt')
     .expect('X-Cache', 'MISS', done);
   })
+
+  it('should not cache no-store', function(done){
+    var app = connect();
+    app.use(connect.staticCache());
+    app.use(function(req, res, next){
+      res.setHeader('Cache-Control', 'no-store');
+      next();
+    });
+    app.use(connect.static(fixtures));
+
+    app.request()
+    .head('/todo.txt')
+    .expect('X-Cache', 'MISS', done);
+  })
 })
