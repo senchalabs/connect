@@ -72,4 +72,18 @@ describe('connect.staticCache()', function(){
     .head('/todo.txt')
     .expect('Content-Length', '11', done);
   })
+
+  it('should not cache private', function(done){
+    var app = connect();
+    app.use(connect.staticCache());
+    app.use(function(req, res, next){
+      res.setHeader('Cache-Control', 'private');
+      next();
+    });
+    app.use(connect.static(fixtures));
+
+    app.request()
+    .head('/todo.txt')
+    .expect('X-Cache', 'MISS', done);
+  })
 })
