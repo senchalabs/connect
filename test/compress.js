@@ -25,6 +25,13 @@ describe('connect.compress()', function(){
     .expect('Content-Encoding', 'gzip', done);
   })
 
+  it('should support HEAD', function(done){
+    app.request()
+    .head('/todo.txt')
+    .set('Accept-Encoding', 'gzip')
+    .expect('', done);
+  })
+
   it('should set Vary', function(done){
     app.request()
     .get('/todo.txt')
