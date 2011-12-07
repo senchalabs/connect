@@ -11,10 +11,7 @@ describe('connect.staticCache()', function(){
   it('should set X-Cache to MISS when missed', function(done){
     app.request()
     .get('/todo.txt')
-    .end(function(res){
-      res.should.have.header('x-cache', 'MISS');
-      done();
-    });
+    .expect('X-Cache', 'MISS', done);
   })
 
   it('should set Age', function(done){
