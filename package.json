@@ -9,7 +9,8 @@
   "dependencies": {
     "qs": ">= 0.4.0",
     "mime": ">= 0.0.1",
-    "formidable": "1.0.x"
+    "formidable": "1.0.x",
+    "debug": "*"
   },
   "devDependencies": {
     "koala": "0.1.2",

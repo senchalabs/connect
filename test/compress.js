@@ -32,6 +32,20 @@ describe('connect.compress()', function(){
     .expect('', done);
   })
 
+  it('should support conditional GETs', function(done){
+    app.request()
+    .get('/todo.txt')
+    .set('Accept-Encoding', 'gzip')
+    .end(function(res){
+      var date = res.headers['last-modified'];
+      app.request()
+      .get('/todo.txt')
+      .set('Accept-Encoding', 'gzip')
+      .set('If-Modified-Since', date)
+      .expect(304, done);
+    });
+  })
+
   it('should set Vary', function(done){
     app.request()
     .get('/todo.txt')

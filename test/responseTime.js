@@ -8,7 +8,7 @@ app.use(connect.responseTime());
 app.use(function(req, res){
   setTimeout(function(){
     res.end();
-  }, 20);
+  }, 30);
 });
 
 describe('connect.responseTime()', function(){
