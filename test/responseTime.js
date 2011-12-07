@@ -7,6 +7,7 @@ app.use(connect.responseTime());
 
 app.use(function(req, res){
   setTimeout(function(){
+    res.setHeader('foo', 'bar');
     res.end();
   }, 30);
 });
