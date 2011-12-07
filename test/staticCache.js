@@ -54,4 +54,22 @@ describe('connect.staticCache()', function(){
       done();
     });
   })
+
+  it('should serve the contents on GET', function(done){
+    app.request()
+    .get('/todo.txt')
+    .expect('- groceries', done);
+  })
+
+  it('should not serve the contents on HEAD', function(done){
+    app.request()
+    .head('/todo.txt')
+    .expect('', done);
+  })
+
+  it('should retain Content-Length on HEAD', function(done){
+    app.request()
+    .head('/todo.txt')
+    .expect('Content-Length', '11', done);
+  })
 })
