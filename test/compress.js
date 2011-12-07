@@ -32,6 +32,12 @@ describe('connect.compress()', function(){
     .expect('Vary', 'Accept-Encoding', done);
   })
 
+  it('should set Vary at all times', function(done){
+    app.request()
+    .get('/todo.txt')
+    .expect('Vary', 'Accept-Encoding', done);
+  })
+
   it('should transfer chunked', function(done){
     app.request()
     .get('/todo.txt')
