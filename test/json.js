@@ -49,4 +49,19 @@ describe('connect.json()', function(){
       done();
     });
   })
+
+  it('should default to 400 Bad Request', function(done){
+    var app = connect();
+    app.use(connect.json());
+
+    app.use(function(req, res){
+      res.end(JSON.stringify(req.body));
+    });
+
+    app.request()
+    .post('/')
+    .set('Content-Type', 'application/json')
+    .write('{"foo')
+    .expect(400, done);
+  })
 })
