@@ -81,6 +81,16 @@ module.exports = {
       { body: 'Cannot GET /foo.json', status: 404 });
   },
   
+  'test when uri is too long': function(){
+    var uri = '/1234567890'
+    for(var i = 0; i < 30; i++){
+        uri += '1234567890'
+    }
+    assert.response(app,
+      { url: uri },
+      { body: 'Cannot GET ' + uri, status: 404 });
+  },
+
   'test directory redirect': function(){
     assert.response(app,
       { url: '/directory' },
