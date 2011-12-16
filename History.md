@@ -1,4 +1,9 @@
 
+1.8.2 / 2011-12-03 
+==================
+
+  * Fixed potential security issue, store files in req.files. Closes #431 [reported by dobesv]
+
 1.8.1 / 2011-11-21 
 ==================
 

@@ -3,7 +3,7 @@ var connect = require('../');
 
 // visit form.html
 
-connect.createServer()
+var app = connect()
   .use(connect.static(__dirname + '/public'))
   .use(connect.bodyParser())
   .use(function(req, res, next){
@@ -16,10 +16,21 @@ connect.createServer()
     res.setHeader('Content-Type', 'text/html');
     res.write('<p>thanks ' + req.body.name + '</p>');
     res.write('<ul>');
-    req.body.images.forEach(function(image){
+console.error(req.body);
+console.error(req.files);
+    if (Array.isArray(req.files.images)) {
+      req.files.images.forEach(function(image){
+        var kb = image.size / 1024 | 0;
+        res.write('<li>uploaded ' + image.name + ' ' + kb + 'kb</li>');
+      });
+    } else {
+      var image = req.files.images;
       var kb = image.size / 1024 | 0;
       res.write('<li>uploaded ' + image.name + ' ' + kb + 'kb</li>');
-    });
+    }
+
     res.end('</ul>');
-  })
-  .listen(3000);
+  });
+
+app.listen(3000);
+console.log('Server started on port 3000');
