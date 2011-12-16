@@ -14,7 +14,7 @@
   },
   "devDependencies": {
     "koala": "0.1.2",
-    "should": "0.3.2",
+    "should": "*",
     "mocha": "*"
   },
   "main": "index",
