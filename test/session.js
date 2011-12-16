@@ -50,4 +50,28 @@ describe('connect.session()', function(){
     })
   })
 
+  it('should retain the sid', function(done){
+    app.request()
+    .get('/')
+    .end(function(res){
+
+      var id = sid(res);
+      app.request()
+      .get('/')
+      .set('Cookie', 'connect.sid=' + id)
+      .end(function(res){
+        sid(res).should.equal(id);
+
+        var id = sid(res);
+        app.request()
+        .get('/')
+        .set('Cookie', 'connect.sid=' + id)
+        .end(function(res){
+          sid(res).should.equal(id);
+          done();
+        });
+      });
+    });
+  })
+
 })
