@@ -22,13 +22,32 @@ describe('connect.session()', function(){
     connect.session.MemoryStore.should.be.a('function');
   })
 
-  it('should Set-Cookie', function(done){
-    app.request()
-    .get('/')
-    .end(function(res){
-      res.headers['set-cookie'].should.have.length(1);
-      res.headers['set-cookie'][0].should.include('connect.sid');
-      done();
-    });
+  describe('key option', function(){
+    it('should default to "connect.sid"', function(done){
+      app.request()
+      .get('/')
+      .end(function(res){
+        res.headers['set-cookie'].should.have.length(1);
+        res.headers['set-cookie'][0].should.match(/^connect\.sid/);
+        done();
+      });
+    })
+
+    it('should allow overriding', function(done){
+      var app = connect()
+        .use(connect.cookieParser('keyboard cat'))
+        .use(connect.session({ key: 'sid' }))
+        .use(respond);
+      
+
+      app.request()
+      .get('/')
+      .end(function(res){
+        res.headers['set-cookie'].should.have.length(1);
+        res.headers['set-cookie'][0].should.match(/^sid/);
+        done();
+      });
+    })
   })
+
 })
