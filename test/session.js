@@ -3,11 +3,15 @@ var connect = require('../')
   , request = require('./support/http');
 
 function respond(req, res) {
-  res.end(JSON.stringify(req.session));
+  res.end();
 }
 
 function sid(res) {
   return /^connect\.sid=([^;]+);/.exec(res.headers['set-cookie'][0])[1];
+}
+
+function expires(res) {
+  return res.headers['set-cookie'][0].match(/expires=([^;]+)/)[1];
 }
 
 var app = connect()
@@ -98,6 +102,34 @@ describe('connect.session()', function(){
         });
       });
     });
+  })
+
+  describe('req.session', function(){
+    it('should persist', function(done){
+      var app = connect()
+        .use(connect.cookieParser('keyboard cat'))
+        .use(connect.session())
+        .use(function(req, res, next){
+          req.session.count = req.session.count || 0;
+          req.session.count++;
+          res.end(req.session.count.toString());
+        });
+        
+      app.request()
+      .get('/')
+      .end(function(res){
+        res.body.should.equal('1');
+
+        app.request()
+        .get('/')
+        .set('Cookie', 'connect.sid=' + sid(res))
+        .end(function(res){
+          var id = sid(res);
+          res.body.should.equal('2');
+          done();
+        });
+      });
+    })
   })
 
 })
