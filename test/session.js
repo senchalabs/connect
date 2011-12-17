@@ -229,6 +229,25 @@ describe('connect.session()', function(){
         })
       })
 
+      describe('.secure', function(){
+        it('should not set-cookie when insecure', function(done){
+          var app = connect()
+            .use(connect.cookieParser('keyboard cat'))
+            .use(connect.session())
+            .use(function(req, res, next){
+              req.session.cookie.secure = true;
+              res.end();
+            });
+
+          app.request()
+          .get('/')
+          .end(function(res){
+            res.headers.should.not.have.property('set-cookie');
+            done();
+          });
+        })
+      })
+
       describe('.maxAge', function(){
         it('should set relative in milliseconds', function(done){
           var app = connect()
