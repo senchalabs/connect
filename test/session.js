@@ -1,6 +1,7 @@
 
 var connect = require('../')
-  , request = require('./support/http');
+  , request = require('./support/http')
+  , assert = require('assert');
 
 function respond(req, res) {
   res.end();
@@ -137,9 +138,9 @@ describe('connect.session()', function(){
           .use(connect.cookieParser('keyboard cat'))
           .use(connect.session())
           .use(function(req, res, next){
-            res.session.destroy(function(err){
+            req.session.destroy(function(err){
               if (err) throw err;
-              should.not.exist(req.session);
+              assert(!req.session, 'req.session after destroy');
               res.end();
             });
           });
@@ -147,15 +148,8 @@ describe('connect.session()', function(){
         app.request()
         .get('/')
         .end(function(res){
-          var id = sid(res);
-
-          app.request()
-          .get('/')
-          .set('Cookie', 'connect.sid=' + id)
-          .end(function(res){
-            sid(res).should.not.equal(id);
-            done();
-          });
+          res.headers.should.not.have.property('set-cookie');
+          done();
         });
       })
     })
@@ -167,7 +161,7 @@ describe('connect.session()', function(){
           .use(connect.session())
           .use(function(req, res, next){
             var id = req.session.id;
-            res.session.regenerate(function(err){
+            req.session.regenerate(function(err){
               if (err) throw err;
               id.should.not.equal(req.session.id);
               res.end();
