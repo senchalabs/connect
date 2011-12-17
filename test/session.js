@@ -61,17 +61,46 @@ describe('connect.session()', function(){
       .set('Cookie', 'connect.sid=' + id)
       .end(function(res){
         sid(res).should.equal(id);
+        done();
+      });
+    });
+  })
 
-        var id = sid(res);
+  it('should retain the sid', function(done){
+    app.request()
+    .get('/')
+    .end(function(res){
+
+      var id = sid(res);
+      app.request()
+      .get('/')
+      .set('Cookie', 'connect.sid=' + id)
+      .end(function(res){
+        sid(res).should.equal(id);
+        done();
+      });
+    });
+  })
+
+  it('should issue separate sids', function(done){
+    app.request()
+    .get('/')
+    .end(function(res){
+
+      var id = sid(res);
+      app.request()
+      .get('/')
+      .set('Cookie', 'connect.sid=' + id)
+      .end(function(res){
+        sid(res).should.equal(id);
+
         app.request()
         .get('/')
-        .set('Cookie', 'connect.sid=' + id)
         .end(function(res){
-          sid(res).should.equal(id);
+          sid(res).should.not.equal(id);
           done();
         });
       });
     });
   })
-
 })
