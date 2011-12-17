@@ -208,6 +208,25 @@ describe('connect.session()', function(){
             done();
           });
         })
+
+        it('should override defaults', function(done){
+          var app = connect()
+            .use(connect.cookieParser('keyboard cat'))
+            .use(connect.session({ cookie: { path: '/admin', httpOnly: false, secure: true }}))
+            .use(function(req, res, next){
+              req.session.cookie.secure = false;
+              res.end();
+            });
+
+          app.request()
+          .get('/')
+          .end(function(res){
+            res.headers['set-cookie'][0].should.not.include('httpOnly');
+            res.headers['set-cookie'][0].should.not.include('secure');
+            res.headers['set-cookie'][0].should.include('path=/admin');
+            done();
+          });
+        })
       })
 
       describe('.maxAge', function(){
