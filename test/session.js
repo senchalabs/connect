@@ -66,6 +66,18 @@ describe('connect.session()', function(){
     });
   })
 
+  describe('when an invalid sid is given', function(){
+    it('should generate a new one', function(done){
+      app.request()
+      .get('/')
+      .set('Cookie', 'connect.sid=foobarbaz')
+      .end(function(res){
+        sid(res).should.not.equal('foobarbaz');
+        done();
+      });
+    })
+  })
+
   it('should retain the sid', function(done){
     app.request()
     .get('/')
@@ -103,4 +115,5 @@ describe('connect.session()', function(){
       });
     });
   })
+
 })
