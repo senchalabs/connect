@@ -131,6 +131,35 @@ describe('connect.session()', function(){
       });
     })
 
+    describe('.destroy()', function(){
+      it('should destroy the previous session', function(done){
+        var app = connect()
+          .use(connect.cookieParser('keyboard cat'))
+          .use(connect.session())
+          .use(function(req, res, next){
+            res.session.destroy(function(err){
+              if (err) throw err;
+              should.not.exist(req.session);
+              res.end();
+            });
+          });
+
+        app.request()
+        .get('/')
+        .end(function(res){
+          var id = sid(res);
+
+          app.request()
+          .get('/')
+          .set('Cookie', 'connect.sid=' + id)
+          .end(function(res){
+            sid(res).should.not.equal(id);
+            done();
+          });
+        });
+      })
+    })
+
     describe('.regenerate()', function(){
       it('should destroy/replace the previous session', function(done){
         var app = connect()
