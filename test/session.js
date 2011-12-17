@@ -27,6 +27,42 @@ describe('connect.session()', function(){
     connect.session.MemoryStore.should.be.a('function');
   })
 
+  describe('proxy option', function(){
+    describe('when enabled', function(){
+      it('should trust X-Forwarded-Proto', function(done){
+        var app = connect()
+          .use(connect.cookieParser('keyboard cat'))
+          .use(connect.session({ proxy: true, cookie: { secure: true }}))
+          .use(respond);
+
+        app.request()
+        .get('/')
+        .set('X-Forwarded-Proto', 'https')
+        .end(function(res){
+          res.headers.should.have.property('set-cookie');
+          done();
+        });
+      })
+    })
+
+    describe('when disabled', function(){
+      it('should not trust X-Forwarded-Proto', function(done){
+        var app = connect()
+          .use(connect.cookieParser('keyboard cat'))
+          .use(connect.session({ cookie: { secure: true }}))
+          .use(respond);
+
+        app.request()
+        .get('/')
+        .set('X-Forwarded-Proto', 'https')
+        .end(function(res){
+          res.headers.should.not.have.property('set-cookie');
+          done();
+        });
+      })
+    })
+  })
+
   describe('key option', function(){
     it('should default to "connect.sid"', function(done){
       app.request()
