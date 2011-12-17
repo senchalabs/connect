@@ -51,7 +51,7 @@ describe('connect.multipart()', function(){
 
       app.use(function(req, res){
         req.body.user.should.eql({ name: 'Tobi' });
-        req.files.text.path.should.not.include.string('.txt');
+        req.files.text.path.should.not.include('.txt');
         req.files.text.constructor.name.should.equal('File');
         res.end(req.files.text.name);
       });
@@ -83,7 +83,7 @@ describe('connect.multipart()', function(){
 
       app.use(function(req, res){
         req.body.user.should.eql({ name: 'Tobi' });
-        req.files.text.path.should.include.string('.txt');
+        req.files.text.path.should.include('.txt');
         req.files.text.constructor.name.should.equal('File');
         res.end(req.files.text.name);
       });
