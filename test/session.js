@@ -130,6 +130,36 @@ describe('connect.session()', function(){
         });
       });
     })
+
+    describe('.regenerate()', function(){
+      it('should destroy/replace the previous session', function(done){
+        var app = connect()
+          .use(connect.cookieParser('keyboard cat'))
+          .use(connect.session())
+          .use(function(req, res, next){
+            var id = req.session.id;
+            res.session.regenerate(function(err){
+              if (err) throw err;
+              id.should.not.equal(req.session.id);
+              res.end();
+            });
+          });
+
+        app.request()
+        .get('/')
+        .end(function(res){
+          var id = sid(res);
+
+          app.request()
+          .get('/')
+          .set('Cookie', 'connect.sid=' + id)
+          .end(function(res){
+            sid(res).should.not.equal(id);
+            done();
+          });
+        });
+      })
+    })
   })
 
 })
