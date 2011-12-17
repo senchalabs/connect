@@ -256,21 +256,42 @@ describe('connect.session()', function(){
       })
 
       describe('.expires', function(){
-        it('should set absolute', function(done){
-          var app = connect()
-            .use(connect.cookieParser('keyboard cat'))
-            .use(connect.session())
-            .use(function(req, res, next){
-              req.session.cookie.expires = new Date(0);
-              res.end();
-            });
+        describe('when given a Date', function(){
+          it('should set absolute', function(done){
+            var app = connect()
+              .use(connect.cookieParser('keyboard cat'))
+              .use(connect.session())
+              .use(function(req, res, next){
+                req.session.cookie.expires = new Date(0);
+                res.end();
+              });
 
-          app.request()
-          .get('/')
-          .end(function(res){
-            expires(res).should.equal('Thu, 01 Jan 1970 00:00:00 GMT');
-            done();
-          });
+            app.request()
+            .get('/')
+            .end(function(res){
+              expires(res).should.equal('Thu, 01 Jan 1970 00:00:00 GMT');
+              done();
+            });
+          })
+        })
+
+        describe('when null', function(){
+          it('should be a browser-session cookie', function(done){
+            var app = connect()
+              .use(connect.cookieParser('keyboard cat'))
+              .use(connect.session())
+              .use(function(req, res, next){
+                req.session.cookie.expires = null;
+                res.end();
+              });
+
+            app.request()
+            .get('/')
+            .end(function(res){
+              res.headers['set-cookie'][0].should.not.include('expires=');
+              done();
+            });
+          })
         })
       })
     })
