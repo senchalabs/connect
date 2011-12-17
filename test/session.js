@@ -188,12 +188,8 @@ describe('connect.session()', function(){
       describe('.*', function(){
         it('should serialize as parameters', function(done){
           var app = connect()
-            .use(function(req, res, next){
-              req.connection.proxySecure = true;
-              next();
-            })
             .use(connect.cookieParser('keyboard cat'))
-            .use(connect.session())
+            .use(connect.session({ proxy: true }))
             .use(function(req, res, next){
               req.session.cookie.httpOnly = false;
               req.session.cookie.secure = true;
@@ -202,6 +198,7 @@ describe('connect.session()', function(){
 
           app.request()
           .get('/')
+          .set('X-Forwarded-Proto', 'https')
           .end(function(res){
             res.headers['set-cookie'][0].should.not.include('httpOnly');
             res.headers['set-cookie'][0].should.include('secure');
