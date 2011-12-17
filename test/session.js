@@ -183,6 +183,30 @@ describe('connect.session()', function(){
         });
       })
     })
+
+    describe('.cookie', function(){
+      describe('.expires', function(){
+        describe('when given a date', function(){
+          it('should set absolute', function(done){
+            var app = connect()
+              .use(connect.cookieParser('keyboard cat'))
+              .use(connect.session())
+              .use(function(req, res, next){
+                req.session.cookie.expires = new Date(0);
+                res.end();
+              });
+
+            app.request()
+            .get('/')
+            .end(function(res){
+              expires(res).should.equal('Thu, 01 Jan 1970 00:00:00 GMT');
+              done();
+            });
+          })
+        })
+      })
+    })
+
   })
 
 })
