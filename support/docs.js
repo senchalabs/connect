@@ -1,6 +1,4 @@
 
-require.paths.unshift(__dirname + '/koala/lib');
-
 /**
  * Module dependencies.
  */
