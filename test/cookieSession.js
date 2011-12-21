@@ -1,6 +1,5 @@
 
-var connect = require('../')
-  , request = require('./support/http');
+var connect = require('../');
 
 function sess(res) {
   return res.headers['set-cookie'][0];

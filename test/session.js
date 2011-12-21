@@ -1,6 +1,5 @@
 
 var connect = require('../')
-  , request = require('./support/http')
   , assert = require('assert');
 
 function respond(req, res) {

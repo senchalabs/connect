@@ -1,6 +1,5 @@
 
-var connect = require('../')
-  , request = require('./support/http');
+var connect = require('../');
 
 function test(app, signature) {
   describe(signature, function(){

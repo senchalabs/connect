@@ -1,6 +1,5 @@
 
-var connect = require('../')
-  , request = require('./support/http');
+var connect = require('../');
 
 var app = connect();
 
@@ -12,7 +11,7 @@ app.use(function(req, res){
 
 describe('connect.query()', function(){
   it('should parse the query-string', function(done){
-    request(app)
+    app.request()
     .get('/?user[name]=tobi')
     .end(function(res){
       res.body.should.equal('{"user":{"name":"tobi"}}');
@@ -21,7 +20,7 @@ describe('connect.query()', function(){
   })
   
   it('should default to {}', function(done){
-    request(app)
+    app.request()
     .get('/')
     .end(function(res){
       res.body.should.equal('{}');
