@@ -1,4 +1,9 @@
 
+1.8.4 / 2011-12-22 
+==================
+
+  * Changed: allow empty body for json/urlencoded requests. Backport for #443
+
 1.8.3 / 2011-12-16 
 ==================
 
