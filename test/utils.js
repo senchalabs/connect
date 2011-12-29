@@ -73,6 +73,13 @@ describe('utils.[un]sign()', function(){
     val = utils.unsign('something.KnUAgnazIiUClhgLhvg91JfTBAo', 'foo');
     val.should.equal('something');
 
+    // make sure cookie values with periods don't trump the signature
+    val = utils.sign('something.for.nothing', 'foo');
+    val.should.equal('something.for.nothing.jcLcIVMfGbh9EDXw7EiTqh/CWMo');
+
+    val = utils.unsign('something.for.nothing.jcLcIVMfGbh9EDXw7EiTqh/CWMo', 'foo');
+    val.should.equal('something.for.nothing');
+
     // invalid secret
     val = utils.unsign('something.KnUAgnazIiUClhgLhvg91JfTBAo', 'something');
     val.should.be.false;
