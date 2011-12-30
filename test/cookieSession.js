@@ -54,7 +54,9 @@ describe('connect.cookieSession()', function(){
       app.request()
       .get('/')
       .set('Cookie', sess(res))
-      .end(done);
+      .end(function(){
+        done();
+      });
     })
   })
 
