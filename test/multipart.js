@@ -247,5 +247,22 @@ describe('connect.multipart()', function(){
       });
     })
 
+    it('should default req.files to {}', function(done){
+      var app = connect();
+
+      app.use(connect.multipart());
+
+      app.use(function(req, res){
+        res.end(JSON.stringify(req.files));
+      });
+
+      app.request()
+      .post('/')
+      .end(function(res){
+        res.body.should.equal('{}');
+        done();
+      });
+    })
+
   })
 })

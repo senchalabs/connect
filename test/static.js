@@ -161,6 +161,14 @@ describe('connect.static()', function(){
     })
   })
 
+  describe('when a trailing backslash is given', function(){
+    it('should 500', function(done){
+      app.request()
+      .get('/todo.txt\\')
+      .expect(500, done);
+    })
+  })
+
   // TODO: node bug
   // describe('on ENAMETOOLONG', function(){
   //   it('should next()', function(done){

@@ -78,7 +78,6 @@ describe('connect.session()', function(){
         .use(connect.cookieParser('keyboard cat'))
         .use(connect.session({ key: 'sid' }))
         .use(respond);
-      
 
       app.request()
       .get('/')
