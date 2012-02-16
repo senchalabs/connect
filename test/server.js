@@ -19,4 +19,11 @@ describe('app', function(){
     .get('http://example.com/foo')
     .expect('http://example.com/foo', done);
   })
+
+  it('should escape the 404 response body', function(done){
+    var app = connect();
+    app.request()
+    .get('/foo/<script>stuff</script>')
+    .expect('Cannot GET /foo/&lt;script&gt;stuff&lt;/script&gt;', done);
+  })
 })
