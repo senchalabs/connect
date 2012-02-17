@@ -11,6 +11,9 @@
   - csrf
   - basicAuth
   - bodyParser
+  - json
+  - multipart
+  - urlencoded
   - cookieParser
   - directory
   - errorHandler
@@ -19,11 +22,13 @@
   - logger
   - methodOverride
   - query
-  - responsetime
+  - responseTime
   - session
   - static
   - staticCache
   - vhost
+  - subdomains
+  - cookieSession
 
 ## Static file serving
 
