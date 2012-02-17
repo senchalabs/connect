@@ -1,15 +1,21 @@
 
-2.0.0alpha1 / 2011-10-05 
+2.0.0 / 2011-10-05 
 ==================
 
-  * Added `next(statusCode)` support
+  * Added `cookieSession()` middleware
+  * Added `subdomains()` middleware
+  * Added `session()` "proxy" setting to trust `X-Forwarded-Proto`
+  * Added `json()` middleware
+  * Added `urlencoded()` middleware
+  * Added `multipart()` middleware
   * Added `cookieParser(secret)` support 
   * Added signed cookie support to `cookieParser()`
   * Added support for JSON-serialized cookies
   * Added `err.status` support
+  * Added X-Cache MISS / HIT to `staticCache()`
   * Added public `res.headerSent` checking nodes `res._headerSent`
-  * Changed node dependency to ">= 0.5.0 < 0.7.0"
   * Changed: no longer lowercase cookie names
+  * Changed `bodyParser()` to use `json()`, `urlencoded()`, and `multipart()`
   * Changed: `errorHandler()` is now a development only middleware
   * Changed middleware to next() errors when possible so applications can unify logging / handling
   * Improved handling of __ENAMETOOLONG__ per #369
