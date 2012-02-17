@@ -15,7 +15,9 @@
   "devDependencies": {
     "koala": "0.1.2",
     "should": "*",
-    "mocha": "*"
+    "mocha": "*",
+    "jade": "*",
+    "dox": "*"
   },
   "main": "index",
   "engines": { "node": ">= 0.5.0 < 0.7.0" }

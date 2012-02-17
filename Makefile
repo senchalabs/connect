@@ -1,19 +1,24 @@
 
-SRC = $(shell find lib -type f -name "*.js")
 TESTS = test/*.js
 REPORTER = dot
+DOX = ./node_modules/.bin/dox
+
+SRC = $(shell find lib -type f -name "*.js")
+HTML = $(SRC:.js=.html)
 
 test:
 	@NODE_ENV=test ./node_modules/.bin/mocha \
 		--reporter $(REPORTER) \
 		$(TESTS)
 
-docs:
-	@mkdir -p docs
-	@node support/docs.js $(SRC)
+docs: $(HTML)
+	@mv $(HTML) docs
+
+%.html: %.js
+	$(DOX) < $< | node support/docs > $@
 
 docclean:
-	rm -f docs/*.{html,json}
+	rm -f $(HTML)
 
 site: docclean docs
 	rm -fr /tmp/docs \
