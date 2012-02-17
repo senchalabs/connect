@@ -19,6 +19,52 @@
   * Removed `connect.session.ignore` array support
   * Removed `router()` middleware. Closes #262
 
+1.8.5 / 2011-12-22 
+==================
+
+  * Fixed: actually allow empty body for json 
+
+1.8.4 / 2011-12-22 
+==================
+
+  * Changed: allow empty body for json/urlencoded requests. Backport for #443
+
+1.8.3 / 2011-12-16 
+==================
+
+  * Fixed `static()` _index.html_ support on windows
+
+1.8.2 / 2011-12-03 
+==================
+
+  * Fixed potential security issue, store files in req.files. Closes #431 [reported by dobesv]
+
+1.8.1 / 2011-11-21 
+==================
+
+  * Added nesting support for _multipart/form-data_ [jackyz]
+
+1.8.0 / 2011-11-17 
+==================
+
+  * Added _multipart/form-data_ support to `bodyParser()` using formidable
+
+1.7.3 / 2011-11-11 
+==================
+
+  * Fixed `req.body`, always default to {}
+  * Fixed HEAD support for 404s and 500s
+
+1.7.2 / 2011-10-24 
+==================
+
+  * "node": ">= 0.4.1 < 0.7.0"
+  * Added `static()` redirect option. Closes #398
+  * Changed `limit()`: respond with 413 when content-length exceeds the limit
+  * Removed socket error listener in static(). Closes #389
+  * Fixed `staticCache()` Age header field
+  * Fixed race condition causing errors reported in #329.
+
 1.7.1 / 2011-09-12 
 ==================
 
@@ -521,3 +567,4 @@ mounted
 ==================
 
   * Initial release
+
