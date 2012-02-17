@@ -30,17 +30,6 @@
   - subdomains
   - cookieSession
 
-## Static file serving
-
- The benchmarks below show the `static()` middleware
- requests per second vs `static()` with the `staticCache()`
- cache layer, out performing other popular node modules,
- while maintaining more features like Range request etc.
-
-  - static(): 2700 rps
-  - node-static: 5300 rps
-  - static() + staticCache(): 7500 rps
-
 ## Running Tests
 
 first:
