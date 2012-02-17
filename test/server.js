@@ -7,4 +7,23 @@ describe('app', function(){
     app.on('foo', done);
     app.emit('foo');
   })
+
+  it('should not obscure FQDNs', function(done){
+    var app = connect();
+
+    app.use(function(req, res){
+      res.end(req.url);
+    });
+
+    app.request()
+    .get('http://example.com/foo')
+    .expect('http://example.com/foo', done);
+  })
+
+  it('should escape the 404 response body', function(done){
+    var app = connect();
+    app.request()
+    .get('/foo/<script>stuff</script>')
+    .expect('Cannot GET /foo/&lt;script&gt;stuff&lt;/script&gt;', done);
+  })
 })
