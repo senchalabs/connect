@@ -2,27 +2,26 @@
 2.0.0 / 2011-10-05 
 ==================
 
-  * Added `cookieSession()` middleware
-  * Added `compress()` middleware (gzip/deflate)
-  * Added `subdomains()` middleware
+  * Added `cookieSession()` middleware for cookie-only sessions
+  * Added `compress()` middleware for gzip / deflate support
+  * Added `subdomains()` middleware to expose `req.subdomains` array
   * Added `session()` "proxy" setting to trust `X-Forwarded-Proto`
-  * Added `json()` middleware
-  * Added `urlencoded()` middleware
-  * Added `multipart()` middleware
-  * Added `cookieParser(secret)` support 
+  * Added `json()` middleware to parse "application/json"
+  * Added `urlencoded()` middleware to parse "application/x-www-form-urlencoded"
+  * Added `multipart()` middleware to parse "multipart/form-data"
+  * Added `cookieParser(secret)` support so anything using this middleware may access signed cookies
   * Added signed cookie support to `cookieParser()`
-  * Added support for JSON-serialized cookies
-  * Added `err.status` support
+  * Added support for JSON-serialized cookies to `cookieParser()`
+  * Added `err.status` support in Connect's default end-point
   * Added X-Cache MISS / HIT to `staticCache()`
-  * Added public `res.headerSent` checking nodes `res._headerSent`
+  * Added public `res.headerSent` checking nodes `res._headerSent` until node does
   * Changed: no longer lowercase cookie names
   * Changed `bodyParser()` to use `json()`, `urlencoded()`, and `multipart()`
-  * Changed: `errorHandler()` is now a development only middleware
-  * Changed middleware to next() errors when possible so applications can unify logging / handling
-  * Improved handling of __ENAMETOOLONG__ per #369
-  * Removed `http[s].Server` inheritance (now just a function)
+  * Changed: `errorHandler()` is now a development-only middleware
+  * Changed middleware to `next()` errors when possible so applications can unify logging / handling
+  * Removed `http[s].Server` inheritance, now just a function, making it easy to have an app providing both http and https
   * Removed `.createServer()` (use `connect()`)
-  * Removed `secret` option from `session()` 
+  * Removed `secret` option from `session()`, use `cookieParser(secret)`
   * Removed `connect.session.ignore` array support
   * Removed `router()` middleware. Closes #262
   * Fixed FQDN support. dont add leading "/"
