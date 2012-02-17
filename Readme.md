@@ -4,7 +4,7 @@
   Connect is an extensible HTTP server framework for [node](http://nodejs.org), providing high performance "plugins" known as _middleware_.
 
  Connect is bundled with over _20_ commonly used middleware, including
- a logger, session support, cookie parser, and [more](http://senchalabs.github.com/connect). Be sure to view the 1.0 [documentation](http://senchalabs.github.com/connect/).
+ a logger, session support, cookie parser, and [more](http://senchalabs.github.com/connect). Be sure to view the 2.x [documentation](http://senchalabs.github.com/connect/).
 
 ```js
 var connect = require('connect')
@@ -63,49 +63,56 @@ then:
 
  Below is the output from [git-summary](http://github.com/visionmedia/git-extras).
 
+
      project: connect
-     commits: 1914
-     files  : 161
+     commits: 2033
+     active : 301 days
+     files  : 171
      authors: 
-      1336	Tj Holowaychuk          69.8%
-       298	visionmedia             15.6%
-       191	Tim Caswell             10.0%
-        18	TJ Holowaychuk          0.9%
+      1414	Tj Holowaychuk          69.6%
+       298	visionmedia             14.7%
+       191	Tim Caswell             9.4%
+        51	TJ Holowaychuk          2.5%
         10	Ryan Olds               0.5%
          8	Astro                   0.4%
-         5	Jakub Nešetřil        0.3%
-         5	Nathan Rajlich          0.3%
-         3	Daniel Dickison         0.2%
-         3	Alexander Simmerl       0.2%
-         3	Andreas Lind Petersen   0.2%
-         3	David Rio Deiros        0.2%
-         2	Jacques Crocker         0.1%
+         5	Nathan Rajlich          0.2%
+         5	Jakub Nešetřil          0.2%
+         3	Daniel Dickison         0.1%
+         3	David Rio Deiros        0.1%
+         3	Alexander Simmerl       0.1%
+         3	Andreas Lind Petersen   0.1%
          2	Aaron Heckmann          0.1%
-         2	Adam Malcontenti-Wilson 0.1%
+         2	Jacques Crocker         0.1%
          2	Fabian Jakobs           0.1%
+         2	Brian J Brennan         0.1%
+         2	Adam Malcontenti-Wilson 0.1%
          2	Glen Mailer             0.1%
          2	James Campos            0.1%
-         1	Guillermo Rauch         0.1%
-         1	Jakub Nesetril          0.1%
-         1	Gregory McWhirter       0.1%
-         1	Arthur Taylor           0.1%
-         1	Joshua Peek             0.1%
-         1	Jxck                    0.1%
-         1	Marco Sanson            0.1%
-         1	Michael Hemesath        0.1%
-         1	Morten Siebuhr          0.1%
-         1	Eran Hammer-Lahav       0.1%
-         1	Craig Barnes            0.1%
-         1	Samori Gorse            0.1%
-         1	Cameron Howey           0.1%
-         1	Bart Teeuwisse          0.1%
-         1	Aseem Kishore           0.1%
-         1	Tom Jensen              0.1%
-         1	Trent Mick              0.1%
-         1	nateps                  0.1%
-         1	AJ ONeal                0.1%
-
-
+         1	Trent Mick              0.0%
+         1	Troy Kruthoff           0.0%
+         1	Wei Zhu                 0.0%
+         1	comerc                  0.0%
+         1	darobin                 0.0%
+         1	nateps                  0.0%
+         1	Marco Sanson            0.0%
+         1	Arthur Taylor           0.0%
+         1	Aseem Kishore           0.0%
+         1	Bart Teeuwisse          0.0%
+         1	Cameron Howey           0.0%
+         1	Chad Weider             0.0%
+         1	Craig Barnes            0.0%
+         1	Eran Hammer-Lahav       0.0%
+         1	Gregory McWhirter       0.0%
+         1	Guillermo Rauch         0.0%
+         1	Jae Kwon                0.0%
+         1	Jakub Nesetril          0.0%
+         1	Joshua Peek             0.0%
+         1	Jxck                    0.0%
+         1	AJ ONeal                0.0%
+         1	Michael Hemesath        0.0%
+         1	Morten Siebuhr          0.0%
+         1	Samori Gorse            0.0%
+         1	Tom Jensen              0.0%
 
 ## Node Compatibility
 
