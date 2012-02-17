@@ -1,6 +1,6 @@
 body {
   padding: 50px;
-  font: 14px "Helvetica Neue", Helvetica, sans-serif;
+  font: 14px/1.6 "Helvetica Neue", Helvetica, sans-serif;
 }
 
 h1 + p {
