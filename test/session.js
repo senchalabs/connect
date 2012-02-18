@@ -252,9 +252,10 @@ describe('connect.session()', function(){
           app.request()
           .get('/')
           .end(function(res){
-            res.headers['set-cookie'][0].should.not.include('httpOnly');
-            res.headers['set-cookie'][0].should.not.include('secure');
-            res.headers['set-cookie'][0].should.include('path=/admin');
+            var cookie = res.headers['set-cookie'][0];
+            cookie.should.not.include('httpOnly');
+            cookie.should.not.include('secure');
+            cookie.should.include('path=/admin');
             done();
           });
         })
