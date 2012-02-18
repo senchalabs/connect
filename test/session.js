@@ -240,10 +240,28 @@ describe('connect.session()', function(){
           });
         })
 
+        it('should default to a browser-session length cookie', function(done){
+          var app = connect()
+            .use(connect.cookieParser('keyboard cat'))
+            .use(connect.session({ cookie: { path: '/admin' }}))
+            .use(function(req, res, next){
+              req.session.cookie.secure = false;
+              res.end();
+            });
+
+          app.request()
+          .get('/')
+          .end(function(res){
+            var cookie = res.headers['set-cookie'][0];
+            cookie.should.not.include('expires');
+            done();
+          });
+        })
+
         it('should override defaults', function(done){
           var app = connect()
             .use(connect.cookieParser('keyboard cat'))
-            .use(connect.session({ cookie: { path: '/admin', httpOnly: false, secure: true }}))
+            .use(connect.session({ cookie: { path: '/admin', httpOnly: false, secure: true, maxAge: 5000 }}))
             .use(function(req, res, next){
               req.session.cookie.secure = false;
               res.end();
@@ -256,6 +274,7 @@ describe('connect.session()', function(){
             cookie.should.not.include('httpOnly');
             cookie.should.not.include('secure');
             cookie.should.include('path=/admin');
+            cookie.should.include('expires');
             done();
           });
         })
