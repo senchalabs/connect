@@ -42,19 +42,31 @@ describe('connect.cookieSession()', function(){
   })
 
   it('should reset on null', function(done){
+    var n = 0;
+
     app.use(function(req, res){
-      req.session.should.eql({});
-      req.session = null;
-      res.end();
+      switch (n++) {
+        case 0:
+          req.session.name = 'tobi';
+          break;
+        case 1:
+          req.session = null;
+          break;
+      }
+
+      res.setHeader('Foo', 'bar');
+      res.end('wahoo');
     });
 
     app.request()
     .get('/')
     .end(function(res){
+      sess(res).should.not.include('expires');
       app.request()
       .get('/')
       .set('Cookie', sess(res))
-      .end(function(){
+      .end(function(res){
+        sess(res).should.include('expires=Thu, 01 Jan 1970 00:00:00 GMT');
         done();
       });
     })
