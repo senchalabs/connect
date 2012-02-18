@@ -15,6 +15,7 @@
   * Added `err.status` support in Connect's default end-point
   * Added X-Cache MISS / HIT to `staticCache()`
   * Added public `res.headerSent` checking nodes `res._headerSent` until node does
+  * Changed: default `session()` to a browser-session cookie. Closes #475
   * Changed: no longer lowercase cookie names
   * Changed `bodyParser()` to use `json()`, `urlencoded()`, and `multipart()`
   * Changed: `errorHandler()` is now a development-only middleware
