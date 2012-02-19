@@ -2,6 +2,8 @@
 var connect = require('../')
   , assert = require('assert');
 
+var min = 60 * 1000;
+
 function respond(req, res) {
   res.end();
 }
@@ -16,7 +18,7 @@ function expires(res) {
 
 var app = connect()
   .use(connect.cookieParser('keyboard cat'))
-  .use(connect.session())
+  .use(connect.session({ cookie: { maxAge: min }}))
   .use(respond);
 
 describe('connect.session()', function(){
@@ -31,7 +33,7 @@ describe('connect.session()', function(){
       it('should trust X-Forwarded-Proto', function(done){
         var app = connect()
           .use(connect.cookieParser('keyboard cat'))
-          .use(connect.session({ proxy: true, cookie: { secure: true }}))
+          .use(connect.session({ proxy: true, cookie: { secure: true, maxAge: 5 }}))
           .use(respond);
 
         app.request()
@@ -48,7 +50,7 @@ describe('connect.session()', function(){
       it('should not trust X-Forwarded-Proto', function(done){
         var app = connect()
           .use(connect.cookieParser('keyboard cat'))
-          .use(connect.session({ cookie: { secure: true }}))
+          .use(connect.session({ cookie: { secure: true, maxAge: min }}))
           .use(respond);
 
         app.request()
@@ -76,7 +78,7 @@ describe('connect.session()', function(){
     it('should allow overriding', function(done){
       var app = connect()
         .use(connect.cookieParser('keyboard cat'))
-        .use(connect.session({ key: 'sid' }))
+        .use(connect.session({ key: 'sid', cookie: { maxAge: min }}))
         .use(respond);
 
       app.request()
@@ -143,7 +145,7 @@ describe('connect.session()', function(){
     it('should persist', function(done){
       var app = connect()
         .use(connect.cookieParser('keyboard cat'))
-        .use(connect.session())
+        .use(connect.session({ cookie: { maxAge: min }}))
         .use(function(req, res, next){
           req.session.count = req.session.count || 0;
           req.session.count++;
@@ -192,7 +194,7 @@ describe('connect.session()', function(){
       it('should destroy/replace the previous session', function(done){
         var app = connect()
           .use(connect.cookieParser('keyboard cat'))
-          .use(connect.session())
+          .use(connect.session({ cookie: { maxAge: min }}))
           .use(function(req, res, next){
             var id = req.session.id;
             req.session.regenerate(function(err){
@@ -223,7 +225,7 @@ describe('connect.session()', function(){
         it('should serialize as parameters', function(done){
           var app = connect()
             .use(connect.cookieParser('keyboard cat'))
-            .use(connect.session({ proxy: true }))
+            .use(connect.session({ proxy: true, cookie: { maxAge: min }}))
             .use(function(req, res, next){
               req.session.cookie.httpOnly = false;
               req.session.cookie.secure = true;
@@ -245,7 +247,6 @@ describe('connect.session()', function(){
             .use(connect.cookieParser('keyboard cat'))
             .use(connect.session({ cookie: { path: '/admin' }}))
             .use(function(req, res, next){
-              req.session.cookie.secure = false;
               res.end();
             });
 
@@ -255,6 +256,29 @@ describe('connect.session()', function(){
             var cookie = res.headers['set-cookie'][0];
             cookie.should.not.include('expires');
             done();
+          });
+        })
+
+        it('should Set-Cookie only once for browser-session cookies', function(done){
+          var app = connect()
+            .use(connect.cookieParser('keyboard cat'))
+            .use(connect.session({ cookie: { path: '/admin' }}))
+            .use(function(req, res, next){
+              res.end();
+            });
+
+          app.request()
+          .get('/')
+          .end(function(res){
+            res.headers.should.have.property('set-cookie');
+
+            app.request()
+            .get('/')
+            .set('Cookie', 'connect.sid=' + sid(res))
+            .end(function(res){
+              res.headers.should.not.have.property('set-cookie');
+              done();
+            })
           });
         })
 
