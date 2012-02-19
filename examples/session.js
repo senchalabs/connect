@@ -141,3 +141,27 @@ http.createServer(connect()
   })).listen(3004);
 
 console.log('port 3004: Session#reload() demo');
+
+// by default sessions
+// last the duration of
+// a user-agent's own session,
+// aka while the browser is open.
+
+http.createServer(connect()
+  .use(connect.cookieParser('keyboard cat'))
+  .use(connect.session())
+  .use(connect.favicon())
+  .use(function(req, res, next){
+    var sess = req.session;
+    if (sess.views) {
+      res.setHeader('Content-Type', 'text/html');
+      res.write('<p>views: ' + sess.views + '</p>');
+      res.end();
+      sess.views++;
+    } else {
+      sess.views = 1;
+      res.end('welcome to the browser session demo. refresh!');
+    }
+  })).listen(3005);
+
+console.log('port 3005: browser-session length sessions');
