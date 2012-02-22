@@ -1,14 +1,19 @@
-<!DOCTYPE html><html><head><title>Connect - High quality middleware for node.js</title><meta http-equiv="Content-Type" content="text/html; charset=utf-8"><link rel="stylesheet" href="style.css"><script src="jquery.js"></script><script src="docs.js"></script></head><body><div id="content"><h1>Connect</h1><p>High quality middleware for node.js</p><div id="" class="comment"><h2></h2><div class="description"><p>Expose the middleware.</p></div><h3>Source</h3><pre><code>exports = module.exports = cookieSession;</code></pre></div><div id="cookieSession" class="comment"><h2>cookieSession()</h2><div class="description"><h2>Cookie Session</h2>
+<!DOCTYPE html><html><head><title>Connect - High quality middleware for node.js</title><meta http-equiv="Content-Type" content="text/html; charset=utf-8"><link rel="stylesheet" href="style.css"><script src="jquery.js"></script><script src="docs.js"></script></head><body><div id="content"><h1>Connect</h1><div id="module.exports" class="comment"><h2></h2><div class="description"><h2>Cookie Session</h2>
 
 <p>Cookie session middleware.</p>
+
+<pre><code> var app = connect();
+ app.use(connect.cookieParser('tobo!'));
+ app.use(connect.cookieSession({ cookie: { maxAge: 60 * 60 * 1000 }}));
+</code></pre>
 
 <h2>Options</h2>
 
 <ul>
 <li><code>key</code> cookie name defaulting to <code>connect.sess</code></li>
-<li><code>cookie</code> session cookie settings, defaulting to <code>{ path: '/', httpOnly: true, maxAge: 14400000 }</code></li>
+<li><code>cookie</code> session cookie settings, defaulting to <code>{ path: '/', httpOnly: true, maxAge: null }</code></li>
 <li><code>proxy</code> trust the reverse proxy when setting secure cookies (via "x-forwarded-proto")</li>
-</ul></div><ul class="tags"><li><em>Object</em> options </li><li>returns <em>Function</em> </li></ul><h3>Source</h3><pre><code>function cookieSession(options){
+</ul></div><ul class="tags"><li><em>Object</em> options </li><li>returns <em>Function</em> </li></ul><h3>Source</h3><pre><code>module.exports = function cookieSession(options){
   // TODO: utilize Session/Cookie to unify API
   // TODO: only set-cookie on changes to the session data
 
@@ -51,4 +56,4 @@
 
     next();
   };
-};</code></pre></div></div><ul id="menu"><li><a href="#"></a></li><li><a href="#cookieSession">cookieSession()</a></li></ul></body></html>
+};</code></pre></div></div><ul id="menu"><li><a href="#module.exports"></a></li></ul></body></html>

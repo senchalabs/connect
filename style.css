@@ -8,12 +8,6 @@ h1 {
   font-size: 60px;
 }
 
-h1 + p {
-  border-bottom: 2px solid #eee;
-  margin-bottom: 25px;
-  padding-bottom: 10px;
-}
-
 h2 {
   font-weight: 200;
 }
