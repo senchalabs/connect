@@ -1,0 +1,44 @@
+<!DOCTYPE html><html><head><title>Connect - High quality middleware for node.js</title><meta http-equiv="Content-Type" content="text/html; charset=utf-8"><link rel="stylesheet" href="style.css"><script src="jquery.js"></script><script src="docs.js"></script></head><body><div id="content"><h1>Connect</h1><p>High quality middleware for Node.js</p><a href="http://github.com/senchalabs/connect"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://a248.e.akamai.net/assets.github.com/img/7afbc8b248c68eb468279e8c17986ad46549fb71/687474703a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f6461726b626c75655f3132313632312e706e67" alt="Fork me on GitHub"></a>
+<div id="module.exports" class="comment"><h2></h2><div class="description"><p>Request / response header logging middleware useful for debugging.</p>
+
+<h2>Examples</h2>
+
+<pre><code>connect()
+.use(connect.header())
+.use(connect.favicon())
+.use(connect.logger({ immediate: true, format: ':method :url' }))
+.use(function(req, res){
+  res.setHeader('X-Foo', 'bar');
+  res.setHeader('X-Bar', 'bar');
+  res.setHeader('X-Baz', 'bar');
+  res.end('Hello\n');
+});
+</code></pre>
+
+<h2>output</h2>
+
+<pre><code>GET /
+</code></pre>
+
+<h2>header</h2>
+
+<pre><code>x-foo: bar
+x-bar: bar
+x-baz: bar
+</code></pre></div><ul class="tags"></ul><h3>Source</h3><pre><code>module.exports = function(){
+  return function(req, res, next){
+    output('Request', req.headers);
+
+    res.on('header', function(){
+      output('Response', res._headers);
+    });
+
+    next();
+  }
+};</code></pre></div><div id="output" class="comment"><h2>output()</h2><div class="description"><p>Output <code>header</code> fields with the given <code>title</code>.</p></div><h3>Source</h3><pre><code>function output(title, header) {
+  var fields = Object.keys(header);
+  var str = fields.map(function(field){
+    return '\033[90m' + field + ':\033[36m ' + header[field] + '\033[0m';
+  }).join('\r\n');
+  console.error('%s:\n%s\n', title, str);
+}</code></pre></div></div><ul id="menu"><li><a href="#module.exports"></a></li><li><a href="#output">output()</a></li></ul></body></html>

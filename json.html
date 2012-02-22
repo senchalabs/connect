@@ -1,0 +1,34 @@
+<!DOCTYPE html><html><head><title>Connect - High quality middleware for node.js</title><meta http-equiv="Content-Type" content="text/html; charset=utf-8"><link rel="stylesheet" href="style.css"><script src="jquery.js"></script><script src="docs.js"></script></head><body><div id="content"><h1>Connect</h1><p>High quality middleware for node.js</p><div id="" class="comment"><h2></h2><div class="description"><h2>JSON</h2>
+
+<p>Parse JSON request bodies, providing the<br />parsed object as <code>req.body</code>.</p></div><ul class="tags"><li><em>Object</em> options </li><li>returns <em>Function</em> </li></ul><h3>Source</h3><pre><code>exports = module.exports = function(options){
+  options = options || {};
+  return function json(req, res, next) {
+    if (req._body) return next();
+    req.body = req.body || {};
+
+    // ignore GET
+    if ('GET' == req.method || 'HEAD' == req.method) return next();
+
+    // check Content-Type
+    if ('application/json' != utils.mime(req)) return next();
+
+    // flag as parsed
+    req._body = true;
+
+    // parse
+    var buf = '';
+    req.setEncoding('utf8');
+    req.on('data', function(chunk){ buf += chunk });
+    req.on('end', function(){
+      try {
+        req.body = buf.length
+          ? JSON.parse(buf)
+          : {};
+        next();
+      } catch (err){
+        err.status = 400;
+        next(err);
+      }
+    });
+  }
+};</code></pre></div></div><ul id="menu"><li><a href="#"></a></li></ul></body></html>

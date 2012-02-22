@@ -1,0 +1,12 @@
+<!DOCTYPE html><html><head><title>Connect - High quality middleware for node.js</title><meta http-equiv="Content-Type" content="text/html; charset=utf-8"><link rel="stylesheet" href="style.css"><script src="jquery.js"></script><script src="docs.js"></script></head><body><div id="content"><h1>Connect</h1><p>High quality middleware for node.js</p><div id="module.exports" class="comment"><h2></h2><div class="description"><h2>Subdomains</h2>
+
+<p>Populate the <code>req.subdomains</code> array.<br />  For example "ferret.tobi.example.com"<br />  would yield <code>['tobi', 'ferret']</code>.</p></div><ul class="tags"><li>returns <em>Function</em> </li></ul><h3>Source</h3><pre><code>module.exports = function(){
+  return function subdomains(req, res, next){
+    req.subdomains = req.headers.host
+      .split('.')
+      .slice(0, -2)
+      .reverse();
+
+    next();
+  };
+};</code></pre></div></div><ul id="menu"><li><a href="#module.exports"></a></li></ul></body></html>

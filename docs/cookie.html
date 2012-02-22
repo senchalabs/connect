@@ -1,0 +1,38 @@
+<!DOCTYPE html><html><head><title>Connect - High quality middleware for node.js</title><meta http-equiv="Content-Type" content="text/html; charset=utf-8"><link rel="stylesheet" href="style.css"><script src="jquery.js"></script><script src="docs.js"></script></head><body><div id="content"><h1>Connect</h1><p>High quality middleware for node.js</p><div id="Cookie" class="comment"><h2>Cookie</h2><div class="description"><p>Initialize a new <code>Cookie</code> with the given <code>options</code>.</p></div><ul class="tags"><li><em>IncomingMessage</em> req </li><li><em>Object</em> options </li></ul><h3>Source</h3><pre><code>var Cookie = module.exports = function Cookie(req, options) {
+  this.path = '/';
+  this.maxAge = null;
+  this.httpOnly = true;
+  if (options) utils.merge(this, options);
+  Object.defineProperty(this, 'req', { value: req });
+  this.originalMaxAge = undefined == this.originalMaxAge
+    ? this.maxAge
+    : this.originalMaxAge;
+};</code></pre></div><div id="" class="comment"><h2></h2><div class="description"><p>Set expires <code>date</code>.</p></div><ul class="tags"><li><em>Date</em> date </li></ul><h3>Source</h3><pre><code>set expires(date) {
+    this._expires = date;
+    this.originalMaxAge = this.maxAge;
+  },</code></pre></div><div id="" class="comment"><h2></h2><div class="description"><p>Get expires <code>date</code>.</p></div><ul class="tags"><li>returns <em>Date</em> </li></ul><h3>Source</h3><pre><code>get expires() {
+    return this._expires;
+  },</code></pre></div><div id="" class="comment"><h2></h2><div class="description"><p>Set expires via max-age in <code>ms</code>.</p></div><ul class="tags"><li><em>Number</em> ms </li></ul><h3>Source</h3><pre><code>set maxAge(ms) {
+    this.expires = 'number' == typeof ms
+      ? new Date(Date.now() + ms)
+      : ms;
+  },</code></pre></div><div id="" class="comment"><h2></h2><div class="description"><p>Get expires max-age in <code>ms</code>.</p></div><ul class="tags"><li>returns <em>Number</em> </li></ul><h3>Source</h3><pre><code>get maxAge() {
+    return this.expires instanceof Date
+      ? this.expires.valueOf() - Date.now()
+      : this.expires;
+  },</code></pre></div><div id="" class="comment"><h2></h2><div class="description"><p>Return cookie data object.</p></div><ul class="tags"><li>returns <em>Object</em> </li></ul><h3>Source</h3><pre><code>get data() {
+    return {
+        originalMaxAge: this.originalMaxAge
+      , expires: this._expires
+      , secure: this.secure
+      , httpOnly: this.httpOnly
+      , domain: this.domain
+      , path: this.path
+    }
+  },</code></pre></div><div id="" class="comment"><h2></h2><div class="description"><p>Return a serialized cookie string.</p></div><ul class="tags"><li>returns <em>String</em> </li></ul><h3>Source</h3><pre><code>serialize: function(name, val){
+    val = utils.sign(val, this.req.secret);
+    return utils.serializeCookie(name, val, this.data);
+  },</code></pre></div><div id="" class="comment"><h2></h2><div class="description"><p>Return JSON representation of this cookie.</p></div><ul class="tags"><li>returns <em>Object</em> </li></ul><h3>Source</h3><pre><code>toJSON: function(){
+    return this.data;
+  }
+};</code></pre></div></div><ul id="menu"><li><a href="#Cookie">Cookie</a></li><li><a href="#"></a></li><li><a href="#"></a></li><li><a href="#"></a></li><li><a href="#"></a></li><li><a href="#"></a></li><li><a href="#"></a></li><li><a href="#"></a></li></ul></body></html>
