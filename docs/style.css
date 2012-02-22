@@ -3,6 +3,11 @@ body {
   font: 14px/1.6 "Helvetica Neue", Helvetica, sans-serif;
 }
 
+h1 {
+  margin: 0;
+  font-size: 60px;
+}
+
 h1 + p {
   border-bottom: 2px solid #eee;
   margin-bottom: 25px;
