@@ -20,6 +20,23 @@ describe('connect.cookieSession()', function(){
     app.use(connect.cookieSession());
   })
 
+  it('should default to a browser-session length cookie', function(done){
+    var app = connect()
+      .use(connect.cookieParser('keyboard cat'))
+      .use(connect.cookieSession())
+      .use(function(req, res, next){
+        res.end();
+      });
+
+    app.request()
+    .get('/')
+    .end(function(res){
+      var cookie = res.headers['set-cookie'][0];
+      cookie.should.not.include('expires');
+      done();
+    });
+  })
+
   it('should persist json', function(done){
     app.use(function(req, res){
       req.session.count = req.session.count || 0;
