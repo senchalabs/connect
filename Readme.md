@@ -1,4 +1,3 @@
-
 # Connect
 
   Connect is an extensible HTTP server framework for [node](http://nodejs.org), providing high performance "plugins" known as _middleware_.
@@ -16,7 +15,7 @@ var app = connect()
   .use(connect.static('public'))
   .use(connect.directory('public'))
   .use(connect.cookieParser('my secret here'))
-  .use(connect.session());
+  .use(connect.session())
   .use(function(req, res){
     res.end('Hello from Connect!\n');
   });
