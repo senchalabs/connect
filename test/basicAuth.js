@@ -49,6 +49,7 @@ var app = connect();
 app.use(connect.basicAuth('tj', 'tobi'));
 
 app.use(function(req, res, next){
+  req.remoteUser.should.equal('tj');
   res.end('secret!');
 });
 
@@ -63,6 +64,7 @@ app.use(connect.basicAuth(function(user, pass){
 }));
 
 app.use(function(req, res, next){
+  req.remoteUser.should.equal('tj');
   res.end('secret!');
 });
 
@@ -73,10 +75,14 @@ test(app, 'connect.basicAuth(callback)');
 var app = connect();
 
 app.use(connect.basicAuth(function(user, pass, fn){
-  fn(null, 'tj' == user && 'tobi' == pass);
+  var ok = 'tj' == user && 'tobi' == pass;
+  fn(null, ok
+    ? { name: 'tj' }
+    : null);
 }));
 
 app.use(function(req, res, next){
+  req.remoteUser.name.should.equal('tj');
   res.end('secret!');
 });
 
