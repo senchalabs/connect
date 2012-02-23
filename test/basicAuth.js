@@ -49,7 +49,7 @@ var app = connect();
 app.use(connect.basicAuth('tj', 'tobi'));
 
 app.use(function(req, res, next){
-  req.remoteUser.should.equal('tj');
+  req.user.should.equal('tj');
   res.end('secret!');
 });
 
@@ -64,7 +64,7 @@ app.use(connect.basicAuth(function(user, pass){
 }));
 
 app.use(function(req, res, next){
-  req.remoteUser.should.equal('tj');
+  req.user.should.equal('tj');
   res.end('secret!');
 });
 
@@ -82,7 +82,7 @@ app.use(connect.basicAuth(function(user, pass, fn){
 }));
 
 app.use(function(req, res, next){
-  req.remoteUser.name.should.equal('tj');
+  req.user.name.should.equal('tj');
   res.end('secret!');
 });
 
