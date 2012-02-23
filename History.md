@@ -4,7 +4,6 @@
 
   * Added `cookieSession()` middleware for cookie-only sessions
   * Added `compress()` middleware for gzip / deflate support
-  * Added `subdomains()` middleware to expose `req.subdomains` array
   * Added `session()` "proxy" setting to trust `X-Forwarded-Proto`
   * Added `json()` middleware to parse "application/json"
   * Added `urlencoded()` middleware to parse "application/x-www-form-urlencoded"
