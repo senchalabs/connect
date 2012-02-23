@@ -169,6 +169,14 @@ describe('connect.static()', function(){
     })
   })
 
+  describe('malformedURIs', function(){
+    it('should respond with 400', function(done){
+      app.request()
+      .get('/%')
+      .expect(400, done)
+    });
+  })
+
   // TODO: node bug
   // describe('on ENAMETOOLONG', function(){
   //   it('should next()', function(done){
