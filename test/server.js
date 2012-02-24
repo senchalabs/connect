@@ -20,6 +20,15 @@ describe('app', function(){
     .expect('http://example.com/foo', done);
   })
 
+  it('should allow old-style constructor middleware', function(){
+    var app = connect(
+        connect.json()
+      , connect.multipart()
+      , connect.urlencoded());
+
+    app.stack.should.have.length(3);
+  })
+
   it('should escape the 404 response body', function(done){
     var app = connect();
     app.request()
