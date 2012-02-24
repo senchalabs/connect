@@ -14,6 +14,12 @@ test:
 docs: $(HTML)
 	@mv $(HTML) docs
 
+test-cov: lib-cov
+	@CONNECT_COV=1 $(MAKE) test REPORTER=html-cov > coverage.html
+
+lib-cov:
+	@jscoverage lib $@
+
 %.html: %.js
 	$(DOX) < $< | node support/docs > $@
 
@@ -27,4 +33,4 @@ site: docclean docs
 	  && cp -fr /tmp/docs/* . \
 	  && echo "done"
 
-.PHONY: site docs test docclean
+.PHONY: test-cov site docs test docclean
