@@ -29,6 +29,15 @@ describe('app', function(){
     app.stack.should.have.length(3);
   })
 
+  it('should allow old-style .createServer()', function(){
+    var app = connect.createServer(
+        connect.json()
+      , connect.multipart()
+      , connect.urlencoded());
+
+    app.stack.should.have.length(3);
+  })
+
   it('should escape the 404 response body', function(done){
     var app = connect();
     app.request()
