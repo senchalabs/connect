@@ -50,6 +50,17 @@ describe('connect.json()', function(){
     });
   })
 
+  it('should fail on valid JSON but invalid application/json body', function(done){
+    app.request()
+    .post('/')
+    .set('Content-Type', 'application/json')
+    .write('"hello, tobi"')
+    .end(function(res){
+      res.body.should.equal('Bad Request');
+      done();
+    });
+  })
+
   it('should default to 400 Bad Request', function(done){
     var app = connect();
     app.use(connect.json());
