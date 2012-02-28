@@ -1,6 +1,6 @@
 {
   "name": "connect",
-  "version": "2.0.0alpha1",
+  "version": "2.0.0",
   "description": "High performance middleware framework",
   "keywords": ["framework", "web", "middleware", "connect", "rack"],
   "repository": "git://github.com/senchalabs/connect.git",
