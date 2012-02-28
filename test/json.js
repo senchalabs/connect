@@ -11,6 +11,7 @@ app.use(function(req, res){
 });
 
 app.use(function(err, req, res, next){
+  res.statusCode = err.status;
   res.end(err.message);
 });
 
@@ -50,7 +51,15 @@ describe('connect.json()', function(){
     });
   })
 
-  it('should default to 400 Bad Request', function(done){
+  it('should 400 on primitives', function(done){
+    app.request()
+    .post('/')
+    .set('Content-Type', 'application/json')
+    .write('"hello, tobi"')
+    .expect(400, done);
+  })
+
+  it('should 400 on malformed JSON', function(done){
     var app = connect();
     app.use(connect.json());
 
