@@ -169,7 +169,7 @@ describe('connect.static()', function(){
     })
   })
 
-  describe('malformedURIs', function(){
+  describe('with a malformed URL', function(){
     it('should respond with 400', function(done){
       app.request()
       .get('/%')
