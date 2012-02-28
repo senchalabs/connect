@@ -24,7 +24,31 @@ describe('app.use()', function(){
       .get('/blog')
       .expect('blog', done);
     })
+
+    it('should retain req.originalUrl', function(done){
+      var app = connect();
     
+      app.use('/blog', function(req, res){
+        res.end(req.originalUrl);
+      });
+    
+      app.request()
+      .get('/blog/post/1')
+      .expect('/blog/post/1', done);
+    })
+
+    it('should adjust req.url', function(done){
+      var app = connect();
+    
+      app.use('/blog', function(req, res){
+        res.end(req.url);
+      });
+    
+      app.request()
+      .get('/blog/post/1')
+      .expect('/post/1', done);
+    })
+
     it('should strip trailing slash', function(done){
       var blog = connect();
     
