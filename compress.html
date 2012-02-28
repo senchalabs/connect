@@ -24,12 +24,13 @@
 
 <p>All remaining options are passed to the gzip/deflate<br /> creation functions. Consult node's docs for additional details.</p>
 
-<pre><code>- `chunkSize` (default: 16*1024)
-- `windowBits`
-- `level`: 0-9 where 0 is no compression, and 9 is slow but best compression
-- `memLevel`: 1-9 low is slower but uses less memory, high is fast but uses more
-- `strategy`: compression strategy
-</code></pre></div><ul class="tags"><li><em>Object</em> options </li><li>returns <em>Function</em> </li></ul><h3>Source</h3><pre><code>module.exports = function compress(options) {
+<ul>
+<li><code>chunkSize</code> (default: 16*1024)</li>
+<li><code>windowBits</code></li>
+<li><code>level</code>: 0-9 where 0 is no compression, and 9 is slow but best compression</li>
+<li><code>memLevel</code>: 1-9 low is slower but uses less memory, high is fast but uses more</li>
+<li><code>strategy</code>: compression strategy</li>
+</ul></div><ul class="tags"><li><em>Object</em> options </li><li>returns <em>Function</em> </li></ul><h3>Source</h3><pre><code>module.exports = function compress(options) {
   var options = options || {}
     , names = Object.keys(exports.methods)
     , filter = options.filter || exports.filter;

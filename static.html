@@ -68,7 +68,7 @@ connect()
     , path = decode(url.pathname)
     , type;
 
-  if ('URIError: URI malformed' == path) return next(utils.error(400));
+  if (path instanceof URIError) return next(utils.error(400));
 
   // null byte(s)
   if (~path.indexOf('\0')) return next(utils.error(400));
