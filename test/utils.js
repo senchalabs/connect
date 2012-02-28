@@ -68,28 +68,28 @@ describe('utils.serializeCookie(name, val[, options])', function(){
 describe('utils.[un]sign()', function(){
   it('should sign & unsign values', function(){
     var val = utils.sign('something', 'foo');
-    val.should.equal('something.KnUAgnazIiUClhgLhvg91JfTBAo');
+    val.should.equal('something.8WhA0qtnmrX5qoz9Z/VgxMJ+fk24BikrI+Zqndxv54k');
 
-    val = utils.unsign('something.KnUAgnazIiUClhgLhvg91JfTBAo', 'foo');
+    val = utils.unsign('something.8WhA0qtnmrX5qoz9Z/VgxMJ+fk24BikrI+Zqndxv54k', 'foo');
     val.should.equal('something');
 
     // make sure cookie values with periods don't trump the signature
     val = utils.sign('something.for.nothing', 'foo');
-    val.should.equal('something.for.nothing.jcLcIVMfGbh9EDXw7EiTqh/CWMo');
+    val.should.equal('something.for.nothing.s/7V7+RZexRSazB9x2sNFUyhMnrdxnnh5zmnrWZJyHA');
 
-    val = utils.unsign('something.for.nothing.jcLcIVMfGbh9EDXw7EiTqh/CWMo', 'foo');
+    val = utils.unsign('something.for.nothing.s/7V7+RZexRSazB9x2sNFUyhMnrdxnnh5zmnrWZJyHA', 'foo');
     val.should.equal('something.for.nothing');
 
     // invalid secret
-    val = utils.unsign('something.KnUAgnazIiUClhgLhvg91JfTBAo', 'something');
+    val = utils.unsign('something.8WhA0qtnmrX5qoz9Z/VgxMJ+fk24BikrI+Zqndxv54k', 'something');
     val.should.be.false;
 
     // invalid value
-    val = utils.unsign('somethingsss.KnUAgnazIiUClhgLhvg91JfTBAo', 'foo');
+    val = utils.unsign('somethingINVALID.8WhA0qtnmrX5qoz9Z/VgxMJ+fk24BikrI+Zqndxv54k', 'foo');
     val.should.be.false;
 
     // invalid sig
-    val = utils.unsign('something.KnUAgssssssnazIiUClhgLhvg91JfTBAo', 'foo');
+    val = utils.unsign('something.INVALID8WhA0qtnmrX5qoz9Z/VgxMJ+fk24BikrI+Zqndxv54k', 'foo');
     val.should.be.false;
   })
 })
