@@ -3,9 +3,9 @@
   utils.merge(app, proto);
   utils.merge(app, EventEmitter.prototype);
   app.route = '/';
-  app.stack = [];
+  app.stack = [].slice.apply(arguments);
   return app;
-};</code></pre></div><div id="" class="comment"><h2></h2><div class="description"><p>Auto-load bundled middleware with getters.</p></div><h3>Source</h3><pre><code>fs.readdirSync(__dirname + '/middleware').forEach(function(filename){
+};</code></pre></div><div id="createServer.createServer" class="comment"><h2>createServer.createServer</h2><div class="description"><p>Support old <code>.createServer()</code> method.</p></div><h3>Source</h3><pre><code>createServer.createServer = createServer;</code></pre></div><div id="" class="comment"><h2></h2><div class="description"><p>Auto-load bundled middleware with getters.</p></div><h3>Source</h3><pre><code>fs.readdirSync(__dirname + '/middleware').forEach(function(filename){
   if (!/\.js$/.test(filename)) return;
   var name = basename(filename, '.js');
   function load(){
@@ -13,4 +13,4 @@
   }
   exports.middleware.__defineGetter__(name, load);
   exports.__defineGetter__(name, load);
-});</code></pre></div></div><ul id="menu"><li><a href="#exports.version">exports.version</a></li><li><a href="#exports.proto">exports.proto</a></li><li><a href="#exports.middleware">exports.middleware</a></li><li><a href="#exports.utils">exports.utils</a></li><li><a href="#createServer">createServer()</a></li><li><a href="#"></a></li></ul></body></html>
+});</code></pre></div></div><ul id="menu"><li><a href="#exports.version">exports.version</a></li><li><a href="#exports.proto">exports.proto</a></li><li><a href="#exports.middleware">exports.middleware</a></li><li><a href="#exports.utils">exports.utils</a></li><li><a href="#createServer">createServer()</a></li><li><a href="#createServer.createServer">createServer.createServer</a></li><li><a href="#"></a></li></ul></body></html>

@@ -33,7 +33,15 @@ connect()
   };
 };</code></pre></div><div id="exports.mime" class="comment"><h2>exports.mime</h2><div class="description"><p>Expose mime module.</p>
 
-<p>If you wish to extend the mime table use this<br />reference to the "mime" module in the npm registry.</p></div><h3>Source</h3><pre><code>exports.mime = mime;</code></pre></div><div id="send" class="comment"><h2>send</h2><div class="description"><p>Attempt to tranfer the requested file to <code>res</code>.</p></div><ul class="tags"><li><em>ServerRequest</em>  </li><li><em>ServerResponse</em>  </li><li><em>Function</em> next </li><li><em>Object</em> options </li></ul><h3>Source</h3><pre><code>var send = exports.send = function(req, res, next, options){
+<p>If you wish to extend the mime table use this<br />reference to the "mime" module in the npm registry.</p></div><h3>Source</h3><pre><code>exports.mime = mime;</code></pre></div><div id="decode" class="comment"><h2>decode()</h2><div class="description"><p>decodeURIComponent.</p>
+
+<p>Allows V8 to only deoptimize this fn instead of all<br />of send().</p></div><ul class="tags"><li><em>String</em> path </li></ul><h3>Source</h3><pre><code>function decode(path){
+  try {
+    return decodeURIComponent(path);
+  } catch (err) {
+    return err;
+  }
+}</code></pre></div><div id="send" class="comment"><h2>send</h2><div class="description"><p>Attempt to tranfer the requested file to <code>res</code>.</p></div><ul class="tags"><li><em>ServerRequest</em>  </li><li><em>ServerResponse</em>  </li><li><em>Function</em> next </li><li><em>Object</em> options </li></ul><h3>Source</h3><pre><code>var send = exports.send = function(req, res, next, options){
   options = options || {};
   if (!options.path) throw new Error('path required');
 
@@ -57,8 +65,10 @@ connect()
 
   // parse url
   var url = parse(options.path)
-    , path = decodeURIComponent(url.pathname)
+    , path = decode(url.pathname)
     , type;
+
+  if ('URIError: URI malformed' == path) return next(utils.error(400));
 
   // null byte(s)
   if (~path.indexOf('\0')) return next(utils.error(400));
@@ -170,4 +180,4 @@ connect()
       });
     }
   });
-};</code></pre></div></div><ul id="menu"><li><a href="#"></a></li><li><a href="#exports.mime">exports.mime</a></li><li><a href="#send">send</a></li></ul></body></html>
+};</code></pre></div></div><ul id="menu"><li><a href="#"></a></li><li><a href="#exports.mime">exports.mime</a></li><li><a href="#decode">decode()</a></li><li><a href="#send">send</a></li></ul></body></html>

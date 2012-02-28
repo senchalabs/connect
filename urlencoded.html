@@ -22,7 +22,7 @@
     req.on('end', function(){
       try {
         req.body = buf.length
-          ? qs.parse(buf)
+          ? qs.parse(buf, options)
           : {};
         next();
       } catch (err){

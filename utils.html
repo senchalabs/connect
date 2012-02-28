@@ -5,17 +5,6 @@
   var err = new Error(http.STATUS_CODES[code]);
   err.status = code;
   return err;
-};</code></pre></div><div id="exports.flatten" class="comment"><h2>exports.flatten()</h2><div class="description"><p>Flatten the given <code>arr</code>.</p></div><ul class="tags"><li><em>Array</em> arr </li><li>returns <em>Array</em> </li></ul><h3>Source</h3><pre><code>exports.flatten = function(arr, ret){
-  var ret = ret || []
-    , len = arr.length;
-  for (var i = 0; i < len; ++i) {
-    if (Array.isArray(arr[i])) {
-      exports.flatten(arr[i], ret);
-    } else {
-      ret.push(arr[i]);
-    }
-  }
-  return ret;
 };</code></pre></div><div id="exports.md5" class="comment"><h2>exports.md5()</h2><div class="description"><p>Return md5 hash of the given string and optional encoding,<br />defaulting to hex.</p>
 
 <pre><code>utils.md5('wahoo');
@@ -252,4 +241,4 @@ utils.merge(a, b);
     arr[i] = obj[i];
   }
   return arr;
-};</code></pre></div></div><ul id="menu"><li><a href="#exports.mime">exports.mime()</a></li><li><a href="#exports.error">exports.error()</a></li><li><a href="#exports.flatten">exports.flatten()</a></li><li><a href="#exports.md5">exports.md5()</a></li><li><a href="#exports.merge">exports.merge()</a></li><li><a href="#exports.escape">exports.escape()</a></li><li><a href="#exports.uid">exports.uid()</a></li><li><a href="#exports.sign">exports.sign()</a></li><li><a href="#exports.unsign">exports.unsign()</a></li><li><a href="#exports.parseSignedCookies">exports.parseSignedCookies()</a></li><li><a href="#exports.parseJSONCookies">exports.parseJSONCookies()</a></li><li><a href="#exports.parseCookie">exports.parseCookie()</a></li><li><a href="#exports.serializeCookie">exports.serializeCookie()</a></li><li><a href="#exports.pause">exports.pause()</a></li><li><a href="#exports.modified">exports.modified()</a></li><li><a href="#exports.removeContentHeaders">exports.removeContentHeaders()</a></li><li><a href="#exports.conditionalGET">exports.conditionalGET()</a></li><li><a href="#exports.unauthorized">exports.unauthorized()</a></li><li><a href="#exports.notModified">exports.notModified()</a></li><li><a href="#exports.etag">exports.etag()</a></li><li><a href="#exports.parseRange">exports.parseRange()</a></li><li><a href="#exports.parseCacheControl">exports.parseCacheControl()</a></li><li><a href="#toArray">toArray</a></li></ul></body></html>
+};</code></pre></div></div><ul id="menu"><li><a href="#exports.mime">exports.mime()</a></li><li><a href="#exports.error">exports.error()</a></li><li><a href="#exports.md5">exports.md5()</a></li><li><a href="#exports.merge">exports.merge()</a></li><li><a href="#exports.escape">exports.escape()</a></li><li><a href="#exports.uid">exports.uid()</a></li><li><a href="#exports.sign">exports.sign()</a></li><li><a href="#exports.unsign">exports.unsign()</a></li><li><a href="#exports.parseSignedCookies">exports.parseSignedCookies()</a></li><li><a href="#exports.parseJSONCookies">exports.parseJSONCookies()</a></li><li><a href="#exports.parseCookie">exports.parseCookie()</a></li><li><a href="#exports.serializeCookie">exports.serializeCookie()</a></li><li><a href="#exports.pause">exports.pause()</a></li><li><a href="#exports.modified">exports.modified()</a></li><li><a href="#exports.removeContentHeaders">exports.removeContentHeaders()</a></li><li><a href="#exports.conditionalGET">exports.conditionalGET()</a></li><li><a href="#exports.unauthorized">exports.unauthorized()</a></li><li><a href="#exports.notModified">exports.notModified()</a></li><li><a href="#exports.etag">exports.etag()</a></li><li><a href="#exports.parseRange">exports.parseRange()</a></li><li><a href="#exports.parseCacheControl">exports.parseCacheControl()</a></li><li><a href="#toArray">toArray</a></li></ul></body></html>

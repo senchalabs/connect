@@ -96,7 +96,7 @@
         res.statusCode = 404;
         res.setHeader('Content-Type', 'text/plain');
         if ('HEAD' == req.method) return res.end();
-        res.end('Cannot ' + req.method + ' ' + utils.escape(req.url));
+        res.end('Cannot ' + req.method + ' ' + utils.escape(req.originalUrl));
       }
       return;
     }
@@ -136,4 +136,23 @@
     }
   }
   next();
-};</code></pre></div></div><ul id="menu"><li><a href="#app.use">app.use()</a></li><li><a href="#app.handle">app.handle()</a></li></ul></body></html>
+};</code></pre></div><div id="app.listen" class="comment"><h2>app.listen()</h2><div class="description"><p>Listen for connections.</p>
+
+<p>This method takes the same arguments<br />as node's <code>http.Server#listen()</code>.  </p>
+
+<h2>HTTP and HTTPS</h2>
+
+<p>If you run your application both as HTTP<br />and HTTPS you may wrap them individually,<br />since your Connect "server" is really just<br />a JavaScript <code>Function</code>.</p>
+
+<pre><code> var connect = require('connect')
+   , http = require('http')
+   , https = require('https');
+
+ var app = connect();
+
+ http.createServer(app).listen(80);
+ https.createServer(options, app).listen(443);
+</code></pre></div><ul class="tags"><li>returns <em>http.Server</em> </li></ul><h3>Source</h3><pre><code>app.listen = function(){
+  var server = http.createServer(this);
+  return server.listen.apply(server, arguments);
+};</code></pre></div></div><ul id="menu"><li><a href="#app.use">app.use()</a></li><li><a href="#app.handle">app.handle()</a></li><li><a href="#app.listen">app.listen()</a></li></ul></body></html>
