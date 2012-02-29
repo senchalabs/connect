@@ -159,6 +159,17 @@ describe('connect.static()', function(){
       });
     })
 
+    it('should set Content-Length correctly when out-of-range', function(done){
+      app.request()
+      .get('/nums')
+      .set('Range', 'bytes=2-5')
+      .end(function(res){
+        res.body.should.equal('3456789');
+        res.headers['content-length'].should.equal('7');
+        done();
+      });
+    })
+
     // TODO: invalid range lengths
     // TODO: multiple ranges
 
