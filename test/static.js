@@ -162,7 +162,7 @@ describe('connect.static()', function(){
     it('should set Content-Length correctly when out-of-range', function(done){
       app.request()
       .get('/nums')
-      .set('Range', 'bytes=2-5')
+      .set('Range', 'bytes=2-50')
       .end(function(res){
         res.body.should.equal('3456789');
         res.headers['content-length'].should.equal('7');
