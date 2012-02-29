@@ -148,6 +148,17 @@ describe('connect.static()', function(){
       .expect(206, done);
     })
 
+    it('should set Content-Length to the # of octets transferred', function(done){
+      app.request()
+      .get('/nums')
+      .set('Range', 'bytes=2-3')
+      .end(function(res){
+        res.body.should.equal('34');
+        res.headers['content-length'].should.equal('2');
+        done();
+      });
+    })
+
     // TODO: invalid range lengths
     // TODO: multiple ranges
 
