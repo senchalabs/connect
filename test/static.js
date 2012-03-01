@@ -159,12 +159,37 @@ describe('connect.static()', function(){
       });
     })
 
-    describe('when the range cannot be satisfied', function(){
-      it('should respond with 416', function(done){
+
+    describe('when last-byte-pos of the range is greater than current length', function(){
+      it('is taken to be equal to one less than the current length', function(done){
         app.request()
         .get('/nums')
         .set('Range', 'bytes=2-50')
+        .expect('Content-Range', 'bytes 2-8/9', done)
+      })
+      it('should adapt the Content-Length accordingly', function(done){
+        app.request()
+        .get('/nums')
+        .set('Range', 'bytes=2-50')
+        .end(function(res){
+          res.headers['content-length'].should.equal('7');
+          done();
+        });
+      })
+    })
+
+    describe('when the range cannot be satisfied, that is the first- byte-pos of the range is greater than the current length', function(){
+      it('should respond with 416', function(done){
+        app.request()
+        .get('/nums')
+        .set('Range', 'bytes=9-50')
         .expect(416, done);
+      })
+      it('should include a Content-Range field with a byte-range- resp-spec of "*" and an instance-length specifying the current length', function(done){
+        app.request()
+        .get('/nums')
+        .set('Range', 'bytes=9-50')
+        .expect('Content-Range', 'bytes */9', done)
       })
     })
 
