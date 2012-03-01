@@ -148,15 +148,32 @@ describe('connect.static()', function(){
       .expect(206, done);
     })
 
-    // TODO: invalid range lengths
-    // TODO: multiple ranges
+    it('should set Content-Length to the # of octets transferred', function(done){
+      app.request()
+      .get('/nums')
+      .set('Range', 'bytes=2-3')
+      .end(function(res){
+        res.body.should.equal('34');
+        res.headers['content-length'].should.equal('2');
+        done();
+      });
+    })
 
-    describe('when syntactically invalid', function(){
-      it('should respond with 416 Request Range Not Satisfiable', function(done){
+    describe('when the range cannot be satisfied', function(){
+      it('should respond with 416', function(done){
         app.request()
         .get('/nums')
-        .set('Range', 'bytes=4-0')
+        .set('Range', 'bytes=2-50')
         .expect(416, done);
+      })
+    })
+
+    describe('when syntactically invalid', function(){
+      it('should respond with 200 and the entire contents', function(done){
+        app.request()
+        .get('/nums')
+        .set('Range', 'bytes=asdf')
+        .expect('123456789', done);
       })
     })
   })
