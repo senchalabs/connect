@@ -177,7 +177,7 @@ describe('connect.static()', function(){
       it('should respond with 200 and the entire contents', function(done){
         app.request()
         .get('/nums')
-        .set('Range', 'bytes=4-0')
+        .set('Range', 'bytes=asdf')
         .expect('123456789', done);
       })
     })
