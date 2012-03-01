@@ -174,11 +174,11 @@ describe('connect.static()', function(){
     // TODO: multiple ranges
 
     describe('when syntactically invalid', function(){
-      it('should respond with 416 Request Range Not Satisfiable', function(done){
+      it('should respond with 200 and the entire contents', function(done){
         app.request()
         .get('/nums')
         .set('Range', 'bytes=4-0')
-        .expect(416, done);
+        .expect('123456789', done);
       })
     })
   })
