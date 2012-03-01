@@ -220,14 +220,13 @@ describe('connect.static()', function(){
     });
   })
 
-  // TODO: node bug
-  // describe('on ENAMETOOLONG', function(){
-  //   it('should next()', function(done){
-  //     var path = Array(100).join('foobar');
-  // 
-  //     app.request()
-  //     .get('/' + path)
-  //     .expect(404, done);
-  //   })
-  // })
+  describe('on ENAMETOOLONG', function(){
+    it('should next()', function(done){
+      var path = Array(100).join('foobar');
+  
+      app.request()
+      .get('/' + path)
+      .expect(404, done);
+    })
+  })
 })
