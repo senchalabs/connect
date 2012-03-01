@@ -1,4 +1,12 @@
 
+2.0.1 / 2012-02-29 
+==================
+
+  * Added test coverage for `vhost()` middleware
+  * Changed `cookieParser()` signed cookie support to use SHA-2 [senotrusov]
+  * Fixed `static()` Range: respond with 416 when unsatisfiable
+  * Fixed `vhost()` middleware. Closes #494
+
 2.0.0 / 2011-10-05 
 ==================
 
