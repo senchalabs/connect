@@ -159,15 +159,13 @@ describe('connect.static()', function(){
       });
     })
 
-    it('should set Content-Length correctly when out-of-range', function(done){
-      app.request()
-      .get('/nums')
-      .set('Range', 'bytes=2-50')
-      .end(function(res){
-        res.body.should.equal('3456789');
-        res.headers['content-length'].should.equal('7');
-        done();
-      });
+    describe('when the range cannot be satisfied', function(){
+      it('should respond with 416', function(done){
+        app.request()
+        .get('/nums')
+        .set('Range', 'bytes=2-50')
+        .expect(416, done);
+      })
     })
 
     // TODO: invalid range lengths
