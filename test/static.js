@@ -168,9 +168,6 @@ describe('connect.static()', function(){
       })
     })
 
-    // TODO: invalid range lengths
-    // TODO: multiple ranges
-
     describe('when syntactically invalid', function(){
       it('should respond with 200 and the entire contents', function(done){
         app.request()
