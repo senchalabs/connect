@@ -4,6 +4,7 @@ var connect = require('../');
 var app = connect();
 
 app.use(connect.timeout({
+  code: 503,
   time: 500
 }));
 
@@ -31,7 +32,7 @@ describe('connect.timeout()', function() {
     app.request()
     .get('/should/timeout')
     .end(function(res) {
-      res.statusCode.should.equal(500);
+      res.statusCode.should.equal(503);
       done();
     });
   });
