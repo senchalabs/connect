@@ -1,12 +1,21 @@
 
 var connect = require('../');
 
+var fixtures = __dirname + '/fixtures';
+
 var app = connect();
 
 app.use(connect.timeout({
   code: 503,
   time: 500
 }));
+
+app.use(connect['static'](fixtures));
+
+var timeouts;
+app.use(function(err, req, res, next) {
+  timeouts++;
+});
 
 app.use(function(req, res, next) {
   if (req.url === '/should/timeout') {
@@ -54,4 +63,17 @@ describe('connect.timeout()', function() {
       done();
     });
   });
+
+  it('should serve static files without timeout', function(done){
+    timeouts = 0;
+    app.request()
+    .get('/favicon.ico')
+    .end(function(res) {
+      setTimeout(function() {
+        timeouts.should.equal(0);
+        done();
+      }, 1000);
+    });
+  });
+
 });
