@@ -1,4 +1,11 @@
 
+2.0.2 / 2012-03-04 
+==================
+
+  * Added test for __ENAMETOOLONG__ now that node is fixed
+  * Fixed static() index "/" check on windows. Closes #498
+  * Fixed Content-Range behaviour to match RFC2616 [matthiasdg / visionmedia]
+
 2.0.1 / 2012-02-29 
 ==================
 
