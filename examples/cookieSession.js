@@ -4,8 +4,10 @@ var connect = require('../')
 
 var app = connect()
   .use(connect.logger('dev'))
+  .use(connect.bodyParser())
   .use(connect.cookieParser('some secret'))
   .use(connect.cookieSession())
+  .use(post)
   .use(clear)
   .use(counter);
 
@@ -17,10 +19,21 @@ function clear(req, res, next) {
   res.end();
 }
 
+function post(req, res, next) {
+  if ('POST' != req.method) return next();
+  req.session.name = req.body.name;
+  next();
+}
+
 function counter(req, res) {
   req.session.count = req.session.count || 0;
   var n = req.session.count++;
+  var name = req.session.name || 'Enter your name';
   res.end('<p>hits: ' + n + '</p>'
+    + '<form method="post">'
+    + '<p><input type="text" name="name" value="' + name + '" />'
+    + '<input type="submit" value="Save" /></p>'
+    + '</form>'
     + '<p><a href="/clear">clear session</a></p>');
 }
 
