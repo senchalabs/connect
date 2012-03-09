@@ -24,8 +24,7 @@ function Request(app) {
   this.header = {};
   this.app = app;
   if (!this.server) {
-    this.server = http.Server(app);
-    this.server.listen(0, function(){
+    this.server = app.listen(0, function(){
       self.addr = self.server.address();
       self.listening = true;
     });
@@ -47,6 +46,12 @@ methods.forEach(function(method){
 Request.prototype.set = function(field, val){
   this.header[field] = val;
   return this;
+};
+
+Request.prototype.upgrade = function(proto){
+  return this
+  .set('Connection', 'Upgrade')
+  .set('Upgrade', proto);
 };
 
 Request.prototype.write = function(data){
@@ -94,16 +99,32 @@ Request.prototype.end = function(fn){
     this.data.forEach(function(chunk){
       req.write(chunk);
     });
-    
+
+    if (fn.length === 2) {
+      req.on('error', function(err){
+        fn(err, null);
+      });
+    }
+
     req.on('response', function(res){
       var buf = '';
       res.setEncoding('utf8');
       res.on('data', function(chunk){ buf += chunk });
       res.on('end', function(){
         res.body = buf;
-        fn(res);
+        callback(res);
       });
     });
+
+    req.on('upgrade', callback);
+
+    function callback(res){
+      if (fn.length === 2) {
+        fn(null, res);
+      } else {
+        fn(res);
+      }
+    };
 
     req.end();
   } else {
