@@ -145,6 +145,77 @@ describe('connect.cookieSession()', function(){
     })
   })
 
+  describe('when modified', function(){
+    it('should set-cookie', function(done){
+      var n = 0;
+      var app = connect()
+        .use(connect.cookieParser('keyboard cat'))
+        .use(connect.cookieSession())
+        .use(function(req, res, next){
+          req.session.foo = ++n;
+          res.end();
+        });
+
+      app.request()
+      .get('/')
+      .end(function(res){
+        res.headers.should.have.property('set-cookie');
+
+        app.request()
+        .get('/')
+        .set('Cookie', sess(res))
+        .end(function(res){
+          res.headers.should.have.property('set-cookie');
+          done();
+        });
+      });
+    })
+  })
+
+  describe('when un-modified', function(){
+    it('should set-cookie only the initial time', function(done){
+      var modify;
+
+      var app = connect()
+        .use(connect.cookieParser('keyboard cat'))
+        .use(connect.cookieSession())
+        .use(function(req, res, next){
+          if (modify) req.session.foo = 'bar';
+          res.end();
+      });
+
+      app.request()
+      .get('/')
+      .end(function(res){
+        res.headers.should.have.property('set-cookie');
+        var cookie = sess(res);
+
+        app.request()
+        .get('/')
+        .set('Cookie', cookie)
+        .end(function(res){
+          res.headers.should.not.have.property('set-cookie');
+
+          app.request()
+          .get('/')
+          .set('Cookie', cookie)
+          .end(function(res){
+            res.headers.should.not.have.property('set-cookie');
+            modify = true;
+
+            app.request()
+            .get('/')
+            .set('Cookie', cookie)
+            .end(function(res){
+              res.headers.should.have.property('set-cookie');
+              done();
+            });
+          });
+        });
+      });
+    })
+  })
+
   describe('.secure', function(){
     it('should not set-cookie when insecure', function(done){
       var app = connect()

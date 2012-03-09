@@ -9,7 +9,12 @@
   "dependencies": {
     "qs": "0.4.2",
     "mime": "1.2.4",
+<<<<<<< HEAD
     "formidable": "1.0.9",
+=======
+    "formidable": "1.0.x",
+    "crc": "0.1.0",
+>>>>>>> crc-sessions
     "debug": "*"
   },
   "devDependencies": {
