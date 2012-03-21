@@ -1,4 +1,10 @@
 
+2.0.3 / 2012-03-20 
+==================
+
+  * Added: `cookieSession()` only sets cookie on change. Closes #442
+  * Added `connect:dispatcher` debug() probes
+
 2.0.2 / 2012-03-04 
 ==================
 
