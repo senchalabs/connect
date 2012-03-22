@@ -44,7 +44,7 @@ utils.merge(a, b);
     .slice(0, len);
 };</code></pre></div><div id="exports.sign" class="comment"><h2>exports.sign()</h2><div class="description"><p>Sign the given <code>val</code> with <code>secret</code>.</p></div><ul class="tags"><li><em>String</em> val </li><li><em>String</em> secret </li><li>returns <em>String</em> </li></ul><h3>Source</h3><pre><code>exports.sign = function(val, secret){
   return val + '.' + crypto
-    .createHmac('sha1', secret)
+    .createHmac('sha256', secret)
     .update(val)
     .digest('base64')
     .replace(/=+$/, '');
@@ -66,17 +66,24 @@ utils.merge(a, b);
   });
   return ret;
 };</code></pre></div><div id="exports.parseJSONCookies" class="comment"><h2>exports.parseJSONCookies()</h2><div class="description"><p>Parse JSON cookies.</p></div><ul class="tags"><li><em>Object</em> obj </li><li>returns <em>Object</em> </li></ul><h3>Source</h3><pre><code>exports.parseJSONCookies = function(obj){
+  var hashes = {};
+
   Object.keys(obj).forEach(function(key){
     var val = obj[key];
     if (0 == val.indexOf('j:')) {
       try {
+        hashes[key] = crc16(val); // only crc json cookies for now
         obj[key] = JSON.parse(val.slice(2));
       } catch (err) {
         // nothing
       }
     }
   });
-  return obj;
+
+  return {
+    cookies: obj,
+    hashes: hashes
+  };
 };</code></pre></div><div id="exports.parseCookie" class="comment"><h2>exports.parseCookie()</h2><div class="description"><p>Parse the given cookie string into an object.</p></div><ul class="tags"><li><em>String</em> str </li><li>returns <em>Object</em> </li></ul><h3>Source</h3><pre><code>exports.parseCookie = function(str){
   var obj = {}
     , pairs = str.split(/[;,] */);
@@ -214,11 +221,18 @@ utils.merge(a, b);
     }
 
     // Invalid
-    if (isNaN(start) || isNaN(end) || start > end) valid = false;
+    if (isNaN(start)
+      || isNaN(end)
+      || start > end
+      || start < 0) valid = false;
 
-    return { start: start, end: end };
+    return {
+      start: start,
+      end: end
+    };
   });
-  return valid ? arr : undefined;
+
+  return valid ? arr : null;
 };</code></pre></div><div id="exports.parseCacheControl" class="comment"><h2>exports.parseCacheControl()</h2><div class="description"><p>Parse the given Cache-Control <code>str</code>.</p></div><ul class="tags"><li><em>String</em> str </li><li>returns <em>Object</em> </li></ul><h3>Source</h3><pre><code>exports.parseCacheControl = function(str){
   var directives = str.split(',')
     , obj = {};
@@ -232,13 +246,4 @@ utils.merge(a, b);
   }
 
   return obj;
-};</code></pre></div><div id="toArray" class="comment"><h2>toArray</h2><div class="description"><p>Convert array-like object to an <code>Array</code>.</p>
-
-<p>node-bench measured "16.5 times faster than Array.prototype.slice.call()"</p></div><ul class="tags"><li><em>Object</em> obj </li><li>returns <em>Array</em> </li></ul><h3>Source</h3><pre><code>var toArray = exports.toArray = function(obj){
-  var len = obj.length
-    , arr = new Array(len);
-  for (var i = 0; i < len; ++i) {
-    arr[i] = obj[i];
-  }
-  return arr;
-};</code></pre></div></div><ul id="menu"><li><a href="#exports.mime">exports.mime()</a></li><li><a href="#exports.error">exports.error()</a></li><li><a href="#exports.md5">exports.md5()</a></li><li><a href="#exports.merge">exports.merge()</a></li><li><a href="#exports.escape">exports.escape()</a></li><li><a href="#exports.uid">exports.uid()</a></li><li><a href="#exports.sign">exports.sign()</a></li><li><a href="#exports.unsign">exports.unsign()</a></li><li><a href="#exports.parseSignedCookies">exports.parseSignedCookies()</a></li><li><a href="#exports.parseJSONCookies">exports.parseJSONCookies()</a></li><li><a href="#exports.parseCookie">exports.parseCookie()</a></li><li><a href="#exports.serializeCookie">exports.serializeCookie()</a></li><li><a href="#exports.pause">exports.pause()</a></li><li><a href="#exports.modified">exports.modified()</a></li><li><a href="#exports.removeContentHeaders">exports.removeContentHeaders()</a></li><li><a href="#exports.conditionalGET">exports.conditionalGET()</a></li><li><a href="#exports.unauthorized">exports.unauthorized()</a></li><li><a href="#exports.notModified">exports.notModified()</a></li><li><a href="#exports.etag">exports.etag()</a></li><li><a href="#exports.parseRange">exports.parseRange()</a></li><li><a href="#exports.parseCacheControl">exports.parseCacheControl()</a></li><li><a href="#toArray">toArray</a></li></ul></body></html>
+};</code></pre></div></div><ul id="menu"><li><a href="#exports.mime">exports.mime()</a></li><li><a href="#exports.error">exports.error()</a></li><li><a href="#exports.md5">exports.md5()</a></li><li><a href="#exports.merge">exports.merge()</a></li><li><a href="#exports.escape">exports.escape()</a></li><li><a href="#exports.uid">exports.uid()</a></li><li><a href="#exports.sign">exports.sign()</a></li><li><a href="#exports.unsign">exports.unsign()</a></li><li><a href="#exports.parseSignedCookies">exports.parseSignedCookies()</a></li><li><a href="#exports.parseJSONCookies">exports.parseJSONCookies()</a></li><li><a href="#exports.parseCookie">exports.parseCookie()</a></li><li><a href="#exports.serializeCookie">exports.serializeCookie()</a></li><li><a href="#exports.pause">exports.pause()</a></li><li><a href="#exports.modified">exports.modified()</a></li><li><a href="#exports.removeContentHeaders">exports.removeContentHeaders()</a></li><li><a href="#exports.conditionalGET">exports.conditionalGET()</a></li><li><a href="#exports.unauthorized">exports.unauthorized()</a></li><li><a href="#exports.notModified">exports.notModified()</a></li><li><a href="#exports.etag">exports.etag()</a></li><li><a href="#exports.parseRange">exports.parseRange()</a></li><li><a href="#exports.parseCacheControl">exports.parseCacheControl()</a></li></ul></body></html>

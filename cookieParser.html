@@ -23,7 +23,9 @@
         req.cookies = utils.parseCookie(cookie);
         if (secret) {
           req.signedCookies = utils.parseSignedCookies(req.cookies, secret);
-          req.signedCookies = utils.parseJSONCookies(req.signedCookies);
+          var obj = utils.parseJSONCookies(req.signedCookies);
+          req.signedCookies = obj.cookies;
+          req.cookieHashes = obj.hashes;
         }
         req.cookies = utils.parseJSONCookies(req.cookies);
       } catch (err) {

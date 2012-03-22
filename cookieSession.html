@@ -45,12 +45,19 @@
       // only send secure cookies via https
       if (cookie.secure && !secured) return debug('not secured');
 
-      // set cookie
+      // serialize
       debug('serializing %j', req.session);
       var val = 'j:' + JSON.stringify(req.session);
+
+      // compare hashes
+      var originalHash = req.cookieHashes && req.cookieHashes[key];
+      var hash = crc16(val);
+      if (originalHash == hash) return debug('unmodified session');
+
+      // set-cookie
       val = utils.sign(val, req.secret);
       val = utils.serializeCookie(key, val, cookie);
-      debug('cookie %j', cookie);
+      debug('set-cookie %j', cookie);
       res.setHeader('Set-Cookie', val);
     });
 

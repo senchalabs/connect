@@ -76,6 +76,7 @@
       if (err) {
         // default to 500
         if (res.statusCode < 400) res.statusCode = 500;
+        debug('default %s', res.statusCode);
 
         // respect err.status
         if (err.status) res.statusCode = err.status;
@@ -93,6 +94,7 @@
         if ('HEAD' == req.method) return res.end();
         res.end(msg);
       } else {
+        debug('default 404');
         res.statusCode = 404;
         res.setHeader('Content-Type', 'text/plain');
         if ('HEAD' == req.method) return res.end();
@@ -119,6 +121,7 @@
       // Ensure leading slash
       if (!fqdn && '/' != req.url[0]) req.url = '/' + req.url;
 
+      debug('%s', layer.handle.name || 'anonymous');
       var arity = layer.handle.length;
       if (err) {
         if (arity === 4) {
