@@ -1,0 +1,132 @@
+<!DOCTYPE html><html><head><title>Connect - High quality middleware for node.js</title><meta http-equiv="Content-Type" content="text/html; charset=utf-8"><link rel="stylesheet" href="style.css"><script src="jquery.js"></script><script src="docs.js"></script></head><body><div id="content"><h1>Connect</h1><div id="" class="comment"><h2></h2><div class="description"><h2>Directory</h2>
+
+<p>Serve directory listings with the given <code>root</code> path.</p>
+
+<h2>Options</h2>
+
+<ul>
+<li><code>hidden</code> display hidden (dot) files. Defaults to false.</li>
+<li><code>icons</code>  display icons. Defaults to false.</li>
+<li><code>filter</code> Apply this filter function to files. Defaults to false.</li>
+</ul></div><ul class="tags"><li><em>String</em> root </li><li><em>Object</em> options </li><li>returns <em>Function</em> </li></ul><h3>Source</h3><pre><code>exports = module.exports = function directory(root, options){
+  options = options || {};
+
+  // root required
+  if (!root) throw new Error('directory() root path required');
+  var hidden = options.hidden
+    , icons = options.icons
+    , filter = options.filter
+    , root = normalize(root);
+
+  return function directory(req, res, next) {
+    var accept = req.headers.accept || 'text/plain'
+      , url = parse(req.url)
+      , dir = decodeURIComponent(url.pathname)
+      , path = normalize(join(root, dir))
+      , originalUrl = parse(req.originalUrl)
+      , originalDir = decodeURIComponent(originalUrl.pathname)
+      , showUp = path != root && path != root + '/';
+
+    // null byte(s), bad request
+    if (~path.indexOf('\0')) return next(utils.error(400));
+
+    // malicious path, forbidden
+    if (0 != path.indexOf(root)) return next(utils.error(403));
+
+    // check if we have a directory
+    fs.stat(path, function(err, stat){
+      if (err) return 'ENOENT' == err.code
+        ? next()
+        : next(err);
+
+      if (!stat.isDirectory()) return next();
+
+      // fetch files
+      fs.readdir(path, function(err, files){
+        if (err) return next(err);
+        if (!hidden) files = removeHidden(files);
+        if (filter) files = files.filter(filter);
+        files.sort();
+
+        // content-negotiation
+        for (var key in exports) {
+          if (~accept.indexOf(key) || ~accept.indexOf('*</code></pre></div><div id="exports.html" class="comment"><h2>exports.html()</h2><div class="description"><p>)) {<br />            exports<a href="req, res, files, next, originalDir, showUp, icons">key</a>;<br />            return;<br />          }<br />        }</p>
+
+<pre><code>    // not acceptable
+    next(utils.error(406));
+  });
+});
+</code></pre>
+
+<p>};<br />};</p>
+
+<p>/**<br />Respond with text/html.</p></div><h3>Source</h3><pre><code>exports.html = function(req, res, files, next, dir, showUp, icons){
+  fs.readFile(__dirname + '/../public/directory.html', 'utf8', function(err, str){
+    if (err) return next(err);
+    fs.readFile(__dirname + '/../public/style.css', 'utf8', function(err, style){
+      if (err) return next(err);
+      if (showUp) files.unshift('..');
+      str = str
+        .replace('{style}', style)
+        .replace('{files}', html(files, dir, icons))
+        .replace('{directory}', dir)
+        .replace('{linked-path}', htmlPath(dir));
+      res.setHeader('Content-Type', 'text/html');
+      res.setHeader('Content-Length', str.length);
+      res.end(str);
+    });
+  });
+};</code></pre></div><div id="exports.json" class="comment"><h2>exports.json()</h2><div class="description"><p>Respond with application/json.</p></div><h3>Source</h3><pre><code>exports.json = function(req, res, files){
+  files = JSON.stringify(files);
+  res.setHeader('Content-Type', 'application/json');
+  res.setHeader('Content-Length', files.length);
+  res.end(files);
+};</code></pre></div><div id="exports.plain" class="comment"><h2>exports.plain()</h2><div class="description"><p>Respond with text/plain.</p></div><h3>Source</h3><pre><code>exports.plain = function(req, res, files){
+  files = files.join('\n') + '\n';
+  res.setHeader('Content-Type', 'text/plain');
+  res.setHeader('Content-Length', files.length);
+  res.end(files);
+};</code></pre></div><div id="htmlPath" class="comment"><h2>htmlPath()</h2><div class="description"><p>Map html <code>dir</code>, returning a linked path.</p></div><h3>Source</h3><pre><code>function htmlPath(dir) {
+  var curr = [];
+  return dir.split('/').map(function(part){
+    curr.push(part);
+    return '<a href="' + curr.join('/') + '">' + part + '</a>';
+  }).join(' / ');
+}</code></pre></div><div id="html" class="comment"><h2>html()</h2><div class="description"><p>Map html <code>files</code>, returning an html unordered list.</p></div><h3>Source</h3><pre><code>function html(files, dir, useIcons) {
+  return '<ul id="files">' + files.map(function(file){
+    var icon = ''
+      , classes = [];
+
+    if (useIcons && '..' != file) {
+      icon = icons[extname(file)] || icons.default;
+      icon = '<img src="data:image/png;base64,' + load(icon) + '" />';
+      classes.push('icon');
+    }
+
+    return '<li><a href="'
+      + join(dir, file)
+      + '" class="'
+      + classes.join(' ') + '"'
+      + ' title="' + file + '">'
+      + icon + file + '</a></li>';
+
+  }).join('\n') + '</ul>';
+}</code></pre></div><div id="load" class="comment"><h2>load()</h2><div class="description"><p>Load and cache the given <code>icon</code>.</p></div><ul class="tags"><li><em>String</em> icon </li><li>returns <em>String</em> </li></ul><h3>Source</h3><pre><code>function load(icon) {
+  if (cache[icon]) return cache[icon];
+  return cache[icon] = fs.readFileSync(__dirname + '/../public/icons/' + icon, 'base64');
+}</code></pre></div><div id="removeHidden" class="comment"><h2>removeHidden()</h2><div class="description"><p>Filter "hidden" <code>files</code>, aka files<br />beginning with a <code>.</code>.</p></div><ul class="tags"><li><em>Array</em> files </li><li>returns <em>Array</em> </li></ul><h3>Source</h3><pre><code>function removeHidden(files) {
+  return files.filter(function(file){
+    return '.' != file[0];
+  });
+}</code></pre></div><div id="icons" class="comment"><h2>icons</h2><div class="description"><p>Icon map.</p></div><h3>Source</h3><pre><code>var icons = {
+    '.js': 'page_white_code_red.png'
+  , '.c': 'page_white_c.png'
+  , '.h': 'page_white_h.png'
+  , '.cc': 'page_white_cplusplus.png'
+  , '.php': 'page_white_php.png'
+  , '.rb': 'page_white_ruby.png'
+  , '.cpp': 'page_white_cplusplus.png'
+  , '.swf': 'page_white_flash.png'
+  , '.pdf': 'page_white_acrobat.png'
+  , 'default': 'page_white.png'
+};</code></pre></div></div><ul id="menu"><li><a href="#"></a></li><li><a href="#exports.html">exports.html()</a></li><li><a href="#exports.json">exports.json()</a></li><li><a href="#exports.plain">exports.plain()</a></li><li><a href="#htmlPath">htmlPath()</a></li><li><a href="#html">html()</a></li><li><a href="#load">load()</a></li><li><a href="#removeHidden">removeHidden()</a></li><li><a href="#icons">icons</a></li></ul></body></html>

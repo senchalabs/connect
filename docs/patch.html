@@ -1,0 +1,33 @@
+<!DOCTYPE html><html><head><title>Connect - High quality middleware for node.js</title><meta http-equiv="Content-Type" content="text/html; charset=utf-8"><link rel="stylesheet" href="style.css"><script src="jquery.js"></script><script src="docs.js"></script></head><body><div id="content"><h1>Connect</h1><div id="" class="comment"><h2></h2><div class="description"><p>Provide a public "header sent" flag<br />until node does.</p></div><ul class="tags"><li>returns <em>Boolean</em> </li></ul><h3>Source</h3><pre><code>res.__defineGetter__('headerSent', function(){
+    return this._header;
+  });</code></pre></div><div id="res.setHeader" class="comment"><h2>res.setHeader()</h2><div class="description"><p>Set header <code>field</code> to <code>val</code>, special-casing<br />the <code>Set-Cookie</code> field for multiple support.</p></div><ul class="tags"><li><em>String</em> field </li><li><em>String</em> val </li></ul><h3>Source</h3><pre><code>res.setHeader = function(field, val){
+    var key = field.toLowerCase()
+      , prev;
+
+    // special-case Set-Cookie
+    if (this._headers && 'set-cookie' == key) {
+      if (prev = this.getHeader(field)) {
+        val = Array.isArray(prev)
+          ? prev.concat(val)
+          : [prev, val];
+      }
+    // charset
+    } else if ('content-type' == key && this.charset) {
+      val += '; charset=' + this.charset;
+    }
+
+    return setHeader.call(this, field, val);
+  };</code></pre></div><div id="res._renderHeaders" class="comment"><h2>res._renderHeaders()</h2><div class="description"><p>Proxy to emit "header" event.</p></div><h3>Source</h3><pre><code>res._renderHeaders = function(){
+    if (!this._emittedHeader) this.emit('header');
+    this._emittedHeader = true;
+    return _renderHeaders.call(this);
+  };
+
+  res.writeHead = function(){
+    if (!this._emittedHeader) this.emit('header');
+    this._emittedHeader = true;
+    return writeHead.apply(this, arguments);
+  };
+
+  res._hasConnectPatch = true;
+}</code></pre></div></div><ul id="menu"><li><a href="#"></a></li><li><a href="#res.setHeader">res.setHeader()</a></li><li><a href="#res._renderHeaders">res._renderHeaders()</a></li></ul></body></html>

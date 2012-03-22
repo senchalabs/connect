@@ -1,0 +1,59 @@
+<!DOCTYPE html><html><head><title>Connect - High quality middleware for node.js</title><meta http-equiv="Content-Type" content="text/html; charset=utf-8"><link rel="stylesheet" href="style.css"><script src="jquery.js"></script><script src="docs.js"></script></head><body><div id="content"><h1>Connect</h1><div id="module.exports" class="comment"><h2></h2><div class="description"><h2>Cookie Session</h2>
+
+<p>Cookie session middleware.</p>
+
+<pre><code> var app = connect();
+ app.use(connect.cookieParser('tobo!'));
+ app.use(connect.cookieSession({ cookie: { maxAge: 60 * 60 * 1000 }}));
+</code></pre>
+
+<h2>Options</h2>
+
+<ul>
+<li><code>key</code> cookie name defaulting to <code>connect.sess</code></li>
+<li><code>cookie</code> session cookie settings, defaulting to <code>{ path: '/', httpOnly: true, maxAge: null }</code></li>
+<li><code>proxy</code> trust the reverse proxy when setting secure cookies (via "x-forwarded-proto")</li>
+</ul></div><ul class="tags"><li><em>Object</em> options </li><li>returns <em>Function</em> </li></ul><h3>Source</h3><pre><code>module.exports = function cookieSession(options){
+  // TODO: utilize Session/Cookie to unify API
+  // TODO: only set-cookie on changes to the session data
+
+  var options = options || {}
+    , key = options.key || 'connect.sess'
+    , cookie = options.cookie
+    , trustProxy = options.proxy;
+
+  return function cookieSession(req, res, next) {
+    req.session = req.signedCookies[key] || {};
+    req.session.cookie = new Cookie(req, cookie);
+
+    res.on('header', function(){
+      // removed
+      if (!req.session) {
+        debug('clear session');
+        res.setHeader('Set-Cookie', key + '=; expires=' + new Date(0).toUTCString());
+        return;
+      }
+
+      var cookie = req.session.cookie;
+      delete req.session.cookie;
+
+      // check security
+      var proto = (req.headers['x-forwarded-proto'] || '').toLowerCase()
+        , tls = req.connection.encrypted || (trustProxy && 'https' == proto)
+        , secured = cookie.secure && tls;
+
+      // only send secure cookies via https
+      if (cookie.secure && !secured) return debug('not secured');
+
+      // set cookie
+      debug('serializing %j', req.session);
+      var val = 'j:' + JSON.stringify(req.session);
+      val = utils.sign(val, req.secret);
+      val = utils.serializeCookie(key, val, cookie);
+      debug('cookie %j', cookie);
+      res.setHeader('Set-Cookie', val);
+    });
+
+    next();
+  };
+};</code></pre></div></div><ul id="menu"><li><a href="#module.exports"></a></li></ul></body></html>
