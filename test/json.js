@@ -51,14 +51,6 @@ describe('connect.json()', function(){
     });
   })
 
-  it('should 400 on primitives', function(done){
-    app.request()
-    .post('/')
-    .set('Content-Type', 'application/json')
-    .write('"hello, tobi"')
-    .expect(400, done);
-  })
-
   it('should 400 on malformed JSON', function(done){
     var app = connect();
     app.use(connect.json());
@@ -72,5 +64,39 @@ describe('connect.json()', function(){
     .set('Content-Type', 'application/json')
     .write('{"foo')
     .expect(400, done);
+  })
+
+  describe('by default', function(){
+    it('should parse primitives', function(done){
+      var app = connect();
+      app.use(connect.json());
+
+      app.use(function(req, res){
+        res.end(JSON.stringify(req.body));
+      });
+
+      app.request()
+      .post('/')
+      .set('Content-Type', 'application/json')
+      .write('true')
+      .expect('true', done);
+    })
+  })
+
+  describe('when strict', function(){
+    it('should 400 on primitives', function(done){
+      var app = connect();
+      app.use(connect.json({ strict: true }));
+
+      app.use(function(req, res){
+        res.end(JSON.stringify(req.body));
+      });
+
+      app.request()
+      .post('/')
+      .set('Content-Type', 'application/json')
+      .write('true')
+      .expect(400, done);
+    })
   })
 })
