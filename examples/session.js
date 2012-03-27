@@ -106,7 +106,7 @@ http.createServer(connect()
 console.log('port 3003: conditional sessions');
 
 // Session#reload() will update req.session
-// without altering .maxAge or .lastAccess
+// without altering .maxAge
 
 // view the page several times, and see that the
 // setInterval can still gain access to new

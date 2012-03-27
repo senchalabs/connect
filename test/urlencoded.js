@@ -12,6 +12,18 @@ app.use(function(req, res){
 
 describe('connect.urlencoded()', function(){
   should['default request body'](app);
+
+  it('should support all http methods', function(done){
+    app.request()
+    .get('/')
+    .set('Content-Type', 'application/x-www-form-urlencoded')
+    .set('Content-Length', 'user=tobi'.length)
+    .write('user=tobi')
+    .end(function(res){
+      res.body.should.equal('{"user":"tobi"}');
+      done();
+    });
+  })
   
   it('should parse x-www-form-urlencoded', function(done){
     app.request()
