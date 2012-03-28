@@ -2,6 +2,18 @@
 var connect = require('../')
   , http = require('http');
 
+describe('createServer()', function(){
+  it('should accept middleware', function(done){
+    var app = connect(function(req, res, next) {
+      res.end('blog');
+    });
+
+    app.request()
+    .get('/')
+    .expect('blog', done);
+  });
+});
+
 describe('app.use()', function(){
   var app;
 
