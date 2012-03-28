@@ -71,10 +71,10 @@ describe('connect.json()', function(){
     .expect('["foo"]', done);
   })
 
-  describe('by default', function(){
+  describe('when strict is false', function(){
     it('should parse primitives', function(done){
       var app = connect();
-      app.use(connect.json());
+      app.use(connect.json({ strict: false }));
 
       app.use(function(req, res){
         res.end(JSON.stringify(req.body));
@@ -88,10 +88,10 @@ describe('connect.json()', function(){
     })
   })
 
-  describe('when strict', function(){
+  describe('by default', function(){
     it('should 400 on primitives', function(done){
       var app = connect();
-      app.use(connect.json({ strict: true }));
+      app.use(connect.json());
 
       app.use(function(req, res){
         res.end(JSON.stringify(req.body));
