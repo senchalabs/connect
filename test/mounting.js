@@ -73,6 +73,22 @@ describe('app.use()', function(){
       blog.route.should.equal('/blog');
       admin.route.should.equal('/admin');
     })
+
+    it('should not add trailing slash', function(done) {
+      var app = connect();
+
+      app.use('/admin', function(req, res, next) {
+        next();
+      });
+
+      app.use(function(req, res, next) {
+        res.end(req.url);
+      });
+
+      app.request()
+      .get('/admin')
+      .expect('/admin', done);
+    })
   })
 
   describe('with a node app', function(){
