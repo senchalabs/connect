@@ -74,7 +74,7 @@ describe('app.use()', function(){
       admin.route.should.equal('/admin');
     })
 
-    it('should not add trailing slash', function(done) {
+    it('should not add trailing slash to req.url', function(done) {
       var app = connect();
 
       app.use('/admin', function(req, res, next) {
