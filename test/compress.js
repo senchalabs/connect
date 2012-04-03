@@ -7,10 +7,72 @@ var app = connect();
 app.use(connect.compress());
 app.use(connect.static(fixtures));
 
+var dynamicApp = connect();
+dynamicApp.use(connect.compress());
+
+dynamicApp.use(function(req, res){
+  var body = '- groceries';
+
+  if (req.url == '/setHeaderEnd') {
+    res.setHeader('Content-Type', 'text/plain')
+    res.end(body);
+    return
+  }
+
+  if (req.url == '/writeHeadEnd') {
+    res.writeHead(200, {
+      'Content-Length': body.length,
+      'Content-Type': 'text/plain'
+    });
+    res.end(body);
+    return
+  }
+
+  if (req.url == '/writeHeadWriteEnd') {
+    res.writeHead(200, {
+      'Content-Length': body.length,
+      'Content-Type': 'text/plain'
+    });
+    res.write(body)
+    res.end();
+    return
+  }
+});
+
 describe('connect.compress()', function(){
   it('should gzip files', function(done){
     app.request()
     .get('/todo.txt')
+    .set('Accept-Encoding', 'gzip')
+    .end(function(res){
+      res.body.should.not.equal('- groceries');
+      done();
+    });
+  })
+
+  it('should gzip after setHeader(), end()', function(done){
+    dynamicApp.request()
+    .get('/setHeaderEnd')
+    .set('Accept-Encoding', 'gzip')
+    .end(function(res){
+      res.body.should.not.equal('- groceries');
+      done();
+    });
+  })
+
+  it('should gzip after writeHead(), end()', function(done){
+    dynamicApp.request()
+    .get('/writeHeadEnd')
+    .set('Accept-Encoding', 'gzip')
+    .end(function(res){
+      res.body.should.not.equal('- groceries');
+      done();
+    });
+  })
+
+  it('should gzip after writeHead(), write(), end()', function(done){
+    dynamicApp.request()
+    .get('/writeHeadWriteEnd')
     .set('Accept-Encoding', 'gzip')
     .end(function(res){
       res.body.should.not.equal('- groceries');
