@@ -9,7 +9,9 @@ function respond(req, res) {
 }
 
 function sid(res) {
-  return /^connect\.sid=([^;]+);/.exec(res.headers['set-cookie'][0])[1];
+  var val = res.headers['set-cookie'];
+  if (!val) return '';
+  return /^connect\.sid=([^;]+);/.exec(val[0])[1];
 }
 
 function expires(res) {
@@ -92,6 +94,16 @@ describe('connect.session()', function(){
   })
 
   it('should retain the sid', function(done){
+    var n = 0;
+
+    var app = connect()
+      .use(connect.cookieParser('keyboard cat'))
+      .use(connect.session({ cookie: { maxAge: min }}))
+      .use(function(req, res){
+        req.session.count = ++n;
+        res.end();
+      })
+
     app.request()
     .get('/')
     .end(function(res){
@@ -120,6 +132,16 @@ describe('connect.session()', function(){
   })
 
   it('should issue separate sids', function(done){
+    var n = 0;
+
+    var app = connect()
+      .use(connect.cookieParser('keyboard cat'))
+      .use(connect.session({ cookie: { maxAge: min }}))
+      .use(function(req, res){
+        req.session.count = ++n;
+        res.end();
+      })
+
     app.request()
     .get('/')
     .end(function(res){
@@ -164,6 +186,54 @@ describe('connect.session()', function(){
           var id = sid(res);
           res.body.should.equal('2');
           done();
+        });
+      });
+    })
+
+    it('should only set-cookie when modified', function(done){
+      var modify = true;
+
+      var app = connect()
+        .use(connect.cookieParser('keyboard cat'))
+        .use(connect.session({ cookie: { maxAge: min }}))
+        .use(function(req, res, next){
+          if (modify) {
+            req.session.count = req.session.count || 0;
+            req.session.count++;
+          }
+          res.end(req.session.count.toString());
+        });
+
+      app.request()
+      .get('/')
+      .end(function(res){
+        res.body.should.equal('1');
+
+        app.request()
+        .get('/')
+        .set('Cookie', 'connect.sid=' + sid(res))
+        .end(function(res){
+          var id = sid(res);
+          res.body.should.equal('2');
+          modify = false;
+
+          app.request()
+          .get('/')
+          .set('Cookie', 'connect.sid=' + sid(res))
+          .end(function(res){
+            sid(res).should.be.empty;
+            res.body.should.equal('2');
+            modify = true;
+
+            app.request()
+            .get('/')
+            .set('Cookie', 'connect.sid=' + id)
+            .end(function(res){
+              sid(res).should.not.be.empty;
+              res.body.should.equal('3');
+              done();
+            });
+          });
         });
       });
     })

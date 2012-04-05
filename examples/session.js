@@ -13,11 +13,11 @@ http.createServer(connect()
   .use(function(req, res, next){
     var sess = req.session;
     if (sess.views) {
+      sess.views++;
       res.setHeader('Content-Type', 'text/html');
       res.write('<p>views: ' + sess.views + '</p>');
       res.write('<p>expires in: ' + (sess.cookie.maxAge / 1000) + 's</p>');
       res.end();
-      sess.views++;
     } else {
       sess.views = 1;
       res.end('welcome to the session demo. refresh!');
@@ -165,3 +165,30 @@ http.createServer(connect()
   })).listen(3005);
 
 console.log('port 3005: browser-session length sessions');
+
+// persistence example, enter your name!
+
+http.createServer(connect()
+  .use(connect.bodyParser())
+  .use(connect.cookieParser('keyboard cat'))
+  .use(connect.session({ cookie: { maxAge: 60 * 1000 }}))
+  .use(connect.favicon())
+  .use(function(req, res, next){
+    if ('POST' != req.method) return next();
+    req.session.name = req.body.name;
+    res.statusCode = 302;
+    res.setHeader('Location', '/');
+    res.end();
+  })
+  .use(function(req, res, next){
+    var sess = req.session;
+    res.setHeader('Content-Type', 'text/html');
+    if (sess.name) res.write('<p>Hey ' + sess.name + '!</p>');
+    else res.write('<p>Enter a username:</p>');
+    res.end('<form action="/" method="post">'
+      + '<input type="type" name="name" />'
+      + '<input type="submit" value="Save" />'
+      + '</form>');
+  })).listen(3006);
+
+console.log('port 3006: browser-session length sessions');
