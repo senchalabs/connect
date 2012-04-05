@@ -1,4 +1,14 @@
 
+2.1.0 / 2012-04-05 
+==================
+
+  * Added `debug()` calls to `.use()` (`DEBUG=connect:displatcher`)
+  * Added `urlencoded()` support for GET
+  * Added `json()` support for GET. Closes #497
+  * Added `strict` option to `json()`
+  * Changed: `session()` only set-cookie when modified
+  * Removed `Session#lastAccess` property. Closes #399
+
 2.0.3 / 2012-03-20 
 ==================
 
