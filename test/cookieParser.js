@@ -1,9 +1,10 @@
 
-var connect = require('../');
+var connect = require('../')
+  , utils = connect.utils;
 
 var app = connect();
 
-app.use(connect.cookieParser());
+app.use(connect.cookieParser('keyboard cat'));
 
 app.use(function(req, res, next){
   if ('/signed' != req.url) return next();
@@ -30,11 +31,42 @@ describe('connect.cookieParser()', function(){
   })
 
   describe('when cookies are sent', function(){
-    it('should default req.cookies to {}', function(done){
+    it('should populate req.cookies', function(done){
       app.request()
       .get('/')
       .set('Cookie', 'foo=bar; bar=baz')
       .expect('{"foo":"bar","bar":"baz"}', done);
+    })
+  })
+
+  describe('when a secret is given', function(){
+    var val = utils.sign('foobarbaz', 'keyboard cat');
+    // TODO: "bar" fails...
+
+    it('should populate req.signedCookies', function(done){
+      app.request()
+      .get('/signed')
+      .set('Cookie', 'foo=' + val)
+      .expect('{"foo":"foobarbaz"}', done);
+    })
+
+    it('should remove the signed value from req.cookies', function(done){
+      app.request()
+      .get('/')
+      .set('Cookie', 'foo=' + val)
+      .expect('{}', done);
+    })
+
+    it('should omit invalid signatures', function(done){
+      app.request()
+      .get('/signed')
+      .set('Cookie', 'foo=' + val + '3')
+      .expect('{}', function(){
+        app.request()
+        .get('/')
+        .set('Cookie', 'foo=' + val + '3')
+        .expect('{"foo":"foobarbaz.CP7AWaXDfAKIRfH49dQzKJx7sKzzSoPq7/AcBBRVwlI3"}', done);
+      });
     })
   })
 })
