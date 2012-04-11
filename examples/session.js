@@ -26,29 +26,6 @@ http.createServer(connect()
 
 console.log('port 3000: 1 minute expiration demo');
 
-// session cookie example
-// existing as long as the browser
-// session is active
-
-http.createServer(connect()
-  .use(connect.cookieParser('keyboard cat'))
-  .use(connect.session({ cookie: { maxAge: 5000 }}))
-  .use(connect.favicon())
-  .use(function(req, res, next){
-    var sess = req.session;
-    if (sess.views) {
-      sess.views++;
-      res.setHeader('Content-Type', 'text/html');
-      res.end('<p>views: ' + sess.views + '</p>');
-    } else {
-      sess.views = 1;
-      sess.cookie.expires = false;
-      res.end('welcome to the session demo. refresh!');
-    }
-  })).listen(3001);
-
-console.log('port 3001: session cookies');
-
 // $ npm install connect-redis
 
 try {
@@ -70,9 +47,9 @@ try {
         sess.views = 1;
         res.end('welcome to the redis demo. refresh!');
       }
-    })).listen(3002);
+    })).listen(3001);
   
-  console.log('port 3002: redis example');
+  console.log('port 3001: redis example');
 } catch (err) {
   console.log('\033[33m');
   console.log('failed to start the Redis example.');
@@ -101,9 +78,9 @@ http.createServer(connect()
   .use(connect.favicon())
   .use(function(req, res, next){
     res.end('has session: ' + (req.session ? 'yes' : 'no'));
-  })).listen(3003);
+  })).listen(3002);
 
-console.log('port 3003: conditional sessions');
+console.log('port 3002: conditional sessions');
 
 // Session#reload() will update req.session
 // without altering .maxAge
@@ -138,9 +115,9 @@ http.createServer(connect()
       }, 3000);
       res.end('welcome to the session demo. refresh!');
     }
-  })).listen(3004);
+  })).listen(3003);
 
-console.log('port 3004: Session#reload() demo');
+console.log('port 3003: Session#reload() demo');
 
 // by default sessions
 // last the duration of
@@ -162,16 +139,16 @@ http.createServer(connect()
       sess.views = 1;
       res.end('welcome to the browser session demo. refresh!');
     }
-  })).listen(3005);
+  })).listen(3004);
 
-console.log('port 3005: browser-session length sessions');
+console.log('port 3004: browser-session length sessions');
 
 // persistence example, enter your name!
 
 http.createServer(connect()
   .use(connect.bodyParser())
   .use(connect.cookieParser('keyboard cat'))
-  .use(connect.session({ cookie: { maxAge: 60 * 1000 }}))
+  .use(connect.session())
   .use(connect.favicon())
   .use(function(req, res, next){
     if ('POST' != req.method) return next();
@@ -189,6 +166,6 @@ http.createServer(connect()
       + '<input type="type" name="name" />'
       + '<input type="submit" value="Save" />'
       + '</form>');
-  })).listen(3006);
+  })).listen(3005);
 
-console.log('port 3006: browser-session length sessions');
+console.log('port 3005: browser-session length sessions persistence example');
