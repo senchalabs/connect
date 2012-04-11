@@ -1,4 +1,10 @@
 
+2.1.1 / 2012-04-11 
+==================
+
+  * Fixed `session()` browser-session length cookies & examples
+  * Fixed: make `query()` "self-aware" [jed]
+
 2.1.0 / 2012-04-05 
 ==================
 
