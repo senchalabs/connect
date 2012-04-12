@@ -83,7 +83,7 @@ describe('connect.static()', function(){
     })
   })
 
-  describe('content-disposition', function(){
+  describe('forceSaveAs adds header content-disposition', function(){
     it('should be not set by default', function(done){
       app.request()
       .get('/todo.txt')
@@ -93,10 +93,10 @@ describe('connect.static()', function(){
       })
     })
 
-    it('should add header content-dispostion when contentDisposition: true is given', function(done){
+    it('should add header content-dispostion when forceSaveAs: true is given', function(done){
       var app = connect();
 
-      app.use(connect.static(fixtures, { contentDisposition: true }));
+      app.use(connect.static(fixtures, { forceSaveAs: true }));
 
       app.request()
       .get('/todo.txt')
