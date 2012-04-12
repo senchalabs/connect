@@ -83,6 +83,30 @@ describe('connect.static()', function(){
     })
   })
 
+  describe('content-disposition', function(){
+    it('should be not set by default', function(done){
+      app.request()
+      .get('/todo.txt')
+      .end(function(res){
+        res.headers.should.not.have.property('content-disposition');
+        done();
+      })
+    })
+
+    it('should add header content-dispostion when contentDisposition: true is given', function(done){
+      var app = connect();
+
+      app.use(connect.static(fixtures, { contentDisposition: true }));
+
+      app.request()
+      .get('/todo.txt')
+      .end(function(res){
+        res.headers.should.have.property('content-disposition', 'attachment; filename=todo.txt');
+        done();
+      })
+    })
+  })
+
   describe('when traversing passed root', function(){
     it('should respond with 403 Forbidden', function(done){
       app.request()
