@@ -1,4 +1,10 @@
 
+2.1.3 / 2012-04-20 
+==================
+
+  * Added optional json() `reviver` function to be passed to JSON.parse [jed]
+  * Fixed: emit drain in compress middleware [nsabovic]
+
 2.1.2 / 2012-04-11 
 ==================
 
