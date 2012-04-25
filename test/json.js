@@ -55,6 +55,21 @@ describe('connect.json()', function(){
     .expect(400, done);
   })
 
+  it('should 400 when no body is given', function(done){
+    var app = connect();
+    app.use(connect.json());
+
+    app.use(function(req, res){
+      res.end(JSON.stringify(req.body));
+    });
+
+    app.request()
+    .post('/')
+    .set('Content-Type', 'application/json')
+    .expect(400, done);
+  })
+
+
   it('should support all http methods', function(done){
     var app = connect();
     app.use(connect.json());
