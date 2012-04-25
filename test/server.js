@@ -20,13 +20,20 @@ describe('app', function(){
     .expect('http://example.com/foo', done);
   })
 
-  it('should allow old-style constructor middleware', function(){
+  it('should allow old-style constructor middleware', function(done){
     var app = connect(
         connect.json()
       , connect.multipart()
-      , connect.urlencoded());
+      , connect.urlencoded()
+      , function(req, res){ res.end(JSON.stringify(req.body)) });
 
-    app.stack.should.have.length(3);
+    app.stack.should.have.length(4);
+
+    app.request()
+      .post('/')
+      .set('Content-Type', 'application/json')
+      .write('{"foo":"bar"}')
+      .expect('{"foo":"bar"}', done);
   })
 
   it('should allow old-style .createServer()', function(){
