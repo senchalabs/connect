@@ -36,6 +36,12 @@ describe('connect.staticCache()', function(){
     .expect('X-Cache', 'HIT', done);
   })
 
+  it('should set X-Cache to MISS when query changes', function(done){
+    app.request()
+    .get('/todo.txt?_=1234')
+    .expect('X-Cache', 'MISS', done);
+  })
+
   it('should retain header fields', function(done){
     app.request()
     .get('/todo.txt')
