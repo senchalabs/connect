@@ -27,6 +27,9 @@ app.use(function(req, res, next){
   }
 });
 
+// NOTE: you would never really have this many
+// but it helps show the dispatcher perf
+
 var n = 29;
 while (n--) {
   app.use(function(req, res, next){
