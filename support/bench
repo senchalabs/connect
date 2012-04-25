@@ -12,5 +12,7 @@ bench() {
 
 sleep .5
 bench /hello "Hello World"
+bench /10 "10 Middleware"
+bench /40 "40 Middleware"
 
 kill -9 $pid
