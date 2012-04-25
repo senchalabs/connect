@@ -1,4 +1,11 @@
 
+2.2.0 / 2012-04-25 
+==================
+
+  * Added `make benchmark`
+  * Perf: memoize url parsing (~20% increase)
+  * Fixed `connect(fn, fn2, ...)`. Closes #549
+
 2.1.3 / 2012-04-20 
 ==================
 
