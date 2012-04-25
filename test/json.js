@@ -69,7 +69,6 @@ describe('connect.json()', function(){
     .expect(400, done);
   })
 
-
   it('should support all http methods', function(done){
     var app = connect();
     app.use(connect.json());
