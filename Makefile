@@ -33,4 +33,7 @@ site: docclean docs
 	  && cp -fr /tmp/docs/* . \
 	  && echo "done"
 
-.PHONY: test-cov site docs test docclean
+benchmark:
+	@./support/bench
+
+.PHONY: test-cov site docs test docclean benchmark
