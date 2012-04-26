@@ -83,6 +83,30 @@ describe('connect.static()', function(){
     })
   })
 
+  describe('maxAge', function(){
+    it('should be 0 by default', function(done){
+      app.request()
+      .get('/todo.txt')
+      .end(function(res){
+        res.should.have.header('cache-control', 'public, max-age=0');
+        done();
+      });
+    })
+
+    it('should be reasonable when infinite', function(done){
+      var app = connect();
+
+      app.use(connect.static(fixtures, { maxAge: Infinity }));
+
+      app.request()
+      .get('/todo.txt')
+      .end(function(res){
+        res.should.have.header('cache-control', 'public, max-age=' + 60*60*24*365);
+        done();
+      });
+    })
+  })
+
   describe('when traversing passed root', function(){
     it('should respond with 403 Forbidden', function(done){
       app.request()
