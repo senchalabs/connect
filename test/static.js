@@ -229,4 +229,20 @@ describe('connect.static()', function(){
       .expect(404, done);
     })
   })
+
+  describe('when mounted', function(){
+    it('should redirect relative to the originalUrl', function(done){
+      var app = connect();
+      
+      app.use('/static', connect.static('test/fixtures'));
+
+      app.request()
+      .get('/static/users')
+      .end(function(res){
+        res.headers.location.should.equal('/static/users/');
+        res.should.have.status(301);
+        done();
+      });
+    })
+  })
 })
