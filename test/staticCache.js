@@ -5,7 +5,7 @@ var fixtures = __dirname + '/fixtures';
 
 var app = connect();
 app.use(connect.staticCache());
-app.use(connect.static(fixtures, {maxAge: Infinity}));
+app.use(connect.static(fixtures, { maxAge: Infinity }));
 
 describe('connect.staticCache()', function(){
   it('should set X-Cache to MISS when missed', function(done){
@@ -77,7 +77,7 @@ describe('connect.staticCache()', function(){
       res.setHeader('Cache-Control', 'private');
       next();
     });
-    app.use(connect.static(fixtures), {maxAge: Infinity});
+    app.use(connect.static(fixtures), { maxAge: Infinity });
 
     app.request()
     .head('/todo.txt')
@@ -91,7 +91,7 @@ describe('connect.staticCache()', function(){
       res.setHeader('Cache-Control', 'no-store');
       next();
     });
-    app.use(connect.static(fixtures), {maxAge: Infinity});
+    app.use(connect.static(fixtures), { maxAge: Infinity });
 
     app.request()
     .head('/todo.txt')
