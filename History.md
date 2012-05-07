@@ -1,4 +1,11 @@
 
+2.2.2 / 2012-05-07 
+==================
+
+  * Added support to csrf middle for pre-flight CORS requests
+  * Updated `engines` to allow newer version of node
+  * Removed duplicate repo prop. Closes #560
+
 2.2.1 / 2012-04-28 
 ==================
 
