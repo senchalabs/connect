@@ -254,6 +254,14 @@ describe('connect.static()', function(){
     })
   })
 
+  describe('on ENOTDIR', function(){
+    it('should next()', function(done) {
+      app.request()
+      .get('/todo.txt/a.php')
+      .expect(404, done);
+    })
+  })
+
   describe('when mounted', function(){
     it('should redirect relative to the originalUrl', function(done){
       var app = connect();
