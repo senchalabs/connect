@@ -8,10 +8,16 @@ function respond(req, res) {
   res.end();
 }
 
-function sid(res) {
+function signedSid(res) {
   var val = res.headers['set-cookie'];
   if (!val) return '';
   return /^connect\.sid=([^;]+);/.exec(val[0])[1];
+}
+
+function sid(res) {
+  var val = res.headers['set-cookie'];
+  if (!val) return '';
+  return decodeURIComponent(/^connect\.sid=([^.]+)./.exec(val[0])[1]);
 }
 
 function expires(res) {
@@ -101,19 +107,21 @@ describe('connect.session()', function(){
       .use(connect.session({ cookie: { maxAge: min }}))
       .use(function(req, res){
         req.session.count = ++n;
-        res.end();
+        res.end(req.session.id);
       })
 
     app.request()
     .get('/')
     .end(function(res){
 
+      var cookieId = signedSid(res);
       var id = sid(res);
+
       app.request()
       .get('/')
-      .set('Cookie', 'connect.sid=' + id)
+      .set('Cookie', 'connect.sid=' + cookieId)
       .end(function(res){
-        sid(res).should.equal(id);
+        res.body.should.equal(id);
         done();
       });
     });
@@ -125,6 +133,7 @@ describe('connect.session()', function(){
       .get('/')
       .set('Cookie', 'connect.sid=foobarbaz')
       .end(function(res){
+        signedSid(res).should.not.equal('foobarbaz');
         sid(res).should.not.equal('foobarbaz');
         done();
       });
@@ -139,7 +148,7 @@ describe('connect.session()', function(){
       .use(connect.session({ cookie: { maxAge: min }}))
       .use(function(req, res){
         req.session.count = ++n;
-        res.end();
+        res.end(req.session.id);
       })
 
     app.request()
@@ -147,16 +156,18 @@ describe('connect.session()', function(){
     .end(function(res){
 
       var id = sid(res);
+      var cookieId = signedSid(res);
+
       app.request()
       .get('/')
-      .set('Cookie', 'connect.sid=' + id)
+      .set('Cookie', 'connect.sid=' + cookieId)
       .end(function(res){
-        sid(res).should.equal(id);
+        res.body.should.equal(id);
 
         app.request()
         .get('/')
         .end(function(res){
-          sid(res).should.not.equal(id);
+          res.body.should.not.equal(id);
           done();
         });
       });
@@ -173,7 +184,7 @@ describe('connect.session()', function(){
           req.session.count++;
           res.end(req.session.count.toString());
         });
-        
+
       app.request()
       .get('/')
       .end(function(res){
@@ -181,9 +192,8 @@ describe('connect.session()', function(){
 
         app.request()
         .get('/')
-        .set('Cookie', 'connect.sid=' + sid(res))
+        .set('Cookie', 'connect.sid=' + signedSid(res))
         .end(function(res){
-          var id = sid(res);
           res.body.should.equal('2');
           done();
         });
@@ -197,10 +207,13 @@ describe('connect.session()', function(){
         .use(connect.cookieParser('keyboard cat'))
         .use(connect.session({ cookie: { maxAge: min }}))
         .use(function(req, res, next){
+          req.session.count = req.session.count || 0;
+          req.session.count++;
+
           if (modify) {
-            req.session.count = req.session.count || 0;
-            req.session.count++;
+            req.session.cookie.maxAge = 60000 * req.session.count;
           }
+
           res.end(req.session.count.toString());
         });
 
@@ -208,21 +221,21 @@ describe('connect.session()', function(){
       .get('/')
       .end(function(res){
         res.body.should.equal('1');
+        var id = signedSid(res);
 
         app.request()
         .get('/')
-        .set('Cookie', 'connect.sid=' + sid(res))
+        .set('Cookie', 'connect.sid=' + id)
         .end(function(res){
-          var id = sid(res);
           res.body.should.equal('2');
           modify = false;
 
           app.request()
           .get('/')
-          .set('Cookie', 'connect.sid=' + sid(res))
+          .set('Cookie', 'connect.sid=' + id)
           .end(function(res){
             sid(res).should.be.empty;
-            res.body.should.equal('2');
+            res.body.should.equal('3');
             modify = true;
 
             app.request()
@@ -230,7 +243,7 @@ describe('connect.session()', function(){
             .set('Cookie', 'connect.sid=' + id)
             .end(function(res){
               sid(res).should.not.be.empty;
-              res.body.should.equal('3');
+              res.body.should.equal('4');
               done();
             });
           });
@@ -344,7 +357,7 @@ describe('connect.session()', function(){
 
             app.request()
             .get('/')
-            .set('Cookie', 'connect.sid=' + sid(res))
+            .set('Cookie', 'connect.sid=' + signedSid(res))
             .end(function(res){
               res.headers.should.not.have.property('set-cookie');
               done();
