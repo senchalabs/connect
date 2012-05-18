@@ -17,6 +17,7 @@ app.use(function(err, req, res, next){
 
 describe('connect.json()', function(){
   should['default request body'](app);
+  should['limit body to']('1mb', 'application/json', app);
 
   it('should parse JSON', function(done){
     app.request()

@@ -12,6 +12,7 @@ app.use(function(req, res){
 
 describe('connect.urlencoded()', function(){
   should['default request body'](app);
+  should['limit body to']('1mb', 'application/x-www-form-urlencoded', app);
 
   it('should support all http methods', function(done){
     app.request()

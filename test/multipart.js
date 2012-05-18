@@ -12,6 +12,7 @@ app.use(function(req, res){
 
 describe('connect.multipart()', function(){
   should['default request body'](app);
+  should['limit body to']('20mb', 'multipart/form-data', app);
 
   it('should ignore GET', function(done){
     app.request()
