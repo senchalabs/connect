@@ -1,4 +1,13 @@
 
+2.3.0 / 2012-05-20 
+==================
+
+  * Added limit option to `json()`
+  * Added limit option to `urlencoded()`
+  * Added limit option to `multipart()`
+  * Fixed: remove socket error event listener on callback
+  * Fixed __ENOTDIR__ error on `static` middleware
+
 2.2.2 / 2012-05-07 
 ==================
 
