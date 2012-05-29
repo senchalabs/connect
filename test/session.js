@@ -15,7 +15,7 @@ function sid(res) {
 }
 
 function expires(res) {
-  return res.headers['set-cookie'][0].match(/expires=([^;]+)/)[1];
+  return res.headers['set-cookie'][0].match(/Expires=([^;]+)/)[1];
 }
 
 var app = connect()
@@ -306,8 +306,8 @@ describe('connect.session()', function(){
           .get('/')
           .set('X-Forwarded-Proto', 'https')
           .end(function(res){
-            res.headers['set-cookie'][0].should.not.include('httpOnly');
-            res.headers['set-cookie'][0].should.include('secure');
+            res.headers['set-cookie'][0].should.not.include('HttpOnly');
+            res.headers['set-cookie'][0].should.include('Secure');
             done();
           });
         })
@@ -324,7 +324,7 @@ describe('connect.session()', function(){
           .get('/')
           .end(function(res){
             var cookie = res.headers['set-cookie'][0];
-            cookie.should.not.include('expires');
+            cookie.should.not.include('Expires');
             done();
           });
         })
@@ -365,10 +365,10 @@ describe('connect.session()', function(){
           .get('/')
           .end(function(res){
             var cookie = res.headers['set-cookie'][0];
-            cookie.should.not.include('httpOnly');
-            cookie.should.not.include('secure');
-            cookie.should.include('path=/admin');
-            cookie.should.include('expires');
+            cookie.should.not.include('HttpOnly');
+            cookie.should.not.include('Secure');
+            cookie.should.include('Path=/admin');
+            cookie.should.include('Expires');
             done();
           });
         })
@@ -452,7 +452,7 @@ describe('connect.session()', function(){
             app.request()
             .get('/')
             .end(function(res){
-              res.headers['set-cookie'][0].should.not.include('expires=');
+              res.headers['set-cookie'][0].should.not.include('Expires=');
               done();
             });
           })

@@ -26,45 +26,6 @@ describe('utils.parseCacheControl(str)', function(){
   })
 })
 
-describe('utils.parseCookie(str)', function(){
-  it('should parse cookies', function(){
-    utils.parseCookie('foo=bar').should.eql({ foo: 'bar' });
-    utils.parseCookie('sid=123').should.eql({ sid: '123' });
-
-    utils.parseCookie('FOO   = bar;  baz    =  raz')
-      .should.eql({ FOO: 'bar', baz: 'raz' });  
-
-    utils.parseCookie('fbs="uid=0987654321&name=Test+User"')
-      .should.eql({ fbs: 'uid=0987654321&name=Test User' });
-
-    utils.parseCookie('email=tobi%2Bferret@foo.com')
-      .should.eql({ email: 'tobi+ferret@foo.com' });
-  })
-})
-
-describe('utils.serializeCookie(name, val[, options])', function(){
-  it('should serialize cookies', function(){
-    utils
-      .serializeCookie('foo', 'bar', { path: '/' })
-      .should.equal('foo=bar; path=/');
-
-    utils
-      .serializeCookie('foo', 'bar', { secure: true })
-      .should.equal('foo=bar; secure');
-
-    utils
-      .serializeCookie('foo', 'bar', { secure: false })
-      .should.equal('foo=bar');
-
-    utils
-      .serializeCookie('Foo', 'foo bar')
-      .should.equal('Foo=foo%20bar');
-
-    utils.parseCookie(utils.serializeCookie('fbs', 'uid=123&name=Test User'))
-      .should.eql({ fbs: 'uid=123&name=Test User' });
-  })
-})
-
 describe('utils.[un]sign()', function(){
   it('should sign & unsign values', function(){
     var val = utils.sign('something', 'foo');

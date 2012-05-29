@@ -100,8 +100,8 @@ describe('connect.cookieSession()', function(){
       .get('/')
       .end(function(res){
         var cookie = sess(res);
-        cookie.should.include('path=/');
-        cookie.should.include('httpOnly');
+        cookie.should.include('Path=/');
+        cookie.should.include('HttpOnly');
         done();
       })
     })
@@ -117,8 +117,8 @@ describe('connect.cookieSession()', function(){
       .get('/')
       .end(function(res){
         var cookie = sess(res);
-        cookie.should.include('path=/admin');
-        cookie.should.not.include('httpOnly');
+        cookie.should.include('Path=/admin');
+        cookie.should.not.include('HttpOnly');
         done();
       })
     })
@@ -138,8 +138,8 @@ describe('connect.cookieSession()', function(){
       .get('/')
       .end(function(res){
         var cookie = sess(res);
-        cookie.should.include('path=/');
-        cookie.should.not.include('httpOnly');
+        cookie.should.include('Path=/');
+        cookie.should.not.include('HttpOnly');
         done();
       })
     })
