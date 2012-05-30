@@ -46,14 +46,14 @@ describe('connect.cookieParser()', function(){
     it('should populate req.signedCookies', function(done){
       app.request()
       .get('/signed')
-      .set('Cookie', 'foo=' + val)
+      .set('Cookie', 'foo=s:' + val)
       .expect('{"foo":"foobarbaz"}', done);
     })
 
     it('should remove the signed value from req.cookies', function(done){
       app.request()
       .get('/')
-      .set('Cookie', 'foo=' + val)
+      .set('Cookie', 'foo=s:' + val)
       .expect('{}', done);
     })
 
