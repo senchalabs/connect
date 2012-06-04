@@ -272,31 +272,28 @@ describe('connect.cookieSession()', function(){
   })
 
   // backwards compat test for signed cookies through the `cookieParser` middleware
-  describe('when using signed cookies', function(){
-    it('should set-cookie', function(done){
-      var n = 0;
-      var app = connect()
-        .use(connect.cookieParser('keyboard cat'))
-        .use(connect.cookieSession())
-        .use(function(req, res, next){
-          req.session.foo = ++n;
-          res.end();
-        });
+  it('should support req.signedCookies', function(done){
+    var n = 0;
+    var app = connect()
+      .use(connect.cookieParser('keyboard cat'))
+      .use(connect.cookieSession())
+      .use(function(req, res, next){
+        req.session.foo = ++n;
+        res.end();
+      });
+
+    app.request()
+    .get('/')
+    .end(function(res){
+      res.headers.should.have.property('set-cookie');
 
       app.request()
       .get('/')
+      .set('Cookie', sess(res))
       .end(function(res){
         res.headers.should.have.property('set-cookie');
-
-        app.request()
-        .get('/')
-        .set('Cookie', sess(res))
-        .end(function(res){
-          res.headers.should.have.property('set-cookie');
-          done();
-        });
+        done();
       });
-    })
+    });
   })
-
 })
