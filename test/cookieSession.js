@@ -16,14 +16,14 @@ describe('connect.cookieSession()', function(){
 
   beforeEach(function(){
     app = connect();
-    app.use(connect.cookieParser('some secret'));
-    app.use(connect.cookieSession());
+    app.use(connect.cookieParser());
+    app.use(connect.cookieSession({ secret: 'some secret' }));
   })
 
   it('should default to a browser-session length cookie', function(done){
     var app = connect()
-      .use(connect.cookieParser('keyboard cat'))
-      .use(connect.cookieSession())
+      .use(connect.cookieParser())
+      .use(connect.cookieSession({ secret: 'keyboard cat' }))
       .use(function(req, res, next){
         res.end();
       });
@@ -41,7 +41,7 @@ describe('connect.cookieSession()', function(){
     app.use(function(req, res){
       req.session.count = req.session.count || 0;
       var n = req.session.count++;
-      res.end('' + n); 
+      res.end('' + n);
     });
 
     app.request()
@@ -127,8 +127,8 @@ describe('connect.cookieSession()', function(){
   describe('cookie option', function(){
     it('should override defaults', function(done){
       var app = connect();
-      app.use(connect.cookieParser('some secret'));
-      app.use(connect.cookieSession({ cookie: { httpOnly: false }}));
+      app.use(connect.cookieParser());
+      app.use(connect.cookieSession({ secret: 'some secret', cookie: { httpOnly: false }}));
 
       app.use(function(req, res){
         res.end();
@@ -149,8 +149,8 @@ describe('connect.cookieSession()', function(){
     it('should set-cookie', function(done){
       var n = 0;
       var app = connect()
-        .use(connect.cookieParser('keyboard cat'))
-        .use(connect.cookieSession())
+        .use(connect.cookieParser())
+        .use(connect.cookieSession({ secret: 'keyboard cat' }))
         .use(function(req, res, next){
           req.session.foo = ++n;
           res.end();
@@ -177,8 +177,8 @@ describe('connect.cookieSession()', function(){
       var modify;
 
       var app = connect()
-        .use(connect.cookieParser('keyboard cat'))
-        .use(connect.cookieSession())
+        .use(connect.cookieParser())
+        .use(connect.cookieSession({ secret: 'keyboard cat' }))
         .use(function(req, res, next){
           if (modify) req.session.foo = 'bar';
           res.end();
@@ -219,8 +219,8 @@ describe('connect.cookieSession()', function(){
   describe('.secure', function(){
     it('should not set-cookie when insecure', function(done){
       var app = connect()
-        .use(connect.cookieParser('keyboard cat'))
-        .use(connect.cookieSession())
+        .use(connect.cookieParser())
+        .use(connect.cookieSession({ secret: 'keyboard cat' }))
         .use(function(req, res, next){
           req.session.cookie.secure = true;
           res.end();
@@ -239,8 +239,8 @@ describe('connect.cookieSession()', function(){
     describe('when enabled', function(){
       it('should trust X-Forwarded-Proto', function(done){
         var app = connect()
-          .use(connect.cookieParser('keyboard cat'))
-          .use(connect.cookieSession({ proxy: true, cookie: { secure: true }}))
+          .use(connect.cookieParser())
+          .use(connect.cookieSession({ secret: 'keyboard cat', proxy: true, cookie: { secure: true }}))
           .use(respond);
   
         app.request()
@@ -256,8 +256,8 @@ describe('connect.cookieSession()', function(){
     describe('when disabled', function(){
       it('should not trust X-Forwarded-Proto', function(done){
         var app = connect()
-          .use(connect.cookieParser('keyboard cat'))
-          .use(connect.cookieSession({ cookie: { secure: true }}))
+          .use(connect.cookieParser())
+          .use(connect.cookieSession({ secret: 'keyboard cat', cookie: { secure: true }}))
           .use(respond);
   
         app.request()
@@ -270,4 +270,33 @@ describe('connect.cookieSession()', function(){
       })
     })
   })
+
+  // backwards compat test for signed cookies through the `cookieParser` middleware
+  describe('when using signed cookies', function(){
+    it('should set-cookie', function(done){
+      var n = 0;
+      var app = connect()
+        .use(connect.cookieParser('keyboard cat'))
+        .use(connect.cookieSession())
+        .use(function(req, res, next){
+          req.session.foo = ++n;
+          res.end();
+        });
+
+      app.request()
+      .get('/')
+      .end(function(res){
+        res.headers.should.have.property('set-cookie');
+
+        app.request()
+        .get('/')
+        .set('Cookie', sess(res))
+        .end(function(res){
+          res.headers.should.have.property('set-cookie');
+          done();
+        });
+      });
+    })
+  })
+
 })
