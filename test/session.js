@@ -460,7 +460,7 @@ describe('connect.session()', function(){
       })
     })
 
-    it('should work with signed cookies', function(done){
+    it('should support req.signedCookies', function(done){
       var app = connect()
         .use(connect.cookieParser('keyboard cat'))
         .use(connect.session({ cookie: { maxAge: min }}))
