@@ -56,13 +56,11 @@ describe('connect.staticCache()', function(){
     app.request()
     .get('/todo.txt')
     .end(function(res){
-      var req = app.request()
-      req.header["If-Modified-Since"] = new Date(new Date().getTime() + 100).toString();
-      req.get('/todo.txt')
-      .end(function(res){
-        res.statusCode.should.equal(304);
-        done();
-      });
+      res.should.have.status(200);
+      app.request()
+      .get('/todo.txt')
+      .set('If-Modified-Since', new Date(Date.now() + 100).toString())
+      .expect(304, done);
     });
   })
 
