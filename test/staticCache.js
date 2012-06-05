@@ -52,6 +52,20 @@ describe('connect.staticCache()', function(){
     });
   })
 
+  it('should return 304 response if not modified', function(done){
+    app.request()
+    .get('/todo.txt')
+    .end(function(res){
+      var req = app.request()
+      req.header["If-Modified-Since"] = new Date(new Date().getTime() + 100).toString();
+      req.get('/todo.txt')
+      .end(function(res){
+        res.statusCode.should.equal(304);
+        done();
+      });
+    });
+  })
+
   it('should serve the contents on GET', function(done){
     app.request()
     .get('/todo.txt')
