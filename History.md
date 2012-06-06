@@ -1,4 +1,13 @@
 
+2.3.1 / 2012-06-06 
+==================
+
+  * Added `secret` option to `cookieSession` middleware [shtylman]
+  * Added `secret` option to `session` middleware [shtylman]
+  * Added `req.remoteUser` back to `basicAuth()` as alias of `req.user`
+  * Performance: improve signed cookie parsing
+  * Update `cookie` dependency [shtylman]
+
 2.3.0 / 2012-05-20 
 ==================
 
