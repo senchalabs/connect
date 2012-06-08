@@ -1,4 +1,10 @@
 
+2.3.2 / 2012-06-08 
+==================
+
+  * expose mime module
+  * Update crc dep (which bundled nodeunit)
+
 2.3.1 / 2012-06-06 
 ==================
 
