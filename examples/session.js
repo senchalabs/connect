@@ -7,8 +7,8 @@ var connect = require('../')
 // receive req.session
 
 http.createServer(connect()
-  .use(connect.cookieParser('keyboard cat'))
-  .use(connect.session({ cookie: { maxAge: 60000 }}))
+  .use(connect.cookieParser())
+  .use(connect.session({ secret: 'keyboard cat', cookie: { maxAge: 60000 }}))
   .use(connect.favicon())
   .use(function(req, res, next){
     var sess = req.session;
@@ -31,8 +31,9 @@ console.log('port 3000: 1 minute expiration demo');
 try {
   var RedisStore = require('connect-redis')(connect);
   http.createServer(connect()
-    .use(connect.cookieParser('keyboard cat'))
+    .use(connect.cookieParser())
     .use(connect.session({
+        secret: 'keyboard cat',
         cookie: { maxAge: 60000 * 3 }
       , store: new RedisStore
     }))
@@ -64,10 +65,10 @@ try {
 // conditional session support by simply
 // wrapping middleware with middleware.
 
-var sess = connect.session({ cookie: { maxAge: 5000 }});
+var sess = connect.session({ secret: 'keyboard cat', cookie: { maxAge: 5000 }});
 
 http.createServer(connect()
-  .use(connect.cookieParser('keyboard cat'))
+  .use(connect.cookieParser())
   .use(function(req, res, next){
     if ('/foo' == req.url || '/bar' == req.url) {
       sess(req, res, next);
@@ -90,8 +91,8 @@ console.log('port 3002: conditional sessions');
 // session data
 
 http.createServer(connect()
-  .use(connect.cookieParser('keyboard cat'))
-  .use(connect.session({ cookie: { maxAge: 60000 }}))
+  .use(connect.cookieParser())
+  .use(connect.session({ secret: 'keyboard cat', cookie: { maxAge: 60000 }}))
   .use(connect.favicon())
   .use(function(req, res, next){
     var sess = req.session
@@ -125,8 +126,8 @@ console.log('port 3003: Session#reload() demo');
 // aka while the browser is open.
 
 http.createServer(connect()
-  .use(connect.cookieParser('keyboard cat'))
-  .use(connect.session())
+  .use(connect.cookieParser())
+  .use(connect.session({ secret: 'keyboard cat' }))
   .use(connect.favicon())
   .use(function(req, res, next){
     var sess = req.session;
@@ -147,8 +148,8 @@ console.log('port 3004: browser-session length sessions');
 
 http.createServer(connect()
   .use(connect.bodyParser())
-  .use(connect.cookieParser('keyboard cat'))
-  .use(connect.session())
+  .use(connect.cookieParser())
+  .use(connect.session({ secret: 'keyboard cat' }))
   .use(connect.favicon())
   .use(function(req, res, next){
     if ('POST' != req.method) return next();

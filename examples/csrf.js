@@ -15,8 +15,8 @@ var form = '\n\
 '; 
 
 var app = connect()
-  .use(connect.cookieParser('keyboard cat'))
-  .use(connect.session())
+  .use(connect.cookieParser())
+  .use(connect.session({ secret: 'keyboard cat' }))
   .use(connect.bodyParser())
   .use(connect.csrf())
   .use(function(req, res, next){

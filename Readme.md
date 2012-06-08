@@ -14,8 +14,8 @@ var app = connect()
   .use(connect.logger('dev'))
   .use(connect.static('public'))
   .use(connect.directory('public'))
-  .use(connect.cookieParser('my secret here'))
-  .use(connect.session())
+  .use(connect.cookieParser())
+  .use(connect.session({ secret: 'my secret here' }))
   .use(function(req, res){
     res.end('Hello from Connect!\n');
   });
