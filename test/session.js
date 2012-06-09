@@ -167,8 +167,11 @@ describe('connect.session()', function(){
     it('should persist', function(done){
       var app = connect()
         .use(connect.cookieParser())
-        .use(connect.session({ secret: 'keyboard cat', cookie: { maxAge: min }}))
+        .use(connect.session({ secret: 'keyboard cat', cookie: { maxAge: min, httpOnly: false }}))
         .use(function(req, res, next){
+          // checks that cookie options persisted
+          req.session.cookie.httpOnly.should.equal(false);
+
           req.session.count = req.session.count || 0;
           req.session.count++;
           res.end(req.session.count.toString());
