@@ -65,6 +65,17 @@ describe('connect.static()', function(){
     .expect('', done);
   })
 
+  it('should support conditional requests', function(done){
+    app.request()
+    .get('/todo.txt')
+    .end(function(res){
+      app.request()
+      .get('/todo.txt')
+      .set('If-None-Match', res.headers.etag)
+      .expect(304, done);
+    });
+  })
+
   describe('hidden files', function(){
     it('should be ignored by default', function(done){
       app.request()
