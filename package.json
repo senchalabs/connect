@@ -13,6 +13,7 @@
     "cookie": "0.0.3",
     "fresh": "0.0.1",
     "bytes": "0.0.1",
+    "range-parser": "0.0.1",
     "debug": "*"
   },
   "devDependencies": {
