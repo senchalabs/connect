@@ -89,6 +89,38 @@ describe('connect.cookieSession()', function(){
     })
   })
 
+  it('should reset on invalid parse', function(done){
+    var n = 0;
+
+    app.use(function(req, res){
+      switch (n++) {
+        case 0:
+          req.session.name = 'tobi';
+          break;
+        case 1:
+          // the session should be blank now
+          req.session.name.should.equal(null);
+          break;
+      }
+
+      res.setHeader('Foo', 'bar');
+      res.end('wahoo');
+    });
+
+    app.request()
+    .get('/')
+    .end(function(res){
+      sess(res).should.not.include('expires');
+      app.request()
+      .get('/')
+      .set('Cookie', sess(res).replace(';', 'foobar')) // make invalid session cookie
+      .end(function(res){
+        sess(res).should.not.include('expires');
+        done();
+      });
+    })
+  })
+
   describe('req.session.cookie', function(){
     it('should be a Cookie', function(done){
       app.use(function(req, res){
