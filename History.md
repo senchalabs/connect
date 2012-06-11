@@ -1,4 +1,13 @@
 
+2.3.3 / 2012-06-11 
+==================
+
+  * Added ETags back to `static()` [timkuijsten]
+  * Replaced `utils.parseRange()` with `range-parser` module
+  * Replaced `utils.parseBytes()` with `bytes` module
+  * Replaced `utils.modified()` with `fresh` module
+  * Fixed `cookieSession()` regression with invalid cookie signing [shtylman]
+
 2.3.2 / 2012-06-08 
 ==================
 
