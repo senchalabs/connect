@@ -288,4 +288,33 @@ describe('connect.static()', function(){
       });
     })
   })
+
+  describe('when responding non-2xx or 304', function(){
+    it('should respond as-is', function(done){
+      var app = connect();
+      var n = 0;
+
+      app.use(function(req, res, next){
+        switch (n++) {
+          case 0: return next();
+          case 1: res.statusCode = 500; return next();
+        }
+      });
+
+      app.use(connect.static(fixtures));
+
+      app.request()
+      .get('/todo.txt')
+      .end(function(res){
+        app.request()
+        .get('/todo.txt')
+        .set('If-None-Match', res.headers.etag)
+        .end(function(res){
+          res.should.have.status(500);
+          res.body.should.equal('- groceries');
+          done();
+        })
+      })
+    })
+  })
 })
