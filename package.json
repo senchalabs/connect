@@ -10,7 +10,7 @@
     "mime": "1.2.4",
     "formidable": "1.0.11",
     "crc": "0.2.0",
-    "cookie": "0.0.3",
+    "cookie": "0.0.4",
     "fresh": "0.0.1",
     "bytes": "0.0.1",
     "range-parser": "0.0.4",
