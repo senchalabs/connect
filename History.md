@@ -1,4 +1,11 @@
 
+2.3.4 / 2012-06-22 
+==================
+
+  * Added `err.buf` to urlencoded() and json()
+  * Update cookie to 0.0.4. Closes #604
+  * Fixed: only send 304 if original response in 2xx or 304 [timkuijsten]
+
 2.3.3 / 2012-06-11 
 ==================
 
