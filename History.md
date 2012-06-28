@@ -1,4 +1,11 @@
 
+2.3.5 / 2012-06-28 
+==================
+
+  * Remove `logger()` mount check
+  * Fixed `staticCache()` dont cache responses with set-cookie. Closes #607
+  * Fixed `staticCache()` when Cookie is present
+
 2.3.4 / 2012-06-22 
 ==================
 
