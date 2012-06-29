@@ -324,7 +324,7 @@ describe('connect.session()', function(){
             });
 
           app.request()
-          .get('/')
+          .get('/admin')
           .end(function(res){
             var cookie = res.headers['set-cookie'][0];
             cookie.should.not.include('Expires');
@@ -341,7 +341,7 @@ describe('connect.session()', function(){
             });
 
           app.request()
-          .get('/')
+          .get('/admin/foo')
           .end(function(res){
             res.headers.should.have.property('set-cookie');
 
@@ -365,7 +365,7 @@ describe('connect.session()', function(){
             });
 
           app.request()
-          .get('/')
+          .get('/admin')
           .end(function(res){
             var cookie = res.headers['set-cookie'][0];
             cookie.should.not.include('HttpOnly');
@@ -391,6 +391,44 @@ describe('connect.session()', function(){
           .get('/')
           .end(function(res){
             res.headers.should.not.have.property('set-cookie');
+            done();
+          });
+        })
+      })
+
+      describe('when the pathname does not match cookie.path', function(){
+        it('should not set-cookie', function(done){
+          var app = connect()
+            .use(connect.cookieParser())
+            .use(connect.session({ secret: 'keyboard cat', cookie: { path: '/foo/bar' }}))
+            .use(function(req, res, next){
+              req.session.foo = Math.random();
+              res.end();
+            });
+
+          app.request()
+          .get('/')
+          .end(function(res){
+            res.headers.should.not.have.property('set-cookie');
+            done();
+          });
+        })
+      })
+
+      describe('when the pathname does match cookie.path', function(){
+        it('should not set-cookie', function(done){
+          var app = connect()
+            .use(connect.cookieParser())
+            .use(connect.session({ secret: 'keyboard cat', cookie: { path: '/foo/bar' }}))
+            .use(function(req, res, next){
+              req.session.foo = Math.random();
+              res.end();
+            });
+
+          app.request()
+          .get('/foo/bar/baz')
+          .end(function(res){
+            res.headers.should.have.property('set-cookie');
             done();
           });
         })

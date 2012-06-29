@@ -146,7 +146,7 @@ describe('connect.cookieSession()', function(){
       });
 
       app.request()
-      .get('/')
+      .get('/admin')
       .end(function(res){
         var cookie = sess(res);
         cookie.should.include('Path=/admin');
@@ -244,6 +244,44 @@ describe('connect.cookieSession()', function(){
             });
           });
         });
+      });
+    })
+  })
+
+  describe('when the pathname does not match cookie.path', function(){
+    it('should not set-cookie', function(done){
+      var app = connect()
+        .use(connect.cookieParser())
+        .use(connect.cookieSession({ secret: 'keyboard cat',cookie: { path: '/admin' }}))
+        .use(function(req, res, next){
+          req.session.foo = Math.random();
+          res.end();
+        });
+
+      app.request()
+      .get('/')
+      .end(function(res){
+        res.headers.should.not.have.property('set-cookie');
+        done();
+      });
+    })
+  })
+
+  describe('when the pathname does match cookie.path', function(){
+    it('should not set-cookie', function(done){
+      var app = connect()
+        .use(connect.cookieParser())
+        .use(connect.cookieSession({ secret: 'keyboard cat', cookie: { path: '/admin' }}))
+        .use(function(req, res, next){
+          req.session.foo = Math.random();
+          res.end();
+        });
+
+      app.request()
+      .get('/admin/foo')
+      .end(function(res){
+        res.headers.should.have.property('set-cookie');
+        done();
       });
     })
   })
