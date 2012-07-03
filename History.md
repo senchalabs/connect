@@ -1,4 +1,10 @@
 
+2.3.6 / 2012-07-03 
+==================
+
+  * Fixed cookieSession() with cookieParser() secret regression. Closes #602
+  * Fixed set-cookie header fields on cookie.path mismatch. Closes #615
+
 2.3.5 / 2012-06-28 
 ==================
 
