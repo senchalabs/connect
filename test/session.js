@@ -504,7 +504,7 @@ describe('connect.session()', function(){
     it('should support req.signedCookies', function(done){
       var app = connect()
         .use(connect.cookieParser('keyboard cat'))
-        .use(connect.session({ cookie: { maxAge: min }}))
+        .use(connect.session())
         .use(function(req, res, next){
           req.session.count = req.session.count || 0;
           req.session.count++;

@@ -343,13 +343,14 @@ describe('connect.cookieSession()', function(){
 
   // backwards compat test for signed cookies through the `cookieParser` middleware
   it('should support req.signedCookies', function(done){
-    var n = 0;
     var app = connect()
       .use(connect.cookieParser('keyboard cat'))
       .use(connect.cookieSession())
       .use(function(req, res, next){
-        req.session.foo = ++n;
-        res.end();
+        req.session.count = req.session.count || 0;
+        var body = '' + req.session.count++;
+        res.setHeader('Content-Length', body.length);
+        res.end(body);
       });
 
     app.request()
@@ -362,6 +363,7 @@ describe('connect.cookieSession()', function(){
       .set('Cookie', sess(res))
       .end(function(res){
         res.headers.should.have.property('set-cookie');
+        res.body.should.equal('1');
         done();
       });
     });
