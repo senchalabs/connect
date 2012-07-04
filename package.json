@@ -18,7 +18,8 @@
     "should": "*",
     "mocha": "*",
     "jade": "*",
-    "dox": "*"
+    "dox": "*",
+    "mime": "*"
   },
   "main": "index",
   "engines": { "node": ">= 0.5.0" }
