@@ -252,7 +252,7 @@ describe('connect.cookieSession()', function(){
     it('should not set-cookie', function(done){
       var app = connect()
         .use(connect.cookieParser())
-        .use(connect.cookieSession({ secret: 'keyboard cat',cookie: { path: '/admin' }}))
+        .use(connect.cookieSession({ secret: 'keyboard cat', cookie: { path: '/admin' }}))
         .use(function(req, res, next){
           req.session.foo = Math.random();
           res.end();
