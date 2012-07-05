@@ -119,4 +119,20 @@ describe('connect.json()', function(){
       .expect(400, done);
     })
   })
+
+  it('should support utf-8', function(done){
+    var app = connect();
+
+    app.use(connect.json());
+
+    app.use(function(req, res, next){
+      res.end(req.body.name);
+    });
+
+    app.request()
+    .post('/')
+    .set('Content-Type', 'application/json; charset=utf-8')
+    .write('{"name":"论"}')
+    .expect('论', done);
+  })
 })
