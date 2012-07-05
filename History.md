@@ -1,4 +1,14 @@
 
+2.3.7 / 2012-07-05 
+==================
+
+  * add `json()` utf-8 illustration test. Closes #621
+  * add "send" dependency
+  * change `connect.static()` internals to use "send"
+  * fix `session()` req.session generation with pathname mismatch
+  * fix `cookieSession()` req.session generation with pathname mismatch
+  * fix mime export. Closes #618
+
 2.3.6 / 2012-07-03 
 ==================
 
