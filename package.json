@@ -12,6 +12,7 @@
     "cookie": "0.0.4",
     "bytes": "0.0.1",
     "send": "0.0.1",
+    "bytes": "0.1.0",
     "debug": "*"
   },
   "devDependencies": {
