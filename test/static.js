@@ -6,6 +6,11 @@ var fixtures = __dirname + '/fixtures';
 var app = connect();
 app.use(connect.static(fixtures));
 
+app.use(function(req, res){
+  res.statusCode = 404;
+  res.end('sorry!');
+});
+
 describe('connect.static()', function(){
   it('should serve static files', function(done){
     app.request()
@@ -136,7 +141,11 @@ describe('connect.static()', function(){
     it('should next()', function(done){
       app.request()
       .get('/does-not-exist')
-      .expect(404, done);
+      .end(function(res){
+        res.should.have.status(404);
+        res.body.should.equal('sorry!');
+        done();
+      });
     })
   })
 
