@@ -13,6 +13,7 @@
     "bytes": "0.0.1",
     "send": "0.0.2",
     "bytes": "0.1.0",
+    "fresh": "0.1.0",
     "debug": "*"
   },
   "devDependencies": {
