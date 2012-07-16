@@ -1,4 +1,10 @@
 
+2.3.9 / 2012-07-16 
+==================
+
+  * add more descriptive invalid json error message
+  * fix staticCache fresh dep
+
 2.3.8 / 2012-07-12 
 ==================
 
