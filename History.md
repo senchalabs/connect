@@ -3,6 +3,7 @@
 ==================
 
   * add more descriptive invalid json error message
+  * update send dep for root normalization regression
   * fix staticCache fresh dep
 
 2.3.8 / 2012-07-12 
