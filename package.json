@@ -14,6 +14,7 @@
     "send": "0.0.3",
     "bytes": "0.1.0",
     "fresh": "0.1.0",
+    "pause": "0.0.1",
     "debug": "*"
   },
   "devDependencies": {
