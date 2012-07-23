@@ -1,4 +1,12 @@
 
+2.4.0 / 2012-07-23 
+==================
+
+  * add `connect.timeout()`
+  * add __GET__ / __HEAD__ check to `directory()`. Closes #634
+  * add "pause" util dep
+  * update send dep for normalization bug
+
 2.3.9 / 2012-07-16 
 ==================
 
