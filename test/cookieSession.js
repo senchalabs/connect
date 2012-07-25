@@ -83,7 +83,7 @@ describe('connect.cookieSession()', function(){
       .get('/')
       .set('Cookie', sess(res))
       .end(function(res){
-        sess(res).should.include('expires=Thu, 01 Jan 1970 00:00:00 GMT');
+        sess(res).should.equal('connect.sess=; Path=/; Expires=Thu, 01 Jan 1970 00:00:00 GMT; HttpOnly');
         done();
       });
     })
