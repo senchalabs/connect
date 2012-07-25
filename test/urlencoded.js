@@ -4,7 +4,7 @@ var connect = require('../')
 
 var app = connect();
 
-app.use(connect.urlencoded());
+app.use(connect.urlencoded({ limit: '1mb' }));
 
 app.use(function(req, res){
   res.end(JSON.stringify(req.body));
