@@ -1,8 +1,16 @@
 
-n.n.n / 2012-07-24 
+2.4.2 / 2012-07-25 
 ==================
 
-  * fix `options` mutation in static()
+  * remove limit default from `urlencoded()`
+  * remove limit default from `json()`
+  * remove limit default from `multipart()`
+  * fix `cookieSession()` clear cookie path / domain bug. Closes #636
+
+2.4.1 / 2012-07-24 
+==================
+
+  * fix `options` mutation in `static()`
 
 2.4.0 / 2012-07-23 
 ==================
