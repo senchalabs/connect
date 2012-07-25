@@ -13,7 +13,7 @@ exports['default request body'] = function(app){
 };
 
 exports['limit body to'] = function(size, type, app){
-  it('should limit body to ' + size, function(done){
+  it('should accept a limit option', function(done){
     app.request()
     .post('/')
     .set('Content-Length', bytes(size) + 1)
