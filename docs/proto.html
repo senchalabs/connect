@@ -49,6 +49,7 @@
   }
 
   // add the middleware
+  debug('use %s %s', route || '/', fn.name || 'anonymous');
   this.stack.push({ route: route, handle: fn });
 
   return this;
@@ -56,10 +57,17 @@
   var stack = this.stack
     , fqdn = ~req.url.indexOf('://')
     , removed = ''
+    , slashAdded = false
     , index = 0;
 
   function next(err) {
     var layer, path, status, c;
+
+    if (slashAdded) {
+      req.url = req.url.substr(1);
+      slashAdded = false;
+    }
+
     req.url = removed + req.url;
     req.originalUrl = req.originalUrl || req.url;
     removed = '';
@@ -76,6 +84,7 @@
       if (err) {
         // default to 500
         if (res.statusCode < 400) res.statusCode = 500;
+        debug('default %s', res.statusCode);
 
         // respect err.status
         if (err.status) res.statusCode = err.status;
@@ -93,6 +102,7 @@
         if ('HEAD' == req.method) return res.end();
         res.end(msg);
       } else {
+        debug('default 404');
         res.statusCode = 404;
         res.setHeader('Content-Type', 'text/plain');
         if ('HEAD' == req.method) return res.end();
@@ -102,7 +112,7 @@
     }
 
     try {
-      path = parse(req.url).pathname;
+      path = utils.parseUrl(req).pathname;
       if (undefined == path) path = '/';
 
       // skip this layer if the route doesn't match.
@@ -117,8 +127,12 @@
       req.url = req.url.substr(removed.length);
 
       // Ensure leading slash
-      if (!fqdn && '/' != req.url[0]) req.url = '/' + req.url;
+      if (!fqdn && '/' != req.url[0]) {
+        req.url = '/' + req.url;
+        slashAdded = true;
+      }
 
+      debug('%s', layer.handle.name || 'anonymous');
       var arity = layer.handle.length;
       if (err) {
         if (arity === 4) {

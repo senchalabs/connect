@@ -13,9 +13,12 @@
 
 <p>The <code>options</code> passed are provided to qs.parse function.</p></div><ul class="tags"><li><em>Object</em> options </li><li>returns <em>Function</em> </li></ul><h3>Source</h3><pre><code>module.exports = function query(options){
   return function query(req, res, next){
-    req.query = ~req.url.indexOf('?')
-      ? qs.parse(parse(req.url).query, options)
-      : {};
+    if (!req.query) {
+      req.query = ~req.url.indexOf('?')
+        ? qs.parse(parse(req).query, options)
+        : {};
+    }
+
     next();
   };
 };</code></pre></div></div><ul id="menu"><li><a href="#module.exports"></a></li></ul></body></html>

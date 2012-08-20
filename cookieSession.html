@@ -3,38 +3,67 @@
 <p>Cookie session middleware.</p>
 
 <pre><code> var app = connect();
- app.use(connect.cookieParser('tobo!'));
- app.use(connect.cookieSession({ cookie: { maxAge: 60 * 60 * 1000 }}));
+ app.use(connect.cookieParser());
+ app.use(connect.cookieSession({ secret: 'tobo!', cookie: { maxAge: 60 * 60 * 1000 }}));
 </code></pre>
 
 <h2>Options</h2>
 
 <ul>
 <li><code>key</code> cookie name defaulting to <code>connect.sess</code></li>
+<li><code>secret</code> prevents cookie tampering</li>
 <li><code>cookie</code> session cookie settings, defaulting to <code>{ path: '/', httpOnly: true, maxAge: null }</code></li>
 <li><code>proxy</code> trust the reverse proxy when setting secure cookies (via "x-forwarded-proto")</li>
-</ul></div><ul class="tags"><li><em>Object</em> options </li><li>returns <em>Function</em> </li></ul><h3>Source</h3><pre><code>module.exports = function cookieSession(options){
-  // TODO: utilize Session/Cookie to unify API
-  // TODO: only set-cookie on changes to the session data
+</ul>
 
+<h2>Clearing sessions</h2>
+
+<p>To clear the session simply set its value to <code>null</code>,<br /> <code>cookieSession()</code> will then respond with a 1970 Set-Cookie.</p>
+
+<pre><code>req.session = null;
+</code></pre></div><ul class="tags"><li><em>Object</em> options </li><li>returns <em>Function</em> </li></ul><h3>Source</h3><pre><code>module.exports = function cookieSession(options){
+  // TODO: utilize Session/Cookie to unify API
   var options = options || {}
     , key = options.key || 'connect.sess'
-    , cookie = options.cookie
     , trustProxy = options.proxy;
 
   return function cookieSession(req, res, next) {
-    req.session = req.signedCookies[key] || {};
-    req.session.cookie = new Cookie(req, cookie);
+
+    // req.secret is for backwards compatibility
+    var secret = options.secret || req.secret;
+    if (!secret) throw new Error('`secret` option required for cookie sessions');
+
+    // default session
+    req.session = {};
+    var cookie = req.session.cookie = new Cookie(options.cookie);
+
+    // pathname mismatch
+    if (0 != req.originalUrl.indexOf(cookie.path)) return next();
+
+    // cookieParser secret
+    if (!options.secret && req.secret) {
+      req.session = req.signedCookies[key] || {};
+    } else {
+      // TODO: refactor
+      var rawCookie = req.cookies[key];
+      if (rawCookie) {
+        var unsigned = utils.parseSignedCookie(rawCookie, secret);
+        if (unsigned) {
+          var originalHash = crc16(unsigned);
+          req.session = utils.parseJSONCookie(unsigned) || {};
+        }
+      }
+    }
 
     res.on('header', function(){
       // removed
       if (!req.session) {
         debug('clear session');
-        res.setHeader('Set-Cookie', key + '=; expires=' + new Date(0).toUTCString());
+        cookie.expires = new Date(0);
+        res.setHeader('Set-Cookie', cookie.serialize(key, ''));
         return;
       }
 
-      var cookie = req.session.cookie;
       delete req.session.cookie;
 
       // check security
@@ -49,14 +78,12 @@
       debug('serializing %j', req.session);
       var val = 'j:' + JSON.stringify(req.session);
 
-      // compare hashes
-      var originalHash = req.cookieHashes && req.cookieHashes[key];
-      var hash = crc16(val);
-      if (originalHash == hash) return debug('unmodified session');
+      // compare hashes, no need to set-cookie if unchanged
+      if (originalHash == crc16(val)) return debug('unmodified session');
 
       // set-cookie
-      val = utils.sign(val, req.secret);
-      val = utils.serializeCookie(key, val, cookie);
+      val = 's:' + utils.sign(val, secret);
+      val = cookie.serialize(key, val);
       debug('set-cookie %j', cookie);
       res.setHeader('Set-Cookie', val);
     });

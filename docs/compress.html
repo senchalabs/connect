@@ -2,21 +2,17 @@
     gzip: zlib.createGzip
   , deflate: zlib.createDeflate
 };</code></pre></div><div id="exports.filter" class="comment"><h2>exports.filter()</h2><div class="description"><p>Default filter function.</p></div><h3>Source</h3><pre><code>exports.filter = function(req, res){
-  var type = res.getHeader('Content-Type') || '';
-  return type.match(/json|text|javascript/);
+  return /json|text|javascript/.test(res.getHeader('Content-Type'));
 };</code></pre></div><div id="module.exports" class="comment"><h2></h2><div class="description"><h2>Compress</h2>
 
 <p>Compress response data with gzip/deflate.</p>
 
 <h2>Filter</h2>
 
-<p>A <code>filter</code> callback function may be passed to</p>
-
-<h2>replace the default logic of</h2>
+<p>A <code>filter</code> callback function may be passed to<br /> replace the default logic of:</p>
 
 <pre><code>exports.filter = function(req, res){
-  var type = res.getHeader('Content-Type') || '';
-  return type.match(/json|text|javascript/);
+  return /json|text|javascript/.test(res.getHeader('Content-Type'));
 };
 </code></pre>
 
@@ -50,7 +46,7 @@
     res.write = function(chunk, encoding){
       if (!this.headerSent) this._implicitHeader();
       return stream
-        ? stream.write(chunk, encoding)
+        ? stream.write(new Buffer(chunk, encoding))
         : write.call(res, chunk, encoding);
     };
 
@@ -103,7 +99,10 @@
       stream.on('end', function(){
         end.call(res);
       });
-      
+
+      stream.on('drain', function() {
+        res.emit('drain');
+      });
     });
 
     next();

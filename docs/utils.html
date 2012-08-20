@@ -1,8 +1,8 @@
 <!DOCTYPE html><html><head><title>Connect - High quality middleware for node.js</title><meta http-equiv="Content-Type" content="text/html; charset=utf-8"><link rel="stylesheet" href="style.css"><script src="jquery.js"></script><script src="docs.js"></script></head><body><div id="content"><h1>Connect</h1><div id="exports.mime" class="comment"><h2>exports.mime()</h2><div class="description"><p>Extract the mime type from the given request's<br /><em>Content-Type</em> header.</p></div><ul class="tags"><li><em>IncomingMessage</em> req </li><li>returns <em>String</em> </li></ul><h3>Source</h3><pre><code>exports.mime = function(req) {
   var str = req.headers['content-type'] || '';
   return str.split(';')[0];
-};</code></pre></div><div id="exports.error" class="comment"><h2>exports.error()</h2><div class="description"><p>Generate an <code>Error</code> from the given status <code>code</code>.</p></div><ul class="tags"><li><em>Number</em> code </li><li>returns <em>Error</em> </li></ul><h3>Source</h3><pre><code>exports.error = function(code){
-  var err = new Error(http.STATUS_CODES[code]);
+};</code></pre></div><div id="exports.error" class="comment"><h2>exports.error()</h2><div class="description"><p>Generate an <code>Error</code> from the given status <code>code</code><br />and optional <code>msg</code>.</p></div><ul class="tags"><li><em>Number</em> code </li><li><em>String</em> msg </li><li>returns <em>Error</em> </li></ul><h3>Source</h3><pre><code>exports.error = function(code, msg){
+  var err = new Error(msg || http.STATUS_CODES[code]);
   err.status = code;
   return err;
 };</code></pre></div><div id="exports.md5" class="comment"><h2>exports.md5()</h2><div class="description"><p>Return md5 hash of the given string and optional encoding,<br />defaulting to hex.</p>
@@ -44,141 +44,55 @@ utils.merge(a, b);
     .slice(0, len);
 };</code></pre></div><div id="exports.sign" class="comment"><h2>exports.sign()</h2><div class="description"><p>Sign the given <code>val</code> with <code>secret</code>.</p></div><ul class="tags"><li><em>String</em> val </li><li><em>String</em> secret </li><li>returns <em>String</em> </li></ul><h3>Source</h3><pre><code>exports.sign = function(val, secret){
   return val + '.' + crypto
-    .createHmac('sha1', secret)
+    .createHmac('sha256', secret)
     .update(val)
     .digest('base64')
     .replace(/=+$/, '');
 };</code></pre></div><div id="exports.unsign" class="comment"><h2>exports.unsign()</h2><div class="description"><p>Unsign and decode the given <code>val</code> with <code>secret</code>,<br />returning <code>false</code> if the signature is invalid.</p></div><ul class="tags"><li><em>String</em> val </li><li><em>String</em> secret </li><li>returns <em>String | Boolean</em> </li></ul><h3>Source</h3><pre><code>exports.unsign = function(val, secret){
-  var str = val.slice(0,val.lastIndexOf('.'));
+  var str = val.slice(0, val.lastIndexOf('.'));
   return exports.sign(str, secret) == val
     ? str
     : false;
 };</code></pre></div><div id="exports.parseSignedCookies" class="comment"><h2>exports.parseSignedCookies()</h2><div class="description"><p>Parse signed cookies, returning an object<br />containing the decoded key/value pairs,<br />while removing the signed key from <code>obj</code>.</p></div><ul class="tags"><li><em>Object</em> obj </li><li>returns <em>Object</em> </li></ul><h3>Source</h3><pre><code>exports.parseSignedCookies = function(obj, secret){
   var ret = {};
   Object.keys(obj).forEach(function(key){
-    var val = obj[key]
-      , signed = exports.unsign(val, secret);
-
-    if (signed) {
-      ret[key] = signed;
-      delete obj[key];
+    var val = obj[key];
+    if (0 == val.indexOf('s:')) {
+      val = exports.unsign(val.slice(2), secret);
+      if (val) {
+        ret[key] = val;
+        delete obj[key];
+      }
     }
   });
   return ret;
+};</code></pre></div><div id="exports.parseSignedCookie" class="comment"><h2>exports.parseSignedCookie()</h2><div class="description"><p>Parse a signed cookie string, return the decoded value</p></div><ul class="tags"><li><em>String</em> str signed cookie string</li><li><em>String</em> secret </li><li>returns <em>String</em> decoded value</li></ul><h3>Source</h3><pre><code>exports.parseSignedCookie = function(str, secret){
+  return 0 == str.indexOf('s:')
+    ? exports.unsign(str.slice(2), secret)
+    : str;
 };</code></pre></div><div id="exports.parseJSONCookies" class="comment"><h2>exports.parseJSONCookies()</h2><div class="description"><p>Parse JSON cookies.</p></div><ul class="tags"><li><em>Object</em> obj </li><li>returns <em>Object</em> </li></ul><h3>Source</h3><pre><code>exports.parseJSONCookies = function(obj){
   Object.keys(obj).forEach(function(key){
     var val = obj[key];
-    if (0 == val.indexOf('j:')) {
-      try {
-        obj[key] = JSON.parse(val.slice(2));
-      } catch (err) {
-        // nothing
-      }
-    }
+    var res = exports.parseJSONCookie(val);
+    if (res) obj[key] = res;
   });
   return obj;
-};</code></pre></div><div id="exports.parseCookie" class="comment"><h2>exports.parseCookie()</h2><div class="description"><p>Parse the given cookie string into an object.</p></div><ul class="tags"><li><em>String</em> str </li><li>returns <em>Object</em> </li></ul><h3>Source</h3><pre><code>exports.parseCookie = function(str){
-  var obj = {}
-    , pairs = str.split(/[;,] */);
-  for (var i = 0, len = pairs.length; i < len; ++i) {
-    var pair = pairs[i]
-      , eqlIndex = pair.indexOf('=')
-      , key = pair.substr(0, eqlIndex).trim()
-      , val = pair.substr(++eqlIndex, pair.length).trim();
-
-    // quoted values
-    if ('"' == val[0]) val = val.slice(1, -1);
-
-    // only assign once
-    if (undefined == obj[key]) {
-      val = val.replace(/\+/g, ' ');
-      try {
-        obj[key] = decodeURIComponent(val);
-      } catch (err) {
-        if (err instanceof URIError) {
-          obj[key] = val;
-        } else {
-          throw err;
-        }
-      }
+};</code></pre></div><div id="exports.parseJSONCookie" class="comment"><h2>exports.parseJSONCookie()</h2><div class="description"><p>Parse JSON cookie string</p></div><ul class="tags"><li><em>String</em> str </li><li>returns <em>Object</em> Parsed object or null if not json cookie</li></ul><h3>Source</h3><pre><code>exports.parseJSONCookie = function(str) {
+  if (0 == str.indexOf('j:')) {
+    try {
+      return JSON.parse(str.slice(2));
+    } catch (err) {
+      // no op
     }
   }
-  return obj;
-};</code></pre></div><div id="exports.serializeCookie" class="comment"><h2>exports.serializeCookie()</h2><div class="description"><p>Serialize the given object into a cookie string.</p>
-
-<pre><code> utils.serializeCookie('name', 'tj', { httpOnly: true })
- // =&gt; "name=tj; httpOnly"
-</code></pre></div><ul class="tags"><li><em>String</em> name </li><li><em>String</em> val </li><li><em>Object</em> obj </li><li>returns <em>String</em> </li></ul><h3>Source</h3><pre><code>exports.serializeCookie = function(name, val, obj){
-  var pairs = [name + '=' + encodeURIComponent(val)]
-    , obj = obj || {};
-
-  if (obj.domain) pairs.push('domain=' + obj.domain);
-  if (obj.path) pairs.push('path=' + obj.path);
-  if (obj.expires) pairs.push('expires=' + obj.expires.toUTCString());
-  if (obj.httpOnly) pairs.push('httpOnly');
-  if (obj.secure) pairs.push('secure');
-
-  return pairs.join('; ');
-};</code></pre></div><div id="exports.pause" class="comment"><h2>exports.pause()</h2><div class="description"><p>Pause <code>data</code> and <code>end</code> events on the given <code>obj</code>.<br />Middleware performing async tasks <em>should</em> utilize<br />this utility (or similar), to re-emit data once<br />the async operation has completed, otherwise these<br />events may be lost.</p>
+}</code></pre></div><div id="exports.pause" class="comment"><h2>exports.pause</h2><div class="description"><p>Pause <code>data</code> and <code>end</code> events on the given <code>obj</code>.<br />Middleware performing async tasks <em>should</em> utilize<br />this utility (or similar), to re-emit data once<br />the async operation has completed, otherwise these<br />events may be lost.</p>
 
 <pre><code> var pause = utils.pause(req);
  fs.readFile(path, function(){
     next();
     pause.resume();
  });
-</code></pre></div><ul class="tags"><li><em>Object</em> obj </li><li>returns <em>Object</em> </li></ul><h3>Source</h3><pre><code>exports.pause = function(obj){
-  var onData
-    , onEnd
-    , events = [];
-
-  // buffer data
-  obj.on('data', onData = function(data, encoding){
-    events.push(['data', data, encoding]);
-  });
-
-  // buffer end
-  obj.on('end', onEnd = function(data, encoding){
-    events.push(['end', data, encoding]);
-  });
-
-  return {
-    end: function(){
-      obj.removeListener('data', onData);
-      obj.removeListener('end', onEnd);
-    },
-    resume: function(){
-      this.end();
-      for (var i = 0, len = events.length; i < len; ++i) {
-        obj.emit.apply(obj, events[i]);
-      }
-    }
-  };
-};</code></pre></div><div id="exports.modified" class="comment"><h2>exports.modified()</h2><div class="description"><p>Check <code>req</code> and <code>res</code> to see if it has been modified.</p></div><ul class="tags"><li><em>IncomingMessage</em> req </li><li><em>ServerResponse</em> res </li><li>returns <em>Boolean</em> </li></ul><h3>Source</h3><pre><code>exports.modified = function(req, res, headers) {
-  var headers = headers || res._headers || {}
-    , modifiedSince = req.headers['if-modified-since']
-    , lastModified = headers['last-modified']
-    , noneMatch = req.headers['if-none-match']
-    , etag = headers['etag'];
-
-  if (noneMatch) noneMatch = noneMatch.split(/ *, */);
-
-  // check If-None-Match
-  if (noneMatch && etag && ~noneMatch.indexOf(etag)) {
-    return false;
-  }
-
-  // check If-Modified-Since
-  if (modifiedSince && lastModified) {
-    modifiedSince = new Date(modifiedSince);
-    lastModified = new Date(lastModified);
-    // Ignore invalid dates
-    if (!isNaN(modifiedSince.getTime())) {
-      if (lastModified <= modifiedSince) return false;
-    }
-  }
-  
-  return true;
-};</code></pre></div><div id="exports.removeContentHeaders" class="comment"><h2>exports.removeContentHeaders()</h2><div class="description"><p>Strip <code>Content-*</code> headers from <code>res</code>.</p></div><ul class="tags"><li><em>ServerResponse</em> res </li></ul><h3>Source</h3><pre><code>exports.removeContentHeaders = function(res){
+</code></pre></div><ul class="tags"><li><em>Object</em> obj </li><li>returns <em>Object</em> </li></ul><h3>Source</h3><pre><code>exports.pause = require('pause');</code></pre></div><div id="exports.removeContentHeaders" class="comment"><h2>exports.removeContentHeaders()</h2><div class="description"><p>Strip <code>Content-*</code> headers from <code>res</code>.</p></div><ul class="tags"><li><em>ServerResponse</em> res </li></ul><h3>Source</h3><pre><code>exports.removeContentHeaders = function(res){
   Object.keys(res._headers).forEach(function(field){
     if (0 == field.indexOf('content')) {
       res.removeHeader(field);
@@ -197,28 +111,6 @@ utils.merge(a, b);
   res.end();
 };</code></pre></div><div id="exports.etag" class="comment"><h2>exports.etag()</h2><div class="description"><p>Return an ETag in the form of <code>"&lt;size&gt;-&lt;mtime&gt;"</code><br />from the given <code>stat</code>.</p></div><ul class="tags"><li><em>Object</em> stat </li><li>returns <em>String</em> </li></ul><h3>Source</h3><pre><code>exports.etag = function(stat) {
   return '"' + stat.size + '-' + Number(stat.mtime) + '"';
-};</code></pre></div><div id="exports.parseRange" class="comment"><h2>exports.parseRange()</h2><div class="description"><p>Parse "Range" header <code>str</code> relative to the given file <code>size</code>.</p></div><ul class="tags"><li><em>Number</em> size </li><li><em>String</em> str </li><li>returns <em>Array</em> </li></ul><h3>Source</h3><pre><code>exports.parseRange = function(size, str){
-  var valid = true;
-  var arr = str.substr(6).split(',').map(function(range){
-    var range = range.split('-')
-      , start = parseInt(range[0], 10)
-      , end = parseInt(range[1], 10);
-
-    // -500
-    if (isNaN(start)) {
-      start = size - end;
-      end = size - 1;
-    // 500-
-    } else if (isNaN(end)) {
-      end = size - 1;
-    }
-
-    // Invalid
-    if (isNaN(start) || isNaN(end) || start > end) valid = false;
-
-    return { start: start, end: end };
-  });
-  return valid ? arr : undefined;
 };</code></pre></div><div id="exports.parseCacheControl" class="comment"><h2>exports.parseCacheControl()</h2><div class="description"><p>Parse the given Cache-Control <code>str</code>.</p></div><ul class="tags"><li><em>String</em> str </li><li>returns <em>Object</em> </li></ul><h3>Source</h3><pre><code>exports.parseCacheControl = function(str){
   var directives = str.split(',')
     , obj = {};
@@ -232,13 +124,11 @@ utils.merge(a, b);
   }
 
   return obj;
-};</code></pre></div><div id="toArray" class="comment"><h2>toArray</h2><div class="description"><p>Convert array-like object to an <code>Array</code>.</p>
-
-<p>node-bench measured "16.5 times faster than Array.prototype.slice.call()"</p></div><ul class="tags"><li><em>Object</em> obj </li><li>returns <em>Array</em> </li></ul><h3>Source</h3><pre><code>var toArray = exports.toArray = function(obj){
-  var len = obj.length
-    , arr = new Array(len);
-  for (var i = 0; i < len; ++i) {
-    arr[i] = obj[i];
+};</code></pre></div><div id="exports.parseUrl" class="comment"><h2>exports.parseUrl()</h2><div class="description"><p>Parse the <code>req</code> url with memoization.</p></div><ul class="tags"><li><em>ServerRequest</em> req </li><li>returns <em>Object</em> </li></ul><h3>Source</h3><pre><code>exports.parseUrl = function(req){
+  var parsed = req._parsedUrl;
+  if (parsed && parsed.href == req.url) {
+    return parsed;
+  } else {
+    return req._parsedUrl = parse(req.url);
   }
-  return arr;
-};</code></pre></div></div><ul id="menu"><li><a href="#exports.mime">exports.mime()</a></li><li><a href="#exports.error">exports.error()</a></li><li><a href="#exports.md5">exports.md5()</a></li><li><a href="#exports.merge">exports.merge()</a></li><li><a href="#exports.escape">exports.escape()</a></li><li><a href="#exports.uid">exports.uid()</a></li><li><a href="#exports.sign">exports.sign()</a></li><li><a href="#exports.unsign">exports.unsign()</a></li><li><a href="#exports.parseSignedCookies">exports.parseSignedCookies()</a></li><li><a href="#exports.parseJSONCookies">exports.parseJSONCookies()</a></li><li><a href="#exports.parseCookie">exports.parseCookie()</a></li><li><a href="#exports.serializeCookie">exports.serializeCookie()</a></li><li><a href="#exports.pause">exports.pause()</a></li><li><a href="#exports.modified">exports.modified()</a></li><li><a href="#exports.removeContentHeaders">exports.removeContentHeaders()</a></li><li><a href="#exports.conditionalGET">exports.conditionalGET()</a></li><li><a href="#exports.unauthorized">exports.unauthorized()</a></li><li><a href="#exports.notModified">exports.notModified()</a></li><li><a href="#exports.etag">exports.etag()</a></li><li><a href="#exports.parseRange">exports.parseRange()</a></li><li><a href="#exports.parseCacheControl">exports.parseCacheControl()</a></li><li><a href="#toArray">toArray</a></li></ul></body></html>
+};</code></pre></div><div id="exports.parseBytes" class="comment"><h2>exports.parseBytes</h2><div class="description"><p>Parse byte <code>size</code> string.</p></div><ul class="tags"><li><em>String</em> size </li><li>returns <em>Number</em> </li></ul><h3>Source</h3><pre><code>exports.parseBytes = require('bytes');</code></pre></div></div><ul id="menu"><li><a href="#exports.mime">exports.mime()</a></li><li><a href="#exports.error">exports.error()</a></li><li><a href="#exports.md5">exports.md5()</a></li><li><a href="#exports.merge">exports.merge()</a></li><li><a href="#exports.escape">exports.escape()</a></li><li><a href="#exports.uid">exports.uid()</a></li><li><a href="#exports.sign">exports.sign()</a></li><li><a href="#exports.unsign">exports.unsign()</a></li><li><a href="#exports.parseSignedCookies">exports.parseSignedCookies()</a></li><li><a href="#exports.parseSignedCookie">exports.parseSignedCookie()</a></li><li><a href="#exports.parseJSONCookies">exports.parseJSONCookies()</a></li><li><a href="#exports.parseJSONCookie">exports.parseJSONCookie()</a></li><li><a href="#exports.pause">exports.pause</a></li><li><a href="#exports.removeContentHeaders">exports.removeContentHeaders()</a></li><li><a href="#exports.conditionalGET">exports.conditionalGET()</a></li><li><a href="#exports.unauthorized">exports.unauthorized()</a></li><li><a href="#exports.notModified">exports.notModified()</a></li><li><a href="#exports.etag">exports.etag()</a></li><li><a href="#exports.parseCacheControl">exports.parseCacheControl()</a></li><li><a href="#exports.parseUrl">exports.parseUrl()</a></li><li><a href="#exports.parseBytes">exports.parseBytes</a></li></ul></body></html>

@@ -10,27 +10,28 @@
 
 <h2>Examples</h2>
 
-<h2>Serve default favicon</h2>
+<p>Serve default favicon:</p>
 
 <pre><code>connect()
   .use(connect.favicon())
 </code></pre>
 
-<h2>Serve favicon before logging for brevity</h2>
+<p>Serve favicon before logging for brevity:</p>
 
 <pre><code>connect()
   .use(connect.favicon())
   .use(connect.logger('dev'))
 </code></pre>
 
-<h2>Serve custom favicon</h2>
+<p>Serve custom favicon:</p>
 
 <pre><code>connect()
   .use(connect.favicon('public/favicon.ico))
 </code></pre></div><ul class="tags"><li><em>String</em> path </li><li><em>Object</em> options </li><li>returns <em>Function</em> </li></ul><h3>Source</h3><pre><code>module.exports = function favicon(path, options){
   var options = options || {}
     , path = path || __dirname + '/../public/favicon.ico'
-    , maxAge = options.maxAge || 86400000;
+    , maxAge = options.maxAge || 86400000
+    , icon; // favicon cache
 
   return function favicon(req, res, next){
     if ('/favicon.ico' == req.url) {

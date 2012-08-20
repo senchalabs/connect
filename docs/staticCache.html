@@ -18,27 +18,22 @@ static() + staticCache(): 7500 rps
 <ul>
 <li><code>maxObjects</code>  max cache objects [128]</li>
 <li><code>maxLength</code>  max cache object length 256kb</li>
-</ul></div><ul class="tags"><li><em>Type</em> name </li><li>returns <em>Type</em> </li></ul><h3>Source</h3><pre><code>module.exports = function staticCache(options){
+</ul></div><ul class="tags"><li><em>Object</em> options </li><li>returns <em>Function</em> </li></ul><h3>Source</h3><pre><code>module.exports = function staticCache(options){
   var options = options || {}
     , cache = new Cache(options.maxObjects || 128)
     , maxlen = options.maxLength || 1024 * 256;
 
-  return function staticCache(req, res, next){
-    var path = url.parse(req.url).pathname
-      , ranges = req.headers.range
-      , hit = cache.get(path)
-      , hitCC
-      , uaCC
-      , header
-      , age;
+  console.warn('connect.staticCache() is deprecated and will be removed in 3.0');
+  console.warn('use varnish or similar reverse proxy caches.');
 
-    function miss() {
-      res.setHeader('X-Cache', 'MISS');
-      next();
-    }
+  return function staticCache(req, res, next){
+    var key = cacheKey(req)
+      , ranges = req.headers.range
+      , hasCookies = req.headers.cookie
+      , hit = cache.get(key);
 
     // cache static
-    // TODO: change from staticCache() -> static()
+    // TODO: change from staticCache() -> cache()
     // and make this work for any request
     req.on('static', function(stream){
       var headers = res._headers
@@ -46,8 +41,17 @@ static() + staticCache(): 7500 rps
         , contentLength = headers['content-length']
         , hit;
 
+      // dont cache set-cookie responses
+      if (headers['set-cookie']) return hasCookies = true;
+
+      // dont cache when cookies are present
+      if (hasCookies) return;
+
       // ignore larger files
       if (!contentLength || contentLength > maxlen) return;
+
+      // don't cache partial files
+      if (headers['content-range']) return;
 
       // dont cache items we shouldn't be
       // TODO: real support for must-revalidate / no-cache
@@ -57,12 +61,12 @@ static() + staticCache(): 7500 rps
         || cc['must-revalidate']) return;
 
       // if already in cache then validate
-      if (hit = cache.get(path)){
+      if (hit = cache.get(key)){
         if (headers.etag == hit[0].etag) {
           hit[0].date = new Date;
           return;
         } else {
-          cache.remove(path);
+          cache.remove(key);
         }
       }
 
@@ -70,8 +74,7 @@ static() + staticCache(): 7500 rps
       if (null == stream) return;
 
       // add the cache object
-      var arr = cache.add(path);
-      arr.push(headers);
+      var arr = [];
 
       // store the chunks
       stream.on('data', function(chunk){
@@ -80,63 +83,85 @@ static() + staticCache(): 7500 rps
 
       // flag it as complete
       stream.on('end', function(){
-        arr.complete = true;
+        var cacheEntry = cache.add(key);
+        delete headers['x-cache']; // Clean up (TODO: others)
+        cacheEntry.push(200);
+        cacheEntry.push(headers);
+        cacheEntry.push.apply(cacheEntry, arr);
       });
     });
 
-    // cache hit, doesnt support range requests
-    if (hit && hit.complete && !ranges) {
-      header = utils.merge({}, hit[0]);
-      header.Age = age = (new Date - new Date(header.date)) / 1000 | 0;
-      header.date = new Date().toUTCString();
-
-      // parse cache-controls
-      hitCC = utils.parseCacheControl(header['cache-control'] || '');
-      uaCC = utils.parseCacheControl(req.headers['cache-control'] || '');
-
-      // check if we must revalidate(bypass)
-      if (hitCC['no-cache'] || uaCC['no-cache']) return miss();
-
-      // check freshness of entity
-      if (isStale(hitCC, age) || isStale(uaCC, age)) return miss();
-
-      // conditional GET support
-      if (utils.conditionalGET(req)) {
-        if (!utils.modified(req, res, header)) {
-          header['content-length'] = 0;
-          res.writeHead(304, header);
-          return res.end();
-        }
+    if (req.method == 'GET' || req.method == 'HEAD') {
+      if (ranges) {
+        next();
+      } else if (!hasCookies && hit && !mustRevalidate(req, hit)) {
+        res.setHeader('X-Cache', 'HIT');
+        respondFromCache(req, res, hit);
+      } else {
+        res.setHeader('X-Cache', 'MISS');
+        next();
       }
-
-      // HEAD support
-      if ('HEAD' == req.method) {
-        res.writeHead(200, header);
-        return res.end();
-      }
-
-      // respond with cache
-      header['x-cache'] = 'HIT';
-      res.writeHead(200, header);
-
-      // backpressure
-      function write(i) {
-        var buf = hit[i];
-        if (!buf) return res.end();
-        if (false === res.write(buf)) {
-          res.once('drain', function(){
-            write(++i);
-          });
-        } else {
-          write(++i);
-        }
-      }
-
-      return write(1);
+    } else {
+      next();
     }
-
-    miss();
   }
-};</code></pre></div><div id="isStale" class="comment"><h2>isStale()</h2><div class="description"><p>Check if cache item is stale</p></div><ul class="tags"><li><em>Object</em> cc </li><li><em>Number</em> age </li><li>returns <em>Boolean</em> </li></ul><h3>Source</h3><pre><code>function isStale(cc, age) {
-  return cc['max-age'] && cc['max-age'] <= age;
-}</code></pre></div></div><ul id="menu"><li><a href="#module.exports"></a></li><li><a href="#isStale">isStale()</a></li></ul></body></html>
+};</code></pre></div><div id="respondFromCache" class="comment"><h2>respondFromCache()</h2><div class="description"><p>Respond with the provided cached value.<br />TODO: Assume 200 code, that's iffy.</p></div><ul class="tags"><li><em>Object</em> req </li><li><em>Object</em> res </li><li><em>Object</em> cacheEntry </li><li>returns <em>String</em> </li></ul><h3>Source</h3><pre><code>function respondFromCache(req, res, cacheEntry) {
+  var status = cacheEntry[0]
+    , headers = utils.merge({}, cacheEntry[1])
+    , content = cacheEntry.slice(2);
+
+  headers.age = (new Date - new Date(headers.date)) / 1000 || 0;
+
+  switch (req.method) {
+    case 'HEAD':
+      res.writeHead(status, headers);
+      res.end();
+      break;
+    case 'GET':
+      if (utils.conditionalGET(req) && fresh(req.headers, headers)) {
+        headers['content-length'] = 0;
+        res.writeHead(304, headers);
+        res.end();
+      } else {
+        res.writeHead(status, headers);
+
+        function write() {
+          while (content.length) {
+            if (false === res.write(content.shift())) {
+              res.once('drain', write);
+              return;
+            }
+          }
+          res.end();
+        }
+
+        write();
+      }
+      break;
+    default:
+      // This should never happen.
+      res.writeHead(500, '');
+      res.end();
+  }
+}</code></pre></div><div id="mustRevalidate" class="comment"><h2>mustRevalidate()</h2><div class="description"><p>Determine whether or not a cached value must be revalidated.</p></div><ul class="tags"><li><em>Object</em> req </li><li><em>Object</em> cacheEntry </li><li>returns <em>String</em> </li></ul><h3>Source</h3><pre><code>function mustRevalidate(req, cacheEntry) {
+  var cacheHeaders = cacheEntry[1]
+    , reqCC = utils.parseCacheControl(req.headers['cache-control'] || '')
+    , cacheCC = utils.parseCacheControl(cacheHeaders['cache-control'] || '')
+    , cacheAge = (new Date - new Date(cacheHeaders.date)) / 1000 || 0;
+
+  if ( cacheCC['no-cache']
+    || cacheCC['must-revalidate']
+    || cacheCC['proxy-revalidate']) return true;
+
+  if (reqCC['no-cache']) return true
+
+  if (null != reqCC['max-age']) return reqCC['max-age'] < cacheAge;
+
+  if (null != cacheCC['max-age']) return cacheCC['max-age'] < cacheAge;
+
+  return false;
+}</code></pre></div><div id="cacheKey" class="comment"><h2>cacheKey()</h2><div class="description"><p>The key to use in the cache. For now, this is the URL path and query.</p>
+
+<p>'<a href='http://example.com?key=value'>http://example.com?key=value</a>' -> '/?key=value'</p></div><ul class="tags"><li><em>Object</em> req </li><li>returns <em>String</em> </li></ul><h3>Source</h3><pre><code>function cacheKey(req) {
+  return utils.parseUrl(req).path;
+}</code></pre></div></div><ul id="menu"><li><a href="#module.exports"></a></li><li><a href="#respondFromCache">respondFromCache()</a></li><li><a href="#mustRevalidate">mustRevalidate()</a></li><li><a href="#cacheKey">cacheKey()</a></li></ul></body></html>

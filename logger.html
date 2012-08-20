@@ -109,12 +109,6 @@
   return function logger(req, res, next) {
     req._startTime = new Date;
 
-    // mount safety
-    if (req._logging) return next();
-
-    // flag as logging
-    req._logging = true;
-
     // immediate
     if (immediate) {
       var line = fmt(exports, req, res);
@@ -149,18 +143,24 @@
   return this;
 };</code></pre></div><div id="" class="comment"><h2></h2><div class="description"><p>Default format.</p></div><h3>Source</h3><pre><code>exports.format('default', ':remote-addr - - [:date] ":method :url HTTP/:http-version" :status :res[content-length] ":referrer" ":user-agent"');</code></pre></div><div id="" class="comment"><h2></h2><div class="description"><p>Short format.</p></div><h3>Source</h3><pre><code>exports.format('short', ':remote-addr - :method :url HTTP/:http-version :status :res[content-length] - :response-time ms');</code></pre></div><div id="" class="comment"><h2></h2><div class="description"><p>Tiny format.</p></div><h3>Source</h3><pre><code>exports.format('tiny', ':method :url :status :res[content-length] - :response-time ms');</code></pre></div><div id="" class="comment"><h2></h2><div class="description"><p>dev (colored)</p></div><h3>Source</h3><pre><code>exports.format('dev', function(tokens, req, res){
   var status = res.statusCode
+    , len = parseInt(res.getHeader('Content-Length'), 10)
     , color = 32;
 
   if (status >= 500) color = 31
   else if (status >= 400) color = 33
   else if (status >= 300) color = 36;
 
+  len = isNaN(len)
+    ? ''
+    : len = ' - ' + bytes(len);
+
   return '\033[90m' + req.method
     + ' ' + req.originalUrl + ' '
     + '\033[' + color + 'm' + res.statusCode
     + ' \033[90m'
     + (new Date - req._startTime)
-    + 'ms\033[0m';
+    + 'ms' + len
+    + '\033[0m';
 });</code></pre></div><div id="" class="comment"><h2></h2><div class="description"><p>request url</p></div><h3>Source</h3><pre><code>exports.token('url', function(req){
   return req.originalUrl;
 });</code></pre></div><div id="" class="comment"><h2></h2><div class="description"><p>request method</p></div><h3>Source</h3><pre><code>exports.token('method', function(req){

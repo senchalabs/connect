@@ -6,7 +6,9 @@
   .use(connect.vhost('foo.com', fooApp))
   .use(connect.vhost('bar.com', barApp))
   .use(connect.vhost('*.com', mainApp))
-</code></pre></div><ul class="tags"><li><em>String</em> hostname </li><li><em>Server</em> server </li><li>returns <em>Function</em> </li></ul><h3>Source</h3><pre><code>module.exports = function vhost(hostname, server){
+</code></pre>
+
+<p>The <code>server</code> may be a Connect server or<br /> a regular Node <code>http.Server</code>. </p></div><ul class="tags"><li><em>String</em> hostname </li><li><em>Server</em> server </li><li>returns <em>Function</em> </li></ul><h3>Source</h3><pre><code>module.exports = function vhost(hostname, server){
   if (!hostname) throw new Error('vhost hostname required');
   if (!server) throw new Error('vhost server required');
   var regexp = new RegExp('^' + hostname.replace(/[*]/g, '(.*?)') + '$', 'i');
@@ -14,11 +16,8 @@
   return function vhost(req, res, next){
     if (!req.headers.host) return next();
     var host = req.headers.host.split(':')[0];
-    if (req.subdomains = regexp.exec(host)) {
-      req.subdomains = req.subdomains[0].split('.').slice(0, -1);
-      server.emit('request', req, res);
-    } else {
-      next();
-    }
+    if (!regexp.test(host)) return next();
+    if ('function' == typeof server) return server(req, res, next);
+    server.emit('request', req, res);
   };
 };</code></pre></div></div><ul id="menu"><li><a href="#module.exports"></a></li></ul></body></html>

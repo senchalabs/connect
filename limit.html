@@ -8,7 +8,7 @@
   .use(connect.limit('5.5mb'))
   .use(handleImageUpload)
 </code></pre></div><ul class="tags"><li><em>Number | String</em> bytes </li><li>returns <em>Function</em> </li></ul><h3>Source</h3><pre><code>module.exports = function limit(bytes){
-  if ('string' == typeof bytes) bytes = parse(bytes);
+  if ('string' == typeof bytes) bytes = utils.parseBytes(bytes);
   if ('number' != typeof bytes) throw new Error('limit() bytes required');
   return function limit(req, res, next){
     var received = 0
@@ -31,16 +31,4 @@
 
     next();
   };
-};</code></pre></div><div id="parse" class="comment"><h2>parse()</h2><div class="description"><p>Parse byte <code>size</code> string.</p></div><ul class="tags"><li><em>String</em> size </li><li>returns <em>Number</em> </li></ul><h3>Source</h3><pre><code>function parse(size) {
-  var parts = size.match(/^(\d+(?:\.\d+)?) *(kb|mb|gb)$/)
-    , n = parseFloat(parts[1])
-    , type = parts[2];
-
-  var map = {
-      kb: 1024
-    , mb: 1024 * 1024
-    , gb: 1024 * 1024 * 1024
-  };
-
-  return map[type] * n;
-}</code></pre></div></div><ul id="menu"><li><a href="#module.exports"></a></li><li><a href="#parse">parse()</a></li></ul></body></html>
+};</code></pre></div></div><ul id="menu"><li><a href="#module.exports"></a></li></ul></body></html>

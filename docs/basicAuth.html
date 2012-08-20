@@ -56,14 +56,14 @@
       var pause = utils.pause(req);
       callback(user, pass, function(err, user){
         if (err || !user)  return unauthorized(res, realm);
-        req.user = user;
+        req.user = req.remoteUser = user;
         next();
         pause.resume();
       });
     // sync
     } else {
       if (callback(user, pass)) {
-        req.user = user;
+        req.user = req.remoteUser = user;
         next();
       } else {
         unauthorized(res, realm);
