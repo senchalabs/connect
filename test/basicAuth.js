@@ -42,7 +42,7 @@ function test(app, signature) {
       })
     })
 
-    describe('when scheme is not Basic', function(){
+    describe('when authorization header is not Basic', function(){
       it('should respond with 400', function(done){
         app.request()
         .get('/')
@@ -55,7 +55,7 @@ function test(app, signature) {
       })
     })
 
-    describe('when invalid authorization header', function(){
+    describe('when authorization header is malformed - contains only one part', function(){
       it('should respond with 400', function(done){
         app.request()
         .get('/')
