@@ -28,7 +28,7 @@ function test(app, signature) {
       })
     })
 
-    describe('when invalid', function(){
+    describe('when invalid credentials', function(){
       it('should respond with 401', function(done){
         app.request()
         .get('/')
@@ -37,6 +37,32 @@ function test(app, signature) {
           res.statusCode.should.equal(401);
           res.headers['www-authenticate'].should.equal('Basic realm="Authorization Required"');
           res.body.should.equal('Unauthorized');
+          done();
+        });
+      })
+    })
+
+    describe('when not Basic authorization', function(){
+      it('should respond with 400', function(done){
+        app.request()
+        .get('/')
+        .set('Authorization', 'Digest dGo69iaQ==')
+        .end(function(res){
+          res.statusCode.should.equal(400);
+          res.body.should.match(/Bad Request/);
+          done();
+        });
+      })
+    })
+
+    describe('when invalid authorization header', function(){
+      it('should respond with 400', function(done){
+        app.request()
+        .get('/')
+        .set('Authorization', 'invalid')
+        .end(function(res){
+          res.statusCode.should.equal(400);
+          res.body.should.match(/Bad Request/);
           done();
         });
       })
