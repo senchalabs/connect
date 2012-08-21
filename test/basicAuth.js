@@ -42,7 +42,7 @@ function test(app, signature) {
       })
     })
 
-    describe('when not Basic authorization', function(){
+    describe('when scheme is not Basic', function(){
       it('should respond with 400', function(done){
         app.request()
         .get('/')
