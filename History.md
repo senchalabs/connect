@@ -1,4 +1,9 @@
 
+2.4.4 / 2012-08-21 
+==================
+
+  * fix `static()` pause regression from "send" integration
+
 2.4.3 / 2012-08-07 
 ==================
 
