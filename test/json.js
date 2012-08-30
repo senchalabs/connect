@@ -156,4 +156,34 @@ describe('connect.json()', function(){
     .write('{"name":"论"}')
     .expect('论', done);
   })
+  describe('by default', function(){
+    it('should check the content-type', function(done){
+      var app = connect();
+      app.use(connect.json());
+
+      app.use(function(req, res){
+        res.end(JSON.stringify(req.body));
+      });
+
+      app.request()
+      .post('/')
+      .write('["foo"]')
+      .expect('{}', done);
+    })
+  })
+  describe('when ignoring the content-type', function(){
+    it('should not check the content-type', function(done){
+      var app = connect();
+      app.use(connect.json({ignoreContentType:true}));
+
+      app.use(function(req, res){
+        res.end(JSON.stringify(req.body));
+      });
+
+      app.request()
+      .post('/')
+      .write('["foo"]')
+      .expect('["foo"]', done);
+    })
+  })
 })
