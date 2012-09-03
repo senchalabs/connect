@@ -1,4 +1,10 @@
 
+2.4.5 / 2012-09-03 
+==================
+
+  * add session store "connect" / "disconnect" support [louischatriot]
+  * fix `:url` log token
+
 2.4.4 / 2012-08-21 
 ==================
 
