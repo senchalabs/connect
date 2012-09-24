@@ -80,6 +80,12 @@ module.exports = {
       { url: '/foo.json' },
       { body: 'Cannot GET /foo.json', status: 404 });
   },
+
+  'test invalid dir url': function(){
+    assert.response(app,
+      { url: '/user.json/' },
+      { body: 'Cannot GET /user.json/', status: 404 });
+  },
   
   'test directory redirect': function(){
     assert.response(app,
