@@ -227,8 +227,7 @@ describe('connect.multipart()', function(){
 
       app.use(function(err, req, res, next){
         err.message.should.equal('parser error, 16 of 28 bytes parsed');
-        res.statusCode = 500;
-        res.end();
+        next(err);
       });
 
       app.request()
@@ -243,7 +242,7 @@ describe('connect.multipart()', function(){
       .write('some more text stuff')
       .write('\r\n--foo--')
       .end(function(res){
-        res.statusCode.should.equal(500);
+        res.statusCode.should.equal(400);
         done();
       });
     })
