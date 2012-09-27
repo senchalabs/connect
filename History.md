@@ -1,5 +1,13 @@
 
-2.5.6 / 2012-09-18 
+2.5.0 / 2012-09-27 
+==================
+
+  * add `err.status = 400` to multipart() errors
+  * add double-encoding protection to `compress()`. Closes #659
+  * add graceful handling cookie parsing errors [shtylman]
+  * fix typo X-Response-time to X-Response-Time
+
+2.4.6 / 2012-09-18 
 ==================
 
   * update qs
