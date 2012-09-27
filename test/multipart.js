@@ -249,6 +249,46 @@ describe('connect.multipart()', function(){
       });
     })
 
+    it('should process this multipart request', function(done){
+      var app, net, client, resp, http, server, processed;
+
+      net = require("net");
+      http = require("http");
+
+      app = connect();
+
+      app.use(connect.multipart());
+
+      app.use(function(req, res) {
+        res.end('whoop');
+      });
+
+      server = http.createServer(app);
+
+      server.listen(0, function() {
+        client = net.connect(server.address().port);
+        resp = "";
+        client.on('data', function (data) {
+          resp += data;
+        });
+        client.on('end', function () {
+          resp.should.match(/whoop/);
+          done();
+        });
+        client.write(
+          "POST / HTTP/1.1\r\n" +
+          "Content-Length: 65\r\n" +
+          "Content-Type: multipart/form-data; boundary=foo\r\n" +
+          "\r\n" +
+          "--foo\r\n" +
+          "Content-Type: application/octet-stream\r\n" +
+          "\r\n" +
+          "12345\r\n" +
+          "--foo--\r\n");
+        client.end();
+      });
+    })
+
     it('should default req.files to {}', function(done){
       var app = connect();
 
