@@ -261,7 +261,6 @@ describe('connect.multipart()', function(){
 
       app.use(function(req, res) {
         res.end('whoop');
-        done();
       });
 
       server = http.createServer(app);
