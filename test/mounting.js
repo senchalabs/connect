@@ -105,5 +105,17 @@ describe('app.use()', function(){
       .expect('blog', done);
     })
   })
+
+  it('should be case insensitive', function(done){
+    var blog = http.createServer(function(req, res){
+      req.url.should.equal('/');
+      res.end('blog');
+    });
   
+    app.use('/blog', blog);
+  
+    app.request()
+    .get('/BLog')
+    .expect('blog', done);
+  })
 })
