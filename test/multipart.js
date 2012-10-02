@@ -269,7 +269,7 @@ describe('connect.multipart()', function(){
     it('should defer processing if `defer` is set', function(done){
       var app = connect();
 
-      app.use(connect.multipart({"defer": true}));
+      app.use(connect.multipart({ defer: true }));
 
       app.use(function(req, res){
         JSON.stringify(req.body).should.equal("{}");
