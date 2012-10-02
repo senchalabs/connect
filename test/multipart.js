@@ -266,5 +266,35 @@ describe('connect.multipart()', function(){
       });
     })
 
+    it('should defer processing if `defer` is set', function(done){
+      var app = connect();
+
+      app.use(connect.multipart({"defer": true}));
+
+      app.use(function(req, res){
+        JSON.stringify(req.body).should.equal("{}");
+        req.form.on("end", function() {
+          res.end(JSON.stringify(req.body));
+        });
+      });
+
+      app.request()
+      .post('/')
+      .set('Content-Type', 'multipart/form-data; boundary=foo')
+      .write('--foo\r\n')
+      .write('Content-Disposition: form-data; name="user"\r\n')
+      .write('\r\n')
+      .write('Tobi')
+      .write('\r\n--foo\r\n')
+      .write('Content-Disposition: form-data; name="age"\r\n')
+      .write('\r\n')
+      .write('1')
+      .write('\r\n--foo--')
+      .end(function(res){
+        res.body.should.equal('{"user":"Tobi","age":"1"}');
+        done();
+      });
+    })
+
   })
 })
