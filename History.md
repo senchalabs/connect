@@ -1,4 +1,11 @@
 
+2.6.0 / 2012-10-09 
+==================
+
+  * add `defer` option to `multipart()` [Blake Miner]
+  * fix mount path case sensitivity. Closes #663
+  * fix default of ascii encoding from `logger()`, now utf8. Closes #293
+
 2.5.0 / 2012-09-27 
 ==================
 
