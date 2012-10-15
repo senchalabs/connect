@@ -26,35 +26,6 @@ describe('utils.parseCacheControl(str)', function(){
   })
 })
 
-describe('utils.[un]sign()', function(){
-  it('should sign & unsign values', function(){
-    var val = utils.sign('something', 'foo');
-    val.should.equal('something.8WhA0qtnmrX5qoz9Z/VgxMJ+fk24BikrI+Zqndxv54k');
-
-    val = utils.unsign('something.8WhA0qtnmrX5qoz9Z/VgxMJ+fk24BikrI+Zqndxv54k', 'foo');
-    val.should.equal('something');
-
-    // make sure cookie values with periods don't trump the signature
-    val = utils.sign('something.for.nothing', 'foo');
-    val.should.equal('something.for.nothing.s/7V7+RZexRSazB9x2sNFUyhMnrdxnnh5zmnrWZJyHA');
-
-    val = utils.unsign('something.for.nothing.s/7V7+RZexRSazB9x2sNFUyhMnrdxnnh5zmnrWZJyHA', 'foo');
-    val.should.equal('something.for.nothing');
-
-    // invalid secret
-    val = utils.unsign('something.8WhA0qtnmrX5qoz9Z/VgxMJ+fk24BikrI+Zqndxv54k', 'something');
-    val.should.be.false;
-
-    // invalid value
-    val = utils.unsign('somethingINVALID.8WhA0qtnmrX5qoz9Z/VgxMJ+fk24BikrI+Zqndxv54k', 'foo');
-    val.should.be.false;
-
-    // invalid sig
-    val = utils.unsign('something.INVALID8WhA0qtnmrX5qoz9Z/VgxMJ+fk24BikrI+Zqndxv54k', 'foo');
-    val.should.be.false;
-  })
-})
-
 describe('utils.mime(req)', function(){
   it('should return the mime-type from Content-Type', function(){
     utils.mime({ headers: { 'content-type': 'text/html; charset=utf8' }})

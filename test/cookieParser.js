@@ -1,6 +1,6 @@
 
-var connect = require('../')
-  , utils = connect.utils;
+var connect = require('..')
+  , signature = require('cookie-signature');
 
 var app = connect();
 
@@ -40,7 +40,7 @@ describe('connect.cookieParser()', function(){
   })
 
   describe('when a secret is given', function(){
-    var val = utils.sign('foobarbaz', 'keyboard cat');
+    var val = signature.sign('foobarbaz', 'keyboard cat');
     // TODO: "bar" fails...
 
     it('should populate req.signedCookies', function(done){
