@@ -31,12 +31,28 @@ describe('connect.timeout()', function(){
         .get('/')
         .expect(408, done);
       })
+
+      it('should pass the error to next()', function(done){
+        var app = connect()
+          .use(connect.timeout(300))
+          .use(function(req, res){
+            setTimeout(function(){
+              res.end('Hello');
+            }, 400);
+          })
+          .use(function(err, req, res, next){
+            res.statusCode = err.status;
+            res.end('timeout of ' + err.timeout + 'ms exceeded');
+          });
+
+        app.request()
+        .get('/')
+        .expect('timeout of 300ms exceeded', done);
+      })
     })
 
     describe('with a partial response', function(){
       it('should do nothing', function(done){
-        // not really ideal, but killing a socket is
-        // pretty dirty as well...
         var app = connect()
           .use(connect.timeout(300))
           .use(function(req, res){
