@@ -106,7 +106,7 @@ describe('app.use()', function(){
     })
   })
 
-  it('should be case insensitive', function(done){
+  it('should be case insensitive (lower-case route, mixed-case request)', function(done){
     var blog = http.createServer(function(req, res){
       req.url.should.equal('/');
       res.end('blog');
@@ -116,6 +116,32 @@ describe('app.use()', function(){
   
     app.request()
     .get('/BLog')
+    .expect('blog', done);
+  })
+
+  it('should be case insensitive (mixed-case route, lower-case request)', function(done){
+    var blog = http.createServer(function(req, res){
+      req.url.should.equal('/');
+      res.end('blog');
+    });
+
+    app.use('/BLog', blog);
+
+    app.request()
+    .get('/blog')
+    .expect('blog', done);
+  })
+
+  it('should be case insensitive (mixed-case route, mixed-case request)', function(done){
+    var blog = http.createServer(function(req, res){
+      req.url.should.equal('/');
+      res.end('blog');
+    });
+
+    app.use('/BLog', blog);
+
+    app.request()
+    .get('/blOG')
     .expect('blog', done);
   })
 })
