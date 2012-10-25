@@ -135,7 +135,8 @@ req.session.cookie.maxAge = hour;
     , key = options.key || 'connect.sid'
     , store = options.store || new MemoryStore
     , cookie = options.cookie || {}
-    , trustProxy = options.proxy;
+    , trustProxy = options.proxy
+    , storeReady = true;
 
   // notify user that this store is not
   // meant for a production environment
@@ -150,9 +151,16 @@ req.session.cookie.maxAge = hour;
     req.session.cookie = new Cookie(cookie);
   };
 
+  store.on('disconnect', function(){ storeReady = false; });
+  store.on('connect', function(){ storeReady = true; });
+
   return function session(req, res, next) {
     // self-awareness
     if (req.session) return next();
+
+    // Handle connection as if there is no session if
+    // the store has temporarily disconnected etc
+    if (!storeReady) return next();
 
     // pathname mismatch
     if (0 != req.originalUrl.indexOf(cookie.path || '/')) return next();
@@ -202,7 +210,7 @@ req.session.cookie.maxAge = hour;
         return debug('unmodified session');
       }
 
-      var val = 's:' + utils.sign(req.sessionID, secret);
+      var val = 's:' + signature.sign(req.sessionID, secret);
       val = cookie.serialize(key, val);
       debug('set-cookie %s', val);
       res.setHeader('Set-Cookie', val);

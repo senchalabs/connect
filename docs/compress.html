@@ -58,6 +58,11 @@
     };
 
     res.on('header', function(){
+      var encoding = res.getHeader('Content-Encoding') || 'identity';
+
+      // already encoded
+      if ('identity' != encoding) return; 
+
       // default request filter
       if (!filter(req, res)) return;
 

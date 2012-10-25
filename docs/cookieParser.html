@@ -28,6 +28,7 @@
         }
         req.cookies = utils.parseJSONCookies(req.cookies);
       } catch (err) {
+        err.status = 400;
         return next(err);
       }
     }

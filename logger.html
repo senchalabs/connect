@@ -93,7 +93,7 @@
     // flush interval
     setInterval(function(){
       if (buf.length) {
-        realStream.write(buf.join(''), 'ascii');
+        realStream.write(buf.join(''));
         buf.length = 0;
       }
     }, interval); 
@@ -113,7 +113,7 @@
     if (immediate) {
       var line = fmt(exports, req, res);
       if (null == line) return;
-      stream.write(line + '\n', 'ascii');
+      stream.write(line + '\n');
     // proxy end to output logging
     } else {
       var end = res.end;
@@ -122,7 +122,7 @@
         res.end(chunk, encoding);
         var line = fmt(exports, req, res);
         if (null == line) return;
-        stream.write(line + '\n', 'ascii');
+        stream.write(line + '\n');
       };
     }
 
@@ -162,7 +162,7 @@
     + 'ms' + len
     + '\033[0m';
 });</code></pre></div><div id="" class="comment"><h2></h2><div class="description"><p>request url</p></div><h3>Source</h3><pre><code>exports.token('url', function(req){
-  return req.originalUrl;
+  return req.originalUrl || req.url;
 });</code></pre></div><div id="" class="comment"><h2></h2><div class="description"><p>request method</p></div><h3>Source</h3><pre><code>exports.token('method', function(req){
   return req.method;
 });</code></pre></div><div id="" class="comment"><h2></h2><div class="description"><p>response time in milliseconds</p></div><h3>Source</h3><pre><code>exports.token('response-time', function(req){

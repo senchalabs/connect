@@ -43,12 +43,14 @@ utils.merge(a, b);
     .toString('base64')
     .slice(0, len);
 };</code></pre></div><div id="exports.sign" class="comment"><h2>exports.sign()</h2><div class="description"><p>Sign the given <code>val</code> with <code>secret</code>.</p></div><ul class="tags"><li><em>String</em> val </li><li><em>String</em> secret </li><li>returns <em>String</em> </li></ul><h3>Source</h3><pre><code>exports.sign = function(val, secret){
+  console.warn('do not use utils.sign(), use https://github.com/visionmedia/node-cookie-signature')
   return val + '.' + crypto
     .createHmac('sha256', secret)
     .update(val)
     .digest('base64')
     .replace(/=+$/, '');
 };</code></pre></div><div id="exports.unsign" class="comment"><h2>exports.unsign()</h2><div class="description"><p>Unsign and decode the given <code>val</code> with <code>secret</code>,<br />returning <code>false</code> if the signature is invalid.</p></div><ul class="tags"><li><em>String</em> val </li><li><em>String</em> secret </li><li>returns <em>String | Boolean</em> </li></ul><h3>Source</h3><pre><code>exports.unsign = function(val, secret){
+  console.warn('do not use utils.unsign(), use https://github.com/visionmedia/node-cookie-signature')
   var str = val.slice(0, val.lastIndexOf('.'));
   return exports.sign(str, secret) == val
     ? str
@@ -58,7 +60,7 @@ utils.merge(a, b);
   Object.keys(obj).forEach(function(key){
     var val = obj[key];
     if (0 == val.indexOf('s:')) {
-      val = exports.unsign(val.slice(2), secret);
+      val = signature.unsign(val.slice(2), secret);
       if (val) {
         ret[key] = val;
         delete obj[key];
@@ -68,7 +70,7 @@ utils.merge(a, b);
   return ret;
 };</code></pre></div><div id="exports.parseSignedCookie" class="comment"><h2>exports.parseSignedCookie()</h2><div class="description"><p>Parse a signed cookie string, return the decoded value</p></div><ul class="tags"><li><em>String</em> str signed cookie string</li><li><em>String</em> secret </li><li>returns <em>String</em> decoded value</li></ul><h3>Source</h3><pre><code>exports.parseSignedCookie = function(str, secret){
   return 0 == str.indexOf('s:')
-    ? exports.unsign(str.slice(2), secret)
+    ? signature.unsign(str.slice(2), secret)
     : str;
 };</code></pre></div><div id="exports.parseJSONCookies" class="comment"><h2>exports.parseJSONCookies()</h2><div class="description"><p>Parse JSON cookies.</p></div><ul class="tags"><li><em>Object</em> obj </li><li>returns <em>Object</em> </li></ul><h3>Source</h3><pre><code>exports.parseJSONCookies = function(obj){
   Object.keys(obj).forEach(function(key){

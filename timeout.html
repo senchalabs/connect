@@ -1,0 +1,31 @@
+<!DOCTYPE html><html><head><title>Connect - High quality middleware for node.js</title><meta http-equiv="Content-Type" content="text/html; charset=utf-8"><link rel="stylesheet" href="style.css"><script src="jquery.js"></script><script src="docs.js"></script></head><body><div id="content"><h1>Connect</h1><div id="module.exports" class="comment"><h2></h2><div class="description"><h2>Timeout</h2>
+
+<p>Times out the request in <code>ms</code>, defaulting to <code>5000</code>. The<br />method <code>req.clearTimeout()</code> is added to revert this behaviour<br />programmatically within your application's middleware, routes, etc.</p>
+
+<p>The timeout error is passed to <code>next()</code> so that you may customize<br />the response behaviour. This error has the <code>.timeout</code> property as<br />well as <code>.status == 408</code>.</p></div><ul class="tags"><li><em>Number</em> ms </li><li>returns <em>Function</em> </li></ul><h3>Source</h3><pre><code>module.exports = function timeout(ms) {
+  ms = ms || 5000;
+
+  return function(req, res, next) {
+    var id = setTimeout(function(){
+      req.emit('timeout', ms);
+    }, ms);
+
+    req.on('timeout', function(){
+      if (req.headerSent) return debug('response started, cannot timeout');
+      var err = new Error('Request timeout');
+      err.timeout = ms;
+      err.status = 408;
+      next(err);
+    });
+
+    req.clearTimeout = function(){
+      clearTimeout(id);
+    };
+
+    res.on('header', function(){
+      clearTimeout(id);
+    });
+
+    next();
+  };
+};</code></pre></div></div><ul id="menu"><li><a href="#module.exports"></a></li></ul></body></html>

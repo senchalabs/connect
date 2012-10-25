@@ -9,7 +9,7 @@
 
     res.on('header', function(header){
       var duration = new Date - start;
-      res.setHeader('X-Response-time', duration + 'ms');
+      res.setHeader('X-Response-Time', duration + 'ms');
     });
 
     next();

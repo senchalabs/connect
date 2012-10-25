@@ -82,7 +82,7 @@
       if (originalHash == crc16(val)) return debug('unmodified session');
 
       // set-cookie
-      val = 's:' + utils.sign(val, secret);
+      val = 's:' + signature.sign(val, secret);
       val = cookie.serialize(key, val);
       debug('set-cookie %j', cookie);
       res.setHeader('Set-Cookie', val);

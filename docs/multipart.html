@@ -15,6 +15,9 @@
 
 <ul>
 <li><code>limit</code>  byte limit defaulting to none</li>
+<li><code>defer</code>  defers processing and exposes the Formidable form object as <code>req.form</code>.
+         <code>next()</code> is called without waiting for the form's "end" event.
+         This option is useful if you need to bind to the "progress" event, for example.</li>
 </ul></div><ul class="tags"><li><em>Object</em> options </li><li>returns <em>Function</em> </li></ul><h3>Source</h3><pre><code>exports = module.exports = function(options){
   options = options || {};
 
@@ -68,7 +71,10 @@
       });
 
       form.on('error', function(err){
-        next(err);
+        if (!options.defer) {
+          err.status = 400;
+          next(err);
+        }
         done = true;
       });
 
@@ -77,13 +83,18 @@
         try {
           req.body = qs.parse(data);
           req.files = qs.parse(files);
-          next();
+          if (!options.defer) next();
         } catch (err) {
-          next(err);
+          form.emit('error', err);
         }
       });
 
       form.parse(req);
+
+      if (options.defer) {
+        req.form = form;
+        next();
+      }
     });
   }
 };</code></pre></div></div><ul id="menu"><li><a href="#noop">noop()</a></li><li><a href="#"></a></li></ul></body></html>
