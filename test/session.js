@@ -186,7 +186,6 @@ describe('connect.session()', function(){
         .get('/')
         .set('Cookie', 'connect.sid=' + sid(res))
         .end(function(res){
-          var id = sid(res);
           res.body.should.equal('2');
           done();
         });
@@ -520,7 +519,6 @@ describe('connect.session()', function(){
         .get('/')
         .set('Cookie', 'connect.sid=' + sid(res))
         .end(function(res){
-          var id = sid(res);
           res.body.should.equal('2');
           done();
         });
