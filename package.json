@@ -1,6 +1,6 @@
 {
   "name": "connect",
-  "version": "2.6.0",
+  "version": "2.6.1",
   "description": "High performance middleware framework",
   "keywords": ["framework", "web", "middleware", "connect", "rack"],
   "repository": "git://github.com/senchalabs/connect.git",
@@ -12,7 +12,7 @@
     "crc": "0.2.0",
     "cookie": "0.0.4",
     "bytes": "0.0.1",
-    "send": "0.0.4",
+    "send": "0.1.0",
     "bytes": "0.1.0",
     "fresh": "0.1.0",
     "pause": "0.0.1",
@@ -25,5 +25,10 @@
     "dox": "*"
   },
   "main": "index",
-  "engines": { "node": ">= 0.5.0" }
+  "engines": {
+    "node": ">= 0.5.0"
+  },
+  "scripts": {
+    "test": "make"
+  }
 }

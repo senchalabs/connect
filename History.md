@@ -1,4 +1,10 @@
 
+2.6.1 / 2012-10-25 
+==================
+
+  * add passing of `connect.timeout()` errors to `next()`
+  * replace signature utils with cookie-signature module
+
 2.6.0 / 2012-10-09 
 ==================
 
