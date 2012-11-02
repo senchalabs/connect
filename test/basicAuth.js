@@ -19,7 +19,7 @@ function test(app, signature) {
       it('should next()', function(done){
         app.request()
         .get('/')
-        .set('Authorization', 'Basic dGo6dG9iaQ==')
+        .set('Authorization', 'Basic dGo6dG9iaTpsZWFybmJvb3N0')
         .end(function(res){
           res.statusCode.should.equal(200);
           res.body.should.equal('secret!');
@@ -72,7 +72,7 @@ function test(app, signature) {
 
 var app = connect();
 
-app.use(connect.basicAuth('tj', 'tobi'));
+app.use(connect.basicAuth('tj', 'tobi:learnboost'));
 
 app.use(function(req, res, next){
   req.user.should.equal('tj');
@@ -86,7 +86,7 @@ test(app, 'connect.basicAuth(user, pass)');
 var app = connect();
 
 app.use(connect.basicAuth(function(user, pass){
-  return 'tj' == user && 'tobi' == pass;
+  return 'tj' == user && 'tobi:learnboost' == pass;
 }));
 
 app.use(function(req, res, next){
@@ -101,7 +101,7 @@ test(app, 'connect.basicAuth(callback)');
 var app = connect();
 
 app.use(connect.basicAuth(function(user, pass, fn){
-  var ok = 'tj' == user && 'tobi' == pass;
+  var ok = 'tj' == user && 'tobi:learnboost' == pass;
   fn(null, ok
     ? { name: 'tj' }
     : null);
