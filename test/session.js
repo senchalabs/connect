@@ -285,6 +285,7 @@ describe('connect.session()', function(){
           .get('/')
           .set('Cookie', 'connect.sid=' + id)
           .end(function(res){
+            sid(res).should.not.equal('');
             sid(res).should.not.equal(id);
             done();
           });
