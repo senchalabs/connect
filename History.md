@@ -1,4 +1,10 @@
 
+2.6.2 / 2012-11-01 
+==================
+
+  * add `debug()` for disconnected session store
+  * fix session regeneration bug. Closes #681
+
 2.6.1 / 2012-10-25 
 ==================
 
