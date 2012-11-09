@@ -122,6 +122,25 @@ describe('connect.json()', function(){
         done();
       });
     })
+
+    it('should allow leading whitespaces in JSON', function(done){
+      var app = connect();
+      app.use(connect.json({ strict: true }));
+
+      app.use(function(req, res){
+        res.end(JSON.stringify(req.body));
+      });
+
+      app.request()
+      .post('/')
+      .set('Content-Type', 'application/json')
+      .write('   { "user": "tobi" }')
+      .end(function(res){
+        res.should.have.status(200);
+        res.body.should.include('{"user":"tobi"}');
+        done();
+      });
+    })
   })
 
   describe('by default', function(){
