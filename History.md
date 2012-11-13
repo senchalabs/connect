@@ -1,4 +1,12 @@
 
+2.7.0 / 2012-11-13 
+==================
+
+  * add support for leading JSON whitespace
+  * add logging of `req.ip` when present
+  * add basicAuth support for `:`-delimited string
+  * update cookie module. Closes #688
+
 2.6.2 / 2012-11-01 
 ==================
 
