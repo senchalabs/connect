@@ -69,7 +69,7 @@ describe('connect.json()', function(){
     .set('Content-Type', 'application/json')
     .end(function(res) {
       res.should.have.status(400);
-      res.body.should.include("invalid json - request content-type is 'application/json' but request body empty");
+      res.body.should.include("invalid json, empty body");
       done();
     })
   })
