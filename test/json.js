@@ -67,7 +67,11 @@ describe('connect.json()', function(){
     app.request()
     .post('/')
     .set('Content-Type', 'application/json')
-    .expect(400, done);
+    .end(function(res) {
+      res.should.have.status(400);
+      res.body.should.include("invalid json, empty body");
+      done();
+    })
   })
 
   it('should support all http methods', function(done){
