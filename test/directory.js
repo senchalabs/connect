@@ -33,4 +33,17 @@ describe('directory()', function(){
       });
     })
   })
+  
+  describe('when Accept: text/plain is given', function(){
+    it('should respond with text', function(done){
+      app.request()
+      .get('/')
+      .set('Accept', 'text/plain')
+      .end(function(res){
+        res.body.should.include('lib')
+        res.body.should.include('docs')
+        done();
+      });
+    })
+  })
 })
