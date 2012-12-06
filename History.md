@@ -1,4 +1,11 @@
 
+2.7.1 / 2012-12-05 
+==================
+
+  * add directory() tests
+  * add support for bodyParser to ignore Content-Type if no body is present (jquery primarily does this poorely) 
+  * fix errorHandler signature
+
 2.7.0 / 2012-11-13 
 ==================
 
