@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <html>
   <head>
     <title>listing directory {directory}</title>
@@ -9,8 +10,12 @@
           : id;
 
         el.on = function(event, fn){
-          if ('content loaded' == event) event = 'DOMContentLoaded';
-          el.addEventListener(event, fn, false);
+          if ('content loaded' == event) {
+            event = window.attachEvent ? "load" : "DOMContentLoaded";
+          }
+          el.addEventListener
+            ? el.addEventListener(event, fn, false)
+            : el.attachEvent("on" + event, fn);
         };
 
         el.all = function(selector){
