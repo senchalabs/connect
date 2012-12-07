@@ -15,11 +15,8 @@ test:
 docs: $(HTML)
 	@mv $(HTML) docs
 
-test-cov: lib-cov
-	@CONNECT_COV=1 $(MAKE) test REPORTER=html-cov > coverage.html
-
-lib-cov:
-	@jscoverage lib $@
+test-cov:
+	@NODE_ENV=test cover run ./node_modules/mocha/bin/_mocha && cover report html
 
 %.html: %.js
 	$(DOX) < $< | node support/docs > $@
