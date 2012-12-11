@@ -99,7 +99,7 @@ describe('connect.cookieSession()', function(){
           break;
         case 1:
           // the session should be blank now
-          req.session.name.should.equal(null);
+          req.session.should.not.have.property('name');
           break;
       }
 
@@ -111,20 +111,24 @@ describe('connect.cookieSession()', function(){
     .get('/')
     .end(function(res){
       sess(res).should.not.include('expires');
+      res.body.should.equal('wahoo');
       app.request()
       .get('/')
       .set('Cookie', sess(res).replace(';', 'foobar')) // make invalid session cookie
       .end(function(res){
         sess(res).should.not.include('expires');
+        res.body.should.equal('wahoo');
         done();
       });
     })
   })
 
   describe('req.session.cookie', function(){
+    var Cookie = require('../lib/middleware/session/cookie')
+
     it('should be a Cookie', function(done){
       app.use(function(req, res){
-        req.session.cookie.constructor.name.should.equal('Cookie');
+        req.session.cookie.should.be.an.instanceof(Cookie);
         res.end();
       });
 
@@ -134,6 +138,7 @@ describe('connect.cookieSession()', function(){
         var cookie = sess(res);
         cookie.should.include('Path=/');
         cookie.should.include('HttpOnly');
+        res.body.should.equal('');
         done();
       })
     })
@@ -152,6 +157,38 @@ describe('connect.cookieSession()', function(){
         cookie.should.include('Path=/admin');
         cookie.should.not.include('HttpOnly');
         done();
+      })
+    })
+
+    describe('when req.session is parsed from a raw cookie', function(){
+      var test = function(done){
+        app.use(function(req, res){
+          req.session.cookie.should.be.an.instanceof(Cookie);
+          req.session.name = 'tobi';
+          res.end();
+        });
+
+        app.request()
+        .get('/')
+        .end(function(res){
+          res.body.should.equal('');
+          app.request()
+          .get('/')
+          .set('Cookie', sess(res))
+          .end(function(res){
+            res.body.should.equal('');
+            done();
+          })
+        })
+      };
+
+      it('should be a Cookie', test);
+
+      it('should be a Cookie using cookieParser secret', function(done){
+        app = connect();
+        app.use(connect.cookieParser('some secret'));
+        app.use(connect.cookieSession());
+        test(done);
       })
     })
   })
