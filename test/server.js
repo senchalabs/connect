@@ -45,6 +45,42 @@ describe('app', function(){
     app.stack.should.have.length(3);
   })
 
+  it('should work as middlware', function(done){
+    var http = require('http');
+
+    // custom server handler array
+    var handlers = [connect(), function(req, res, next){
+      res.writeHead(200, {'Content-Type': 'text/plain'});
+      res.end('Ok');
+    }];
+
+    // execute handlers one after another
+    var curHandler = 0;
+    var execHandler = function(req, res){
+      if (handlers[curHandler])
+        handlers[curHandler++](req, res, function(){
+          execHandler(req, res);
+        });
+    }
+
+    // create a non-connect server
+    var server = http.createServer(execHandler).listen(5556, function(){
+      // test it out
+      http.get('http://localhost:5556/', function(res){
+        res.setEncoding('utf8');
+        var data = '';
+        res.on('data', function(chunk){
+          data += chunk;
+        });
+        res.on('end', function(){
+          data.should.eql('Ok');
+          server.close();
+          done();
+        });
+      });
+    });
+  })
+
   it('should escape the 404 response body', function(done){
     var app = connect();
     app.request()
