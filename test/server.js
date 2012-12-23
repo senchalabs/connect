@@ -66,7 +66,11 @@ describe('app', function(){
     // create a non-connect server
     var server = http.createServer(execHandler).listen(5556, function(){
       // test it out
-      http.get('http://localhost:5556/', function(res){
+      http.get({
+        host: 'localhost',
+        port: 5556,
+        path: '/'
+      }, function(res){
         res.setEncoding('utf8');
         var data = '';
         res.on('data', function(chunk){
