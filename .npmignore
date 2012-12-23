@@ -8,5 +8,6 @@ examples/
 install.sh
 support/
 test/
+!test/support/http.js
 .DS_Store
 coverage.html
