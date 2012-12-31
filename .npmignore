@@ -7,6 +7,9 @@ docs/
 examples/
 install.sh
 support/
-test/
+test/*.js
+test/mocha.opts
+test/shared
+test/fixtures
 .DS_Store
 coverage.html
