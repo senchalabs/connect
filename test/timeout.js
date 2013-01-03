@@ -29,7 +29,7 @@ describe('connect.timeout()', function(){
 
         app.request()
         .get('/')
-        .expect(408, done);
+        .expect(503, done);
       })
 
       it('should pass the error to next()', function(done){
