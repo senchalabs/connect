@@ -1,12 +1,21 @@
 
-2.7.1 / 2012-12-05 
+2.7.2 / 2013-01-04
+==================
+
+  * add support for `next(status[, msg])` back
+  * add utf-8 meta tag to support foreign characters in filenames/directories
+  * change `timeout()` 408 to 503
+  * replace 'node-crc' with 'buffer-crc32', fixes licensing
+  * fix directory.html IE support
+
+2.7.1 / 2012-12-05
 ==================
 
   * add directory() tests
-  * add support for bodyParser to ignore Content-Type if no body is present (jquery primarily does this poorely) 
+  * add support for bodyParser to ignore Content-Type if no body is present (jquery primarily does this poorely)
   * fix errorHandler signature
 
-2.7.0 / 2012-11-13 
+2.7.0 / 2012-11-13
 ==================
 
   * add support for leading JSON whitespace
@@ -14,26 +23,26 @@
   * add basicAuth support for `:`-delimited string
   * update cookie module. Closes #688
 
-2.6.2 / 2012-11-01 
+2.6.2 / 2012-11-01
 ==================
 
   * add `debug()` for disconnected session store
   * fix session regeneration bug. Closes #681
 
-2.6.1 / 2012-10-25 
+2.6.1 / 2012-10-25
 ==================
 
   * add passing of `connect.timeout()` errors to `next()`
   * replace signature utils with cookie-signature module
 
-2.6.0 / 2012-10-09 
+2.6.0 / 2012-10-09
 ==================
 
   * add `defer` option to `multipart()` [Blake Miner]
   * fix mount path case sensitivity. Closes #663
   * fix default of ascii encoding from `logger()`, now utf8. Closes #293
 
-2.5.0 / 2012-09-27 
+2.5.0 / 2012-09-27
 ==================
 
   * add `err.status = 400` to multipart() errors
@@ -41,28 +50,28 @@
   * add graceful handling cookie parsing errors [shtylman]
   * fix typo X-Response-time to X-Response-Time
 
-2.4.6 / 2012-09-18 
+2.4.6 / 2012-09-18
 ==================
 
   * update qs
 
-2.4.5 / 2012-09-03 
+2.4.5 / 2012-09-03
 ==================
 
   * add session store "connect" / "disconnect" support [louischatriot]
   * fix `:url` log token
 
-2.4.4 / 2012-08-21 
+2.4.4 / 2012-08-21
 ==================
 
   * fix `static()` pause regression from "send" integration
 
-2.4.3 / 2012-08-07 
+2.4.3 / 2012-08-07
 ==================
 
   * fix `.write()` encoding for zlib inconstancy. Closes #561
 
-2.4.2 / 2012-07-25 
+2.4.2 / 2012-07-25
 ==================
 
   * remove limit default from `urlencoded()`
@@ -70,12 +79,12 @@
   * remove limit default from `multipart()`
   * fix `cookieSession()` clear cookie path / domain bug. Closes #636
 
-2.4.1 / 2012-07-24 
+2.4.1 / 2012-07-24
 ==================
 
   * fix `options` mutation in `static()`
 
-2.4.0 / 2012-07-23 
+2.4.0 / 2012-07-23
 ==================
 
   * add `connect.timeout()`
@@ -83,19 +92,19 @@
   * add "pause" util dep
   * update send dep for normalization bug
 
-2.3.9 / 2012-07-16 
+2.3.9 / 2012-07-16
 ==================
 
   * add more descriptive invalid json error message
   * update send dep for root normalization regression
   * fix staticCache fresh dep
 
-2.3.8 / 2012-07-12 
+2.3.8 / 2012-07-12
 ==================
 
   * fix `connect.static()` 404 regression, pass `next()`. Closes #629
 
-2.3.7 / 2012-07-05 
+2.3.7 / 2012-07-05
 ==================
 
   * add `json()` utf-8 illustration test. Closes #621
@@ -105,27 +114,27 @@
   * fix `cookieSession()` req.session generation with pathname mismatch
   * fix mime export. Closes #618
 
-2.3.6 / 2012-07-03 
+2.3.6 / 2012-07-03
 ==================
 
   * Fixed cookieSession() with cookieParser() secret regression. Closes #602
   * Fixed set-cookie header fields on cookie.path mismatch. Closes #615
 
-2.3.5 / 2012-06-28 
+2.3.5 / 2012-06-28
 ==================
 
   * Remove `logger()` mount check
   * Fixed `staticCache()` dont cache responses with set-cookie. Closes #607
   * Fixed `staticCache()` when Cookie is present
 
-2.3.4 / 2012-06-22 
+2.3.4 / 2012-06-22
 ==================
 
   * Added `err.buf` to urlencoded() and json()
   * Update cookie to 0.0.4. Closes #604
   * Fixed: only send 304 if original response in 2xx or 304 [timkuijsten]
 
-2.3.3 / 2012-06-11 
+2.3.3 / 2012-06-11
 ==================
 
   * Added ETags back to `static()` [timkuijsten]
@@ -134,13 +143,13 @@
   * Replaced `utils.modified()` with `fresh` module
   * Fixed `cookieSession()` regression with invalid cookie signing [shtylman]
 
-2.3.2 / 2012-06-08 
+2.3.2 / 2012-06-08
 ==================
 
   * expose mime module
   * Update crc dep (which bundled nodeunit)
 
-2.3.1 / 2012-06-06 
+2.3.1 / 2012-06-06
 ==================
 
   * Added `secret` option to `cookieSession` middleware [shtylman]
@@ -149,7 +158,7 @@
   * Performance: improve signed cookie parsing
   * Update `cookie` dependency [shtylman]
 
-2.3.0 / 2012-05-20 
+2.3.0 / 2012-05-20
 ==================
 
   * Added limit option to `json()`
@@ -158,43 +167,43 @@
   * Fixed: remove socket error event listener on callback
   * Fixed __ENOTDIR__ error on `static` middleware
 
-2.2.2 / 2012-05-07 
+2.2.2 / 2012-05-07
 ==================
 
   * Added support to csrf middle for pre-flight CORS requests
   * Updated `engines` to allow newer version of node
   * Removed duplicate repo prop. Closes #560
 
-2.2.1 / 2012-04-28 
+2.2.1 / 2012-04-28
 ==================
 
   * Fixed `static()` redirect when mounted. Closes #554
 
-2.2.0 / 2012-04-25 
+2.2.0 / 2012-04-25
 ==================
 
   * Added `make benchmark`
   * Perf: memoize url parsing (~20% increase)
   * Fixed `connect(fn, fn2, ...)`. Closes #549
 
-2.1.3 / 2012-04-20 
+2.1.3 / 2012-04-20
 ==================
 
   * Added optional json() `reviver` function to be passed to JSON.parse [jed]
   * Fixed: emit drain in compress middleware [nsabovic]
 
-2.1.2 / 2012-04-11 
+2.1.2 / 2012-04-11
 ==================
 
   * Fixed cookieParser() `req.cookies` regression
 
-2.1.1 / 2012-04-11 
+2.1.1 / 2012-04-11
 ==================
 
   * Fixed `session()` browser-session length cookies & examples
   * Fixed: make `query()` "self-aware" [jed]
 
-2.1.0 / 2012-04-05 
+2.1.0 / 2012-04-05
 ==================
 
   * Added `debug()` calls to `.use()` (`DEBUG=connect:displatcher`)
@@ -204,20 +213,20 @@
   * Changed: `session()` only set-cookie when modified
   * Removed `Session#lastAccess` property. Closes #399
 
-2.0.3 / 2012-03-20 
+2.0.3 / 2012-03-20
 ==================
 
   * Added: `cookieSession()` only sets cookie on change. Closes #442
   * Added `connect:dispatcher` debug() probes
 
-2.0.2 / 2012-03-04 
+2.0.2 / 2012-03-04
 ==================
 
   * Added test for __ENAMETOOLONG__ now that node is fixed
   * Fixed static() index "/" check on windows. Closes #498
   * Fixed Content-Range behaviour to match RFC2616 [matthiasdg / visionmedia]
 
-2.0.1 / 2012-02-29 
+2.0.1 / 2012-02-29
 ==================
 
   * Added test coverage for `vhost()` middleware
@@ -225,7 +234,7 @@
   * Fixed `static()` Range: respond with 416 when unsatisfiable
   * Fixed `vhost()` middleware. Closes #494
 
-2.0.0 / 2011-10-05 
+2.0.0 / 2011-10-05
 ==================
 
   * Added `cookieSession()` middleware for cookie-only sessions
@@ -256,43 +265,43 @@
   * Fixed 404 XSS attack vector. Closes #473
   * Fixed __HEAD__ support for 404s and 500s generated by Connect's end-point
 
-1.8.5 / 2011-12-22 
+1.8.5 / 2011-12-22
 ==================
 
-  * Fixed: actually allow empty body for json 
+  * Fixed: actually allow empty body for json
 
-1.8.4 / 2011-12-22 
+1.8.4 / 2011-12-22
 ==================
 
   * Changed: allow empty body for json/urlencoded requests. Backport for #443
 
-1.8.3 / 2011-12-16 
+1.8.3 / 2011-12-16
 ==================
 
   * Fixed `static()` _index.html_ support on windows
 
-1.8.2 / 2011-12-03 
+1.8.2 / 2011-12-03
 ==================
 
   * Fixed potential security issue, store files in req.files. Closes #431 [reported by dobesv]
 
-1.8.1 / 2011-11-21 
+1.8.1 / 2011-11-21
 ==================
 
   * Added nesting support for _multipart/form-data_ [jackyz]
 
-1.8.0 / 2011-11-17 
+1.8.0 / 2011-11-17
 ==================
 
   * Added _multipart/form-data_ support to `bodyParser()` using formidable
 
-1.7.3 / 2011-11-11 
+1.7.3 / 2011-11-11
 ==================
 
   * Fixed `req.body`, always default to {}
   * Fixed HEAD support for 404s and 500s
 
-1.7.2 / 2011-10-24 
+1.7.2 / 2011-10-24
 ==================
 
   * "node": ">= 0.4.1 < 0.7.0"
@@ -302,7 +311,7 @@
   * Fixed `staticCache()` Age header field
   * Fixed race condition causing errors reported in #329.
 
-1.7.1 / 2011-09-12 
+1.7.1 / 2011-09-12
 ==================
 
   * Added: make `Store` inherit from `EventEmitter`
@@ -310,7 +319,7 @@
   * Added backpressure support to `staticCache()`
   * Changed `res.socket.destroy()` to `req.socket.destroy()`
 
-1.7.0 / 2011-08-31 
+1.7.0 / 2011-08-31
 ==================
 
   * Added `staticCache()` middleware, a memory cache for `static()`
@@ -318,26 +327,26 @@
   * Changed: ignore error handling middleware when header is sent
   * Changed: dispatcher errors after header is sent destroy the sock
 
-1.6.4 / 2011-08-26 
+1.6.4 / 2011-08-26
 ==================
 
   * Revert "Added double-next reporting"
 
-1.6.3 / 2011-08-26 
+1.6.3 / 2011-08-26
 ==================
 
   * Added double-`next()` reporting
   * Added `immediate` option to `logger()`. Closes #321
   * Dependency `qs >= 0.3.1`
 
-1.6.2 / 2011-08-11 
+1.6.2 / 2011-08-11
 ==================
 
   * Fixed `connect.static()` null byte vulnerability
   * Fixed `connect.directory()` null byte vulnerability
   * Changed: 301 redirect in `static()` to postfix "/" on directory. Closes #289
 
-1.6.1 / 2011-08-03 
+1.6.1 / 2011-08-03
 ==================
 
   * Added: allow retval `== null` from logger callback to ignore line
@@ -348,7 +357,7 @@
   * Changed: persist csrf token. Closes #322
   * Changed: sort directory middleware files alphabetically
 
-1.6.0 / 2011-07-10 
+1.6.0 / 2011-07-10
 ==================
 
   * Added :response-time to "dev" logger format
@@ -356,51 +365,51 @@
   * Fixed `res._headers` logger regression. Closes #318
   * Removed support for multiple middleware being passed to `.use()`
 
-1.5.2 / 2011-07-06 
+1.5.2 / 2011-07-06
 ==================
 
-  * Added `filter` function option to `directory()` [David Rio Deiros] 
+  * Added `filter` function option to `directory()` [David Rio Deiros]
   * Changed: re-write of the `logger()` middleware, with extensible tokens and formats
   * Changed: `static.send()` ".." in path without root considered malicious
   * Fixed quotes in docs. Closes #312
   * Fixed urls when mounting `directory()`, use `originalUrl` [Daniel Dickison]
 
 
-1.5.1 / 2011-06-20 
+1.5.1 / 2011-06-20
 ==================
 
   * Added malicious path check to `directory()` middleware
   * Added `utils.forbidden(res)`
   * Added `connect.query()` middleware
 
-1.5.0 / 2011-06-20 
+1.5.0 / 2011-06-20
 ==================
 
   * Added `connect.directory()` middleware for serving directory listings
 
-1.4.6 / 2011-06-18 
+1.4.6 / 2011-06-18
 ==================
 
   * Fixed `connect.static()` root with `..`
   * Fixed `connect.static()` __EBADF__
 
-1.4.5 / 2011-06-17 
+1.4.5 / 2011-06-17
 ==================
 
   * Fixed EBADF in `connect.static()`. Closes #297
 
-1.4.4 / 2011-06-16 
+1.4.4 / 2011-06-16
 ==================
 
   * Changed `connect.static()` to check resolved dirname. Closes #294
 
-1.4.3 / 2011-06-06 
+1.4.3 / 2011-06-06
 ==================
 
   * Fixed fd leak in `connect.static()` when the socket is closed
   * Fixed; `bodyParser()` ignoring __GET/HEAD__. Closes #285
 
-1.4.2 / 2011-05-27 
+1.4.2 / 2011-05-27
 ==================
 
   * Changed to `devDependencies`
@@ -408,14 +417,14 @@
   * Fixed Win32 support for `static()`
   * Fixed monkey-patch issue. Closes #261
 
-1.4.1 / 2011-05-08 
+1.4.1 / 2011-05-08
 ==================
 
   * Added "hidden" option to `static()`. ignores hidden files by default. Closes   * Added; expose `connect.static.mime.define()`. Closes #251
   * Fixed `errorHandler` middleware for missing stack traces. [aseemk]
 #274
 
-1.4.0 / 2011-04-25 
+1.4.0 / 2011-04-25
 ==================
 
   * Added route-middleware `next('route')` support to jump passed the route itself
@@ -428,79 +437,79 @@
   * NOTE: `router` will be removed in 2.0
 
 
-1.3.0 / 2011-04-06 
+1.3.0 / 2011-04-06
 ==================
 
   * Added `router.remove(path[, method])` to remove a route
 
-1.2.3 / 2011-04-05 
+1.2.3 / 2011-04-05
 ==================
 
   * Fixed basicAuth realm issue when passing strings. Closes #253
 
-1.2.2 / 2011-04-05 
+1.2.2 / 2011-04-05
 ==================
 
   * Added `basicAuth(username, password)` support
   * Added `errorHandler.title` defaulting to "Connect"
   * Changed `errorHandler` css
 
-1.2.1 / 2011-03-30 
+1.2.1 / 2011-03-30
 ==================
 
   * Fixed `logger()` https `remoteAddress` logging [Alexander Simmerl]
 
-1.2.0 / 2011-03-30 
+1.2.0 / 2011-03-30
 ==================
 
   * Added `router.lookup(path[, method])`
   * Added `router.match(url[, method])`
   * Added basicAuth async support. Closes #223
 
-1.1.5 / 2011-03-27 
+1.1.5 / 2011-03-27
 ==================
 
   * Added; allow `logger()` callback function to return an empty string to ignore logging
   * Fixed; utilizing `mime.charsets.lookup()` for `static()`. Closes 245
 
-1.1.4 / 2011-03-23 
+1.1.4 / 2011-03-23
 ==================
 
   * Added `logger()` support for format function
   * Fixed `logger()` to support mess of writeHead()/progressive api for node 0.4.x
 
-1.1.3 / 2011-03-21 
+1.1.3 / 2011-03-21
 ==================
 
   * Changed; `limit()` now calls `req.destroy()`
 
-1.1.2 / 2011-03-21 
+1.1.2 / 2011-03-21
 ==================
 
   * Added request "limit" event to `limit()` middleware
   * Changed; `limit()` middleware will `next(err)` on failure
 
-1.1.1 / 2011-03-18 
+1.1.1 / 2011-03-18
 ==================
 
   * Fixed session middleware for HTTPS. Closes #241 [reported by mt502]
 
-1.1.0 / 2011-03-17 
+1.1.0 / 2011-03-17
 ==================
 
   * Added `Session#reload(fn)`
 
-1.0.6 / 2011-03-09 
+1.0.6 / 2011-03-09
 ==================
 
   * Fixed `res.setHeader()` patch, preserve casing
 
-1.0.5 / 2011-03-09 
+1.0.5 / 2011-03-09
 ==================
 
   * Fixed; `logger()` using `req.originalUrl` instead of `req.url`
 
-1.0.4 / 2011-03-09 
+1.0.4 / 2011-03-09
 ==================
 
   * Added `res.charset`
@@ -508,18 +517,18 @@
   * Added support for `session.ignore` to be replaced. Closes #227
   * Fixed `Cache-Control` delimiters. Closes #228
 
-1.0.3 / 2011-03-03 
+1.0.3 / 2011-03-03
 ==================
 
   * Fixed; `static.send()` invokes callback with connection error
 
-1.0.2 / 2011-03-02 
+1.0.2 / 2011-03-02
 ==================
 
   * Fixed exported connect function
   * Fixed package.json; node ">= 0.4.1 < 0.5.0"
 
-1.0.1 / 2011-03-02 
+1.0.1 / 2011-03-02
 ==================
 
   * Added `Session#save(fn)`. Closes #213
@@ -527,7 +536,7 @@
   * Added `connect.static.send()` "path" option
   * Fixed content-type in `static()` for _index.html_
 
-1.0.0 / 2011-03-01 
+1.0.0 / 2011-03-01
 ==================
 
   * Added `stack`, `message`, and `dump` errorHandler option aliases
@@ -543,7 +552,7 @@
   * Added middleware self-awareness. This helps prevent
     middleware breakage when used within mounted servers.
     For example `cookieParser()` will not parse cookies more
-    than once even when within a mounted server.  
+    than once even when within a mounted server.
   * Added new examples in the `./examples` directory
   * Added [limit()](http://senchalabs.github.com/connect/middleware-limit.html) middleware
   * Added [profiler()](http://senchalabs.github.com/connect/middleware-profiler.html) middleware
@@ -556,19 +565,19 @@
   * Fixed; only set req.originalUrl once. Closes #124
   * Fixed symlink support for `static()`. Closes #123
 
-0.5.10 / 2011-02-14 
+0.5.10 / 2011-02-14
 ==================
 
   * Fixed SID space issue. Closes #196
   * Fixed; proxy `res.end()` to commit session data
   * Fixed directory traversal attack in `staticProvider`. Closes #198
 
-0.5.9 / 2011-02-09 
+0.5.9 / 2011-02-09
 ==================
 
   * qs >= 0.0.4
 
-0.5.8 / 2011-02-04 
+0.5.8 / 2011-02-04
 ==================
 
   * Added `qs` dependency
@@ -576,7 +585,7 @@
     when `next()`ing to one or more routes with parallel
     requests
 
-0.5.7 / 2011-02-01 
+0.5.7 / 2011-02-01
 ==================
 
   * Added `onvhost()` call so Express (and others) can know when they are
@@ -586,7 +595,7 @@
   * Fixed `utils.uid()` length error [Jxck]
 mounted
 
-0.5.6 / 2011-01-23 
+0.5.6 / 2011-01-23
 ==================
 
   * Added stylus support to `compiler`
@@ -594,21 +603,21 @@ mounted
   * _compiler.js_ cleanup
   * _bodyDecoder.js_ cleanup
 
-0.5.5 / 2011-01-13 
+0.5.5 / 2011-01-13
 ==================
 
   * Changed; using sha256 HMAC instead of md5. [Paul Querna]
   * Changed; generated a longer random UID, without time influence. [Paul Querna]
   * Fixed; session middleware throws when secret is not present. [Paul Querna]
 
-0.5.4 / 2011-01-07 
+0.5.4 / 2011-01-07
 ==================
 
   * Added; throw when router path or callback is missing
   * Fixed; `next(err)` on cookie parse exception instead of ignoring
   * Revert "Added utils.pathname(), memoized url.parse(str).pathname"
 
-0.5.3 / 2011-01-05 
+0.5.3 / 2011-01-05
 ==================
 
   * Added _docs/api.html_
@@ -617,12 +626,12 @@ mounted
   * Changed; Defaulting `staticProvider` maxAge to 0 not 1 year. Closes #179
   * Removed bad outdated docs, we need something new / automated eventually
 
-0.5.2 / 2010-12-28 
+0.5.2 / 2010-12-28
 ==================
 
   * Added default __OPTIONS__ support to _router_ middleware
 
-0.5.1 / 2010-12-28 
+0.5.1 / 2010-12-28
 ==================
 
   * Added `req.session.id` mirroring `req.sessionID`
@@ -630,14 +639,14 @@ mounted
   * Exclude non-lib files from npm
   * Removed imposed headers `X-Powered-By`, `Server`, etc
 
-0.5.0 / 2010-12-06 
+0.5.0 / 2010-12-06
 ==================
 
   * Added _./index.js_
   * Added route segment precondition support and example
   * Added named capture group support to router
 
-0.4.0 / 2010-11-29 
+0.4.0 / 2010-11-29
 ==================
 
   * Added `basicAuth` middleware
