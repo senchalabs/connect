@@ -54,30 +54,28 @@ describe('app', function(){
       res.end('Ok');
     }];
 
-    // execute handlers one after another
-    var curHandler = 0;
-    var execHandler = function(req, res){
-      if (handlers[curHandler])
-        handlers[curHandler++](req, res, function(){
-          execHandler(req, res);
+    // execute callbacks in sequence
+    var n = 0;
+    function run(req, res){
+      if (handlers[n]) {
+        handlers[n++](req, res, function(){
+          run(req, res);
         });
+      }
     }
 
     // create a non-connect server
-    var server = http.createServer(execHandler).listen(5556, function(){
-      // test it out
+    var server = http.createServer(run).listen(5556, function(){
       http.get({
         host: 'localhost',
         port: 5556,
         path: '/'
       }, function(res){
+        var buf = '';
         res.setEncoding('utf8');
-        var data = '';
-        res.on('data', function(chunk){
-          data += chunk;
-        });
+        res.on('data', function(s){ buf += s });
         res.on('end', function(){
-          data.should.eql('Ok');
+          buf.should.eql('Ok');
           server.close();
           done();
         });
