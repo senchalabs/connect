@@ -21,7 +21,7 @@ h1 {
   font-size: 60px;
 }
 h2 {
-	margin-top: 10px;
+  margin-top: 10px;
 }
 h3 {
   margin: 5px 0 10px 0;
@@ -64,7 +64,7 @@ a:hover {
   color: #303030;
 }
 #stacktrace {
-	margin-top: 15px;
+  margin-top: 15px;
 }
 .directory h1 {
   margin-bottom: 15px;
@@ -83,7 +83,7 @@ ul#files li img {
   left: 5px;
 }
 ul#files li a {
-   position: relative;
+  position: relative;
   display: block;
   margin: 1px;
   width: 30%;
@@ -138,4 +138,74 @@ ul#files li a.highlight {
 #search:focus {
   width: 120px;
   opacity: 1.0; 
+}
+
+/*mobile*/
+
+@media (max-width: 768px) {
+  * { margin: 0; padding: 0; outline: 0; }
+  body {
+    font-size: 13px;
+    line-height: 16px;
+    padding: 0;
+  }
+  #search {
+    position: static;
+    width: 90%;
+    font-size: 2em;
+    line-height: 1.8em;
+    border: 0;
+    border-radius: 0;
+    padding: 9px 5%;
+  }
+  #search:focus {
+    width: 90%;
+    border: 0;
+    opacity: 1;
+  }
+  .directory h1 {
+    font-size: 2em;
+    line-height: 1.5em;
+    color: #fff;
+    background: #000;
+    padding: 15px 0;
+    margin: 0;
+  }
+  ul#files {
+    border-top: 1px solid #cacaca;
+  }
+  ul#files li {
+    display: block;
+    border-bottom: 1px solid #cacaca;
+    margin: 0;
+  }
+  ul#files li:nth-child(odd) {
+    background: #e0e0e0;
+  }
+  ul#files li a {
+    width: 94%;
+    display: block;
+    height: auto;
+    float: none;
+    display: block;
+    border: 0;
+    font-size: 2em;
+    line-height: 1.2em;
+    text-indent: 0;
+    padding: 15px 3%;
+    border-radius: 0;
+    margin: 0;
+  }
+  ul#files li a.icon {
+    text-indent: 0;
+    width: 89%;
+    padding: 15px 3% 15px 8%;
+  }
+  ul#files li a:focus,
+  ul#files li a:hover {
+    border: 0;
+  }
+  ul#files li img {
+    top: 22px;
+  }
 }
