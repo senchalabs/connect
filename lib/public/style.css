@@ -99,7 +99,7 @@ ul#files li a {
   text-overflow: ellipsis;
 }
 ul#files li a.icon {
-  text-indent: 25px;
+  /*text-indent: 25px;*/
 }
 ul#files li a:focus,
 ul#files li a:hover {
@@ -139,6 +139,20 @@ ul#files li a.highlight {
   width: 120px;
   opacity: 1.0; 
 }
+
+/*views*/
+#files a span {
+  display: inline-block;
+}
+.view-tiles a span {
+  width: 16px;
+  height: 16px; 
+  overflow: hidden;
+  position: relative;
+  top: 4px;
+  margin-right: 5px;
+}
+
 
 /*mobile*/
 
@@ -207,5 +221,13 @@ ul#files li a.highlight {
   }
   ul#files li img {
     top: 22px;
+  }
+  #files a span {
+    width: 32px;
+    height: 32px;
+    overflow: hidden;
+    display: inline;
+    float: left;
+    top: auto;
   }
 }
