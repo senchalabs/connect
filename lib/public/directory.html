@@ -46,7 +46,7 @@
           var classes = this.getClasses().filter(function(curr){
             return curr != name;
           });
-          this.setAttribute('class', classes);
+          this.setAttribute('class', classes.join(' '));
         };
 
         return el;
