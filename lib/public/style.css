@@ -1,5 +1,6 @@
+* { margin: 0; padding: 0; outline: 0; }
+
 body {
-  margin: 0;
   padding: 80px 100px;
   font: 13px "Helvetica Neue", "Lucida Grande", "Arial";
   background: #ECE9E9 -webkit-gradient(linear, 0% 0%, 0% 100%, from(#fff), to(#ECE9E9));
@@ -9,7 +10,6 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 h1, h2, h3 {
-  margin: 0;
   font-size: 22px;
   color: #343434;
 }
@@ -29,13 +29,7 @@ h3 {
   border-bottom: 1px solid #eee;
   font-size: 18px;
 }
-ul {
-  margin: 0;
-  padding: 0;
-}
 ul li {
-  margin: 5px 0;
-  padding: 3px 8px;
   list-style: none;
 }
 ul li:hover {
@@ -72,38 +66,29 @@ a:hover {
 }
 ul#files {
   width: 100%;
-  height: 500px;
+  height: 100%;
+  overflow: hidden;
 }
 ul#files li {
-  padding: 0;
-}
-ul#files li img {
-  position: absolute;
-  top: 5px;
-  left: 5px;
+  float: left;
+  width: 30%;
+  line-height: 25px;
+  margin: 1px;
 }
 ul#files li a {
-  position: relative;
   display: block;
-  margin: 1px;
-  width: 30%;
   height: 25px;
-  line-height: 25px;
   text-indent: 8px;
-  float: left;
   border: 1px solid transparent;
   -webkit-border-radius: 5px;
   -moz-border-radius: 5px;
   border-radius: 5px;
   overflow: hidden;
+  white-space: nowrap;
   text-overflow: ellipsis;
-}
-ul#files li a.icon {
-  /*text-indent: 25px;*/
 }
 ul#files li a:focus,
 ul#files li a:hover {
-  outline: none;
   background: rgba(255,255,255,0.65);
   border: 1px solid #ececec;
 }
@@ -139,25 +124,16 @@ ul#files li a.highlight {
   width: 120px;
   opacity: 1.0; 
 }
-
-/*views*/
 #files a span {
-  display: inline-block;
+  padding: 0 6px;
 }
 .view-tiles a span {
-  width: 16px;
-  height: 16px; 
-  overflow: hidden;
   position: relative;
-  top: 4px;
+  top: 2px;
   margin-right: 5px;
 }
 
-
-/*mobile*/
-
 @media (max-width: 768px) {
-  * { margin: 0; padding: 0; outline: 0; }
   body {
     font-size: 13px;
     line-height: 16px;
@@ -165,15 +141,17 @@ ul#files li a.highlight {
   }
   #search {
     position: static;
-    width: 90%;
+    width: 100%;
     font-size: 2em;
     line-height: 1.8em;
+    text-indent: 10px;
     border: 0;
     border-radius: 0;
-    padding: 9px 5%;
+    padding: 10px 0;
+    margin: 0;
   }
   #search:focus {
-    width: 90%;
+    width: 100%;
     border: 0;
     opacity: 1;
   }
@@ -182,13 +160,15 @@ ul#files li a.highlight {
     line-height: 1.5em;
     color: #fff;
     background: #000;
-    padding: 15px 0;
+    padding: 15px 10px;
     margin: 0;
   }
   ul#files {
     border-top: 1px solid #cacaca;
   }
   ul#files li {
+    float: none;
+    width: auto;
     display: block;
     border-bottom: 1px solid #cacaca;
     margin: 0;
@@ -197,37 +177,24 @@ ul#files li a.highlight {
     background: #e0e0e0;
   }
   ul#files li a {
-    width: 94%;
-    display: block;
     height: auto;
-    float: none;
-    display: block;
-    border: 0;
     font-size: 2em;
     line-height: 1.2em;
     text-indent: 0;
-    padding: 15px 3%;
+    border: 0;
     border-radius: 0;
-    margin: 0;
+    padding: 15px 10px;
   }
   ul#files li a.icon {
     text-indent: 0;
-    width: 89%;
-    padding: 15px 3% 15px 8%;
+    padding: 15px 10px;
   }
   ul#files li a:focus,
   ul#files li a:hover {
     border: 0;
   }
-  ul#files li img {
-    top: 22px;
-  }
   #files a span {
-    width: 32px;
-    height: 32px;
-    overflow: hidden;
-    display: inline;
-    float: left;
     top: auto;
+    padding: 0 12px;
   }
 }
