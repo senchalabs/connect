@@ -78,14 +78,12 @@ ul#files li {
 ul#files li a {
   display: block;
   height: 25px;
-  text-indent: 8px;
   border: 1px solid transparent;
   -webkit-border-radius: 5px;
   -moz-border-radius: 5px;
   border-radius: 5px;
   overflow: hidden;
   white-space: nowrap;
-  text-overflow: ellipsis;
 }
 ul#files li a:focus,
 ul#files li a:hover {
@@ -124,14 +122,35 @@ ul#files li a.highlight {
   width: 120px;
   opacity: 1.0; 
 }
-#files a span {
-  padding: 0 6px;
+
+/*views*/
+#files .name {
+  background-repeat: no-repeat;
+  overflow: hidden;
+  text-indent: 10px;
+  text-overflow: ellipsis;
 }
-.view-tiles a span {
-  position: relative;
-  top: 2px;
-  margin-right: 5px;
-}
+#files .icon .name { text-indent: 28px; }
+
+/*tiles*/
+.view-tiles span {  }
+.view-tiles .name { display: inline-block; width: 100%; background-position: 8px 5px; }
+.view-tiles .size { display: none; }
+.view-tiles .date { display: none; }
+
+/*details*/
+ul#files.view-details li { float: none; display: block; width: 90%; }
+ul#files.view-details li.header { background: #000; color: #fff; font-weight: bold; }
+.view-details .header { border-radius: 5px; }
+.view-details .header span { display: inline-block; }
+.view-details .header .name { text-indent: 10px !important; }
+.view-details .header .size { direction: rtl; text-indent: 10px; }
+.view-details .header .date { direction: rtl; text-indent: 10px; }
+
+.view-details span { display: inline-block; }
+.view-details .name { width: 60%; background-position: 8px 5px; }
+.view-details .size { width: 10%; text-align: right; direction: rtl; text-indent: 10px; }
+.view-details .date { width: 30%; text-align: right; direction: rtl; text-indent: 10px; }
 
 @media (max-width: 768px) {
   body {
@@ -168,9 +187,12 @@ ul#files li a.highlight {
   }
   ul#files li {
     float: none;
-    width: auto;
+    width: auto !important;
     display: block;
     border-bottom: 1px solid #cacaca;
+    font-size: 2em;
+    line-height: 1.2em;
+    text-indent: 0;
     margin: 0;
   }
   ul#files li:nth-child(odd) {
@@ -178,23 +200,17 @@ ul#files li a.highlight {
   }
   ul#files li a {
     height: auto;
-    font-size: 2em;
-    line-height: 1.2em;
-    text-indent: 0;
     border: 0;
     border-radius: 0;
-    padding: 15px 10px;
-  }
-  ul#files li a.icon {
-    text-indent: 0;
     padding: 15px 10px;
   }
   ul#files li a:focus,
   ul#files li a:hover {
     border: 0;
   }
-  #files a span {
-    top: auto;
-    padding: 0 12px;
-  }
+  #files .header,
+  #files .size,
+  #files .date { display: none !important; }
+  #files .name { display: inline-block; width: 100%; text-indent: 0; background-position: 0 0; }
+  #files .icon .name { text-indent: 41px; }
 }
