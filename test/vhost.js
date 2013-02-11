@@ -61,4 +61,16 @@ describe('connect.vhost()', function(){
     .set('Host', 'ferrets.com')
     .expect(404, done);
   })
+
+  it('should treat dot as a dot', function(done){
+    var app = connect()
+      , tobi = http.createServer(function(req, res){ res.end('tobi') })
+
+    app.use(connect.vhost('a.b.com', tobi));
+
+    app.request()
+    .get('/')
+    .set('Host', 'aXb.com')
+    .expect(404, done);
+  })
 })
