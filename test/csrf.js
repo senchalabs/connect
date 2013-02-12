@@ -1,7 +1,7 @@
 var connect = require('../');
 
 describe('csrf', function(){
-  it('works with valid token', function(done){
+  it('should work with a valid token', function(done){
     var app = connect();
 
     app.use(connect.cookieParser())
@@ -28,7 +28,7 @@ describe('csrf', function(){
     });
   });
 
-  it('fails with invalid token', function(done){
+  it('should fail with an invalid token', function(done){
     var app = connect();
 
     app.use(connect.cookieParser());
@@ -53,7 +53,7 @@ describe('csrf', function(){
     });
   });
 
-  it('fails with no token', function(done){
+  it('should fail with no token', function(done){
     var app = connect();
 
     app.use(connect.cookieParser());
