@@ -32,7 +32,7 @@ describe('connect.session()', function(){
 
   describe('proxy option', function(){
     describe('when enabled', function(){
-      it('should trust X-Forwarded-Proto', function(done){
+      it('should trust X-Forwarded-Proto when string', function(done){
         var app = connect()
           .use(connect.cookieParser())
           .use(connect.session({ secret: 'keyboard cat', proxy: true, cookie: { secure: true, maxAge: 5 }}))
@@ -41,6 +41,21 @@ describe('connect.session()', function(){
         app.request()
         .get('/')
         .set('X-Forwarded-Proto', 'https')
+        .end(function(res){
+          res.headers.should.have.property('set-cookie');
+          done();
+        });
+      })
+
+      it('should trust X-Forwarded-Proto when comma-separated list', function(done){
+        var app = connect()
+          .use(connect.cookieParser())
+          .use(connect.session({ secret: 'keyboard cat', proxy: true, cookie: { secure: true, maxAge: 5 }}))
+          .use(respond);
+
+        app.request()
+        .get('/')
+        .set('X-Forwarded-Proto', 'https,http')
         .end(function(res){
           res.headers.should.have.property('set-cookie');
           done();
