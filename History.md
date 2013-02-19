@@ -1,4 +1,17 @@
 
+2.7.3 / 2013-02-19
+==================
+
+  * add name to compress middleware
+  * add appending Accept-Encoding to Vary when set but missing
+  * add tests for csrf middleware
+  * add 'next' support for connect() server handler
+  * change utils.uid() to return url-safe chars. Closes #753
+  * fix treating '.' as a regexp in vhost()
+  * fix duplicate bytes dep in package.json. Closes #743
+  * fix #733 - parse x-forwarded-proto in a more generally compatibly way
+  * revert "add support for `next(status[, msg])`"; makes composition hard
+
 2.7.2 / 2013-01-04
 ==================
 
