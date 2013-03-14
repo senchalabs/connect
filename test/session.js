@@ -207,6 +207,23 @@ describe('connect.session()', function(){
       });
     })
 
+    it('should work when the Request-URI is an absoluteURI', function(done){
+      var app = connect()
+        .use(connect.cookieParser())
+        .use(connect.session({ secret: 'keyboard cat', cookie: { maxAge: min }}))
+        .use(function(req, res, next){
+          // checks that session exists.
+          var answer = (req.session?'session found':'no session found');
+          res.end(answer);
+        });
+      app.request()
+      .get('http://test.com/')
+      .end(function(res){
+        res.body.should.equal('session found');
+        done();
+      });
+    })
+
     it('should only set-cookie when modified', function(done){
       var modify = true;
 
@@ -344,6 +361,30 @@ describe('connect.session()', function(){
             var cookie = res.headers['set-cookie'][0];
             cookie.should.not.include('Expires');
             done();
+          });
+        })
+
+        it('should work when the Request-URI is an absoluteURI', function(done){
+          var app = connect()
+            .use(connect.cookieParser())
+            .use(connect.session({ secret: 'keyboard cat', cookie: { path: '/admin' }}))
+            .use(function(req, res, next){
+              // checks that session exists.
+              var answer = (req.session?'session found':'no session found');
+              res.end(answer);
+            });
+          app.request()
+          .get('http://test.com/admin')
+          .end(function(res){
+            // Session should exist
+            res.body.should.equal('session found');
+            app.request()
+            .get('http://test.com/no')
+            .end(function(res){
+              // Session should not exist
+              res.body.should.equal('no session found');
+              done();
+            });
           });
         })
 
