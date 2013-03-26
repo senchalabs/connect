@@ -540,41 +540,6 @@ describe('connect.session()', function(){
         });
       });
     })
-    
-    describe('when session.save error', function () {
-      
-      var session = require('../lib/middleware/session');
 
-      var old = session.Session.prototype.save;
-    
-      before(function () {
-        session.Session.prototype.save = function (fn) {
-          fn && fn(new Error('Mock save error.'));
-        };
-      });
-
-      after(function () {
-        session.Session.prototype.save = old;
-      });
-
-      it('should return error', function (done) {
-        var app = connect()
-        .use(connect.cookieParser('keyboard cat'))
-        .use(connect.session())
-        .use(function(req, res, next){
-          req.session.count = req.session.count || 0;
-          req.session.count++;
-          res.end(req.session.count.toString());
-        });
-
-        app.request()
-        .get('/')
-        .end(function(res){
-          res.body.toString().should.include('Mock save error.');
-          done();
-        });
-      });
-    });
-    
   })
 })
