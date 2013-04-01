@@ -1,4 +1,10 @@
 
+2.7.4 / 2013-04-01 
+==================
+
+  * session: add long expires check and prevent excess set-cookie
+  * session: add console.error() of session#save() errors
+  
 2.7.3 / 2013-02-19
 ==================
 
