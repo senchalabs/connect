@@ -15,3 +15,5 @@ docs/*.html
 docs/*.json
 node_modules
 .idea
+cover_html
+.coverage_data
