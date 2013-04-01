@@ -2,8 +2,34 @@
 var connect = require('../')
   , http = require('http');
 
+var year = 31557600000;
+
+// large max-age, delegate expiry to the session store.
+// for example with connect-redis's .ttl option.
+
+http.createServer(connect()
+  .use(connect.cookieParser())
+  .use(connect.session({ secret: 'keyboard cat', cookie: { maxAge: year }}))
+  .use(connect.favicon())
+  .use(function(req, res, next){
+    var sess = req.session;
+    if (sess.views) {
+      sess.views++;
+      res.setHeader('Content-Type', 'text/html');
+      res.write('<p>views: ' + sess.views + '</p>');
+      res.write('<p>expires in: ' + (sess.cookie.maxAge / 1000) + 's</p>');
+      res.end();
+    } else {
+      sess.views = 1;
+      res.end('welcome to the session demo. refresh!');
+    }
+  })).listen(3007);
+
+console.log('port 3007: 1 minute expiration demo');
+
+
 // expire sessions within a minute
-// /favicon.ico is ignored, and will not 
+// /favicon.ico is ignored, and will not
 // receive req.session
 
 http.createServer(connect()
@@ -22,9 +48,9 @@ http.createServer(connect()
       sess.views = 1;
       res.end('welcome to the session demo. refresh!');
     }
-  })).listen(3000);
+  })).listen(3006);
 
-console.log('port 3000: 1 minute expiration demo');
+console.log('port 3006: 1 minute expiration demo');
 
 // $ npm install connect-redis
 
@@ -49,7 +75,7 @@ try {
         res.end('welcome to the redis demo. refresh!');
       }
     })).listen(3001);
-  
+
   console.log('port 3001: redis example');
 } catch (err) {
   console.log('\033[33m');
