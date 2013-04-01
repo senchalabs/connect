@@ -21,7 +21,8 @@
     "should": "*",
     "mocha": "*",
     "jade": "*",
-    "dox": "*"
+    "dox": "*",
+    "mime": "*"
   },
   "main": "index",
   "engines": {
