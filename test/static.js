@@ -2,7 +2,6 @@
 var connect = require('../');
 
 var fixtures = __dirname + '/fixtures';
-var nodeVersion = process.versions.node.split('.');
 
 var app = connect();
 app.use(connect.static(fixtures));
@@ -250,7 +249,7 @@ describe('connect.static()', function(){
   })
 
   describe('when a trailing backslash is given', function(){
-    if (parseInt(nodeVersion[0], 10) === 0 && parseInt(nodeVersion[1], 10) < 10) {
+    if (connect.utils.brokenPause) {
       // https://github.com/senchalabs/connect/issues/452
       it('should 500 in node < 0.10 because fs.stat is broken', function(done){
         app.request()
