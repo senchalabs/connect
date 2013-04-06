@@ -2,6 +2,7 @@
 var connect = require('../');
 
 var fixtures = __dirname + '/fixtures';
+var nodeVersion = process.versions.node.split('.');
 
 var app = connect();
 app.use(connect.static(fixtures));
@@ -249,11 +250,20 @@ describe('connect.static()', function(){
   })
 
   describe('when a trailing backslash is given', function(){
-    it('should 500', function(done){
-      app.request()
-      .get('/todo.txt\\')
-      .expect(500, done);
-    })
+    if (parseInt(nodeVersion[0], 10) === 0 && parseInt(nodeVersion[1], 10) < 10) {
+      // https://github.com/senchalabs/connect/issues/452
+      it('should 500 in node < 0.10 because fs.stat is broken', function(done){
+        app.request()
+        .get('/todo.txt\\')
+        .expect(500, done);
+      })
+    } else {
+      it('should 404 as expected in node >= 0.10', function(done){
+        app.request()
+        .get('/todo.txt\\')
+        .expect(404, done);
+      })
+    }
   })
 
   describe('with a malformed URL', function(){
