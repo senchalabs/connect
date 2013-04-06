@@ -29,7 +29,7 @@ describe('connect.json()', function(){
       done();
     });
   })
-  
+
   it('should fail gracefully', function(done){
     app.request()
     .post('/')
@@ -179,4 +179,34 @@ describe('connect.json()', function(){
     .write('{"name":"论"}')
     .expect('论', done);
   })
+
+  if (!connect.utils.brokenPause) {
+    it('should parse JSON with limit and after next tick', function(done){
+      var app = connect();
+
+      app.use(function(req, res, next) {
+        setTimeout(next, 10);
+      });
+
+      app.use(connect.json({ limit: '1mb' }));
+
+      app.use(function(req, res){
+        res.end(JSON.stringify(req.body));
+      });
+
+      app.use(function(err, req, res, next){
+        res.statusCode = err.status;
+        res.end(err.message);
+      });
+
+      app.request()
+      .post('/')
+      .set('Content-Type', 'application/json')
+      .write('{"user":"tobi"}')
+      .end(function(res){
+        res.body.should.equal('{"user":"tobi"}');
+        done();
+      });
+    })
+  }
 })
