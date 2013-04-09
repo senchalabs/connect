@@ -23,19 +23,19 @@ describe('connect.static()', function(){
     .get('/users/tobi.txt')
     .expect('ferret', done);
   })
-  
+
   it('should set Content-Type', function(done){
     app.request()
     .get('/todo.txt')
     .expect('Content-Type', 'text/plain; charset=UTF-8', done);
   })
-  
+
   it('should default max-age=0', function(done){
     app.request()
     .get('/todo.txt')
     .expect('Cache-Control', 'public, max-age=0', done);
   })
-  
+
   it('should support urlencoded pathnames', function(done){
     app.request()
     .get('/foo%20bar')
@@ -87,7 +87,7 @@ describe('connect.static()', function(){
       .get('/.hidden')
       .expect(404, done);
     })
-    
+
     it('should be served when hidden: true is given', function(done){
       var app = connect();
 
@@ -129,7 +129,7 @@ describe('connect.static()', function(){
       .get('/users/../../todo.txt')
       .expect(403, done);
     })
-    
+
     it('should catch urlencoded ../', function(done){
       app.request()
       .get('/users/%2e%2e/%2e%2e/todo.txt')
@@ -156,14 +156,14 @@ describe('connect.static()', function(){
       .set('Range', 'bytes=0-4')
       .expect('12345', done);
     })
-    
+
     it('should be inclusive', function(done){
       app.request()
       .get('/nums')
       .set('Range', 'bytes=0-0')
       .expect('1', done);
     })
-    
+
     it('should set Content-Range', function(done){
       app.request()
       .get('/nums')
@@ -177,7 +177,7 @@ describe('connect.static()', function(){
       .set('Range', 'bytes=-3')
       .expect('789', done);
     })
-    
+
     it('should support n-', function(done){
       app.request()
       .get('/nums')
@@ -249,11 +249,20 @@ describe('connect.static()', function(){
   })
 
   describe('when a trailing backslash is given', function(){
-    it('should 500', function(done){
-      app.request()
-      .get('/todo.txt\\')
-      .expect(500, done);
-    })
+    if (connect.utils.brokenPause) {
+      // https://github.com/senchalabs/connect/issues/452
+      it('should 500 in node < 0.10 because fs.stat is broken', function(done){
+        app.request()
+        .get('/todo.txt\\')
+        .expect(500, done);
+      })
+    } else {
+      it('should 404 as expected in node >= 0.10', function(done){
+        app.request()
+        .get('/todo.txt\\')
+        .expect(404, done);
+      })
+    }
   })
 
   describe('with a malformed URL', function(){
@@ -267,7 +276,7 @@ describe('connect.static()', function(){
   describe('on ENAMETOOLONG', function(){
     it('should next()', function(done){
       var path = Array(100).join('foobar');
-  
+
       app.request()
       .get('/' + path)
       .expect(404, done);
@@ -285,7 +294,7 @@ describe('connect.static()', function(){
   describe('when mounted', function(){
     it('should redirect relative to the originalUrl', function(done){
       var app = connect();
-      
+
       app.use('/static', connect.static('test/fixtures'));
 
       app.request()
