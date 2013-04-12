@@ -8,7 +8,7 @@
   "dependencies": {
     "qs": "0.5.1",
     "formidable": "1.0.11",
-    "cookie-signature": "0.0.1",
+    "cookie-signature": "1.0.0",
     "buffer-crc32": "0.1.1",
     "cookie": "0.0.5",
     "send": "0.1.0",
