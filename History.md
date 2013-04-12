@@ -1,4 +1,10 @@
 
+2.7.5 / 2013-04-12 
+==================
+
+  * update cookie-signature
+  * limit: do not consume request in node 0.10.x
+
 2.7.4 / 2013-04-01 
 ==================
 
