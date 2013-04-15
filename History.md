@@ -1,4 +1,9 @@
 
+2.7.6 / 2013-04-15 
+==================
+
+  * revert cookie signature which was creating session race conditions
+
 2.7.5 / 2013-04-12 
 ==================
 

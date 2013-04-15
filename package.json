@@ -1,6 +1,6 @@
 {
   "name": "connect",
-  "version": "2.7.5",
+  "version": "2.7.6",
   "description": "High performance middleware framework",
   "keywords": ["framework", "web", "middleware", "connect", "rack"],
   "repository": "git://github.com/senchalabs/connect.git",
@@ -8,7 +8,7 @@
   "dependencies": {
     "qs": "0.5.1",
     "formidable": "1.0.11",
-    "cookie-signature": "1.0.0",
+    "cookie-signature": "1.0.1",
     "buffer-crc32": "0.1.1",
     "cookie": "0.0.5",
     "send": "0.1.0",
