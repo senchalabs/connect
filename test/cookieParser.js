@@ -65,7 +65,7 @@ describe('connect.cookieParser()', function(){
         app.request()
         .get('/')
         .set('Cookie', 'foo=' + val + '3')
-        .expect('{"foo":"foobarbaz.CRCZwnjcN+7dzi/s3vVGgftSjESpuFaBmq+RpqYSbdMIKCrcnplIA4MhNnC/6Y+bL+R2hq2Y/P19qUfCfCgFiw3"}', done);
+        .expect('{"foo":"foobarbaz.CP7AWaXDfAKIRfH49dQzKJx7sKzzSoPq7/AcBBRVwlI3"}', done);
       });
     })
   })
