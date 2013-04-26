@@ -1,6 +1,7 @@
 
-var connect = require('../')
-  , should = require('./shared');
+var connect = require('../');
+var assert = require('assert');
+var should = require('./shared');
 
 var app = connect();
 
@@ -44,16 +45,14 @@ describe('connect.multipart()', function(){
         done();
       });
     })
-    
+
     it('should support files', function(done){
       var app = connect();
 
       app.use(connect.multipart());
 
       app.use(function(req, res){
-        req.body.user.should.eql({ name: 'Tobi' });
-        req.files.text.path.should.not.include('.txt');
-        req.files.text.constructor.name.should.equal('File');
+        assert('Tobi' == req.body.user.name);
         res.end(req.files.text.name);
       });
 
@@ -74,7 +73,7 @@ describe('connect.multipart()', function(){
         done();
       });
     })
-    
+
     it('should expose options to formidable', function(done){
       var app = connect();
 
@@ -83,9 +82,8 @@ describe('connect.multipart()', function(){
       }));
 
       app.use(function(req, res){
-        req.body.user.should.eql({ name: 'Tobi' });
-        req.files.text.path.should.include('.txt');
-        req.files.text.constructor.name.should.equal('File');
+        assert('Tobi' == req.body.user.name);
+        assert(~req.files.text.path.indexOf('.txt'));
         res.end(req.files.text.name);
       });
 
@@ -106,7 +104,7 @@ describe('connect.multipart()', function(){
         done();
       });
     })
-    
+
     it('should work with multiple fields', function(done){
       app.request()
       .post('/')
@@ -125,7 +123,7 @@ describe('connect.multipart()', function(){
         done();
       });
     })
-    
+
     it('should support nesting', function(done){
       app.request()
       .post('/')
@@ -185,7 +183,7 @@ describe('connect.multipart()', function(){
         done();
       });
     })
-    
+
     it('should support nested files', function(done){
       var app = connect();
 
@@ -215,7 +213,7 @@ describe('connect.multipart()', function(){
         done();
       });
     })
-    
+
     it('should next(err) on multipart failure', function(done){
       var app = connect();
 
