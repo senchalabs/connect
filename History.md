@@ -1,4 +1,12 @@
 
+2.7.7 / 2013-04-29 
+==================
+
+  * update qs dependency
+  * remove "static" function name. Closes #794
+  * update node-formidable
+  * update buffer-crc32
+
 2.7.6 / 2013-04-15 
 ==================
 
