@@ -1,16 +1,23 @@
 
-2.7.9 / 2013-05-07 
+2.7.10 / 2013-05-21
+==================
+
+ * update qs
+ * update formidable
+ * fix: write/end to noop() when request aborted
+
+2.7.9 / 2013-05-07
 ==================
 
   * update qs
   * drop support for node < v0.8
 
-2.7.8 / 2013-05-03 
+2.7.8 / 2013-05-03
 ==================
 
   * update qs
 
-2.7.7 / 2013-04-29 
+2.7.7 / 2013-04-29
 ==================
 
   * update qs dependency
@@ -18,23 +25,23 @@
   * update node-formidable
   * update buffer-crc32
 
-2.7.6 / 2013-04-15 
+2.7.6 / 2013-04-15
 ==================
 
   * revert cookie signature which was creating session race conditions
 
-2.7.5 / 2013-04-12 
+2.7.5 / 2013-04-12
 ==================
 
   * update cookie-signature
   * limit: do not consume request in node 0.10.x
 
-2.7.4 / 2013-04-01 
+2.7.4 / 2013-04-01
 ==================
 
   * session: add long expires check and prevent excess set-cookie
   * session: add console.error() of session#save() errors
-  
+
 2.7.3 / 2013-02-19
 ==================
 
