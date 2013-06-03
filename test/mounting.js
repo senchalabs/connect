@@ -106,24 +106,23 @@ describe('app.use()', function(){
     })
   })
 
-    it('should mount an array', function(done){
-        app.use([
-            function(req, res, next){
-                req.url.should.equal('/');
-                res.blog = 'blog';
-                next();
-            },
-            function(req, res) {
-                req.url.should.equal('/');
-                res.end(res.blog);
-            }
-        ]);
+  it('should mount an array', function(done){
+    app.use([
+      function(req, res, next){
+        req.url.should.equal('/');
+        res.blog = 'blog';
+        next();
+      },
+      function(req, res) {
+        req.url.should.equal('/');
+        res.end(res.blog);
+      }
+    ]);
 
-        app.request()
-            .get('/')
-            .expect('blog', done);
-    })
-
+    app.request()
+      .get('/')
+      .expect('blog', done);
+  })
 
   it('should be case insensitive (lower-case route, mixed-case request)', function(done){
     var blog = http.createServer(function(req, res){
