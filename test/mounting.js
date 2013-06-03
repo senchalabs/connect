@@ -12,14 +12,14 @@ describe('app.use()', function(){
   describe('with a connect app', function(){
     it('should mount', function(done){
       var blog = connect();
-    
+
       blog.use(function(req, res){
         req.url.should.equal('/');
         res.end('blog');
       });
-    
+
       app.use('/blog', blog);
-    
+
       app.request()
       .get('/blog')
       .expect('blog', done);
@@ -104,6 +104,24 @@ describe('app.use()', function(){
       .get('/blog')
       .expect('blog', done);
     })
+  })
+
+  it('should mount an array', function(done){
+    app.use([
+      function(req, res, next){
+        req.url.should.equal('/');
+        res.blog = 'blog';
+        next();
+      },
+      function(req, res) {
+        req.url.should.equal('/');
+        res.end(res.blog);
+      }
+    ]);
+
+    app.request()
+      .get('/')
+      .expect('blog', done);
   })
 
   it('should be case insensitive (lower-case route, mixed-case request)', function(done){
