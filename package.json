@@ -15,6 +15,7 @@
     "bytes": "0.2.0",
     "fresh": "0.1.0",
     "pause": "0.0.1",
+    "uid2": "0.0.2",
     "debug": "*"
   },
   "devDependencies": {

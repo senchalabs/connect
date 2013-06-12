@@ -2,14 +2,6 @@
 var connect = require('../')
   , utils = connect.utils;
 
-describe('utils.uid(len)', function(){
-  it('should generate a uid of the given length', function(){
-    var n = 20;
-    while (n--) utils.uid(n).should.have.length(n);
-    utils.uid(10).should.not.equal(utils.uid(10));
-  })
-})
-
 describe('utils.parseCacheControl(str)', function(){
   it('should parse Cache-Control', function(){
     var parse = utils.parseCacheControl;
