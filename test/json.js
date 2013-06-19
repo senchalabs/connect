@@ -180,6 +180,47 @@ describe('connect.json()', function(){
     .expect('论', done);
   })
 
+  describe('the default json mime type regular expression', function() {
+    var jsonRegExp = connect.json.defaultJsonRegExp;
+    it('should support the basic JSON mime type', function(){
+      jsonRegExp.test('application/json').should.eql(true);
+    })
+    it('should not match incorrect mime type', function(){
+      jsonRegExp.test('zapplication/json').should.eql(false);
+    })
+    it('should be case insensitive', function(){
+      jsonRegExp.test('Application/JSON').should.eql(true);
+    })
+    it('should support suffix notation', function(){
+      jsonRegExp.test('application/vnd.organization.prog-type.org+json').should.eql(true);
+    })
+    it('should support specific special characters on mime subtype', function(){
+      jsonRegExp.test('application/vnd.organization.special_!#$%*`-^~.org+json').should.eql(true);
+    })
+    it('should not support other special characters on mime subtype', function(){
+      jsonRegExp.test('application/vnd.organization.special_()<>@,;:\\"/[]?={} \t.org+json').should.eql(false);
+    })
+    it('should not match malformed mime subtype suffix', function(){
+      jsonRegExp.test('application/vnd.test.org+json+xml').should.eql(false);
+    })
+    it('should be overridable', function(done){
+      var customApp = connect();
+      customApp.use(connect.json({ jsonRegExp: /application\/custom/ }));
+      customApp.use(function(req, res){
+        res.end(JSON.stringify(req.body));
+      });
+
+      customApp.request()
+      .post('/')
+      .set('Content-Type', 'application/custom')
+      .write('{"user":"tobi"}')
+      .end(function(res){
+        res.body.should.equal('{"user":"tobi"}');
+        done();
+      });
+    })
+  });
+
   if (!connect.utils.brokenPause) {
     it('should parse JSON with limit and after next tick', function(done){
       var app = connect();
