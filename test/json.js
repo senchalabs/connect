@@ -41,6 +41,25 @@ describe('connect.json()', function(){
     });
   })
 
+  it('should handle Content-Length: 0', function(done){
+    var app = connect();
+    app.use(connect.json());
+
+    app.use(function(req, res){
+      res.end('req.body is ' + (Object.keys(req.body).length === 0 ? '' : 'not ') + 'empty');
+    });
+
+    app.request()
+    .get('/')
+    .set('Content-Type', 'application/json')
+    .set('Content-Length', '0')
+    .end(function(res){
+      res.should.have.status(200);
+      res.body.should.equal('req.body is empty');
+      done();
+    });
+  })
+
   it('should 400 on malformed JSON', function(done){
     var app = connect();
     app.use(connect.json());
