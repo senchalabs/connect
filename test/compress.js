@@ -8,15 +8,19 @@ var app = connect();
 app.use(connect.compress({
   threshold: '1kb'
 }));
+
 app.use(connect.static(fixtures));
+
 app.use('/smallresponse', function(req, res){
   res.setHeader('Content-Type', 'text/plain');
   res.end('tiny');
 });
+
 app.use('/largeresponse', function(req, res){
   res.setHeader('Content-Type', 'text/plain');
   res.end(new Buffer(2048));
 });
+
 app.use('/streamsmall', function(req, res){
   res.setHeader('Content-Type', 'text/plain');
   res.write('a');
