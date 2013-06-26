@@ -10,8 +10,12 @@ function respond(req, res) {
 
 function sid(res) {
   var val = res.headers['set-cookie'];
-  if (!val) return '';
-  return /^connect\.sid=([^;]+);/.exec(val[0])[1];
+  try {
+    return /^connect\.sid=([^;]+);/.exec(val[0])[1];
+  }
+  catch (e) {
+    return '';
+  }
 }
 
 function expires(res) {
@@ -541,5 +545,80 @@ describe('connect.session()', function(){
       });
     })
 
+  })
+
+  describe('lazy sessions', function () {
+    function emptyFn (session) {
+      return session.feeling === 'blue';
+    }
+
+    it('should not create empty session', function (done) {
+      var app = connect()
+        .use(connect.cookieParser())
+        .use(connect.session({ secret: 'keyboard cat', cookie: { maxAge: min }, emptyFn: emptyFn }))
+        .use(function(req, res, next){
+          req.session.feeling = 'blue';
+          res.end();
+        });
+
+      app.request()
+      .get('/')
+      .end(function(res){
+        res.headers.should.not.have.property('set-cookie');
+        done();
+      });
+    })
+
+    var id;
+
+    function testLazySessions (writeHead) {
+      return function (done) {
+        var app = connect()
+          .use(connect.cookieParser())
+          .use(connect.session({ secret: 'keyboard cat', cookie: { maxAge: min }, emptyFn: emptyFn }))
+          .use(function(req, res, next){
+            req.session.feeling = 'good';
+            req.session.counter || (req.session.counter = 0);
+            req.session.counter++;
+            // on the third time, session becomes empty
+            if (req.session.counter === 3) req.session.feeling = 'blue';
+            if (writeHead) {
+              res.writeHead(200, {'Content-Type': 'text/plain'});
+              res.end('ok');
+            }
+            else {
+              res.end();
+            }
+          });
+
+        app.request()
+        .get('/')
+        .end(function(res){
+          res.headers.should.have.property('set-cookie');
+          id = sid(res);
+
+          app.request()
+          .get('/')
+          .set('Cookie', 'connect.sid=' + id)
+          .end(function(res){
+            res.headers.should.have.property('set-cookie');
+            sid(res).should.equal(id);
+
+            app.request()
+            .get('/')
+            .set('Cookie', 'connect.sid=' + id)
+            .end(function(res){
+              res.headers.should.have.property('set-cookie');
+              sid(res).should.equal('');
+              expires(res).should.equal('Thu, 01 Jan 1970 00:00:00 GMT');
+              done();
+            });
+          });
+        });
+      };
+    }
+
+    it('should maintain non-empty session (no writeHead())', testLazySessions(false));
+    it('should maintain non-empty session (with writeHead())', testLazySessions(true));
   })
 })
