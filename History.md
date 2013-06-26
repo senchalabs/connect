@@ -1,4 +1,15 @@
 
+2.8.0 / 2013-06-26 
+==================
+
+ * add `threshold` option to `compress()` to prevent compression of small responses
+ * add support for vendor JSON mime types in json()
+ * change static redirect to 303
+ * change octal escape sequences for strict mode
+ * change: replace utils.uid() with uid2 lib
+ * remove other "static" function name. Fixes #794
+ * fix: hasBody() should return false if Content-Length: 0
+
 2.7.11 / 2013-06-02 
 ==================
 
