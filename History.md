@@ -4,6 +4,7 @@
 
  * add `threshold` option to `compress()` to prevent compression of small responses
  * add support for vendor JSON mime types in json()
+ * add X-Forwarded-Proto initial https proxy support
  * change static redirect to 303
  * change octal escape sequences for strict mode
  * change: replace utils.uid() with uid2 lib
