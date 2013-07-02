@@ -1,4 +1,4 @@
-
+var should = require('should');
 var connect = require('../');
 
 function sess(res) {
@@ -19,6 +19,22 @@ describe('connect.cookieSession()', function(){
     app = connect();
     app.use(connect.cookieParser());
     app.use(connect.cookieSession({ secret: 'some secret' }));
+  })
+
+  it('should not set a cookie if `req.session` is not used', function (done) {
+    var app = connect()
+      .use(connect.cookieParser())
+      .use(connect.cookieSession({ secret: 'keyboard cat' }))
+      .use(function(req, res, next){
+        res.end()
+      });
+
+    app.request()
+    .get('/')
+    .end(function(res){
+      should.not.exist(res.headers['set-cookie']);
+      done();
+    })
   })
 
   it('should default to a browser-session length cookie', function(done){
