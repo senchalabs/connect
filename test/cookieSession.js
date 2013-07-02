@@ -6,6 +6,7 @@ function sess(res) {
 }
 
 function respond(req, res) {
+  req.session // make sure req.session is populated
   res.end();
 }
 
@@ -24,9 +25,7 @@ describe('connect.cookieSession()', function(){
     var app = connect()
       .use(connect.cookieParser())
       .use(connect.cookieSession({ secret: 'keyboard cat' }))
-      .use(function(req, res, next){
-        res.end();
-      });
+      .use(respond);
 
     app.request()
     .get('/')
@@ -62,6 +61,7 @@ describe('connect.cookieSession()', function(){
     var n = 0;
 
     app.use(function(req, res){
+      req.session; // make sure req.session is populated
       switch (n++) {
         case 0:
           req.session.name = 'tobi';
@@ -199,9 +199,7 @@ describe('connect.cookieSession()', function(){
       app.use(connect.cookieParser());
       app.use(connect.cookieSession({ secret: 'some secret', cookie: { httpOnly: false }}));
 
-      app.use(function(req, res){
-        res.end();
-      });
+      app.use(respond);
 
       app.request()
       .get('/')
@@ -249,7 +247,8 @@ describe('connect.cookieSession()', function(){
         .use(connect.cookieParser())
         .use(connect.cookieSession({ secret: 'keyboard cat' }))
         .use(function(req, res, next){
-          if (modify) req.session.foo = 'bar';
+          var session = req.session;
+          if (modify) session.foo = 'bar';
           res.end();
       });
 
