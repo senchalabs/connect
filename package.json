@@ -17,7 +17,7 @@
     "cookie-signature": "1.0.1",
     "buffer-crc32": "0.2.1",
     "cookie": "0.1.0",
-    "send": "0.1.1",
+    "send": "0.1.2",
     "bytes": "0.2.0",
     "fresh": "0.1.0",
     "pause": "0.0.1",
