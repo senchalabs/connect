@@ -1,4 +1,12 @@
 
+2.8.2 / 2013-07-03 
+==================
+
+ * update send
+ * update cookie dep.
+ * add better debug() for middleware
+ * add whitelisting of supported methods to methodOverride()
+
 2.8.1 / 2013-06-27 
 ==================
 
