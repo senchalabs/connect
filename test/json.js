@@ -46,7 +46,7 @@ describe('connect.json()', function(){
     app.use(connect.json());
 
     app.use(function(req, res){
-      res.end('req.body is ' + (Object.keys(req.body).length === 0 ? '' : 'not ') + 'empty');
+      res.end(Object.keys(req.body).length ? '' : 'empty');
     });
 
     app.request()
@@ -55,7 +55,7 @@ describe('connect.json()', function(){
     .set('Content-Length', '0')
     .end(function(res){
       res.should.have.status(200);
-      res.body.should.equal('req.body is empty');
+      res.body.should.equal('empty');
       done();
     });
   })
