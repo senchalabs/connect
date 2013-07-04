@@ -1,4 +1,10 @@
 
+2.8.3 / 2013-07-04 
+==================
+
+ * add a name back to static middleware ("staticMiddleware")
+ * fix .hasBody() utility to require transfer-encoding or content-length
+
 2.8.2 / 2013-07-03 
 ==================
 
