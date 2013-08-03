@@ -55,8 +55,17 @@ connect()
   })
   .listen(3001);
 
+
+// custom date format string
+
+connect()
+  .use(connect.logger({
+    format: ':date[DD/MMM/YYYY:HH:mm:ss] :method :url - :res[content-type]'
+  }))
+  .listen(3002);
+
 // pre-defined
 
 connect()
   .use(connect.logger('short'))
-  .listen(3002);
+  .listen(3003);
