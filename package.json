@@ -23,7 +23,8 @@
     "pause": "0.0.1",
     "uid2": "0.0.2",
     "debug": "*",
-    "methods": "0.0.1"
+    "methods": "0.0.1",
+    "moment": "2.1.0"
   },
   "devDependencies": {
     "should": "*",
