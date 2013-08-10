@@ -1,4 +1,10 @@
 
+2.8.5 / 2013-08-11 
+==================
+
+ * add: compress Dart source files by default
+ * update fresh
+
 2.8.4 / 2013-07-08 
 ==================
 
