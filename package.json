@@ -23,6 +23,7 @@
     "pause": "0.0.1",
     "uid2": "0.0.2",
     "debug": "*",
+    "negotiator": "0.2.7",
     "methods": "0.0.1"
   },
   "devDependencies": {
