@@ -27,7 +27,7 @@ var app = connect()
   .use(function(req, res){
     res.setHeader('Content-Type', 'text/html');
     var body = form
-      .replace('{token}', req.session._csrf)
+      .replace('{token}', req._csrf())
       .replace('{user}', req.session.user && req.session.user.name || '');
     res.end(body);
   });
