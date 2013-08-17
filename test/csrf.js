@@ -9,7 +9,7 @@ describe('csrf', function(){
     app.use(connect.bodyParser());
     app.use(connect.csrf());
     app.use(function(req, res){
-      res.end(req._csrf() || 'none');
+      res.end(req.csrfToken() || 'none');
     });
 
     app.request()
@@ -36,7 +36,7 @@ describe('csrf', function(){
     app.use(connect.bodyParser());
     app.use(connect.csrf());
     app.use(function(req, res){
-      res.end(req._csrf() || 'none');
+      res.end(req.csrfToken() || 'none');
     });
 
     app.request()
@@ -61,7 +61,7 @@ describe('csrf', function(){
     app.use(connect.bodyParser());
     app.use(connect.csrf());
     app.use(function(req, res){
-      res.end(req._csrf() || 'none');
+      res.end(req.csrfToken() || 'none');
     });
 
     app.request()
