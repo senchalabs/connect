@@ -31,10 +31,10 @@
     "jade": "*",
     "dox": "*"
   },
-  licenses: [
+  "licenses": [
     {
-      type: "MIT",
-      url: "https://raw.github.com/senchalabs/connect/master/LICENSE"
+      "type": "MIT",
+      "url": "https://raw.github.com/senchalabs/connect/master/LICENSE"
     }
   ],  
   "main": "index",
