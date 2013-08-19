@@ -31,6 +31,12 @@
     "jade": "*",
     "dox": "*"
   },
+  "licenses": [
+    {
+      "type": "MIT",
+      "url": "https://raw.github.com/senchalabs/connect/master/LICENSE"
+    }
+  ],  
   "main": "index",
   "engines": {
     "node": ">= 0.8.0"
