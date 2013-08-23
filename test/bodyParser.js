@@ -1,5 +1,6 @@
 
-var connect = require('../');
+var connect = require('..');
+var assert = require('assert');
 
 var app = connect();
 
@@ -29,7 +30,7 @@ describe('connect.bodyParser()', function(){
       done();
     });
   })
-  
+
   it('should parse x-www-form-urlencoded', function(done){
     app.request()
     .post('/')
@@ -40,7 +41,7 @@ describe('connect.bodyParser()', function(){
       done();
     });
   })
-  
+
   describe('with multipart/form-data', function(){
     it('should populate req.body', function(done){
       app.request()
@@ -56,14 +57,14 @@ describe('connect.bodyParser()', function(){
         done();
       });
     })
-    
+
     it('should support files', function(done){
       var app = connect();
 
       app.use(connect.bodyParser());
 
       app.use(function(req, res){
-        req.body.user.should.eql({ name: 'Tobi' });
+        assert('Tobi' == req.body.user.name);
         req.files.text.path.should.not.include('.txt');
         req.files.text.constructor.name.should.equal('File');
         res.end(req.files.text.name);
@@ -86,7 +87,7 @@ describe('connect.bodyParser()', function(){
         done();
       });
     })
-    
+
     it('should expose options to formidable', function(done){
       var app = connect();
 
@@ -95,9 +96,8 @@ describe('connect.bodyParser()', function(){
       }));
 
       app.use(function(req, res){
-        req.body.user.should.eql({ name: 'Tobi' });
-        req.files.text.path.should.include('.txt');
-        req.files.text.constructor.name.should.equal('File');
+        assert('Tobi' == req.body.user.name);
+        assert(~req.files.text.path.indexOf('.txt'));
         res.end(req.files.text.name);
       });
 
@@ -118,7 +118,7 @@ describe('connect.bodyParser()', function(){
         done();
       });
     })
-    
+
     it('should work with multiple fields', function(done){
       app.request()
       .post('/')
@@ -137,7 +137,7 @@ describe('connect.bodyParser()', function(){
         done();
       });
     })
-    
+
     it('should support nesting', function(done){
       app.request()
       .post('/')
@@ -197,7 +197,7 @@ describe('connect.bodyParser()', function(){
         done();
       });
     })
-    
+
     it('should support nested files', function(done){
       var app = connect();
 
@@ -227,7 +227,7 @@ describe('connect.bodyParser()', function(){
         done();
       });
     })
-    
+
     it('should next(err) on multipart failure', function(done){
       var app = connect();
 

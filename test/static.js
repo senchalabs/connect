@@ -45,7 +45,7 @@ describe('connect.static()', function(){
   it('should redirect directories', function(done){
     app.request()
     .get('/users')
-    .expect(301, done);
+    .expect(303, done);
   })
 
   it('should support index.html', function(done){
@@ -301,7 +301,7 @@ describe('connect.static()', function(){
       .get('/static/users')
       .end(function(res){
         res.headers.location.should.equal('/static/users/');
-        res.should.have.status(301);
+        res.should.have.status(303);
         done();
       });
     })

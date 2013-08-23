@@ -1,21 +1,94 @@
 
-2.7.6 / 2013-04-15 
+2.8.5 / 2013-08-11 
+==================
+
+ * add: compress Dart source files by default
+ * update fresh
+
+2.8.4 / 2013-07-08 
+==================
+
+ * update send
+
+2.8.3 / 2013-07-04 
+==================
+
+ * add a name back to static middleware ("staticMiddleware")
+ * fix .hasBody() utility to require transfer-encoding or content-length
+
+2.8.2 / 2013-07-03 
+==================
+
+ * update send
+ * update cookie dep.
+ * add better debug() for middleware
+ * add whitelisting of supported methods to methodOverride()
+
+2.8.1 / 2013-06-27 
+==================
+
+ * fix: escape req.method in 404 response
+
+2.8.0 / 2013-06-26 
+==================
+
+ * add `threshold` option to `compress()` to prevent compression of small responses
+ * add support for vendor JSON mime types in json()
+ * add X-Forwarded-Proto initial https proxy support
+ * change static redirect to 303
+ * change octal escape sequences for strict mode
+ * change: replace utils.uid() with uid2 lib
+ * remove other "static" function name. Fixes #794
+ * fix: hasBody() should return false if Content-Length: 0
+
+2.7.11 / 2013-06-02 
+==================
+
+ * update send
+
+2.7.10 / 2013-05-21
+==================
+
+ * update qs
+ * update formidable
+ * fix: write/end to noop() when request aborted
+
+2.7.9 / 2013-05-07
+==================
+
+  * update qs
+  * drop support for node < v0.8
+
+2.7.8 / 2013-05-03
+==================
+
+  * update qs
+
+2.7.7 / 2013-04-29
+==================
+
+  * update qs dependency
+  * remove "static" function name. Closes #794
+  * update node-formidable
+  * update buffer-crc32
+
+2.7.6 / 2013-04-15
 ==================
 
   * revert cookie signature which was creating session race conditions
 
-2.7.5 / 2013-04-12 
+2.7.5 / 2013-04-12
 ==================
 
   * update cookie-signature
   * limit: do not consume request in node 0.10.x
 
-2.7.4 / 2013-04-01 
+2.7.4 / 2013-04-01
 ==================
 
   * session: add long expires check and prevent excess set-cookie
   * session: add console.error() of session#save() errors
-  
+
 2.7.3 / 2013-02-19
 ==================
 

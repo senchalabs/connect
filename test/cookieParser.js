@@ -25,7 +25,7 @@ describe('connect.cookieParser()', function(){
 
     it('should default req.signedCookies to {}', function(done){
       app.request()
-      .get('/')
+      .get('/signed')
       .expect('{}', done);
     })
   })

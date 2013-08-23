@@ -1,11 +1,31 @@
+var assert = require('assert');
 
 var connect = require('../');
 
 var fixtures = __dirname + '/fixtures';
 
 var app = connect();
-app.use(connect.compress());
+app.use(connect.compress({
+  threshold: '1kb'
+}));
+
 app.use(connect.static(fixtures));
+
+app.use('/smallresponse', function(req, res){
+  res.setHeader('Content-Type', 'text/plain');
+  res.end('tiny');
+});
+
+app.use('/largeresponse', function(req, res){
+  res.setHeader('Content-Type', 'text/plain');
+  res.end(new Buffer(2048));
+});
+
+app.use('/streamsmall', function(req, res){
+  res.setHeader('Content-Type', 'text/plain');
+  res.write('a');
+  res.end();
+});
 
 describe('connect.compress()', function(){
   it('should gzip files', function(done){
@@ -76,4 +96,31 @@ describe('connect.compress()', function(){
     });
   })
 
+  it('should not compress responses below the threshold size', function(done){
+    app.request()
+    .get('/smallresponse')
+    .set('Accept-Encoding', 'gzip')
+    .end(function(res){
+      // I don't know how to do this with supertest
+      // '' or 'identity' should be valid values as well,
+      // but they are not set by compress.
+      assert.equal(res.headers['content-encoding'], undefined);
+
+      done()
+    })
+  })
+
+  it('should compress responses above the threshold size', function(done){
+    app.request()
+    .get('/largeresponse')
+    .set('Accept-Encoding', 'gzip')
+    .expect('Content-Encoding', 'gzip', done);
+  })
+
+  it('should always compress when streaming', function(done){
+    app.request()
+    .get('/streamsmall')
+    .set('Accept-Encoding', 'gzip')
+    .expect('Content-Encoding', 'gzip', done);
+  })
 })

@@ -41,6 +41,25 @@ describe('connect.json()', function(){
     });
   })
 
+  it('should handle Content-Length: 0', function(done){
+    var app = connect();
+    app.use(connect.json());
+
+    app.use(function(req, res){
+      res.end(Object.keys(req.body).length ? '' : 'empty');
+    });
+
+    app.request()
+    .get('/')
+    .set('Content-Type', 'application/json')
+    .set('Content-Length', '0')
+    .end(function(res){
+      res.should.have.status(200);
+      res.body.should.equal('empty');
+      done();
+    });
+  })
+
   it('should 400 on malformed JSON', function(done){
     var app = connect();
     app.use(connect.json());
@@ -179,6 +198,37 @@ describe('connect.json()', function(){
     .write('{"name":"论"}')
     .expect('论', done);
   })
+
+  describe('the default json mime type regular expression', function() {
+    var mimeRegExp = connect.json.regexp;
+    it('should support the basic JSON mime type', function(){
+      mimeRegExp.test('application/json').should.eql(true);
+    })
+
+    it('should not match incorrect mime type', function(){
+      mimeRegExp.test('zapplication/json').should.eql(false);
+    })
+
+    it('should be case insensitive', function(){
+      mimeRegExp.test('Application/JSON').should.eql(true);
+    })
+
+    it('should support suffix notation', function(){
+      mimeRegExp.test('application/vnd.organization.prog-type.org+json').should.eql(true);
+    })
+
+    it('should support specific special characters on mime subtype', function(){
+      mimeRegExp.test('application/vnd.organization.special_!#$%*`-^~.org+json').should.eql(true);
+    })
+
+    it('should not support other special characters on mime subtype', function(){
+      mimeRegExp.test('application/vnd.organization.special_()<>@,;:\\"/[]?={} \t.org+json').should.eql(false);
+    })
+
+    it('should not match malformed mime subtype suffix', function(){
+      mimeRegExp.test('application/vnd.test.org+json+xml').should.eql(false);
+    })
+  });
 
   if (!connect.utils.brokenPause) {
     it('should parse JSON with limit and after next tick', function(done){
