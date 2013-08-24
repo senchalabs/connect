@@ -83,10 +83,8 @@ describe('app', function(){
     });
   })
 
-  it('should escape the 404 response body', function(done){
-    var app = connect();
-    app.request()
-    .get('/foo/<script>stuff</script>')
-    .expect('Cannot GET /foo/&lt;script&gt;stuff&lt;/script&gt;', done);
+  it('should not html escape the text/plain 404 response body', function(done){
+    var app = connect(), resource = '/foo?bar=baz&quux=xyzzy';
+    app.request().get(resource).expect('Cannot GET '+ resource, done);
   })
 })
