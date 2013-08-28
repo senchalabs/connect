@@ -1,4 +1,9 @@
 
+2.8.7 / 2013-08-28 
+==================
+
+ * csrf: prevent salt generation on every request, and add async req.csrfToken(fn)
+
 2.8.6 / 2013-08-28 
 ==================
 
