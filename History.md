@@ -1,4 +1,10 @@
 
+2.8.6 / 2013-08-28 
+==================
+
+ * csrf: refactor to use HMAC tokens (BREACH attack)
+ * compress: add compression of SVG and common font files by default.
+
 2.8.5 / 2013-08-11 
 ==================
 
