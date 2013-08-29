@@ -1,4 +1,15 @@
 
+2.8.7 / 2013-08-28 
+==================
+
+ * csrf: prevent salt generation on every request, and add async req.csrfToken(fn)
+
+2.8.6 / 2013-08-28 
+==================
+
+ * csrf: refactor to use HMAC tokens (BREACH attack)
+ * compress: add compression of SVG and common font files by default.
+
 2.8.5 / 2013-08-11 
 ==================
 
