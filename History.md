@@ -1,4 +1,9 @@
 
+2.8.8 / 2013-09-02 
+==================
+
+ * csrf: change to math.random() salt and remove csrfToken() callback 
+
 2.8.7 / 2013-08-28 
 ==================
 
