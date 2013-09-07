@@ -65,9 +65,9 @@ describe('connect.bodyParser()', function(){
 
       app.use(function(req, res){
         assert('Tobi' == req.body.user.name);
-        req.files.text.path.should.not.include('.txt');
-        req.files.text.constructor.name.should.equal('File');
-        res.end(req.files.text.name);
+        req.files.text.originalFilename.should.equal('foo.txt');
+        req.files.text.path.should.include('.txt');
+        res.end(req.files.text.originalFilename);
       });
 
       app.request()
@@ -88,7 +88,7 @@ describe('connect.bodyParser()', function(){
       });
     })
 
-    it('should expose options to formidable', function(done){
+    it('should expose options to multiparty', function(done){
       var app = connect();
 
       app.use(connect.bodyParser({
@@ -98,7 +98,7 @@ describe('connect.bodyParser()', function(){
       app.use(function(req, res){
         assert('Tobi' == req.body.user.name);
         assert(~req.files.text.path.indexOf('.txt'));
-        res.end(req.files.text.name);
+        res.end(req.files.text.originalFilename);
       });
 
       app.request()
@@ -175,8 +175,8 @@ describe('connect.bodyParser()', function(){
 
       app.use(function(req, res){
         req.files.text.should.have.length(2);
-        req.files.text[0].constructor.name.should.equal('File');
-        req.files.text[1].constructor.name.should.equal('File');
+        assert(req.files.text[0]);
+        assert(req.files.text[1]);
         res.end();
       });
 
@@ -205,8 +205,8 @@ describe('connect.bodyParser()', function(){
 
       app.use(function(req, res){
         Object.keys(req.files.docs).should.have.length(2);
-        req.files.docs.foo.name.should.equal('foo.txt');
-        req.files.docs.bar.name.should.equal('bar.txt');
+        req.files.docs.foo.originalFilename.should.equal('foo.txt');
+        req.files.docs.bar.originalFilename.should.equal('bar.txt');
         res.end();
       });
 

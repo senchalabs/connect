@@ -4,9 +4,10 @@
  */
 
 var connect = require('../');
+var fs = require('fs');
 
 connect()
-  .use(connect.bodyParser())
+  .use(connect.bodyParser({ defer: true }))
   .use(form)
   .use(upload)
   .listen(3000);
@@ -22,8 +23,15 @@ function form(req, res, next) {
 
 function upload(req, res, next) {
   if ('POST' !== req.method) return next();
-  req.files.images.forEach(function(file){
-    console.log('  uploaded : %s %skb : %s', file.originalFilename, file.size / 1024 | 0, file.path);
+
+  req.form.on('part', function(part){
+    // transfer to s3 etc
+    console.log('upload %s %s', part.name, part.filename);
+    var out = fs.createWriteStream('/tmp/' + part.filename);
+    part.pipe(out);
   });
-  res.end('Thanks');
+
+  req.form.on('close', function(){
+    res.end('uploaded!');
+  });
 }
