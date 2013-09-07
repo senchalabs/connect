@@ -53,7 +53,7 @@ describe('connect.multipart()', function(){
 
       app.use(function(req, res){
         assert('Tobi' == req.body.user.name);
-        res.end(req.files.text.originalFilename);
+        res.end(req.files.text.name);
       });
 
       app.request()
