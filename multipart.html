@@ -1,34 +1,59 @@
-<!DOCTYPE html><html><head><title>Connect - High quality middleware for node.js</title><meta http-equiv="Content-Type" content="text/html; charset=utf-8"><link rel="stylesheet" href="style.css"><script src="jquery.js"></script><script src="docs.js"></script></head><body><div id="content"><h1>Connect</h1><div id="noop" class="comment"><h2>noop()</h2><div class="description"><p>noop middleware.</p></div><h3>Source</h3><pre><code>function noop(req, res, next) {
-  next();
-}</code></pre></div><div id="" class="comment"><h2></h2><div class="description"><h2>Multipart</h2>
+<!DOCTYPE html><html><head><title>Connect - High quality middleware for node.js</title><meta http-equiv="Content-Type" content="text/html; charset=utf-8"><link rel="stylesheet" href="style.css"><script src="jquery.js"></script><script src="docs.js"></script></head><body><div id="content"><h1>Connect</h1><div id="" class="comment"><h2></h2><div class="description"><p>Multipart:</p>
 
 <p>Parse multipart/form-data request bodies,<br />providing the parsed object as <code>req.body</code><br />and <code>req.files</code>.</p>
 
-<h2>Configuration</h2>
+<p>Configuration:</p>
 
-<p>The options passed are merged with <a href="https://github.com/felixge/node-formidable">formidable</a>'s<br /> <code>IncomingForm</code> object, allowing you to configure the upload directory,<br /> size limits, etc. For example if you wish to change the upload dir do the following.</p>
+<p>The options passed are merged with <a href="https://github.com/superjoe30/node-multiparty">multiparty</a>'s<br /> <code>Form</code> object, allowing you to configure the upload directory,<br /> size limits, etc. For example if you wish to change the upload dir do the following.</p>
 
 <pre><code>app.use(connect.multipart({ uploadDir: path }));
 </code></pre>
 
-<h2>Options</h2>
+<p>Options:</p>
 
 <ul>
-<li><code>limit</code>  byte limit defaulting to none</li>
-<li><code>defer</code>  defers processing and exposes the Formidable form object as <code>req.form</code>.
+<li><code>limit</code>  byte limit defaulting to [100mb]</li>
+<li><code>defer</code>  defers processing and exposes the multiparty form object as <code>req.form</code>.
          <code>next()</code> is called without waiting for the form's "end" event.
-         This option is useful if you need to bind to the "progress" event, for example.</li>
-</ul></div><ul class="tags"><li><em>Object</em> options </li><li>returns <em>Function</em> </li></ul><h3>Source</h3><pre><code>exports = module.exports = function(options){
+         This option is useful if you need to bind to the "progress" or "part" events, for example.</li>
+</ul>
+
+<p>Temporary Files:</p>
+
+<p>By default temporary files are used, stored in <code>os.tmpDir()</code>. These<br /> are not automatically garbage collected, you are in charge of moving them<br /> or deleting them. When <code>defer</code> is not used and these files are created you<br /> may refernce them via the <code>req.files</code> object.</p>
+
+<pre><code>req.files.images.forEach(function(file){
+  console.log('  uploaded : %s %skb : %s', file.originalFilename, file.size / 1024 | 0, file.path);
+});
+</code></pre>
+
+<p>It is highly recommended to monitor and clean up tempfiles in any production<br /> environment, you may use tools like <a href="https://github.com/visionmedia/reap">reap</a><br /> to do so.</p>
+
+<p>Streaming:</p>
+
+<p>When <code>defer</code> is used files are <em>not</em> streamed to tmpfiles, you may<br /> access them via the "part" events and stream them accordingly:</p>
+
+<pre><code>req.form.on('part', function(part){
+  // transfer to s3 etc
+  console.log('upload %s %s', part.name, part.filename);
+  var out = fs.createWriteStream('/tmp/' + part.filename);
+  part.pipe(out);
+});
+
+req.form.on('close', function(){
+  res.end('uploaded!');
+});
+</code></pre></div><ul class="tags"><li><em>Object</em> options </li><li>returns <em>Function</em> </li></ul><h3>Source</h3><pre><code>exports = module.exports = function(options){
   options = options || {};
 
-  var limit = options.limit
-    ? _limit(options.limit)
-    : noop;
+  var limit = _limit(options.limit || '100mb');
 
   return function multipart(req, res, next) {
     if (req._body) return next();
     req.body = req.body || {};
     req.files = req.files || {};
+
+    if (!utils.hasBody(req)) return next();
 
     // ignore GET
     if ('GET' == req.method || 'HEAD' == req.method) return next();
@@ -43,7 +68,7 @@
     limit(req, res, function(err){
       if (err) return next(err);
 
-      var form = new formidable.IncomingForm
+      var form = new multiparty.Form
         , data = {}
         , files = {}
         , done;
@@ -66,9 +91,12 @@
         ondata(name, val, data);
       });
 
-      form.on('file', function(name, val){
-        ondata(name, val, files);
-      });
+      if (!options.defer) {
+        form.on('file', function(name, val){
+          val.name = val.originalFilename;
+          ondata(name, val, files);
+        });
+      }
 
       form.on('error', function(err){
         if (!options.defer) {
@@ -78,15 +106,16 @@
         done = true;
       });
 
-      form.on('end', function(){
+      form.on('close', function(){
         if (done) return;
         try {
           req.body = qs.parse(data);
           req.files = qs.parse(files);
-          if (!options.defer) next();
         } catch (err) {
           form.emit('error', err);
+          return;
         }
+        if (!options.defer) next();
       });
 
       form.parse(req);
@@ -97,4 +126,4 @@
       }
     });
   }
-};</code></pre></div></div><ul id="menu"><li><a href="#noop">noop()</a></li><li><a href="#"></a></li></ul></body></html>
+};</code></pre></div></div><ul id="menu"><li><a href="#"></a></li></ul></body></html>

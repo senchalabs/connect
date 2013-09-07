@@ -1,4 +1,4 @@
-<!DOCTYPE html><html><head><title>Connect - High quality middleware for node.js</title><meta http-equiv="Content-Type" content="text/html; charset=utf-8"><link rel="stylesheet" href="style.css"><script src="jquery.js"></script><script src="docs.js"></script></head><body><div id="content"><h1>Connect</h1><div id="module.exports" class="comment"><h2></h2><div class="description"><h2>Limit</h2>
+<!DOCTYPE html><html><head><title>Connect - High quality middleware for node.js</title><meta http-equiv="Content-Type" content="text/html; charset=utf-8"><link rel="stylesheet" href="style.css"><script src="jquery.js"></script><script src="docs.js"></script></head><body><div id="content"><h1>Connect</h1><div id="module.exports" class="comment"><h2></h2><div class="description"><p>Limit:</p>
 
 <p>Limit request bodies to the given size in <code>bytes</code>.</p>
 
@@ -24,11 +24,33 @@
     if (len && len > bytes) return next(utils.error(413));
 
     // limit
-    req.on('data', function(chunk){
-      received += chunk.length;
-      if (received > bytes) req.destroy();
-    });
+    if (brokenPause) {
+      listen();
+    } else {
+      req.on('newListener', function handler(event) {
+        if (event !== 'data') return;
+
+        req.removeListener('newListener', handler);
+        // Start listening at the end of the current loop
+        // otherwise the request will be consumed too early.
+        // Sideaffect is `limit` will miss the first chunk,
+        // but that's not a big deal.
+        // Unfortunately, the tests don't have large enough
+        // request bodies to test this.
+        process.nextTick(listen);
+      });
+    };
 
     next();
+
+    function listen() {
+      req.on('data', function(chunk) {
+        received += Buffer.isBuffer(chunk)
+          ? chunk.length :
+          Buffer.byteLength(chunk);
+
+        if (received > bytes) req.destroy();
+      });
+    };
   };
 };</code></pre></div></div><ul id="menu"><li><a href="#module.exports"></a></li></ul></body></html>

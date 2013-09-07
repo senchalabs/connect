@@ -1,21 +1,29 @@
-<!DOCTYPE html><html><head><title>Connect - High quality middleware for node.js</title><meta http-equiv="Content-Type" content="text/html; charset=utf-8"><link rel="stylesheet" href="style.css"><script src="jquery.js"></script><script src="docs.js"></script></head><body><div id="content"><h1>Connect</h1><div id="module.exports" class="comment"><h2></h2><div class="description"><h2>Method Override</h2>
+<!DOCTYPE html><html><head><title>Connect - High quality middleware for node.js</title><meta http-equiv="Content-Type" content="text/html; charset=utf-8"><link rel="stylesheet" href="style.css"><script src="jquery.js"></script><script src="docs.js"></script></head><body><div id="content"><h1>Connect</h1><div id="module.exports" class="comment"><h2></h2><div class="description"><p>Method Override:</p>
 
 <p>Provides faux HTTP method support.</p>
 
 <p>Pass an optional <code>key</code> to use when checking for<br />a method override, othewise defaults to <em>_method</em>.<br />The original method is available via <code>req.originalMethod</code>.</p></div><ul class="tags"><li><em>String</em> key </li><li>returns <em>Function</em> </li></ul><h3>Source</h3><pre><code>module.exports = function methodOverride(key){
   key = key || "_method";
   return function methodOverride(req, res, next) {
+    var method;
     req.originalMethod = req.originalMethod || req.method;
 
     // req.body
     if (req.body && key in req.body) {
-      req.method = req.body[key].toUpperCase();
+      method = req.body[key].toLowerCase();
       delete req.body[key];
-    // check X-HTTP-Method-Override
-    } else if (req.headers['x-http-method-override']) {
-      req.method = req.headers['x-http-method-override'].toUpperCase();
     }
-    
+
+    // check X-HTTP-Method-Override
+    if (req.headers['x-http-method-override']) {
+      method = req.headers['x-http-method-override'].toLowerCase();
+    }
+
+    // replace
+    if (supports(method)) req.method = method.toUpperCase();
+
     next();
   };
-};</code></pre></div></div><ul id="menu"><li><a href="#module.exports"></a></li></ul></body></html>
+};</code></pre></div><div id="supports" class="comment"><h2>supports()</h2><div class="description"><p>Check if node supports <code>method</code>.</p></div><h3>Source</h3><pre><code>function supports(method) {
+  return ~methods.indexOf(method);
+}</code></pre></div></div><ul id="menu"><li><a href="#module.exports"></a></li><li><a href="#supports">supports()</a></li></ul></body></html>

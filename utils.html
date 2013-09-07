@@ -1,4 +1,8 @@
-<!DOCTYPE html><html><head><title>Connect - High quality middleware for node.js</title><meta http-equiv="Content-Type" content="text/html; charset=utf-8"><link rel="stylesheet" href="style.css"><script src="jquery.js"></script><script src="docs.js"></script></head><body><div id="content"><h1>Connect</h1><div id="exports.mime" class="comment"><h2>exports.mime()</h2><div class="description"><p>Extract the mime type from the given request's<br /><em>Content-Type</em> header.</p></div><ul class="tags"><li><em>IncomingMessage</em> req </li><li>returns <em>String</em> </li></ul><h3>Source</h3><pre><code>exports.mime = function(req) {
+<!DOCTYPE html><html><head><title>Connect - High quality middleware for node.js</title><meta http-equiv="Content-Type" content="text/html; charset=utf-8"><link rel="stylesheet" href="style.css"><script src="jquery.js"></script><script src="docs.js"></script></head><body><div id="content"><h1>Connect</h1><div id="exports.hasBody" class="comment"><h2>exports.hasBody()</h2><div class="description"><p>Return <code>true</code> if the request has a body, otherwise return <code>false</code>.</p></div><ul class="tags"><li><em>IncomingMessage</em> req </li><li>returns <em>Boolean</em> </li></ul><h3>Source</h3><pre><code>exports.hasBody = function(req) {
+  var encoding = 'transfer-encoding' in req.headers;
+  var length = 'content-length' in req.headers && req.headers['content-length'] !== '0';
+  return encoding || length;
+};</code></pre></div><div id="exports.mime" class="comment"><h2>exports.mime()</h2><div class="description"><p>Extract the mime type from the given request's<br /><em>Content-Type</em> header.</p></div><ul class="tags"><li><em>IncomingMessage</em> req </li><li>returns <em>String</em> </li></ul><h3>Source</h3><pre><code>exports.mime = function(req) {
   var str = req.headers['content-type'] || '';
   return str.split(';')[0];
 };</code></pre></div><div id="exports.error" class="comment"><h2>exports.error()</h2><div class="description"><p>Generate an <code>Error</code> from the given status <code>code</code><br />and optional <code>msg</code>.</p></div><ul class="tags"><li><em>Number</em> code </li><li><em>String</em> msg </li><li>returns <em>Error</em> </li></ul><h3>Source</h3><pre><code>exports.error = function(code, msg){
@@ -34,14 +38,6 @@ utils.merge(a, b);
     .replace(/</g, '&lt;')
     .replace(/>/g, '&gt;')
     .replace(/"/g, '&quot;');
-};</code></pre></div><div id="exports.uid" class="comment"><h2>exports.uid()</h2><div class="description"><p>Return a unique identifier with the given <code>len</code>.</p>
-
-<pre><code>utils.uid(10);
-// =&gt; "FDaS435D2z"
-</code></pre></div><ul class="tags"><li><em>Number</em> len </li><li>returns <em>String</em> </li></ul><h3>Source</h3><pre><code>exports.uid = function(len) {
-  return crypto.randomBytes(Math.ceil(len * 3 / 4))
-    .toString('base64')
-    .slice(0, len);
 };</code></pre></div><div id="exports.sign" class="comment"><h2>exports.sign()</h2><div class="description"><p>Sign the given <code>val</code> with <code>secret</code>.</p></div><ul class="tags"><li><em>String</em> val </li><li><em>String</em> secret </li><li>returns <em>String</em> </li></ul><h3>Source</h3><pre><code>exports.sign = function(val, secret){
   console.warn('do not use utils.sign(), use https://github.com/visionmedia/node-cookie-signature')
   return val + '.' + crypto
@@ -87,14 +83,21 @@ utils.merge(a, b);
       // no op
     }
   }
-}</code></pre></div><div id="exports.pause" class="comment"><h2>exports.pause</h2><div class="description"><p>Pause <code>data</code> and <code>end</code> events on the given <code>obj</code>.<br />Middleware performing async tasks <em>should</em> utilize<br />this utility (or similar), to re-emit data once<br />the async operation has completed, otherwise these<br />events may be lost.</p>
+};</code></pre></div><div id="exports.pause" class="comment"><h2>exports.pause</h2><div class="description"><p>Pause <code>data</code> and <code>end</code> events on the given <code>obj</code>.<br />Middleware performing async tasks <em>should</em> utilize<br />this utility (or similar), to re-emit data once<br />the async operation has completed, otherwise these<br />events may be lost. Pause is only required for<br />node versions less than 10, and is replaced with<br />noop's otherwise.</p>
 
 <pre><code> var pause = utils.pause(req);
  fs.readFile(path, function(){
     next();
     pause.resume();
  });
-</code></pre></div><ul class="tags"><li><em>Object</em> obj </li><li>returns <em>Object</em> </li></ul><h3>Source</h3><pre><code>exports.pause = require('pause');</code></pre></div><div id="exports.removeContentHeaders" class="comment"><h2>exports.removeContentHeaders()</h2><div class="description"><p>Strip <code>Content-*</code> headers from <code>res</code>.</p></div><ul class="tags"><li><em>ServerResponse</em> res </li></ul><h3>Source</h3><pre><code>exports.removeContentHeaders = function(res){
+</code></pre></div><ul class="tags"><li><em>Object</em> obj </li><li>returns <em>Object</em> </li></ul><h3>Source</h3><pre><code>exports.pause = exports.brokenPause
+  ? require('pause')
+  : function () {
+    return {
+      end: noop,
+      resume: noop
+    }
+  }</code></pre></div><div id="exports.removeContentHeaders" class="comment"><h2>exports.removeContentHeaders()</h2><div class="description"><p>Strip <code>Content-*</code> headers from <code>res</code>.</p></div><ul class="tags"><li><em>ServerResponse</em> res </li></ul><h3>Source</h3><pre><code>exports.removeContentHeaders = function(res){
   Object.keys(res._headers).forEach(function(field){
     if (0 == field.indexOf('content')) {
       res.removeHeader(field);
@@ -133,4 +136,6 @@ utils.merge(a, b);
   } else {
     return req._parsedUrl = parse(req.url);
   }
-};</code></pre></div><div id="exports.parseBytes" class="comment"><h2>exports.parseBytes</h2><div class="description"><p>Parse byte <code>size</code> string.</p></div><ul class="tags"><li><em>String</em> size </li><li>returns <em>Number</em> </li></ul><h3>Source</h3><pre><code>exports.parseBytes = require('bytes');</code></pre></div></div><ul id="menu"><li><a href="#exports.mime">exports.mime()</a></li><li><a href="#exports.error">exports.error()</a></li><li><a href="#exports.md5">exports.md5()</a></li><li><a href="#exports.merge">exports.merge()</a></li><li><a href="#exports.escape">exports.escape()</a></li><li><a href="#exports.uid">exports.uid()</a></li><li><a href="#exports.sign">exports.sign()</a></li><li><a href="#exports.unsign">exports.unsign()</a></li><li><a href="#exports.parseSignedCookies">exports.parseSignedCookies()</a></li><li><a href="#exports.parseSignedCookie">exports.parseSignedCookie()</a></li><li><a href="#exports.parseJSONCookies">exports.parseJSONCookies()</a></li><li><a href="#exports.parseJSONCookie">exports.parseJSONCookie()</a></li><li><a href="#exports.pause">exports.pause</a></li><li><a href="#exports.removeContentHeaders">exports.removeContentHeaders()</a></li><li><a href="#exports.conditionalGET">exports.conditionalGET()</a></li><li><a href="#exports.unauthorized">exports.unauthorized()</a></li><li><a href="#exports.notModified">exports.notModified()</a></li><li><a href="#exports.etag">exports.etag()</a></li><li><a href="#exports.parseCacheControl">exports.parseCacheControl()</a></li><li><a href="#exports.parseUrl">exports.parseUrl()</a></li><li><a href="#exports.parseBytes">exports.parseBytes</a></li></ul></body></html>
+};</code></pre></div><div id="exports.parseBytes" class="comment"><h2>exports.parseBytes</h2><div class="description"><p>Parse byte <code>size</code> string.</p></div><ul class="tags"><li><em>String</em> size </li><li>returns <em>Number</em> </li></ul><h3>Source</h3><pre><code>exports.parseBytes = require('bytes');
+
+function noop() {}</code></pre></div></div><ul id="menu"><li><a href="#exports.hasBody">exports.hasBody()</a></li><li><a href="#exports.mime">exports.mime()</a></li><li><a href="#exports.error">exports.error()</a></li><li><a href="#exports.md5">exports.md5()</a></li><li><a href="#exports.merge">exports.merge()</a></li><li><a href="#exports.escape">exports.escape()</a></li><li><a href="#exports.sign">exports.sign()</a></li><li><a href="#exports.unsign">exports.unsign()</a></li><li><a href="#exports.parseSignedCookies">exports.parseSignedCookies()</a></li><li><a href="#exports.parseSignedCookie">exports.parseSignedCookie()</a></li><li><a href="#exports.parseJSONCookies">exports.parseJSONCookies()</a></li><li><a href="#exports.parseJSONCookie">exports.parseJSONCookie()</a></li><li><a href="#exports.pause">exports.pause</a></li><li><a href="#exports.removeContentHeaders">exports.removeContentHeaders()</a></li><li><a href="#exports.conditionalGET">exports.conditionalGET()</a></li><li><a href="#exports.unauthorized">exports.unauthorized()</a></li><li><a href="#exports.notModified">exports.notModified()</a></li><li><a href="#exports.etag">exports.etag()</a></li><li><a href="#exports.parseCacheControl">exports.parseCacheControl()</a></li><li><a href="#exports.parseUrl">exports.parseUrl()</a></li><li><a href="#exports.parseBytes">exports.parseBytes</a></li></ul></body></html>

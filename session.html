@@ -3,20 +3,20 @@ exports.Cookie = Cookie;
 exports.Session = Session;
 exports.MemoryStore = MemoryStore;</code></pre></div><div id="warning" class="comment"><h2>warning</h2><div class="description"><p>Warning message for <code>MemoryStore</code> usage in production.</p></div><h3>Source</h3><pre><code>var warning = 'Warning: connection.session() MemoryStore is not\n'
   + 'designed for a production environment, as it will leak\n'
-  + 'memory, and will not scale past a single process.';</code></pre></div><div id="session" class="comment"><h2>session()</h2><div class="description"><h2>Session</h2>
+  + 'memory, and will not scale past a single process.';</code></pre></div><div id="session" class="comment"><h2>session()</h2><div class="description"><p>Session:</p>
 
 <p>Setup session store with the given <code>options</code>.</p>
 
 <p>Session data is <em>not</em> saved in the cookie itself, however<br />  cookies are used, so we must use the <a href="cookieParser.html">cookieParser()</a><br />  middleware <em>before</em> <code>session()</code>.</p>
 
-<h2>Examples</h2>
+<p>Examples:</p>
 
 <pre><code>connect()
   .use(connect.cookieParser())
   .use(connect.session({ secret: 'keyboard cat', key: 'sid', cookie: { secure: true }}))
 </code></pre>
 
-<h2>Options</h2>
+<p>Options:</p>
 
 <ul>
 <li><code>key</code> cookie name defaulting to <code>connect.sid</code></li>
@@ -26,13 +26,13 @@ exports.MemoryStore = MemoryStore;</code></pre></div><div id="warning" class="co
 <li><code>proxy</code> trust the reverse proxy when setting secure cookies (via "x-forwarded-proto")</li>
 </ul>
 
-<h2>Cookie option</h2>
+<p>Cookie option:</p>
 
-<p>By default <code>cookie.maxAge</code> is <code>null</code>, meaning no "expires" parameter is set<br /> so the cookie becomes a browser-session cookie. When the user closes the <br /> browser the cookie (and session) will be removed.</p>
+<p>By default <code>cookie.maxAge</code> is <code>null</code>, meaning no "expires" parameter is set<br /> so the cookie becomes a browser-session cookie. When the user closes the<br /> browser the cookie (and session) will be removed.</p>
 
 <h2>req.session</h2>
 
-<p>To store or access session data, simply use the request property <code>req.session</code>,<br /> which is (generally) serialized as JSON by the store, so nested objects <br /> are typically fine. For example below is a user-specific view counter:</p>
+<p>To store or access session data, simply use the request property <code>req.session</code>,<br /> which is (generally) serialized as JSON by the store, so nested objects<br /> are typically fine. For example below is a user-specific view counter:</p>
 
 <pre><code>  connect()
     .use(connect.favicon())
@@ -113,7 +113,7 @@ req.session.cookie.maxAge = hour;
 // =&gt; 30000
 </code></pre>
 
-<h2>Session Store Implementation</h2>
+<p>Session Store Implementation:</p>
 
 <p>Every session store <em>must</em> implement the following methods</p>
 
@@ -146,7 +146,7 @@ req.session.cookie.maxAge = hour;
 
   // generates the new session
   store.generate = function(req){
-    req.sessionID = utils.uid(24);
+    req.sessionID = uid(24);
     req.session = new Session(req);
     req.session.cookie = new Cookie(cookie);
   };
@@ -160,7 +160,7 @@ req.session.cookie.maxAge = hour;
 
     // Handle connection as if there is no session if
     // the store has temporarily disconnected etc
-    if (!storeReady) return next();
+    if (!storeReady) return debug('store is disconnected'), next();
 
     // pathname mismatch
     if (0 != req.originalUrl.indexOf(cookie.path || '/')) return next();
@@ -173,9 +173,8 @@ req.session.cookie.maxAge = hour;
     if (!secret) throw new Error('`secret` option required for sessions');
 
     // parse url
-    var url = parse(req)
-      , path = url.pathname
-      , originalHash;
+    var originalHash
+      , originalId;
 
     // expose store
     req.sessionStore = store;
@@ -194,19 +193,21 @@ req.session.cookie.maxAge = hour;
     res.on('header', function(){
       if (!req.session) return;
       var cookie = req.session.cookie
-        , proto = (req.headers['x-forwarded-proto'] || '').toLowerCase()
+        , proto = (req.headers['x-forwarded-proto'] || '').split(',')[0].toLowerCase().trim()
         , tls = req.connection.encrypted || (trustProxy && 'https' == proto)
-        , secured = cookie.secure && tls
         , isNew = unsignedCookie != req.sessionID;
 
       // only send secure cookies via https
-      if (cookie.secure && !secured) return debug('not secured');
+      if (cookie.secure && !tls) return debug('not secured');
+
+      // long expires, handle expiry server-side
+      if (!isNew && cookie.hasLongExpires) return debug('already set cookie');
 
       // browser-session length cookie
       if (null == cookie.expires) {
         if (!isNew) return debug('already set browser-session cookie');
-      // compare hashes
-      } else if (originalHash == hash(req.session)) {
+      // compare hashes and ids
+      } else if (originalHash == hash(req.session) && originalId == req.session.id) {
         return debug('unmodified session');
       }
 
@@ -223,7 +224,8 @@ req.session.cookie.maxAge = hour;
       if (!req.session) return res.end(data, encoding);
       debug('saving');
       req.session.resetMaxAge();
-      req.session.save(function(){
+      req.session.save(function(err){
+        if (err) console.error(err.stack);
         debug('saved');
         res.end(data, encoding);
       });
@@ -254,11 +256,11 @@ req.session.cookie.maxAge = hour;
       next = function(err){
         _next(err);
         pause.resume();
-      }
+      };
 
       // error handling
       if (err) {
-        debug('error');
+        debug('error %j', err);
         if ('ENOENT' == err.code) {
           generate();
           next();
@@ -274,13 +276,14 @@ req.session.cookie.maxAge = hour;
       } else {
         debug('session found');
         store.createSession(req, sess);
+        originalId = req.sessionID;
         originalHash = hash(sess);
         next();
       }
     });
   };
 };</code></pre></div><div id="hash" class="comment"><h2>hash()</h2><div class="description"><p>Hash the given <code>sess</code> object omitting changes<br />to <code>.cookie</code>.</p></div><ul class="tags"><li><em>Object</em> sess </li><li>returns <em>String</em> </li></ul><h3>Source</h3><pre><code>function hash(sess) {
-  return crc16(JSON.stringify(sess, function(key, val){
+  return crc32.signed(JSON.stringify(sess, function(key, val){
     if ('cookie' != key) return val;
   }));
 }</code></pre></div></div><ul id="menu"><li><a href="#"></a></li><li><a href="#exports.Store">exports.Store</a></li><li><a href="#warning">warning</a></li><li><a href="#session">session()</a></li><li><a href="#hash">hash()</a></li></ul></body></html>

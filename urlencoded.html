@@ -1,23 +1,23 @@
 <!DOCTYPE html><html><head><title>Connect - High quality middleware for node.js</title><meta http-equiv="Content-Type" content="text/html; charset=utf-8"><link rel="stylesheet" href="style.css"><script src="jquery.js"></script><script src="docs.js"></script></head><body><div id="content"><h1>Connect</h1><div id="noop" class="comment"><h2>noop()</h2><div class="description"><p>noop middleware.</p></div><h3>Source</h3><pre><code>function noop(req, res, next) {
   next();
-}</code></pre></div><div id="" class="comment"><h2></h2><div class="description"><h2>Urlencoded</h2>
+}</code></pre></div><div id="" class="comment"><h2></h2><div class="description"><p>Urlencoded:</p>
 
 <p>Parse x-ww-form-urlencoded request bodies,<br /> providing the parsed object as <code>req.body</code>.</p>
 
-<h2>Options</h2>
+<p>Options:</p>
 
 <ul>
-<li><code>limit</code>  byte limit disabled by default</li>
+<li><code>limit</code>  byte limit [1mb]</li>
 </ul></div><ul class="tags"><li><em>Object</em> options </li><li>returns <em>Function</em> </li></ul><h3>Source</h3><pre><code>exports = module.exports = function(options){
   options = options || {};
 
-  var limit = options.limit
-    ? _limit(options.limit)
-    : noop;
+  var limit = _limit(options.limit || '1mb');
 
   return function urlencoded(req, res, next) {
     if (req._body) return next();
     req.body = req.body || {};
+
+    if (!utils.hasBody(req)) return next();
 
     // check Content-Type
     if ('application/x-www-form-urlencoded' != utils.mime(req)) return next();
@@ -36,11 +36,11 @@
           req.body = buf.length
             ? qs.parse(buf, options)
             : {};
-          next();
         } catch (err){
           err.body = buf;
-          next(err);
+          return next(err);
         }
+        next();
       });
     });
   }

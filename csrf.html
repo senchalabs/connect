@@ -1,38 +1,85 @@
-<!DOCTYPE html><html><head><title>Connect - High quality middleware for node.js</title><meta http-equiv="Content-Type" content="text/html; charset=utf-8"><link rel="stylesheet" href="style.css"><script src="jquery.js"></script><script src="docs.js"></script></head><body><div id="content"><h1>Connect</h1><div id="module.exports" class="comment"><h2></h2><div class="description"><h2>Anti CSRF</h2>
+<!DOCTYPE html><html><head><title>Connect - High quality middleware for node.js</title><meta http-equiv="Content-Type" content="text/html; charset=utf-8"><link rel="stylesheet" href="style.css"><script src="jquery.js"></script><script src="docs.js"></script></head><body><div id="content"><h1>Connect</h1><div id="module.exports" class="comment"><h2></h2><div class="description"><p>Anti CSRF:</p>
 
-<p>CRSF protection middleware.</p>
+<p>CSRF protection middleware.</p>
 
-<p>By default this middleware generates a token named "_csrf"<br />which should be added to requests which mutate<br />state, within a hidden form field, query-string etc. This<br />token is validated against the visitor's <code>req.session._csrf</code><br />property.</p>
+<p>This middleware adds a <code>req.csrfToken()</code> function to make a token<br />which should be added to requests which mutate<br />state, within a hidden form field, query-string etc. This<br />token is validated against the visitor's session.</p>
 
 <p>The default <code>value</code> function checks <code>req.body</code> generated<br />by the <code>bodyParser()</code> middleware, <code>req.query</code> generated<br />by <code>query()</code>, and the "X-CSRF-Token" header field.</p>
 
 <p>This middleware requires session support, thus should be added<br />somewhere <em>below</em> <code>session()</code> and <code>cookieParser()</code>.</p>
 
-<h2>Options</h2>
+<p>Options:</p>
 
 <ul>
-<li><code>value</code> a function accepting the request, returning the token </li>
+<li><code>value</code> a function accepting the request, returning the token</li>
 </ul></div><ul class="tags"><li><em>Object</em> options </li></ul><h3>Source</h3><pre><code>module.exports = function csrf(options) {
-  var options = options || {}
-    , value = options.value || defaultValue;
+  options = options || {};
+  var value = options.value || defaultValue;
 
   return function(req, res, next){
-    // generate CSRF token
-    var token = req.session._csrf || (req.session._csrf = utils.uid(24));
-
-    // ignore these methods
-    if ('GET' == req.method || 'HEAD' == req.method || 'OPTIONS' == req.method) return next();
-
-    // determine value
-    var val = value(req);
-
-    // check
-    if (val != token) return next(utils.error(403));
     
-    next();
+    // already have one
+    var secret = req.session._csrfSecret;
+    if (secret) return createToken(secret);
+
+    // generate secret
+    uid(24, function(err, secret){
+      if (err) return next(err);
+      req.session._csrfSecret = secret;
+      createToken(secret);
+    });
+    
+    // generate the token
+    function createToken(secret) {
+      var token;
+
+      // lazy-load token
+      req.csrfToken = function csrfToken() {
+        return token || (token = saltedToken(secret));
+      };
+      
+      // compatibility with old middleware
+      Object.defineProperty(req.session, '_csrf', {
+        configurable: true,
+        get: function() {
+          console.warn('req.session._csrf is deprecated, use req.csrfToken() instead');
+          return req.csrfToken();
+        }
+      });
+      
+      // ignore these methods
+      if ('GET' == req.method || 'HEAD' == req.method || 'OPTIONS' == req.method) return next();
+      
+      // determine user-submitted value
+      var val = value(req);
+      
+      // check
+      if (!checkToken(val, secret)) return next(utils.error(403));
+      
+      next();
+    }
   }
 };</code></pre></div><div id="defaultValue" class="comment"><h2>defaultValue()</h2><div class="description"><p>Default value function, checking the <code>req.body</code><br />and <code>req.query</code> for the CSRF token.</p></div><ul class="tags"><li><em>IncomingMessage</em> req </li><li>returns <em>String</em> </li></ul><h3>Source</h3><pre><code>function defaultValue(req) {
   return (req.body && req.body._csrf)
     || (req.query && req.query._csrf)
-    || (req.headers['x-csrf-token']);
-}</code></pre></div></div><ul id="menu"><li><a href="#module.exports"></a></li><li><a href="#defaultValue">defaultValue()</a></li></ul></body></html>
+    || (req.headers['x-csrf-token'])
+    || (req.headers['x-xsrf-token']);
+}</code></pre></div><div id="saltedToken" class="comment"><h2>saltedToken()</h2><div class="description"><p>Return salted token.</p></div><ul class="tags"><li><em>String</em> secret </li><li>returns <em>String</em> </li></ul><h3>Source</h3><pre><code>function saltedToken(secret) {
+  return createToken(generateSalt(10), secret);
+}</code></pre></div><div id="createToken" class="comment"><h2>createToken()</h2><div class="description"><p>Creates a CSRF token from a given salt and secret.</p></div><ul class="tags"><li><em>String</em> salt (should be 10 characters)</li><li><em>String</em> secret </li><li>returns <em>String</em> </li></ul><h3>Source</h3><pre><code>function createToken(salt, secret) {
+  return salt + crypto
+    .createHash('sha1')
+    .update(salt + secret)
+    .digest('base64');
+}</code></pre></div><div id="checkToken" class="comment"><h2>checkToken()</h2><div class="description"><p>Checks if a given CSRF token matches the given secret.</p></div><ul class="tags"><li><em>String</em> token </li><li><em>String</em> secret </li><li>returns <em>Boolean</em> </li></ul><h3>Source</h3><pre><code>function checkToken(token, secret) {
+  if ('string' != typeof token) return false;
+  return token === createToken(token.slice(0, 10), secret);
+}</code></pre></div><div id="generateSalt" class="comment"><h2>generateSalt()</h2><div class="description"><p>Generates a random salt, using a fast non-blocking PRNG (Math.random()).</p></div><ul class="tags"><li><em>Number</em> length </li><li>returns <em>String</em> </li></ul><h3>Source</h3><pre><code>function generateSalt(length) {
+  var i, r = [];
+  for (i = 0; i < length; ++i) {
+    r.push(SALTCHARS[Math.floor(Math.random() * SALTCHARS.length)]);
+  }
+  return r.join('');
+}
+
+var SALTCHARS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';</code></pre></div></div><ul id="menu"><li><a href="#module.exports"></a></li><li><a href="#defaultValue">defaultValue()</a></li><li><a href="#saltedToken">saltedToken()</a></li><li><a href="#createToken">createToken()</a></li><li><a href="#checkToken">checkToken()</a></li><li><a href="#generateSalt">generateSalt()</a></li></ul></body></html>

@@ -1,4 +1,4 @@
-<!DOCTYPE html><html><head><title>Connect - High quality middleware for node.js</title><meta http-equiv="Content-Type" content="text/html; charset=utf-8"><link rel="stylesheet" href="style.css"><script src="jquery.js"></script><script src="docs.js"></script></head><body><div id="content"><h1>Connect</h1><div id="module.exports" class="comment"><h2></h2><div class="description"><h2>Vhost</h2>
+<!DOCTYPE html><html><head><title>Connect - High quality middleware for node.js</title><meta http-equiv="Content-Type" content="text/html; charset=utf-8"><link rel="stylesheet" href="style.css"><script src="jquery.js"></script><script src="docs.js"></script></head><body><div id="content"><h1>Connect</h1><div id="module.exports" class="comment"><h2></h2><div class="description"><p>Vhost:</p>
 
 <p>Setup vhost for the given <code>hostname</code> and <code>server</code>.</p>
 
@@ -8,10 +8,10 @@
   .use(connect.vhost('*.com', mainApp))
 </code></pre>
 
-<p>The <code>server</code> may be a Connect server or<br /> a regular Node <code>http.Server</code>. </p></div><ul class="tags"><li><em>String</em> hostname </li><li><em>Server</em> server </li><li>returns <em>Function</em> </li></ul><h3>Source</h3><pre><code>module.exports = function vhost(hostname, server){
+<p>The <code>server</code> may be a Connect server or<br /> a regular Node <code>http.Server</code>.</p></div><ul class="tags"><li><em>String</em> hostname </li><li><em>Server</em> server </li><li>returns <em>Function</em> </li></ul><h3>Source</h3><pre><code>module.exports = function vhost(hostname, server){
   if (!hostname) throw new Error('vhost hostname required');
   if (!server) throw new Error('vhost server required');
-  var regexp = new RegExp('^' + hostname.replace(/[*]/g, '(.*?)') + '$', 'i');
+  var regexp = new RegExp('^' + hostname.replace(/[^*\w]/g, '\\$&').replace(/[*]/g, '(?:.*?)')  + '$', 'i');
   if (server.onvhost) server.onvhost(hostname);
   return function vhost(req, res, next){
     if (!req.headers.host) return next();

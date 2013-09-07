@@ -1,4 +1,4 @@
-<!DOCTYPE html><html><head><title>Connect - High quality middleware for node.js</title><meta http-equiv="Content-Type" content="text/html; charset=utf-8"><link rel="stylesheet" href="style.css"><script src="jquery.js"></script><script src="docs.js"></script></head><body><div id="content"><h1>Connect</h1><div id="module.exports" class="comment"><h2></h2><div class="description"><h2>Basic Auth</h2>
+<!DOCTYPE html><html><head><title>Connect - High quality middleware for node.js</title><meta http-equiv="Content-Type" content="text/html; charset=utf-8"><link rel="stylesheet" href="style.css"><script src="jquery.js"></script><script src="docs.js"></script></head><body><div id="content"><h1>Connect</h1><div id="module.exports" class="comment"><h2></h2><div class="description"><p>Basic Auth:</p>
 
 <p>Enfore basic authentication by providing a <code>callback(user, pass)</code>,<br />which must return <code>true</code> in order to gain access. Alternatively an async<br />method is provided as well, invoking <code>callback(user, pass, callback)</code>. Populates<br /><code>req.user</code>. The final alternative is simply passing username / password<br />strings.</p>
 
@@ -11,7 +11,7 @@
 
 <pre><code>connect()
   .use(connect.basicAuth(function(user, pass){
-    return 'tj' == user &amp; 'wahoo' == pass;
+    return 'tj' == user &amp;&amp; 'wahoo' == pass;
   }))
 </code></pre>
 
@@ -43,16 +43,18 @@
     if (req.user) return next();
     if (!authorization) return unauthorized(res, realm);
 
-    var parts = authorization.split(' ')
+    var parts = authorization.split(' ');
 
     if (parts.length !== 2) return next(utils.error(400));
 
     var scheme = parts[0]
-      , credentials = new Buffer(parts[1], 'base64').toString().split(':')
-      , user = credentials[0]
-      , pass = credentials[1];
+      , credentials = new Buffer(parts[1], 'base64').toString()
+      , index = credentials.indexOf(':');
 
-    if ('Basic' != scheme) return next(utils.error(400));
+    if ('Basic' != scheme || index < 0) return next(utils.error(400));
+    
+    var user = credentials.slice(0, index)
+      , pass = credentials.slice(index + 1);
 
     // async
     if (callback.length >= 3) {

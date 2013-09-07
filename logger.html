@@ -1,8 +1,8 @@
-<!DOCTYPE html><html><head><title>Connect - High quality middleware for node.js</title><meta http-equiv="Content-Type" content="text/html; charset=utf-8"><link rel="stylesheet" href="style.css"><script src="jquery.js"></script><script src="docs.js"></script></head><body><div id="content"><h1>Connect</h1><div id="" class="comment"><h2></h2><div class="description"><h2>Logger</h2>
+<!DOCTYPE html><html><head><title>Connect - High quality middleware for node.js</title><meta http-equiv="Content-Type" content="text/html; charset=utf-8"><link rel="stylesheet" href="style.css"><script src="jquery.js"></script><script src="docs.js"></script></head><body><div id="content"><h1>Connect</h1><div id="" class="comment"><h2></h2><div class="description"><p>Logger:</p>
 
 <p>Log requests with the given <code>options</code> or a <code>format</code> string.</p>
 
-<h2>Options</h2>
+<p>Options:</p>
 
 <ul>
 <li><code>format</code>  Format string, see below for tokens</li>
@@ -11,7 +11,7 @@
 <li><code>immediate</code>  Write log line on request instead of response (for response times)</li>
 </ul>
 
-<h2>Tokens</h2>
+<p>Tokens:</p>
 
 <ul>
 <li><code>:req[header]</code> ex: <code>:req[Accept]</code></li>
@@ -27,7 +27,7 @@
 <li><code>:status</code></li>
 </ul>
 
-<h2>Formats</h2>
+<p>Formats:</p>
 
 <p>Pre-defined formats that ship with connect:</p>
 
@@ -38,7 +38,7 @@
 <li><code>dev</code> concise output colored by response status for development use</li>
 </ul>
 
-<h2>Examples</h2>
+<p>Examples:</p>
 
 <pre><code> connect.logger() // default
  connect.logger('short')
@@ -46,17 +46,17 @@
  connect.logger({ immediate: true, format: 'dev' })
  connect.logger(':method :url - :referrer')
  connect.logger(':req[content-type] -&gt; :res[content-type]')
- connect.logger(function(req, res){ return 'some format string' })
+ connect.logger(function(tokens, req, res){ return 'some format string' })
 </code></pre>
 
-<h2>Defining Tokens</h2>
+<p>Defining Tokens:</p>
 
 <p>To define a token, simply invoke <code>connect.logger.token()</code> with the<br />  name and a callback function. The value returned is then available<br />  as ":type" in this case.</p>
 
 <pre><code> connect.logger.token('type', function(req, res){ return req.headers['content-type']; })
 </code></pre>
 
-<h2>Defining Formats</h2>
+<p>Defining Formats:</p>
 
 <p>All default formats are defined this way, however it's public API as well:</p>
 
@@ -154,13 +154,13 @@
     ? ''
     : len = ' - ' + bytes(len);
 
-  return '\033[90m' + req.method
+  return '\x1b[90m' + req.method
     + ' ' + req.originalUrl + ' '
-    + '\033[' + color + 'm' + res.statusCode
-    + ' \033[90m'
+    + '\x1b[' + color + 'm' + res.statusCode
+    + ' \x1b[90m'
     + (new Date - req._startTime)
     + 'ms' + len
-    + '\033[0m';
+    + '\x1b[0m';
 });</code></pre></div><div id="" class="comment"><h2></h2><div class="description"><p>request url</p></div><h3>Source</h3><pre><code>exports.token('url', function(req){
   return req.originalUrl || req.url;
 });</code></pre></div><div id="" class="comment"><h2></h2><div class="description"><p>request method</p></div><h3>Source</h3><pre><code>exports.token('method', function(req){
@@ -174,7 +174,10 @@
 });</code></pre></div><div id="" class="comment"><h2></h2><div class="description"><p>normalized referrer</p></div><h3>Source</h3><pre><code>exports.token('referrer', function(req){
   return req.headers['referer'] || req.headers['referrer'];
 });</code></pre></div><div id="" class="comment"><h2></h2><div class="description"><p>remote address</p></div><h3>Source</h3><pre><code>exports.token('remote-addr', function(req){
-  return req.socket && (req.socket.remoteAddress || (req.socket.socket && req.socket.socket.remoteAddress));
+  if (req.ip) return req.ip;
+  var sock = req.socket;
+  if (sock.socket) return sock.socket.remoteAddress;
+  return sock.remoteAddress;
 });</code></pre></div><div id="" class="comment"><h2></h2><div class="description"><p>HTTP version</p></div><h3>Source</h3><pre><code>exports.token('http-version', function(req){
   return req.httpVersionMajor + '.' + req.httpVersionMinor;
 });</code></pre></div><div id="" class="comment"><h2></h2><div class="description"><p>UA string</p></div><h3>Source</h3><pre><code>exports.token('user-agent', function(req){

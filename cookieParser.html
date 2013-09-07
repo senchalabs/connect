@@ -1,8 +1,8 @@
-<!DOCTYPE html><html><head><title>Connect - High quality middleware for node.js</title><meta http-equiv="Content-Type" content="text/html; charset=utf-8"><link rel="stylesheet" href="style.css"><script src="jquery.js"></script><script src="docs.js"></script></head><body><div id="content"><h1>Connect</h1><div id="module.exports" class="comment"><h2></h2><div class="description"><h2>Cookie parser</h2>
+<!DOCTYPE html><html><head><title>Connect - High quality middleware for node.js</title><meta http-equiv="Content-Type" content="text/html; charset=utf-8"><link rel="stylesheet" href="style.css"><script src="jquery.js"></script><script src="docs.js"></script></head><body><div id="content"><h1>Connect</h1><div id="module.exports" class="comment"><h2></h2><div class="description"><p>Cookie parser:</p>
 
 <p>Parse <em>Cookie</em> header and populate <code>req.cookies</code><br />with an object keyed by the cookie names. Optionally<br />you may enabled signed cookie support by passing<br />a <code>secret</code> string, which assigns <code>req.secret</code> so<br />it may be used by other middleware.</p>
 
-<h2>Examples</h2>
+<p>Examples:</p>
 
 <pre><code>connect()
   .use(connect.cookieParser('optional secret string'))
@@ -23,8 +23,7 @@
         req.cookies = cookie.parse(cookies);
         if (secret) {
           req.signedCookies = utils.parseSignedCookies(req.cookies, secret);
-          var obj = utils.parseJSONCookies(req.signedCookies);
-          req.signedCookies = obj;
+          req.signedCookies = utils.parseJSONCookies(req.signedCookies);
         }
         req.cookies = utils.parseJSONCookies(req.cookies);
       } catch (err) {

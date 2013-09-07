@@ -1,14 +1,14 @@
-<!DOCTYPE html><html><head><title>Connect - High quality middleware for node.js</title><meta http-equiv="Content-Type" content="text/html; charset=utf-8"><link rel="stylesheet" href="style.css"><script src="jquery.js"></script><script src="docs.js"></script></head><body><div id="content"><h1>Connect</h1><div id="module.exports" class="comment"><h2></h2><div class="description"><h2>Favicon</h2>
+<!DOCTYPE html><html><head><title>Connect - High quality middleware for node.js</title><meta http-equiv="Content-Type" content="text/html; charset=utf-8"><link rel="stylesheet" href="style.css"><script src="jquery.js"></script><script src="docs.js"></script></head><body><div id="content"><h1>Connect</h1><div id="module.exports" class="comment"><h2></h2><div class="description"><p>Favicon:</p>
 
 <p>By default serves the connect favicon, or the favicon<br />located by the given <code>path</code>.</p>
 
-<h2>Options</h2>
+<p>Options:</p>
 
 <ul>
 <li><code>maxAge</code>  cache-control max-age directive, defaulting to 1 day</li>
 </ul>
 
-<h2>Examples</h2>
+<p>Examples:</p>
 
 <p>Serve default favicon:</p>
 
@@ -26,7 +26,7 @@
 <p>Serve custom favicon:</p>
 
 <pre><code>connect()
-  .use(connect.favicon('public/favicon.ico))
+  .use(connect.favicon('public/favicon.ico'))
 </code></pre></div><ul class="tags"><li><em>String</em> path </li><li><em>Object</em> options </li><li>returns <em>Function</em> </li></ul><h3>Source</h3><pre><code>module.exports = function favicon(path, options){
   var options = options || {}
     , path = path || __dirname + '/../public/favicon.ico'

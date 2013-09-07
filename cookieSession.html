@@ -1,4 +1,4 @@
-<!DOCTYPE html><html><head><title>Connect - High quality middleware for node.js</title><meta http-equiv="Content-Type" content="text/html; charset=utf-8"><link rel="stylesheet" href="style.css"><script src="jquery.js"></script><script src="docs.js"></script></head><body><div id="content"><h1>Connect</h1><div id="module.exports" class="comment"><h2></h2><div class="description"><h2>Cookie Session</h2>
+<!DOCTYPE html><html><head><title>Connect - High quality middleware for node.js</title><meta http-equiv="Content-Type" content="text/html; charset=utf-8"><link rel="stylesheet" href="style.css"><script src="jquery.js"></script><script src="docs.js"></script></head><body><div id="content"><h1>Connect</h1><div id="module.exports" class="comment"><h2></h2><div class="description"><p>Cookie Session:</p>
 
 <p>Cookie session middleware.</p>
 
@@ -7,7 +7,7 @@
  app.use(connect.cookieSession({ secret: 'tobo!', cookie: { maxAge: 60 * 60 * 1000 }}));
 </code></pre>
 
-<h2>Options</h2>
+<p>Options:</p>
 
 <ul>
 <li><code>key</code> cookie name defaulting to <code>connect.sess</code></li>
@@ -16,15 +16,15 @@
 <li><code>proxy</code> trust the reverse proxy when setting secure cookies (via "x-forwarded-proto")</li>
 </ul>
 
-<h2>Clearing sessions</h2>
+<p>Clearing sessions:</p>
 
 <p>To clear the session simply set its value to <code>null</code>,<br /> <code>cookieSession()</code> will then respond with a 1970 Set-Cookie.</p>
 
 <pre><code>req.session = null;
 </code></pre></div><ul class="tags"><li><em>Object</em> options </li><li>returns <em>Function</em> </li></ul><h3>Source</h3><pre><code>module.exports = function cookieSession(options){
   // TODO: utilize Session/Cookie to unify API
-  var options = options || {}
-    , key = options.key || 'connect.sess'
+  options = options || {};
+  var key = options.key || 'connect.sess'
     , trustProxy = options.proxy;
 
   return function cookieSession(req, res, next) {
@@ -43,14 +43,16 @@
     // cookieParser secret
     if (!options.secret && req.secret) {
       req.session = req.signedCookies[key] || {};
+      req.session.cookie = cookie;
     } else {
       // TODO: refactor
       var rawCookie = req.cookies[key];
       if (rawCookie) {
         var unsigned = utils.parseSignedCookie(rawCookie, secret);
         if (unsigned) {
-          var originalHash = crc16(unsigned);
+          var originalHash = crc32.signed(unsigned);
           req.session = utils.parseJSONCookie(unsigned) || {};
+          req.session.cookie = cookie;
         }
       }
     }
@@ -68,18 +70,17 @@
 
       // check security
       var proto = (req.headers['x-forwarded-proto'] || '').toLowerCase()
-        , tls = req.connection.encrypted || (trustProxy && 'https' == proto)
-        , secured = cookie.secure && tls;
+        , tls = req.connection.encrypted || (trustProxy && 'https' == proto.split(/\s*,\s*/)[0]);
 
       // only send secure cookies via https
-      if (cookie.secure && !secured) return debug('not secured');
+      if (cookie.secure && !tls) return debug('not secured');
 
       // serialize
       debug('serializing %j', req.session);
       var val = 'j:' + JSON.stringify(req.session);
 
       // compare hashes, no need to set-cookie if unchanged
-      if (originalHash == crc16(val)) return debug('unmodified session');
+      if (originalHash == crc32.signed(val)) return debug('unmodified session');
 
       // set-cookie
       val = 's:' + signature.sign(val, secret);

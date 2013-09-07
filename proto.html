@@ -2,7 +2,7 @@
 
 <p>For example if we were to mount a function at <em>/admin</em>, it would<br />be invoked on <em>/admin</em>, and <em>/admin/settings</em>, however it would<br />not be invoked for <em>/</em>, or <em>/posts</em>.</p>
 
-<h2>Examples</h2>
+<p>Examples:</p>
 
 <pre><code> var app = connect();
  app.use(connect.favicon());
@@ -106,7 +106,7 @@
         res.statusCode = 404;
         res.setHeader('Content-Type', 'text/plain');
         if ('HEAD' == req.method) return res.end();
-        res.end('Cannot ' + req.method + ' ' + utils.escape(req.originalUrl));
+        res.end('Cannot ' + utils.escape(req.method) + ' ' + utils.escape(req.originalUrl));
       }
       return;
     }
@@ -116,7 +116,7 @@
       if (undefined == path) path = '/';
 
       // skip this layer if the route doesn't match.
-      if (0 != path.toLowerCase().indexOf(layer.route)) return next(err);
+      if (0 != path.toLowerCase().indexOf(layer.route.toLowerCase())) return next(err);
 
       c = path[layer.route.length];
       if (c && '/' != c && '.' != c) return next(err);
@@ -132,7 +132,7 @@
         slashAdded = true;
       }
 
-      debug('%s', layer.handle.name || 'anonymous');
+      debug('%s %s : %s', layer.handle.name || 'anonymous', layer.route, req.originalUrl);
       var arity = layer.handle.length;
       if (err) {
         if (arity === 4) {
@@ -152,9 +152,9 @@
   next();
 };</code></pre></div><div id="app.listen" class="comment"><h2>app.listen()</h2><div class="description"><p>Listen for connections.</p>
 
-<p>This method takes the same arguments<br />as node's <code>http.Server#listen()</code>.  </p>
+<p>This method takes the same arguments<br />as node's <code>http.Server#listen()</code>.</p>
 
-<h2>HTTP and HTTPS</h2>
+<p>HTTP and HTTPS:</p>
 
 <p>If you run your application both as HTTP<br />and HTTPS you may wrap them individually,<br />since your Connect "server" is really just<br />a JavaScript <code>Function</code>.</p>
 
