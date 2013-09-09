@@ -1,4 +1,16 @@
 
+2.9.0 / 2013-09-07 
+==================
+
+ * multipart: add docs regarding tmpfiles
+ * multipart: add .name back to file parts
+ * multipart: use multiparty instead of formidable
+
+2.8.8 / 2013-09-02 
+==================
+
+ * csrf: change to math.random() salt and remove csrfToken() callback 
+
 2.8.7 / 2013-08-28 
 ==================
 
