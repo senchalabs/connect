@@ -1,9 +1,13 @@
+html {
+  min-height: 100%;
+}
 body {
   margin: 0;
   padding: 80px 100px;
   font: 13px "Helvetica Neue", "Lucida Grande", "Arial";
-  background: #ECE9E9 -webkit-gradient(linear, 0% 0%, 0% 100%, from(#fff), to(#ECE9E9));
-  background: #ECE9E9 -moz-linear-gradient(top, #fff, #ECE9E9);
+  background-color: #fff;
+  background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#fff), to(#ECE9E9));
+  background-image: -moz-linear-gradient(top, #fff, #ECE9E9);
   background-repeat: no-repeat;
   color: #555;
   -webkit-font-smoothing: antialiased;
@@ -64,7 +68,7 @@ a:hover {
   color: #303030;
 }
 #stacktrace {
-	margin-top: 15px;
+  margin-top: 15px;
 }
 .directory h1 {
   margin-bottom: 15px;
@@ -83,7 +87,7 @@ ul#files li img {
   left: 5px;
 }
 ul#files li a {
-   position: relative;
+  position: relative;
   display: block;
   margin: 1px;
   width: 30%;
@@ -92,8 +96,6 @@ ul#files li a {
   text-indent: 8px;
   float: left;
   border: 1px solid transparent;
-  -webkit-border-radius: 5px;
-  -moz-border-radius: 5px;
   border-radius: 5px;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -120,15 +122,15 @@ ul#files li a.highlight {
   width: 90px;
   -webkit-transition: width ease 0.2s, opacity ease 0.4s;
   -moz-transition: width ease 0.2s, opacity ease 0.4s;
-  -webkit-border-radius: 32px;
-  -moz-border-radius: 32px;
-  -webkit-box-shadow: inset 0px 0px 3px rgba(0, 0, 0, 0.25), inset 0px 1px 3px rgba(0, 0, 0, 0.7), 0px 1px 0px rgba(255, 255, 255, 0.03);
-  -moz-box-shadow: inset 0px 0px 3px rgba(0, 0, 0, 0.25), inset 0px 1px 3px rgba(0, 0, 0, 0.7), 0px 1px 0px rgba(255, 255, 255, 0.03);
+  border-radius: 32px;
+  box-shadow: inset 0 0 3px rgba(0, 0, 0, 0.25), inset 0 1px 3px rgba(0, 0, 0, 0.7), 0 1px 0 rgba(255, 255, 255, 0.03);
   -webkit-font-smoothing: antialiased;
   text-align: left;
   font: 13px "Helvetica Neue", Arial, sans-serif;
   padding: 4px 10px;
   border: none;
+  *border: 1px solid #999;
+  border: 1px solid #999\9;
   background: transparent;
   margin-bottom: 0;
   outline: none;
