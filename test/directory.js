@@ -11,11 +11,10 @@ describe('directory()', function(){
       .get('/')
       .set('Accept', 'application/json')
       .end(function(res){
-        var arr = JSON.parse(res.body);
-        arr.should.include('lib');
-        arr.should.include('node_modules');
-        arr.should.include('docs');
-        arr.should.include('Readme.md');
+        res.body.should.include('"name":"lib"');
+        res.body.should.include('"name":"node_modules"');
+        res.body.should.include('"name":"docs"');
+        res.body.should.include('"name":"Readme.md"');
         done();
       });
     })
@@ -40,8 +39,8 @@ describe('directory()', function(){
       .get('/')
       .set('Accept', 'text/plain')
       .end(function(res){
-        res.body.should.include('lib')
-        res.body.should.include('docs')
+        res.body.should.include('"name":"lib"');
+        res.body.should.include('"name":"docs"');
         done();
       });
     })
