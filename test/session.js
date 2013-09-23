@@ -108,10 +108,23 @@ describe('connect.session()', function(){
     })
   })
   describe('generate option', function() {
-    it('should not generate a session when set to false', function(done){
+    it('should generate a session when function returns true', function(done){
       var app = connect()
         .use(connect.cookieParser())
-        .use(connect.session({ secret: 'keyboard cat', generate: false }))
+        .use(connect.session({ secret: 'keyboard cat', generate: function() { return true } }))
+        .use(respond);
+
+      app.request()
+      .get('/')
+      .end(function(res){
+        res.headers['set-cookie'].should.have.length(1);
+        done();
+      });
+    });
+    it('should not generate a session when function returns false', function(done){
+      var app = connect()
+        .use(connect.cookieParser())
+        .use(connect.session({ secret: 'keyboard cat', generate: function() { return false } }))
         .use(respond);
 
       app.request()
@@ -120,7 +133,7 @@ describe('connect.session()', function(){
         res.headers.should.not.have.property('set-cookie');
         done();
       });
-    })
+    });
   })
 
   it('should retain the sid', function(done){
