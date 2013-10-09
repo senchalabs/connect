@@ -26,28 +26,28 @@ http.createServer(app).listen(3000);
 
 ## Middleware
 
-  - [csrf](http://www.senchalabs.org/connect/csrf.html)
   - [basicAuth](http://www.senchalabs.org/connect/basicAuth.html)
   - [bodyParser](http://www.senchalabs.org/connect/bodyParser.html)
-  - [json](http://www.senchalabs.org/connect/json.html)
-  - [multipart](http://www.senchalabs.org/connect/multipart.html)
-  - [urlencoded](http://www.senchalabs.org/connect/urlencoded.html)
-  - [cookieParser](http://www.senchalabs.org/connect/cookieParser.html)
-  - [directory](http://www.senchalabs.org/connect/directory.html)
   - [compress](http://www.senchalabs.org/connect/compress.html)
+  - [cookieParser](http://www.senchalabs.org/connect/cookieParser.html)
+  - [cookieSession](http://www.senchalabs.org/connect/cookieSession.html)
+  - [csrf](http://www.senchalabs.org/connect/csrf.html)
+  - [directory](http://www.senchalabs.org/connect/directory.html)
   - [errorHandler](http://www.senchalabs.org/connect/errorHandler.html)
   - [favicon](http://www.senchalabs.org/connect/favicon.html)
+  - [json](http://www.senchalabs.org/connect/json.html)
   - [limit](http://www.senchalabs.org/connect/limit.html)
   - [logger](http://www.senchalabs.org/connect/logger.html)
   - [methodOverride](http://www.senchalabs.org/connect/methodOverride.html)
+  - [multipart](http://www.senchalabs.org/connect/multipart.html)
+  - [urlencoded](http://www.senchalabs.org/connect/urlencoded.html)
   - [query](http://www.senchalabs.org/connect/query.html)
   - [responseTime](http://www.senchalabs.org/connect/responseTime.html)
   - [session](http://www.senchalabs.org/connect/session.html)
   - [static](http://www.senchalabs.org/connect/static.html)
   - [staticCache](http://www.senchalabs.org/connect/staticCache.html)
-  - [vhost](http://www.senchalabs.org/connect/vhost.html)
   - [subdomains](http://www.senchalabs.org/connect/subdomains.html)
-  - [cookieSession](http://www.senchalabs.org/connect/cookieSession.html)
+  - [vhost](http://www.senchalabs.org/connect/vhost.html)
 
 ## Running Tests
 
