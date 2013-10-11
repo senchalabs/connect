@@ -26,7 +26,7 @@
     "multiparty": "2.1.8"
   },
   "devDependencies": {
-    "should": "*",
+    "should": ">= 2.0.0",
     "mocha": "*",
     "jade": "*",
     "dox": "*"
