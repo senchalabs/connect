@@ -25,9 +25,9 @@ var app = connect()
 
 describe('connect.session()', function(){
   it('should export constructors', function(){
-    connect.session.Session.should.be.a('function');
-    connect.session.Store.should.be.a('function');
-    connect.session.MemoryStore.should.be.a('function');
+    connect.session.Session.should.be.a.Function;
+    connect.session.Store.should.be.a.Function;
+    connect.session.MemoryStore.should.be.a.Function;
   })
 
   describe('proxy option', function(){
