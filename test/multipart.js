@@ -53,6 +53,7 @@ describe('connect.multipart()', function(){
 
       app.use(function(req, res){
         assert('Tobi' == req.body.user.name);
+        assert('text/plain' == req.files.text.type);
         res.end(req.files.text.name);
       });
 
@@ -65,6 +66,7 @@ describe('connect.multipart()', function(){
       .write('Tobi')
       .write('\r\n--foo\r\n')
       .write('Content-Disposition: form-data; name="text"; filename="foo.txt"\r\n')
+      .write('Content-Type: text/plain\r\n')
       .write('\r\n')
       .write('some text here')
       .write('\r\n--foo--')
