@@ -89,4 +89,23 @@ describe('app', function(){
     .get('/foo/<script>stuff</script>')
     .expect('Cannot GET /foo/&lt;script&gt;stuff&lt;/script&gt;', done);
   })
+
+  it('should support mounting by passing an array containing a mount point and a middleware', function(done){
+    var app = connect.createServer(
+        connect.json()
+      , ['/test', function(req, res, next){ req.body.foo = 'baz'; next(); }]
+      , function(req, res){ res.end(JSON.stringify(req.body)); });
+
+    app.request()
+      .post('/')
+      .set('Content-Type', 'application/json')
+      .write('{"foo":"bar"}')
+      .expect('{"foo":"bar"}', function(){
+        app.request()
+          .post('/test')
+          .set('Content-Type', 'application/json')
+          .write('{"foo":"bar"}')
+          .expect('{"foo":"baz"}', done);
+      });
+  })
 })
