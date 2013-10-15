@@ -22,7 +22,7 @@ describe('directory()', function(){
   })
   
   describe('when Accept: text/html is given', function(){
-    it('should respond with json', function(done){
+    it('should respond with html', function(done){
       app.request()
       .get('/')
       .set('Accept', 'text/html')
