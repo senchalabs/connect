@@ -27,6 +27,12 @@ app.use('/streamsmall', function(req, res){
   res.end();
 });
 
+app.use('/image', function(req, res){
+  res.setHeader('Content-Type', 'image/png');
+  res.write(new Buffer(2048));
+  res.end();
+})
+
 describe('connect.compress()', function(){
   it('should gzip files', function(done){
     app.request()
@@ -73,10 +79,19 @@ describe('connect.compress()', function(){
     .expect('Vary', 'Accept-Encoding', done);
   })
 
-  it('should set Vary at all times', function(done){
+  it('should set Vary even if Accept-Encoding is not set', function(done){
     app.request()
     .get('/todo.txt')
     .expect('Vary', 'Accept-Encoding', done);
+  })
+
+  it('should not set Vary if Content-Type does not pass filter', function(done){
+    app.request()
+    .get('/image')
+    .end(function(res){
+      res.headers.should.not.have.property('vary');
+      done();
+    })
   })
 
   it('should transfer chunked', function(done){
