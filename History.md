@@ -1,45 +1,59 @@
+2.9.1 / 2013-10-15
+==================
+ * update multiparty
+ * compress: Set vary header only if Content-Type passes filter #904
+ * directory: Fix directory middleware URI escaping #917 (@dougwilson)
+ * directory: Fix directory seperators for Windows #914 (@dougwilson)
+ * directory: Keep query string intact during directory redirect #913 (@dougwilson)
+ * directory: Fix paths in links #730 (@JacksonTian)
+ * errorHandler: Don't escape text/plain as HTML #875 (@johan)
+ * logger: Write '0' instead of '-' when response time is zero #910 (@dougwilson)
+ * logger: Log even when connections are aborted #760 (@dylanahsmith)
+ * methodOverride: Check req.body is an object #907 (@kbjr)
+ * multipart: Add .type back to file parts for backwards compatibility #912 (@dougwilson)
+ * multipart: Allow passing options to the Multiparty constructor #902 (@niftylettuce)
 
-2.9.0 / 2013-09-07 
+2.9.0 / 2013-09-07
 ==================
 
  * multipart: add docs regarding tmpfiles
  * multipart: add .name back to file parts
  * multipart: use multiparty instead of formidable
 
-2.8.8 / 2013-09-02 
+2.8.8 / 2013-09-02
 ==================
 
- * csrf: change to math.random() salt and remove csrfToken() callback 
+ * csrf: change to math.random() salt and remove csrfToken() callback
 
-2.8.7 / 2013-08-28 
+2.8.7 / 2013-08-28
 ==================
 
  * csrf: prevent salt generation on every request, and add async req.csrfToken(fn)
 
-2.8.6 / 2013-08-28 
+2.8.6 / 2013-08-28
 ==================
 
  * csrf: refactor to use HMAC tokens (BREACH attack)
  * compress: add compression of SVG and common font files by default.
 
-2.8.5 / 2013-08-11 
+2.8.5 / 2013-08-11
 ==================
 
  * add: compress Dart source files by default
  * update fresh
 
-2.8.4 / 2013-07-08 
+2.8.4 / 2013-07-08
 ==================
 
  * update send
 
-2.8.3 / 2013-07-04 
+2.8.3 / 2013-07-04
 ==================
 
  * add a name back to static middleware ("staticMiddleware")
  * fix .hasBody() utility to require transfer-encoding or content-length
 
-2.8.2 / 2013-07-03 
+2.8.2 / 2013-07-03
 ==================
 
  * update send
@@ -47,12 +61,12 @@
  * add better debug() for middleware
  * add whitelisting of supported methods to methodOverride()
 
-2.8.1 / 2013-06-27 
+2.8.1 / 2013-06-27
 ==================
 
  * fix: escape req.method in 404 response
 
-2.8.0 / 2013-06-26 
+2.8.0 / 2013-06-26
 ==================
 
  * add `threshold` option to `compress()` to prevent compression of small responses
@@ -64,7 +78,7 @@
  * remove other "static" function name. Fixes #794
  * fix: hasBody() should return false if Content-Length: 0
 
-2.7.11 / 2013-06-02 
+2.7.11 / 2013-06-02
 ==================
 
  * update send
