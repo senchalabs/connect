@@ -14,6 +14,7 @@ describe('directory()', function(){
         .end(function(res){
           var arr = JSON.parse(res.body);
           arr.should.include('users');
+          arr.should.include('file #1.txt');
           arr.should.include('nums');
           arr.should.include('todo.txt');
           done();
@@ -28,6 +29,7 @@ describe('directory()', function(){
         .set('Accept', 'text/html')
         .end(function (res) {
           res.body.should.include('<a href="/users"');
+          res.body.should.include('<a href="/file%20%231.txt"');
           res.body.should.include('<a href="/todo.txt"');
           done();
         });
@@ -41,6 +43,7 @@ describe('directory()', function(){
         .set('Accept', 'text/plain')
         .end(function (res) {
           res.body.should.include('users');
+          res.body.should.include('file #1.txt');
           res.body.should.include('todo.txt');
           done();
         });
@@ -56,6 +59,17 @@ describe('directory()', function(){
       .end(function(res){
         res.body.should.include('<a href="/users/index.html"');
         res.body.should.include('<a href="/users/tobi.txt"');
+        done();
+      });
+    });
+
+    it('should work for directory with #', function (done) {
+      app.request()
+      .get('/%23directory/')
+      .set('Accept', 'text/html')
+      .end(function(res){
+        res.body.should.include('<a href="/%23directory"');
+        res.body.should.include('<a href="/%23directory/index.html"');
         done();
       });
     });
