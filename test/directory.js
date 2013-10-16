@@ -2,7 +2,7 @@
 var connect = require('..');
 
 var app = connect();
-app.use(connect.directory('lib'));
+app.use(connect.directory('test/fixtures'));
 
 describe('directory()', function(){
   describe('when given Accept: header', function () {
@@ -13,9 +13,9 @@ describe('directory()', function(){
         .set('Accept', 'application/json')
         .end(function(res){
           var arr = JSON.parse(res.body);
-          arr.should.include('middleware');
-          arr.should.include('public');
-          arr.should.include('index.js');
+          arr.should.include('users');
+          arr.should.include('nums');
+          arr.should.include('todo.txt');
           done();
         });
       });
@@ -27,8 +27,8 @@ describe('directory()', function(){
         .get('/')
         .set('Accept', 'text/html')
         .end(function (res) {
-          res.body.should.include('<a href="/middleware"');
-          res.body.should.include('<a href="/index.js"');
+          res.body.should.include('<a href="/users"');
+          res.body.should.include('<a href="/todo.txt"');
           done();
         });
       });
@@ -40,8 +40,8 @@ describe('directory()', function(){
         .get('/')
         .set('Accept', 'text/plain')
         .end(function (res) {
-          res.body.should.include('middleware');
-          res.body.should.include('public');
+          res.body.should.include('users');
+          res.body.should.include('todo.txt');
           done();
         });
       });
@@ -51,18 +51,18 @@ describe('directory()', function(){
   describe('when navigating to other directory', function () {
     it('should respond with correct listing', function (done) {
       app.request()
-      .get('/middleware/')
+      .get('/users/')
       .set('Accept', 'text/html')
       .end(function(res){
-        res.body.should.include('<a href="/middleware/session"');
-        res.body.should.include('<a href="/middleware/directory.js"');
+        res.body.should.include('<a href="/users/index.html"');
+        res.body.should.include('<a href="/users/tobi.txt"');
         done();
       });
     });
 
     it('should not work for outside root', function (done) {
       app.request()
-      .get('/../test/')
+      .get('/../support/')
       .set('Accept', 'text/html')
       .expect(403, done);
     });
