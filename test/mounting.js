@@ -49,6 +49,18 @@ describe('app.use()', function(){
       .expect('/post/1', done);
     })
 
+    it('should adjust FQDN req.url', function(done){
+      var app = connect();
+
+      app.use('/blog', function(req, res){
+        res.end(req.url);
+      });
+
+      app.request()
+      .get('http://example.com/blog/post/1')
+      .expect('http://example.com/post/1', done);
+    })
+
     it('should strip trailing slash', function(done){
       var blog = connect();
     
