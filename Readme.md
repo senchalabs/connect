@@ -38,7 +38,6 @@ http.createServer(app).listen(3000);
   - [limit](http://www.senchalabs.org/connect/limit.html)
   - [logger](http://www.senchalabs.org/connect/logger.html)
   - [methodOverride](http://www.senchalabs.org/connect/methodOverride.html)
-  - [multipart](http://www.senchalabs.org/connect/multipart.html)
   - [urlencoded](http://www.senchalabs.org/connect/urlencoded.html)
   - [query](http://www.senchalabs.org/connect/query.html)
   - [responseTime](http://www.senchalabs.org/connect/responseTime.html)
