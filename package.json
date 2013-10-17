@@ -23,6 +23,7 @@
     "uid2": "0.0.2",
     "debug": "*",
     "methods": "0.0.1",
+    "negotiator": "0.2.8",
     "multiparty": "2.2.0"
   },
   "devDependencies": {
