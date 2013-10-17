@@ -138,4 +138,28 @@ describe('connect.compress()', function(){
     .set('Accept-Encoding', 'gzip')
     .expect('Content-Encoding', 'gzip', done);
   })
+
+  it('should not compress with unknown accept', function(done){
+    app.request()
+    .get('/streamsmall')
+    .set('Accept-Encoding', 'ccompress')
+    .end(function(res){
+      res.headers.should.not.have.property('content-encoding');
+      done();
+    });
+  });
+
+  it('should prefer gzip compression', function(done){
+    app.request()
+    .get('/streamsmall')
+    .set('Accept-Encoding', '*')
+    .expect('Content-Encoding', 'gzip', done);
+  });
+
+  it('should understand accept quality factors', function(done){
+    app.request()
+    .get('/streamsmall')
+    .set('Accept-Encoding', 'gzip; q=0.5, deflate, *; q=0.1')
+    .expect('Content-Encoding', 'deflate', done);
+  });
 })
