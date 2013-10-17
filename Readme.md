@@ -35,7 +35,6 @@ http.createServer(app).listen(3000);
   - [errorHandler](http://www.senchalabs.org/connect/errorHandler.html)
   - [favicon](http://www.senchalabs.org/connect/favicon.html)
   - [json](http://www.senchalabs.org/connect/json.html)
-  - [limit](http://www.senchalabs.org/connect/limit.html)
   - [logger](http://www.senchalabs.org/connect/logger.html)
   - [methodOverride](http://www.senchalabs.org/connect/methodOverride.html)
   - [urlencoded](http://www.senchalabs.org/connect/urlencoded.html)
