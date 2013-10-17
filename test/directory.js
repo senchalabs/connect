@@ -4,6 +4,7 @@ var connect = require('..');
 var app = connect();
 app.use(connect.directory('test/fixtures'));
 
+
 describe('directory()', function(){
   describe('when given Accept: header', function () {
     describe('of application/json', function () {
@@ -81,4 +82,48 @@ describe('directory()', function(){
       .expect(403, done);
     });
   });
-})
+
+  describe('when set with trailing slash', function () {
+    var app = connect(connect.directory('test/fixtures/'));
+
+    it('should respond with file list', function (done) {
+      app.request()
+      .get('/')
+      .set('Accept', 'application/json')
+      .end(function(res){
+        res.statusCode.should.equal(200);
+        var arr = JSON.parse(res.body);
+        arr.should.include('users');
+        arr.should.include('file #1.txt');
+        arr.should.include('nums');
+        arr.should.include('todo.txt');
+        done();
+      });
+    });
+  });
+
+  describe('when set to \'.\'', function () {
+    var app = connect(connect.directory('.'));
+
+    it('should respond with file list', function (done) {
+      app.request()
+      .get('/')
+      .set('Accept', 'application/json')
+      .end(function(res){
+        res.statusCode.should.equal(200);
+        var arr = JSON.parse(res.body);
+        arr.should.include('LICENSE');
+        arr.should.include('lib');
+        arr.should.include('test');
+        done();
+      });
+    });
+
+    it('should not allow serving outside root', function (done) {
+      app.request()
+      .get('/../')
+      .set('Accept', 'text/html')
+      .expect(403, done);
+    });
+  });
+});
