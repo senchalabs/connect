@@ -43,7 +43,6 @@ http.createServer(app).listen(3000);
   - [responseTime](http://www.senchalabs.org/connect/responseTime.html)
   - [session](http://www.senchalabs.org/connect/session.html)
   - [static](http://www.senchalabs.org/connect/static.html)
-  - [staticCache](http://www.senchalabs.org/connect/staticCache.html)
   - [subdomains](http://www.senchalabs.org/connect/subdomains.html)
   - [vhost](http://www.senchalabs.org/connect/vhost.html)
 
