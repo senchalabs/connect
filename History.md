@@ -1,3 +1,10 @@
+2.9.2 / 2013-10-18
+==================
+ * warn about multiparty and limit middleware deprecation for v3
+ * fix fully qualified domain name mounting. #920 (@dougwilson)
+ * directory: Fix potential security issue with serving files outside the root. #929 (@dougwilson)
+ * logger: store IP at beginning in case socket prematurely closes #930 (@dougwilson)
+
 2.9.1 / 2013-10-15
 ==================
  * update multiparty
