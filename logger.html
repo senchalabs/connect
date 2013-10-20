@@ -96,7 +96,7 @@
         realStream.write(buf.join(''));
         buf.length = 0;
       }
-    }, interval); 
+    }, interval);
 
     // swap the stream
     stream = {
@@ -107,23 +107,25 @@
   }
 
   return function logger(req, res, next) {
+    var sock = req.socket;
     req._startTime = new Date;
+    req._remoteAddress = sock.socket ? sock.socket.remoteAddress : sock.remoteAddress;
 
-    // immediate
-    if (immediate) {
+    function logRequest(){
+      res.removeListener('finish', logRequest);
+      res.removeListener('close', logRequest);
       var line = fmt(exports, req, res);
       if (null == line) return;
       stream.write(line + '\n');
+    };
+
+    // immediate
+    if (immediate) {
+      logRequest();
     // proxy end to output logging
     } else {
-      var end = res.end;
-      res.end = function(chunk, encoding){
-        res.end = end;
-        res.end(chunk, encoding);
-        var line = fmt(exports, req, res);
-        if (null == line) return;
-        stream.write(line + '\n');
-      };
+      res.on('finish', logRequest);
+      res.on('close', logRequest);
     }
 
 
@@ -166,15 +168,16 @@
 });</code></pre></div><div id="" class="comment"><h2></h2><div class="description"><p>request method</p></div><h3>Source</h3><pre><code>exports.token('method', function(req){
   return req.method;
 });</code></pre></div><div id="" class="comment"><h2></h2><div class="description"><p>response time in milliseconds</p></div><h3>Source</h3><pre><code>exports.token('response-time', function(req){
-  return new Date - req._startTime;
+  return String(Date.now() - req._startTime);
 });</code></pre></div><div id="" class="comment"><h2></h2><div class="description"><p>UTC date</p></div><h3>Source</h3><pre><code>exports.token('date', function(){
   return new Date().toUTCString();
 });</code></pre></div><div id="" class="comment"><h2></h2><div class="description"><p>response status code</p></div><h3>Source</h3><pre><code>exports.token('status', function(req, res){
-  return res.statusCode;
+  return res.headerSent ? res.statusCode : null;
 });</code></pre></div><div id="" class="comment"><h2></h2><div class="description"><p>normalized referrer</p></div><h3>Source</h3><pre><code>exports.token('referrer', function(req){
   return req.headers['referer'] || req.headers['referrer'];
 });</code></pre></div><div id="" class="comment"><h2></h2><div class="description"><p>remote address</p></div><h3>Source</h3><pre><code>exports.token('remote-addr', function(req){
   if (req.ip) return req.ip;
+  if (req._remoteAddress) return req._remoteAddress;
   var sock = req.socket;
   if (sock.socket) return sock.socket.remoteAddress;
   return sock.remoteAddress;

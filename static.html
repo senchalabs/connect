@@ -41,10 +41,13 @@ connect()
 
     function directory() {
       if (!redirect) return resume();
-      var pathname = url.parse(req.originalUrl).pathname;
+      var originalUrl = url.parse(req.originalUrl);
+      var target;
+      originalUrl.pathname += '/';
+      target = url.format(originalUrl);
       res.statusCode = 303;
-      res.setHeader('Location', pathname + '/');
-      res.end('Redirecting to ' + utils.escape(pathname) + '/');
+      res.setHeader('Location', target);
+      res.end('Redirecting to ' + utils.escape(target));
     }
 
     function error(err) {

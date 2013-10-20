@@ -46,6 +46,9 @@ req.form.on('close', function(){
 </code></pre></div><ul class="tags"><li><em>Object</em> options </li><li>returns <em>Function</em> </li></ul><h3>Source</h3><pre><code>exports = module.exports = function(options){
   options = options || {};
 
+  console.warn('connect.multipart() will be removed in connect 3.0');
+  console.warn('visit https://github.com/senchalabs/connect/wiki/Connect-3.0 for alternatives');
+
   var limit = _limit(options.limit || '100mb');
 
   return function multipart(req, res, next) {
@@ -68,7 +71,7 @@ req.form.on('close', function(){
     limit(req, res, function(err){
       if (err) return next(err);
 
-      var form = new multiparty.Form
+      var form = new multiparty.Form(options)
         , data = {}
         , files = {}
         , done;
@@ -94,6 +97,7 @@ req.form.on('close', function(){
       if (!options.defer) {
         form.on('file', function(name, val){
           val.name = val.originalFilename;
+          val.type = val.headers['content-type'] || null;
           ondata(name, val, files);
         });
       }
