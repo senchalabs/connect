@@ -298,6 +298,20 @@ describe('connect.static()', function(){
   })
 
   describe('when mounted', function(){
+    it('should redirect when index at mount point', function (done) {
+      var app = connect();
+
+      app.use('/users', connect.static('test/fixtures/users'));
+
+      app.request()
+      .get('/users')
+      .end(function (res) {
+        res.should.have.status(303);
+        res.headers.location.should.equal('/users/');
+        done();
+      });
+    });
+
     it('should redirect relative to the originalUrl', function(done){
       var app = connect();
 
