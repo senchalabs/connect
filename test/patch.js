@@ -55,6 +55,46 @@ describe('patch', function(){
           done();
         });
       })
+
+      it('should have headers without reasonPhrase', function(done){
+        var app = connect();
+
+        app.use(function(req, res, next){
+          res.on('header', function(){
+            if (!this.getHeader('content-length')) throw new Error();
+          });
+
+          res.writeHead(200, {
+            'content-length': '2'
+          });
+
+          res.end('ok');
+        })
+
+        app.request()
+        .get('/')
+        .expect(200, done);
+      })
+
+      it('should have headers with reasonPhrase', function(done){
+        var app = connect();
+
+        app.use(function(req, res, next){
+          res.on('header', function(){
+            if (!this.getHeader('content-length')) throw new Error();
+          });
+
+          res.writeHead(200, 'haha', {
+            'content-length': '2'
+          });
+
+          res.end('ok');
+        })
+
+        app.request()
+        .get('/')
+        .expect(200, done);
+      })
     })
 
     describe('with .end() only', function(){
