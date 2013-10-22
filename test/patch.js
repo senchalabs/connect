@@ -83,63 +83,60 @@ describe('patch', function(){
     })
 
     describe('should handle set-cookie setting multiple cookies as array', function(){
-        it('should be emitted', function(done){
-            var app = connect();
+      it('should be emitted', function(done){
+        var app = connect();
 
-            app.use(function(req, res, next){
-                res.on('header', function(){
-                    res.setHeader('Set-Cookie', ['foo1', 'bar1']);
-                    res.setHeader('Set-Cookie', ['foo2', 'bar2']);
-                });
+        app.use(function(req, res, next){
+          res.on('header', function(){
+            res.setHeader('Set-Cookie', ['foo1', 'bar1']);
+            res.setHeader('Set-Cookie', ['foo2', 'bar2']);
+          });
 
-                next();
-            });
+          next();
+        });
 
-            app.use(function(req, res){
-                res.end();
-            })
-
-            app.request()
-            .get('/')
-            .end(function(res){
-                res.headers['set-cookie'].should.include('foo1');
-                res.headers['set-cookie'].should.include('bar1');
-                res.headers['set-cookie'].should.include('foo2');
-                res.headers['set-cookie'].should.include('bar2');
-                done();
-            });
+        app.use(function(req, res){
+          res.end();
         })
+
+        app.request()
+        .get('/')
+        .end(function(res){
+          res.headers['set-cookie'].should.include('foo1');
+          res.headers['set-cookie'].should.include('bar1');
+          res.headers['set-cookie'].should.include('foo2');
+          res.headers['set-cookie'].should.include('bar2');
+          done();
+        });
+      })
     })
 
     describe('should handle set-cookie setting multiple cookies as array and string', function(){
-        it('should be emitted', function(done){
-            var app = connect();
+      it('should be emitted', function(done){
+        var app = connect();
 
-            app.use(function(req, res, next){
-                res.on('header', function(){
-                    res.setHeader('Set-Cookie', ['foo1', 'bar1']);
-                    res.setHeader('Set-Cookie', 'foo2');
-                });
+        app.use(function(req, res, next){
+          res.on('header', function(){
+            res.setHeader('Set-Cookie', ['foo1', 'bar1']);
+            res.setHeader('Set-Cookie', 'foo2');
+          });
 
-                next();
-            });
+          next();
+        });
 
-            app.use(function(req, res){
-                res.end();
-            })
-
-            app.request()
-            .get('/')
-            .end(function(res){
-                res.headers['set-cookie'].should.include('foo1');
-                res.headers['set-cookie'].should.include('bar1');
-                res.headers['set-cookie'].should.include('foo2');
-                done();
-            });
+        app.use(function(req, res){
+          res.end();
         })
+
+        app.request()
+        .get('/')
+        .end(function(res){
+          res.headers['set-cookie'].should.include('foo1');
+          res.headers['set-cookie'].should.include('bar1');
+          res.headers['set-cookie'].should.include('foo2');
+          done();
+        });
+      })
     })
-
-
-
   })
 })
