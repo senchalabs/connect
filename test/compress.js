@@ -6,28 +6,47 @@ var fixtures = __dirname + '/fixtures';
 
 var app = connect();
 app.use(connect.compress({
-  threshold: '1kb'
+  threshold: 0
 }));
 
 app.use(connect.static(fixtures));
 
-app.use('/smallresponse', function(req, res){
+var app2 = connect();
+app2.use(connect.compress({
+  threshold: '1kb'
+}));
+
+app2.use('/response/small', function(req, res){
   res.setHeader('Content-Type', 'text/plain');
   res.end('tiny');
 });
 
-app.use('/largeresponse', function(req, res){
+app2.use('/response/large', function(req, res){
   res.setHeader('Content-Type', 'text/plain');
   res.end(new Buffer(2048));
 });
 
-app.use('/streamsmall', function(req, res){
+app2.use('/stream/small/length', function(req, res){
+  res.setHeader('Content-Type', 'text/plain');
+  res.setHeader('Content-Length', '1');
+  res.write('a');
+  res.end();
+});
+
+app2.use('/stream/large/length', function(req, res){
+  res.setHeader('Content-Type', 'text/plain');
+  res.setHeader('Content-Length', '2048');
+  res.write(new Buffer(2048));
+  res.end();
+});
+
+app2.use('/stream/small', function(req, res, next){
   res.setHeader('Content-Type', 'text/plain');
   res.write('a');
   res.end();
 });
 
-app.use('/image', function(req, res){
+app2.use('/image', function(req, res){
   res.setHeader('Content-Type', 'image/png');
   res.write(new Buffer(2048));
   res.end();
@@ -86,7 +105,7 @@ describe('connect.compress()', function(){
   })
 
   it('should not set Vary if Content-Type does not pass filter', function(done){
-    app.request()
+    app2.request()
     .get('/image')
     .end(function(res){
       res.headers.should.not.have.property('vary');
@@ -111,32 +130,52 @@ describe('connect.compress()', function(){
     });
   })
 
-  it('should not compress responses below the threshold size', function(done){
-    app.request()
-    .get('/smallresponse')
-    .set('Accept-Encoding', 'gzip')
-    .end(function(res){
-      // I don't know how to do this with supertest
-      // '' or 'identity' should be valid values as well,
-      // but they are not set by compress.
-      assert.equal(res.headers['content-encoding'], undefined);
+  describe('threshold', function(){
+    it('should not compress responses below the threshold size', function(done){
+      app2.request()
+      .get('/response/small')
+      .set('Accept-Encoding', 'gzip')
+      .end(function(res){
+        // I don't know how to do this with supertest
+        // '' or 'identity' should be valid values as well,
+        // but they are not set by compress.
+        assert.equal(res.headers['content-encoding'], undefined);
 
-      done()
+        done()
+      })
     })
-  })
 
-  it('should compress responses above the threshold size', function(done){
-    app.request()
-    .get('/largeresponse')
-    .set('Accept-Encoding', 'gzip')
-    .expect('Content-Encoding', 'gzip', done);
-  })
+    it('should compress responses above the threshold size', function(done){
+      app2.request()
+      .get('/response/large')
+      .set('Accept-Encoding', 'gzip')
+      .expect('Content-Encoding', 'gzip', done);
+    })
 
-  it('should always compress when streaming', function(done){
-    app.request()
-    .get('/streamsmall')
-    .set('Accept-Encoding', 'gzip')
-    .expect('Content-Encoding', 'gzip', done);
+    it('should compress when streaming without a content-length', function(done){
+      app2.request()
+      .get('/stream/small')
+      .set('Accept-Encoding', 'gzip')
+      .expect('Content-Encoding', 'gzip', done);
+    })
+
+    it('should not compress when streaming and content-length is lower than threshold', function(done){
+      app2.request()
+      .get('/stream/small/length')
+      .set('Accept-Encoding', 'gzip')
+      .end(function(res){
+        assert.equal(res.headers['content-encoding'], undefined);
+
+        done()
+      })
+    })
+
+    it('should compress when streaming and content-length is larger than threshold', function(done){
+      app2.request()
+      .get('/stream/large/length')
+      .set('Accept-Encoding', 'gzip')
+      .expect('Content-Encoding', 'gzip', done);
+    })
   })
 
   describe('res.flush()', function () {
