@@ -49,6 +49,18 @@ describe('app.use()', function(){
       .expect('/post/1', done);
     })
 
+    it('should ignore FQDN in search', function (done) {
+      var app = connect();
+
+      app.use('/proxy', function (req, res) {
+        res.end(req.url);
+      });
+
+      app.request()
+      .get('/proxy?url=http://example.com/blog/post/1')
+      .expect('/?url=http://example.com/blog/post/1', done);
+    });
+
     it('should adjust FQDN req.url', function(done){
       var app = connect();
 
