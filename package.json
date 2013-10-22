@@ -1,6 +1,6 @@
 {
   "name": "connect",
-  "version": "2.10.0",
+  "version": "3.0.0",
   "description": "High performance middleware framework",
   "keywords": [
     "framework",
@@ -40,7 +40,7 @@
   ],
   "main": "index",
   "engines": {
-    "node": ">= 0.8.0"
+    "node": ">= 0.10.0"
   },
   "scripts": {
     "test": "make"
