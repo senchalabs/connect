@@ -31,7 +31,7 @@ app.use('/image', function(req, res){
   res.setHeader('Content-Type', 'image/png');
   res.write(new Buffer(2048));
   res.end();
-})
+});
 
 describe('connect.compress()', function(){
   it('should gzip files', function(done){
@@ -137,5 +137,27 @@ describe('connect.compress()', function(){
     .get('/streamsmall')
     .set('Accept-Encoding', 'gzip')
     .expect('Content-Encoding', 'gzip', done);
+  })
+
+  describe('res.flush()', function () {
+    it('should always be present', function (done) {
+      var app = connect();
+
+      app.use(connect.compress());
+      app.use(function (req, res) {
+        res.flush.should.be.a.Function;
+        res.statusCode = 204;
+        res.end();
+      });
+
+      app.request()
+      .get('/')
+      .expect(204, done);
+    })
+
+    // If anyone knows how to test if the flush works...
+    // it('should flush the response', function (done) {
+
+    // })
   })
 })
