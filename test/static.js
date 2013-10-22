@@ -42,6 +42,12 @@ describe('connect.static()', function(){
     .expect('baz', done);
   })
 
+  it('should not choke on auth-looking URL', function(done){
+    app.request()
+    .get('//todo@txt')
+    .expect(404, done);
+  })
+
   it('should redirect directories with query string', function (done) {
     app.request()
     .get('/users?name=john')
