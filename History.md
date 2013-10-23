@@ -1,3 +1,7 @@
+2.10.1 / 2013-10-23
+===================
+ * fixed; fixed a bug with static middleware at root and trailing slashes #942 (@dougwilson)
+
 2.10.0 / 2013-10-22
 ===================
  * fixed: set headers written by writeHead before emitting 'header'
