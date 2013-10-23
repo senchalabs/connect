@@ -1,15 +1,15 @@
-2.10.0 / 2013-10-
-==================
- * fixed: set headers written by writeHeader before emitting 'header'
+2.10.0 / 2013-10-22
+===================
+ * fixed: set headers written by writeHead before emitting 'header'
  * fixed: mounted path should ignore querystrings on FQDNs #940 (@dougwilson)
  * fixed: parsing protocol-relative URLs with @ as pathnames #938 (@dougwilson)
  * fixed: fix static directory redirect for mount's root #937 (@dougwilson)
  * fixed: setting set-cookie header when mixing arrays and strings #893 (@anuj123)
- * added: pass options into node-cookie #803 (@cauldrath)
- * added: replace `\n`s with `<br/>`s in error handler
- * added: compress checks content-length to check threshold
- * added: optional verify function for urlencoded and json parsers for signing request bodies
- * added: compress exposes a `res.flush()` function for flushing responses
+ * bodyParser: optional verify function for urlencoded and json parsers for signing request bodies
+ * compress: compress checks content-length to check threshold
+ * compress: expose `res.flush()` for flushing responses
+ * cookieParser: pass options into node-cookie #803 (@cauldrath)
+ * errorHandler: replace `\n`s with `<br/>`s in error handler
 
 2.9.2 / 2013-10-18
 ==================
