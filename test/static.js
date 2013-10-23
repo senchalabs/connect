@@ -60,6 +60,12 @@ describe('connect.static()', function(){
     .expect(303, done);
   })
 
+  it('should not redirect incorrectly', function (done) {
+    app.request()
+    .get('/')
+    .expect(404, done);
+  });
+
   it('should support index.html', function(done){
     app.request()
     .get('/users/')
