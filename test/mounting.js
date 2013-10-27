@@ -37,6 +37,42 @@ describe('app.use()', function(){
       .expect('/blog/post/1', done);
     })
 
+    it('should retain req.originalPath', function(done){
+      var app = connect();
+
+      app.use('/blog', function(req, res){
+        res.end(req.originalPath);
+      });
+
+      app.request()
+      .get('/blog/post/1')
+      .expect('/blog/post/1', done);
+    })
+
+    it('should retain FQDN req.originaPath', function(done){
+      var app = connect();
+
+      app.use('/blog', function(req, res){
+        res.end(req.originalPath);
+      });       
+
+      app.request()
+      .get('http://example.com/blog/post/1')
+      .expect('/blog/post/1', done);
+    })
+   
+    it('should retain FQDN req.originalUrl', function(done) {
+      var app = connect();
+
+      app.use('/blog', function(req, res){
+        res.end(req.originalUrl);
+      });
+
+      app.request()
+      .get('http://example.com/blog/post/1')
+      .expect('http://example.com/blog/post/1', done)
+    });
+
     it('should adjust req.url', function(done){
       var app = connect();
     
