@@ -17,14 +17,14 @@
     "buffer-crc32": "0.2.1",
     "cookie": "0.1.0",
     "send": "0.1.4",
-    "bytes": "0.2.0",
+    "bytes": "0.2.1",
     "fresh": "0.2.0",
     "pause": "0.0.1",
-    "uid2": "0.0.2",
+    "uid2": "0.0.3",
     "debug": "*",
     "methods": "0.0.1",
     "raw-body": "0.0.3",
-    "negotiator": "0.2.8",
+    "negotiator": "0.3.0",
     "multiparty": "2.2.0"
   },
   "devDependencies": {

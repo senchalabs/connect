@@ -1,3 +1,7 @@
+2.10.2 /
+===================
+ * bump deps
+
 2.10.1 / 2013-10-23
 ===================
  * fixed; fixed a bug with static middleware at root and trailing slashes #942 (@dougwilson)
