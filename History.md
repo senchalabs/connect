@@ -1,13 +1,22 @@
-2.10.2 /
+2.11.0 / 2013-10-29
 ===================
- * bump deps
+
+ * update bytes
+ * update uid2
+ * update negotiator
+ * sessions: add rolling session option #944 @ilmeo
+ * sessions: property set cookies when given FQDN
+ * cookieSessions: properly set cookies when given FQDN #948 @bmancini55
+ * proto: fix FQDN mounting when multiple handlers #945 @bmancini55
 
 2.10.1 / 2013-10-23
 ===================
+
  * fixed; fixed a bug with static middleware at root and trailing slashes #942 (@dougwilson)
 
 2.10.0 / 2013-10-22
 ===================
+
  * fixed: set headers written by writeHead before emitting 'header'
  * fixed: mounted path should ignore querystrings on FQDNs #940 (@dougwilson)
  * fixed: parsing protocol-relative URLs with @ as pathnames #938 (@dougwilson)
@@ -21,6 +30,7 @@
 
 2.9.2 / 2013-10-18
 ==================
+
  * warn about multiparty and limit middleware deprecation for v3
  * fix fully qualified domain name mounting. #920 (@dougwilson)
  * directory: Fix potential security issue with serving files outside the root. #929 (@dougwilson)
@@ -28,6 +38,7 @@
 
 2.9.1 / 2013-10-15
 ==================
+
  * update multiparty
  * compress: Set vary header only if Content-Type passes filter #904
  * directory: Fix directory middleware URI escaping #917 (@dougwilson)
