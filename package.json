@@ -21,17 +21,17 @@
     "fresh": "0.2.0",
     "pause": "0.0.1",
     "uid2": "0.0.3",
-    "debug": "*",
-    "methods": "0.0.1",
+    "debug": ">= 0.7.3 < 1",
+    "methods": "0.1.0",
     "raw-body": "0.0.3",
     "negotiator": "0.3.0",
     "multiparty": "2.2.0"
   },
   "devDependencies": {
-    "should": ">= 2.0.0",
-    "mocha": "*",
-    "jade": "*",
-    "dox": "*"
+    "should": ">= 2.0.2 < 3",
+    "mocha": ">= 1.13.0 < 2",
+    "jade": ">= 0.35.0 < 1",
+    "dox": ">= 0.4.4 < 1"
   },
   "licenses": [
     {
