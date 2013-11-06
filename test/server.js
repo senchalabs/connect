@@ -97,4 +97,15 @@ describe('app', function(){
         done();
       });
   })
+
+  it('should handle misbehaving error handler when nobody handled the request', function(done) {
+    var app = connect();
+    app.use(function(err, req, res, next) {
+      // swallow the error
+      next();
+    });
+    app.request()
+      .get('/not-found')
+      .expect(404, done);
+  })
 })
