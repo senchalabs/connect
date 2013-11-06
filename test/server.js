@@ -83,10 +83,18 @@ describe('app', function(){
     });
   })
 
-  it('should escape the 404 response body', function(done){
+  it('should call error handler when nobody handled the request', function(done) {
     var app = connect();
+    app.use(function(err, req, res, next) {
+      if (err.status) res.statusCode = err.status;
+      res.end('CustomHandled' + err.toString());
+    });
     app.request()
-    .get('/foo/<script>stuff</script>')
-    .expect('Cannot GET /foo/&lt;script&gt;stuff&lt;/script&gt;', done);
+      .get('/not-found')
+      .end(function(res) {
+        res.statusCode.should.equal(404);
+        res.body.should.equal('CustomHandledError: Cannot GET /not-found');
+        done();
+      });
   })
 })

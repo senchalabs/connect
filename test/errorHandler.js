@@ -68,6 +68,21 @@ describe('connect.errorHandler()', function () {
         });
     });
 
+    it('should return a json response even when no handler was found', function(done) {
+      request.set('Accept', 'application/json')
+        .get('/not-found')
+        .end(function (res) {
+          var errorMessage = JSON.parse(res.body);
+
+          res.headers['content-type'].should.startWith('application/json');
+          errorMessage.should.be.an.instanceOf(Object);
+          errorMessage.should.have.property('error');
+          errorMessage.error.should.have.properties(['message', 'stack']);
+
+          done();
+        });
+    });
+
     it('should return a plain text response when json or html is not accepted', function (done) {
       request
         .get('/')
