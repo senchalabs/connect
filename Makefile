@@ -10,7 +10,7 @@ test:
 	@NODE_ENV=test ./node_modules/.bin/mocha \
 		--reporter $(REPORTER) \
 		--timeout 600 \
-		--bail \
+		--harmony-generators \
 		$(TESTS)
 
 docs: $(HTML)
