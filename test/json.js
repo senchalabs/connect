@@ -199,6 +199,23 @@ describe('connect.json()', function(){
     .expect('论', done);
   })
 
+  it('should support {"test":"å"}', function (done) {
+    // https://github.com/visionmedia/express/issues/1816
+
+    var app = connect();
+    app.use(connect.json());
+    app.use(function(req, res, next){
+      res.end(req.body.test);
+    })
+
+    app.request()
+    .post('/')
+    .set('Content-Type', 'application/json; charset=utf-8')
+    .set('Content-Length', '13')
+    .write('{"test":"å"}')
+    .expect('å', done);
+  })
+
   describe('the default json mime type regular expression', function() {
     var mimeRegExp = connect.json.regexp;
     it('should support the basic JSON mime type', function(){
