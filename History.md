@@ -1,3 +1,9 @@
+2.11.1 / 2013-10-29
+===================
+
+ * bump raw-body
+ * errorHandler: use `res.setHeader()` instead of `res.writeHead()` #949 @lo1tuma
+
 2.11.0 / 2013-10-29
 ===================
 
