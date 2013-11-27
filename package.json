@@ -23,9 +23,9 @@
     "uid2": "0.0.3",
     "debug": ">= 0.7.3 < 1",
     "methods": "0.1.0",
-    "raw-body": "0.0.3",
     "negotiator": "0.3.0",
-    "multiparty": "2.2.0"
+    "multiparty": "2.2.0",
+    "body": "~4.4.2"
   },
   "devDependencies": {
     "should": ">= 2.0.2 < 3",
