@@ -1,6 +1,6 @@
 {
   "name": "connect",
-  "version": "2.11.1",
+  "version": "2.11.2",
   "description": "High performance middleware framework",
   "keywords": [
     "framework",
@@ -23,7 +23,7 @@
     "uid2": "0.0.3",
     "debug": ">= 0.7.3 < 1",
     "methods": "0.1.0",
-    "raw-body": "1.1.1",
+    "raw-body": "1.1.2",
     "negotiator": "0.3.0",
     "multiparty": "2.2.0"
   },
