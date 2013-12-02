@@ -29,9 +29,29 @@ describe('directory()', function(){
         .get('/')
         .set('Accept', 'text/html')
         .end(function (res) {
+          res.should.be.html;
           res.body.should.include('<a href="/users"');
           res.body.should.include('<a href="/file%20%231.txt"');
           res.body.should.include('<a href="/todo.txt"');
+          done();
+        });
+      });
+
+      it('should sort folders first', function (done) {
+        app.request()
+        .get('/')
+        .set('Accept', 'text/html')
+        .end(function (res) {
+          res.should.be.html;
+          var urls = res.body.split(/<a href="([^"]*)"/).filter(function(s, i){ return i%2; });
+          urls.should.eql([
+            '/%23directory',
+            '/users',
+            '/file%20%231.txt',
+            '/foo%20bar',
+            '/nums',
+            '/todo.txt',
+          ]);
           done();
         });
       });
