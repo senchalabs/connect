@@ -30,7 +30,7 @@ describe('directory()', function(){
         .set('Accept', 'text/html')
         .end(function (res) {
           res.should.be.html;
-          res.body.should.include('<a href="/users"');
+          res.body.should.include('<a href="/users/"');
           res.body.should.include('<a href="/file%20%231.txt"');
           res.body.should.include('<a href="/todo.txt"');
           done();
@@ -45,8 +45,8 @@ describe('directory()', function(){
           res.should.be.html;
           var urls = res.body.split(/<a href="([^"]*)"/).filter(function(s, i){ return i%2; });
           urls.should.eql([
-            '/%23directory',
-            '/users',
+            '/%23directory/',
+            '/users/',
             '/file%20%231.txt',
             '/foo%20bar',
             '/nums',
@@ -89,7 +89,7 @@ describe('directory()', function(){
       .get('/%23directory/')
       .set('Accept', 'text/html')
       .end(function(res){
-        res.body.should.include('<a href="/%23directory"');
+        res.body.should.include('<a href="/%23directory/"');
         res.body.should.include('<a href="/%23directory/index.html"');
         done();
       });
