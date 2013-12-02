@@ -1,12 +1,11 @@
 body {
   margin: 0;
-  padding: 80px 100px;
-  font: 13px "Helvetica Neue", "Lucida Grande", "Arial";
-  background: #ECE9E9 -webkit-gradient(linear, 0% 0%, 0% 100%, from(#fff), to(#ECE9E9));
-  background: #ECE9E9 -moz-linear-gradient(top, #fff, #ECE9E9);
-  background-repeat: no-repeat;
+  padding: 0 15% 40px 15%;
+  font: 12px "Helvetica Neue", "Lucida Grande", "Arial";
+  background: #f1f1f1;
   color: #555;
   -webkit-font-smoothing: antialiased;
+  border-top:3px solid #CB6868;
 }
 h1, h2, h3 {
   margin: 0;
@@ -21,7 +20,7 @@ h1 {
   font-size: 60px;
 }
 h2 {
-	margin-top: 10px;
+  margin-top: 10px;
 }
 h3 {
   margin: 5px 0 10px 0;
@@ -34,8 +33,8 @@ ul {
   padding: 0;
 }
 ul li {
-  margin: 5px 0;
-  padding: 3px 8px;
+  margin: 2px 0;
+  padding: 4px 8px;
   list-style: none;
 }
 ul li:hover {
@@ -64,11 +63,20 @@ a:hover {
   color: #303030;
 }
 #stacktrace {
-	margin-top: 15px;
+  margin-top: 15px;
 }
 .directory h1 {
-  margin-bottom: 15px;
-  font-size: 18px;
+  font-size: 14px;
+  color:#eee;
+  background:#767A7F;
+  padding:10px;
+  font-weight:normal;
+  border-radius:0 0 5px 5px;
+  margin-bottom:50px;
+  text-shadow:0 1px #333;
+}
+.directory h1 a {
+  color:#eee;
 }
 ul#files {
   width: 100%;
@@ -79,47 +87,48 @@ ul#files li {
 }
 ul#files li img {
   position: absolute;
-  top: 5px;
+  top: 7px;
   left: 5px;
 }
 ul#files li a {
-   position: relative;
+  position: relative;
   display: block;
   margin: 1px;
-  width: 30%;
-  height: 25px;
-  line-height: 25px;
-  text-indent: 8px;
-  float: left;
-  border: 1px solid transparent;
-  -webkit-border-radius: 5px;
-  -moz-border-radius: 5px;
-  border-radius: 5px;
+  height: 34px;
+  line-height: 30px;
+  text-indent: 10px;
+  border-bottom: 1px dotted #ccc;
   overflow: hidden;
   text-overflow: ellipsis;
+  border-radius:3px;
 }
 ul#files li a.icon {
-  text-indent: 25px;
+  text-indent: 30px;
+}
+/*ul#files li a[href$=".js"] {
+  background: red;
+}*/
+ul#files li a.highlight {
+  -webkit-transition: background .4s ease-in-out;
+  -moz-transition: background .4s ease-in-out;
+  background: #98B454;
+  color:#fff;
 }
 ul#files li a:focus,
 ul#files li a:hover {
   outline: none;
   background: rgba(255,255,255,0.65);
-  border: 1px solid #ececec;
-}
-ul#files li a.highlight {
-  -webkit-transition: background .4s ease-in-out;
-  background: #ffff4f;
-  border-color: #E9DC51;
+  color:#CB6868;
+  border-bottom: 1px solid #ccc;
 }
 #search {
+  position:fixed;
+  top:30px;
   display: block;
-  position: fixed;
-  top: 20px;
-  right: 20px;
-  width: 90px;
-  -webkit-transition: width ease 0.2s, opacity ease 0.4s;
-  -moz-transition: width ease 0.2s, opacity ease 0.4s;
+  width:70%;
+  z-index:999;
+  -webkit-transition: opacity ease 0.4s;
+  -moz-transition: opacity ease 0.4s;
   -webkit-border-radius: 32px;
   -moz-border-radius: 32px;
   -webkit-box-shadow: inset 0px 0px 3px rgba(0, 0, 0, 0.25), inset 0px 1px 3px rgba(0, 0, 0, 0.7), 0px 1px 0px rgba(255, 255, 255, 0.03);
@@ -127,15 +136,17 @@ ul#files li a.highlight {
   -webkit-font-smoothing: antialiased;
   text-align: left;
   font: 13px "Helvetica Neue", Arial, sans-serif;
-  padding: 4px 10px;
+  padding: 8px 10px;
+  margin:20px 0;
   border: none;
   background: transparent;
-  margin-bottom: 0;
   outline: none;
-  opacity: 0.7;
+  opacity: 0.4;
   color: #888;
+  border:1px solid #ccc;
+  background:#fff;
+  border-radius:5px;
 }
 #search:focus {
-  width: 120px;
   opacity: 1.0; 
 }
