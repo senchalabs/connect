@@ -64,24 +64,29 @@ var mediaType = {
 
         // not acceptable
         if (!type) return next(utils.error(406));
-        exports[mediaType[type]](req, res, files, next, originalDir, showUp, icons);
+        exports[mediaType[type]](req, res, files, next, originalDir, showUp, icons, path);
       });
     });
   };
-};</code></pre></div><div id="exports.html" class="comment"><h2>exports.html()</h2><div class="description"><p>Respond with text/html.</p></div><h3>Source</h3><pre><code>exports.html = function(req, res, files, next, dir, showUp, icons){
+};</code></pre></div><div id="exports.html" class="comment"><h2>exports.html()</h2><div class="description"><p>Respond with text/html.</p></div><h3>Source</h3><pre><code>exports.html = function(req, res, files, next, dir, showUp, icons, path){
   fs.readFile(__dirname + '/../public/directory.html', 'utf8', function(err, str){
     if (err) return next(err);
     fs.readFile(__dirname + '/../public/style.css', 'utf8', function(err, style){
       if (err) return next(err);
-      if (showUp) files.unshift('..');
-      str = str
-        .replace('{style}', style)
-        .replace('{files}', html(files, dir, icons))
-        .replace('{directory}', dir)
-        .replace('{linked-path}', htmlPath(dir));
-      res.setHeader('Content-Type', 'text/html');
-      res.setHeader('Content-Length', str.length);
-      res.end(str);
+      stat(path, files, function(err, stats){
+        if (err) return next(err);
+        files = files.map(function(file, i){ return { name: file, stat: stats[i] }; });
+        files.sort(fileSort);
+        if (showUp) files.unshift({ name: '..' });
+        str = str
+          .replace('{style}', style)
+          .replace('{files}', html(files, dir, icons))
+          .replace('{directory}', dir)
+          .replace('{linked-path}', htmlPath(dir));
+        res.setHeader('Content-Type', 'text/html');
+        res.setHeader('Content-Length', str.length);
+        res.end(str);
+      });
     });
   });
 };</code></pre></div><div id="exports.json" class="comment"><h2>exports.json()</h2><div class="description"><p>Respond with application/json.</p></div><h3>Source</h3><pre><code>exports.json = function(req, res, files){
@@ -94,7 +99,10 @@ var mediaType = {
   res.setHeader('Content-Type', 'text/plain');
   res.setHeader('Content-Length', files.length);
   res.end(files);
-};</code></pre></div><div id="htmlPath" class="comment"><h2>htmlPath()</h2><div class="description"><p>Map html <code>dir</code>, returning a linked path.</p></div><h3>Source</h3><pre><code>function htmlPath(dir) {
+};</code></pre></div><div id="fileSort" class="comment"><h2>fileSort()</h2><div class="description"><p>Sort function for with directories first.</p></div><h3>Source</h3><pre><code>function fileSort(a, b) {
+  return Number(b.stat && b.stat.isDirectory()) - Number(a.stat && a.stat.isDirectory()) ||
+    String(a.name).toLocaleLowerCase().localeCompare(String(b.name).toLocaleLowerCase());
+}</code></pre></div><div id="htmlPath" class="comment"><h2>htmlPath()</h2><div class="description"><p>Map html <code>dir</code>, returning a linked path.</p></div><h3>Source</h3><pre><code>function htmlPath(dir) {
   var curr = [];
   return dir.split('/').map(function(part){
     curr.push(encodeURIComponent(part));
@@ -103,23 +111,25 @@ var mediaType = {
 }</code></pre></div><div id="html" class="comment"><h2>html()</h2><div class="description"><p>Map html <code>files</code>, returning an html unordered list.</p></div><h3>Source</h3><pre><code>function html(files, dir, useIcons) {
   return '<ul id="files">' + files.map(function(file){
     var icon = ''
+      , isDir
       , classes = []
       , path = dir.split('/').map(function (c) { return encodeURIComponent(c); });
 
-    if (useIcons && '..' != file) {
-      icon = icons[extname(file)] || icons.default;
+    if (useIcons) {
+      isDir = '..' == file.name || (file.stat && file.stat.isDirectory());
+      icon = isDir ? icons.folder : icons[extname(file.name)] || icons.default;
       icon = '<img src="data:image/png;base64,' + load(icon) + '" />';
       classes.push('icon');
     }
 
-    path.push(encodeURIComponent(file));
+    path.push(encodeURIComponent(file.name));
 
     return '<li><a href="'
       + utils.normalizeSlashes(normalize(path.join('/')))
       + '" class="'
       + classes.join(' ') + '"'
-      + ' title="' + file + '">'
-      + icon + file + '</a></li>';
+      + ' title="' + file.name + '">'
+      + icon + file.name + '</a></li>';
 
   }).join('\n') + '</ul>';
 }</code></pre></div><div id="load" class="comment"><h2>load()</h2><div class="description"><p>Load and cache the given <code>icon</code>.</p></div><ul class="tags"><li><em>String</em> icon </li><li>returns <em>String</em> </li></ul><h3>Source</h3><pre><code>function load(icon) {
@@ -129,6 +139,18 @@ var mediaType = {
   return files.filter(function(file){
     return '.' != file[0];
   });
+}</code></pre></div><div id="stat" class="comment"><h2>stat()</h2><div class="description"><p>Stat all files and return array of stat<br />in same order.</p></div><h3>Source</h3><pre><code>function stat(dir, files, cb) {
+  var batch = new Batch();
+
+  batch.concurrency(10);
+
+  files.forEach(function(file, i){
+    batch.push(function(done){
+      fs.stat(join(dir, file), done);
+    });
+  });
+
+  batch.end(cb);
 }</code></pre></div><div id="icons" class="comment"><h2>icons</h2><div class="description"><p>Icon map.</p></div><h3>Source</h3><pre><code>var icons = {
     '.js': 'page_white_code_red.png'
   , '.c': 'page_white_c.png'
@@ -139,5 +161,6 @@ var mediaType = {
   , '.cpp': 'page_white_cplusplus.png'
   , '.swf': 'page_white_flash.png'
   , '.pdf': 'page_white_acrobat.png'
+  , 'folder': 'folder.png'
   , 'default': 'page_white.png'
-};</code></pre></div></div><ul id="menu"><li><a href="#mediaTypes">mediaTypes</a></li><li><a href="#"></a></li><li><a href="#exports.html">exports.html()</a></li><li><a href="#exports.json">exports.json()</a></li><li><a href="#exports.plain">exports.plain()</a></li><li><a href="#htmlPath">htmlPath()</a></li><li><a href="#html">html()</a></li><li><a href="#load">load()</a></li><li><a href="#removeHidden">removeHidden()</a></li><li><a href="#icons">icons</a></li></ul></body></html>
+};</code></pre></div></div><ul id="menu"><li><a href="#mediaTypes">mediaTypes</a></li><li><a href="#"></a></li><li><a href="#exports.html">exports.html()</a></li><li><a href="#exports.json">exports.json()</a></li><li><a href="#exports.plain">exports.plain()</a></li><li><a href="#fileSort">fileSort()</a></li><li><a href="#htmlPath">htmlPath()</a></li><li><a href="#html">html()</a></li><li><a href="#load">load()</a></li><li><a href="#removeHidden">removeHidden()</a></li><li><a href="#stat">stat()</a></li><li><a href="#icons">icons</a></li></ul></body></html>

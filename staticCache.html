@@ -1,5 +1,11 @@
 <!DOCTYPE html><html><head><title>Connect - High quality middleware for node.js</title><meta http-equiv="Content-Type" content="text/html; charset=utf-8"><link rel="stylesheet" href="style.css"><script src="jquery.js"></script><script src="docs.js"></script></head><body><div id="content"><h1>Connect</h1><div id="module.exports" class="comment"><h2></h2><div class="description"><p>Static cache:</p>
 
+<p>Status: Deprecated. This middleware will be removed in<br />Connect 3.0. You may be interested in:</p>
+
+<ul>
+<li><a href="https://github.com/isaacs/st">st</a></li>
+</ul>
+
 <p>Enables a memory cache layer on top of<br />the <code>static()</code> middleware, serving popular<br />static files.</p>
 
 <p>By default a maximum of 128 objects are<br />held in cache, with a max of 256k each,<br />totalling ~32mb.</p>
@@ -23,8 +29,10 @@ static() + staticCache(): 7500 rps
     , cache = new Cache(options.maxObjects || 128)
     , maxlen = options.maxLength || 1024 * 256;
 
-  console.warn('connect.staticCache() is deprecated and will be removed in 3.0');
-  console.warn('use varnish or similar reverse proxy caches.');
+  if (process.env.NODE_ENV !== 'test') {
+    console.warn('connect.staticCache() is deprecated and will be removed in 3.0');
+    console.warn('use varnish or similar reverse proxy caches.');
+  }
 
   return function staticCache(req, res, next){
     var key = cacheKey(req)

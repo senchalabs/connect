@@ -1,5 +1,13 @@
 <!DOCTYPE html><html><head><title>Connect - High quality middleware for node.js</title><meta http-equiv="Content-Type" content="text/html; charset=utf-8"><link rel="stylesheet" href="style.css"><script src="jquery.js"></script><script src="docs.js"></script></head><body><div id="content"><h1>Connect</h1><div id="" class="comment"><h2></h2><div class="description"><p>Multipart:</p>
 
+<p>Status: Deprecated. The multipart parser will be removed in Connect 3.0.<br />Please use one of the following parsers/middleware directly:</p>
+
+<ul>
+<li><a href="https://github.com/felixge/node-formidable">formidable</a></li>
+<li><a href="https://github.com/superjoe30/connect-multiparty">connect-multiparty</a> or [multiparty]</li>
+<li><a href="https://github.com/mscdex/connect-busboy">connect-busboy</a> or <a href="https://github.com/mscdex/busboy">busboy</a></li>
+</ul>
+
 <p>Parse multipart/form-data request bodies,<br />providing the parsed object as <code>req.body</code><br />and <code>req.files</code>.</p>
 
 <p>Configuration:</p>
@@ -46,8 +54,10 @@ req.form.on('close', function(){
 </code></pre></div><ul class="tags"><li><em>Object</em> options </li><li>returns <em>Function</em> </li></ul><h3>Source</h3><pre><code>exports = module.exports = function(options){
   options = options || {};
 
-  console.warn('connect.multipart() will be removed in connect 3.0');
-  console.warn('visit https://github.com/senchalabs/connect/wiki/Connect-3.0 for alternatives');
+  if (process.env.NODE_ENV !== 'test') {
+    console.warn('connect.multipart() will be removed in connect 3.0');
+    console.warn('visit https://github.com/senchalabs/connect/wiki/Connect-3.0 for alternatives');
+  }
 
   var limit = _limit(options.limit || '100mb');
 

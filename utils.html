@@ -98,6 +98,7 @@ utils.merge(a, b);
       resume: noop
     }
   }</code></pre></div><div id="exports.removeContentHeaders" class="comment"><h2>exports.removeContentHeaders()</h2><div class="description"><p>Strip <code>Content-*</code> headers from <code>res</code>.</p></div><ul class="tags"><li><em>ServerResponse</em> res </li></ul><h3>Source</h3><pre><code>exports.removeContentHeaders = function(res){
+  if (!res._headers) return;
   Object.keys(res._headers).forEach(function(field){
     if (0 == field.indexOf('content')) {
       res.removeHeader(field);
@@ -134,7 +135,14 @@ utils.merge(a, b);
   if (parsed && parsed.href == req.url) {
     return parsed;
   } else {
-    return req._parsedUrl = parse(req.url);
+    parsed = parse(req.url);
+
+    if (parsed.auth && !parsed.protocol && ~parsed.href.indexOf('//')) {
+      // This parses pathnames, and a strange pathname like //r@e should work
+      parsed = parse(req.url.replace(/@/g, '%40'));
+    }
+
+    return req._parsedUrl = parsed;
   }
 };</code></pre></div><div id="exports.parseBytes" class="comment"><h2>exports.parseBytes</h2><div class="description"><p>Parse byte <code>size</code> string.</p></div><ul class="tags"><li><em>String</em> size </li><li>returns <em>Number</em> </li></ul><h3>Source</h3><pre><code>exports.parseBytes = require('bytes');</code></pre></div><div id="exports.normalizeSlashes" class="comment"><h2>exports.normalizeSlashes()</h2><div class="description"><p>Normalizes the path separator from system separator<br />to URL separator, aka <code>/</code>.</p></div><ul class="tags"><li><em>String</em> path </li><li>returns <em>String</em> </li></ul><h3>Source</h3><pre><code>exports.normalizeSlashes = function normalizeSlashes(path) {
   return path.split(sep).join('/');

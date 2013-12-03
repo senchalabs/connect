@@ -1,5 +1,7 @@
 <!DOCTYPE html><html><head><title>Connect - High quality middleware for node.js</title><meta http-equiv="Content-Type" content="text/html; charset=utf-8"><link rel="stylesheet" href="style.css"><script src="jquery.js"></script><script src="docs.js"></script></head><body><div id="content"><h1>Connect</h1><div id="module.exports" class="comment"><h2></h2><div class="description"><p>Basic Auth:</p>
 
+<p>Status: Deprecated. No bug reports or pull requests are welcomed<br />for this middleware. However, this middleware will not be removed.<br />Instead, you should use <a href="https://github.com/visionmedia/node-basic-auth">basic-auth</a>.</p>
+
 <p>Enfore basic authentication by providing a <code>callback(user, pass)</code>,<br />which must return <code>true</code> in order to gain access. Alternatively an async<br />method is provided as well, invoking <code>callback(user, pass, callback)</code>. Populates<br /><code>req.user</code>. The final alternative is simply passing username / password<br />strings.</p>
 
 <p>Simple username and password</p>
@@ -52,7 +54,7 @@
       , index = credentials.indexOf(':');
 
     if ('Basic' != scheme || index < 0) return next(utils.error(400));
-    
+
     var user = credentials.slice(0, index)
       , pass = credentials.slice(index + 1);
 

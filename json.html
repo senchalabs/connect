@@ -9,13 +9,9 @@
 <li><code>reviver</code>  used as the second "reviver" argument for JSON.parse</li>
 <li><code>limit</code>  byte limit [1mb]</li>
 </ul></div><ul class="tags"><li><em>Object</em> options </li><li>returns <em>Function</em> </li></ul><h3>Source</h3><pre><code>exports = module.exports = function(options){
-  var options = options || {}
-    , strict = options.strict !== false;
-
-  var limit = !options.limit ? bytes('1mb')
-    : typeof options.limit === 'number' ? options.limit
-    : typeof options.limit === 'string' ? bytes(options.limit)
-    : null
+  options = options || {};
+  var strict = options.strict !== false;
+  var verify = typeof options.verify === 'function' && options.verify;
 
   return function json(req, res, next) {
     if (req._body) return next();
@@ -31,14 +27,22 @@
 
     // parse
     getBody(req, {
-      limit: limit,
-      expected: req.headers['content-length']
+      limit: options.limit || '1mb',
+      length: req.headers['content-length'],
+      encoding: 'utf8'
     }, function (err, buf) {
       if (err) return next(err);
 
-      buf = buf.toString('utf8').trim();
+      if (verify) {
+        try {
+          verify(req, res, buf)
+        } catch (err) {
+          if (!err.status) err.status = 403;
+          return next(err);
+        }
+      }
 
-      var first = buf[0];
+      var first = buf.trim()[0];
 
       if (0 == buf.length) {
         return next(utils.error(400, 'invalid json, empty body'));

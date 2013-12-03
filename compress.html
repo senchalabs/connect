@@ -59,10 +59,19 @@
       res.write = res.end = function(){};
     });
 
+    // flush is noop by default
+    res.flush = noop;
+
     // proxy
 
     res.write = function(chunk, encoding){
-      if (!this.headerSent) this._implicitHeader();
+      if (!this.headerSent) {
+        // if content-length is set and is lower
+        // than the threshold, don't compress
+        var length = res.getHeader('content-length');
+        if (!isNaN(length) && length < threshold) compress = false;
+        this._implicitHeader();
+      }
       return stream
         ? stream.write(new Buffer(chunk, encoding))
         : write.call(res, chunk, encoding);
@@ -114,6 +123,11 @@
       // compression stream
       stream = exports.methods[method](options);
 
+      // overwrite the flush method
+      res.flush = function(){
+        stream.flush();
+      }
+
       // header fields
       res.setHeader('Content-Encoding', method);
       res.removeHeader('Content-Length');
@@ -140,4 +154,6 @@ function getSize(chunk) {
   return Buffer.isBuffer(chunk)
     ? chunk.length
     : Buffer.byteLength(chunk);
-}</code></pre></div></div><ul id="menu"><li><a href="#exports.methods">exports.methods</a></li><li><a href="#exports.filter">exports.filter()</a></li><li><a href="#module.exports"></a></li></ul></body></html>
+}
+
+function noop(){}</code></pre></div></div><ul id="menu"><li><a href="#exports.methods">exports.methods</a></li><li><a href="#exports.filter">exports.filter()</a></li><li><a href="#module.exports"></a></li></ul></body></html>

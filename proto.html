@@ -55,13 +55,13 @@
   return this;
 };</code></pre></div><div id="app.handle" class="comment"><h2>app.handle()</h2><div class="description"><p>Handle server requests, punting them down<br />the middleware stack.</p></div><ul class="tags"></ul><h3>Source</h3><pre><code>app.handle = function(req, res, out) {
   var stack = this.stack
-    , fqdn = 1 + req.url.indexOf('://')
+    , search = 1 + req.url.indexOf('?')
+    , pathlength = search ? search - 1 : req.url.length
+    , fqdn = 1 + req.url.substr(0, pathlength).indexOf('://')
     , protohost = fqdn ? req.url.substr(0, req.url.indexOf('/', 2 + fqdn)) : ''
     , removed = ''
     , slashAdded = false
     , index = 0;
-
-  req.url = req.url.substr(protohost.length);
 
   function next(err) {
     var layer, path, c;
@@ -71,7 +71,7 @@
       slashAdded = false;
     }
 
-    req.url = protohost + removed + req.url;
+    req.url = protohost + removed + req.url.substr(protohost.length);
     req.originalUrl = req.originalUrl || req.url;
     removed = '';
 

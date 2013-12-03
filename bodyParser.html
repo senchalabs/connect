@@ -1,8 +1,10 @@
 <!DOCTYPE html><html><head><title>Connect - High quality middleware for node.js</title><meta http-equiv="Content-Type" content="text/html; charset=utf-8"><link rel="stylesheet" href="style.css"><script src="jquery.js"></script><script src="docs.js"></script></head><body><div id="content"><h1>Connect</h1><div id="" class="comment"><h2></h2><div class="description"><p>Body parser:</p>
 
+<p>Status: the multipart body parser will be removed in Connect 3.</p>
+
 <p>Parse request bodies, supports <em>application/json</em>,<br />  <em>application/x-www-form-urlencoded</em>, and <em>multipart/form-data</em>.</p>
 
-<p>This is equivalent to: </p>
+<p>This is equivalent to:</p>
 
 <pre><code>app.use(connect.json());
 app.use(connect.urlencoded());
@@ -21,7 +23,14 @@ app.use(connect.multipart());
  $ curl -d '{"user":{"name":"tj"}}' -H "Content-Type: application/json" <a href='http://local/'>http://local/</a>
 </code></pre>
 
-<p>View <a href="json.html">json</a>, <a href="urlencoded.html">urlencoded</a>, and <a href="multipart.html">multipart</a> for more info.</p></div><ul class="tags"><li><em>Object</em> options </li><li>returns <em>Function</em> </li></ul><h3>Source</h3><pre><code>exports = module.exports = function bodyParser(options){
+<p>View <a href="json.html">json</a>, <a href="urlencoded.html">urlencoded</a>, and <a href="multipart.html">multipart</a> for more info.</p>
+
+<p>If you wish to create your own body parser, you may be interested in:</p>
+
+<ul>
+<li><a href="https://github.com/stream-utils/raw-body">raw-body</a></li>
+<li><a href="https://github.com/raynos/body">body</a></li>
+</ul></div><ul class="tags"><li><em>Object</em> options </li><li>returns <em>Function</em> </li></ul><h3>Source</h3><pre><code>exports = module.exports = function bodyParser(options){
   var _urlencoded = urlencoded(options)
     , _multipart = multipart(options)
     , _json = json(options);
