@@ -87,6 +87,6 @@ describe('app', function(){
     var app = connect();
     app.request()
     .get('/foo/<script>stuff</script>')
-    .expect('Cannot GET /foo/&lt;script&gt;stuff&lt;/script&gt;', done);
+    .expect('Cannot GET /foo/&lt;script&gt;stuff&lt;/script&gt;\n', done);
   })
 })
