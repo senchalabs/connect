@@ -1,3 +1,13 @@
+2.12.0 / 2013-12-10
+===================
+
+ * bump qs
+ * directory: sort folders before files
+ * directory: add folder icons
+ * directory: de-duplicate icons, details/mobile views #968 @simov
+ * errorHandler: end default 404 handler with a newline #972 @rlidwka
+ * session: remove long cookie expire check #870 @undoZen
+
 2.11.2 / 2013-12-01
 ===================
 
