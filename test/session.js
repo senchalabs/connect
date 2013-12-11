@@ -484,29 +484,74 @@ describe('connect.session()', function(){
       })
 
       describe('.maxAge', function(){
-        it('should set relative in milliseconds', function(done){
-          var app = connect()
-            .use(connect.cookieParser())
-            .use(connect.session({ secret: 'keyboard cat' }))
-            .use(function(req, res, next){
-              req.session.cookie.maxAge = 2000;
-              res.end();
-            });
+        var id;
+        var app = connect()
+          .use(connect.cookieParser())
+          .use(connect.session({ secret: 'keyboard cat', cookie: { maxAge: 2000 }}))
+          .use(function(req, res, next){
+            req.session.count = req.session.count || 0;
+            req.session.count++;
+            if (req.session.count == 2) req.session.cookie.maxAge = 5000;
+            if (req.session.count == 3) req.session.cookie.maxAge = 3000000000;
+            res.end(req.session.count.toString());
+          });
 
+        it('should set relative in milliseconds', function(done){
           app.request()
           .get('/')
           .end(function(res){
             var a = new Date(expires(res))
               , b = new Date;
 
+            id = sid(res);
+
             a.getYear().should.equal(b.getYear());
             a.getMonth().should.equal(b.getMonth());
             a.getDate().should.equal(b.getDate());
-            // TODO: check 2s + rotate
             a.getSeconds().should.not.equal(b.getSeconds());
+            var delta = a.valueOf() - b.valueOf();
+            (delta > 1000 && delta < 2000).should.be.ok;
+            res.body.should.equal('1');
             done();
           });
-        })
+        });
+
+        it('should modify cookie when changed', function(done){
+          app.request()
+          .get('/')
+          .set('Cookie', 'connect.sid=' + id)
+          .end(function(res){
+            var a = new Date(expires(res))
+              , b = new Date;
+
+            id = sid(res);
+
+            a.getYear().should.equal(b.getYear());
+            a.getMonth().should.equal(b.getMonth());
+            a.getSeconds().should.not.equal(b.getSeconds());
+            var delta = a.valueOf() - b.valueOf();
+            (delta > 4000 && delta < 5000).should.be.ok;
+            res.body.should.equal('2');
+            done();
+          });
+        });
+
+        it('should modify cookie when changed to large value', function(done){
+          app.request()
+          .get('/')
+          .set('Cookie', 'connect.sid=' + id)
+          .end(function(res){
+            var a = new Date(expires(res))
+              , b = new Date;
+
+            id = sid(res);
+
+            var delta = a.valueOf() - b.valueOf();
+            (delta > 2999999000 && delta < 3000000000).should.be.ok;
+            res.body.should.equal('3');
+            done();
+          });
+        });
       })
 
       describe('.expires', function(){
