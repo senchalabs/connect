@@ -12,6 +12,7 @@
   "repository": "git://github.com/senchalabs/connect.git",
   "author": "TJ Holowaychuk <tj@vision-media.ca> (http://tjholowaychuk.com)",
   "dependencies": {
+    "compressible": "0.1.1",
     "batch": "0.5.0",
     "qs": "0.6.6",
     "cookie-signature": "1.0.1",
