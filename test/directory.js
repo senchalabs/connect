@@ -14,6 +14,7 @@ describe('directory()', function(){
         .set('Accept', 'application/json')
         .end(function(res){
           var arr = JSON.parse(res.body);
+          arr.should.include('g# %3 o %2525 %37 dir');
           arr.should.include('users');
           arr.should.include('file #1.txt');
           arr.should.include('nums');
@@ -30,6 +31,7 @@ describe('directory()', function(){
         .set('Accept', 'text/html')
         .end(function (res) {
           res.should.be.html;
+          res.body.should.include('<a href="/g%23%20%253%20o%20%252525%20%2537%20dir"');
           res.body.should.include('<a href="/users"');
           res.body.should.include('<a href="/file%20%231.txt"');
           res.body.should.include('<a href="/todo.txt"');
@@ -46,6 +48,7 @@ describe('directory()', function(){
           var urls = res.body.split(/<a href="([^"]*)"/).filter(function(s, i){ return i%2; });
           urls.should.eql([
             '/%23directory',
+            '/g%23%20%253%20o%20%252525%20%2537%20dir',
             '/users',
             '/file%20%231.txt',
             '/foo%20bar',
@@ -64,6 +67,7 @@ describe('directory()', function(){
         .set('Accept', 'text/plain')
         .end(function (res) {
           res.body.should.include('users');
+          res.body.should.include('g# %3 o %2525 %37 dir');
           res.body.should.include('file #1.txt');
           res.body.should.include('todo.txt');
           done();
@@ -91,6 +95,17 @@ describe('directory()', function(){
       .end(function(res){
         res.body.should.include('<a href="/%23directory"');
         res.body.should.include('<a href="/%23directory/index.html"');
+        done();
+      });
+    });
+
+    it('should work for directory with special chars', function (done) {
+      app.request()
+      .get('/g%23%20%253%20o%20%252525%20%2537%20dir/')
+      .set('Accept', 'text/html')
+      .end(function(res){
+        res.body.should.include('<a href="/g%23%20%253%20o%20%252525%20%2537%20dir"');
+        res.body.should.include('<a href="/g%23%20%253%20o%20%252525%20%2537%20dir/empty.txt"');
         done();
       });
     });
