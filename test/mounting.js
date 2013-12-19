@@ -199,4 +199,42 @@ describe('app.use()', function(){
     .get('/blOG')
     .expect('blog', done);
   })
+
+  it('should be possible to chain middlewares with mount point', function(done){
+    var app = connect();
+
+    app.use('/blog',
+      function(req, res, next){
+        res.firstMiddleware = true;
+        next();
+      },
+      function(req, res){
+        res.firstMiddleware.should.be.true;
+        res.end('blog');
+      }
+    );
+
+    app.request()
+    .get('/blog')
+    .expect('blog', done);
+  })
+
+  it('should be possible to chain middlewares without mount point', function(done){
+    var app = connect();
+
+    app.use(
+      function(req, res, next){
+        res.firstMiddleware = true;
+        next();
+      },
+      function(req, res){
+        res.firstMiddleware.should.be.true;
+        res.end('blog');
+      }
+    );
+
+    app.request()
+    .get('/')
+    .expect('blog', done);
+  })
 })
