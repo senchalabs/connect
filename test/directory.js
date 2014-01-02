@@ -126,6 +126,7 @@ describe('directory()', function(){
       .set('Accept', 'text/html')
       .end(function(res){
         res.statusCode.should.equal(200);
+        res.should.be.html;
         res.body.should.include('users');
         res.body.should.include('g# %3 o %2525 %37 dir');
         res.body.should.include('file #1.txt');
