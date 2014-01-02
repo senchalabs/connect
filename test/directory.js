@@ -118,6 +118,25 @@ describe('directory()', function(){
     });
   });
 
+  describe('when setting a custom template', function () {
+    var app = connect(connect.directory('test/fixtures', {'template': __dirname + '/shared/template.html'}));
+
+    it('should respond with file list and testing template sentence', function (done) {
+      app.request()
+      .get('/')
+      .set('Accept', 'text/html')
+      .end(function(res){
+        res.should.be.html;
+        res.body.should.include('<a href="/g%23%20%253%20o%20%252525%20%2537%20dir"');
+        res.body.should.include('<a href="/users"');
+        res.body.should.include('<a href="/file%20%231.txt"');
+        res.body.should.include('<a href="/todo.txt"');
+        res.body.should.include('This is the test template');
+        done();
+      });
+    });
+  });
+
   describe('when set with trailing slash', function () {
     var app = connect(connect.directory('test/fixtures/'));
 
