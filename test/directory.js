@@ -118,7 +118,7 @@ describe('directory()', function(){
   });
 
   describe('when setting a custom template', function () {
-    var app = connect(connect.directory('test/fixtures'),{template: __dirname + '/shared/template.html'});
+    var app = connect(connect.directory('test/fixtures',{template: __dirname + '/shared/template.html'}));
     
     it('should respond with file list and testing template sentence', function (done) {
       app.request()
