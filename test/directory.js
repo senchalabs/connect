@@ -1,4 +1,3 @@
-
 var connect = require('..');
 
 var app = connect();
@@ -118,6 +117,26 @@ describe('directory()', function(){
     });
   });
 
+  describe('when setting a custom template', function () {
+    var app = connect(connect.directory('test/fixtures',{template: __dirname + '/shared/template.html'}));
+    
+    it('should respond with file list and testing template sentence', function (done) {
+      app.request()
+      .get('/')
+      .set('Accept', 'text/html')
+      .end(function(res){
+        res.statusCode.should.equal(200);
+        res.should.be.html;
+        res.body.should.include('users');
+        res.body.should.include('g# %3 o %2525 %37 dir');
+        res.body.should.include('file #1.txt');
+        res.body.should.include('todo.txt');
+        res.body.should.include('This is the test template');
+        done();
+      });   
+    });
+  });
+  
   describe('when set with trailing slash', function () {
     var app = connect(connect.directory('test/fixtures/'));
 
