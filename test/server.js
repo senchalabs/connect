@@ -23,11 +23,10 @@ describe('app', function(){
   it('should allow old-style constructor middleware', function(done){
     var app = connect(
         connect.json()
-      , connect.multipart()
       , connect.urlencoded()
       , function(req, res){ res.end(JSON.stringify(req.body)) });
 
-    app.stack.should.have.length(4);
+    app.stack.should.have.length(3);
 
     app.request()
       .post('/')
@@ -39,10 +38,9 @@ describe('app', function(){
   it('should allow old-style .createServer()', function(){
     var app = connect.createServer(
         connect.json()
-      , connect.multipart()
       , connect.urlencoded());
 
-    app.stack.should.have.length(3);
+    app.stack.should.have.length(2);
   })
 
   it('should work as middlware', function(done){
