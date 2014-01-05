@@ -1,4 +1,11 @@
-HEAD
+3.0
+===================
+
+ * move middleware to separate repos
+ * remove docs
+ * remove node patches
+
+2.x
 ===================
 
  * compress: use compressible

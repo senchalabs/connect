@@ -1,21 +1,15 @@
 # Connect [![build status](https://secure.travis-ci.org/senchalabs/connect.png)](http://travis-ci.org/senchalabs/connect)
 
-  Connect is an extensible HTTP server framework for [node](http://nodejs.org), providing high performance "plugins" known as _middleware_.
-
- Connect is bundled with over _20_ commonly used middleware, including
- a logger, session support, cookie parser, and [more](http://senchalabs.github.com/connect). Be sure to view the 2.x [documentation](http://www.senchalabs.org/connect/).
+  Connect is an extensible HTTP server framework for [node](http://nodejs.org) using "plugins" known as _middleware_.
 
 ```js
 var connect = require('connect')
   , http = require('http');
 
 var app = connect()
-  .use(connect.favicon())
-  .use(connect.logger('dev'))
-  .use(connect.static('public'))
-  .use(connect.directory('public'))
-  .use(connect.cookieParser())
-  .use(connect.session({ secret: 'my secret here' }))
+  .use(require('compression')())
+  .use(require('')())
+  .use(require('')())
   .use(function(req, res){
     res.end('Hello from Connect!\n');
   });
@@ -23,40 +17,41 @@ var app = connect()
 http.createServer(app).listen(3000);
 ```
 
+## Connect 3.0
+
+Connect 3.0 is in progress in the `master` branch. The main changes in Connect are:
+
+- Middleware will be moved to their own repositories in the [expressjs](http://github.com/expressjs) organization
+- All node patches will be removed - all middleware _should_ work without Connect and with similar frameworks like [restify](https://github.com/mcavage/node-restify)
+- Node `0.8` is no longer supported
+- The website documentation has been removed - view the markdown readmes instead
+
+If you would like to help maintain these middleware, please contact [@jongleberry](https://twitter.com/jongleberry).
+
 ## Middleware
 
-  - [basicAuth](http://www.senchalabs.org/connect/basicAuth.html)
-  - [bodyParser](http://www.senchalabs.org/connect/bodyParser.html)
-  - [compress](http://www.senchalabs.org/connect/compress.html)
-  - [cookieParser](http://www.senchalabs.org/connect/cookieParser.html)
-  - [cookieSession](http://www.senchalabs.org/connect/cookieSession.html)
-  - [csrf](http://www.senchalabs.org/connect/csrf.html)
-  - [directory](http://www.senchalabs.org/connect/directory.html)
-  - [errorHandler](http://www.senchalabs.org/connect/errorHandler.html)
-  - [favicon](http://www.senchalabs.org/connect/favicon.html)
-  - [json](http://www.senchalabs.org/connect/json.html)
-  - [limit](http://www.senchalabs.org/connect/limit.html)
-  - [logger](http://www.senchalabs.org/connect/logger.html)
-  - [methodOverride](http://www.senchalabs.org/connect/methodOverride.html)
-  - [multipart](http://www.senchalabs.org/connect/multipart.html)
-  - [urlencoded](http://www.senchalabs.org/connect/urlencoded.html)
-  - [query](http://www.senchalabs.org/connect/query.html)
-  - [responseTime](http://www.senchalabs.org/connect/responseTime.html)
-  - [session](http://www.senchalabs.org/connect/session.html)
-  - [static](http://www.senchalabs.org/connect/static.html)
-  - [staticCache](http://www.senchalabs.org/connect/staticCache.html)
-  - [subdomains](http://www.senchalabs.org/connect/subdomains.html)
-  - [vhost](http://www.senchalabs.org/connect/vhost.html)
+These middleware are officially supported by the Connect/Express team:
+
+  - [compression](https://github.com/expressjs/compression) - previously `compress`
+
+These middleware previously included with Connect are no longer supported by the Connect/Express team. Use one of these alternatives intead:
+
+  - `cookieParser`
+    - [cookies](https://github.com/jed/cookies) and [keygrip](https://github.com/jed/keygrip)
+  - `limit`
+    - [raw-body](https://github.com/stream-utils/raw-body)
+  - `multipart`
+    - [connect-multiparty](https://github.com/superjoe30/connect-multiparty)
+    - [connect-busboy](https://github.com/mscdex/connect-busboy)
+  - `staticCache`
+    - [st](https://github.com/isaacs/st)
 
 ## Running Tests
 
-first:
-
-    $ npm install -d
-
-then:
-
-    $ make test
+```bash
+npm install
+make test
+```
 
 ## Contributors
 
@@ -64,20 +59,11 @@ then:
 
 ## Node Compatibility
 
-  Connect `< 1.x` is compatible with node 0.2.x
-
-
-  Connect `1.x` is compatible with node 0.4.x
-
-
-  Connect `2.x` is compatible with node 0.6.x
-
-
-  Connect (_master_) is compatible with node 0.8.x
-
-## CLA
-
- [http://sencha.com/cla](http://sencha.com/cla)
+  - Connect `< 1.x` - node `0.2`
+  - Connect `1.x` - node `0.4`
+  - Connect `< 2.8` - node `0.6`
+  - Connect `>= 2.8 < 3` - node `0.8`
+  - Connect `>= 3` - node `0.10`
 
 ## License
 
