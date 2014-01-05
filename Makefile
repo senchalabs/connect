@@ -9,8 +9,6 @@ HTML = $(SRC:.js=.html)
 test:
 	@NODE_ENV=test ./node_modules/.bin/mocha \
 		--reporter $(REPORTER) \
-		--timeout 600 \
-		--bail \
 		$(TESTS)
 
 docs: $(HTML)
