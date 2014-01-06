@@ -32,6 +32,10 @@ If you would like to help maintain these middleware, please contact [@jongleberr
 
 These middleware are officially supported by the Connect/Express team:
 
+  - [body-parser](https://github.com/expressjs/body-parser) - previous `bodyParser`, `json`, and `urlencoded`. You may also be interested in:
+    - [body](https://github.com/raynos/body)
+    - [co-body](https://github.com/visionmedia/co-body)
+    - [raw-body](https://github.com/stream-utils/raw-body)
   - [compression](https://github.com/expressjs/compression) - previously `compress`
 
 These middleware previously included with Connect are no longer supported by the Connect/Express team. Use one of these alternatives intead:

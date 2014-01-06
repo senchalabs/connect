@@ -3,7 +3,6 @@ var connect = require('../');
 
 var app = connect();
 
-app.use(connect.bodyParser());
 app.use(connect.methodOverride());
 
 app.use(function(req, res){
@@ -17,19 +16,11 @@ describe('connect.methodOverride()', function(){
     .expect('GET', done);
   })
 
-  it('should support req.body._method', function(done){
-    app.request()
-    .post('/')
-    .set('Content-Type', 'application/x-www-form-urlencoded')
-    .write('_method=DELETE')
-    .expect('DELETE', done);
-  })
-
   it('should be case in-sensitive', function(done){
     app.request()
     .post('/')
     .set('Content-Type', 'application/x-www-form-urlencoded')
-    .write('_method=delete')
+    .set('X-HTTP-Method-Override', 'DELETE')
     .expect('DELETE', done);
   })
 
@@ -37,7 +28,7 @@ describe('connect.methodOverride()', function(){
     app.request()
     .post('/')
     .set('Content-Type', 'application/x-www-form-urlencoded')
-    .write('_method=<whatever>')
+    .set('X-HTTP-Method-Override', 'POST')
     .expect('POST', done);
   })
 })
