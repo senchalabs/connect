@@ -1,4 +1,5 @@
 var connect = require('../');
+var assert = require('assert');
 
 describe('csrf', function(){
   it('should work with a valid token', function(done){
@@ -72,5 +73,38 @@ describe('csrf', function(){
         done();
       });
     });
+  });
+
+  it('should not change csrf secret once set between requests', function(done){
+    var app = connect();
+
+    app.use(connect.cookieParser());
+    app.use(connect.cookieSession({ secret: 'some secret', cookie: { httpOnly: false }}));
+    app.use(connect.csrf());
+    app.use(function(req, res, next){
+      req.csrfToken();
+      next();
+    });
+
+    app.use(function(req, res){
+      res.end(req.session._csrfSecret);
+    });
+
+    app.request()
+    .get('/')
+    .end(function(res){
+      // secret in first request
+      var csrfSecret1 = res.body;
+      app.request()
+      .get('/')
+      .end(function(res){
+        //secret in second request
+        var csrfSecret2 = res.body;
+        //both should be equal
+        assert.equal(csrfSecret1, csrfSecret2);
+        done();
+      })
+    });
+
   });
 });
