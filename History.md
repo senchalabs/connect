@@ -4,6 +4,7 @@
  * move middleware to separate repos
  * remove docs
  * remove node patches
+ * remove connect(middleware...)
 
 2.x
 ===================

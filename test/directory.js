@@ -119,7 +119,8 @@ describe('directory()', function(){
   });
 
   describe('when setting a custom template', function () {
-    var app = connect(connect.directory('test/fixtures', {'template': __dirname + '/shared/template.html'}));
+    var app = connect();
+    app.use(connect.directory('test/fixtures', {'template': __dirname + '/shared/template.html'}));
 
     it('should respond with file list and testing template sentence', function (done) {
       app.request()
@@ -138,7 +139,8 @@ describe('directory()', function(){
   });
 
   describe('when set with trailing slash', function () {
-    var app = connect(connect.directory('test/fixtures/'));
+    var app = connect();
+    app.use(connect.directory('test/fixtures/'));
 
     it('should respond with file list', function (done) {
       app.request()
@@ -157,7 +159,8 @@ describe('directory()', function(){
   });
 
   describe('when set to \'.\'', function () {
-    var app = connect(connect.directory('.'));
+    var app = connect();
+    app.use(connect.directory('.'));
 
     it('should respond with file list', function (done) {
       app.request()
