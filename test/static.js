@@ -371,7 +371,7 @@ describe('connect.static()', function(){
   describe('when a fallback is provided', function(){
     it('should serve the fallback if it exists', function(done) {
       var app = connect();
-      app.use(connect.static(fixtures, {fallback:'todo.txt'}));
+      app.use(connect.static(fixtures, { fallback: 'todo.txt' }));
   
       app.use(function(req, res){
         res.statusCode = 404;
@@ -385,7 +385,7 @@ describe('connect.static()', function(){
 
     it('should 404 if the fallback does not exist', function(done) {
       var app = connect();
-      app.use(connect.static(fixtures, {fallback:'still-does-not-exist.txt'}));
+      app.use(connect.static(fixtures, { fallback: 'still-does-not-exist.txt' }));
   
       app.use(function(req, res){
         res.statusCode = 404;
