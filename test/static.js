@@ -367,4 +367,35 @@ describe('connect.static()', function(){
       })
     })
   })
+
+  describe('when a fallback is provided', function(){
+    it('should serve the fallback if it exists', function(done) {
+      var app = connect();
+      app.use(connect.static(fixtures, { fallback: 'todo.txt' }));
+  
+      app.use(function(req, res){
+        res.statusCode = 404;
+        res.end('sorry!');
+      });
+
+      app.request()
+      .get('/does-not-exist')
+      .expect('- groceries', done);
+    })
+
+    it('should 404 if the fallback does not exist', function(done) {
+      var app = connect();
+      app.use(connect.static(fixtures, { fallback: 'still-does-not-exist.txt' }));
+  
+      app.use(function(req, res){
+        res.statusCode = 404;
+        res.end('sorry!');
+      });
+
+      app.request()
+      .get('/does-not-exist')
+      .expect(404, done);
+    })
+
+  })
 })
