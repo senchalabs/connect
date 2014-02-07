@@ -1,4 +1,5 @@
 var connect = require('../');
+var signature = require('cookie-signature')
 
 describe('csrf', function(){
   it('should work with a valid token', function(done){
@@ -74,6 +75,36 @@ describe('csrf', function(){
         res.statusCode.should.equal(403);
         done();
       });
+    });
+  });
+
+  it('should not warn when loading session with _csrf', function(done){
+    var app = connect();
+    var warn = console.warn;
+    var warns = 0;
+
+    // Old cookie that contains _csrf
+    var val = 'j:' + JSON.stringify({ _csrf: 'blah' });
+    var cookie = 's:' + signature.sign(val, 'greg');
+
+    // Record warning count
+    console.warn = function () { warns++ };
+
+    app.use(connect.cookieParser());
+    app.use(connect.cookieSession({ key: 'ses', secret: 'greg' }));
+    app.use(connect.bodyParser());
+    app.use(connect.csrf());
+    app.use(function(req, res){
+      res.end(req.csrfToken() || 'none');
+    });
+
+    app.request()
+    .set('Cookie', 'ses=' + escape(cookie))
+    .get('/')
+    .end(function(res){
+      console.warn = warn;
+      warns.should.equal(0);
+      done();
     });
   });
 });
