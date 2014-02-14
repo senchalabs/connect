@@ -6,10 +6,13 @@
  * remove node patches
  * remove connect(middleware...)
 
-2.x
+2.13.0 / 2014-02-14
 ===================
 
+ * fix typo in memory store warning #974 @rvagg
  * compress: use compressible
+ * directory: add template option #990 @gottaloveit @Earl-Brown
+ * csrf: prevent deprecated warning with old sessions
 
 2.12.0 / 2013-12-10
 ===================
