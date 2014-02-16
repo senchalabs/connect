@@ -53,6 +53,8 @@ These middleware previously included with Connect are no longer supported by the
     - [connect-busboy](https://github.com/mscdex/connect-busboy)
   - `staticCache`
     - [st](https://github.com/isaacs/st)
+  - `query`
+    - [qs](https://github.com/visionmedia/node-querystring)
 
 ## Running Tests
 
