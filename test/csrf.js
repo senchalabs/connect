@@ -5,7 +5,7 @@ describe('csrf', function(){
     var app = connect();
 
     app.use(connect.cookieParser())
-    app.use(connect.session({ secret: 'greg' }));
+    app.use(connect.cookieSession({ secret: 'greg' }));
     app.use(connect.csrf());
     app.use(function(req, res){
       res.end(req.csrfToken() || 'none');
@@ -31,7 +31,7 @@ describe('csrf', function(){
     var app = connect();
 
     app.use(connect.cookieParser());
-    app.use(connect.session({ secret: 'greg' }));
+    app.use(connect.cookieSession({ secret: 'greg' }));
     app.use(connect.csrf());
     app.use(function(req, res){
       res.end(req.csrfToken() || 'none');
@@ -55,7 +55,7 @@ describe('csrf', function(){
     var app = connect();
 
     app.use(connect.cookieParser());
-    app.use(connect.session({ secret: 'greg' }));
+    app.use(connect.cookieSession({ secret: 'greg' }));
     app.use(connect.csrf());
     app.use(function(req, res){
       res.end(req.csrfToken() || 'none');
