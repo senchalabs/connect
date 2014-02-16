@@ -39,6 +39,7 @@ These middleware are officially supported by the Connect/Express team:
   - [compression](https://github.com/expressjs/compression) - previously `compress`
   - [morgan](https://github.com/expressjs/morgan) - previously `logger`
   - [express-session](https://github.com/expressjs/session) - previously `session`
+  - [static-favicon](https://github.com/expressjs/favicon) - previously `favicon`
   - [response-time](https://github.com/expressjs/response-time) - previously `response-time`
 
 These middleware previously included with Connect are no longer supported by the Connect/Express team or are replaced by an alternative module. Use one of these alternatives intead:
