@@ -1,5 +1,6 @@
 
 var connect = require('../')
+  , EventEmitter = require('events').EventEmitter
   , assert = require('assert');
 
 var min = 60 * 1000;
@@ -620,5 +621,21 @@ describe('connect.session()', function(){
       });
     })
 
+    it('should 500 when storeReady is false', function (done){
+      var store = new EventEmitter(); //for disconnect event
+      var app = connect()
+      .use(connect.cookieParser('keyboard cat'))
+      .use(connect.session({
+        store: store
+      }))
+      .use(function (req, res){
+        res.end('ok');
+      });
+
+      store.emit('disconnect');
+      app.request()
+      .get('/')
+      .expect(500, done);
+    });
   })
 })
