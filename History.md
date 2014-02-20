@@ -2,6 +2,7 @@ HEAD
 ===================
 
  * basicAuth: use basic-auth-connect
+ * cookieParser: use cookie-parser
  * compress: use compression
  * favicon: use static-favicon
  * logger: use morgan

@@ -14,6 +14,7 @@
   "dependencies": {
     "basic-auth-connect": "1.0.0",
     "batch": "0.5.0",
+    "cookie-parser": "1.0.0",
     "compression": "1.0.0",
     "express-session": "1.0.1",
     "morgan": "1.0.0",
