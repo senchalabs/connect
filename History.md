@@ -1,6 +1,7 @@
 HEAD
 ===================
 
+ * basicAuth: use basic-auth-connect
  * compress: use compression
  * favicon: use static-favicon
 
