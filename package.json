@@ -15,6 +15,7 @@
     "basic-auth-connect": "1.0.0",
     "batch": "0.5.0",
     "compression": "1.0.0",
+    "express-session": "1.0.1",
     "morgan": "1.0.0",
     "qs": "0.6.6",
     "static-favicon": "1.0.0",

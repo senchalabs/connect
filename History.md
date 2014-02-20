@@ -5,6 +5,7 @@ HEAD
  * compress: use compression
  * favicon: use static-favicon
  * logger: use morgan
+ * session: use express-session
 
 2.13.0 / 2014-02-14
 ===================
