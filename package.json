@@ -19,6 +19,7 @@
     "express-session": "1.0.1",
     "morgan": "1.0.0",
     "qs": "0.6.6",
+    "response-time": "1.0.0",
     "static-favicon": "1.0.0",
     "cookie-signature": "1.0.1",
     "buffer-crc32": "0.2.1",
