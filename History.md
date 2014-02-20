@@ -4,6 +4,7 @@ HEAD
  * basicAuth: use basic-auth-connect
  * compress: use compression
  * favicon: use static-favicon
+ * logger: use morgan
 
 2.13.0 / 2014-02-14
 ===================
