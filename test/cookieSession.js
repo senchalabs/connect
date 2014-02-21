@@ -124,7 +124,7 @@ describe('connect.cookieSession()', function(){
   })
 
   describe('req.session.cookie', function(){
-    var Cookie = require('../lib/middleware/session/cookie')
+    var Cookie = connect.session.Cookie;
 
     it('should be a Cookie', function(done){
       app.use(function(req, res){
