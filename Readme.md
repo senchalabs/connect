@@ -30,13 +30,14 @@ If you would like to help maintain these middleware, please contact [@jongleberr
 
 ## Middleware
 
-These middleware are officially supported by the Connect/Express team:
+These middleware and libraries are officially supported by the Connect/Express team:
 
   - [body-parser](https://github.com/expressjs/body-parser) - previous `bodyParser`, `json`, and `urlencoded`. You may also be interested in:
     - [body](https://github.com/raynos/body)
     - [co-body](https://github.com/visionmedia/co-body)
     - [raw-body](https://github.com/stream-utils/raw-body)
   - [compression](https://github.com/expressjs/compression) - previously `compress`
+  - [cookie-session](https://github.com/expressjs/cookie-session) - previously `cookieSession`
   - [morgan](https://github.com/expressjs/morgan) - previously `logger`
   - [express-session](https://github.com/expressjs/session) - previously `session`
   - [static-favicon](https://github.com/expressjs/favicon) - previously `favicon`
