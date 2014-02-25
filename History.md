@@ -3,6 +3,7 @@ HEAD
 
  * basicAuth: use basic-auth-connect
  * cookieParser: use cookie-parser
+ * cookieSession: compare full value rather than crc32
  * compress: use compression
  * favicon: use static-favicon
  * logger: use morgan
