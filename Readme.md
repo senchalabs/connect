@@ -1,15 +1,17 @@
 # Connect [![build status](https://secure.travis-ci.org/senchalabs/connect.png)](http://travis-ci.org/senchalabs/connect)
 
   Connect is an extensible HTTP server framework for [node](http://nodejs.org) using "plugins" known as _middleware_.
-
+  
 ```js
 var connect = require('connect')
   , http = require('http');
 
 var app = connect()
   .use(require('compression')())
-  .use(require('')())
-  .use(require('')())
+  .use(require('cookie-session')({
+    keys: ['secret1', 'secret2']
+  }))
+  .use(require('body-parser')())
   .use(function(req, res){
     res.end('Hello from Connect!\n');
   });
@@ -26,7 +28,7 @@ Connect 3.0 is in progress in the `master` branch. The main changes in Connect a
 - Node `0.8` is no longer supported
 - The website documentation has been removed - view the markdown readmes instead
 
-If you would like to help maintain these middleware, please contact [@jongleberry](https://twitter.com/jongleberry).
+If you would like to help maintain these middleware, please contact a [member of the expressjs team](https://github.com/orgs/expressjs/members).
 
 ## Middleware
 
@@ -39,11 +41,14 @@ These middleware and libraries are officially supported by the Connect/Express t
   - [compression](https://github.com/expressjs/compression) - previously `compress`
   - [cookie-session](https://github.com/expressjs/cookie-session) - previously `cookieSession`
   - [morgan](https://github.com/expressjs/morgan) - previously `logger`
+  - [cookie-parser](https://github.com/expressjs/cookie-parser) - previously `cookieParser`
   - [express-session](https://github.com/expressjs/session) - previously `session`
   - [static-favicon](https://github.com/expressjs/favicon) - previously `favicon`
   - [response-time](https://github.com/expressjs/response-time) - previously `response-time`
 
-These middleware previously included with Connect are no longer supported by the Connect/Express team or are replaced by an alternative module. Use one of these alternatives intead:
+Most of these are exact ports of their Connect 2.x equivalents. The primary exception is `cookie-parser`.
+
+Some middleware previously included with Connect are no longer supported by the Connect/Express team, are replaced by an alternative module, or should be superceded by a better module. Use one of these alternatives intead:
 
   - `cookieParser`
     - [cookies](https://github.com/jed/cookies) and [keygrip](https://github.com/jed/keygrip)
