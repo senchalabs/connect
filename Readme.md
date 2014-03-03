@@ -1,7 +1,7 @@
 # Connect [![build status](https://secure.travis-ci.org/senchalabs/connect.png)](http://travis-ci.org/senchalabs/connect)
 
   Connect is an extensible HTTP server framework for [node](http://nodejs.org) using "plugins" known as _middleware_.
-  
+
 ```js
 var connect = require('connect')
   , http = require('http');
@@ -45,6 +45,7 @@ These middleware and libraries are officially supported by the Connect/Express t
   - [express-session](https://github.com/expressjs/session) - previously `session`
   - [static-favicon](https://github.com/expressjs/favicon) - previously `favicon`
   - [response-time](https://github.com/expressjs/response-time) - previously `response-time`
+  - [errorhandler](https://github.com/expressjs/errorhandler) - previously `error-handler`
 
 Most of these are exact ports of their Connect 2.x equivalents. The primary exception is `cookie-parser`.
 
