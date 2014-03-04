@@ -2,6 +2,7 @@
 ===================
 
  * cookieSession: compare full value rather than crc32
+ * deps: raw-body@1.1.3
 
 2.13.0 / 2014-02-14
 ===================
