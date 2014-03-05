@@ -4,6 +4,7 @@ HEAD
  * basicAuth: use basic-auth-connect
  * cookieParser: use cookie-parser
  * compress: use compression
+ * csrf: use csurf
  * dep: cookie-signature@1.0.3
  * errorHandler: use errorhandler
  * favicon: use static-favicon
