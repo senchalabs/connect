@@ -8,6 +8,7 @@ HEAD
  * errorHandler: use errorhandler
  * favicon: use static-favicon
  * logger: use morgan
+ * methodOverride: use method-override
  * responseTime: use response-time
  * session: use express-session
 
