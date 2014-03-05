@@ -1,4 +1,4 @@
-2.13.x
+2.13.1 / 2014-03-05
 ===================
 
  * cookieSession: compare full value rather than crc32
