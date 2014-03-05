@@ -49,6 +49,7 @@ These middleware and libraries are officially supported by the Connect/Express t
   - [method-override](https://github.com/expressjs/method-override) - previously `method-override`
   - [connect-timeout](https://github.com/expressjs/timeout) (not yet published) - previously `timeout`
   - [vhost](https://github.com/expressjs/vhost) - previously `vhost`
+  - [csurf](https://github.com/expressjs/csurf) - previousy `csrf`
 
 Most of these are exact ports of their Connect 2.x equivalents. The primary exception is `cookie-session`.
 
