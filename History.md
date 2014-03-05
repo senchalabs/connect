@@ -5,6 +5,7 @@
  * remove docs
  * remove node patches
  * remove connect(middleware...)
+ * remove the old `connect.createServer()` method
 
 2.13.0 / 2014-02-14
 ===================
