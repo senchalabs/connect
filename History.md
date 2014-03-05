@@ -7,6 +7,12 @@
  * remove connect(middleware...)
  * remove the old `connect.createServer()` method
 
+2.13.1 / 2014-03-05
+===================
+
+ * cookieSession: compare full value rather than crc32
+ * deps: raw-body@1.1.3
+
 2.13.0 / 2014-02-14
 ===================
 
