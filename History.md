@@ -4,6 +4,7 @@ HEAD
  * basicAuth: use basic-auth-connect
  * cookieParser: use cookie-parser
  * compress: use compression
+ * dep: cookie-signature@1.0.3
  * favicon: use static-favicon
  * logger: use morgan
  * responseTime: use response-time
