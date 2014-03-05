@@ -11,6 +11,7 @@ HEAD
  * methodOverride: use method-override
  * responseTime: use response-time
  * session: use express-session
+ * vhost: use vhost
 
 2.13.1 / 2014-03-05
 ===================
