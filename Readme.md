@@ -47,9 +47,10 @@ These middleware and libraries are officially supported by the Connect/Express t
   - [response-time](https://github.com/expressjs/response-time) - previously `response-time`
   - [errorhandler](https://github.com/expressjs/errorhandler) - previously `error-handler`
   - [method-override](https://github.com/expressjs/method-override) - previously `method-override`
-  - [connect-timeout](https://github.com/expressjs/timeout) - previously `timeout`
+  - [connect-timeout](https://github.com/expressjs/timeout) (not yet published) - previously `timeout`
+  - [vhost](https://github.com/expressjs/vhost) - previously `vhost`
 
-Most of these are exact ports of their Connect 2.x equivalents. The primary exception is `cookie-parser`.
+Most of these are exact ports of their Connect 2.x equivalents. The primary exception is `cookie-session`.
 
 Some middleware previously included with Connect are no longer supported by the Connect/Express team, are replaced by an alternative module, or should be superceded by a better module. Use one of these alternatives intead:
 
