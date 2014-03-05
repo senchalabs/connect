@@ -3,12 +3,17 @@ HEAD
 
  * basicAuth: use basic-auth-connect
  * cookieParser: use cookie-parser
- * cookieSession: compare full value rather than crc32
  * compress: use compression
  * favicon: use static-favicon
  * logger: use morgan
  * responseTime: use response-time
  * session: use express-session
+
+2.13.1 / 2014-03-05
+===================
+
+ * cookieSession: compare full value rather than crc32
+ * deps: raw-body@1.1.3
 
 2.13.0 / 2014-02-14
 ===================

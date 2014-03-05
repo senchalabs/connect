@@ -1,6 +1,6 @@
 {
   "name": "connect",
-  "version": "2.13.0",
+  "version": "2.13.1",
   "description": "High performance middleware framework",
   "keywords": [
     "framework",
