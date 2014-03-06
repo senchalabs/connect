@@ -7,6 +7,25 @@
  * remove connect(middleware...)
  * remove the old `connect.createServer()` method
 
+2.14.0 / 2014-03-05
+===================
+
+ * basicAuth: use basic-auth-connect
+ * cookieParser: use cookie-parser
+ * compress: use compression
+ * csrf: use csurf
+ * dep: cookie-signature@1.0.3
+ * directory: use serve-index
+ * errorHandler: use errorhandler
+ * favicon: use static-favicon
+ * logger: use morgan
+ * methodOverride: use method-override
+ * responseTime: use response-time
+ * session: use express-session
+ * static: use serve-static
+ * timeout: use connect-timeout
+ * vhost: use vhost
+
 2.13.1 / 2014-03-05
 ===================
 
