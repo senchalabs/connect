@@ -90,4 +90,4 @@ make test
 
 ## License
 
-View the [LICENSE](https://github.com/senchalabs/connect/blob/master/LICENSE) file. The [Silk](http://www.famfamfam.com/lab/icons/silk/) icons used by the `directory` middleware created by/copyright of [FAMFAMFAM](http://www.famfamfam.com/).
+View the [LICENSE](https://github.com/senchalabs/connect/blob/master/LICENSE) file.
