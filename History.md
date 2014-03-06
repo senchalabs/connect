@@ -1,4 +1,4 @@
-HEAD
+2.14.0 / 2014-03-05
 ===================
 
  * basicAuth: use basic-auth-connect
