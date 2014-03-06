@@ -3,6 +3,7 @@ HEAD
 
   * dep: fresh@0.2.2
   * dep: serve-index@1.0.1
+  * dep: serve-static@1.0.2
 
 2.14.0 / 2014-03-05
 ===================
