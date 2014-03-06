@@ -1,11 +1,13 @@
-3.0
-===================
+3.0.0-rc.1 / 2014-03-06
+=======================
 
  * move middleware to separate repos
  * remove docs
  * remove node patches
  * remove connect(middleware...)
  * remove the old `connect.createServer()` method
+ * remove various private `connect.utils` functions
+ * drop node.js 0.8 support
 
 2.14.1 / 2014-03-06
 ===================
