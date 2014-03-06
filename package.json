@@ -15,8 +15,8 @@
     "debug": ">= 0.7.3 < 1"
   },
   "devDependencies": {
-    "should": ">= 2.0.2 < 3",
-    "mocha": ">= 1.13.0 < 2"
+    "should": "~2.1.2",
+    "mocha": "~1.17.1"
   },
   "licenses": [
     {
