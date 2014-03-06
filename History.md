@@ -13,6 +13,7 @@ HEAD
  * methodOverride: use method-override
  * responseTime: use response-time
  * session: use express-session
+ * static: use serve-static
  * timeout: use connect-timeout
  * vhost: use vhost
 
