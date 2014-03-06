@@ -24,7 +24,6 @@
       "url": "https://raw.github.com/senchalabs/connect/master/LICENSE"
     }
   ],
-  "main": "index",
   "engines": {
     "node": ">= 0.10.0"
   },
