@@ -51,6 +51,7 @@ These middleware and libraries are officially supported by the Connect/Express t
   - [vhost](https://github.com/expressjs/vhost) - previously `vhost`
   - [csurf](https://github.com/expressjs/csurf) - previousy `csrf`
   - [serve-index](https://github.com/expressjs/serve-index) - previousy `directory`
+  - [serve-static](https://github.com/expressjs/serve-static) - previously `static`
 
 Most of these are exact ports of their Connect 2.x equivalents. The primary exception is `cookie-session`.
 
