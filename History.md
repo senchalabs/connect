@@ -6,6 +6,7 @@ HEAD
  * compress: use compression
  * csrf: use csurf
  * dep: cookie-signature@1.0.3
+ * directory: use serve-index
  * errorHandler: use errorhandler
  * favicon: use static-favicon
  * logger: use morgan
