@@ -69,6 +69,8 @@ Some middleware previously included with Connect are no longer supported by the 
   - `query`
     - [qs](https://github.com/visionmedia/node-querystring)
 
+Checkout [http-framework](https://github.com/Raynos/http-framework/wiki/Modules) for many other compatible middleware! 
+
 ## Running Tests
 
 ```bash
