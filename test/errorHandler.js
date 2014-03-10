@@ -48,7 +48,7 @@ describe('connect.errorHandler()', function () {
         .get('/')
         .end(function (res) {
             res.headers['content-type'].should.startWith('text/html');
-            res.body.should.contain('<title>');
+            res.body.should.containEql('<title>');
             done();
         });
     });
