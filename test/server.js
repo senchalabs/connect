@@ -58,6 +58,21 @@ describe('app', function(){
     });
   })
 
+  it('should escape the 500 response body', function(done){
+    var app = connect();
+    app.use(function(req, res, next){
+      next(new Error('error!'));
+    });
+    app.request()
+    .get('/')
+    .end(function(res){
+      res.statusCode.should.eql(500);
+      res.body.should.containEql('Error: error!<br>');
+      res.body.should.containEql('<br> &nbsp; &nbsp;at');
+      done();
+    });
+  })
+
   it('should escape the 404 response body', function(done){
     var app = connect();
     app.request()

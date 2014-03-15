@@ -1,3 +1,8 @@
+HEAD
+==================
+
+ * encode stack in HTML for default error handler
+
 3.0.0-rc.1 / 2014-03-06
 =======================
 
