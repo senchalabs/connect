@@ -14,6 +14,11 @@ HEAD
  * remove various private `connect.utils` functions
  * drop node.js 0.8 support
 
+2.14.3 / 2014-03-18
+===================
+
+  * dep: static-favicon@1.0.2
+
 2.14.2 / 2014-03-11
 ===================
 
