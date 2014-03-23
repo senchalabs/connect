@@ -39,19 +39,19 @@ These middleware and libraries are officially supported by the Connect/Express t
     - [co-body](https://github.com/visionmedia/co-body)
     - [raw-body](https://github.com/stream-utils/raw-body)
   - [compression](https://github.com/expressjs/compression) - previously `compress`
-  - [cookie-session](https://github.com/expressjs/cookie-session) - previously `cookieSession`
-  - [morgan](https://github.com/expressjs/morgan) - previously `logger`
-  - [cookie-parser](https://github.com/expressjs/cookie-parser) - previously `cookieParser`
-  - [express-session](https://github.com/expressjs/session) - previously `session`
-  - [static-favicon](https://github.com/expressjs/favicon) - previously `favicon`
-  - [response-time](https://github.com/expressjs/response-time) - previously `response-time`
-  - [errorhandler](https://github.com/expressjs/errorhandler) - previously `error-handler`
-  - [method-override](https://github.com/expressjs/method-override) - previously `method-override`
   - [connect-timeout](https://github.com/expressjs/timeout) - previously `timeout`
-  - [vhost](https://github.com/expressjs/vhost) - previously `vhost`
+  - [cookie-parser](https://github.com/expressjs/cookie-parser) - previously `cookieParser`
+  - [cookie-session](https://github.com/expressjs/cookie-session) - previously `cookieSession`
   - [csurf](https://github.com/expressjs/csurf) - previousy `csrf`
+  - [errorhandler](https://github.com/expressjs/errorhandler) - previously `error-handler`
+  - [express-session](https://github.com/expressjs/session) - previously `session`
+  - [method-override](https://github.com/expressjs/method-override) - previously `method-override`
+  - [morgan](https://github.com/expressjs/morgan) - previously `logger`
+  - [response-time](https://github.com/expressjs/response-time) - previously `response-time`
   - [serve-index](https://github.com/expressjs/serve-index) - previousy `directory`
   - [serve-static](https://github.com/expressjs/serve-static) - previously `static`
+  - [static-favicon](https://github.com/expressjs/favicon) - previously `favicon`
+  - [vhost](https://github.com/expressjs/vhost) - previously `vhost`
 
 Most of these are exact ports of their Connect 2.x equivalents. The primary exception is `cookie-session`.
 
@@ -64,10 +64,10 @@ Some middleware previously included with Connect are no longer supported by the 
   - `multipart`
     - [connect-multiparty](https://github.com/superjoe30/connect-multiparty)
     - [connect-busboy](https://github.com/mscdex/connect-busboy)
-  - `staticCache`
-    - [st](https://github.com/isaacs/st)
   - `query`
     - [qs](https://github.com/visionmedia/node-querystring)
+  - `staticCache`
+    - [st](https://github.com/isaacs/st)
 
 Checkout [http-framework](https://github.com/Raynos/http-framework/wiki/Modules) for many other compatible middleware! 
 
