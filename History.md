@@ -1,3 +1,8 @@
+HEAD
+====
+
+  * fix node.js 0.8 compatibility with memory session
+
 2.14.3 / 2014-03-18
 ===================
 
