@@ -14,6 +14,14 @@ HEAD
  * remove various private `connect.utils` functions
  * drop node.js 0.8 support
 
+2.14.4 / 2014-04-07
+===================
+
+  * dep: bytes@0.3.0
+  * dep: csurf@1.1.0
+  * dep: serve-static@1.0.4
+  * fix node.js 0.8 compatibility with memory session
+
 2.14.3 / 2014-03-18
 ===================
 
