@@ -2,6 +2,7 @@ HEAD
 ====
 
   * dep: bytes@0.3.0
+  * dep: csurf@1.1.0
   * dep: serve-static@1.0.4
   * fix node.js 0.8 compatibility with memory session
 

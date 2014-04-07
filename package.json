@@ -17,7 +17,7 @@
     "cookie-signature": "1.0.3",
     "compression": "1.0.0",
     "connect-timeout": "1.0.0",
-    "csurf": "1.0.0",
+    "csurf": "1.1.0",
     "errorhandler": "1.0.0",
     "express-session": "1.0.2",
     "fresh": "0.2.2",
