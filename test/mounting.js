@@ -1,6 +1,8 @@
 
+process.env.NODE_ENV = 'test';
+
 var connect = require('../')
-  , http = require('http');
+var http = require('http');
 
 describe('app.use()', function(){
   var app;
