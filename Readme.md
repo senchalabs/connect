@@ -56,7 +56,7 @@ first:
 
 then:
 
-    $ make test
+    $ npm test
 
 ## Contributors
 

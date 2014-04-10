@@ -1,12 +1,3 @@
-*.markdown
-*.md
-.git*
-Makefile
-benchmarks/
 docs/
-examples/
-install.sh
-support/
 test/
-.DS_Store
-coverage.html
+.travis.yml

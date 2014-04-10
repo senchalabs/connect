@@ -53,6 +53,6 @@
     "node": ">= 0.8.0"
   },
   "scripts": {
-    "test": "make"
+    "test": "mocha --reporter spec"
   }
 }

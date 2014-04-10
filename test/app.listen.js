@@ -1,5 +1,7 @@
 
-var connect = require('../');
+process.env.NODE_ENV = 'test';
+
+var connect = require('../')
 
 describe('app.listen()', function(){
   it('should wrap in an http.Server', function(done){

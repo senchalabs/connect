@@ -1,5 +1,7 @@
 
-var connect = require('../');
+process.env.NODE_ENV = 'test';
+
+var connect = require('../')
 
 describe('app', function(){
   it('should inherit from event emitter', function(done){
