@@ -68,6 +68,7 @@ Some middleware previously included with Connect are no longer supported by the 
     - [qs](https://github.com/visionmedia/node-querystring)
   - `staticCache`
     - [st](https://github.com/isaacs/st)
+    - [connect-static](https://github.com/andrewrk/connect-static)
 
 Checkout [http-framework](https://github.com/Raynos/http-framework/wiki/Modules) for many other compatible middleware! 
 
