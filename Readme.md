@@ -55,7 +55,7 @@ These middleware and libraries are officially supported by the Connect/Express t
 
 Most of these are exact ports of their Connect 2.x equivalents. The primary exception is `cookie-session`.
 
-Some middleware previously included with Connect are no longer supported by the Connect/Express team, are replaced by an alternative module, or should be superceded by a better module. Use one of these alternatives intead:
+Some middleware previously included with Connect are no longer supported by the Connect/Express team, are replaced by an alternative module, or should be superseded by a better module. Use one of these alternatives instead:
 
   - `cookieParser`
     - [cookies](https://github.com/jed/cookies) and [keygrip](https://github.com/jed/keygrip)
