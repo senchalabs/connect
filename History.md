@@ -14,6 +14,12 @@ HEAD
  * remove various private `connect.utils` functions
  * drop node.js 0.8 support
 
+2.14.5 / 2014-04-24
+===================
+
+  * dep: raw-body@1.1.4
+  * dep: serve-static@1.1.0
+
 2.14.4 / 2014-04-07
 ===================
 
