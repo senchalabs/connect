@@ -7,6 +7,7 @@ HEAD
   * Prevent default 404 handler after response sent
   * dep: compression@1.0.2
   * dep: connect-timeout@1.1.0
+  * dep: errorhandler@1.0.1
   * dep: express-session@1.0.4
   * dep: serve-index@1.0.2
 
