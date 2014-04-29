@@ -2,6 +2,7 @@ HEAD
 ====
 
   * Add simple `res.cookie` support
+  * Call error stack even when response has been sent
   * Patch `res.headerSent` to return Boolean
   * Patch `res.headersSent` for node.js 0.8
   * Prevent default 404 handler after response sent

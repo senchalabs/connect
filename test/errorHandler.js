@@ -78,4 +78,24 @@ describe('connect.errorHandler()', function () {
         });
     });
   });
+
+  describe('headers sent', function () {
+    it('should not die', function (done) {
+      var app = connect();
+      app.use(function (req, res, next) {
+        res.end('0');
+        next(new Error('msg'));
+      });
+      app.use(connect.errorHandler());
+      app.use(function (error, req, res, next) {
+        process.nextTick(function () {
+          throw error;
+        });
+      });
+
+      app.request()
+      .get('/')
+      .expect(200, done);
+    });
+  });
 });
