@@ -1,6 +1,7 @@
 HEAD
 ====
 
+  * Patch `res.headerSent` to return Boolean
   * dep: connect-timeout@1.0.1
   * dep: serve-index@1.0.2
 

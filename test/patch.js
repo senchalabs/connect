@@ -2,6 +2,29 @@
 var connect = require('../');
 
 describe('patch', function(){
+  describe('res', function(){
+    describe('headerSent', function(){
+      it('should match res._header Boolean status', function(done){
+        var app = connect();
+
+        app.use(function(req, res){
+          res.setHeader('x-header-sent', String(res.headerSent));
+          res.write('');
+          res.write(String(res.headerSent));
+          res.end();
+        })
+
+        app.request()
+        .get('/')
+        .end(function(res){
+          res.body.should.equal('true');
+          res.should.have.header('x-header-sent', 'false');
+          done();
+        });
+      })
+    })
+  })
+
   describe('"header" event', function(){
     describe('with .setHeader()', function(){
       it('should be emitted', function(done){
