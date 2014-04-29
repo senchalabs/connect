@@ -5,6 +5,7 @@ HEAD
   * Patch `res.headerSent` to return Boolean
   * Patch `res.headersSent` for node.js 0.8
   * dep: connect-timeout@1.0.1
+  * dep: express-session@1.0.4
   * dep: serve-index@1.0.2
 
 2.14.5 / 2014-04-24
