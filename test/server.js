@@ -85,10 +85,26 @@ describe('app', function(){
     });
   })
 
-  it('should escape the 404 response body', function(done){
-    var app = connect();
-    app.request()
-    .get('/foo/<script>stuff</script>')
-    .expect('Cannot GET /foo/&lt;script&gt;stuff&lt;/script&gt;\n', done);
+  describe('404 handler', function(){
+    it('should have escaped response body', function(done){
+      var app = connect();
+      app.request()
+      .get('/foo/<script>stuff</script>')
+      .expect('Cannot GET /foo/&lt;script&gt;stuff&lt;/script&gt;\n', done);
+    })
+
+    it('shoud not fire after headers sent', function(done){
+      var app = connect();
+
+      app.use(function(req, res, next){
+        res.write('body');
+        res.end();
+        process.nextTick(next);
+      })
+
+      app.request()
+      .get('/')
+      .expect(200, done);
+    })
   })
 })

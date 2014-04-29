@@ -4,6 +4,7 @@ HEAD
   * Add simple `res.cookie` support
   * Patch `res.headerSent` to return Boolean
   * Patch `res.headersSent` for node.js 0.8
+  * Prevent default 404 handler after response sent
   * dep: connect-timeout@1.0.1
   * dep: express-session@1.0.4
   * dep: serve-index@1.0.2
