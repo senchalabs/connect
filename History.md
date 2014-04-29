@@ -2,6 +2,7 @@ HEAD
 ====
 
   * Patch `res.headerSent` to return Boolean
+  * Patch `res.headersSent` for node.js 0.8
   * dep: connect-timeout@1.0.1
   * dep: serve-index@1.0.2
 
