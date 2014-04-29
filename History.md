@@ -1,6 +1,7 @@
 HEAD
 ====
 
+  * dep: connect-timeout@1.0.1
   * dep: serve-index@1.0.2
 
 2.14.5 / 2014-04-24

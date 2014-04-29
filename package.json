@@ -16,7 +16,7 @@
     "cookie-parser": "1.0.1",
     "cookie-signature": "1.0.3",
     "compression": "1.0.0",
-    "connect-timeout": "1.0.0",
+    "connect-timeout": "1.0.1",
     "csurf": "1.1.0",
     "errorhandler": "1.0.0",
     "express-session": "1.0.2",
