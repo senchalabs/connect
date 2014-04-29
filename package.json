@@ -13,6 +13,7 @@
   "author": "TJ Holowaychuk <tj@vision-media.ca> (http://tjholowaychuk.com)",
   "dependencies": {
     "basic-auth-connect": "1.0.0",
+    "cookie": "0.1.2",
     "cookie-parser": "1.0.1",
     "cookie-signature": "1.0.3",
     "compression": "1.0.0",
