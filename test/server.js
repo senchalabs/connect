@@ -1,7 +1,9 @@
 
 process.env.NODE_ENV = 'test';
 
-var connect = require('../')
+var connect = require('../');
+var request = require('./support/http');
+var should = require('should');
 
 describe('app', function(){
   it('should inherit from event emitter', function(done){
@@ -17,7 +19,7 @@ describe('app', function(){
       res.end(req.url);
     });
 
-    app.request()
+    request(app)
     .get('http://example.com/foo')
     .expect('http://example.com/foo', done);
   })
@@ -65,7 +67,7 @@ describe('app', function(){
     app.use(function(req, res, next){
       next(new Error('error!'));
     });
-    app.request()
+    request(app)
     .get('/')
     .end(function(res){
       res.statusCode.should.eql(500);
@@ -77,7 +79,7 @@ describe('app', function(){
 
   it('should escape the 404 response body', function(done){
     var app = connect();
-    app.request()
+    request(app)
     .get('/foo/<script>stuff</script>')
     .expect('Cannot GET /foo/&lt;script&gt;stuff&lt;/script&gt;\n', done);
   })

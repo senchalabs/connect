@@ -1,8 +1,9 @@
 
 process.env.NODE_ENV = 'test';
 
-var connect = require('../')
+var connect = require('../');
 var http = require('http');
+var request = require('./support/http');
 
 describe('app.use()', function(){
   var app;
@@ -22,7 +23,7 @@ describe('app.use()', function(){
     
       app.use('/blog', blog);
     
-      app.request()
+      request(app)
       .get('/blog')
       .expect('blog', done);
     })
@@ -34,7 +35,7 @@ describe('app.use()', function(){
         res.end(req.originalUrl);
       });
     
-      app.request()
+      request(app)
       .get('/blog/post/1')
       .expect('/blog/post/1', done);
     })
@@ -46,7 +47,7 @@ describe('app.use()', function(){
         res.end(req.url);
       });
     
-      app.request()
+      request(app)
       .get('/blog/post/1')
       .expect('/post/1', done);
     })
@@ -58,7 +59,7 @@ describe('app.use()', function(){
         res.end(req.url);
       });
 
-      app.request()
+      request(app)
       .get('/proxy?url=http://example.com/blog/post/1')
       .expect('/?url=http://example.com/blog/post/1', done);
     });
@@ -70,7 +71,7 @@ describe('app.use()', function(){
         res.end(req.url);
       });
 
-      app.request()
+      request(app)
       .get('http://example.com/blog/post/1')
       .expect('http://example.com/post/1', done);
     })
@@ -86,7 +87,7 @@ describe('app.use()', function(){
         res.end(req.url);
       });
 
-      app.request()
+      request(app)
       .get('http://example.com/blog/post/1')
       .expect('http://example.com/post/1', done);
     })
@@ -101,7 +102,7 @@ describe('app.use()', function(){
         res.end(req.url);
       });
 
-      app.request()
+      request(app)
       .get('http://example.com/blog/post/1')
       .expect('http://example.com/post/1', done);
     })
@@ -116,7 +117,7 @@ describe('app.use()', function(){
     
       app.use('/blog/', blog);
     
-      app.request()
+      request(app)
       .get('/blog')
       .expect('blog', done);
     })
@@ -142,7 +143,7 @@ describe('app.use()', function(){
         res.end(req.url);
       });
 
-      app.request()
+      request(app)
       .get('/admin')
       .expect('/admin', done);
     })
@@ -157,7 +158,7 @@ describe('app.use()', function(){
     
       app.use('/blog', blog);
     
-      app.request()
+      request(app)
       .get('/blog')
       .expect('blog', done);
     })
@@ -171,7 +172,7 @@ describe('app.use()', function(){
   
     app.use('/blog', blog);
   
-    app.request()
+    request(app)
     .get('/BLog')
     .expect('blog', done);
   })
@@ -184,7 +185,7 @@ describe('app.use()', function(){
 
     app.use('/BLog', blog);
 
-    app.request()
+    request(app)
     .get('/blog')
     .expect('blog', done);
   })
@@ -197,7 +198,7 @@ describe('app.use()', function(){
 
     app.use('/BLog', blog);
 
-    app.request()
+    request(app)
     .get('/blOG')
     .expect('blog', done);
   })
