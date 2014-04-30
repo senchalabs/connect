@@ -1,6 +1,7 @@
 HEAD
 ==================
 
+ * dep: debug@0.8.1
  * encode stack in HTML for default error handler
 
 3.0.0-rc.1 / 2014-03-06
