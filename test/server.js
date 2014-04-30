@@ -1,30 +1,23 @@
 
 process.env.NODE_ENV = 'test';
 
-var connect = require('../');
-var request = require('./support/http');
+var connect = require('..');
+var request = require('supertest');
 var should = require('should');
 
 describe('app', function(){
+  var app;
+
+  beforeEach(function(){
+    app = connect();
+  });
+
   it('should inherit from event emitter', function(done){
-    var app = connect();
     app.on('foo', done);
     app.emit('foo');
-  })
+  });
 
-  it('should not obscure FQDNs', function(done){
-    var app = connect();
-
-    app.use(function(req, res){
-      res.end(req.url);
-    });
-
-    request(app)
-    .get('http://example.com/foo')
-    .expect('http://example.com/foo', done);
-  })
-
-  it('should work as middlware', function(done){
+  it('should work as middleware', function(done){
     var http = require('http');
 
     // custom server handler array
@@ -60,27 +53,27 @@ describe('app', function(){
         });
       });
     });
-  })
+  });
 
   it('should escape the 500 response body', function(done){
-    var app = connect();
     app.use(function(req, res, next){
       next(new Error('error!'));
     });
     request(app)
     .get('/')
-    .end(function(res){
-      res.statusCode.should.eql(500);
-      res.body.should.containEql('Error: error!<br>');
-      res.body.should.containEql('<br> &nbsp; &nbsp;at');
-      done();
-    });
+    .expect(/Error: error!<br>/)
+    .expect(/<br> &nbsp; &nbsp;at/)
+    .expect(500, done);
   })
 
   it('should escape the 404 response body', function(done){
-    var app = connect();
-    request(app)
-    .get('/foo/<script>stuff</script>')
-    .expect('Cannot GET /foo/&lt;script&gt;stuff&lt;/script&gt;\n', done);
-  })
-})
+    app.handle({ method: 'GET', url: '/foo/<script>stuff</script>' }, {
+      setHeader: function(){},
+      end: function(str){
+        this.statusCode.should.equal(404);
+        str.should.equal('Cannot GET /foo/&lt;script&gt;stuff&lt;/script&gt;\n');
+        done();
+      }
+    });
+  });
+});

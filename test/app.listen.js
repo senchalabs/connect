@@ -1,8 +1,8 @@
 
 process.env.NODE_ENV = 'test';
 
-var connect = require('../');
-var request = require('./support/http');
+var connect = require('..');
+var request = require('supertest');
 
 describe('app.listen()', function(){
   it('should wrap in an http.Server', function(done){
@@ -12,10 +12,10 @@ describe('app.listen()', function(){
       res.end();
     });
 
-    app.listen(5555, function(){
+    app.listen(0, function(){
       request(app)
       .get('/')
       .expect(200, done);
     });
-  })
-})
+  });
+});
