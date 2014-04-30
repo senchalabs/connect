@@ -76,7 +76,7 @@ Checkout [http-framework](https://github.com/Raynos/http-framework/wiki/Modules)
 
 ```bash
 npm install
-make test
+npm test
 ```
 
 ## Contributors
