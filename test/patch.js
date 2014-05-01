@@ -74,6 +74,85 @@ describe('patch', function(){
       })
     })
 
+    describe('appendHeader', function(){
+      // note about these tests: "Link" and "X-*" are chosen because
+      // the common node.js versions white list which _incoming_
+      // headers can appear multiple times; there is no such white list
+      // for outgoing, though
+      it('should append multiple headers', function(done){
+        var app = connect();
+
+        app.use(function(req, res, next){
+          res.appendHeader('Link', '<http://localhost/>');
+          next();
+        });
+
+        app.use(function(req, res){
+          res.appendHeader('Link', '<http://localhost:80/>');
+          res.end();
+        });
+
+        app.request()
+        .get('/')
+        .expect('Link', '<http://localhost/>, <http://localhost:80/>', done)
+      })
+
+      it('should get reset by setHeader', function(done){
+        var app = connect();
+
+        app.use(function(req, res, next){
+          res.appendHeader('Link', '<http://localhost/>');
+          res.appendHeader('Link', '<http://localhost:80/>');
+          next();
+        });
+
+        app.use(function(req, res){
+          res.setHeader('Link', '<http://127.0.0.1/>');
+          res.end();
+        });
+
+        app.request()
+        .get('/')
+        .expect('Link', '<http://127.0.0.1/>', done)
+      })
+
+      it('should work with setHeader first', function(done){
+        var app = connect();
+
+        app.use(function(req, res, next){
+          res.setHeader('Link', '<http://localhost/>');
+          next();
+        });
+
+        app.use(function(req, res){
+          res.appendHeader('Link', '<http://localhost:80/>');
+          res.end();
+        });
+
+        app.request()
+        .get('/')
+        .expect('Link', '<http://localhost/>, <http://localhost:80/>', done)
+      })
+
+      it('should work with cookies', function(done){
+        var app = connect();
+
+        app.use(function(req, res, next){
+          res.cookie('foo', 'bar');
+          next();
+        });
+
+        app.use(function(req, res){
+          res.appendHeader('Set-Cookie', 'bar=baz');
+          res.end();
+        });
+
+        app.request()
+        .get('/')
+        .expect('Set-Cookie', ['foo=bar; Path=/', 'bar=baz'], done)
+      })
+    })
+
     describe('headerSent', function(){
       it('should match res._header Boolean status', function(done){
         var app = connect();

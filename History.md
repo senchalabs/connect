@@ -2,6 +2,7 @@ HEAD
 ====
 
   * Add simple `res.cookie` support
+  * Add `res.appendHeader`
   * Call error stack even when response has been sent
   * Patch `res.headerSent` to return Boolean
   * Patch `res.headersSent` for node.js 0.8
