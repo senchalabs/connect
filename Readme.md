@@ -48,9 +48,9 @@ These middleware and libraries are officially supported by the Connect/Express t
   - [method-override](https://github.com/expressjs/method-override) - previously `method-override`
   - [morgan](https://github.com/expressjs/morgan) - previously `logger`
   - [response-time](https://github.com/expressjs/response-time) - previously `response-time`
+  - [serve-favicon](https://github.com/expressjs/serve-favicon) - previously `favicon`
   - [serve-index](https://github.com/expressjs/serve-index) - previousy `directory`
   - [serve-static](https://github.com/expressjs/serve-static) - previously `static`
-  - [static-favicon](https://github.com/expressjs/favicon) - previously `favicon`
   - [vhost](https://github.com/expressjs/vhost) - previously `vhost`
 
 Most of these are exact ports of their Connect 2.x equivalents. The primary exception is `cookie-session`.
