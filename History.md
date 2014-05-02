@@ -12,6 +12,7 @@ HEAD
   * dep: debug@^0.8.0
   * dep: errorhandler@1.0.1
   * dep: express-session@1.0.4
+  * dep: serve-favicon@2.0.0
   * dep: serve-index@1.0.2
 
 2.14.5 / 2014-04-24

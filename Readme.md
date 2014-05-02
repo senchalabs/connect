@@ -10,7 +10,7 @@ var connect = require('connect')
   , http = require('http');
 
 var app = connect()
-  .use(connect.favicon())
+  .use(connect.favicon('public/favicon.ico'))
   .use(connect.logger('dev'))
   .use(connect.static('public'))
   .use(connect.directory('public'))
