@@ -266,23 +266,6 @@ describe('connect.static()', function(){
     })
   })
 
-  describe('when a trailing backslash is given', function(){
-    if (connect.utils.brokenPause) {
-      // https://github.com/senchalabs/connect/issues/452
-      it('should 500 in node < 0.10 because fs.stat is broken', function(done){
-        app.request()
-        .get('/todo.txt\\')
-        .expect(500, done);
-      })
-    } else {
-      it('should 404 as expected in node >= 0.10', function(done){
-        app.request()
-        .get('/todo.txt\\')
-        .expect(404, done);
-      })
-    }
-  })
-
   describe('with a malformed URL', function(){
     it('should respond with 400', function(done){
       app.request()
