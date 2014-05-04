@@ -8,43 +8,80 @@ HEAD
   * Patch `res.headersSent` for node.js 0.8
   * Prevent default 404 handler after response sent
   * dep: compression@1.0.2
+    * support headers given to `res.writeHead`
+    * deps: bytes@0.3.0
+    * deps: negotiator@0.4.3
   * dep: connect-timeout@1.1.0
+    * Add `req.timedout` property
+    * Add `respond` option to constructor
+    * Clear timer on socket destroy
+    * deps: debug@0.8.1
   * dep: debug@^0.8.0
+    * add `enable()` method
+    * change from stderr to stdout
   * dep: errorhandler@1.0.1
+    * Clean up error CSS
+    * Do not respond after headers sent
   * dep: express-session@1.0.4
+    * Remove import of `setImmediate`
+    * Use `res.cookie()` instead of `res.setHeader()`
+    * deps: cookie@0.1.2
+    * deps: debug@0.8.1
   * dep: serve-favicon@2.0.0
+    * Accept `Buffer` of icon as first argument
+    * Non-GET and HEAD requests are denied
+    * Send valid max-age value
+    * Support conditional requests
+    * Support max-age=0
+    * Support OPTIONS method
+    * Throw if `path` argument is directory
   * dep: serve-index@1.0.2
+    * Add stylesheet option
+    * deps: negotiator@0.4.3
 
 2.14.5 / 2014-04-24
 ===================
 
   * dep: raw-body@1.1.4
+    * allow true as an option
+    * deps: bytes@0.3.0
   * dep: serve-static@1.1.0
+    * Accept options directly to `send` module
+    * deps: send@0.3.0
 
 2.14.4 / 2014-04-07
 ===================
 
   * dep: bytes@0.3.0
+    * added terabyte support
   * dep: csurf@1.1.0
+    * add constant-time string compare
   * dep: serve-static@1.0.4
+    * Resolve relative paths at middleware setup
+    * Use parseurl to parse the URL from request
   * fix node.js 0.8 compatibility with memory session
 
 2.14.3 / 2014-03-18
 ===================
 
   * dep: static-favicon@1.0.2
+    * Fixed content of default icon
 
 2.14.2 / 2014-03-11
 ===================
 
   * dep: static-favicon@1.0.1
+    * Fixed path to default icon
 
 2.14.1 / 2014-03-06
 ===================
 
   * dep: fresh@0.2.2
+    * no real changes
   * dep: serve-index@1.0.1
+    * deps: negotiator@0.4.2
   * dep: serve-static@1.0.2
+    * deps: send@0.2.0
 
 2.14.0 / 2014-03-05
 ===================
