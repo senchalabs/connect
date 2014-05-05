@@ -106,6 +106,53 @@ describe('app.use()', function(){
     });
   });
 
+  describe('error handling', function(){
+    it('should send errors to airty 4 fns', function(done){
+      app.use(function(req, res, next){
+        next(new Error('msg'));
+      })
+      app.use(function(err, req, res, next){
+        res.end('got error ' + err.message);
+      });
+
+      request(app)
+      .get('/')
+      .expect('got error msg', done);
+    })
+
+    it('should stack error fns', function(done){
+      app.use(function(req, res, next){
+        next(new Error('msg'));
+      })
+      app.use(function(err, req, res, next){
+        res.setHeader('X-Error', err.message);
+        next(err);
+      });
+      app.use(function(err, req, res, next){
+        res.end('got error ' + err.message);
+      });
+
+      request(app)
+      .get('/')
+      .expect('X-Error', 'msg')
+      .expect(200, 'got error msg', done);
+    })
+
+    it('should invoke error stack even when headers sent', function(done){
+      app.use(function(req, res, next){
+        res.end('0');
+        next(new Error('msg'));
+      });
+      app.use(function(err, req, res, next){
+        done();
+      });
+
+      request(app)
+      .get('/')
+      .end(function(){});
+    })
+  })
+
   it('should be case insensitive (lower-case route, mixed-case request)', function(done){
     var blog = http.createServer(function(req, res){
       req.url.should.equal('/');

@@ -66,14 +66,30 @@ describe('app', function(){
     .expect(500, done);
   })
 
-  it('should escape the 404 response body', function(done){
-    app.handle({ method: 'GET', url: '/foo/<script>stuff</script>' }, {
-      setHeader: function(){},
-      end: function(str){
-        this.statusCode.should.equal(404);
-        str.should.equal('Cannot GET /foo/&lt;script&gt;stuff&lt;/script&gt;\n');
-        done();
-      }
+  describe('404 handler', function(){
+    it('should escape the 404 response body', function(done){
+      app.handle({ method: 'GET', url: '/foo/<script>stuff</script>' }, {
+        setHeader: function(){},
+        end: function(str){
+          this.statusCode.should.equal(404);
+          str.should.equal('Cannot GET /foo/&lt;script&gt;stuff&lt;/script&gt;\n');
+          done();
+        }
+      });
+    });
+
+    it('shoud not fire after headers sent', function(done){
+      var app = connect();
+
+      app.use(function(req, res, next){
+        res.write('body');
+        res.end();
+        process.nextTick(next);
+      })
+
+      request(app)
+      .get('/')
+      .expect(200, done);
     });
   });
 });
