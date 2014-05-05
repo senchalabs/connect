@@ -27,6 +27,9 @@ HEAD
     * Use `res.cookie()` instead of `res.setHeader()`
     * deps: cookie@0.1.2
     * deps: debug@0.8.1
+  * dep: morgan@1.0.1
+    * Make buffer unique per morgan instance
+    * deps: bytes@0.3.0
   * dep: serve-favicon@2.0.0
     * Accept `Buffer` of icon as first argument
     * Non-GET and HEAD requests are denied

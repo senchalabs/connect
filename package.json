@@ -23,7 +23,7 @@
     "express-session": "1.0.4",
     "fresh": "0.2.2",
     "method-override": "1.0.0",
-    "morgan": "1.0.0",
+    "morgan": "1.0.1",
     "qs": "0.6.6",
     "raw-body": "1.1.4",
     "response-time": "1.0.0",
