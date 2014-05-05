@@ -1,5 +1,5 @@
-HEAD
-====
+2.15.0 / 2014-05-04
+===================
 
   * Add simple `res.cookie` support
   * Add `res.appendHeader`
