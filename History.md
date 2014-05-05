@@ -1,5 +1,5 @@
-HEAD
-==================
+3.0.0-rc.2 / 2014-05-04
+=======================
 
   * Call error stack even when response has been sent
   * Prevent default 404 handler after response sent
