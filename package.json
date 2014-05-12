@@ -13,6 +13,7 @@
   "author": "TJ Holowaychuk <tj@vision-media.ca> (http://tjholowaychuk.com)",
   "dependencies": {
     "basic-auth-connect": "1.0.0",
+    "body-parser": "1.2.0",
     "bytes": "1.0.0",
     "cookie": "0.1.2",
     "cookie-parser": "1.0.1",
@@ -26,7 +27,6 @@
     "method-override": "1.0.0",
     "morgan": "1.0.1",
     "qs": "0.6.6",
-    "raw-body": "1.1.4",
     "response-time": "1.0.0",
     "serve-favicon": "2.0.0",
     "serve-index": "1.0.2",

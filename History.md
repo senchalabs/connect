@@ -1,6 +1,8 @@
 2.x
 ===
 
+  * json: use body-parser
+  * urlencoded: use body-parser
   * dep: bytes@1.0.0
     * add negative support
 
