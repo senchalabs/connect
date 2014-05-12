@@ -5,6 +5,8 @@
   * urlencoded: use body-parser
   * dep: bytes@1.0.0
     * add negative support
+  * dep: cookie-parser@1.1.0
+    - deps: cookie@0.1.2
 
 2.15.0 / 2014-05-04
 ===================

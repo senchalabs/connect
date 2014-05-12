@@ -16,7 +16,7 @@
     "body-parser": "1.2.0",
     "bytes": "1.0.0",
     "cookie": "0.1.2",
-    "cookie-parser": "1.0.1",
+    "cookie-parser": "1.1.0",
     "cookie-signature": "1.0.3",
     "compression": "1.0.2",
     "connect-timeout": "1.1.0",
