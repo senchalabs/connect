@@ -31,6 +31,7 @@
     "serve-favicon": "2.0.0",
     "serve-index": "1.0.2",
     "serve-static": "1.1.0",
+    "type-is": "1.2.0",
     "vhost": "1.0.0",
     "pause": "0.0.1",
     "debug": ">= 0.8.0 < 1",
