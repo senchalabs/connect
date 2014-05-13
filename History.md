@@ -1,6 +1,7 @@
 2.x
 ===
 
+  * fix `connect.version` to reflect the actual version
   * json: use body-parser
     - add `type` option
     - fix repeated limit parsing with every request
