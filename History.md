@@ -1,6 +1,7 @@
 2.x
 ===
 
+  * deprecate `res.headerSent` -- use `res.headersSent`
   * fix `connect.version` to reflect the actual version
   * json: use body-parser
     - add `type` option
