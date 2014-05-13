@@ -2,7 +2,14 @@
 ===
 
   * json: use body-parser
+    - add `type` option
+    - fix repeated limit parsing with every request
+    - improve parser speed
+    - lower default limit to 100kb
   * urlencoded: use body-parser
+    - add `type` option
+    - fix repeated limit parsing with every request
+    - lower default limit to 100kb
   * dep: bytes@1.0.0
     * add negative support
   * dep: cookie-parser@1.1.0
