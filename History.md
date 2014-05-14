@@ -2,6 +2,7 @@
 ===
 
   * deprecate `res.headerSent` -- use `res.headersSent`
+  * deprecate `res.on("header")` -- use on-headers module instead
   * fix `connect.version` to reflect the actual version
   * json: use body-parser
     - add `type` option
