@@ -1,5 +1,5 @@
-2.16.x
-======
+2.16.1 / 2014-05-17
+===================
 
   * remove usages of `res.headerSent` from core
 
