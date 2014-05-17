@@ -1,5 +1,5 @@
-2.x
-===
+2.16.0 / 2014-05-17
+===================
 
   * deprecate `res.headerSent` -- use `res.headersSent`
   * deprecate `res.on("header")` -- use on-headers module instead
