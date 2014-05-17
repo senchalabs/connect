@@ -2,6 +2,22 @@
   "name": "connect",
   "version": "3.0.0-rc.2",
   "description": "High performance middleware framework",
+  "version": "2.16.0",
+  "author": "TJ Holowaychuk <tj@vision-media.ca> (http://tjholowaychuk.com)",
+  "contributors": [
+    {
+      "name": "Douglas Christopher Wilson",
+      "email": "doug@somethingdoug.com"
+    },
+    {
+      "name": "Jonathan Ong",
+      "email": "me@jongleberry.com"
+    },
+    {
+      "name": "Tim Caswell",
+      "email": "tim@creationix.com"
+    }
+  ],
   "keywords": [
     "framework",
     "web",
@@ -10,7 +26,6 @@
     "rack"
   ],
   "repository": "git://github.com/senchalabs/connect.git",
-  "author": "TJ Holowaychuk <tj@vision-media.ca> (http://tjholowaychuk.com)",
   "dependencies": {
     "debug": "0.8.1",
     "parseurl": "1.0.1",
@@ -19,15 +34,10 @@
   },
   "devDependencies": {
     "mocha": "~1.18.2",
-    "should": "~3.3.0",
+    "should": "~3.3.1",
     "supertest": "~0.12.0"
   },
-  "licenses": [
-    {
-      "type": "MIT",
-      "url": "https://raw.github.com/senchalabs/connect/master/LICENSE"
-    }
-  ],
+  "license": "MIT",
   "engines": {
     "node": ">= 0.10.0"
   },

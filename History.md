@@ -18,6 +18,29 @@
   * remove various private `connect.utils` functions
   * drop node.js 0.8 support
 
+2.16.0 / 2014-05-17
+===================
+
+  * deprecate `res.headerSent` -- use `res.headersSent`
+  * deprecate `res.on("header")` -- use on-headers module instead
+  * fix `connect.version` to reflect the actual version
+  * json: use body-parser
+    - add `type` option
+    - fix repeated limit parsing with every request
+    - improve parser speed
+  * urlencoded: use body-parser
+    - add `type` option
+    - fix repeated limit parsing with every request
+  * dep: bytes@1.0.0
+    * add negative support
+  * dep: cookie-parser@1.1.0
+    - deps: cookie@0.1.2
+  * dep: csurf@1.2.0
+    - add support for double-submit cookie
+  * dep: express-session@1.1.0
+    - Add `name` option; replacement for `key` option
+    - Use `setImmediate` in MemoryStore for node.js >= 0.10
+
 2.15.0 / 2014-05-04
 ===================
 
