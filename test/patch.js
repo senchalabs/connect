@@ -336,6 +336,20 @@ describe('patch', function(){
   })
 
   describe('res.setHeader', function(){
+    it('should include charset in content-type', function(done){
+      var app = connect();
+
+      app.use(function(req, res){
+        res.charset = 'utf-8';
+        res.setHeader('content-type', 'application/x-bogus');
+        res.end('hello!');
+      })
+
+      app.request()
+      .get('/')
+      .expect('content-type', 'application/x-bogus; charset=utf-8', done);
+    })
+
     describe('should handle set-cookie setting multiple cookies as array', function(){
       it('should be emitted', function(done){
         var app = connect();
