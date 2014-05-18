@@ -1,5 +1,5 @@
-2.x
-===
+2.16.2 / 2014-05-18
+===================
 
   * fix edge-case in `res.appendHeader` that would append in wrong order
   * deps: method-override@1.0.1
