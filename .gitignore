@@ -1,4 +1,4 @@
-coverage.html
+coverage/
 .DS_Store
 pids
 logs
@@ -6,7 +6,6 @@ results
 *.pid
 *.gz
 *.log
-lib-cov
 test/fixtures/foo.bar.baz.css
 test/fixtures/style.css
 test/fixtures/script.js

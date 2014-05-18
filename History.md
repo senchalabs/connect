@@ -18,6 +18,17 @@
   * remove various private `connect.utils` functions
   * drop node.js 0.8 support
 
+2.16.2 / 2014-05-18
+===================
+
+  * fix edge-case in `res.appendHeader` that would append in wrong order
+  * deps: method-override@1.0.1
+
+2.16.1 / 2014-05-17
+===================
+
+  * remove usages of `res.headerSent` from core
+
 2.16.0 / 2014-05-17
 ===================
 
