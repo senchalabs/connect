@@ -54,6 +54,8 @@
     "multiparty": "2.2.0"
   },
   "devDependencies": {
+    "coveralls": "2.10.0",
+    "istanbul": "0.2.10",
     "should": "~3.3.1",
     "mocha": ">= 1.13.0 < 2",
     "jade": ">= 0.35.0 < 1",
@@ -65,6 +67,8 @@
     "node": ">= 0.8.0"
   },
   "scripts": {
-    "test": "mocha --reporter spec"
+    "test": "mocha --reporter spec",
+    "test-cov": "istanbul cover node_modules/mocha/bin/_mocha -- --reporter spec",
+    "test-travis": "istanbul cover node_modules/mocha/bin/_mocha --report lcovonly -- --reporter spec && cat ./coverage/lcov.info | coveralls"
   }
 }
