@@ -56,8 +56,8 @@
   "devDependencies": {
     "coveralls": "2.10.0",
     "istanbul": "0.2.10",
+    "mocha": "~1.19.0",
     "should": "~3.3.1",
-    "mocha": ">= 1.13.0 < 2",
     "jade": ">= 0.35.0 < 1",
     "dox": ">= 0.4.4 < 1"
   },
