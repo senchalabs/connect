@@ -106,5 +106,85 @@ describe('app', function(){
       .get('/')
       .expect(200, done);
     })
+
+    it('shoud have no body for HEAD', function(done){
+      var app = connect();
+
+      app.request()
+      .head('/')
+      .expect('', done);
+    })
+  })
+
+  describe('error handler', function(){
+    it('should have escaped response body', function(done){
+      var app = connect();
+
+      app.use(function(req, res, next){
+        throw new Error('<script>alert()</script>');
+      })
+
+      app.request()
+      .get('/')
+      .end(function(res){
+        res.body.should.containEql('&lt;script&gt;alert()&lt;/script&gt;');
+        done();
+      });
+    })
+
+    it('should use custom error code', function(done){
+      var app = connect();
+
+      app.use(function(req, res, next){
+        var err = new Error('ack!');
+        err.status = 503;
+        throw err;
+      })
+
+      app.request()
+      .get('/')
+      .expect(503, done);
+    })
+
+    it('should keep error statusCode', function(done){
+      var app = connect();
+
+      app.use(function(req, res, next){
+        res.statusCode = 503;
+        throw new Error('ack!');
+      })
+
+      app.request()
+      .get('/')
+      .expect(503, done);
+    })
+
+    it('shoud not fire after headers sent', function(done){
+      var app = connect();
+
+      app.use(function(req, res, next){
+        res.write('body');
+        res.end();
+        process.nextTick(function() {
+          next(new Error('ack!'));
+        });
+      })
+
+      app.request()
+      .get('/')
+      .expect(200, done);
+    })
+
+    it('shoud have no body for HEAD', function(done){
+      var app = connect();
+
+      app.use(function(req, res, next){
+        throw new Error('ack!');
+      });
+
+      app.request()
+      .head('/')
+      .expect('', done);
+    })
   })
 })
