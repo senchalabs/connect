@@ -134,6 +134,24 @@ describe('patch', function(){
         .expect('Link', '<http://localhost/>, <http://localhost:80/>', done)
       })
 
+      it('should work with array', function(done){
+        var app = connect();
+
+        app.use(function(req, res, next){
+          res.setHeader('Link', '<http://localhost/>');
+          next();
+        });
+
+        app.use(function(req, res){
+          res.appendHeader('Link', ['<http://localhost:80/>', '<http://localhost:8080/>']);
+          res.end();
+        });
+
+        app.request()
+        .get('/')
+        .expect('Link', '<http://localhost/>, <http://localhost:80/>, <http://localhost:8080/>', done)
+      })
+
       it('should work with cookies', function(done){
         var app = connect();
 

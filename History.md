@@ -1,6 +1,7 @@
 2.x
 ===
 
+  * fix edge-case in `res.appendHeader` that would append in wrong order
   * deps: method-override@1.0.1
 
 2.16.1 / 2014-05-17
