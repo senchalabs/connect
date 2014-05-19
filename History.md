@@ -1,3 +1,15 @@
+2.x
+===
+
+  * deps: morgan@1.1.0
+    - "dev" format will use same tokens as other formats
+    - `:response-time` token is now empty when immediate used
+    - `:response-time` token is now monotonic
+    - `:response-time` token has precision to 1 μs
+    - fix `:status` + immediate output in node.js 0.8
+    - improve `buffer` option to prevent indefinite event loop holding
+    - deps: bytes@1.0.0
+
 2.16.2 / 2014-05-18
 ===================
 
