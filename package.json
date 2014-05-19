@@ -69,6 +69,6 @@
   "scripts": {
     "test": "mocha --reporter spec",
     "test-cov": "istanbul cover node_modules/mocha/bin/_mocha -- --reporter spec",
-    "test-travis": "istanbul cover node_modules/mocha/bin/_mocha --report lcovonly -- --reporter spec && cat ./coverage/lcov.info | coveralls"
+    "test-travis": "istanbul cover node_modules/mocha/bin/_mocha --report lcovonly -- --reporter spec && (cat ./coverage/lcov.info | coveralls || true)"
   }
 }
