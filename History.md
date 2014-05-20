@@ -1,6 +1,8 @@
 2.x
 ===
 
+  * deps: express-session@1.2.0
+    - Add `resave` option to control saving unmodified sessions
   * deps: morgan@1.1.0
     - "dev" format will use same tokens as other formats
     - `:response-time` token is now empty when immediate used
