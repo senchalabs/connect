@@ -1,6 +1,4 @@
 
-process.env.NODE_ENV = 'test';
-
 var connect = require('../')
 var http = require('http');
 
