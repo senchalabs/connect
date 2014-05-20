@@ -11,6 +11,8 @@
     - fix `:status` + immediate output in node.js 0.8
     - improve `buffer` option to prevent indefinite event loop holding
     - deps: bytes@1.0.0
+  * deps: serve-index@1.0.3
+    - Fix error from non-statable files in HTML view
 
 2.16.2 / 2014-05-18
 ===================
