@@ -261,9 +261,8 @@ describe('connect.bodyParser()', function(){
     })
   })
 
-  // I'm too lazy to test this in both `.json()` and `.urlencoded()`
   describe('verify', function () {
-    it('should throw 403 if verification fails', function (done) {
+    it('should throw 403 if verification fails in json', function (done) {
       var app = connect();
 
       app.use(connect.bodyParser({
@@ -276,6 +275,22 @@ describe('connect.bodyParser()', function(){
       .post('/')
       .set('Content-Type', 'application/json')
       .write('{"user":"tobi"}')
+      .expect(403, done);
+    })
+
+    it('should throw 403 if verification fails in urlencoded', function (done) {
+      var app = connect();
+
+      app.use(connect.bodyParser({
+        verify: function () {
+          throw new Error();
+        }
+      }))
+
+      app.request()
+      .post('/')
+      .set('Content-Type', 'application/x-www-form-urlencoded')
+      .write('user=tobi')
       .expect(403, done);
     })
 

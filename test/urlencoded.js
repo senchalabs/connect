@@ -36,4 +36,22 @@ describe('connect.urlencoded()', function(){
       done();
     });
   })
+  
+  it('should support legacy verify function', function(done){
+    var app = connect();
+
+    app.use(connect.urlencoded({verify: function (req, res, str) {
+      if (str.indexOf('user') === 0) throw new Error('ack!')
+    }}));
+
+    app.use(function(req, res){
+      res.end(JSON.stringify(req.body));
+    });
+
+    app.request()
+    .post('/')
+    .set('Content-Type', 'application/x-www-form-urlencoded')
+    .write('user=tobi')
+    .expect(403, done);
+  })
 })

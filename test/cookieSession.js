@@ -20,6 +20,19 @@ describe('connect.cookieSession()', function(){
     app.use(connect.cookieSession({ secret: 'some secret' }));
   })
 
+  it('should 500 without secret', function(done){
+    var app = connect()
+      .use(connect.cookieParser())
+      .use(connect.cookieSession())
+      .use(function(req, res, next){
+        res.end();
+      });
+
+    app.request()
+    .get('/')
+    .expect(500, done);
+  })
+
   it('should default to a browser-session length cookie', function(done){
     var app = connect()
       .use(connect.cookieParser())

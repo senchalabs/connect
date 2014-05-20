@@ -126,6 +126,29 @@ describe('connect.multipart()', function(){
       });
     })
 
+    it('should work with multiple fields of same name', function(done){
+      app.request()
+      .post('/')
+      .set('Content-Type', 'multipart/form-data; boundary=foo')
+      .write('--foo\r\n')
+      .write('Content-Disposition: form-data; name="user"\r\n')
+      .write('\r\n')
+      .write('Tobi')
+      .write('\r\n--foo\r\n')
+      .write('Content-Disposition: form-data; name="user"\r\n')
+      .write('\r\n')
+      .write('Bob')
+      .write('\r\n--foo\r\n')
+      .write('Content-Disposition: form-data; name="user"\r\n')
+      .write('\r\n')
+      .write('Sam')
+      .write('\r\n--foo--')
+      .end(function(res){
+        res.body.should.equal('{"user":["Tobi","Bob","Sam"]}');
+        done();
+      });
+    })
+
     it('should support nesting', function(done){
       app.request()
       .post('/')
