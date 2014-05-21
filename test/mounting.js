@@ -118,6 +118,25 @@ describe('app.use()', function(){
       .expect('got error msg', done);
     })
 
+    it('should skip to non-error middleware', function(done){
+      var invoked = false;
+
+      app.use(function(req, res, next){
+        next(new Error('msg'));
+      })
+      app.use(function(req, res, next){
+        invoked = true;
+        next();
+      });
+      app.use(function(err, req, res, next){
+        res.end(invoked ? 'invoked' : err.message);
+      });
+
+      request(app)
+      .get('/')
+      .expect(200, 'msg', done);
+    })
+
     it('should stack error fns', function(done){
       app.use(function(req, res, next){
         next(new Error('msg'));
@@ -188,5 +207,26 @@ describe('app.use()', function(){
     request(app)
     .get('/blOG')
     .expect('blog', done);
+  });
+
+  it('should ignore fn.arity > 4', function(done){
+    var invoked = [];
+
+    app.use(function(req, res, next, _a, _b){
+      invoked.push(0)
+      next();
+    });
+    app.use(function(req, res, next){
+      invoked.push(1)
+      next(new Error('err'));
+    });
+    app.use(function(err, req, res, next){
+      invoked.push(2);
+      res.end(invoked.join(','));
+    });
+
+    request(app)
+    .get('/')
+    .expect(200, '1,2', done);
   });
 });
