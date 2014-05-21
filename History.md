@@ -1,3 +1,8 @@
+2.x
+===
+
+  * fix `res.charset` appending charset when `content-type` has one
+
 2.17.0 / 2014-05-20
 ===================
 
