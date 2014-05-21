@@ -18,6 +18,11 @@
   * remove various private `connect.utils` functions
   * drop node.js 0.8 support
 
+2.17.1 / 2014-05-21
+===================
+
+  * fix `res.charset` appending charset when `content-type` has one
+
 2.17.0 / 2014-05-20
 ===================
 
