@@ -18,6 +18,23 @@
   * remove various private `connect.utils` functions
   * drop node.js 0.8 support
 
+2.17.0 / 2014-05-20
+===================
+
+  * deps: express-session@1.2.0
+    - Add `resave` option to control saving unmodified sessions
+  * deps: morgan@1.1.1
+    - "dev" format will use same tokens as other formats
+    - `:response-time` token is now empty when immediate used
+    - `:response-time` token is now monotonic
+    - `:response-time` token has precision to 1 μs
+    - fix `:status` + immediate output in node.js 0.8
+    - improve `buffer` option to prevent indefinite event loop holding
+    - simplify method to get remote address
+    - deps: bytes@1.0.0
+  * deps: serve-index@1.0.3
+    - Fix error from non-statable files in HTML view
+
 2.16.2 / 2014-05-18
 ===================
 

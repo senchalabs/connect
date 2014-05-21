@@ -2,7 +2,6 @@
   "name": "connect",
   "version": "3.0.0-rc.2",
   "description": "High performance middleware framework",
-  "version": "2.16.2",
   "author": "TJ Holowaychuk <tj@vision-media.ca> (http://tjholowaychuk.com)",
   "contributors": [
     {
@@ -33,7 +32,6 @@
     "utils-merge": "1.0.0"
   },
   "devDependencies": {
-    "coveralls": "2.10.0",
     "istanbul": "0.2.10",
     "mocha": "~1.19.0",
     "should": "~3.3.1",
@@ -44,8 +42,8 @@
     "node": ">= 0.10.0"
   },
   "scripts": {
-    "test": "mocha --reporter spec",
-    "test-cov": "istanbul cover node_modules/mocha/bin/_mocha -- --reporter spec",
-    "test-travis": "istanbul cover node_modules/mocha/bin/_mocha --report lcovonly -- --reporter spec && cat ./coverage/lcov.info | coveralls"
+    "test": "mocha --require test/support/env --reporter dot",
+    "test-cov": "istanbul cover node_modules/mocha/bin/_mocha -- --require test/support/env --reporter dot",
+    "test-travis": "istanbul cover node_modules/mocha/bin/_mocha --report lcovonly -- --require test/support/env --reporter spec"
   }
 }
