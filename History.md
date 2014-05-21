@@ -1,5 +1,5 @@
-2.x
-===
+2.17.0 / 2014-05-20
+===================
 
   * deps: express-session@1.2.0
     - Add `resave` option to control saving unmodified sessions
