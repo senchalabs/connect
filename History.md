@@ -1,3 +1,10 @@
+2.x
+===
+
+  * deps: method-override@1.0.2
+    - Handle `req.body` key referencing array or object
+    - Handle multiple HTTP headers
+
 2.17.1 / 2014-05-21
 ===================
 
