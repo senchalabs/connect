@@ -1,5 +1,5 @@
-2.x
-===
+2.17.3 / 2014-05-27
+===================
 
   * deps: express-session@1.2.1
     - Fix `resave` such that `resave: true` works
