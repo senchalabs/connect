@@ -1,5 +1,5 @@
-2.x
-===
+2.17.2 / 2014-05-27
+===================
 
   * deps: body-parser@1.2.2
     - invoke `next(err)` after request fully read
