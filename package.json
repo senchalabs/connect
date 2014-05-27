@@ -36,7 +36,7 @@
     "connect-timeout": "1.1.0",
     "csurf": "1.2.0",
     "errorhandler": "1.0.1",
-    "express-session": "1.2.0",
+    "express-session": "1.2.1",
     "fresh": "0.2.2",
     "method-override": "1.0.2",
     "morgan": "1.1.1",
