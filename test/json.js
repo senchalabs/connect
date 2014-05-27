@@ -1,6 +1,6 @@
 
-var connect = require('../')
-  , should = require('./shared');
+var bytes = require('bytes');
+var connect = require('..');
 
 var app = connect();
 
@@ -16,8 +16,23 @@ app.use(function(err, req, res, next){
 });
 
 describe('connect.json()', function(){
-  should['default request body'](app);
-  should['limit body to']('1mb', 'application/json', app);
+  it('should default to {}', function(done){
+    app.request()
+    .post('/')
+    .expect('{}', done)
+  })
+
+  it('should accept a limit option', function(done){
+    var len = bytes('1mb') + 1;
+    var buf = new Buffer(len);
+
+    app.request()
+    .post('/')
+    .set('Content-Length', len)
+    .set('Content-Type', 'application/json')
+    .write(buf)
+    .expect(413, done)
+  })
 
   it('should parse JSON', function(done){
     app.request()

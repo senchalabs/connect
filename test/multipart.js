@@ -1,7 +1,7 @@
 
-var connect = require('../');
 var assert = require('assert');
-var should = require('./shared');
+var bytes = require('bytes');
+var connect = require('..');
 
 var app = connect();
 
@@ -12,8 +12,23 @@ app.use(function(req, res){
 });
 
 describe('connect.multipart()', function(){
-  should['default request body'](app);
-  should['limit body to']('20mb', 'multipart/form-data', app);
+  it('should default to {}', function(done){
+    app.request()
+    .post('/')
+    .expect('{}', done)
+  })
+
+  it('should accept a limit option', function(done){
+    var len = bytes('20mb') + 1;
+    var buf = new Buffer(len);
+
+    app.request()
+    .post('/')
+    .set('Content-Length', len)
+    .set('Content-Type', 'multipart/form-data')
+    .write(buf)
+    .expect(413, done)
+  })
 
   it('should ignore GET', function(done){
     app.request()
