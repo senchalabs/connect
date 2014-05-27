@@ -27,7 +27,7 @@
   "repository": "git://github.com/senchalabs/connect.git",
   "dependencies": {
     "basic-auth-connect": "1.0.0",
-    "body-parser": "1.2.0",
+    "body-parser": "1.2.1",
     "bytes": "1.0.0",
     "cookie": "0.1.2",
     "cookie-parser": "1.1.0",

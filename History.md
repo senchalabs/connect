@@ -1,6 +1,8 @@
 2.x
 ===
 
+  * deps: body-parser@1.2.1
+    - invoke `next(err)` after request fully read
   * deps: method-override@1.0.2
     - Handle `req.body` key referencing array or object
     - Handle multiple HTTP headers
