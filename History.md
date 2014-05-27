@@ -18,6 +18,16 @@
   * remove various private `connect.utils` functions
   * drop node.js 0.8 support
 
+2.17.2 / 2014-05-27
+===================
+
+  * deps: body-parser@1.2.2
+    - invoke `next(err)` after request fully read
+    - deps: raw-body@1.1.6
+  * deps: method-override@1.0.2
+    - Handle `req.body` key referencing array or object
+    - Handle multiple HTTP headers
+
 2.17.1 / 2014-05-21
 ===================
 
