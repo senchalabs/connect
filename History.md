@@ -1,3 +1,13 @@
+2.x
+===
+
+  * deps: serve-static@1.2.0
+    - Calculate ETag with md5 for reduced collisions
+    - Fix wrong behavior when index file matches directory
+    - Ignore stream errors after request ends
+    - Skip directories in index file search
+    - deps: send@0.4.0
+
 2.17.3 / 2014-05-27
 ===================
 
