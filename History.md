@@ -1,6 +1,12 @@
 2.x
 ===
 
+  * deps: serve-static@1.1.0
+    - Fix content negotiation when no `Accept` header
+    - Properly support all HTTP methods
+    - Support vanilla node.js http servers
+    - Treat `ENAMETOOLONG` as code 414
+    - Use accepts for negotiation
   * deps: serve-static@1.2.0
     - Calculate ETag with md5 for reduced collisions
     - Fix wrong behavior when index file matches directory
