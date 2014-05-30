@@ -1,6 +1,7 @@
 2.x
 ===
 
+  * deps: compression@1.0.3
   * deps: serve-static@1.1.0
     - Fix content negotiation when no `Accept` header
     - Properly support all HTTP methods
