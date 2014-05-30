@@ -18,6 +18,29 @@
   * remove various private `connect.utils` functions
   * drop node.js 0.8 support
 
+2.18.0 / 2014-05-29
+===================
+
+  * deps: compression@1.0.3
+  * deps: serve-static@1.1.0
+    - Fix content negotiation when no `Accept` header
+    - Properly support all HTTP methods
+    - Support vanilla node.js http servers
+    - Treat `ENAMETOOLONG` as code 414
+    - Use accepts for negotiation
+  * deps: serve-static@1.2.0
+    - Calculate ETag with md5 for reduced collisions
+    - Fix wrong behavior when index file matches directory
+    - Ignore stream errors after request ends
+    - Skip directories in index file search
+    - deps: send@0.4.0
+
+2.17.3 / 2014-05-27
+===================
+
+  * deps: express-session@1.2.1
+    - Fix `resave` such that `resave: true` works
+
 2.17.2 / 2014-05-27
 ===================
 
