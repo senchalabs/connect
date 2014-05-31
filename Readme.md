@@ -1,4 +1,8 @@
-# Connect [![NPM version](https://badge.fury.io/js/connect.svg)](http://badge.fury.io/js/connect) [![Build Status](https://travis-ci.org/senchalabs/connect.svg?branch=master)](https://travis-ci.org/senchalabs/connect) [![Coverage Status](https://img.shields.io/coveralls/senchalabs/connect.svg)](https://coveralls.io/r/senchalabs/connect)
+# Connect
+
+[![NPM version](https://badge.fury.io/js/connect.svg)](http://badge.fury.io/js/connect)
+[![Build Status](https://travis-ci.org/senchalabs/connect.svg?branch=master)](https://travis-ci.org/senchalabs/connect)
+[![Coverage Status](https://img.shields.io/coveralls/senchalabs/connect.svg?branch=master)](https://coveralls.io/r/senchalabs/connect)
 
   Connect is an extensible HTTP server framework for [node](http://nodejs.org), providing high performance "plugins" known as _middleware_.
 
