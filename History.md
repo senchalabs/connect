@@ -1,3 +1,9 @@
+2.x
+===
+
+  * deps: body-parser@1.3.0
+    - add `extended` option to urlencoded parser
+
 2.18.0 / 2014-05-29
 ===================
 
