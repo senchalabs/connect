@@ -6,6 +6,7 @@
     - add `extended` option to urlencoded parser
   * deps: method-override@2.0.0
     - set `Vary` header
+  * deps: multiparty@3.2.8
   * deps: response-time@2.0.0
     - add `digits` argument
     - do not override existing `X-Response-Time` header

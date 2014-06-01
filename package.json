@@ -41,6 +41,7 @@
     "fresh": "0.2.2",
     "method-override": "2.0.0",
     "morgan": "1.1.1",
+    "multiparty": "3.2.8",
     "on-headers": "0.0.0",
     "parseurl": "1.0.1",
     "qs": "0.6.6",
@@ -51,8 +52,7 @@
     "type-is": "1.2.0",
     "vhost": "1.0.0",
     "pause": "0.0.1",
-    "debug": ">= 0.8.0 < 1",
-    "multiparty": "2.2.0"
+    "debug": ">= 0.8.0 < 1"
   },
   "devDependencies": {
     "istanbul": "0.2.10",

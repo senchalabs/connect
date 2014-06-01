@@ -332,5 +332,82 @@ describe('connect.multipart()', function(){
       });
     })
 
+    it('should fire "file" event', function(done){
+      var app = connect();
+
+      app.use(connect.multipart({ defer: true }));
+
+      app.use(function(req, res){
+        var files = 0;
+        JSON.stringify(req.body).should.equal("{}");
+        req.form.on('file', function(name, file){
+          files++;
+          file.path.should.not.be.empty;
+          file.size.should.equal(20);
+          file.headers.should.have.property('content-disposition');
+          ['foo','bar'].should.containEql(name);
+          ['foo','bar'].should.containEql(file.fieldName);
+          ['foo.txt','bar.txt'].should.containEql(file.originalFilename);
+        });
+        req.form.on('close', function() {
+          files.should.equal(2);
+          res.end(JSON.stringify(req.body));
+        });
+      });
+
+      app.request()
+      .post('/')
+      .set('Content-Type', 'multipart/form-data; boundary=foo')
+      .write('--foo\r\n')
+      .write('Content-Disposition: form-data; name="foo"; filename="foo.txt"\r\n')
+      .write('\r\n')
+      .write('some text here      ')
+      .write('\r\n--foo\r\n')
+      .write('Content-Disposition: form-data; name="bar"; filename="bar.txt"\r\n')
+      .write('\r\n')
+      .write('some more text stuff')
+      .write('\r\n--foo--')
+      .end(function(res){
+        res.body.should.equal('{}');
+        done();
+      });
+    })
+
+    it('should fire "part" event', function(done){
+      var app = connect();
+
+      app.use(connect.multipart({ defer: true }));
+
+      app.use(function(req, res){
+        var parts = 0;
+        JSON.stringify(req.body).should.equal("{}");
+        req.form.on('part', function(part){
+          parts++;
+          part.headers.should.have.property('content-disposition');
+          ['age','user'].should.containEql(part.name);
+        });
+        req.form.on('close', function() {
+          parts.should.equal(2);
+          res.end(JSON.stringify(req.body));
+        });
+      });
+
+      app.request()
+      .post('/')
+      .set('Content-Type', 'multipart/form-data; boundary=foo')
+      .write('--foo\r\n')
+      .write('Content-Disposition: form-data; name="user"\r\n')
+      .write('\r\n')
+      .write('Tobi')
+      .write('\r\n--foo\r\n')
+      .write('Content-Disposition: form-data; name="age"\r\n')
+      .write('\r\n')
+      .write('1')
+      .write('\r\n--foo--')
+      .end(function(res){
+        res.body.should.equal('{"user":"Tobi","age":"1"}');
+        done();
+      });
+    })
   })
 })
