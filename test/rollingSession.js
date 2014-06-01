@@ -28,7 +28,7 @@ describe('Rolling Session', function(){
         .get('/')
         .end(function(res){
           res.headers.should.have.property('set-cookie');
-          res.headers['set-cookie'][0].should.include('Expires');
+          res.headers['set-cookie'][0].should.containEql('Expires');
           app.request()
             .get('/changeToNull')
             .set('Cookie', res.headers['set-cookie'][0])
@@ -54,13 +54,13 @@ describe('Rolling Session', function(){
         .get('/')
         .end(function(res){
           res.headers.should.have.property('set-cookie');
-          res.headers['set-cookie'][0].should.include('Expires');
+          res.headers['set-cookie'][0].should.containEql('Expires');
           app.request()
             .get('/changeToNull')
             .set('Cookie', res.headers['set-cookie'][0])
             .end(function(res){
               res.headers.should.have.property('set-cookie');
-              res.headers['set-cookie'][0].should.not.include('Expires');
+              res.headers['set-cookie'][0].should.not.containEql('Expires');
               done();
             });
           });

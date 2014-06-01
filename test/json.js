@@ -69,7 +69,7 @@ describe('connect.json()', function(){
     .set('Content-Type', 'application/json')
     .set('Content-Length', '0')
     .end(function(res){
-      res.should.have.status(200);
+      res.statusCode.should.equal(200);
       res.body.should.equal('empty');
       done();
     });
@@ -102,8 +102,8 @@ describe('connect.json()', function(){
     .post('/')
     .set('Content-Type', 'application/json')
     .end(function(res) {
-      res.should.have.status(400);
-      res.body.should.include("invalid json, empty body");
+      res.statusCode.should.equal(400);
+      res.body.should.containEql("invalid json, empty body");
       done();
     })
   })
@@ -155,8 +155,8 @@ describe('connect.json()', function(){
       .set('Content-Type', 'application/json')
       .write('true')
       .end(function(res){
-        res.should.have.status(400);
-        res.body.should.include('invalid json');
+        res.statusCode.should.equal(400);
+        res.body.should.containEql('invalid json');
         done();
       });
     })
@@ -174,8 +174,8 @@ describe('connect.json()', function(){
       .set('Content-Type', 'application/json')
       .write('   { "user": "tobi" }')
       .end(function(res){
-        res.should.have.status(200);
-        res.body.should.include('{"user":"tobi"}');
+        res.statusCode.should.equal(200);
+        res.body.should.containEql('{"user":"tobi"}');
         done();
       });
     })

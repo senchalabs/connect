@@ -48,8 +48,8 @@ describe('patch', function(){
         app.request()
         .get('/')
         .end(function(res){
-          res.headers['set-cookie'][0].should.not.include('Thu, 01 Jan 1970 00:00:01 GMT');
-          res.headers['set-cookie'][0].should.include('Max-Age=1');
+          res.headers['set-cookie'][0].should.not.containEql('Thu, 01 Jan 1970 00:00:01 GMT');
+          res.headers['set-cookie'][0].should.containEql('Max-Age=1');
           done();
         })
       })
@@ -186,7 +186,7 @@ describe('patch', function(){
         .get('/')
         .end(function(res){
           res.body.should.equal('true');
-          res.should.have.header('x-header-sent', 'false');
+          res.headers.should.have.property('x-header-sent', 'false');
           done();
         });
       })
@@ -207,7 +207,7 @@ describe('patch', function(){
         .get('/')
         .end(function(res){
           res.body.should.equal('true');
-          res.should.have.header('x-header-sent', 'false');
+          res.headers.should.have.property('x-header-sent', 'false');
           done();
         });
       })
@@ -235,8 +235,8 @@ describe('patch', function(){
         app.request()
         .get('/')
         .end(function(res){
-          res.should.have.header('foo', 'bar');
-          res.should.have.header('bar', 'baz');
+          res.headers.should.have.property('foo', 'bar');
+          res.headers.should.have.property('bar', 'baz');
           done();
         });
       })
@@ -262,8 +262,8 @@ describe('patch', function(){
         app.request()
         .get('/')
         .end(function(res){
-          res.should.have.header('foo', 'bar');
-          res.should.have.header('bar', 'baz');
+          res.headers.should.have.property('foo', 'bar');
+          res.headers.should.have.property('bar', 'baz');
           done();
         });
       })
@@ -327,10 +327,7 @@ describe('patch', function(){
 
         app.request()
         .get('/')
-        .end(function(res){
-          res.should.have.header('bar', 'baz');
-          done();
-        });
+        .expect('bar', 'baz', done);
       })
     })
   })
@@ -384,10 +381,10 @@ describe('patch', function(){
         app.request()
         .get('/')
         .end(function(res){
-          res.headers['set-cookie'].should.include('foo1');
-          res.headers['set-cookie'].should.include('bar1');
-          res.headers['set-cookie'].should.include('foo2');
-          res.headers['set-cookie'].should.include('bar2');
+          res.headers['set-cookie'].should.containEql('foo1');
+          res.headers['set-cookie'].should.containEql('bar1');
+          res.headers['set-cookie'].should.containEql('foo2');
+          res.headers['set-cookie'].should.containEql('bar2');
           done();
         });
       })
@@ -413,9 +410,9 @@ describe('patch', function(){
         app.request()
         .get('/')
         .end(function(res){
-          res.headers['set-cookie'].should.include('foo1');
-          res.headers['set-cookie'].should.include('bar1');
-          res.headers['set-cookie'].should.include('foo2');
+          res.headers['set-cookie'].should.containEql('foo1');
+          res.headers['set-cookie'].should.containEql('bar1');
+          res.headers['set-cookie'].should.containEql('foo2');
           done();
         });
       })

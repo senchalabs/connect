@@ -324,8 +324,8 @@ describe('connect.session()', function(){
           .get('/')
           .set('X-Forwarded-Proto', 'https')
           .end(function(res){
-            res.headers['set-cookie'][0].should.not.include('HttpOnly');
-            res.headers['set-cookie'][0].should.include('Secure');
+            res.headers['set-cookie'][0].should.not.containEql('HttpOnly');
+            res.headers['set-cookie'][0].should.containEql('Secure');
             done();
           });
         })
@@ -342,7 +342,7 @@ describe('connect.session()', function(){
           .get('/admin')
           .end(function(res){
             var cookie = res.headers['set-cookie'][0];
-            cookie.should.not.include('Expires');
+            cookie.should.not.containEql('Expires');
             done();
           });
         })
@@ -383,10 +383,10 @@ describe('connect.session()', function(){
           .get('/admin')
           .end(function(res){
             var cookie = res.headers['set-cookie'][0];
-            cookie.should.not.include('HttpOnly');
-            cookie.should.not.include('Secure');
-            cookie.should.include('Path=/admin');
-            cookie.should.include('Expires');
+            cookie.should.not.containEql('HttpOnly');
+            cookie.should.not.containEql('Secure');
+            cookie.should.containEql('Path=/admin');
+            cookie.should.containEql('Expires');
             done();
           });
         })
@@ -587,7 +587,7 @@ describe('connect.session()', function(){
             app.request()
             .get('/')
             .end(function(res){
-              res.headers['set-cookie'][0].should.not.include('Expires=');
+              res.headers['set-cookie'][0].should.not.containEql('Expires=');
               done();
             });
           })

@@ -45,7 +45,7 @@ describe('connect.cookieSession()', function(){
     .get('/')
     .end(function(res){
       var cookie = res.headers['set-cookie'][0];
-      cookie.should.not.include('expires');
+      cookie.should.not.containEql('expires');
       done();
     });
   })
@@ -91,7 +91,7 @@ describe('connect.cookieSession()', function(){
     app.request()
     .get('/')
     .end(function(res){
-      sess(res).should.not.include('expires');
+      sess(res).should.not.containEql('expires');
       app.request()
       .get('/')
       .set('Cookie', sess(res))
@@ -123,13 +123,13 @@ describe('connect.cookieSession()', function(){
     app.request()
     .get('/')
     .end(function(res){
-      sess(res).should.not.include('expires');
+      sess(res).should.not.containEql('expires');
       res.body.should.equal('wahoo');
       app.request()
       .get('/')
       .set('Cookie', sess(res).replace(';', 'foobar')) // make invalid session cookie
       .end(function(res){
-        sess(res).should.not.include('expires');
+        sess(res).should.not.containEql('expires');
         res.body.should.equal('wahoo');
         done();
       });
@@ -149,8 +149,8 @@ describe('connect.cookieSession()', function(){
       .get('/')
       .end(function(res){
         var cookie = sess(res);
-        cookie.should.include('Path=/');
-        cookie.should.include('HttpOnly');
+        cookie.should.containEql('Path=/');
+        cookie.should.containEql('HttpOnly');
         res.body.should.equal('');
         done();
       })
@@ -167,8 +167,8 @@ describe('connect.cookieSession()', function(){
       .get('/admin')
       .end(function(res){
         var cookie = sess(res);
-        cookie.should.include('Path=/admin');
-        cookie.should.not.include('HttpOnly');
+        cookie.should.containEql('Path=/admin');
+        cookie.should.not.containEql('HttpOnly');
         done();
       })
     })
@@ -220,8 +220,8 @@ describe('connect.cookieSession()', function(){
       .get('/')
       .end(function(res){
         var cookie = sess(res);
-        cookie.should.include('Path=/');
-        cookie.should.not.include('HttpOnly');
+        cookie.should.containEql('Path=/');
+        cookie.should.not.containEql('HttpOnly');
         done();
       })
     })

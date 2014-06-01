@@ -14,11 +14,11 @@ describe('directory()', function(){
         .set('Accept', 'application/json')
         .end(function(res){
           var arr = JSON.parse(res.body);
-          arr.should.include('g# %3 o %2525 %37 dir');
-          arr.should.include('users');
-          arr.should.include('file #1.txt');
-          arr.should.include('nums');
-          arr.should.include('todo.txt');
+          arr.should.containEql('g# %3 o %2525 %37 dir');
+          arr.should.containEql('users');
+          arr.should.containEql('file #1.txt');
+          arr.should.containEql('nums');
+          arr.should.containEql('todo.txt');
           done();
         });
       });
@@ -31,10 +31,10 @@ describe('directory()', function(){
         .set('Accept', 'text/html')
         .end(function (res) {
           res.should.be.html;
-          res.body.should.include('<a href="/g%23%20%253%20o%20%252525%20%2537%20dir"');
-          res.body.should.include('<a href="/users"');
-          res.body.should.include('<a href="/file%20%231.txt"');
-          res.body.should.include('<a href="/todo.txt"');
+          res.body.should.containEql('<a href="/g%23%20%253%20o%20%252525%20%2537%20dir"');
+          res.body.should.containEql('<a href="/users"');
+          res.body.should.containEql('<a href="/file%20%231.txt"');
+          res.body.should.containEql('<a href="/todo.txt"');
           done();
         });
       });
@@ -66,10 +66,10 @@ describe('directory()', function(){
         .get('/')
         .set('Accept', 'text/plain')
         .end(function (res) {
-          res.body.should.include('users');
-          res.body.should.include('g# %3 o %2525 %37 dir');
-          res.body.should.include('file #1.txt');
-          res.body.should.include('todo.txt');
+          res.body.should.containEql('users');
+          res.body.should.containEql('g# %3 o %2525 %37 dir');
+          res.body.should.containEql('file #1.txt');
+          res.body.should.containEql('todo.txt');
           done();
         });
       });
@@ -82,8 +82,8 @@ describe('directory()', function(){
       .get('/users/')
       .set('Accept', 'text/html')
       .end(function(res){
-        res.body.should.include('<a href="/users/index.html"');
-        res.body.should.include('<a href="/users/tobi.txt"');
+        res.body.should.containEql('<a href="/users/index.html"');
+        res.body.should.containEql('<a href="/users/tobi.txt"');
         done();
       });
     });
@@ -93,8 +93,8 @@ describe('directory()', function(){
       .get('/%23directory/')
       .set('Accept', 'text/html')
       .end(function(res){
-        res.body.should.include('<a href="/%23directory"');
-        res.body.should.include('<a href="/%23directory/index.html"');
+        res.body.should.containEql('<a href="/%23directory"');
+        res.body.should.containEql('<a href="/%23directory/index.html"');
         done();
       });
     });
@@ -104,8 +104,8 @@ describe('directory()', function(){
       .get('/g%23%20%253%20o%20%252525%20%2537%20dir/')
       .set('Accept', 'text/html')
       .end(function(res){
-        res.body.should.include('<a href="/g%23%20%253%20o%20%252525%20%2537%20dir"');
-        res.body.should.include('<a href="/g%23%20%253%20o%20%252525%20%2537%20dir/empty.txt"');
+        res.body.should.containEql('<a href="/g%23%20%253%20o%20%252525%20%2537%20dir"');
+        res.body.should.containEql('<a href="/g%23%20%253%20o%20%252525%20%2537%20dir/empty.txt"');
         done();
       });
     });
@@ -127,11 +127,11 @@ describe('directory()', function(){
       .set('Accept', 'text/html')
       .end(function(res){
         res.should.be.html;
-        res.body.should.include('<a href="/g%23%20%253%20o%20%252525%20%2537%20dir"');
-        res.body.should.include('<a href="/users"');
-        res.body.should.include('<a href="/file%20%231.txt"');
-        res.body.should.include('<a href="/todo.txt"');
-        res.body.should.include('This is the test template');
+        res.body.should.containEql('<a href="/g%23%20%253%20o%20%252525%20%2537%20dir"');
+        res.body.should.containEql('<a href="/users"');
+        res.body.should.containEql('<a href="/file%20%231.txt"');
+        res.body.should.containEql('<a href="/todo.txt"');
+        res.body.should.containEql('This is the test template');
         done();
       });
     });
@@ -147,10 +147,10 @@ describe('directory()', function(){
       .end(function(res){
         res.statusCode.should.equal(200);
         var arr = JSON.parse(res.body);
-        arr.should.include('users');
-        arr.should.include('file #1.txt');
-        arr.should.include('nums');
-        arr.should.include('todo.txt');
+        arr.should.containEql('users');
+        arr.should.containEql('file #1.txt');
+        arr.should.containEql('nums');
+        arr.should.containEql('todo.txt');
         done();
       });
     });
@@ -166,9 +166,9 @@ describe('directory()', function(){
       .end(function(res){
         res.statusCode.should.equal(200);
         var arr = JSON.parse(res.body);
-        arr.should.include('LICENSE');
-        arr.should.include('lib');
-        arr.should.include('test');
+        arr.should.containEql('LICENSE');
+        arr.should.containEql('lib');
+        arr.should.containEql('test');
         done();
       });
     });

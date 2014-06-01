@@ -66,7 +66,7 @@ describe('connect.bodyParser()', function(){
       app.use(function(req, res){
         assert('Tobi' == req.body.user.name);
         req.files.text.originalFilename.should.equal('foo.txt');
-        req.files.text.path.should.include('.txt');
+        req.files.text.path.should.containEql('.txt');
         res.end(req.files.text.originalFilename);
       });
 

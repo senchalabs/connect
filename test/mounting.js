@@ -190,7 +190,7 @@ describe('app.use()', function(){
       app.request()
       .get('/')
       .end(function(res){
-        res.should.have.header('X-Error', 'msg');
+        res.headers.should.have.property('x-error', 'msg');
         res.body.should.equal('got error msg');
         done();
       });

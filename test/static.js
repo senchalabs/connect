@@ -121,10 +121,7 @@ describe('connect.static()', function(){
     it('should be 0 by default', function(done){
       app.request()
       .get('/todo.txt')
-      .end(function(res){
-        res.should.have.header('cache-control', 'public, max-age=0');
-        done();
-      });
+      .expect('cache-control', 'public, max-age=0', done);
     })
 
     it('should be reasonable when infinite', function(done){
@@ -134,10 +131,7 @@ describe('connect.static()', function(){
 
       app.request()
       .get('/todo.txt')
-      .end(function(res){
-        res.should.have.header('cache-control', 'public, max-age=' + 60*60*24*365);
-        done();
-      });
+      .expect('cache-control', 'public, max-age=' + 60*60*24*365, done);
     })
   })
 
@@ -160,7 +154,7 @@ describe('connect.static()', function(){
       app.request()
       .get('/does-not-exist')
       .end(function(res){
-        res.should.have.status(404);
+        res.statusCode.should.equal(404);
         res.body.should.equal('sorry!');
         done();
       });
@@ -301,7 +295,7 @@ describe('connect.static()', function(){
       app.request()
       .get('/users')
       .end(function (res) {
-        res.should.have.status(303);
+        res.statusCode.should.equal(303);
         res.headers.location.should.equal('/users/');
         done();
       });
@@ -316,7 +310,7 @@ describe('connect.static()', function(){
       .get('/static/users')
       .end(function(res){
         res.headers.location.should.equal('/static/users/');
-        res.should.have.status(303);
+        res.statusCode.should.equal(303);
         done();
       });
     })
@@ -343,7 +337,7 @@ describe('connect.static()', function(){
         .get('/todo.txt')
         .set('If-None-Match', res.headers.etag)
         .end(function(res){
-          res.should.have.status(500);
+          res.statusCode.should.equal(500);
           res.body.should.equal('- groceries');
           done();
         })
