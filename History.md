@@ -1,6 +1,9 @@
 2.x
 ===
 
+  * deprecate `methodOverride()` -- use `method-override` module directly
+  * deps: method-override@2.0.0
+    - set `Vary` header
   * deps: response-time@2.0.0
     - add `digits` argument
     - do not override existing `X-Response-Time` header
