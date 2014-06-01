@@ -1,6 +1,11 @@
 2.x
 ===
 
+  * deps: response-time@2.0.0
+    - add `digits` argument
+    - do not override existing `X-Response-Time` header
+    - timer not subject to clock drift
+    - timer resolution down to nanoseconds
   * deps: body-parser@1.3.0
     - add `extended` option to urlencoded parser
 

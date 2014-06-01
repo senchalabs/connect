@@ -44,7 +44,7 @@
     "on-headers": "0.0.0",
     "parseurl": "1.0.1",
     "qs": "0.6.6",
-    "response-time": "1.0.0",
+    "response-time": "2.0.0",
     "serve-favicon": "2.0.0",
     "serve-index": "1.1.0",
     "serve-static": "1.2.0",
