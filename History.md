@@ -2,6 +2,8 @@
 ===
 
   * deprecate `methodOverride()` -- use `method-override` module directly
+  * deps: body-parser@1.3.0
+    - add `extended` option to urlencoded parser
   * deps: method-override@2.0.0
     - set `Vary` header
   * deps: response-time@2.0.0
@@ -9,8 +11,6 @@
     - do not override existing `X-Response-Time` header
     - timer not subject to clock drift
     - timer resolution down to nanoseconds
-  * deps: body-parser@1.3.0
-    - add `extended` option to urlencoded parser
 
 2.18.0 / 2014-05-29
 ===================
