@@ -4,8 +4,9 @@
   * deprecate `methodOverride()` -- use `method-override` module directly
   * deps: body-parser@1.3.0
     - add `extended` option to urlencoded parser
-  * deps: method-override@2.0.0
+  * deps: method-override@2.0.1
     - set `Vary` header
+    - deps: methods@1.0.1
   * deps: multiparty@3.2.8
   * deps: response-time@2.0.0
     - add `digits` argument
