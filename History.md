@@ -13,6 +13,10 @@
     - do not override existing `X-Response-Time` header
     - timer not subject to clock drift
     - timer resolution down to nanoseconds
+  * deps: serve-static@1.2.1
+    - send max-age in Cache-Control in correct format
+    - use `escape-html` for escaping
+    - deps: send@0.4.1
 
 2.18.0 / 2014-05-29
 ===================
