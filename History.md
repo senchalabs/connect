@@ -1,3 +1,11 @@
+2.x
+===
+
+  * deps: compression@1.0.4
+    - fix adding `Vary` when value stored as array
+    - fix back-pressure behavior
+    - fix length check for `res.end`
+
 2.19.1 / 2014-06-02
 ===================
 

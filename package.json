@@ -32,7 +32,7 @@
     "cookie": "0.1.2",
     "cookie-parser": "1.1.0",
     "cookie-signature": "1.0.3",
-    "compression": "1.0.3",
+    "compression": "1.0.4",
     "connect-timeout": "1.1.0",
     "csurf": "1.2.0",
     "errorhandler": "1.0.1",
