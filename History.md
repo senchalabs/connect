@@ -23,11 +23,31 @@
   * remove various private `connect.utils` functions
   * drop node.js 0.8 support
 
+2.19.0 / 2014-06-02
+===================
+
+  * deprecate `methodOverride()` -- use `method-override` module directly
+  * deps: body-parser@1.3.0
+    - add `extended` option to urlencoded parser
+  * deps: method-override@2.0.1
+    - set `Vary` header
+    - deps: methods@1.0.1
+  * deps: multiparty@3.2.8
+  * deps: response-time@2.0.0
+    - add `digits` argument
+    - do not override existing `X-Response-Time` header
+    - timer not subject to clock drift
+    - timer resolution down to nanoseconds
+  * deps: serve-static@1.2.1
+    - send max-age in Cache-Control in correct format
+    - use `escape-html` for escaping
+    - deps: send@0.4.1
+
 2.18.0 / 2014-05-29
 ===================
 
   * deps: compression@1.0.3
-  * deps: serve-static@1.1.0
+  * deps: serve-index@1.1.0
     - Fix content negotiation when no `Accept` header
     - Properly support all HTTP methods
     - Support vanilla node.js http servers
