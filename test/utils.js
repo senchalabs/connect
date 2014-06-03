@@ -18,6 +18,12 @@ describe('utils.parseCacheControl(str)', function(){
   })
 })
 
+describe('utils.escape(str)', function(){
+  it('should html escape str', function(){
+    utils.escape('<b>').should.equal('&lt;b&gt;')
+  })
+})
+
 describe('utils.mime(req)', function(){
   it('should return the mime-type from Content-Type', function(){
     utils.mime({ headers: { 'content-type': 'text/html; charset=utf8' }})
