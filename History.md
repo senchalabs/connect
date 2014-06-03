@@ -1,5 +1,5 @@
-2.x
-===
+2.19.2 / 2014-06-03
+===================
 
   * deps: compression@1.0.4
     - fix adding `Vary` when value stored as array
