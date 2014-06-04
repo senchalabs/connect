@@ -1,3 +1,11 @@
+2.x
+===
+
+  * deps: compression@1.0.6
+    - fix listeners for delayed stream creation
+    - fix regression for certain `stream.pipe(res)` situations
+    - fix regression when negotiation fails
+
 2.19.2 / 2014-06-03
 ===================
 
