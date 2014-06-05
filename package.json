@@ -4,18 +4,9 @@
   "description": "High performance middleware framework",
   "author": "TJ Holowaychuk <tj@vision-media.ca> (http://tjholowaychuk.com)",
   "contributors": [
-    {
-      "name": "Douglas Christopher Wilson",
-      "email": "doug@somethingdoug.com"
-    },
-    {
-      "name": "Jonathan Ong",
-      "email": "me@jongleberry.com"
-    },
-    {
-      "name": "Tim Caswell",
-      "email": "tim@creationix.com"
-    }
+    "Douglas Christopher Wilson <doug@somethingdoug.com>",
+    "Jonathan Ong <me@jongleberry.com>",
+    "Tim Caswell <tim@creationix.com>"
   ],
   "keywords": [
     "framework",
@@ -24,7 +15,7 @@
     "connect",
     "rack"
   ],
-  "repository": "git://github.com/senchalabs/connect.git",
+  "repository": "senchalabs/connect",
   "dependencies": {
     "debug": "0.8.1",
     "escape-html": "1.0.1",
