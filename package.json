@@ -17,7 +17,7 @@
   ],
   "repository": "senchalabs/connect",
   "dependencies": {
-    "debug": "0.8.1",
+    "debug": "1.0.0",
     "escape-html": "1.0.1",
     "parseurl": "1.0.1",
     "utils-merge": "1.0.0"
