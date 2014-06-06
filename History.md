@@ -1,3 +1,9 @@
+2.x
+===
+
+  * deps: serve-favicon@2.0.1
+    - Reduce byte size of `ETag` header
+
 2.19.3 / 2014-06-03
 ===================
 
