@@ -28,6 +28,37 @@ unreleased
   * remove various private `connect.utils` functions
   * drop node.js 0.8 support
 
+2.19.4 / 2014-06-05
+===================
+
+  * deps: errorhandler@1.0.2
+   - Pass on errors from reading error files
+  * deps: method-override@2.0.2
+    - use vary module for better `Vary` behavior
+  * deps: serve-favicon@2.0.1
+    - Reduce byte size of `ETag` header
+
+2.19.3 / 2014-06-03
+===================
+
+  * deps: compression@1.0.6
+    - fix listeners for delayed stream creation
+    - fix regression for certain `stream.pipe(res)` situations
+    - fix regression when negotiation fails
+
+2.19.2 / 2014-06-03
+===================
+
+  * deps: compression@1.0.4
+    - fix adding `Vary` when value stored as array
+    - fix back-pressure behavior
+    - fix length check for `res.end`
+
+2.19.1 / 2014-06-02
+===================
+
+  * fix deprecated `utils.escape`
+
 2.19.0 / 2014-06-02
 ===================
 
