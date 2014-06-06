@@ -1,6 +1,7 @@
 unreleased
 ==========
 
+  * use `finalhandler` for final response handling
   * deps: debug@1.0.0
 
 3.0.0 / 2014-05-29
