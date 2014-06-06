@@ -1,5 +1,5 @@
-2.x
-===
+2.19.4 / 2014-06-05
+===================
 
   * deps: errorhandler@1.0.2
    - Pass on errors from reading error files
