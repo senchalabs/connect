@@ -1,6 +1,8 @@
 2.x
 ===
 
+  * deps: method-override@2.0.2
+    - use vary module for better `Vary` behavior
   * deps: serve-favicon@2.0.1
     - Reduce byte size of `ETag` header
 

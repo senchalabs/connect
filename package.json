@@ -30,7 +30,7 @@
     "escape-html": "1.0.1",
     "express-session": "1.2.1",
     "fresh": "0.2.2",
-    "method-override": "2.0.1",
+    "method-override": "2.0.2",
     "morgan": "1.1.1",
     "multiparty": "3.2.8",
     "on-headers": "0.0.0",
