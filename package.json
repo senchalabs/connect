@@ -25,7 +25,7 @@
     "cookie-signature": "1.0.3",
     "compression": "1.0.6",
     "connect-timeout": "1.1.0",
-    "csurf": "1.2.0",
+    "csurf": "1.2.1",
     "errorhandler": "1.0.2",
     "escape-html": "1.0.1",
     "express-session": "1.2.1",

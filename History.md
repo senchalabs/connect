@@ -1,8 +1,14 @@
+unreleased
+==========
+
+  * deps: csurf@1.2.1
+    - refactor to use csrf-tokens@~1.0.2
+
 2.19.4 / 2014-06-05
 ===================
 
   * deps: errorhandler@1.0.2
-   - Pass on errors from reading error files
+    - Pass on errors from reading error files
   * deps: method-override@2.0.2
     - use vary module for better `Vary` behavior
   * deps: serve-favicon@2.0.1
