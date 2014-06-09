@@ -2,7 +2,7 @@ unreleased
 ==========
 
   * use `finalhandler` for final response handling
-  * deps: debug@1.0.0
+  * deps: debug@1.0.1
 
 3.0.0 / 2014-05-29
 ==================
@@ -29,11 +29,23 @@ unreleased
   * remove various private `connect.utils` functions
   * drop node.js 0.8 support
 
+2.19.5 / 2014-06-09
+===================
+
+  * deps: csurf@1.2.1
+    - refactor to use csrf-tokens@~1.0.2
+  * deps: debug@1.0.1
+  * deps: serve-static@1.2.2
+    - fix "event emitter leak" warnings
+    - deps: send@0.4.2
+  * deps: type-is@1.2.1
+    - Switch dependency from `mime` to `mime-types@1.0.0`
+
 2.19.4 / 2014-06-05
 ===================
 
   * deps: errorhandler@1.0.2
-   - Pass on errors from reading error files
+    - Pass on errors from reading error files
   * deps: method-override@2.0.2
     - use vary module for better `Vary` behavior
   * deps: serve-favicon@2.0.1
