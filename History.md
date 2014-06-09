@@ -4,6 +4,8 @@ unreleased
   * deps: csurf@1.2.1
     - refactor to use csrf-tokens@~1.0.2
   * deps: debug@1.0.1
+  * deps: type-is@1.2.1
+    - Switch dependency from `mime` to `mime-types@1.0.0`
 
 2.19.4 / 2014-06-05
 ===================
