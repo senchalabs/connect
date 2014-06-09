@@ -4,6 +4,9 @@ unreleased
   * deps: csurf@1.2.1
     - refactor to use csrf-tokens@~1.0.2
   * deps: debug@1.0.1
+  * deps: serve-static@1.2.2
+    - fix "event emitter leak" warnings
+    - deps: send@0.4.2
   * deps: type-is@1.2.1
     - Switch dependency from `mime` to `mime-types@1.0.0`
 
