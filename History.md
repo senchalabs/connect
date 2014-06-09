@@ -1,5 +1,5 @@
-unreleased
-==========
+2.19.5 / 2014-06-09
+===================
 
   * deps: csurf@1.2.1
     - refactor to use csrf-tokens@~1.0.2
