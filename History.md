@@ -1,6 +1,8 @@
 2.x
 ===
 
+  * deps: body-parser@1.3.1
+    - deps: type-is@1.2.1
   * deps: compression@1.0.7
     - use vary module for better `Vary` behavior
     - deps: accepts@1.0.3
