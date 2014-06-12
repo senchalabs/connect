@@ -1,6 +1,10 @@
 2.x
 ===
 
+  * deps: compression@1.0.7
+    - use vary module for better `Vary` behavior
+    - deps: accepts@1.0.3
+    - deps: compressible@1.1.0
   * deps: debug@1.0.2
   * deps: serve-static@1.2.3
     - Do not throw un-catchable error on file open race condition

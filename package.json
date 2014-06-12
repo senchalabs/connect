@@ -23,7 +23,7 @@
     "cookie": "0.1.2",
     "cookie-parser": "1.1.0",
     "cookie-signature": "1.0.3",
-    "compression": "1.0.6",
+    "compression": "1.0.7",
     "connect-timeout": "1.1.0",
     "csurf": "1.2.1",
     "debug": "1.0.2",
