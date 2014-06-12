@@ -8,6 +8,8 @@
     - deps: accepts@1.0.3
     - deps: compressible@1.1.0
   * deps: debug@1.0.2
+  * deps: serve-index@1.1.1
+    - deps: accepts@1.0.3
   * deps: serve-static@1.2.3
     - Do not throw un-catchable error on file open race condition
     - deps: send@0.4.3
