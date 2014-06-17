@@ -3,6 +3,7 @@
 
   * deprecate things with `depd` module
   * use `finalhandler` for final response handling
+  * use `media-typer` to parse `content-type` for charset
   * deps: connect-timeout@1.1.1
     - deps: debug@1.0.2
   * deps: errorhandler@1.1.0
