@@ -15,6 +15,10 @@
     - Integrate with express "trust proxy" by default
     - deps: debug@1.0.2
   * deps: multiparty@3.2.9
+  * deps: vhost@2.0.0
+    - Accept `RegExp` object for `hostname`
+    - Provide `req.vhost` object
+    - Support IPv6 literal in `Host` header
 
 2.19.6 / 2014-06-11
 ===================

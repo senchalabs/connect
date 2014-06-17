@@ -48,6 +48,20 @@ describe('connect.vhost()', function(){
     .expect('loki', done);
   })
 
+  it('should support multi-level wildcards', function(done){
+    var app = connect()
+      , tobi = http.createServer(function(req, res){ res.end('tobi') })
+      , loki = http.createServer(function(req, res){ res.end('loki') })
+
+    app.use(connect.vhost('*.ferrets.com', loki));
+    app.use(connect.vhost('tobi.ferrets.com', tobi));
+
+    app.request()
+    .get('/')
+    .set('Host', 'foo.loki.ferrets.com')
+    .expect('loki', done);
+  })
+
   it('should 404 unless matched', function(done){
     var app = connect()
       , tobi = http.createServer(function(req, res){ res.end('tobi') })
