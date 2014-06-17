@@ -33,7 +33,7 @@
     "fresh": "0.2.2",
     "method-override": "2.0.2",
     "morgan": "1.1.1",
-    "multiparty": "3.2.8",
+    "multiparty": "3.2.9",
     "on-headers": "0.0.0",
     "parseurl": "1.0.1",
     "qs": "0.6.6",

@@ -14,6 +14,7 @@
   * deps: express-session@1.3.1
     - Integrate with express "trust proxy" by default
     - deps: debug@1.0.2
+  * deps: multiparty@3.2.9
 
 2.19.6 / 2014-06-11
 ===================
