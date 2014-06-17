@@ -1,6 +1,8 @@
 2.x
 ===
 
+  * deprecate `verify` option to `json` -- use `body-parser` module directly
+  * deprecate `verify` option to `urlencoded` -- use `body-parser` module directly
   * deprecate things with `depd` module
   * use `finalhandler` for final response handling
   * use `media-typer` to parse `content-type` for charset
