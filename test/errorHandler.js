@@ -71,6 +71,7 @@ describe('connect.errorHandler()', function () {
     it('should return a plain text response when json or html is not accepted', function (done) {
       request
         .get('/')
+        .set('Accept', 'bogus')
         .end(function (res) {
             res.headers['content-type'].should.startWith('text/plain');
             res.body.should.be.exactly(error.stack.toString());

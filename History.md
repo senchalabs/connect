@@ -4,6 +4,13 @@
   * use `finalhandler` for final response handling
   * deps: connect-timeout@1.1.1
     - deps: debug@1.0.2
+  * deps: errorhandler@1.1.0
+    - Display error on console formatted like `throw`
+    - Escape HTML in stack trace
+    - Escape HTML in title
+    - Fix up edge cases with error sent in response
+    - Set `X-Content-Type-Options: nosniff` header
+    - Use accepts for negotiation
   * deps: express-session@1.3.1
     - Integrate with express "trust proxy" by default
     - deps: debug@1.0.2
