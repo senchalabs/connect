@@ -1,6 +1,7 @@
 2.x
 ===
 
+  * deprecate things with `depd` module
   * use `finalhandler` for final response handling
   * deps: connect-timeout@1.1.1
     - deps: debug@1.0.2
