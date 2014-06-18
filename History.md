@@ -8,6 +8,10 @@
   * use `media-typer` to parse `content-type` for charset
   * deps: connect-timeout@1.1.1
     - deps: debug@1.0.2
+  * deps: cookie-parser@1.3.1
+    - export parsing functions
+    - `req.cookies` and `req.signedCookies` are now plain objects
+    - slightly faster parsing of many cookies
   * deps: errorhandler@1.1.0
     - Display error on console formatted like `throw`
     - Escape HTML in stack trace
