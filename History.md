@@ -15,8 +15,13 @@
     - Fix up edge cases with error sent in response
     - Set `X-Content-Type-Options: nosniff` header
     - Use accepts for negotiation
-  * deps: express-session@1.3.1
+  * deps: express-session@1.4.0
+    - Add `genid` option to generate custom session IDs
+    - Add `saveUninitialized` option to control saving uninitialized sessions
+    - Add `unset` option to control unsetting `req.session`
+    - Generate session IDs with `rand-token` by default; reduce collisions
     - Integrate with express "trust proxy" by default
+    - deps: buffer-crc32@0.2.3
     - deps: debug@1.0.2
   * deps: multiparty@3.2.9
   * deps: vhost@2.0.0
