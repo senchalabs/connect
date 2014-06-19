@@ -29,6 +29,8 @@
     - deps: buffer-crc32@0.2.3
     - deps: debug@1.0.2
   * deps: multiparty@3.2.9
+  * deps: serve-index@1.1.2
+    - deps: batch@0.5.1
   * deps: vhost@2.0.0
     - Accept `RegExp` object for `hostname`
     - Provide `req.vhost` object
