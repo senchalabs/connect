@@ -10,11 +10,6 @@ app.use(function(req, res){
   res.end(JSON.stringify(req.body));
 });
 
-app.use(function(err, req, res, next){
-  res.statusCode = err.status;
-  res.end(err.message);
-});
-
 describe('connect.json()', function(){
   it('should default to {}', function(done){
     app.request()
@@ -51,7 +46,8 @@ describe('connect.json()', function(){
     .set('Content-Type', 'application/json')
     .write('{"user"')
     .end(function(res){
-      res.body.should.equal('Unexpected end of input');
+      res.statusCode.should.equal(400);
+      res.body.should.containEql('Unexpected end of input');
       done();
     });
   })
@@ -259,7 +255,7 @@ describe('connect.json()', function(){
     it('should support specific special characters on mime subtype', function (done) {
       app.request()
       .post('/')
-      .set('Content-Type', 'application/vnd.organization.special_!#$%*`-^~.org+json')
+      .set('Content-Type', 'application/vnd.organization.special_!#$-^.org+json')
       .write('{"user":"tobi"}')
       .expect('{"user":"tobi"}', done);
     })

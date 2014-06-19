@@ -6,6 +6,15 @@
   * deprecate things with `depd` module
   * use `finalhandler` for final response handling
   * use `media-typer` to parse `content-type` for charset
+  * deps: body-parser@1.4.1
+    - check accepted charset in content-type (accepts utf-8)
+    - check accepted encoding in content-encoding (accepts identity)
+    - deprecate `urlencoded()` without provided `extended` option
+    - lazy-load urlencoded parsers
+    - support gzip and deflate bodies
+    - set `inflate: false` to turn off
+    - deps: raw-body@1.2.2
+    - Support all encodings from `iconv-lite`
   * deps: connect-timeout@1.1.1
     - deps: debug@1.0.2
   * deps: cookie-parser@1.3.1
