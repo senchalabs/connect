@@ -25,7 +25,7 @@
     "cookie-signature": "1.0.3",
     "compression": "1.0.7",
     "connect-timeout": "1.1.1",
-    "csurf": "1.2.1",
+    "csurf": "1.2.2",
     "debug": "1.0.2",
     "depd": "0.3.0",
     "errorhandler": "1.1.0",

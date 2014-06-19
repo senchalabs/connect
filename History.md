@@ -12,6 +12,7 @@
     - export parsing functions
     - `req.cookies` and `req.signedCookies` are now plain objects
     - slightly faster parsing of many cookies
+  * deps: csurf@1.2.2
   * deps: errorhandler@1.1.0
     - Display error on console formatted like `throw`
     - Escape HTML in stack trace
