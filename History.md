@@ -3,6 +3,12 @@ unreleased
 
   * deps: compression@~1.0.8
   * deps: errorhandler@~1.1.1
+  * deps: express-session@~1.5.0
+    - Deprecate integration with `cookie-parser` middleware
+    - Deprecate looking for secret in `req.secret`
+    - Directly read cookies; `cookie-parser` no longer required
+    - Directly set cookies; `res.cookie` no longer required
+    - Generate session IDs with `uid-safe`, faster and even less collisions
   * deps: serve-index@~1.1.3
 
 2.20.2 / 2014-06-19
