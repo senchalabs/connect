@@ -33,8 +33,8 @@
     "node": ">= 0.10.0"
   },
   "scripts": {
-    "test": "mocha --require test/support/env --reporter dot",
-    "test-cov": "istanbul cover node_modules/mocha/bin/_mocha -- --require test/support/env --reporter dot",
-    "test-travis": "istanbul cover node_modules/mocha/bin/_mocha --report lcovonly -- --require test/support/env --reporter spec"
+    "test": "mocha --require test/support/env --reporter dot --check-leaks test/",
+    "test-cov": "istanbul cover node_modules/mocha/bin/_mocha -- --require test/support/env --reporter dot --check-leaks test/",
+    "test-travis": "istanbul cover node_modules/mocha/bin/_mocha --report lcovonly -- --require test/support/env --reporter spec --check-leaks test/"
   }
 }

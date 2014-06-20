@@ -29,6 +29,84 @@ unreleased
   * remove various private `connect.utils` functions
   * drop node.js 0.8 support
 
+2.20.2 / 2014-06-19
+===================
+
+  * deps: body-parser@1.4.3
+    - deps: type-is@1.3.1
+
+2.20.1 / 2014-06-19
+===================
+
+  * deps: type-is@1.3.1
+    - fix global variable leak
+
+2.20.0 / 2014-06-19
+===================
+
+  * deprecate `verify` option to `json` -- use `body-parser` module directly
+  * deprecate `verify` option to `urlencoded` -- use `body-parser` module directly
+  * deprecate things with `depd` module
+  * use `finalhandler` for final response handling
+  * use `media-typer` to parse `content-type` for charset
+  * deps: body-parser@1.4.2
+    - check accepted charset in content-type (accepts utf-8)
+    - check accepted encoding in content-encoding (accepts identity)
+    - deprecate `urlencoded()` without provided `extended` option
+    - lazy-load urlencoded parsers
+    - support gzip and deflate bodies
+    - set `inflate: false` to turn off
+    - deps: raw-body@1.2.2
+    - deps: type-is@1.3.0
+    - Support all encodings from `iconv-lite`
+  * deps: connect-timeout@1.1.1
+    - deps: debug@1.0.2
+  * deps: cookie-parser@1.3.1
+    - export parsing functions
+    - `req.cookies` and `req.signedCookies` are now plain objects
+    - slightly faster parsing of many cookies
+  * deps: csurf@1.2.2
+  * deps: errorhandler@1.1.0
+    - Display error on console formatted like `throw`
+    - Escape HTML in stack trace
+    - Escape HTML in title
+    - Fix up edge cases with error sent in response
+    - Set `X-Content-Type-Options: nosniff` header
+    - Use accepts for negotiation
+  * deps: express-session@1.4.0
+    - Add `genid` option to generate custom session IDs
+    - Add `saveUninitialized` option to control saving uninitialized sessions
+    - Add `unset` option to control unsetting `req.session`
+    - Generate session IDs with `rand-token` by default; reduce collisions
+    - Integrate with express "trust proxy" by default
+    - deps: buffer-crc32@0.2.3
+    - deps: debug@1.0.2
+  * deps: multiparty@3.2.9
+  * deps: serve-index@1.1.2
+    - deps: batch@0.5.1
+  * deps: type-is@1.3.0
+    - improve type parsing
+  * deps: vhost@2.0.0
+    - Accept `RegExp` object for `hostname`
+    - Provide `req.vhost` object
+    - Support IPv6 literal in `Host` header
+
+2.19.6 / 2014-06-11
+===================
+
+  * deps: body-parser@1.3.1
+    - deps: type-is@1.2.1
+  * deps: compression@1.0.7
+    - use vary module for better `Vary` behavior
+    - deps: accepts@1.0.3
+    - deps: compressible@1.1.0
+  * deps: debug@1.0.2
+  * deps: serve-index@1.1.1
+    - deps: accepts@1.0.3
+  * deps: serve-static@1.2.3
+    - Do not throw un-catchable error on file open race condition
+    - deps: send@0.4.3
+
 2.19.5 / 2014-06-09
 ===================
 
