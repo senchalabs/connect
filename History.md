@@ -1,5 +1,5 @@
-unreleased
-==========
+3.0.1 / 2014-06-19
+==================
 
   * use `finalhandler` for final response handling
   * deps: debug@1.0.2
