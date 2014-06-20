@@ -417,5 +417,29 @@ describe('patch', function(){
         });
       })
     })
+
+    it('should detect full set-cookie', function(done){
+      var app = connect();
+
+      app.use(function(req, res, next){
+        res.cookie('foo', 'bar');
+        next();
+      });
+
+      app.use(function(req, res, next){
+        res.cookie('bar', 'baz');
+        next();
+      });
+
+      app.use(function(req, res){
+        var prev = res.getHeader('Set-Cookie');
+        res.setHeader('Set-Cookie', prev.concat('fizz=buzz'));
+        res.end();
+      });
+
+      app.request()
+      .get('/')
+      .expect('Set-Cookie', ['foo=bar; Path=/', 'bar=baz; Path=/', 'fizz=buzz'], done)
+    })
   })
 })
