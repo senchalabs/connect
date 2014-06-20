@@ -1,5 +1,5 @@
-2.x
-===
+2.20.0 / 2014-06-19
+===================
 
   * deprecate `verify` option to `json` -- use `body-parser` module directly
   * deprecate `verify` option to `urlencoded` -- use `body-parser` module directly
