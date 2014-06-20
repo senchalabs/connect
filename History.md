@@ -1,5 +1,5 @@
-unreleased
-==========
+2.21.0 / 2014-06-20
+===================
 
   * deprecate `connect(middleware)` -- use `app.use(middleware)` instead
   * deprecate `connect.createServer()` -- use `connect()` instead
