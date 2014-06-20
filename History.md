@@ -1,6 +1,7 @@
 unreleased
 ==========
 
+  * deps: compression@~1.0.8
   * deps: errorhandler@~1.1.1
 
 2.20.2 / 2014-06-19
