@@ -3,6 +3,7 @@ unreleased
 
   * deps: compression@~1.0.8
   * deps: errorhandler@~1.1.1
+  * deps: serve-index@~1.1.3
 
 2.20.2 / 2014-06-19
 ===================
