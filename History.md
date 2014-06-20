@@ -40,6 +40,8 @@
   * deps: multiparty@3.2.9
   * deps: serve-index@1.1.2
     - deps: batch@0.5.1
+  * deps: type-is@1.3.0
+    - improve type parsing
   * deps: vhost@2.0.0
     - Accept `RegExp` object for `hostname`
     - Provide `req.vhost` object
