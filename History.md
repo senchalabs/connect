@@ -1,6 +1,7 @@
 unreleased
 ==========
 
+  * deprecate `connect(middleware)` -- use `app.use(middleware)` instead
   * deprecate `connect.createServer()` -- use `connect()` instead
   * deps: compression@~1.0.8
   * deps: errorhandler@~1.1.1
