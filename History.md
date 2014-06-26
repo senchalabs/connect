@@ -29,6 +29,34 @@
   * remove various private `connect.utils` functions
   * drop node.js 0.8 support
 
+2.21.1 / 2014-06-26
+===================
+
+  * deps: cookie-parser@1.3.2
+    - deps: cookie-signature@1.0.4
+  * deps: cookie-signature@1.0.4
+    - fix for timing attacks
+  * deps: express-session@~1.5.2
+    - deps: cookie-signature@1.0.4
+  * deps: type-is@~1.3.2
+    - more mime types
+
+2.21.0 / 2014-06-20
+===================
+
+  * deprecate `connect(middleware)` -- use `app.use(middleware)` instead
+  * deprecate `connect.createServer()` -- use `connect()` instead
+  * fix `res.setHeader()` patch to work with with get -> append -> set pattern
+  * deps: compression@~1.0.8
+  * deps: errorhandler@~1.1.1
+  * deps: express-session@~1.5.0
+    - Deprecate integration with `cookie-parser` middleware
+    - Deprecate looking for secret in `req.secret`
+    - Directly read cookies; `cookie-parser` no longer required
+    - Directly set cookies; `res.cookie` no longer required
+    - Generate session IDs with `uid-safe`, faster and even less collisions
+  * deps: serve-index@~1.1.3
+
 2.20.2 / 2014-06-19
 ===================
 
