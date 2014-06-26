@@ -1,3 +1,9 @@
+2.x
+===
+
+  * deps: cookie-signature@1.0.4
+    - fix for timing attacks
+
 2.21.0 / 2014-06-20
 ===================
 
