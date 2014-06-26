@@ -5,6 +5,8 @@
     - deps: cookie-signature@1.0.4
   * deps: cookie-signature@1.0.4
     - fix for timing attacks
+  * deps: express-session@~1.5.2
+    - deps: cookie-signature@1.0.4
   * deps: type-is@~1.3.2
     - more mime types
 
