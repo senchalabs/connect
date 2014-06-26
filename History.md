@@ -1,6 +1,8 @@
 2.x
 ===
 
+  * deps: cookie-parser@1.3.2
+    - deps: cookie-signature@1.0.4
   * deps: cookie-signature@1.0.4
     - fix for timing attacks
   * deps: type-is@~1.3.2
