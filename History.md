@@ -1,3 +1,11 @@
+2.x
+===
+
+  * deps: express-session@~1.6.1
+    - Fix `res.end` patch to return correct value
+    - Fix `res.end` patch to handle multiple `res.end` calls
+    - Reject cookies with missing signatures
+
 2.21.1 / 2014-06-26
 ===================
 

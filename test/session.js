@@ -8,6 +8,15 @@ function respond(req, res) {
   res.end();
 }
 
+function cookie(res) {
+  var val = res.headers['set-cookie'];
+  if (!val) return '';
+  var index = val.indexOf(';');
+  return index !== -1
+    ? val.substr(0, index)
+    : val;
+}
+
 function sid(res) {
   var val = res.headers['set-cookie'];
   if (!val) return '';
@@ -126,7 +135,7 @@ describe('connect.session()', function(){
       var id = sid(res);
       app.request()
       .get('/')
-      .set('Cookie', 'connect.sid=' + id)
+      .set('Cookie', cookie(res))
       .end(function(res){
         sid(res).should.equal(id);
         done();
@@ -164,7 +173,7 @@ describe('connect.session()', function(){
       var id = sid(res);
       app.request()
       .get('/')
-      .set('Cookie', 'connect.sid=' + id)
+      .set('Cookie', cookie(res))
       .end(function(res){
         sid(res).should.equal(id);
 
@@ -199,7 +208,7 @@ describe('connect.session()', function(){
 
         app.request()
         .get('/')
-        .set('Cookie', 'connect.sid=' + sid(res))
+        .set('Cookie', cookie(res))
         .end(function(res){
           res.body.should.equal('2');
           done();
@@ -228,15 +237,15 @@ describe('connect.session()', function(){
 
         app.request()
         .get('/')
-        .set('Cookie', 'connect.sid=' + sid(res))
+        .set('Cookie', cookie(res))
         .end(function(res){
-          var id = sid(res);
+          var val = cookie(res);
           res.body.should.equal('2');
           modify = false;
 
           app.request()
           .get('/')
-          .set('Cookie', 'connect.sid=' + sid(res))
+          .set('Cookie', val)
           .end(function(res){
             sid(res).should.be.empty;
             res.body.should.equal('2');
@@ -244,7 +253,7 @@ describe('connect.session()', function(){
 
             app.request()
             .get('/')
-            .set('Cookie', 'connect.sid=' + id)
+            .set('Cookie', val)
             .end(function(res){
               sid(res).should.not.be.empty;
               res.body.should.equal('3');
@@ -298,7 +307,7 @@ describe('connect.session()', function(){
 
           app.request()
           .get('/')
-          .set('Cookie', 'connect.sid=' + id)
+          .set('Cookie', cookie(res))
           .end(function(res){
             sid(res).should.not.equal('');
             sid(res).should.not.equal(id);
@@ -362,7 +371,7 @@ describe('connect.session()', function(){
 
             app.request()
             .get('/admin')
-            .set('Cookie', 'connect.sid=' + sid(res))
+            .set('Cookie', cookie(res))
             .end(function(res){
               res.headers.should.not.have.property('set-cookie');
               done();
@@ -484,7 +493,6 @@ describe('connect.session()', function(){
       })
 
       describe('.maxAge', function(){
-        var id;
         var app = connect()
           .use(connect.cookieParser())
           .use(connect.session({ secret: 'keyboard cat', cookie: { maxAge: 2000 }}))
@@ -495,6 +503,7 @@ describe('connect.session()', function(){
             if (req.session.count == 3) req.session.cookie.maxAge = 3000000000;
             res.end(req.session.count.toString());
           });
+        var val;
 
         it('should set relative in milliseconds', function(done){
           app.request()
@@ -503,7 +512,7 @@ describe('connect.session()', function(){
             var a = new Date(expires(res))
               , b = new Date;
 
-            id = sid(res);
+            val = cookie(res);
 
             a.getYear().should.equal(b.getYear());
             a.getMonth().should.equal(b.getMonth());
@@ -519,12 +528,12 @@ describe('connect.session()', function(){
         it('should modify cookie when changed', function(done){
           app.request()
           .get('/')
-          .set('Cookie', 'connect.sid=' + id)
+          .set('Cookie', val)
           .end(function(res){
             var a = new Date(expires(res))
               , b = new Date;
 
-            id = sid(res);
+            val = cookie(res);
 
             a.getYear().should.equal(b.getYear());
             a.getMonth().should.equal(b.getMonth());
@@ -539,12 +548,12 @@ describe('connect.session()', function(){
         it('should modify cookie when changed to large value', function(done){
           app.request()
           .get('/')
-          .set('Cookie', 'connect.sid=' + id)
+          .set('Cookie', val)
           .end(function(res){
             var a = new Date(expires(res))
               , b = new Date;
 
-            id = sid(res);
+            val = cookie(res);
 
             var delta = a.valueOf() - b.valueOf();
             (delta > 2999999000 && delta < 3000000000).should.be.ok;
@@ -612,7 +621,7 @@ describe('connect.session()', function(){
 
         app.request()
         .get('/')
-        .set('Cookie', 'connect.sid=' + sid(res))
+        .set('Cookie', cookie(res))
         .end(function(res){
           res.body.should.equal('2');
           done();
