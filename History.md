@@ -7,6 +7,9 @@
     - Fix `res.end` patch to return correct value
     - Fix `res.end` patch to handle multiple `res.end` calls
     - Reject cookies with missing signatures
+  * deps: multiparty@3.3.0
+    - Always emit close after all parts ended
+    - Fix callback hang in node.js 0.8 on errors
   * deps: serve-static@~1.3.0
     - Accept string for `maxAge` (converted by `ms`)
     - Add `setHeaders` option
