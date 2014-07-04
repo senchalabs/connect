@@ -1,6 +1,8 @@
 2.x
 ===
 
+  * deps: csurf@~1.3.0
+    - Fix `cookie.signed` option to actually sign cookie
   * deps: express-session@~1.6.1
     - Fix `res.end` patch to return correct value
     - Fix `res.end` patch to handle multiple `res.end` calls
