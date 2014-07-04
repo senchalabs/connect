@@ -1,5 +1,5 @@
-2.x
-===
+2.22.0 / 2014-07-03
+===================
 
   * deps: csurf@~1.3.0
     - Fix `cookie.signed` option to actually sign cookie
