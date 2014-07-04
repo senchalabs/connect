@@ -29,6 +29,24 @@
   * remove various private `connect.utils` functions
   * drop node.js 0.8 support
 
+2.22.0 / 2014-07-03
+===================
+
+  * deps: csurf@~1.3.0
+    - Fix `cookie.signed` option to actually sign cookie
+  * deps: express-session@~1.6.1
+    - Fix `res.end` patch to return correct value
+    - Fix `res.end` patch to handle multiple `res.end` calls
+    - Reject cookies with missing signatures
+  * deps: multiparty@3.3.0
+    - Always emit close after all parts ended
+    - Fix callback hang in node.js 0.8 on errors
+  * deps: serve-static@~1.3.0
+    - Accept string for `maxAge` (converted by `ms`)
+    - Add `setHeaders` option
+    - Include HTML link in redirect response
+    - deps: send@0.5.0
+
 2.21.1 / 2014-06-26
 ===================
 
@@ -46,7 +64,7 @@
 
   * deprecate `connect(middleware)` -- use `app.use(middleware)` instead
   * deprecate `connect.createServer()` -- use `connect()` instead
-  * fix `res.setHeader()` patch to work with with get -> append -> set pattern
+  * fix `res.setHeader()` patch to work with get -> append -> set pattern
   * deps: compression@~1.0.8
   * deps: errorhandler@~1.1.1
   * deps: express-session@~1.5.0
