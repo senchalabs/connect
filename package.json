@@ -48,7 +48,7 @@
     "pause": "0.0.1"
   },
   "devDependencies": {
-    "istanbul": "0.2.12",
+    "istanbul": "0.2.14",
     "mocha": "~1.20.0",
     "should": "~4.0.0",
     "jade": ">= 0.35.0 < 1",
