@@ -1,3 +1,9 @@
+2.x
+===
+
+  * deps: parseurl@~1.1.3
+    - faster parsing of href-only URLs
+
 2.22.0 / 2014-07-03
 ===================
 

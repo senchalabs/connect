@@ -37,7 +37,7 @@
     "morgan": "1.1.1",
     "multiparty": "3.3.0",
     "on-headers": "0.0.0",
-    "parseurl": "1.0.1",
+    "parseurl": "~1.1.3",
     "qs": "0.6.6",
     "response-time": "2.0.0",
     "serve-favicon": "2.0.1",
