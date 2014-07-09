@@ -1,6 +1,8 @@
 2.x
 ===
 
+  * deps: debug@1.0.3
+    - Add support for multiple wildcards in namespaces
   * deps: express-session@~1.6.4
   * deps: method-override@~2.1.0
     - add simple debug output
