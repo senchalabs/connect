@@ -1,6 +1,10 @@
 2.x
 ===
 
+  * deps: method-override@~2.1.0
+    - add simple debug output
+    - deps: methods@1.1.0
+    - deps: parseurl@~1.1.3
   * deps: parseurl@~1.1.3
     - faster parsing of href-only URLs
 
