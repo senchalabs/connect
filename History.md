@@ -1,6 +1,7 @@
 2.x
 ===
 
+  * deps: express-session@~1.6.4
   * deps: method-override@~2.1.0
     - add simple debug output
     - deps: methods@1.1.0
