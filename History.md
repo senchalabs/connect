@@ -1,3 +1,10 @@
+unreleased
+==========
+
+  * deps: connect-timeout@~1.2.0
+    - Accept string for `time` (converted by `ms`)
+    - deps: debug@1.0.3
+
 2.23.0 / 2014-07-10
 ===================
 
