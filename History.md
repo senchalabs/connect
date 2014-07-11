@@ -1,5 +1,5 @@
-2.x
-===
+2.23.0 / 2014-07-10
+===================
 
   * deps: debug@1.0.3
     - Add support for multiple wildcards in namespaces
