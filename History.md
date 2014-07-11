@@ -37,6 +37,21 @@ unreleased
   * remove various private `connect.utils` functions
   * drop node.js 0.8 support
 
+2.23.0 / 2014-07-10
+===================
+
+  * deps: debug@1.0.3
+    - Add support for multiple wildcards in namespaces
+  * deps: express-session@~1.6.4
+  * deps: method-override@~2.1.0
+    - add simple debug output
+    - deps: methods@1.1.0
+    - deps: parseurl@~1.1.3
+  * deps: parseurl@~1.1.3
+    - faster parsing of href-only URLs
+  * deps: serve-static@~1.3.1
+    - deps: parseurl@~1.1.3
+
 2.22.0 / 2014-07-03
 ===================
 
