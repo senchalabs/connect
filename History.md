@@ -4,6 +4,7 @@ unreleased
   * deps: connect-timeout@~1.2.0
     - Accept string for `time` (converted by `ms`)
     - deps: debug@1.0.3
+  * deps: debug@1.0.4
   * deps: morgan@~1.2.0
     - Add `:remote-user` token
     - Add `combined` log format
