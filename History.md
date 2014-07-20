@@ -5,6 +5,11 @@ unreleased
     - Accept string for `time` (converted by `ms`)
     - deps: debug@1.0.3
   * deps: debug@1.0.4
+  * deps: depd@0.4.2
+    - Add `TRACE_DEPRECATION` environment variable
+    - Remove non-standard grey color from color output
+    - Support `--no-deprecation` argument
+    - Support `--trace-deprecation` argument
   * deps: morgan@~1.2.0
     - Add `:remote-user` token
     - Add `combined` log format
