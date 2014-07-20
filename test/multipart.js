@@ -20,11 +20,13 @@ describe('connect.multipart()', function(){
 
   it('should accept a limit option', function(done){
     var len = bytes('20mb') + 1;
+    var buf = new Buffer(len);
 
     app.request()
     .post('/')
     .set('Content-Length', len)
     .set('Content-Type', 'multipart/form-data')
+    .write(buf)
     .expect(413, done)
   })
 

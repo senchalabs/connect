@@ -10,6 +10,9 @@ unreleased
     - Remove non-standard grey color from color output
     - Support `--no-deprecation` argument
     - Support `--trace-deprecation` argument
+  * deps: finalhandler@0.1.0
+    - Respond after request fully read
+    - deps: debug@1.0.4
   * deps: morgan@~1.2.0
     - Add `:remote-user` token
     - Add `combined` log format

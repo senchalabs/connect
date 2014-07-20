@@ -1,5 +1,6 @@
 
 var connect = require('../');
+var bytes = require('bytes');
 
 var app = connect();
 
@@ -47,10 +48,14 @@ describe('connect.limit()', function(){
 
   describe('when Content-Length is too large', function(){
     it('should respond with 413', function(done){
+      var len = bytes('10kb');
+      var buf = new Buffer(len);
+
       app.request()
       .post('/')
-      .set('Content-Length', 10 * 1024)
-      .expect(413, done);
+      .set('Content-Length', len)
+      .write(buf)
+      .expect(413, done)
     })
   })
 
