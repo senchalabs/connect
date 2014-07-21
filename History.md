@@ -1,6 +1,11 @@
 unreleased
 ==========
 
+  * deps: body-parser@~1.5.0
+    - deps: depd@0.4.2
+    - deps: iconv-lite@0.4.4
+    - deps: raw-body@1.3.0
+  * deps: type-is@~1.3.2
   * deps: connect-timeout@~1.2.0
     - Accept string for `time` (converted by `ms`)
     - deps: debug@1.0.3
