@@ -6,6 +6,9 @@ unreleased
     - deps: iconv-lite@0.4.4
     - deps: raw-body@1.3.0
   * deps: type-is@~1.3.2
+  * deps: compression@~1.0.9
+    - Add `debug` messages
+    - deps: accepts@~1.0.7
   * deps: connect-timeout@~1.2.0
     - Accept string for `time` (converted by `ms`)
     - deps: debug@1.0.3
