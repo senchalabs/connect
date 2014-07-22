@@ -31,6 +31,10 @@ unreleased
     - Add `common` log format
     - Remove non-standard grey color from `dev` format
   * deps: multiparty@3.3.1
+  * deps: parseurl@~1.2.0
+    - Cache URLs based on original value
+    - Remove no-longer-needed URL mis-parse work-around
+    - Simplify the "fast-path" `RegExp`
   * deps: serve-static@~1.4.0
     - Add `dotfiles` option
     - deps: parseurl@~1.2.0
