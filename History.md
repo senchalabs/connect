@@ -18,6 +18,10 @@ unreleased
     - Remove non-standard grey color from color output
     - Support `--no-deprecation` argument
     - Support `--trace-deprecation` argument
+  * deps: express-session@~1.7.0
+    - Improve session-ending error handling
+    - deps: debug@1.0.4
+    - deps: depd@0.4.2
   * deps: finalhandler@0.1.0
     - Respond after request fully read
     - deps: debug@1.0.4
