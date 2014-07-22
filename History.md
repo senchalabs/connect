@@ -30,6 +30,7 @@ unreleased
     - Add `combined` log format
     - Add `common` log format
     - Remove non-standard grey color from `dev` format
+  * deps: multiparty@3.3.1
   * deps: serve-static@~1.4.0
     - Add `dotfiles` option
     - deps: parseurl@~1.2.0
