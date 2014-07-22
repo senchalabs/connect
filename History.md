@@ -5,7 +5,7 @@ unreleased
     - deps: depd@0.4.2
     - deps: iconv-lite@0.4.4
     - deps: raw-body@1.3.0
-  * deps: type-is@~1.3.2
+    - deps: type-is@~1.3.2
   * deps: compression@~1.0.9
     - Add `debug` messages
     - deps: accepts@~1.0.7
@@ -26,6 +26,10 @@ unreleased
     - Add `combined` log format
     - Add `common` log format
     - Remove non-standard grey color from `dev` format
+  * deps: serve-static@~1.4.0
+    - Add `dotfiles` option
+    - deps: parseurl@~1.2.0
+    - deps: send@0.7.0
 
 2.23.0 / 2014-07-10
 ===================
