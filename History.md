@@ -25,6 +25,9 @@ unreleased
   * deps: finalhandler@0.1.0
     - Respond after request fully read
     - deps: debug@1.0.4
+  * deps: method-override@~2.1.2
+    - deps: debug@1.0.4
+    - deps: parseurl@~1.2.0
   * deps: morgan@~1.2.0
     - Add `:remote-user` token
     - Add `combined` log format
