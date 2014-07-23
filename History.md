@@ -1,5 +1,5 @@
-unreleased
-==========
+3.1.0 / 2014-07-22
+==================
 
   * deps: debug@1.0.4
   * deps: finalhandler@0.1.0
