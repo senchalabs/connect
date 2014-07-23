@@ -11,6 +11,116 @@ describe('app.use()', function(){
     app = connect();
   });
 
+  it('should match all paths with "/"', function (done) {
+    app.use('/', function (req, res) {
+      res.end(req.url);
+    });
+
+    request(app)
+    .get('/blog')
+    .expect(200, '/blog', done);
+  });
+
+  it('should match full path', function (done) {
+    app.use('/blog', function (req, res) {
+      res.end(req.url);
+    });
+
+    request(app)
+    .get('/blog')
+    .expect(200, '/', done);
+  });
+
+  it('should match left-side of path', function (done) {
+    app.use('/blog', function (req, res) {
+      res.end(req.url);
+    });
+
+    request(app)
+    .get('/blog/article/1')
+    .expect(200, '/article/1', done);
+  });
+
+  it('should not match shorter path', function (done) {
+    app.use('/blog-o-rama', function (req, res) {
+      res.end(req.url);
+    });
+
+    request(app)
+    .get('/blog')
+    .expect(404, done);
+  });
+
+  it('should not end match in middle of component', function (done) {
+    app.use('/blog', function (req, res) {
+      res.end(req.url);
+    });
+
+    request(app)
+    .get('/blog-o-rama/article/1')
+    .expect(404, done);
+  });
+
+  it('should be case insensitive (lower-case route, mixed-case request)', function(done){
+    var blog = http.createServer(function(req, res){
+      req.url.should.equal('/');
+      res.end('blog');
+    });
+
+    app.use('/blog', blog);
+
+    request(app)
+    .get('/BLog')
+    .expect('blog', done);
+  });
+
+  it('should be case insensitive (mixed-case route, lower-case request)', function(done){
+    var blog = http.createServer(function(req, res){
+      req.url.should.equal('/');
+      res.end('blog');
+    });
+
+    app.use('/BLog', blog);
+
+    request(app)
+    .get('/blog')
+    .expect('blog', done);
+  });
+
+  it('should be case insensitive (mixed-case route, mixed-case request)', function(done){
+    var blog = http.createServer(function(req, res){
+      req.url.should.equal('/');
+      res.end('blog');
+    });
+
+    app.use('/BLog', blog);
+
+    request(app)
+    .get('/blOG')
+    .expect('blog', done);
+  });
+
+  it('should ignore fn.arity > 4', function(done){
+    var invoked = [];
+
+    app.use(function(req, res, next, _a, _b){
+      invoked.push(0)
+      next();
+    });
+    app.use(function(req, res, next){
+      invoked.push(1)
+      next(new Error('err'));
+    });
+    app.use(function(err, req, res, next){
+      invoked.push(2);
+      res.end(invoked.join(','));
+    });
+
+    request(app)
+    .get('/')
+    .expect(200, '1,2', done);
+  });
+
   describe('with a connect app', function(){
     it('should mount', function(done){
       var blog = connect();
@@ -169,64 +279,4 @@ describe('app.use()', function(){
       .end(function(){});
     })
   })
-
-  it('should be case insensitive (lower-case route, mixed-case request)', function(done){
-    var blog = http.createServer(function(req, res){
-      req.url.should.equal('/');
-      res.end('blog');
-    });
-
-    app.use('/blog', blog);
-
-    request(app)
-    .get('/BLog')
-    .expect('blog', done);
-  });
-
-  it('should be case insensitive (mixed-case route, lower-case request)', function(done){
-    var blog = http.createServer(function(req, res){
-      req.url.should.equal('/');
-      res.end('blog');
-    });
-
-    app.use('/BLog', blog);
-
-    request(app)
-    .get('/blog')
-    .expect('blog', done);
-  });
-
-  it('should be case insensitive (mixed-case route, mixed-case request)', function(done){
-    var blog = http.createServer(function(req, res){
-      req.url.should.equal('/');
-      res.end('blog');
-    });
-
-    app.use('/BLog', blog);
-
-    request(app)
-    .get('/blOG')
-    .expect('blog', done);
-  });
-
-  it('should ignore fn.arity > 4', function(done){
-    var invoked = [];
-
-    app.use(function(req, res, next, _a, _b){
-      invoked.push(0)
-      next();
-    });
-    app.use(function(req, res, next){
-      invoked.push(1)
-      next(new Error('err'));
-    });
-    app.use(function(err, req, res, next){
-      invoked.push(2);
-      res.end(invoked.join(','));
-    });
-
-    request(app)
-    .get('/')
-    .expect(200, '1,2', done);
-  });
 });
