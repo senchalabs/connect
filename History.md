@@ -10,6 +10,7 @@ unreleased
     - Remove no-longer-needed URL mis-parse work-around
     - Simplify the "fast-path" `RegExp`
   * perf: reduce executed logic in routing
+  * perf: refactor location of `try` block
 
 3.0.2 / 2014-07-10
 ==================
