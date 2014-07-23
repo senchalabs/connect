@@ -9,9 +9,9 @@ unreleased
   * deps: compression@~1.0.9
     - Add `debug` messages
     - deps: accepts@~1.0.7
-  * deps: connect-timeout@~1.2.0
+  * deps: connect-timeout@~1.2.1
     - Accept string for `time` (converted by `ms`)
-    - deps: debug@1.0.3
+    - deps: debug@1.0.4
   * deps: debug@1.0.4
   * deps: depd@0.4.2
     - Add `TRACE_DEPRECATION` environment variable
