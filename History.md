@@ -9,6 +9,7 @@ unreleased
     - Cache URLs based on original value
     - Remove no-longer-needed URL mis-parse work-around
     - Simplify the "fast-path" `RegExp`
+  * perf: reduce executed logic in routing
 
 3.0.2 / 2014-07-10
 ==================
