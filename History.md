@@ -1,3 +1,15 @@
+unreleased
+==========
+
+  * deps: debug@1.0.4
+  * deps: finalhandler@0.1.0
+    - Respond after request fully read
+    - deps: debug@1.0.4
+  * deps: parseurl@~1.2.0
+    - Cache URLs based on original value
+    - Remove no-longer-needed URL mis-parse work-around
+    - Simplify the "fast-path" `RegExp`
+
 3.0.2 / 2014-07-10
 ==================
 
@@ -36,6 +48,51 @@
   * remove the old `connect.createServer()` method
   * remove various private `connect.utils` functions
   * drop node.js 0.8 support
+
+2.24.0 / 2014-07-22
+===================
+
+  * deps: body-parser@~1.5.0
+    - deps: depd@0.4.2
+    - deps: iconv-lite@0.4.4
+    - deps: raw-body@1.3.0
+    - deps: type-is@~1.3.2
+  * deps: compression@~1.0.9
+    - Add `debug` messages
+    - deps: accepts@~1.0.7
+  * deps: connect-timeout@~1.2.1
+    - Accept string for `time` (converted by `ms`)
+    - deps: debug@1.0.4
+  * deps: debug@1.0.4
+  * deps: depd@0.4.2
+    - Add `TRACE_DEPRECATION` environment variable
+    - Remove non-standard grey color from color output
+    - Support `--no-deprecation` argument
+    - Support `--trace-deprecation` argument
+  * deps: express-session@~1.7.0
+    - Improve session-ending error handling
+    - deps: debug@1.0.4
+    - deps: depd@0.4.2
+  * deps: finalhandler@0.1.0
+    - Respond after request fully read
+    - deps: debug@1.0.4
+  * deps: method-override@~2.1.2
+    - deps: debug@1.0.4
+    - deps: parseurl@~1.2.0
+  * deps: morgan@~1.2.0
+    - Add `:remote-user` token
+    - Add `combined` log format
+    - Add `common` log format
+    - Remove non-standard grey color from `dev` format
+  * deps: multiparty@3.3.1
+  * deps: parseurl@~1.2.0
+    - Cache URLs based on original value
+    - Remove no-longer-needed URL mis-parse work-around
+    - Simplify the "fast-path" `RegExp`
+  * deps: serve-static@~1.4.0
+    - Add `dotfiles` option
+    - deps: parseurl@~1.2.0
+    - deps: send@0.7.0
 
 2.23.0 / 2014-07-10
 ===================
