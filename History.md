@@ -130,8 +130,8 @@
 2.20.0 / 2014-06-19
 ===================
 
-  * deprecate `verify` option to `json` -- use `body-parser` module directly
-  * deprecate `verify` option to `urlencoded` -- use `body-parser` module directly
+  * deprecate `verify` option to `json` -- use `body-parser` npm module instead
+  * deprecate `verify` option to `urlencoded` -- use `body-parser` npm module instead
   * deprecate things with `depd` module
   * use `finalhandler` for final response handling
   * use `media-typer` to parse `content-type` for charset
@@ -239,7 +239,7 @@
 2.19.0 / 2014-06-02
 ===================
 
-  * deprecate `methodOverride()` -- use `method-override` module directly
+  * deprecate `methodOverride()` -- use `method-override` npm module instead
   * deps: body-parser@1.3.0
     - add `extended` option to urlencoded parser
   * deps: method-override@2.0.1
