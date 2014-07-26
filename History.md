@@ -6,6 +6,7 @@
     - Fix exception when global `Error.stackTraceLimit` is too low
   * deps: express-session@~1.7.1
   * deps: morgan@~1.2.1
+  * deps: serve-static@~1.4.1
 
 2.24.0 / 2014-07-22
 ===================
