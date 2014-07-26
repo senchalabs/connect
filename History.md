@@ -4,6 +4,7 @@
   * deps: body-parser@~1.5.1
   * deps: depd@0.4.3
     - Fix exception when global `Error.stackTraceLimit` is too low
+  * deps: express-session@~1.7.1
 
 2.24.0 / 2014-07-22
 ===================
