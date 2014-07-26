@@ -13,11 +13,13 @@ app.use(function(req, res){
 
 describe('connect.responseTime()', function(){
   it('should set X-Response-Time', function(done){
+    var start = Date.now();
     app.request()
     .get('/')
     .end(function(res){
+      var d = Date.now() - start;
       var n = parseInt(res.headers['x-response-time']);
-      n.should.be.above(20);
+      n.should.be.within(10, d);
       done();
     });
   })
