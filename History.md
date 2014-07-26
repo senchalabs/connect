@@ -1,6 +1,7 @@
 2.x
 ===
 
+  * deps: body-parser@~1.5.1
   * deps: depd@0.4.3
     - Fix exception when global `Error.stackTraceLimit` is too low
 
