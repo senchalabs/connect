@@ -4,6 +4,7 @@
   * deps: body-parser@~1.5.2
   * deps: depd@0.4.4
     - Work-around v8 generating empty stack traces
+  * deps: express-session@~1.7.2
 
 2.24.1 / 2014-07-26
 ===================
