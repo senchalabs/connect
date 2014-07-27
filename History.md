@@ -1,3 +1,9 @@
+2.x
+===
+
+  * deps: depd@0.4.4
+    - Work-around v8 generating empty stack traces
+
 2.24.1 / 2014-07-26
 ===================
 
