@@ -1,3 +1,10 @@
+2.x
+===
+
+  * deps: serve-static@~1.4.4
+    - Fix incorrect 403 on Windows and Node.js 0.11
+    - deps: send@0.7.4
+
 2.24.2 / 2014-07-27
 ===================
 
