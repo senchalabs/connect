@@ -1,5 +1,5 @@
-2.x
-===
+2.24.3 / 2014-08-04
+===================
 
   * deps: serve-index@~1.1.5
     - Fix Content-Length calculation for multi-byte file names
