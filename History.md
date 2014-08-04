@@ -1,6 +1,9 @@
 2.x
 ===
 
+  * deps: serve-index@~1.1.5
+    - Fix Content-Length calculation for multi-byte file names
+    - deps: accepts@~1.0.7
   * deps: serve-static@~1.4.4
     - Fix incorrect 403 on Windows and Node.js 0.11
     - deps: send@0.7.4
