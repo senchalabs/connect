@@ -1,6 +1,8 @@
 2.x
 ===
 
+  * deps: body-parser@~1.6.0
+    - deps: qs@1.0.2
   * deps: csurf@~1.4.0
     - Support changing `req.session` after `csurf` middleware
     - Calling `res.csrfToken()` after `req.session.destroy()` will now work
