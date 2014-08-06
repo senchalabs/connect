@@ -3,6 +3,9 @@
 
   * deps: body-parser@~1.6.1
     - deps: qs@1.1.0
+  * deps: qs@1.1.0
+    - Accept urlencoded square brackets
+    - Accept empty values in implicit array notation
 
 2.25.0 / 2014-08-05
 ===================
