@@ -1,6 +1,9 @@
 2.x
 ===
 
+  * deps: csurf@~1.4.0
+    - Support changing `req.session` after `csurf` middleware
+    - Calling `res.csrfToken()` after `req.session.destroy()` will now work
   * deps: express-session@~1.7.4
     - Fix `res.end` patch to call correct upstream `res.write`
     - Fix response end delay for non-chunked responses
