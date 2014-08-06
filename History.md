@@ -17,6 +17,9 @@
     - Limits array length to 20
     - Limits object depth to 5
     - Limits parameters to 1,000
+  * deps: serve-static@~1.5.0
+    - Add `extensions` option
+    - deps: send@0.8.1
 
 2.24.3 / 2014-08-04
 ===================
