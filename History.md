@@ -9,6 +9,11 @@
   * deps: express-session@~1.7.4
     - Fix `res.end` patch to call correct upstream `res.write`
     - Fix response end delay for non-chunked responses
+  * deps: qs@1.0.2
+    - Complete rewrite
+    - Limits array length to 20
+    - Limits object depth to 5
+    - Limits parameters to 1,000
 
 2.24.3 / 2014-08-04
 ===================
