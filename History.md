@@ -51,6 +51,60 @@
   * remove various private `connect.utils` functions
   * drop node.js 0.8 support
 
+2.25.0 / 2014-08-05
+===================
+
+  * deps: body-parser@~1.6.0
+    - deps: qs@1.0.2
+  * deps: compression@~1.0.10
+    - Fix upper-case Content-Type characters prevent compression
+    - deps: compressible@~1.1.1
+  * deps: csurf@~1.4.0
+    - Support changing `req.session` after `csurf` middleware
+    - Calling `res.csrfToken()` after `req.session.destroy()` will now work
+  * deps: express-session@~1.7.4
+    - Fix `res.end` patch to call correct upstream `res.write`
+    - Fix response end delay for non-chunked responses
+  * deps: qs@1.0.2
+    - Complete rewrite
+    - Limits array length to 20
+    - Limits object depth to 5
+    - Limits parameters to 1,000
+  * deps: serve-static@~1.5.0
+    - Add `extensions` option
+    - deps: send@0.8.1
+
+2.24.3 / 2014-08-04
+===================
+
+  * deps: serve-index@~1.1.5
+    - Fix Content-Length calculation for multi-byte file names
+    - deps: accepts@~1.0.7
+  * deps: serve-static@~1.4.4
+    - Fix incorrect 403 on Windows and Node.js 0.11
+    - deps: send@0.7.4
+
+2.24.2 / 2014-07-27
+===================
+
+  * deps: body-parser@~1.5.2
+  * deps: depd@0.4.4
+    - Work-around v8 generating empty stack traces
+  * deps: express-session@~1.7.2
+  * deps: morgan@~1.2.2
+  * deps: serve-static@~1.4.2
+
+2.24.1 / 2014-07-26
+===================
+
+  * deps: body-parser@~1.5.1
+  * deps: depd@0.4.3
+    - Fix exception when global `Error.stackTraceLimit` is too low
+  * deps: express-session@~1.7.1
+  * deps: morgan@~1.2.1
+  * deps: serve-index@~1.1.4
+  * deps: serve-static@~1.4.1
+
 2.24.0 / 2014-07-22
 ===================
 
@@ -172,8 +226,8 @@
 2.20.0 / 2014-06-19
 ===================
 
-  * deprecate `verify` option to `json` -- use `body-parser` module directly
-  * deprecate `verify` option to `urlencoded` -- use `body-parser` module directly
+  * deprecate `verify` option to `json` -- use `body-parser` npm module instead
+  * deprecate `verify` option to `urlencoded` -- use `body-parser` npm module instead
   * deprecate things with `depd` module
   * use `finalhandler` for final response handling
   * use `media-typer` to parse `content-type` for charset
@@ -281,7 +335,7 @@
 2.19.0 / 2014-06-02
 ===================
 
-  * deprecate `methodOverride()` -- use `method-override` module directly
+  * deprecate `methodOverride()` -- use `method-override` npm module instead
   * deps: body-parser@1.3.0
     - add `extended` option to urlencoded parser
   * deps: method-override@2.0.1
