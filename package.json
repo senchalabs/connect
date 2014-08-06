@@ -50,7 +50,7 @@
   "devDependencies": {
     "dox": "~0.4.6",
     "istanbul": "0.3.0",
-    "mocha": "~1.21.0",
+    "mocha": "~1.21.4",
     "should": "~4.0.0",
     "jade": ">= 0.35.0 < 1"
   },
