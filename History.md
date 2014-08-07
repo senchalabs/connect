@@ -1,3 +1,9 @@
+2.x
+===
+
+  * deps: qs@1.2.0
+    - Fix parsing array of objects
+
 2.25.1 / 2014-08-06
 ===================
 
