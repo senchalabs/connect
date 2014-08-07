@@ -1,6 +1,8 @@
 2.x
 ===
 
+  * deps: body-parser@~1.6.2
+    - deps: qs@1.2.0
   * deps: qs@1.2.0
     - Fix parsing array of objects
 
