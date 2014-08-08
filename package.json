@@ -35,7 +35,7 @@
     "media-typer": "0.2.0",
     "method-override": "~2.1.2",
     "morgan": "~1.2.2",
-    "multiparty": "3.3.1",
+    "multiparty": "3.3.2",
     "on-headers": "0.0.0",
     "parseurl": "~1.2.0",
     "qs": "1.2.0",

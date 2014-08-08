@@ -1,3 +1,9 @@
+2.x
+===
+
+  * deps: multiparty@3.3.2
+    - Fix potential double-callback
+
 2.25.2 / 2014-08-07
 ===================
 
