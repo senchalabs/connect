@@ -1,3 +1,9 @@
+2.x
+===
+
+  * Fix `query` middleware breaking with argument
+    - It never really took one in the first place
+
 2.25.3 / 2014-08-07
 ===================
 
