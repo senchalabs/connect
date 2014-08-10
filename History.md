@@ -3,6 +3,7 @@
 
   * Fix `query` middleware breaking with argument
     - It never really took one in the first place
+  * deps: method-override@~2.1.3
   * deps: parseurl@~1.3.0
   * deps: qs@1.2.1
   * deps: serve-static@~1.5.1
