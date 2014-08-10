@@ -6,6 +6,8 @@
   * deps: method-override@~2.1.3
   * deps: parseurl@~1.3.0
   * deps: qs@1.2.1
+  * deps: serve-index@~1.1.6
+    - Fix URL parsing
   * deps: serve-static@~1.5.1
     - Fix parsing of weird `req.originalUrl` values
     - deps: parseurl@~1.3.0
