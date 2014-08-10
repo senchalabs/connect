@@ -3,6 +3,7 @@
 
   * Fix `query` middleware breaking with argument
     - It never really took one in the first place
+  * deps: parseurl@~1.3.0
   * deps: qs@1.2.1
 
 2.25.3 / 2014-08-07
