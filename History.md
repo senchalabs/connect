@@ -5,6 +5,10 @@
     - It never really took one in the first place
   * deps: parseurl@~1.3.0
   * deps: qs@1.2.1
+  * deps: serve-static@~1.5.1
+    - Fix parsing of weird `req.originalUrl` values
+    - deps: parseurl@~1.3.0
+    = deps: utils-merge@1.0.0
 
 2.25.3 / 2014-08-07
 ===================
