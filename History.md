@@ -15,6 +15,7 @@
     - deps: on-headers@~1.0.0
     - deps: parseurl@~1.3.0
   * deps: method-override@~2.1.3
+  * deps: on-headers@~1.0.0
   * deps: parseurl@~1.3.0
   * deps: qs@1.2.1
   * deps: response-time@~2.0.1
