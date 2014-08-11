@@ -1,3 +1,8 @@
+unreleased
+==========
+
+  * deps: parseurl@~1.3.0
+
 3.1.0 / 2014-07-22
 ==================
 
@@ -50,6 +55,58 @@
   * remove the old `connect.createServer()` method
   * remove various private `connect.utils` functions
   * drop node.js 0.8 support
+
+2.25.4 / 2014-08-10
+===================
+
+  * Fix `query` middleware breaking with argument
+    - It never really took one in the first place
+  * deps: body-parser@~1.6.3
+    - deps: qs@1.2.1
+  * deps: compression@~1.0.11
+    - deps: on-headers@~1.0.0
+    - deps: parseurl@~1.3.0
+  * deps: connect-timeout@~1.2.2
+    - deps: on-headers@~1.0.0
+  * deps: express-session@~1.7.5
+    - Fix parsing original URL
+    - deps: on-headers@~1.0.0
+    - deps: parseurl@~1.3.0
+  * deps: method-override@~2.1.3
+  * deps: on-headers@~1.0.0
+  * deps: parseurl@~1.3.0
+  * deps: qs@1.2.1
+  * deps: response-time@~2.0.1
+    - deps: on-headers@~1.0.0
+  * deps: serve-index@~1.1.6
+    - Fix URL parsing
+  * deps: serve-static@~1.5.1
+    - Fix parsing of weird `req.originalUrl` values
+    - deps: parseurl@~1.3.0
+    = deps: utils-merge@1.0.0
+
+2.25.3 / 2014-08-07
+===================
+
+  * deps: multiparty@3.3.2
+    - Fix potential double-callback
+
+2.25.2 / 2014-08-07
+===================
+
+  * deps: body-parser@~1.6.2
+    - deps: qs@1.2.0
+  * deps: qs@1.2.0
+    - Fix parsing array of objects
+
+2.25.1 / 2014-08-06
+===================
+
+  * deps: body-parser@~1.6.1
+    - deps: qs@1.1.0
+  * deps: qs@1.1.0
+    - Accept urlencoded square brackets
+    - Accept empty values in implicit array notation
 
 2.25.0 / 2014-08-05
 ===================
