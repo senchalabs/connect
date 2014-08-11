@@ -3,6 +3,9 @@
 
   * Fix `query` middleware breaking with argument
     - It never really took one in the first place
+  * deps: compression@~1.0.11
+    - deps: on-headers@~1.0.0
+    - deps: parseurl@~1.3.0
   * deps: express-session@~1.7.5
     - Fix parsing original URL
     - deps: on-headers@~1.0.0
