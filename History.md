@@ -1,5 +1,5 @@
-2.x
-===
+2.25.4 / 2014-08-10
+===================
 
   * Fix `query` middleware breaking with argument
     - It never really took one in the first place
