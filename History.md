@@ -1,5 +1,5 @@
-2.x
-===
+2.25.5 / 2014-08-11
+===================
 
   * Fix backwards compatibility in `logger`
 
