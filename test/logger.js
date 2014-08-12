@@ -24,4 +24,20 @@ describe('connect.logger()', function () {
       });
     })
   })
+
+  describe('with custom token', function () {
+    it('should output the custom token', function (done) {
+      var app = connect();
+      connect.logger.token('custom', function (req) { return req.headers['x-custom-value']; });
+      app.use(connect.logger({'format': ':custom', 'stream': {'write': saveLastLogLine}}));
+
+      app.request()
+      .get('/')
+      .set('x-custom-value', 'so_custom')
+      .end(function (res) {
+        lastLogLine.should.equal('so_custom\n');
+        done();
+      });
+    })
+  })
 });

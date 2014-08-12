@@ -1,3 +1,8 @@
+2.x
+===
+
+  * Fix backwards compatibility in `logger`
+
 2.25.4 / 2014-08-10
 ===================
 
