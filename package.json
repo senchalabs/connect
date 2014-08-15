@@ -1,7 +1,7 @@
 {
   "name": "connect",
   "description": "High performance middleware framework",
-  "version": "2.25.5",
+  "version": "2.25.6",
   "author": "TJ Holowaychuk <tj@vision-media.ca> (http://tjholowaychuk.com)",
   "contributors": [
     "Douglas Christopher Wilson <doug@somethingdoug.com>",
