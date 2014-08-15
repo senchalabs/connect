@@ -1,6 +1,8 @@
 2.x
 ===
 
+  * deps: body-parser@~1.6.4
+    - deps: qs@1.2.2
   * deps: serve-static@~1.5.2
     - deps: send@0.8.2
 
