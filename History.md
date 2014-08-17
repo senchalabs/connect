@@ -3,6 +3,8 @@
 
   * deps: body-parser@~1.6.5
     - deps: on-finished@2.1.0
+  * deps: morgan@~1.2.3
+    - deps: on-finished@2.1.0
 
 2.25.6 / 2014-08-14
 ===================
