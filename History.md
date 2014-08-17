@@ -5,6 +5,8 @@
     - deps: on-finished@2.1.0
   * deps: morgan@~1.2.3
     - deps: on-finished@2.1.0
+  * deps: serve-static@~1.5.3
+    - deps: send@0.8.3
 
 2.25.6 / 2014-08-14
 ===================
