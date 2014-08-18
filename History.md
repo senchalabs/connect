@@ -3,6 +3,8 @@
 
   * deps: body-parser@~1.6.5
     - deps: on-finished@2.1.0
+  * deps: express-session@~1.7.6
+    - Fix exception on `res.end(null)` calls
   * deps: morgan@~1.2.3
     - deps: on-finished@2.1.0
   * deps: serve-static@~1.5.3
