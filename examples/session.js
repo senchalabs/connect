@@ -160,8 +160,8 @@ http.createServer(connect()
     if (sess.views) {
       res.setHeader('Content-Type', 'text/html');
       res.write('<p>views: ' + sess.views + '</p>');
-      res.end();
       sess.views++;
+      res.end();
     } else {
       sess.views = 1;
       res.end('welcome to the browser session demo. refresh!');
