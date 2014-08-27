@@ -76,10 +76,10 @@ then:
   Connect `1.x` is compatible with node 0.4.x
 
 
-  Connect `2.x` is compatible with node 0.6.x
+  Connect `2.x` is compatible with node 0.8.x
 
 
-  Connect (_master_) is compatible with node 0.8.x
+  Connect `3.x` is compatible with node 0.10.x
 
 ## License
 
