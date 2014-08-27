@@ -56,6 +56,42 @@
   * remove various private `connect.utils` functions
   * drop node.js 0.8 support
 
+2.25.8 / 2014-08-27
+===================
+
+  * deps: body-parser@~1.6.6
+    - deps: qs@2.2.0
+  * deps: csurf@~1.4.1
+  * deps: qs@2.2.0
+    - Array parsing fix
+    - Performance improvements
+
+2.25.7 / 2014-08-18
+===================
+
+  * deps: body-parser@~1.6.5
+    - deps: on-finished@2.1.0
+  * deps: express-session@~1.7.6
+    - Fix exception on `res.end(null)` calls
+  * deps: morgan@~1.2.3
+    - deps: on-finished@2.1.0
+  * deps: serve-static@~1.5.3
+    - deps: send@0.8.3
+
+2.25.6 / 2014-08-14
+===================
+
+  * deps: body-parser@~1.6.4
+    - deps: qs@1.2.2
+  * deps: qs@1.2.2
+  * deps: serve-static@~1.5.2
+    - deps: send@0.8.2
+
+2.25.5 / 2014-08-11
+===================
+
+  * Fix backwards compatibility in `logger`
+
 2.25.4 / 2014-08-10
 ===================
 

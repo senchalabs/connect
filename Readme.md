@@ -1,9 +1,10 @@
 # Connect
 
-[![NPM version](https://badge.fury.io/js/connect.svg)](http://badge.fury.io/js/connect)
-[![Build Status](https://travis-ci.org/senchalabs/connect.svg?branch=master)](https://travis-ci.org/senchalabs/connect)
-[![Coverage Status](https://img.shields.io/coveralls/senchalabs/connect.svg?branch=master)](https://coveralls.io/r/senchalabs/connect)
-[![Gittip](https://img.shields.io/gittip/dougwilson.svg)](https://www.gittip.com/dougwilson/)
+[![NPM Version][npm-image]][npm-url]
+[![NPM Downloads][downloads-image]][downloads-url]
+[![Build Status][travis-image]][travis-url]
+[![Test Coverage][coveralls-image]][coveralls-url]
+[![Gittip][gittip-image]][gittip-url]
 
   Connect is an extensible HTTP server framework for [node](http://nodejs.org) using "plugins" known as _middleware_.
 
@@ -110,4 +111,15 @@ npm test
 
 ## License
 
-View the [LICENSE](https://github.com/senchalabs/connect/blob/master/LICENSE) file.
+[MIT](LICENSE)
+
+[npm-image]: https://img.shields.io/npm/v/connect.svg?style=flat
+[npm-url]: https://npmjs.org/package/connect
+[travis-image]: https://img.shields.io/travis/senchalabs/connect.svg?style=flat
+[travis-url]: https://travis-ci.org/senchalabs/connect
+[coveralls-image]: https://img.shields.io/coveralls/senchalabs/connect.svg?style=flat
+[coveralls-url]: https://coveralls.io/r/senchalabs/connect
+[downloads-image]: http://img.shields.io/npm/dm/connect.svg?style=flat
+[downloads-url]: https://npmjs.org/package/connect
+[gittip-image]: https://img.shields.io/gittip/dougwilson.svg?style=flat
+[gittip-url]: https://www.gittip.com/dougwilson/
