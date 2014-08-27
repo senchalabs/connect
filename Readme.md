@@ -91,7 +91,7 @@ then:
 [travis-url]: https://travis-ci.org/senchalabs/connect
 [coveralls-image]: https://img.shields.io/coveralls/senchalabs/connect.svg?style=flat
 [coveralls-url]: https://coveralls.io/r/senchalabs/connect
-[downloads-image]: http://img.shields.io/npm/dm/connect.svg?style=flat
+[downloads-image]: https://img.shields.io/npm/dm/connect.svg?style=flat
 [downloads-url]: https://npmjs.org/package/connect
 [gittip-image]: https://img.shields.io/gittip/dougwilson.svg?style=flat
 [gittip-url]: https://www.gittip.com/dougwilson/
