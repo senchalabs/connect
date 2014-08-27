@@ -79,10 +79,6 @@ then:
 
   Connect (_master_) is compatible with node 0.8.x
 
-## CLA
-
- [http://sencha.com/cla](http://sencha.com/cla)
-
 ## License
 
 [MIT](LICENSE)
