@@ -1,6 +1,8 @@
 unreleased
 ==========
 
+  * deps: body-parser@~1.6.6
+    - deps: qs@2.2.0
   * deps: csurf@~1.4.1
 
 2.25.7 / 2014-08-18
