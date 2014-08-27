@@ -85,4 +85,4 @@ then:
 
 ## License
 
-View the [LICENSE](https://github.com/senchalabs/connect/blob/master/LICENSE) file.
+[MIT](LICENSE)
