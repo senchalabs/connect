@@ -3,6 +3,11 @@
 
   * deps: connect-timeout@~1.3.0
     - deps: debug@~2.0.0
+  * deps: csurf@~1.6.1
+    - add `ignoreMethods` option
+    - bump cookie-signature
+    - csrf-tokens -> csrf
+    - set `code` property on CSRF token errors
   * deps: debug@~2.0.0
   * deps: errorhandler@~1.2.0
     - Display error using `util.inspect` if no other representation
