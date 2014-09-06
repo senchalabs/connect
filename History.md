@@ -1,6 +1,8 @@
 2.x
 ===
 
+  * deps: connect-timeout@~1.3.0
+    - deps: debug@~2.0.0
   * deps: debug@~2.0.0
 
 2.25.10 / 2014-09-04
