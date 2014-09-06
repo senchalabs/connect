@@ -41,16 +41,16 @@ http.createServer(app).listen(3000);
   - [errorHandler](http://www.senchalabs.org/connect/errorHandler.html)
   - [favicon](http://www.senchalabs.org/connect/favicon.html)
   - [json](http://www.senchalabs.org/connect/json.html)
-  - [limit](http://www.senchalabs.org/connect/limit.html)
+  - [limit](http://www.senchalabs.org/connect/limit.html) - deprecated, do not use
   - [logger](http://www.senchalabs.org/connect/logger.html)
-  - [methodOverride](http://www.senchalabs.org/connect/methodOverride.html)
-  - [multipart](http://www.senchalabs.org/connect/multipart.html)
+  - [methodOverride](http://www.senchalabs.org/connect/methodOverride.html) - deprecated, use [method-override](https://www.npmjs.org/package/method-override) instead
+  - [multipart](http://www.senchalabs.org/connect/multipart.html) - deprecated, use [connect-multiparty](https://www.npmjs.org/package/connect-multiparty) instead
   - [urlencoded](http://www.senchalabs.org/connect/urlencoded.html)
   - [query](http://www.senchalabs.org/connect/query.html)
   - [responseTime](http://www.senchalabs.org/connect/responseTime.html)
   - [session](http://www.senchalabs.org/connect/session.html)
   - [static](http://www.senchalabs.org/connect/static.html)
-  - [staticCache](http://www.senchalabs.org/connect/staticCache.html)
+  - [staticCache](http://www.senchalabs.org/connect/staticCache.html) - deprecated, do not use
   - [subdomains](http://www.senchalabs.org/connect/subdomains.html)
   - [vhost](http://www.senchalabs.org/connect/vhost.html)
 
