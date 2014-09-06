@@ -4,6 +4,8 @@
   * deps: connect-timeout@~1.3.0
     - deps: debug@~2.0.0
   * deps: debug@~2.0.0
+  * deps: method-override@~2.2.0
+    - deps: debug@~2.0.0
   * deps: morgan@~1.3.0
     - Assert if `format` is not a function or string
 
