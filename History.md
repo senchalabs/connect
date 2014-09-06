@@ -14,6 +14,10 @@
   * deps: serve-favicon@~2.1.2
     - Accept string for `maxAge` (converted by `ms`)
     - Use `etag` to generate `ETag` header
+  * deps: serve-index@~1.2.1
+    - Add `debug` messages
+    - Resolve relative paths at middleware setup
+    - deps: accepts@~1.1.0
 
 2.25.10 / 2014-09-04
 ====================
