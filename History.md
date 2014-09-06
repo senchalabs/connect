@@ -40,6 +40,7 @@
     - deps: accepts@~1.1.0
   * deps: type-is@~1.5.0
     - fix `hasbody` to be true for `content-length: 0`
+  * deps: vhost@~3.0.0
 
 2.25.10 / 2014-09-04
 ====================
