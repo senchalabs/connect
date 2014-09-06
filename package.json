@@ -26,7 +26,7 @@
     "compression": "~1.0.11",
     "connect-timeout": "~1.2.2",
     "csurf": "~1.4.1",
-    "debug": "1.0.4",
+    "debug": "~2.0.0",
     "depd": "0.4.4",
     "errorhandler": "1.1.1",
     "express-session": "~1.7.6",
