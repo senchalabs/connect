@@ -30,7 +30,7 @@
     "depd": "0.4.4",
     "errorhandler": "~1.2.0",
     "express-session": "~1.7.6",
-    "finalhandler": "0.1.0",
+    "finalhandler": "0.2.0",
     "fresh": "0.2.2",
     "media-typer": "0.2.0",
     "method-override": "~2.2.0",
