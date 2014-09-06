@@ -28,7 +28,7 @@
     "csurf": "~1.4.1",
     "debug": "~2.0.0",
     "depd": "0.4.4",
-    "errorhandler": "1.1.1",
+    "errorhandler": "~1.2.0",
     "express-session": "~1.7.6",
     "finalhandler": "0.1.0",
     "fresh": "0.2.2",
