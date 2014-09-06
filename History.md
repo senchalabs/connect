@@ -8,6 +8,9 @@
     - deps: debug@~2.0.0
   * deps: morgan@~1.3.0
     - Assert if `format` is not a function or string
+  * deps: serve-favicon@~2.1.2
+    - Accept string for `maxAge` (converted by `ms`)
+    - Use `etag` to generate `ETag` header
 
 2.25.10 / 2014-09-04
 ====================
