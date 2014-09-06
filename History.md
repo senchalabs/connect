@@ -3,6 +3,7 @@
 
   * deps: connect-timeout@~1.3.0
     - deps: debug@~2.0.0
+  * deps: cookie-signature@1.0.5
   * deps: csurf@~1.6.1
     - add `ignoreMethods` option
     - bump cookie-signature
