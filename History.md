@@ -1,6 +1,13 @@
 2.x
 ===
 
+  * deps: body-parser@~1.8.0
+    - add `parameterLimit` option to `urlencoded` parser
+    - change `urlencoded` extended array limit to 100
+    - make empty-body-handling consistent between chunked requests
+    - respond with 415 when over `parameterLimit` in `urlencoded`
+    - deps: qs@2.2.3
+    - deps: type-is@~1.5.0
   * deps: connect-timeout@~1.3.0
     - deps: debug@~2.0.0
   * deps: cookie-parser@~1.3.3

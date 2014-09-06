@@ -71,6 +71,24 @@ describe('connect.json()', function(){
     });
   })
 
+  it('should handle no body', function(done){
+    var app = connect();
+    app.use(connect.json());
+
+    app.use(function(req, res){
+      res.end(Object.keys(req.body).length ? '' : 'empty');
+    });
+
+    app.request()
+    .post('/')
+    .set('Content-Type', 'application/json')
+    .end(function(res) {
+      res.statusCode.should.equal(200);
+      res.body.should.equal('empty');
+      done();
+    })
+  })
+
   it('should 400 on malformed JSON', function(done){
     var app = connect();
     app.use(connect.json());
@@ -84,24 +102,6 @@ describe('connect.json()', function(){
     .set('Content-Type', 'application/json')
     .write('{"foo')
     .expect(400, done);
-  })
-
-  it('should 400 when no body is given', function(done){
-    var app = connect();
-    app.use(connect.json());
-
-    app.use(function(req, res){
-      res.end(JSON.stringify(req.body));
-    });
-
-    app.request()
-    .post('/')
-    .set('Content-Type', 'application/json')
-    .end(function(res) {
-      res.statusCode.should.equal(400);
-      res.body.should.containEql("invalid json, empty body");
-      done();
-    })
   })
 
   it('should support all http methods', function(done){
