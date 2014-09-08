@@ -1,3 +1,11 @@
+unreleased
+==========
+
+  * deps: debug@~2.0.0
+  * deps: finalhandler@0.2.0
+    - Set `X-Content-Type-Options: nosniff` header
+    - deps: debug@~2.0.0
+
 3.1.1 / 2014-08-10
 ==================
 
@@ -55,6 +63,82 @@
   * remove the old `connect.createServer()` method
   * remove various private `connect.utils` functions
   * drop node.js 0.8 support
+
+2.26.0 / 2014-09-08
+===================
+
+  * deps: body-parser@~1.8.1
+    - add `parameterLimit` option to `urlencoded` parser
+    - change `urlencoded` extended array limit to 100
+    - make empty-body-handling consistent between chunked requests
+    - respond with 415 when over `parameterLimit` in `urlencoded`
+    - deps: media-typer@0.3.0
+    - deps: qs@2.2.3
+    - deps: type-is@~1.5.1
+  * deps: compression@~1.1.0
+    - deps: accepts@~1.1.0
+    - deps: compressible@~2.0.0
+    - deps: debug@~2.0.0
+  * deps: connect-timeout@~1.3.0
+    - deps: debug@~2.0.0
+  * deps: cookie-parser@~1.3.3
+    - deps: cookie-signature@1.0.5
+  * deps: cookie-signature@1.0.5
+  * deps: csurf@~1.6.1
+    - add `ignoreMethods` option
+    - bump cookie-signature
+    - csrf-tokens -> csrf
+    - set `code` property on CSRF token errors
+  * deps: debug@~2.0.0
+  * deps: errorhandler@~1.2.0
+    - Display error using `util.inspect` if no other representation
+    - deps: accepts@~1.1.0
+  * deps: express-session@~1.8.1
+    - Do not resave already-saved session at end of request
+    - Prevent session prototype methods from being overwritten
+    - deps: cookie-signature@1.0.5
+    - deps: debug@~2.0.0
+  * deps: finalhandler@0.2.0
+    - Set `X-Content-Type-Options: nosniff` header
+    - deps: debug@~2.0.0
+  * deps: fresh@0.2.4
+  * deps: media-typer@0.3.0
+    - Throw error when parameter format invalid on parse
+  * deps: method-override@~2.2.0
+    - deps: debug@~2.0.0
+  * deps: morgan@~1.3.0
+    - Assert if `format` is not a function or string
+  * deps: qs@2.2.3
+    - Fix issue where first empty value in array is discarded
+  * deps: serve-favicon@~2.1.3
+    - Accept string for `maxAge` (converted by `ms`)
+    - Use `etag` to generate `ETag` header
+    - deps: fresh@0.2.4
+  * deps: serve-index@~1.2.1
+    - Add `debug` messages
+    - Resolve relative paths at middleware setup
+    - deps: accepts@~1.1.0
+  * deps: serve-static@~1.6.1
+    - Add `lastModified` option
+    - deps: send@0.9.1
+  * deps: type-is@~1.5.1
+    - fix `hasbody` to be true for `content-length: 0`
+    - deps: media-typer@0.3.0
+    - deps: mime-types@~2.0.1
+  * deps: vhost@~3.0.0
+
+2.25.10 / 2014-09-04
+====================
+
+  * deps: serve-static@~1.5.4
+    - deps: send@0.8.5
+
+2.25.9 / 2014-08-29
+===================
+
+  * deps: body-parser@~1.6.7
+    - deps: qs@2.2.2
+  * deps: qs@2.2.2
 
 2.25.8 / 2014-08-27
 ===================
