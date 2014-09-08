@@ -53,8 +53,10 @@
   * deps: serve-static@~1.6.1
     - Add `lastMofified` option
     - deps: send@0.9.1
-  * deps: type-is@~1.5.0
+  * deps: type-is@~1.5.1
     - fix `hasbody` to be true for `content-length: 0`
+    - deps: media-typer@0.3.0
+    - deps: mime-types@~2.0.1
   * deps: vhost@~3.0.0
 
 2.25.10 / 2014-09-04
