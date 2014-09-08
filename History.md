@@ -40,9 +40,9 @@
     - Add `debug` messages
     - Resolve relative paths at middleware setup
     - deps: accepts@~1.1.0
-  * deps: serve-static@~1.6.0
+  * deps: serve-static@~1.6.1
     - Add `lastMofified` option
-    - deps: send@0.9.0
+    - deps: send@0.9.1
   * deps: type-is@~1.5.0
     - fix `hasbody` to be true for `content-length: 0`
   * deps: vhost@~3.0.0
