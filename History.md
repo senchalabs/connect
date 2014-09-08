@@ -1,5 +1,5 @@
-2.x
-===
+2.26.0 / 2014-09-08
+===================
 
   * deps: body-parser@~1.8.1
     - add `parameterLimit` option to `urlencoded` parser
