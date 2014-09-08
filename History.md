@@ -25,6 +25,7 @@
   * deps: finalhandler@0.2.0
     - Set `X-Content-Type-Options: nosniff` header
     - deps: debug@~2.0.0
+  * deps: fresh@0.2.4
   * deps: method-override@~2.2.0
     - deps: debug@~2.0.0
   * deps: morgan@~1.3.0
