@@ -46,7 +46,7 @@ Connect 3.0 is in progress in the `master` branch. The main changes in Connect a
 - Node `0.8` is no longer supported
 - The website documentation has been removed - view the markdown readmes instead
 
-If you would like to help maintain these middleware, please contact a [member of the expressjs team](https://github.com/orgs/expressjs/members).
+If you would like to help maintain these middleware, please contact a [member of the expressjs team](https://github.com/orgs/expressjs/people).
 
 ## Middleware
 
