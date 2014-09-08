@@ -52,7 +52,7 @@
     - Resolve relative paths at middleware setup
     - deps: accepts@~1.1.0
   * deps: serve-static@~1.6.1
-    - Add `lastMofified` option
+    - Add `lastModified` option
     - deps: send@0.9.1
   * deps: type-is@~1.5.1
     - fix `hasbody` to be true for `content-length: 0`
