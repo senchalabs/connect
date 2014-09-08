@@ -1,13 +1,14 @@
 2.x
 ===
 
-  * deps: body-parser@~1.8.0
+  * deps: body-parser@~1.8.1
     - add `parameterLimit` option to `urlencoded` parser
     - change `urlencoded` extended array limit to 100
     - make empty-body-handling consistent between chunked requests
     - respond with 415 when over `parameterLimit` in `urlencoded`
+    - deps: media-typer@0.3.0
     - deps: qs@2.2.3
-    - deps: type-is@~1.5.0
+    - deps: type-is@~1.5.1
   * deps: compression@~1.1.0
     - deps: accepts@~1.1.0
     - deps: compressible@~2.0.0
