@@ -8,6 +8,10 @@
     - respond with 415 when over `parameterLimit` in `urlencoded`
     - deps: qs@2.2.3
     - deps: type-is@~1.5.0
+  * deps: compression@~1.1.0
+    - deps: accepts@~1.1.0
+    - deps: compressible@~2.0.0
+    - deps: debug@~2.0.0
   * deps: connect-timeout@~1.3.0
     - deps: debug@~2.0.0
   * deps: cookie-parser@~1.3.3
