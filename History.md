@@ -32,9 +32,10 @@
     - Assert if `format` is not a function or string
   * deps: qs@2.2.3
     - Fix issue where first empty value in array is discarded
-  * deps: serve-favicon@~2.1.2
+  * deps: serve-favicon@~2.1.3
     - Accept string for `maxAge` (converted by `ms`)
     - Use `etag` to generate `ETag` header
+    - deps: fresh@0.2.4
   * deps: serve-index@~1.2.1
     - Add `debug` messages
     - Resolve relative paths at middleware setup
