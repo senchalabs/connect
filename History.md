@@ -22,6 +22,10 @@
   * deps: errorhandler@~1.2.0
     - Display error using `util.inspect` if no other representation
     - deps: accepts@~1.1.0
+  * deps: express-session@~1.8.0
+    - Do not resave already-saved session at end of request
+    - deps: cookie-signature@1.0.5
+    - deps: debug@~2.0.0
   * deps: finalhandler@0.2.0
     - Set `X-Content-Type-Options: nosniff` header
     - deps: debug@~2.0.0

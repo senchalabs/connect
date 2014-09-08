@@ -29,7 +29,7 @@
     "debug": "~2.0.0",
     "depd": "0.4.4",
     "errorhandler": "~1.2.0",
-    "express-session": "~1.7.6",
+    "express-session": "~1.8.0",
     "finalhandler": "0.2.0",
     "fresh": "0.2.4",
     "media-typer": "0.2.0",
