@@ -1,6 +1,8 @@
 2.x
 ===
 
+  * deps: body-parser@~1.8.2
+    - deps: depd@0.4.5
   * deps: depd@0.4.5
   * deps: express-session@~1.8.2
     - Use `crc` instead of `buffer-crc32` for speed
