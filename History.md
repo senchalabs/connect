@@ -1,6 +1,7 @@
 2.x
 ===
 
+  * deps: depd@0.4.5
   * deps: morgan@~1.3.1
     - Remove un-used `bytes` dependency
     - deps: depd@0.4.5
