@@ -1,3 +1,10 @@
+2.x
+===
+
+  * deps: serve-favicon@~2.1.3
+    - Fix content headers being sent in 304 response
+    - deps: etag@~1.3.1
+
 2.26.0 / 2014-09-08
 ===================
 
