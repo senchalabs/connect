@@ -2,6 +2,9 @@
 ===
 
   * deps: depd@0.4.5
+  * deps: express-session@~1.8.2
+    - Use `crc` instead of `buffer-crc32` for speed
+    - deps: depd@0.4.5
   * deps: morgan@~1.3.1
     - Remove un-used `bytes` dependency
     - deps: depd@0.4.5
