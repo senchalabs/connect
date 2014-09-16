@@ -8,6 +8,8 @@
   * deps: serve-favicon@~2.1.3
     - Fix content headers being sent in 304 response
     - deps: etag@~1.3.1
+  * deps: serve-static@~1.6.2
+    - deps: send@0.9.2
 
 2.26.0 / 2014-09-08
 ===================
