@@ -3,6 +3,8 @@
 
   * deps: body-parser@~1.8.3
     - deps: qs@2.2.4
+  * deps: qs@2.2.4
+    - Fix issue with object keys starting with numbers truncated
 
 2.26.1 / 2014-09-15
 ===================
