@@ -60,14 +60,14 @@ These middleware and libraries are officially supported by the Connect/Express t
   - [connect-timeout](https://github.com/expressjs/timeout) - previously `timeout`
   - [cookie-parser](https://github.com/expressjs/cookie-parser) - previously `cookieParser`
   - [cookie-session](https://github.com/expressjs/cookie-session) - previously `cookieSession`
-  - [csurf](https://github.com/expressjs/csurf) - previousy `csrf`
+  - [csurf](https://github.com/expressjs/csurf) - previously `csrf`
   - [errorhandler](https://github.com/expressjs/errorhandler) - previously `error-handler`
   - [express-session](https://github.com/expressjs/session) - previously `session`
   - [method-override](https://github.com/expressjs/method-override) - previously `method-override`
   - [morgan](https://github.com/expressjs/morgan) - previously `logger`
   - [response-time](https://github.com/expressjs/response-time) - previously `response-time`
   - [serve-favicon](https://github.com/expressjs/serve-favicon) - previously `favicon`
-  - [serve-index](https://github.com/expressjs/serve-index) - previousy `directory`
+  - [serve-index](https://github.com/expressjs/serve-index) - previously `directory`
   - [serve-static](https://github.com/expressjs/serve-static) - previously `static`
   - [vhost](https://github.com/expressjs/vhost) - previously `vhost`
 
