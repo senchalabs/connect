@@ -1,3 +1,9 @@
+2.x
+===
+
+  * deps: serve-favicon@~2.1.5
+    - deps: etag@~1.4.0
+
 2.26.2 / 2014-09-19
 ===================
 
@@ -18,7 +24,7 @@
   * deps: morgan@~1.3.1
     - Remove un-used `bytes` dependency
     - deps: depd@0.4.5
-  * deps: serve-favicon@~2.1.3
+  * deps: serve-favicon@~2.1.4
     - Fix content headers being sent in 304 response
     - deps: etag@~1.3.1
   * deps: serve-static@~1.6.2
