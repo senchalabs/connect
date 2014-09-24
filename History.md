@@ -1,6 +1,8 @@
 2.x
 ===
 
+  * deps: body-parser@~1.8.4
+    - fix content encoding to be case-insensitive
   * deps: serve-favicon@~2.1.5
     - deps: etag@~1.4.0
   * deps: serve-static@~1.6.3
