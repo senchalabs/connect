@@ -1,5 +1,5 @@
-2.x
-===
+2.26.3 / 2014-09-24
+===================
 
   * deps: body-parser@~1.8.4
     - fix content encoding to be case-insensitive
