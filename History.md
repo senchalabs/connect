@@ -3,6 +3,8 @@
 
   * deps: serve-favicon@~2.1.5
     - deps: etag@~1.4.0
+  * deps: serve-static@~1.6.3
+    - deps: send@0.9.3
 
 2.26.2 / 2014-09-19
 ===================
