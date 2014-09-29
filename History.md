@@ -1,3 +1,9 @@
+2.x
+===
+
+  * deps: morgan@~1.3.2
+    - Fix `req.ip` integration when `immediate: false`
+
 2.26.3 / 2014-09-24
 ===================
 
