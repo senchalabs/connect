@@ -3,6 +3,8 @@
 
   * deps: morgan@~1.3.2
     - Fix `req.ip` integration when `immediate: false`
+  * deps: type-is@~1.5.2
+    - deps: mime-types@~2.0.2
 
 2.26.3 / 2014-09-24
 ===================
