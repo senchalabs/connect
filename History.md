@@ -2,6 +2,13 @@
 ===
 
   * deps: depd@~1.0.0
+  * deps: serve-index@~1.4.0
+    - Add `dir` argument to `filter` function
+    - Add icon for mkv files
+    - Fix incorrect 403 on Windows and Node.js 0.11
+    - Lookup icon by mime type for greater icon support
+    - Support using tokens multiple times
+    - deps: accepts@~1.1.1
 
 2.26.6 / 2014-10-15
 ===================
