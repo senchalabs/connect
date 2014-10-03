@@ -2,6 +2,11 @@
 ===
 
   * deps: depd@~1.0.0
+  * deps: response-time@~2.2.0
+    - Add `header` option for custom header name
+    - Add `suffix` option
+    - Change `digits` argument to an `options` argument
+    - deps: depd@~1.0.0
   * deps: serve-index@~1.4.0
     - Add `dir` argument to `filter` function
     - Add icon for mkv files
