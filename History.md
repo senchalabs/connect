@@ -1,5 +1,5 @@
-2.x
-===
+2.26.4 / 2014-10-02
+===================
 
   * deps: morgan@~1.3.2
     - Fix `req.ip` integration when `immediate: false`
