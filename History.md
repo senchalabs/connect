@@ -1,5 +1,5 @@
-2.x
-===
+2.26.5 / 2014-10-08
+===================
 
   * Fix accepting non-object arguments to `logger`
   * deps: serve-static@~1.6.4
