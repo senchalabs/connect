@@ -1,6 +1,7 @@
 2.x
 ===
 
+  * Fix accepting non-object arguments to `logger`
   * deps: serve-static@~1.6.4
     - Fix redirect loop when index file serving disabled
 
