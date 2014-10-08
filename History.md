@@ -1,3 +1,9 @@
+2.x
+===
+
+  * deps: serve-static@~1.6.4
+    - Fix redirect loop when index file serving disabled
+
 2.26.4 / 2014-10-02
 ===================
 
