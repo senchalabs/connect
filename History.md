@@ -1,6 +1,10 @@
 2.x
 ===
 
+  * deps: body-parser@~1.9.0
+    - include the charset in "unsupported charset" error message
+    - include the encoding in "unsupported content encoding" error message
+    - deps: depd@~1.0.0
   * deps: depd@~1.0.0
   * deps: finalhandler@0.3.0
     - Terminate in progress response only on error
