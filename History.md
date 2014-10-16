@@ -1,6 +1,9 @@
 2.x
 ===
 
+  * deps: csurf@~1.6.2
+    - bump http-errors
+    - fix cookie name when using `cookie: true`
   * deps: errorhandler@~1.2.2
     - deps: accepts@~1.1.2
 
