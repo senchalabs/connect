@@ -14,13 +14,13 @@
     - Add `suffix` option
     - Change `digits` argument to an `options` argument
     - deps: depd@~1.0.0
-  * deps: serve-index@~1.4.0
+  * deps: serve-index@~1.4.1
     - Add `dir` argument to `filter` function
     - Add icon for mkv files
     - Fix incorrect 403 on Windows and Node.js 0.11
     - Lookup icon by mime type for greater icon support
     - Support using tokens multiple times
-    - deps: accepts@~1.1.1
+    - deps: accepts@~1.1.2
   * deps: serve-static@~1.7.0
     - deps: send@0.10.0
 

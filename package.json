@@ -41,7 +41,7 @@
     "qs": "2.2.4",
     "response-time": "~2.2.0",
     "serve-favicon": "~2.1.5",
-    "serve-index": "~1.4.0",
+    "serve-index": "~1.4.1",
     "serve-static": "~1.7.0",
     "type-is": "~1.5.2",
     "vhost": "~3.0.0",
