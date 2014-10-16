@@ -21,6 +21,8 @@
     - Lookup icon by mime type for greater icon support
     - Support using tokens multiple times
     - deps: accepts@~1.1.1
+  * deps: serve-static@~1.7.0
+    - deps: send@0.10.0
 
 2.26.6 / 2014-10-15
 ===================
