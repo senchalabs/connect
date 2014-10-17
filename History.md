@@ -13,9 +13,10 @@
   * deps: debug@~2.1.0
     - Implement `DEBUG_FD` env variable support
   * deps: depd@~1.0.0
-  * deps: finalhandler@0.3.0
+  * deps: finalhandler@0.3.1
     - Terminate in progress response only on error
     - Use `on-finished` to determine request status
+    - deps: debug@~2.1.0
   * deps: method-override@~2.3.0
     - deps: debug@~2.1.0
   * deps: morgan@~1.4.0
