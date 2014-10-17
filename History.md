@@ -1,6 +1,7 @@
 2.x
 ===
 
+  * Use `http-errors` module for creating errors
   * Use `utils-merge` module for merging objects
   * deps: body-parser@~1.9.0
     - include the charset in "unsupported charset" error message
