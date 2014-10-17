@@ -13,6 +13,9 @@
   * deps: debug@~2.1.0
     - Implement `DEBUG_FD` env variable support
   * deps: depd@~1.0.0
+  * deps: express-session@~1.9.0
+    - deps: debug@~2.1.0
+    - deps: depd@~1.0.0
   * deps: finalhandler@0.3.1
     - Terminate in progress response only on error
     - Use `on-finished` to determine request status
