@@ -19,6 +19,8 @@
     - Add `suffix` option
     - Change `digits` argument to an `options` argument
     - deps: depd@~1.0.0
+  * deps: serve-favicon@~2.1.6
+    - deps: etag@~1.5.0
   * deps: serve-index@~1.4.1
     - Add `dir` argument to `filter` function
     - Add icon for mkv files
