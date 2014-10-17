@@ -1,4 +1,5 @@
 
+var assert = require('assert');
 var connect = require('..');
 var http = require('http');
 var request = require('supertest');
@@ -15,12 +16,9 @@ describe('app.use()', function(){
       res.end(req.url);
     });
 
-    app.handle({ method: 'GET', url: 'http://example.com/foo' }, {
-      end: function(str){
-        str.should.equal('http://example.com/foo');
-        done();
-      }
-    });
+    rawrequest(app)
+    .get('http://example.com/foo')
+    .expect(200, 'http://example.com/foo', done);
   });
 
   describe('with a connect app', function(){
@@ -29,12 +27,9 @@ describe('app.use()', function(){
         res.end(req.url);
       });
 
-      app.handle({ method: 'GET', url: '/proxy?url=http://example.com/blog/post/1' }, {
-        end: function(str){
-          str.should.equal('/?url=http://example.com/blog/post/1');
-          done();
-        }
-      });
+      rawrequest(app)
+      .get('/proxy?url=http://example.com/blog/post/1')
+      .expect(200, '/?url=http://example.com/blog/post/1', done);
     });
 
     it('should adjust FQDN req.url', function(done){
@@ -42,12 +37,9 @@ describe('app.use()', function(){
         res.end(req.url);
       });
 
-      app.handle({ method: 'GET', url: 'http://example.com/blog/post/1' }, {
-        end: function(str){
-          str.should.equal('http://example.com/post/1');
-          done();
-        }
-      });
+      rawrequest(app)
+      .get('http://example.com/blog/post/1')
+      .expect(200, 'http://example.com/post/1', done);
     });
 
     it('should adjust FQDN req.url with multiple handlers', function(done){
@@ -59,12 +51,9 @@ describe('app.use()', function(){
         res.end(req.url);
       });
 
-      app.handle({ method: 'GET', url: 'http://example.com/blog/post/1' }, {
-        end: function(str){
-          str.should.equal('http://example.com/post/1');
-          done();
-        }
-      });
+      rawrequest(app)
+      .get('http://example.com/blog/post/1')
+      .expect(200, 'http://example.com/post/1', done);
     });
 
     it('should adjust FQDN req.url with multiple routed handlers', function(done) {
@@ -75,12 +64,59 @@ describe('app.use()', function(){
         res.end(req.url);
       });
 
-      app.handle({ method: 'GET', url: 'http://example.com/blog/post/1' }, {
-        end: function(str){
-          str.should.equal('http://example.com/post/1');
-          done();
-        }
-      });
+      rawrequest(app)
+      .get('http://example.com/blog/post/1')
+      .expect(200, 'http://example.com/post/1', done);
     });
   });
 });
+
+function rawrequest(app) {
+  var _path;
+  var server = http.createServer(app);
+
+  function expect(status, body, callback) {
+    server.listen(function(){
+      var addr = this.address();
+      var hostname = addr.family === 'IPv6' ? '[::1]' : '127.0.0.1';
+      var port = addr.port;
+
+      var req = http.get({
+        host: hostname,
+        path: _path,
+        port: port
+      });
+      req.on('response', function(res){
+        var buf = '';
+
+        res.setEncoding('utf8');
+        res.on('data', function(s){ buf += s });
+        res.on('end', function(){
+          var err = null;
+
+          try {
+            assert.equal(res.statusCode, status);
+            assert.equal(buf, body);
+          } catch (e) {
+            err = e;
+          }
+
+          server.close();
+          callback(err);
+        });
+      });
+    });
+  }
+
+  function get(path) {
+    _path = path;
+
+    return {
+      expect: expect
+    };
+  }
+
+  return {
+    get: get
+  };
+}

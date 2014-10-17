@@ -1,5 +1,7 @@
 
+var assert = require('assert');
 var connect = require('..');
+var http = require('http');
 var request = require('supertest');
 var should = require('should');
 
@@ -16,8 +18,6 @@ describe('app', function(){
   });
 
   it('should work as middleware', function(done){
-    var http = require('http');
-
     // custom server handler array
     var handlers = [connect(), function(req, res, next){
       res.writeHead(200, {'Content-Type': 'text/plain'});
@@ -66,14 +66,9 @@ describe('app', function(){
 
   describe('404 handler', function(){
     it('should escape the 404 response body', function(done){
-      app.handle({ method: 'GET', url: '/foo/<script>stuff</script>' }, {
-        setHeader: function(){},
-        end: function(str){
-          this.statusCode.should.equal(404);
-          str.should.equal('Cannot GET /foo/&lt;script&gt;stuff&lt;/script&gt;\n');
-          done();
-        }
-      });
+      rawrequest(app)
+      .get('/foo/<script>stuff</script>')
+      .expect(404, 'Cannot GET /foo/&lt;script&gt;stuff&lt;/script&gt;\n', done);
     });
 
     it('shoud not fire after headers sent', function(done){
@@ -168,3 +163,53 @@ describe('app', function(){
     });
   });
 });
+
+function rawrequest(app) {
+  var _path;
+  var server = http.createServer(app);
+
+  function expect(status, body, callback) {
+    server.listen(function(){
+      var addr = this.address();
+      var hostname = addr.family === 'IPv6' ? '[::1]' : '127.0.0.1';
+      var port = addr.port;
+
+      var req = http.get({
+        host: hostname,
+        path: _path,
+        port: port
+      });
+      req.on('response', function(res){
+        var buf = '';
+
+        res.setEncoding('utf8');
+        res.on('data', function(s){ buf += s });
+        res.on('end', function(){
+          var err = null;
+
+          try {
+            assert.equal(res.statusCode, status);
+            assert.equal(buf, body);
+          } catch (e) {
+            err = e;
+          }
+
+          server.close();
+          callback(err);
+        });
+      });
+    });
+  }
+
+  function get(path) {
+    _path = path;
+
+    return {
+      expect: expect
+    };
+  }
+
+  return {
+    get: get
+  };
+}
