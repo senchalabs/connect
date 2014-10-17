@@ -1,5 +1,5 @@
-2.x
-===
+2.27.0 / 2014-10-16
+===================
 
   * Use `http-errors` module for creating errors
   * Use `utils-merge` module for merging objects
