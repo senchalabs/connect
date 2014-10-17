@@ -5,6 +5,8 @@
     - include the charset in "unsupported charset" error message
     - include the encoding in "unsupported content encoding" error message
     - deps: depd@~1.0.0
+  * deps: compression@~1.2.0
+    - deps: debug@~2.1.0
   * deps: connect-timeout@~1.4.0
     - Create errors with `http-errors`
     - deps: debug@~2.1.0
