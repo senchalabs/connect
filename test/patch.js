@@ -1,6 +1,6 @@
 
 var connect = require('../');
-var utils = require('../lib/utils');
+var merge = require('utils-merge');
 
 describe('patch', function(){
   describe('res', function(){
@@ -58,7 +58,7 @@ describe('patch', function(){
         var app = connect();
 
         var options = { maxAge: 1000 };
-        var optionsCopy = utils.merge({}, options);
+        var optionsCopy = merge({}, options);
 
         app.use(function(req, res){
           res.cookie('name', 'tobi', options)
