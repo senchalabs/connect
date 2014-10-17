@@ -14,6 +14,8 @@
   * deps: finalhandler@0.3.0
     - Terminate in progress response only on error
     - Use `on-finished` to determine request status
+  * deps: method-override@~2.3.0
+    - deps: debug@~2.1.0
   * deps: response-time@~2.2.0
     - Add `header` option for custom header name
     - Add `suffix` option
