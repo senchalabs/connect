@@ -29,13 +29,16 @@
     - deps: depd@~1.0.0
   * deps: serve-favicon@~2.1.6
     - deps: etag@~1.5.0
-  * deps: serve-index@~1.4.1
+  * deps: serve-index@~1.5.0
     - Add `dir` argument to `filter` function
     - Add icon for mkv files
+    - Create errors with `http-errors`
     - Fix incorrect 403 on Windows and Node.js 0.11
     - Lookup icon by mime type for greater icon support
     - Support using tokens multiple times
     - deps: accepts@~1.1.2
+    - deps: debug@~2.1.0
+    - deps: mime-types@~2.0.2
   * deps: serve-static@~1.7.0
     - deps: send@0.10.0
 
