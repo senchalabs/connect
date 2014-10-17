@@ -1,3 +1,13 @@
+unreleased
+==========
+
+  * deps: debug@~2.1.0
+    - Implement `DEBUG_FD` env variable support
+  * deps: finalhandler@0.3.1
+    - Terminate in progress response only on error
+    - Use `on-finished` to determine request status
+    - deps: debug@~2.1.0
+
 3.2.0 / 2014-09-08
 ==================
 
@@ -63,6 +73,118 @@
   * remove the old `connect.createServer()` method
   * remove various private `connect.utils` functions
   * drop node.js 0.8 support
+
+2.27.0 / 2014-10-16
+===================
+
+  * Use `http-errors` module for creating errors
+  * Use `utils-merge` module for merging objects
+  * deps: body-parser@~1.9.0
+    - include the charset in "unsupported charset" error message
+    - include the encoding in "unsupported content encoding" error message
+    - deps: depd@~1.0.0
+  * deps: compression@~1.2.0
+    - deps: debug@~2.1.0
+  * deps: connect-timeout@~1.4.0
+    - Create errors with `http-errors`
+    - deps: debug@~2.1.0
+  * deps: debug@~2.1.0
+    - Implement `DEBUG_FD` env variable support
+  * deps: depd@~1.0.0
+  * deps: express-session@~1.9.0
+    - deps: debug@~2.1.0
+    - deps: depd@~1.0.0
+  * deps: finalhandler@0.3.1
+    - Terminate in progress response only on error
+    - Use `on-finished` to determine request status
+    - deps: debug@~2.1.0
+  * deps: method-override@~2.3.0
+    - deps: debug@~2.1.0
+  * deps: morgan@~1.4.0
+    - Add `debug` messages
+    - deps: depd@~1.0.0
+  * deps: response-time@~2.2.0
+    - Add `header` option for custom header name
+    - Add `suffix` option
+    - Change `digits` argument to an `options` argument
+    - deps: depd@~1.0.0
+  * deps: serve-favicon@~2.1.6
+    - deps: etag@~1.5.0
+  * deps: serve-index@~1.5.0
+    - Add `dir` argument to `filter` function
+    - Add icon for mkv files
+    - Create errors with `http-errors`
+    - Fix incorrect 403 on Windows and Node.js 0.11
+    - Lookup icon by mime type for greater icon support
+    - Support using tokens multiple times
+    - deps: accepts@~1.1.2
+    - deps: debug@~2.1.0
+    - deps: mime-types@~2.0.2
+  * deps: serve-static@~1.7.0
+    - deps: send@0.10.0
+
+2.26.6 / 2014-10-15
+===================
+
+  * deps: compression@~1.1.2
+    - deps: accepts@~1.1.2
+    - deps: compressible@~2.0.1
+  * deps: csurf@~1.6.2
+    - bump http-errors
+    - fix cookie name when using `cookie: true`
+  * deps: errorhandler@~1.2.2
+    - deps: accepts@~1.1.2
+
+2.26.5 / 2014-10-08
+===================
+
+  * Fix accepting non-object arguments to `logger`
+  * deps: serve-static@~1.6.4
+    - Fix redirect loop when index file serving disabled
+
+2.26.4 / 2014-10-02
+===================
+
+  * deps: morgan@~1.3.2
+    - Fix `req.ip` integration when `immediate: false`
+  * deps: type-is@~1.5.2
+    - deps: mime-types@~2.0.2
+
+2.26.3 / 2014-09-24
+===================
+
+  * deps: body-parser@~1.8.4
+    - fix content encoding to be case-insensitive
+  * deps: serve-favicon@~2.1.5
+    - deps: etag@~1.4.0
+  * deps: serve-static@~1.6.3
+    - deps: send@0.9.3
+
+2.26.2 / 2014-09-19
+===================
+
+  * deps: body-parser@~1.8.3
+    - deps: qs@2.2.4
+  * deps: qs@2.2.4
+    - Fix issue with object keys starting with numbers truncated
+
+2.26.1 / 2014-09-15
+===================
+
+  * deps: body-parser@~1.8.2
+    - deps: depd@0.4.5
+  * deps: depd@0.4.5
+  * deps: express-session@~1.8.2
+    - Use `crc` instead of `buffer-crc32` for speed
+    - deps: depd@0.4.5
+  * deps: morgan@~1.3.1
+    - Remove un-used `bytes` dependency
+    - deps: depd@0.4.5
+  * deps: serve-favicon@~2.1.4
+    - Fix content headers being sent in 304 response
+    - deps: etag@~1.3.1
+  * deps: serve-static@~1.6.2
+    - deps: send@0.9.2
 
 2.26.0 / 2014-09-08
 ===================
