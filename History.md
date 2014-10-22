@@ -1,3 +1,9 @@
+2.x
+===
+
+  * deps: express-session@~1.9.1
+    - Remove unnecessary empty write call
+
 2.27.0 / 2014-10-16
 ===================
 
