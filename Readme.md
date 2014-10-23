@@ -37,17 +37,6 @@ app.use(function(req, res){
 http.createServer(app).listen(3000)
 ```
 
-## Connect 3.0
-
-Connect 3.0 is in progress in the `master` branch. The main changes in Connect are:
-
-- Middleware will be moved to their own repositories in the [expressjs](http://github.com/expressjs) organization
-- All node patches will be removed - all middleware _should_ work without Connect and with similar frameworks like [restify](https://github.com/mcavage/node-restify)
-- Node `0.8` is no longer supported
-- The website documentation has been removed - view the markdown readmes instead
-
-If you would like to help maintain these middleware, please contact a [member of the expressjs team](https://github.com/orgs/expressjs/people).
-
 ## Middleware
 
 These middleware and libraries are officially supported by the Connect/Express team:
