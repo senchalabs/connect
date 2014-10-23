@@ -1,6 +1,8 @@
 2.x
 ===
 
+  * deps: finalhandler@0.3.2
+    - deps: on-finished@~2.1.1
   * deps: morgan@~1.4.1
     - deps: on-finished@~2.1.1
   * deps: qs@2.3.0
