@@ -1,6 +1,10 @@
 2.x
 ===
 
+  * deps: body-parser@~1.9.1
+    - deps: on-finished@~2.1.1
+    - deps: qs@2.3.0
+    - deps: type-is@~1.5.2
   * deps: finalhandler@0.3.2
     - deps: on-finished@~2.1.1
   * deps: morgan@~1.4.1
