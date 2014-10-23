@@ -5,14 +5,16 @@
     - deps: on-finished@~2.1.1
     - deps: qs@2.3.0
     - deps: type-is@~1.5.2
+  * deps: express-session@~1.9.1
+    - Remove unnecessary empty write call
   * deps: finalhandler@0.3.2
     - deps: on-finished@~2.1.1
   * deps: morgan@~1.4.1
     - deps: on-finished@~2.1.1
   * deps: qs@2.3.0
     - Fix parsing of mixed implicit and explicit arrays
-  * deps: express-session@~1.9.1
-    - Remove unnecessary empty write call
+  * deps: serve-static@~1.7.1
+    - deps: send@0.10.1
 
 2.27.0 / 2014-10-16
 ===================
