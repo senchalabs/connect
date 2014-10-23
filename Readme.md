@@ -37,6 +37,86 @@ app.use(function(req, res){
 http.createServer(app).listen(3000)
 ```
 
+## Getting Started
+
+Connect is a simple framework to glue together various "middleware" to handle requests.
+
+### Install Connect
+
+```sh
+$ npm install connect
+```
+
+### Create an app
+
+The main component is a Connect "app". This will store all the middleware
+added and is, itself, a function.
+
+```js
+var app = connect();
+```
+
+### Use middleware
+
+The core of Connect is "using" middleware. Middleware are added as a "stack"
+where incoming requests will execure each middleware one-by-one until a middleware
+does not call `next()` within it.
+
+```js
+app.use(function middleware1(req, res, next) {
+  // middleware 1
+  next();
+});
+app.use(function middleware2(req, res, next) {
+  // middleware 2
+  next();
+});
+```
+
+### Mount middleware
+
+The `.use()` method also takes an optional path string that is matched against
+the beginning of the incoming request URL. This allows for basic routing.
+
+```js
+app.use('/foo', function fooMiddleware(req, res, next) {
+  // req.url starts with "/foo"
+  next();
+});
+app.use('/bar', function barMiddleware(req, res, next) {
+  // req.url starts with "/bar"
+  next();
+});
+```
+
+### Error middleware
+
+There are special cases of "error-handling" middleware. There are middleware
+where the function takes exactly 4 arguments. Errors that occur in the middleware
+added before the error middleware will invoke this middleware when errors occur.
+
+```js
+app.use(function onerror(err, req, res, next) {
+  // an error occurred!
+});
+```
+
+### Create a server from the app
+
+The last step is to actually use the Connect app in a server. The `.listen()` method
+is a convenience to start a HTTP server.
+
+```js
+var server = app.listen(port);
+```
+
+The app itself is really just a function with three arguments, so it can also be handed
+to `.createServer()` in Node.js.
+
+```js
+var server = http.createServer(app);
+```
+
 ## Middleware
 
 These middleware and libraries are officially supported by the Connect/Express team:
