@@ -1,6 +1,8 @@
 2.x
 ===
 
+  * deps: qs@2.3.0
+    - Fix parsing of mixed implicit and explicit arrays
   * deps: express-session@~1.9.1
     - Remove unnecessary empty write call
 
