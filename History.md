@@ -1,6 +1,8 @@
 2.x
 ===
 
+  * deps: morgan@~1.4.1
+    - deps: on-finished@~2.1.1
   * deps: qs@2.3.0
     - Fix parsing of mixed implicit and explicit arrays
   * deps: express-session@~1.9.1
