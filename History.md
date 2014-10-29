@@ -1,5 +1,5 @@
-2.x
-===
+2.27.2 / 2014-10-28
+===================
 
   * Fix handling of URLs containing `://` in the path
   * deps: body-parser@~1.9.2
