@@ -1,6 +1,8 @@
 2.x
 ===
 
+  * deps: body-parser@~1.9.2
+    - deps: qs@2.3.2
   * deps: qs@2.3.2
     - Fix parsing of mixed objects and values
 
