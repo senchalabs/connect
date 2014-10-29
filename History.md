@@ -1,3 +1,8 @@
+unreleased
+==========
+
+  * Fix handling of URLs containing `://` in the path
+
 3.3.1 / 2014-10-22
 ==================
 
@@ -79,6 +84,15 @@
   * remove the old `connect.createServer()` method
   * remove various private `connect.utils` functions
   * drop node.js 0.8 support
+
+2.27.2 / 2014-10-28
+===================
+
+  * Fix handling of URLs containing `://` in the path
+  * deps: body-parser@~1.9.2
+    - deps: qs@2.3.2
+  * deps: qs@2.3.2
+    - Fix parsing of mixed objects and values
 
 2.27.1 / 2014-10-22
 ===================
