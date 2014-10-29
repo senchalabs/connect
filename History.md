@@ -1,5 +1,5 @@
-unreleased
-==========
+3.3.2 / 2014-10-28
+==================
 
   * Fix handling of URLs containing `://` in the path
 
