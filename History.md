@@ -1,6 +1,7 @@
 2.x
 ===
 
+  * Fix handling of URLs containing `://` in the path
   * deps: body-parser@~1.9.2
     - deps: qs@2.3.2
   * deps: qs@2.3.2
