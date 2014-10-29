@@ -1,3 +1,9 @@
+2.x
+===
+
+  * deps: qs@2.3.2
+    - Fix parsing of mixed objects and values
+
 2.27.1 / 2014-10-22
 ===================
 
