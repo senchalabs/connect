@@ -59,7 +59,7 @@ var app = connect();
 ### Use middleware
 
 The core of Connect is "using" middleware. Middleware are added as a "stack"
-where incoming requests will execure each middleware one-by-one until a middleware
+where incoming requests will execute each middleware one-by-one until a middleware
 does not call `next()` within it.
 
 ```js
