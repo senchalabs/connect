@@ -235,7 +235,7 @@ function rawrequest(app) {
   function expect(status, body, callback) {
     server.listen(function(){
       var addr = this.address();
-      var hostname = addr.family === 'IPv6' ? '[::1]' : '127.0.0.1';
+      var hostname = addr.family === 'IPv6' ? '::1' : '127.0.0.1';
       var port = addr.port;
 
       var req = http.get({
