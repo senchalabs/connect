@@ -1,3 +1,8 @@
+2.x
+===
+
+  * Correctly invoke async callback asynchronously
+
 2.27.2 / 2014-10-28
 ===================
 

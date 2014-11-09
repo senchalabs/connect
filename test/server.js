@@ -130,6 +130,37 @@ describe('app', function(){
     });
   })
 
+  it('should invoke callback on error', function(done){
+    var app = connect();
+
+    app.use(function (req, res) {
+      throw new Error('boom!');
+    });
+
+    function handler(req, res) {
+      res.write('oh, ');
+      app(req, res, function(err) {
+        res.end(err.message);
+      });
+    }
+
+    var server = http.createServer(handler).listen(5559, function(){
+      http.get({
+        host: 'localhost',
+        port: 5559,
+        path: '/'
+      }, function(res){
+        var buf = '';
+        res.setEncoding('utf8');
+        res.on('data', function(s){ buf += s });
+        res.on('end', function(){
+          buf.should.eql('oh, boom!');
+          server.close(done);
+        });
+      });
+    });
+  })
+
   it('should work as middlware', function(done){
     // custom server handler array
     var handlers = [connect(), function(req, res, next){
