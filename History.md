@@ -1,5 +1,5 @@
-unreleased
-==========
+3.3.3 / 2014-11-09
+==================
 
   * Correctly invoke async callback asynchronously
 
