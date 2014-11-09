@@ -2,6 +2,9 @@
 ===
 
   * Correctly invoke async callback asynchronously
+  * deps: csurf@~1.6.3
+    - bump csrf
+    - bump http-errors
 
 2.27.2 / 2014-10-28
 ===================
