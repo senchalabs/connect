@@ -110,22 +110,11 @@ describe('app', function(){
     }
 
     // create a non-connect server
-    var server = http.createServer(run).listen(5556, function(){
-      http.get({
-        host: 'localhost',
-        port: 5556,
-        path: '/'
-      }, function(res){
-        var buf = '';
-        res.setEncoding('utf8');
-        res.on('data', function(s){ buf += s });
-        res.on('end', function(){
-          buf.should.eql('Ok');
-          server.close();
-          done();
-        });
-      });
-    });
+    var server = http.createServer(run);
+
+    request(server)
+    .get('/')
+    .expect(200, 'Ok', done);
   });
 
   it('should escape the 500 response body', function(done){
