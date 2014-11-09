@@ -1,3 +1,8 @@
+unreleased
+==========
+
+  * Correctly invoke async callback asynchronously
+
 3.3.2 / 2014-10-28
 ==================
 
@@ -84,6 +89,14 @@
   * remove the old `connect.createServer()` method
   * remove various private `connect.utils` functions
   * drop node.js 0.8 support
+
+2.27.3 / 2014-11-09
+===================
+
+  * Correctly invoke async callback asynchronously
+  * deps: csurf@~1.6.3
+    - bump csrf
+    - bump http-errors
 
 2.27.2 / 2014-10-28
 ===================

@@ -17,6 +17,81 @@ describe('app', function(){
     app.emit('foo');
   });
 
+  it('should work in http.createServer', function(done){
+    var app = connect();
+
+    app.use(function (req, res) {
+      res.end('hello, world!');
+    });
+
+    var server = http.createServer(app);
+
+    request(server)
+    .get('/')
+    .expect(200, 'hello, world!', done);
+  })
+
+  it('should be a callable function', function(done){
+    var app = connect();
+
+    app.use(function (req, res) {
+      res.end('hello, world!');
+    });
+
+    function handler(req, res) {
+      res.write('oh, ');
+      app(req, res);
+    }
+
+    var server = http.createServer(handler);
+
+    request(server)
+    .get('/')
+    .expect(200, 'oh, hello, world!', done);
+  })
+
+  it('should invoke callback if request not handled', function(done){
+    var app = connect();
+
+    app.use('/foo', function (req, res) {
+      res.end('hello, world!');
+    });
+
+    function handler(req, res) {
+      res.write('oh, ');
+      app(req, res, function() {
+        res.end('no!');
+      });
+    }
+
+    var server = http.createServer(handler);
+
+    request(server)
+    .get('/')
+    .expect(200, 'oh, no!', done);
+  })
+
+  it('should invoke callback on error', function(done){
+    var app = connect();
+
+    app.use(function (req, res) {
+      throw new Error('boom!');
+    });
+
+    function handler(req, res) {
+      res.write('oh, ');
+      app(req, res, function(err) {
+        res.end(err.message);
+      });
+    }
+
+    var server = http.createServer(handler);
+
+    request(server)
+    .get('/')
+    .expect(200, 'oh, boom!', done);
+  })
+
   it('should work as middleware', function(done){
     // custom server handler array
     var handlers = [connect(), function(req, res, next){
