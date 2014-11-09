@@ -1,5 +1,5 @@
-2.x
-===
+2.27.3 / 2014-11-09
+===================
 
   * Correctly invoke async callback asynchronously
   * deps: csurf@~1.6.3
