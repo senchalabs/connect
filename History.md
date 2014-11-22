@@ -1,3 +1,9 @@
+2.x
+===
+
+  * deps: serve-favicon@~2.1.7
+    - Avoid errors from enumerables on `Object.prototype`
+
 2.27.3 / 2014-11-09
 ===================
 
