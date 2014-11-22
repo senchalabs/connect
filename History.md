@@ -1,6 +1,11 @@
 2.x
 ===
 
+  * deps: body-parser@~1.9.3
+    - deps: iconv-lite@0.4.5
+    - deps: qs@2.3.3
+    - deps: raw-body@1.3.1
+    - deps: type-is@~1.5.3
   * deps: serve-favicon@~2.1.7
     - Avoid errors from enumerables on `Object.prototype`
 
