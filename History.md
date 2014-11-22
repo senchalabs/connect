@@ -10,6 +10,8 @@
     - Fix `arrayLimit` behavior
   * deps: serve-favicon@~2.1.7
     - Avoid errors from enumerables on `Object.prototype`
+  * deps: type-is@~1.5.3
+    - deps: mime-types@~2.0.3
 
 2.27.3 / 2014-11-09
 ===================
