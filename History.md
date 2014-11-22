@@ -6,6 +6,8 @@
     - deps: qs@2.3.3
     - deps: raw-body@1.3.1
     - deps: type-is@~1.5.3
+  * deps: qs@2.3.3
+    - Fix `arrayLimit` behavior
   * deps: serve-favicon@~2.1.7
     - Avoid errors from enumerables on `Object.prototype`
 
