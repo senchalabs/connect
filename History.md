@@ -6,6 +6,8 @@
     - deps: qs@2.3.3
     - deps: raw-body@1.3.1
     - deps: type-is@~1.5.3
+  * deps: compression@~1.2.1
+    - deps: accepts@~1.1.3
   * deps: errorhandler@~1.2.3
     - deps: accepts@~1.1.3
   * deps: express-session@~1.9.2
