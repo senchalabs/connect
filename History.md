@@ -8,6 +8,8 @@
     - deps: type-is@~1.5.3
   * deps: errorhandler@~1.2.3
     - deps: accepts@~1.1.3
+  * deps: express-session@~1.9.2
+    - deps: crc@3.2.1
   * deps: qs@2.3.3
     - Fix `arrayLimit` behavior
   * deps: serve-favicon@~2.1.7
