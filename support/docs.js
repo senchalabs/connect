@@ -1,6 +1,6 @@
 
-var fs = require('fs')
-  , jade = require('jade');
+var fs = require('fs');
+var jade = require('jade'); // @'>= 0.35.0 < 1'
 
 var tmpl = fs.readFileSync('support/docs.jade', 'utf8');
 var fn = jade.compile(tmpl);
