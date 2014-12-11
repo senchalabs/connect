@@ -1,3 +1,10 @@
+2.x
+===
+
+  * deps: compression@~1.2.2
+    - Fix `.end` to only proxy to `.end`
+    - deps: accepts@~1.1.4
+
 2.27.4 / 2014-11-23
 ===================
 
