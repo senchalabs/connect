@@ -9,6 +9,8 @@
   * deps: http-errors@~1.2.8
     - Fix stack trace from exported function
     - Remove `arguments.callee` usage
+  * deps: serve-index@~1.5.2
+    - Fix icon name background alignment on mobile view
   * deps: type-is@~1.5.4
     - deps: mime-types@~2.0.4
 
