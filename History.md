@@ -6,6 +6,8 @@
     - deps: accepts@~1.1.4
   * deps: express-session@~1.9.3
     - Fix error when `req.sessionID` contains a non-string value
+  * deps: type-is@~1.5.4
+    - deps: mime-types@~2.0.4
 
 2.27.4 / 2014-11-23
 ===================
