@@ -51,7 +51,7 @@
   },
   "devDependencies": {
     "dox": "~0.4.6",
-    "istanbul": "0.3.2",
+    "istanbul": "0.3.5",
     "mocha": "~2.0.1",
     "should": "~4.3.1"
   },
