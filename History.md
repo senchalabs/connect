@@ -1,3 +1,11 @@
+2.x
+===
+
+  * deps: serve-index@~1.5.3
+    - deps: accepts@~1.1.4
+    - deps: http-errors@~1.2.8
+    - deps: mime-types@~2.0.4
+
 2.27.5 / 2014-12-10
 ===================
 
