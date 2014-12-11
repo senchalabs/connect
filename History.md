@@ -90,6 +90,46 @@
   * remove various private `connect.utils` functions
   * drop node.js 0.8 support
 
+2.27.5 / 2014-12-10
+===================
+
+  * deps: compression@~1.2.2
+    - Fix `.end` to only proxy to `.end`
+    - deps: accepts@~1.1.4
+  * deps: express-session@~1.9.3
+    - Fix error when `req.sessionID` contains a non-string value
+  * deps: http-errors@~1.2.8
+    - Fix stack trace from exported function
+    - Remove `arguments.callee` usage
+  * deps: serve-index@~1.5.2
+    - Fix icon name background alignment on mobile view
+  * deps: type-is@~1.5.4
+    - deps: mime-types@~2.0.4
+
+2.27.4 / 2014-11-23
+===================
+
+  * deps: body-parser@~1.9.3
+    - deps: iconv-lite@0.4.5
+    - deps: qs@2.3.3
+    - deps: raw-body@1.3.1
+    - deps: type-is@~1.5.3
+  * deps: compression@~1.2.1
+    - deps: accepts@~1.1.3
+  * deps: errorhandler@~1.2.3
+    - deps: accepts@~1.1.3
+  * deps: express-session@~1.9.2
+    - deps: crc@3.2.1
+  * deps: qs@2.3.3
+    - Fix `arrayLimit` behavior
+  * deps: serve-favicon@~2.1.7
+    - Avoid errors from enumerables on `Object.prototype`
+  * deps: serve-static@~1.5.1
+    - deps: accepts@~1.1.3
+    - deps: mime-types@~2.0.3
+  * deps: type-is@~1.5.3
+    - deps: mime-types@~2.0.3
+
 2.27.3 / 2014-11-09
 ===================
 
