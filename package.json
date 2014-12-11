@@ -32,7 +32,7 @@
     "express-session": "~1.9.3",
     "finalhandler": "0.3.2",
     "fresh": "0.2.4",
-    "http-errors": "~1.2.7",
+    "http-errors": "~1.2.8",
     "media-typer": "0.3.0",
     "method-override": "~2.3.0",
     "morgan": "~1.4.1",

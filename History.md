@@ -6,6 +6,9 @@
     - deps: accepts@~1.1.4
   * deps: express-session@~1.9.3
     - Fix error when `req.sessionID` contains a non-string value
+  * deps: http-errors@~1.2.8
+    - Fix stack trace from exported function
+    - Remove `arguments.callee` usage
   * deps: type-is@~1.5.4
     - deps: mime-types@~2.0.4
 
