@@ -152,7 +152,7 @@ Some middleware previously included with Connect are no longer supported by the 
     - [connect-multiparty](https://github.com/superjoe30/connect-multiparty)
     - [connect-busboy](https://github.com/mscdex/connect-busboy)
   - `query`
-    - [qs](https://github.com/visionmedia/node-querystring)
+    - [qs](https://github.com/hapijs/qs)
   - `staticCache`
     - [st](https://github.com/isaacs/st)
     - [connect-static](https://github.com/andrewrk/connect-static)
