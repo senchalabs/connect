@@ -5,6 +5,10 @@
     - Export the default `filter` function for wrapping
     - deps: accepts@~1.2.2
     - deps: debug@~2.1.1
+  * deps: connect-timeout@~1.5.0
+    - deps: debug@~2.1.1
+    - deps: http-errors@~1.2.8
+    - deps: ms@0.7.0
   * deps: csurf@~1.6.3
     - deps: csrf@~2.0.3
     - deps: http-errors@~1.2.8
