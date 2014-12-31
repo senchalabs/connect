@@ -34,7 +34,7 @@
     "fresh": "0.2.4",
     "http-errors": "~1.2.8",
     "media-typer": "0.3.0",
-    "method-override": "~2.3.0",
+    "method-override": "~2.3.1",
     "morgan": "~1.4.1",
     "multiparty": "3.3.2",
     "on-headers": "~1.0.0",
