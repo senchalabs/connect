@@ -1,6 +1,10 @@
 2.x
 ===
 
+  * deps: body-parser@~1.10.1
+    - Make internal `extended: true` array limit dynamic
+    - deps: on-finished@~2.2.0
+    - deps: type-is@~1.5.5
   * deps: compression@~1.3.0
     - Export the default `filter` function for wrapping
     - deps: accepts@~1.2.2
