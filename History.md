@@ -34,6 +34,12 @@
     - Support query string in the URL
     - deps: etag@~1.5.1
     - deps: ms@0.7.0
+  * deps: serve-index@~1.6.0
+    - Add link to root directory
+    - deps: accepts@~1.2.2
+    - deps: batch@0.5.2
+    - deps: debug@~2.1.1
+    - deps: mime-types@~2.0.7
 
 2.27.6 / 2014-12-10
 ===================

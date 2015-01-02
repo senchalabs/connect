@@ -45,7 +45,8 @@ describe('directory()', function(){
         .set('Accept', 'text/html')
         .end(function (res) {
           res.should.be.html;
-          var urls = res.body.split(/<a href="([^"]*)"/).filter(function(s, i){ return i%2; });
+          var body = res.body.split('</h1>')[1];
+          var urls = body.split(/<a href="([^"]*)"/).filter(function(s, i){ return i%2; });
           urls.should.eql([
             '/%23directory',
             '/g%23%20%253%20o%20%252525%20%2537%20dir',
