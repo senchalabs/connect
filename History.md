@@ -20,6 +20,9 @@
     - Add `log` option
     - Fix heading content to not include stack
     - deps: accepts@~1.2.2
+  * deps: finalhandler@0.3.3
+    - deps: debug@~2.1.1
+    - deps: on-finished@~2.2.0
   * deps: method-override@~2.3.1
     - deps: debug@~2.1.1
     - deps: methods@~1.1.1
