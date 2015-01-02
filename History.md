@@ -19,6 +19,13 @@
   * deps: method-override@~2.3.1
     - deps: debug@~2.1.1
     - deps: methods@~1.1.1
+  * deps: morgan@~1.5.1
+    - Add multiple date formats `clf`, `iso`, and `web`
+    - Deprecate `buffer` option
+    - Fix date format in `common` and `combined` formats
+    - Fix token arguments to accept values with `"`
+    - deps: debug@~2.1.1
+    - deps: on-finished@~2.2.0
 
 2.27.6 / 2014-12-10
 ===================
