@@ -26,6 +26,10 @@
     - Fix token arguments to accept values with `"`
     - deps: debug@~2.1.1
     - deps: on-finished@~2.2.0
+  * deps: serve-favicon@~2.2.0
+    - Support query string in the URL
+    - deps: etag@~1.5.1
+    - deps: ms@0.7.0
 
 2.27.6 / 2014-12-10
 ===================
