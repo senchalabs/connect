@@ -20,6 +20,10 @@
     - Add `log` option
     - Fix heading content to not include stack
     - deps: accepts@~1.2.2
+  * deps: express-session@~1.10.0
+    - Add `store.touch` interface for session stores
+    - Fix `MemoryStore` expiration with `resave: false`
+    - deps: debug@~2.1.1
   * deps: finalhandler@0.3.3
     - deps: debug@~2.1.1
     - deps: on-finished@~2.2.0

@@ -29,7 +29,7 @@
     "debug": "~2.1.0",
     "depd": "~1.0.0",
     "errorhandler": "~1.3.2",
-    "express-session": "~1.9.3",
+    "express-session": "~1.10.0",
     "finalhandler": "0.3.3",
     "fresh": "0.2.4",
     "http-errors": "~1.2.8",
