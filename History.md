@@ -16,6 +16,7 @@
   * deps: csurf@~1.6.3
     - deps: csrf@~2.0.3
     - deps: http-errors@~1.2.8
+  * deps: debug@~2.1.1
   * deps: errorhandler@~1.3.2
     - Add `log` option
     - Fix heading content to not include stack
