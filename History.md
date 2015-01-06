@@ -47,6 +47,9 @@
     - deps: batch@0.5.2
     - deps: debug@~2.1.1
     - deps: mime-types@~2.0.7
+  * deps: serve-static@~1.8.0
+    - Fix potential open redirect when mounted at root
+    - deps: send@0.11.0
 
 2.27.6 / 2014-12-10
 ===================
@@ -90,7 +93,7 @@
     - Fix `arrayLimit` behavior
   * deps: serve-favicon@~2.1.7
     - Avoid errors from enumerables on `Object.prototype`
-  * deps: serve-static@~1.5.1
+  * deps: serve-index@~1.5.1
     - deps: accepts@~1.1.3
     - deps: mime-types@~2.0.3
   * deps: type-is@~1.5.3
