@@ -1,5 +1,5 @@
-2.x
-===
+2.28.0 / 2015-01-05
+===================
 
   * deps: body-parser@~1.10.1
     - Make internal `extended: true` array limit dynamic
