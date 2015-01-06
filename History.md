@@ -51,6 +51,8 @@
   * deps: serve-static@~1.8.0
     - Fix potential open redirect when mounted at root
     - deps: send@0.11.0
+  * deps: type-is@~1.5.5
+    - deps: mime-types@~2.0.7
 
 2.27.6 / 2014-12-10
 ===================
