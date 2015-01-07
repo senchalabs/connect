@@ -1,3 +1,11 @@
+unreleased
+==========
+
+  * deps: debug@~2.1.1
+  * deps: finalhandler@0.3.3
+    - deps: debug@~2.1.1
+    - deps: on-finished@~2.2.0
+
 3.3.3 / 2014-11-09
 ==================
 
@@ -89,6 +97,110 @@
   * remove the old `connect.createServer()` method
   * remove various private `connect.utils` functions
   * drop node.js 0.8 support
+
+2.28.0 / 2015-01-05
+===================
+
+  * deps: body-parser@~1.10.1
+    - Make internal `extended: true` array limit dynamic
+    - deps: on-finished@~2.2.0
+    - deps: type-is@~1.5.5
+  * deps: compression@~1.3.0
+    - Export the default `filter` function for wrapping
+    - deps: accepts@~1.2.2
+    - deps: debug@~2.1.1
+  * deps: connect-timeout@~1.5.0
+    - deps: debug@~2.1.1
+    - deps: http-errors@~1.2.8
+    - deps: ms@0.7.0
+  * deps: csurf@~1.6.3
+    - deps: csrf@~2.0.3
+    - deps: http-errors@~1.2.8
+  * deps: debug@~2.1.1
+  * deps: errorhandler@~1.3.2
+    - Add `log` option
+    - Fix heading content to not include stack
+    - deps: accepts@~1.2.2
+  * deps: express-session@~1.10.0
+    - Add `store.touch` interface for session stores
+    - Fix `MemoryStore` expiration with `resave: false`
+    - deps: debug@~2.1.1
+  * deps: finalhandler@0.3.3
+    - deps: debug@~2.1.1
+    - deps: on-finished@~2.2.0
+  * deps: method-override@~2.3.1
+    - deps: debug@~2.1.1
+    - deps: methods@~1.1.1
+  * deps: morgan@~1.5.1
+    - Add multiple date formats `clf`, `iso`, and `web`
+    - Deprecate `buffer` option
+    - Fix date format in `common` and `combined` formats
+    - Fix token arguments to accept values with `"`
+    - deps: debug@~2.1.1
+    - deps: on-finished@~2.2.0
+  * deps: serve-favicon@~2.2.0
+    - Support query string in the URL
+    - deps: etag@~1.5.1
+    - deps: ms@0.7.0
+  * deps: serve-index@~1.6.0
+    - Add link to root directory
+    - deps: accepts@~1.2.2
+    - deps: batch@0.5.2
+    - deps: debug@~2.1.1
+    - deps: mime-types@~2.0.7
+  * deps: serve-static@~1.8.0
+    - Fix potential open redirect when mounted at root
+    - deps: send@0.11.0
+  * deps: type-is@~1.5.5
+    - deps: mime-types@~2.0.7
+
+2.27.6 / 2014-12-10
+===================
+
+  * deps: serve-index@~1.5.3
+    - deps: accepts@~1.1.4
+    - deps: http-errors@~1.2.8
+    - deps: mime-types@~2.0.4
+
+2.27.5 / 2014-12-10
+===================
+
+  * deps: compression@~1.2.2
+    - Fix `.end` to only proxy to `.end`
+    - deps: accepts@~1.1.4
+  * deps: express-session@~1.9.3
+    - Fix error when `req.sessionID` contains a non-string value
+  * deps: http-errors@~1.2.8
+    - Fix stack trace from exported function
+    - Remove `arguments.callee` usage
+  * deps: serve-index@~1.5.2
+    - Fix icon name background alignment on mobile view
+  * deps: type-is@~1.5.4
+    - deps: mime-types@~2.0.4
+
+2.27.4 / 2014-11-23
+===================
+
+  * deps: body-parser@~1.9.3
+    - deps: iconv-lite@0.4.5
+    - deps: qs@2.3.3
+    - deps: raw-body@1.3.1
+    - deps: type-is@~1.5.3
+  * deps: compression@~1.2.1
+    - deps: accepts@~1.1.3
+  * deps: errorhandler@~1.2.3
+    - deps: accepts@~1.1.3
+  * deps: express-session@~1.9.2
+    - deps: crc@3.2.1
+  * deps: qs@2.3.3
+    - Fix `arrayLimit` behavior
+  * deps: serve-favicon@~2.1.7
+    - Avoid errors from enumerables on `Object.prototype`
+  * deps: serve-index@~1.5.1
+    - deps: accepts@~1.1.3
+    - deps: mime-types@~2.0.3
+  * deps: type-is@~1.5.3
+    - deps: mime-types@~2.0.3
 
 2.27.3 / 2014-11-09
 ===================
