@@ -1,3 +1,9 @@
+2.x
+===
+
+  * deps: csurf@~1.6.5
+    - deps: csrf@~2.0.4
+
 2.28.0 / 2015-01-05
 ===================
 
@@ -13,7 +19,7 @@
     - deps: debug@~2.1.1
     - deps: http-errors@~1.2.8
     - deps: ms@0.7.0
-  * deps: csurf@~1.6.3
+  * deps: csurf@~1.6.4
     - deps: csrf@~2.0.3
     - deps: http-errors@~1.2.8
   * deps: debug@~2.1.1
