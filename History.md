@@ -3,6 +3,8 @@
 
   * deps: csurf@~1.6.5
     - deps: csrf@~2.0.4
+  * deps: express-session@~1.10.1
+    - deps: uid-safe@~1.0.2
 
 2.28.0 / 2015-01-05
 ===================
