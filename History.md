@@ -1,3 +1,11 @@
+2.x
+===
+
+  * deps: serve-static@~1.8.1
+    - Fix redirect loop in Node.js 0.11.14
+    - Fix root path disclosure
+    - deps: send@0.11.1
+
 2.28.1 / 2015-01-08
 ===================
 
