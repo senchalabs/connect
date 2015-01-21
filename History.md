@@ -1,6 +1,9 @@
 2.x
 ===
 
+  * deps: body-parser@~1.10.2
+    - deps: iconv-lite@0.4.6
+    - deps: raw-body@1.3.2
   * deps: serve-static@~1.8.1
     - Fix redirect loop in Node.js 0.11.14
     - Fix root path disclosure
