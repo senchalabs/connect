@@ -1,6 +1,9 @@
 2.x
 ===
 
+  * deps: compression@~1.3.1
+    - deps: accepts@~1.2.3
+    - deps: compressible@~2.0.2
   * deps: csurf@~1.6.6
     - deps: csrf@~2.0.5
   * deps: express-session@~1.10.2
