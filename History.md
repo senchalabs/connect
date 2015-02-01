@@ -8,6 +8,9 @@
     - deps: csrf@~2.0.5
   * deps: express-session@~1.10.2
     - deps: uid-safe@1.0.3
+  * deps: serve-index@~1.6.1
+    - deps: accepts@~1.2.3
+    - deps: mime-types@~2.0.8
 
 2.28.2 / 2015-01-20
 ===================
