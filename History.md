@@ -1,6 +1,8 @@
 2.x
 ===
 
+  * deps: csurf@~1.6.6
+    - deps: csrf@~2.0.5
   * deps: express-session@~1.10.2
     - deps: uid-safe@1.0.3
 
