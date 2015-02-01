@@ -6,6 +6,8 @@
     - deps: compressible@~2.0.2
   * deps: csurf@~1.6.6
     - deps: csrf@~2.0.5
+  * deps: errorhandler@~1.3.3
+    - deps: accepts@~1.2.3
   * deps: express-session@~1.10.2
     - deps: uid-safe@1.0.3
   * deps: serve-index@~1.6.1
