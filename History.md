@@ -11,6 +11,8 @@
   * deps: serve-index@~1.6.1
     - deps: accepts@~1.2.3
     - deps: mime-types@~2.0.8
+  * deps: type-is@~1.5.6
+    - deps: mime-types@~2.0.8
 
 2.28.2 / 2015-01-20
 ===================
