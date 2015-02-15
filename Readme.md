@@ -76,10 +76,7 @@ then:
   Connect `1.x` is compatible with node 0.4.x
 
 
-  Connect `2.x` is compatible with node 0.8.x
-
-
-  Connect `3.x` is compatible with node 0.10.x
+  Connect `2.x` is compatible with node 0.8.x, 0.10.x, and 0.12.x
 
 ## License
 
