@@ -85,13 +85,13 @@ then:
 
 [MIT](LICENSE)
 
-[npm-image]: https://img.shields.io/npm/v/connect.svg?style=flat
+[npm-image]: https://img.shields.io/npm/v/connect.svg
 [npm-url]: https://npmjs.org/package/connect
-[travis-image]: https://img.shields.io/travis/senchalabs/connect.svg?style=flat
+[travis-image]: https://img.shields.io/travis/senchalabs/connect/master.svg
 [travis-url]: https://travis-ci.org/senchalabs/connect
-[coveralls-image]: https://img.shields.io/coveralls/senchalabs/connect.svg?style=flat
+[coveralls-image]: https://img.shields.io/coveralls/senchalabs/connect/master.svg
 [coveralls-url]: https://coveralls.io/r/senchalabs/connect
-[downloads-image]: https://img.shields.io/npm/dm/connect.svg?style=flat
+[downloads-image]: https://img.shields.io/npm/dm/connect.svg
 [downloads-url]: https://npmjs.org/package/connect
 [gratipay-image]: https://img.shields.io/gratipay/dougwilson.svg
 [gratipay-url]: https://www.gratipay.com/dougwilson/
