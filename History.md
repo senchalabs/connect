@@ -1,3 +1,9 @@
+2.x
+===
+
+  * deps: cookie-parser@~1.3.4
+    - deps: cookie-signature@1.0.6
+
 2.28.3 / 2015-01-31
 ===================
 
