@@ -4,7 +4,7 @@
 [![NPM Downloads][downloads-image]][downloads-url]
 [![Build Status][travis-image]][travis-url]
 [![Test Coverage][coveralls-image]][coveralls-url]
-[![Gittip][gittip-image]][gittip-url]
+[![Gratipay][gratipay-image]][gratipay-url]
 
   Connect is an extensible HTTP server framework for [node](http://nodejs.org), providing high performance "plugins" known as _middleware_.
 
@@ -93,5 +93,5 @@ then:
 [coveralls-url]: https://coveralls.io/r/senchalabs/connect
 [downloads-image]: https://img.shields.io/npm/dm/connect.svg?style=flat
 [downloads-url]: https://npmjs.org/package/connect
-[gittip-image]: https://img.shields.io/gittip/dougwilson.svg?style=flat
-[gittip-url]: https://www.gittip.com/dougwilson/
+[gratipay-image]: https://img.shields.io/gratipay/dougwilson.svg
+[gratipay-url]: https://www.gratipay.com/dougwilson/
