@@ -3,6 +3,8 @@
 
   * deps: cookie-parser@~1.3.4
     - deps: cookie-signature@1.0.6
+  * deps: errorhandler@~1.3.4
+    - deps: accepts@~1.2.4
 
 2.28.3 / 2015-01-31
 ===================
