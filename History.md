@@ -5,6 +5,10 @@
     - deps: cookie-signature@1.0.6
   * deps: errorhandler@~1.3.4
     - deps: accepts@~1.2.4
+  * deps: serve-index@~1.6.2
+    - deps: accepts@~1.2.4
+    - deps: http-errors@~1.3.1
+    - deps: mime-types@~2.0.9
 
 2.28.3 / 2015-01-31
 ===================
