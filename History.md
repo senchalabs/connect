@@ -5,6 +5,9 @@
     - deps: cookie-signature@1.0.6
   * deps: errorhandler@~1.3.4
     - deps: accepts@~1.2.4
+  * deps: express-session@~1.10.3
+    - deps: cookie-signature@1.0.6
+    - deps: uid-safe@1.1.0
   * deps: serve-index@~1.6.2
     - deps: accepts@~1.2.4
     - deps: http-errors@~1.3.1
