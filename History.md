@@ -98,6 +98,92 @@
   * remove various private `connect.utils` functions
   * drop node.js 0.8 support
 
+2.29.0 / 2015-02-17
+===================
+
+  * Use `content-type` to parse `Content-Type` headers
+  * deps: body-parser@~1.12.0
+    - add `debug` messages
+    - accept a function for the `type` option
+    - make internal `extended: true` depth limit infinity
+    - use `content-type` to parse `Content-Type` headers
+    - deps: iconv-lite@0.4.7
+    - deps: raw-body@1.3.3
+    - deps: type-is@~1.6.0
+  * deps: compression@~1.4.1
+    - Prefer `gzip` over `deflate` on the server
+    - deps: accepts@~1.2.4
+  * deps: connect-timeout@~1.6.0
+    - deps: http-errors@~1.3.1
+  * deps: cookie-parser@~1.3.4
+    - deps: cookie-signature@1.0.6
+  * deps: cookie-signature@1.0.6
+  * deps: csurf@~1.7.0
+    - Accept `CSRF-Token` and `XSRF-Token` request headers
+    - Default `cookie.path` to `'/'`, if using cookies
+    - deps: cookie-signature@1.0.6
+    - deps: csrf@~2.0.6
+    - deps: http-errors@~1.3.1
+  * deps: errorhandler@~1.3.4
+    - deps: accepts@~1.2.4
+  * deps: express-session@~1.10.3
+    - deps: cookie-signature@1.0.6
+    - deps: uid-safe@1.1.0
+  * deps: http-errors@~1.3.1
+    - Construct errors using defined constructors from `createError`
+    - Fix error names that are not identifiers
+    - Set a meaningful `name` property on constructed errors
+  * deps: response-time@~2.3.0
+    - Add function argument to support recording of response time
+  * deps: serve-index@~1.6.2
+    - deps: accepts@~1.2.4
+    - deps: http-errors@~1.3.1
+    - deps: mime-types@~2.0.9
+  * deps: serve-static@~1.9.1
+    - deps: send@0.12.1
+  * deps: type-is@~1.6.0
+    - fix argument reassignment
+    - fix false-positives in `hasBody` `Transfer-Encoding` check
+    - support wildcard for both type and subtype (`*/*`)
+    - deps: mime-types@~2.0.9
+
+2.28.3 / 2015-01-31
+===================
+
+  * deps: compression@~1.3.1
+    - deps: accepts@~1.2.3
+    - deps: compressible@~2.0.2
+  * deps: csurf@~1.6.6
+    - deps: csrf@~2.0.5
+  * deps: errorhandler@~1.3.3
+    - deps: accepts@~1.2.3
+  * deps: express-session@~1.10.2
+    - deps: uid-safe@1.0.3
+  * deps: serve-index@~1.6.1
+    - deps: accepts@~1.2.3
+    - deps: mime-types@~2.0.8
+  * deps: type-is@~1.5.6
+    - deps: mime-types@~2.0.8
+
+2.28.2 / 2015-01-20
+===================
+
+  * deps: body-parser@~1.10.2
+    - deps: iconv-lite@0.4.6
+    - deps: raw-body@1.3.2
+  * deps: serve-static@~1.8.1
+    - Fix redirect loop in Node.js 0.11.14
+    - Fix root path disclosure
+    - deps: send@0.11.1
+
+2.28.1 / 2015-01-08
+===================
+
+  * deps: csurf@~1.6.5
+    - deps: csrf@~2.0.4
+  * deps: express-session@~1.10.1
+    - deps: uid-safe@~1.0.2
+
 2.28.0 / 2015-01-05
 ===================
 
@@ -113,7 +199,7 @@
     - deps: debug@~2.1.1
     - deps: http-errors@~1.2.8
     - deps: ms@0.7.0
-  * deps: csurf@~1.6.3
+  * deps: csurf@~1.6.4
     - deps: csrf@~2.0.3
     - deps: http-errors@~1.2.8
   * deps: debug@~2.1.1

@@ -25,10 +25,17 @@
   "devDependencies": {
     "istanbul": "0.3.5",
     "mocha": "~2.1.0",
-    "should": "~4.4.2",
+    "should": "~5.0.0",
     "supertest": "~0.15.0"
   },
   "license": "MIT",
+  "files": [
+    "lib/",
+    "LICENSE",
+    "History.md",
+    "Readme.md",
+    "index.js"
+  ],
   "engines": {
     "node": ">= 0.10.0"
   },
