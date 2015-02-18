@@ -1,6 +1,7 @@
 2.x
 ===
 
+  * Use `content-type` to parse `Content-Type` headers
   * deps: body-parser@~1.12.0
     - add `debug` messages
     - accept a function for the `type` option
