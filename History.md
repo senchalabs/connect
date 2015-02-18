@@ -27,6 +27,10 @@
   * deps: express-session@~1.10.3
     - deps: cookie-signature@1.0.6
     - deps: uid-safe@1.1.0
+  * deps: http-errors@~1.3.1
+    - Construct errors using defined constructors from `createError`
+    - Fix error names that are not identifiers
+    - Set a meaningful `name` property on constructed errors
   * deps: response-time@~2.3.0
     - Add function argument to support recording of response time
   * deps: serve-index@~1.6.2
