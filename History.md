@@ -37,6 +37,8 @@
     - deps: accepts@~1.2.4
     - deps: http-errors@~1.3.1
     - deps: mime-types@~2.0.9
+  * deps: serve-static@~1.9.1
+    - deps: send@0.12.1
 
 2.28.3 / 2015-01-31
 ===================
