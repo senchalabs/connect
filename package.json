@@ -56,7 +56,13 @@
     "should": "~5.0.0"
   },
   "license": "MIT",
-  "main": "index",
+  "files": [
+    "lib/",
+    "LICENSE",
+    "History.md",
+    "Readme.md",
+    "index.js"
+  ],
   "engines": {
     "node": ">= 0.8.0"
   },
