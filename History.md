@@ -1,6 +1,14 @@
 2.x
 ===
 
+  * deps: body-parser@~1.12.0
+    - add `debug` messages
+    - accept a function for the `type` option
+    - make internal `extended: true` depth limit infinity
+    - use `content-type` to parse `Content-Type` headers
+    - deps: iconv-lite@0.4.7
+    - deps: raw-body@1.3.3
+    - deps: type-is@~1.6.0
   * deps: compression@~1.4.1
     - Prefer `gzip` over `deflate` on the server
     - deps: accepts@~1.2.4
