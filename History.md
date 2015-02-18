@@ -40,6 +40,11 @@
     - deps: mime-types@~2.0.9
   * deps: serve-static@~1.9.1
     - deps: send@0.12.1
+  * deps: type-is@~1.6.0
+    - fix argument reassignment
+    - fix false-positives in `hasBody` `Transfer-Encoding` check
+    - support wildcard for both type and subtype (`*/*`)
+    - deps: mime-types@~2.0.9
 
 2.28.3 / 2015-01-31
 ===================
