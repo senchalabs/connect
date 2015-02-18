@@ -19,6 +19,8 @@
   * deps: express-session@~1.10.3
     - deps: cookie-signature@1.0.6
     - deps: uid-safe@1.1.0
+  * deps: response-time@~2.3.0
+    - Add function argument to support recording of response time
   * deps: serve-index@~1.6.2
     - deps: accepts@~1.2.4
     - deps: http-errors@~1.3.1
