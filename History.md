@@ -8,6 +8,12 @@
     - deps: http-errors@~1.3.1
   * deps: cookie-parser@~1.3.4
     - deps: cookie-signature@1.0.6
+  * deps: csurf@~1.7.0
+    - Accept `CSRF-Token` and `XSRF-Token` request headers
+    - Default `cookie.path` to `'/'`, if using cookies
+    - deps: cookie-signature@1.0.6
+    - deps: csrf@~2.0.6
+    - deps: http-errors@~1.3.1
   * deps: errorhandler@~1.3.4
     - deps: accepts@~1.2.4
   * deps: express-session@~1.10.3
