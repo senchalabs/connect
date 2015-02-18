@@ -1,6 +1,9 @@
 2.x
 ===
 
+  * deps: compression@~1.4.1
+    - Prefer `gzip` over `deflate` on the server
+    - deps: accepts@~1.2.4
   * deps: cookie-parser@~1.3.4
     - deps: cookie-signature@1.0.6
   * deps: errorhandler@~1.3.4
