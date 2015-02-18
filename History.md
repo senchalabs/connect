@@ -1,5 +1,5 @@
-2.x
-===
+2.29.0 / 2015-02-17
+===================
 
   * Use `content-type` to parse `Content-Type` headers
   * deps: body-parser@~1.12.0
