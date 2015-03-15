@@ -11,6 +11,8 @@
     - deps: accepts@~1.2.5
   * deps: method-override@~2.3.2
     - deps: debug@~2.1.3
+  * deps: morgan@~1.5.2
+    - deps: debug@~2.1.3
   * deps: serve-index@~1.6.3
     - Properly escape file names in HTML
     - deps: accepts@~1.2.5
