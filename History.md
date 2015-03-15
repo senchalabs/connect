@@ -1,6 +1,10 @@
 2.x
 ===
 
+  * deps: compression@~1.4.3
+    - Fix error when code calls `res.end(str, encoding)`
+    - deps: accepts@~1.2.5
+    - deps: debug@~2.1.3
   * deps: serve-index@~1.6.3
     - Properly escape file names in HTML
     - deps: accepts@~1.2.5
