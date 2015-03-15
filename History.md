@@ -1,3 +1,13 @@
+2.x
+===
+
+  * deps: serve-index@~1.6.3
+    - Properly escape file names in HTML
+    - deps: accepts@~1.2.5
+    - deps: debug@~2.1.3
+    - deps: escape-html@1.0.1
+    - deps: mime-types@~2.0.10
+
 2.29.0 / 2015-02-17
 ===================
 
