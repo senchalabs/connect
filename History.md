@@ -7,6 +7,8 @@
     - deps: debug@~2.1.3
     - deps: escape-html@1.0.1
     - deps: mime-types@~2.0.10
+  * deps: serve-static@~1.9.2
+    - deps: send@0.12.2
 
 2.29.0 / 2015-02-17
 ===================
