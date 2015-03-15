@@ -7,6 +7,8 @@
     - deps: debug@~2.1.3
   * deps: connect-timeout@~1.6.1
     - deps: debug@~2.1.3
+  * deps: method-override@~2.3.2
+    - deps: debug@~2.1.3
   * deps: serve-index@~1.6.3
     - Properly escape file names in HTML
     - deps: accepts@~1.2.5
