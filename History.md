@@ -9,6 +9,8 @@
     - deps: debug@~2.1.3
   * deps: errorhandler@~1.3.5
     - deps: accepts@~1.2.5
+  * deps: express-session@~1.10.4
+    - deps: debug@~2.1.3
   * deps: finalhandler@0.3.4
     - deps: debug@~2.1.3
   * deps: method-override@~2.3.2
