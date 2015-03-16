@@ -1,6 +1,9 @@
 2.x
 ===
 
+  * deps: body-parser@~1.12.1
+    - deps: debug@~2.1.3
+    - deps: type-is@~1.6.1
   * deps: compression@~1.4.3
     - Fix error when code calls `res.end(str, encoding)`
     - deps: accepts@~1.2.5
