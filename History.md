@@ -10,6 +10,9 @@
     - deps: debug@~2.1.3
   * deps: connect-timeout@~1.6.1
     - deps: debug@~2.1.3
+  * deps: debug@~2.1.3
+    - Fix high intensity foreground color for bold
+    - deps: ms@0.7.0
   * deps: errorhandler@~1.3.5
     - deps: accepts@~1.2.5
   * deps: express-session@~1.10.4

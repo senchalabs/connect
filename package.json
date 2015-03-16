@@ -27,7 +27,7 @@
     "connect-timeout": "~1.6.1",
     "content-type": "~1.0.1",
     "csurf": "~1.7.0",
-    "debug": "~2.1.1",
+    "debug": "~2.1.3",
     "depd": "~1.0.0",
     "errorhandler": "~1.3.5",
     "express-session": "~1.10.4",
