@@ -1,3 +1,12 @@
+unreleased
+==========
+
+  * deps: debug@~2.1.3
+    - Fix high intensity foreground color for bold
+    - deps: ms@0.7.0
+  * deps: finalhandler@0.3.4
+    - deps: debug@~2.1.3
+
 3.3.4 / 2015-01-07
 ==================
 
@@ -97,6 +106,45 @@
   * remove the old `connect.createServer()` method
   * remove various private `connect.utils` functions
   * drop node.js 0.8 support
+
+2.29.1 / 2015-03-16
+===================
+
+  * deps: body-parser@~1.12.2
+    - deps: debug@~2.1.3
+    - deps: qs@2.4.1
+    - deps: type-is@~1.6.1
+  * deps: compression@~1.4.3
+    - Fix error when code calls `res.end(str, encoding)`
+    - deps: accepts@~1.2.5
+    - deps: debug@~2.1.3
+  * deps: connect-timeout@~1.6.1
+    - deps: debug@~2.1.3
+  * deps: debug@~2.1.3
+    - Fix high intensity foreground color for bold
+    - deps: ms@0.7.0
+  * deps: errorhandler@~1.3.5
+    - deps: accepts@~1.2.5
+  * deps: express-session@~1.10.4
+    - deps: debug@~2.1.3
+  * deps: finalhandler@0.3.4
+    - deps: debug@~2.1.3
+  * deps: method-override@~2.3.2
+    - deps: debug@~2.1.3
+  * deps: morgan@~1.5.2
+    - deps: debug@~2.1.3
+  * deps: qs@2.4.1
+    - Fix error when parameter `hasOwnProperty` is present
+  * deps: serve-index@~1.6.3
+    - Properly escape file names in HTML
+    - deps: accepts@~1.2.5
+    - deps: debug@~2.1.3
+    - deps: escape-html@1.0.1
+    - deps: mime-types@~2.0.10
+  * deps: serve-static@~1.9.2
+    - deps: send@0.12.2
+  * deps: type-is@~1.6.1
+    - deps: mime-types@~2.0.10
 
 2.29.0 / 2015-02-17
 ===================
