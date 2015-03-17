@@ -39,7 +39,7 @@
     "multiparty": "3.3.2",
     "on-headers": "~1.0.0",
     "parseurl": "~1.3.0",
-    "qs": "2.3.3",
+    "qs": "2.4.1",
     "response-time": "~2.3.0",
     "serve-favicon": "~2.2.0",
     "serve-index": "~1.6.3",

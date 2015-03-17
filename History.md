@@ -24,6 +24,8 @@
     - deps: debug@~2.1.3
   * deps: morgan@~1.5.2
     - deps: debug@~2.1.3
+  * deps: qs@2.4.1
+    - Fix error when parameter `hasOwnProperty` is present
   * deps: serve-index@~1.6.3
     - Properly escape file names in HTML
     - deps: accepts@~1.2.5
