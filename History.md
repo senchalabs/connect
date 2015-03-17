@@ -1,5 +1,5 @@
-unreleased
-==========
+3.3.5 / 2015-03-16
+==================
 
   * deps: debug@~2.1.3
     - Fix high intensity foreground color for bold
