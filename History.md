@@ -1,3 +1,12 @@
+2.x
+===
+
+  * deps: body-parser@~1.12.3
+    - Slight efficiency improvement when not debugging
+    - deps: depd@~1.0.1
+    - deps: iconv-lite@0.4.8
+    - deps: raw-body@1.3.4
+
 2.29.1 / 2015-03-16
 ===================
 
