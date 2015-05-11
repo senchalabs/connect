@@ -1,11 +1,15 @@
 2.x
 ===
 
-  * deps: body-parser@~1.12.3
+  * deps: body-parser@~1.12.4
     - Slight efficiency improvement when not debugging
+    - deps: debug@~2.2.0
     - deps: depd@~1.0.1
     - deps: iconv-lite@0.4.8
-    - deps: raw-body@1.3.4
+    - deps: on-finished@~2.2.1
+    - deps: qs@2.4.2
+    - deps: raw-body@~2.0.1
+    - deps: type-is@~1.6.2
 
 2.29.1 / 2015-03-16
 ===================
