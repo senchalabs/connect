@@ -10,6 +10,11 @@
     - deps: qs@2.4.2
     - deps: raw-body@~2.0.1
     - deps: type-is@~1.6.2
+  * deps: morgan@~1.5.3
+    - deps: basic-auth@~1.0.1
+    - deps: debug@~2.2.0
+    - deps: depd@~1.0.1
+    - deps: on-finished@~2.2.1
 
 2.29.1 / 2015-03-16
 ===================
