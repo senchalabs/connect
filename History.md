@@ -13,6 +13,9 @@
   * deps: compression@~1.4.4
     - deps: accepts@~1.2.7
     - deps: debug@~2.2.0
+  * deps: connect-timeout@~1.6.2
+    - deps: debug@~2.2.0
+    - deps: ms@0.7.1
   * deps: finalhandler@0.3.6
     - deps: debug@~2.2.0
     - deps: on-finished@~2.2.1
