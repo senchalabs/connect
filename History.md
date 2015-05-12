@@ -10,6 +10,9 @@
     - deps: qs@2.4.2
     - deps: raw-body@~2.0.1
     - deps: type-is@~1.6.2
+  * deps: compression@~1.4.4
+    - deps: accepts@~1.2.7
+    - deps: debug@~2.2.0
   * deps: finalhandler@0.3.6
     - deps: debug@~2.2.0
     - deps: on-finished@~2.2.1
