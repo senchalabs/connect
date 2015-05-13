@@ -19,6 +19,8 @@
   * deps: finalhandler@0.3.6
     - deps: debug@~2.2.0
     - deps: on-finished@~2.2.1
+  * deps: method-override@~2.3.3
+    - deps: debug@~2.2.0
   * deps: morgan@~1.5.3
     - deps: basic-auth@~1.0.1
     - deps: debug@~2.2.0
