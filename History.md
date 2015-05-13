@@ -24,6 +24,10 @@
     - deps: debug@~2.2.0
     - deps: depd@~1.0.1
     - deps: on-finished@~2.2.1
+  * deps: serve-index@~1.6.4
+    - deps: accepts@~1.2.7
+    - deps: debug@~2.2.0
+    - deps: mime-types@~2.0.11
 
 2.29.1 / 2015-03-16
 ===================
