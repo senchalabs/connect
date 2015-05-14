@@ -52,7 +52,7 @@
   "devDependencies": {
     "dox": "~0.4.6",
     "istanbul": "0.3.9",
-    "mocha": "~2.2.4",
+    "mocha": "2.2.5",
     "should": "~5.2.0"
   },
   "license": "MIT",
