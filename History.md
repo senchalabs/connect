@@ -26,6 +26,9 @@
     - deps: debug@~2.2.0
     - deps: depd@~1.0.1
     - deps: on-finished@~2.2.1
+  * deps: serve-favicon@~2.2.1
+    - deps: etag@~1.6.0
+    - deps: ms@0.7.1
   * deps: serve-index@~1.6.4
     - deps: accepts@~1.2.7
     - deps: debug@~2.2.0
