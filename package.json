@@ -43,7 +43,7 @@
     "response-time": "~2.3.1",
     "serve-favicon": "~2.2.1",
     "serve-index": "~1.6.4",
-    "serve-static": "~1.9.2",
+    "serve-static": "~1.9.3",
     "type-is": "~1.6.1",
     "utils-merge": "1.0.0",
     "vhost": "~3.0.0",
