@@ -42,6 +42,8 @@
     - deps: mime-types@~2.0.11
   * deps: serve-static@~1.9.3
     - deps: send@0.12.3
+  * deps: type-is@~1.6.2
+    - deps: mime-types@~2.0.11
 
 2.29.1 / 2015-03-16
 ===================
