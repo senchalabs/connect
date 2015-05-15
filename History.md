@@ -1,5 +1,5 @@
-2.x
-===
+2.29.2 / 2015-05-14
+===================
 
   * deps: body-parser@~1.12.4
     - Slight efficiency improvement when not debugging
