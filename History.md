@@ -1,3 +1,12 @@
+unreleased
+==========
+
+  * deps: debug@~2.2.0
+    - deps: ms@0.7.1
+  * deps: finalhandler@0.3.6
+    - deps: debug@~2.2.0
+    - deps: on-finished@~2.2.1
+
 3.3.5 / 2015-03-16
 ==================
 
@@ -106,6 +115,55 @@
   * remove the old `connect.createServer()` method
   * remove various private `connect.utils` functions
   * drop node.js 0.8 support
+
+2.29.2 / 2015-05-14
+===================
+
+  * deps: body-parser@~1.12.4
+    - Slight efficiency improvement when not debugging
+    - deps: debug@~2.2.0
+    - deps: depd@~1.0.1
+    - deps: iconv-lite@0.4.8
+    - deps: on-finished@~2.2.1
+    - deps: qs@2.4.2
+    - deps: raw-body@~2.0.1
+    - deps: type-is@~1.6.2
+  * deps: compression@~1.4.4
+    - deps: accepts@~1.2.7
+    - deps: debug@~2.2.0
+  * deps: connect-timeout@~1.6.2
+    - deps: debug@~2.2.0
+    - deps: ms@0.7.1
+  * deps: debug@~2.2.0
+    - deps: ms@0.7.1
+  * deps: depd@~1.0.1
+  * deps: errorhandler@~1.3.6
+    - deps: accepts@~1.2.7
+  * deps: finalhandler@0.3.6
+    - deps: debug@~2.2.0
+    - deps: on-finished@~2.2.1
+  * deps: method-override@~2.3.3
+    - deps: debug@~2.2.0
+  * deps: morgan@~1.5.3
+    - deps: basic-auth@~1.0.1
+    - deps: debug@~2.2.0
+    - deps: depd@~1.0.1
+    - deps: on-finished@~2.2.1
+  * deps: qs@2.4.2
+   - Fix allowing parameters like `constructor`
+  * deps: response-time@~2.3.1
+    - deps: depd@~1.0.1
+  * deps: serve-favicon@~2.2.1
+    - deps: etag@~1.6.0
+    - deps: ms@0.7.1
+  * deps: serve-index@~1.6.4
+    - deps: accepts@~1.2.7
+    - deps: debug@~2.2.0
+    - deps: mime-types@~2.0.11
+  * deps: serve-static@~1.9.3
+    - deps: send@0.12.3
+  * deps: type-is@~1.6.2
+    - deps: mime-types@~2.0.11
 
 2.29.1 / 2015-03-16
 ===================
