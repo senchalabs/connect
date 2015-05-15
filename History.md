@@ -16,6 +16,8 @@
   * deps: connect-timeout@~1.6.2
     - deps: debug@~2.2.0
     - deps: ms@0.7.1
+  * deps: debug@~2.2.0
+    - deps: ms@0.7.1
   * deps: errorhandler@~1.3.6
     - deps: accepts@~1.2.7
   * deps: finalhandler@0.3.6
