@@ -1,6 +1,8 @@
 2.x
 ===
 
+  * deps: cookie@0.1.3
+    - Slight optimizations
   * deps: cookie-parser@~1.3.5
     - deps: cookie@0.1.3
 
