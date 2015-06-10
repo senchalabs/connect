@@ -6,6 +6,7 @@ node_js:
   - "1.0"
   - "1.8"
   - "2.0"
+  - "2.2"
 sudo: false
 before_install:
   # Setup Node.js version-specific dependencies
