@@ -7,5 +7,12 @@ node_js:
   - "1.8"
   - "2.0"
 sudo: false
-script: "npm run-script test-travis"
-after_script: "npm install coveralls@2.10.0 && cat ./coverage/lcov.info | coveralls"
+before_install:
+  # Setup Node.js version-specific dependencies
+  - "test $TRAVIS_NODE_VERSION != '0.8' || npm rm --save-dev istanbul"
+script:
+  # Run test script, depending on istanbul install
+  - "test -n $(npm -ps ls istanbul) || npm test"
+  - "test -z $(npm -ps ls istanbul) || npm run-script test-travis"
+after_script:
+  - "test -e ./coverage/lcov.info && npm install coveralls@2 && cat ./coverage/lcov.info | coveralls"
