@@ -18,6 +18,13 @@
     - Add `sessionKey` option
     - deps: cookie@0.1.3
     - deps: csrf@~3.0.0
+  * deps: express-session@~1.11.3
+    - Support an array in `secret` option for key rotation
+    - deps: cookie@0.1.3
+    - deps: crc@3.3.0
+    - deps: debug@~2.2.0
+    - deps: depd@~1.0.1
+    - deps: uid-safe@~2.0.0
 
 2.29.2 / 2015-05-14
 ===================
