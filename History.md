@@ -18,6 +18,11 @@
     - Add `sessionKey` option
     - deps: cookie@0.1.3
     - deps: csrf@~3.0.0
+  * deps: errorhandler@~1.4.0
+    - Add charset to the `Content-Type` header
+    - Support `statusCode` property on `Error` objects
+    - deps: accepts@~1.2.9
+    - deps: escape-html@1.0.2
   * deps: express-session@~1.11.3
     - Support an array in `secret` option for key rotation
     - deps: cookie@0.1.3
