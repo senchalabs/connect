@@ -1,6 +1,15 @@
 2.x
 ===
 
+  * deps: compression@~1.5.0
+    - Fix return value from `.end` and `.write` after end
+    - Improve detection of zero-length body without `Content-Length`
+    - deps: accepts@~1.2.9
+    - deps: bytes@2.1.0
+    - deps: compressible@~2.0.3
+    - perf: enable strict mode
+    - perf: remove flush reassignment
+    - perf: simplify threshold detection
   * deps: cookie@0.1.3
     - Slight optimizations
   * deps: cookie-parser@~1.3.5
