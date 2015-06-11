@@ -14,6 +14,10 @@
     - Slight optimizations
   * deps: cookie-parser@~1.3.5
     - deps: cookie@0.1.3
+  * deps: csurf@~1.8.3
+    - Add `sessionKey` option
+    - deps: cookie@0.1.3
+    - deps: csrf@~3.0.0
 
 2.29.2 / 2015-05-14
 ===================
