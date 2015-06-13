@@ -30,6 +30,21 @@
     - deps: debug@~2.2.0
     - deps: depd@~1.0.1
     - deps: uid-safe@~2.0.0
+  * deps: morgan@~1.6.0
+    - Add `morgan.compile(format)` export
+    - Do not color 1xx status codes in `dev` format
+    - Fix `response-time` token to not include response latency
+    - Fix `status` token incorrectly displaying before response in `dev` format
+    - Fix token return values to be `undefined` or a string
+    - Improve representation of multiple headers in `req` and `res` tokens
+    - Use `res.getHeader` in `res` token
+    - deps: basic-auth@~1.0.2
+    - deps: on-finished@~2.3.0
+    - pref: enable strict mode
+    - pref: reduce function closure scopes
+    - pref: remove dynamic compile on every request for `dev` format
+    - pref: remove an argument reassignment
+    - pref: skip function call without `skip` option
 
 2.29.2 / 2015-05-14
 ===================
