@@ -30,6 +30,14 @@
     - deps: debug@~2.2.0
     - deps: depd@~1.0.1
     - deps: uid-safe@~2.0.0
+  * deps: finalhandler@0.4.0
+    - Fix a false-positive when unpiping in Node.js 0.8
+    - Support `statusCode` property on `Error` objects
+    - Use `unpipe` module for unpiping requests
+    - deps: escape-html@1.0.2
+    - deps: on-finished@~2.3.0
+    - perf: enable strict mode
+    - perf: remove argument reassignment
   * deps: morgan@~1.6.0
     - Add `morgan.compile(format)` export
     - Do not color 1xx status codes in `dev` format
