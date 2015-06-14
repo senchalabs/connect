@@ -45,6 +45,13 @@
     - pref: remove dynamic compile on every request for `dev` format
     - pref: remove an argument reassignment
     - pref: skip function call without `skip` option
+  * deps: serve-favicon@~2.3.0
+    - Send non-chunked response for `OPTIONS`
+    - deps: etag@~1.7.0
+    - deps: fresh@0.3.0
+    - perf: enable strict mode
+    - perf: remove argument reassignment
+    - perf: remove bitwise operations
 
 2.29.2 / 2015-05-14
 ===================
