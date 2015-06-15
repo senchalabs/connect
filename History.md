@@ -75,6 +75,16 @@
     - perf: enable strict mode
     - perf: remove argument reassignment
     - perf: remove bitwise operations
+  * deps: serve-index@~1.7.0
+    - Accept `function` value for `template` option
+    - Send non-chunked response for `OPTIONS`
+    - Stat parent directory when necessary
+    - Use `Date.prototype.toLocaleDateString` to format date
+    - deps: accepts@~1.2.9
+    - deps: escape-html@1.0.2
+    - deps: mime-types@~2.1.1
+    - perf: enable strict mode
+    - perf: remove argument reassignment
 
 2.29.2 / 2015-05-14
 ===================
