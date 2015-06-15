@@ -1,6 +1,21 @@
 2.x
 ===
 
+  * deps: body-parser@~1.13.0
+    - Add `statusCode` property on `Error`s, in addition to `status`
+    - Change `type` default to `application/json` for JSON parser
+    - Change `type` default to `application/x-www-form-urlencoded` for urlencoded parser
+    - Provide static `require` analysis
+    - Use the `http-errors` module to generate errors
+    - deps: bytes@2.1.0
+    - deps: iconv-lite@0.4.10
+    - deps: on-finished@~2.3.0
+    - deps: qs@3.1.0
+    - deps: raw-body@~2.1.1
+    - deps: type-is@~1.6.3
+    - perf: enable strict mode
+    - perf: remove argument reassignment
+    - perf: remove delete call
   * deps: compression@~1.5.0
     - Fix return value from `.end` and `.write` after end
     - Improve detection of zero-length body without `Content-Length`
