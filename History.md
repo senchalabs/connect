@@ -1,7 +1,7 @@
 2.x
 ===
 
-  * deps: body-parser@~1.13.0
+  * deps: body-parser@~1.13.1
     - Add `statusCode` property on `Error`s, in addition to `status`
     - Change `type` default to `application/json` for JSON parser
     - Change `type` default to `application/x-www-form-urlencoded` for urlencoded parser
@@ -10,7 +10,6 @@
     - deps: bytes@2.1.0
     - deps: iconv-lite@0.4.10
     - deps: on-finished@~2.3.0
-    - deps: qs@3.1.0
     - deps: raw-body@~2.1.1
     - deps: type-is@~1.6.3
     - perf: enable strict mode
