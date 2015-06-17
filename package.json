@@ -44,7 +44,7 @@
     "serve-favicon": "~2.3.0",
     "serve-index": "~1.7.0",
     "serve-static": "~1.9.3",
-    "type-is": "~1.6.2",
+    "type-is": "~1.6.3",
     "utils-merge": "1.0.0",
     "vhost": "~3.0.0",
     "pause": "0.0.1"

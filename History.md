@@ -87,6 +87,10 @@
     - deps: mime-types@~2.1.1
     - perf: enable strict mode
     - perf: remove argument reassignment
+  * deps: type-is@~1.6.3
+    - deps: mime-types@~2.1.1
+    - perf: reduce try block size
+    - perf: remove bitwise operations
 
 2.29.2 / 2015-05-14
 ===================
