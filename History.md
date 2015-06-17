@@ -15,6 +15,9 @@
     - perf: enable strict mode
     - perf: remove argument reassignment
     - perf: remove delete call
+  * deps: bytes@2.1.0
+    - Slight optimizations
+    - Units no longer case sensitive when parsing
   * deps: compression@~1.5.0
     - Fix return value from `.end` and `.write` after end
     - Improve detection of zero-length body without `Content-Length`
