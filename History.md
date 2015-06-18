@@ -13,6 +13,7 @@ unreleased
     - perf: enable strict mode
     - perf: remove argument reassignment
   * perf: enable strict mode
+  * perf: remove argument reassignments
 
 3.3.5 / 2015-03-16
 ==================

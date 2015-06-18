@@ -74,34 +74,37 @@ function createServer() {
  */
 
 proto.use = function use(route, fn) {
+  var handle = fn;
+  var path = route;
+
   // default route to '/'
   if (typeof route !== 'string') {
-    fn = route;
-    route = '/';
+    handle = route;
+    path = '/';
   }
 
   // wrap sub-apps
-  if (typeof fn.handle === 'function') {
-    var server = fn;
-    server.route = route;
-    fn = function (req, res, next) {
+  if (typeof handle.handle === 'function') {
+    var server = handle;
+    server.route = path;
+    handle = function (req, res, next) {
       server.handle(req, res, next);
     };
   }
 
   // wrap vanilla http.Servers
-  if (fn instanceof http.Server) {
-    fn = fn.listeners('request')[0];
+  if (handle instanceof http.Server) {
+    handle = handle.listeners('request')[0];
   }
 
   // strip trailing slash
-  if (route[route.length - 1] === '/') {
-    route = route.slice(0, -1);
+  if (path[path.length - 1] === '/') {
+    path = path.slice(0, -1);
   }
 
   // add the middleware
-  debug('use %s %s', route || '/', fn.name || 'anonymous');
-  this.stack.push({ route: route, handle: fn });
+  debug('use %s %s', path || '/', handle.name || 'anonymous');
+  this.stack.push({ route: path, handle: handle });
 
   return this;
 };
@@ -224,6 +227,7 @@ proto.listen = function listen() {
 
 function call(handle, route, err, req, res, next) {
   var arity = handle.length;
+  var error = err;
   var hasError = Boolean(err);
 
   debug('%s %s : %s', handle.name || '<anonymous>', route, req.originalUrl);
@@ -239,12 +243,12 @@ function call(handle, route, err, req, res, next) {
       return;
     }
   } catch (e) {
-    // reset the error
-    err = e;
+    // replace the error
+    error = e;
   }
 
   // continue
-  next(err);
+  next(error);
 }
 
 /**
