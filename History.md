@@ -1,5 +1,5 @@
-2.x
-===
+2.30.0 / 2015-06-18
+===================
 
   * deps: body-parser@~1.13.1
     - Add `statusCode` property on `Error`s, in addition to `status`
