@@ -30,7 +30,6 @@
   },
   "license": "MIT",
   "files": [
-    "lib/",
     "LICENSE",
     "History.md",
     "Readme.md",
