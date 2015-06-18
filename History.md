@@ -3,9 +3,15 @@ unreleased
 
   * deps: debug@~2.2.0
     - deps: ms@0.7.1
-  * deps: finalhandler@0.3.6
+  * deps: finalhandler@0.4.0
+    - Fix a false-positive when unpiping in Node.js 0.8
+    - Support `statusCode` property on `Error` objects
+    - Use `unpipe` module for unpiping requests
     - deps: debug@~2.2.0
-    - deps: on-finished@~2.2.1
+    - deps: escape-html@1.0.2
+    - deps: on-finished@~2.3.0
+    - perf: enable strict mode
+    - perf: remove argument reassignment
 
 3.3.5 / 2015-03-16
 ==================
@@ -115,6 +121,111 @@ unreleased
   * remove the old `connect.createServer()` method
   * remove various private `connect.utils` functions
   * drop node.js 0.8 support
+
+2.30.0 / 2015-06-18
+===================
+
+  * deps: body-parser@~1.13.1
+    - Add `statusCode` property on `Error`s, in addition to `status`
+    - Change `type` default to `application/json` for JSON parser
+    - Change `type` default to `application/x-www-form-urlencoded` for urlencoded parser
+    - Provide static `require` analysis
+    - Use the `http-errors` module to generate errors
+    - deps: bytes@2.1.0
+    - deps: iconv-lite@0.4.10
+    - deps: on-finished@~2.3.0
+    - deps: raw-body@~2.1.1
+    - deps: type-is@~1.6.3
+    - perf: enable strict mode
+    - perf: remove argument reassignment
+    - perf: remove delete call
+  * deps: bytes@2.1.0
+    - Slight optimizations
+    - Units no longer case sensitive when parsing
+  * deps: compression@~1.5.0
+    - Fix return value from `.end` and `.write` after end
+    - Improve detection of zero-length body without `Content-Length`
+    - deps: accepts@~1.2.9
+    - deps: bytes@2.1.0
+    - deps: compressible@~2.0.3
+    - perf: enable strict mode
+    - perf: remove flush reassignment
+    - perf: simplify threshold detection
+  * deps: cookie@0.1.3
+    - Slight optimizations
+  * deps: cookie-parser@~1.3.5
+    - deps: cookie@0.1.3
+  * deps: csurf@~1.8.3
+    - Add `sessionKey` option
+    - deps: cookie@0.1.3
+    - deps: csrf@~3.0.0
+  * deps: errorhandler@~1.4.0
+    - Add charset to the `Content-Type` header
+    - Support `statusCode` property on `Error` objects
+    - deps: accepts@~1.2.9
+    - deps: escape-html@1.0.2
+  * deps: express-session@~1.11.3
+    - Support an array in `secret` option for key rotation
+    - deps: cookie@0.1.3
+    - deps: crc@3.3.0
+    - deps: debug@~2.2.0
+    - deps: depd@~1.0.1
+    - deps: uid-safe@~2.0.0
+  * deps: finalhandler@0.4.0
+    - Fix a false-positive when unpiping in Node.js 0.8
+    - Support `statusCode` property on `Error` objects
+    - Use `unpipe` module for unpiping requests
+    - deps: escape-html@1.0.2
+    - deps: on-finished@~2.3.0
+    - perf: enable strict mode
+    - perf: remove argument reassignment
+  * deps: fresh@0.3.0
+    - Add weak `ETag` matching support
+  * deps: morgan@~1.6.0
+    - Add `morgan.compile(format)` export
+    - Do not color 1xx status codes in `dev` format
+    - Fix `response-time` token to not include response latency
+    - Fix `status` token incorrectly displaying before response in `dev` format
+    - Fix token return values to be `undefined` or a string
+    - Improve representation of multiple headers in `req` and `res` tokens
+    - Use `res.getHeader` in `res` token
+    - deps: basic-auth@~1.0.2
+    - deps: on-finished@~2.3.0
+    - pref: enable strict mode
+    - pref: reduce function closure scopes
+    - pref: remove dynamic compile on every request for `dev` format
+    - pref: remove an argument reassignment
+    - pref: skip function call without `skip` option
+  * deps: serve-favicon@~2.3.0
+    - Send non-chunked response for `OPTIONS`
+    - deps: etag@~1.7.0
+    - deps: fresh@0.3.0
+    - perf: enable strict mode
+    - perf: remove argument reassignment
+    - perf: remove bitwise operations
+  * deps: serve-index@~1.7.0
+    - Accept `function` value for `template` option
+    - Send non-chunked response for `OPTIONS`
+    - Stat parent directory when necessary
+    - Use `Date.prototype.toLocaleDateString` to format date
+    - deps: accepts@~1.2.9
+    - deps: escape-html@1.0.2
+    - deps: mime-types@~2.1.1
+    - perf: enable strict mode
+    - perf: remove argument reassignment
+  * deps: serve-static@~1.10.0
+    - Add `fallthrough` option
+    - Fix reading options from options prototype
+    - Improve the default redirect response headers
+    - Malformed URLs now `next()` instead of 400
+    - deps: escape-html@1.0.2
+    - deps: send@0.13.0
+    - perf: enable strict mode
+    - perf: remove argument reassignment
+  * deps: type-is@~1.6.3
+    - deps: mime-types@~2.1.1
+    - perf: reduce try block size
+    - perf: remove bitwise operations
 
 2.29.2 / 2015-05-14
 ===================
