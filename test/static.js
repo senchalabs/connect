@@ -136,16 +136,16 @@ describe('connect.static()', function(){
   })
 
   describe('when traversing passed root', function(){
-    it('should respond with 403 Forbidden', function(done){
+    it('should next()', function(done){
       app.request()
       .get('/users/../../todo.txt')
-      .expect(403, done);
+      .expect('sorry!', done);
     })
 
     it('should catch urlencoded ../', function(done){
       app.request()
       .get('/users/%2e%2e/%2e%2e/todo.txt')
-      .expect(403, done);
+      .expect('sorry!', done);
     })
   })
 
@@ -261,10 +261,10 @@ describe('connect.static()', function(){
   })
 
   describe('with a malformed URL', function(){
-    it('should respond with 400', function(done){
+    it('should next()', function(done){
       app.request()
       .get('/%')
-      .expect(400, done)
+      .expect('sorry!', done)
     });
   })
 
