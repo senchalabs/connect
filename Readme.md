@@ -176,7 +176,7 @@ npm test
   - Connect `1.x` - node `0.4`
   - Connect `< 2.8` - node `0.6`
   - Connect `>= 2.8 < 3` - node `0.8`
-  - Connect `>= 3` - node `0.10`, `0.12`
+  - Connect `>= 3` - node `0.10`, `0.12`; io.js `1.x`, `2.x`
 
 ## License
 
