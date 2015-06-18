@@ -55,6 +55,8 @@
     - deps: on-finished@~2.3.0
     - perf: enable strict mode
     - perf: remove argument reassignment
+  * deps: fresh@0.3.0
+    - Add weak `ETag` matching support
   * deps: morgan@~1.6.0
     - Add `morgan.compile(format)` export
     - Do not color 1xx status codes in `dev` format
