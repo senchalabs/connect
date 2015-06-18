@@ -12,6 +12,7 @@ unreleased
     - deps: on-finished@~2.3.0
     - perf: enable strict mode
     - perf: remove argument reassignment
+  * perf: enable strict mode
 
 3.3.5 / 2015-03-16
 ==================
