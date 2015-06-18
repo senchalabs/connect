@@ -118,12 +118,9 @@ proto.use = function use(route, fn) {
 
 proto.handle = function handle(req, res, out) {
   var index = 0;
+  var protohost = getProtohost(req.url) || '';
   var removed = '';
-  var searchIndex = req.url.indexOf('?');
   var slashAdded = false;
-  var pathlength = searchIndex !== -1 ? searchIndex : req.url.length;
-  var fqdn = req.url[0] !== '/' && 1 + req.url.substr(0, pathlength).indexOf('://');
-  var protohost = fqdn ? req.url.substr(0, req.url.indexOf('/', 2 + fqdn)) : '';
   var stack = this.stack;
 
   // final function handler
@@ -176,7 +173,7 @@ proto.handle = function handle(req, res, out) {
       req.url = protohost + req.url.substr(protohost.length + removed.length);
 
       // ensure leading slash
-      if (!fqdn && req.url[0] !== '/') {
+      if (!protohost && req.url[0] !== '/') {
         req.url = '/' + req.url;
         slashAdded = true;
       }
@@ -260,4 +257,27 @@ function call(handle, route, err, req, res, next) {
 
 function logerror(err) {
   if (env !== 'test') console.error(err.stack || err.toString());
+}
+
+/**
+ * Get get protocol + host for a URL.
+ *
+ * @param {string} url
+ * @private
+ */
+
+function getProtohost(url) {
+  if (url.length === 0 || url[0] === '/') {
+    return undefined;
+  }
+
+  var searchIndex = url.indexOf('?');
+  var pathLength = searchIndex !== -1
+    ? searchIndex
+    : url.length;
+  var fqdnIndex = url.substr(0, pathLength).indexOf('://');
+
+  return fqdnIndex !== -1
+    ? url.substr(0, url.indexOf('/', 3 + fqdnIndex))
+    : undefined;
 }
