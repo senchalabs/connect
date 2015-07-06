@@ -16,6 +16,10 @@
     - Fix various parsing edge cases
   * deps: morgan@~1.6.1
     - deps: basic-auth@~1.0.3
+  * deps: pause@0.1.0
+    - Re-emit events with all original arguments
+    - Refactor internals
+    - perf: enable strict mode
   * deps: serve-index@~1.7.1
     - deps: accepts@~1.2.10
     - deps: mime-types@~2.1.2
