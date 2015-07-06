@@ -11,6 +11,9 @@
     - deps: compressible@~2.0.4
   * deps: errorhandler@~1.4.1
     - deps: accepts@~1.2.10
+  * deps: qs@4.0.0
+    - Fix dropping parameters like `hasOwnProperty`
+    - Fix various parsing edge cases
   * deps: morgan@~1.6.1
     - deps: basic-auth@~1.0.3
   * deps: serve-index@~1.7.1
