@@ -9,6 +9,8 @@
   * deps: compression@~1.5.1
     - deps: accepts@~1.2.10
     - deps: compressible@~2.0.4
+  * deps: errorhandler@~1.4.1
+    - deps: accepts@~1.2.10
   * deps: morgan@~1.6.1
     - deps: basic-auth@~1.0.3
 
