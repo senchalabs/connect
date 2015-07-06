@@ -1,6 +1,9 @@
 2.x
 ===
 
+  * deps: compression@~1.5.1
+    - deps: accepts@~1.2.10
+    - deps: compressible@~2.0.4
   * deps: morgan@~1.6.1
     - deps: basic-auth@~1.0.3
 
