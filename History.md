@@ -13,6 +13,9 @@
     - deps: accepts@~1.2.10
   * deps: morgan@~1.6.1
     - deps: basic-auth@~1.0.3
+  * deps: serve-index@~1.7.1
+    - deps: accepts@~1.2.10
+    - deps: mime-types@~2.1.2
 
 2.30.0 / 2015-06-18
 ===================

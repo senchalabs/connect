@@ -42,7 +42,7 @@
     "qs": "2.4.2",
     "response-time": "~2.3.1",
     "serve-favicon": "~2.3.0",
-    "serve-index": "~1.7.0",
+    "serve-index": "~1.7.1",
     "serve-static": "~1.10.0",
     "type-is": "~1.6.3",
     "utils-merge": "1.0.0",
