@@ -1,6 +1,11 @@
 2.x
 ===
 
+  * deps: body-parser@~1.13.2
+    - deps: iconv-lite@0.4.11
+    - deps: qs@4.0.0
+    - deps: raw-body@~2.1.2
+    - deps: type-is@~1.6.4
   * deps: compression@~1.5.1
     - deps: accepts@~1.2.10
     - deps: compressible@~2.0.4
