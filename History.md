@@ -16,6 +16,10 @@
   * deps: serve-index@~1.7.1
     - deps: accepts@~1.2.10
     - deps: mime-types@~2.1.2
+  * deps: type-is@~1.6.4
+    - deps: mime-types@~2.1.2
+    - perf: enable strict mode
+    - perf: remove argument reassignment
 
 2.30.0 / 2015-06-18
 ===================
