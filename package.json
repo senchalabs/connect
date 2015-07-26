@@ -53,7 +53,7 @@
     "dox": "~0.4.6",
     "istanbul": "0.3.17",
     "mocha": "2.2.5",
-    "should": "7.0.1"
+    "should": "7.0.2"
   },
   "license": "MIT",
   "files": [
