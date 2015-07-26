@@ -1,6 +1,8 @@
 2.x
 ===
 
+  * deps: method-override@~2.3.4
+    - deps: vary@~1.0.1
   * deps: vhost@~3.0.1
     - perf: enable strict mode
 
