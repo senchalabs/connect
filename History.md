@@ -9,6 +9,9 @@
     - deps: accepts@~1.2.12
   * deps: method-override@~2.3.4
     - deps: vary@~1.0.1
+  * deps: serve-index@~1.7.2
+    - deps: accepts@~1.2.12
+    - deps: mime-types@~2.1.4
   * deps: vhost@~3.0.1
     - perf: enable strict mode
 
