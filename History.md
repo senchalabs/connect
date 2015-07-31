@@ -1,6 +1,8 @@
 2.x
 ===
 
+  * deps: body-parser@~1.13.3
+    - deps: type-is@~1.6.6
   * deps: compression@~1.5.2
     - deps: accepts@~1.2.12
     - deps: compressible@~2.0.5
