@@ -1,6 +1,10 @@
 2.x
 ===
 
+  * deps: compression@~1.5.2
+    - deps: accepts@~1.2.12
+    - deps: compressible@~2.0.5
+    - deps: vary@~1.0.1
   * deps: method-override@~2.3.4
     - deps: vary@~1.0.1
   * deps: vhost@~3.0.1
