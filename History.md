@@ -124,6 +124,58 @@
   * remove various private `connect.utils` functions
   * drop node.js 0.8 support
 
+2.30.2 / 2015-07-31
+===================
+
+  * deps: body-parser@~1.13.3
+    - deps: type-is@~1.6.6
+  * deps: compression@~1.5.2
+    - deps: accepts@~1.2.12
+    - deps: compressible@~2.0.5
+    - deps: vary@~1.0.1
+  * deps: errorhandler@~1.4.2
+    - deps: accepts@~1.2.12
+  * deps: method-override@~2.3.5
+    - deps: vary@~1.0.1
+    - perf: enable strict mode
+  * deps: serve-index@~1.7.2
+    - deps: accepts@~1.2.12
+    - deps: mime-types@~2.1.4
+  * deps: type-is@~1.6.6
+    - deps: mime-types@~2.1.4
+  * deps: vhost@~3.0.1
+    - perf: enable strict mode
+
+2.30.1 / 2015-07-05
+===================
+
+  * deps: body-parser@~1.13.2
+    - deps: iconv-lite@0.4.11
+    - deps: qs@4.0.0
+    - deps: raw-body@~2.1.2
+    - deps: type-is@~1.6.4
+  * deps: compression@~1.5.1
+    - deps: accepts@~1.2.10
+    - deps: compressible@~2.0.4
+  * deps: errorhandler@~1.4.1
+    - deps: accepts@~1.2.10
+  * deps: qs@4.0.0
+    - Fix dropping parameters like `hasOwnProperty`
+    - Fix various parsing edge cases
+  * deps: morgan@~1.6.1
+    - deps: basic-auth@~1.0.3
+  * deps: pause@0.1.0
+    - Re-emit events with all original arguments
+    - Refactor internals
+    - perf: enable strict mode
+  * deps: serve-index@~1.7.1
+    - deps: accepts@~1.2.10
+    - deps: mime-types@~2.1.2
+  * deps: type-is@~1.6.4
+    - deps: mime-types@~2.1.2
+    - perf: enable strict mode
+    - perf: remove argument reassignment
+
 2.30.0 / 2015-06-18
 ===================
 

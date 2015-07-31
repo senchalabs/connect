@@ -23,9 +23,9 @@
     "utils-merge": "1.0.0"
   },
   "devDependencies": {
-    "istanbul": "0.3.15",
+    "istanbul": "0.3.17",
     "mocha": "2.2.5",
-    "should": "6.0.3",
+    "should": "7.0.2",
     "supertest": "1.0.1"
   },
   "license": "MIT",
