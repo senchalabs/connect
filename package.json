@@ -26,7 +26,7 @@
     "istanbul": "0.4.1",
     "mocha": "2.3.4",
     "should": "8.0.2",
-    "supertest": "1.0.1"
+    "supertest": "1.1.0"
   },
   "license": "MIT",
   "files": [
