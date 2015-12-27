@@ -5,6 +5,7 @@ node_js:
   - "1.8"
   - "2.5"
   - "3.3"
+  - "4.2"
 sudo: false
 script:
   - "npm run-script test-travis"
