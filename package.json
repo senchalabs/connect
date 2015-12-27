@@ -23,7 +23,7 @@
     "utils-merge": "1.0.0"
   },
   "devDependencies": {
-    "istanbul": "0.3.17",
+    "istanbul": "0.4.1",
     "mocha": "2.2.5",
     "should": "7.0.2",
     "supertest": "1.0.1"
