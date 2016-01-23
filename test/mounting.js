@@ -1,8 +1,8 @@
 
+var assert = require('assert');
 var connect = require('..');
 var http = require('http');
 var request = require('supertest');
-var should = require('should');
 
 describe('app.use()', function(){
   var app;
@@ -63,7 +63,7 @@ describe('app.use()', function(){
 
   it('should be case insensitive (lower-case route, mixed-case request)', function(done){
     var blog = http.createServer(function(req, res){
-      req.url.should.equal('/');
+      assert.equal(req.url, '/');
       res.end('blog');
     });
 
@@ -76,7 +76,7 @@ describe('app.use()', function(){
 
   it('should be case insensitive (mixed-case route, lower-case request)', function(done){
     var blog = http.createServer(function(req, res){
-      req.url.should.equal('/');
+      assert.equal(req.url, '/');
       res.end('blog');
     });
 
@@ -89,7 +89,7 @@ describe('app.use()', function(){
 
   it('should be case insensitive (mixed-case route, mixed-case request)', function(done){
     var blog = http.createServer(function(req, res){
-      req.url.should.equal('/');
+      assert.equal(req.url, '/');
       res.end('blog');
     });
 
@@ -126,7 +126,7 @@ describe('app.use()', function(){
       var blog = connect();
 
       blog.use(function(req, res){
-        req.url.should.equal('/');
+        assert.equal(req.url, '/');
         res.end('blog');
       });
 
@@ -163,7 +163,7 @@ describe('app.use()', function(){
       var blog = connect();
     
       blog.use(function(req, res){
-        req.url.should.equal('/');
+        assert.equal(req.url, '/');
         res.end('blog');
       });
     
@@ -179,9 +179,9 @@ describe('app.use()', function(){
       var admin = connect();
       app.use('/blog', blog);
       blog.use('/admin', admin);
-      app.route.should.equal('/');
-      blog.route.should.equal('/blog');
-      admin.route.should.equal('/admin');
+      assert.equal(app.route, '/');
+      assert.equal(blog.route, '/blog');
+      assert.equal(admin.route, '/admin');
     });
 
     it('should not add trailing slash to req.url', function(done) {
@@ -202,7 +202,7 @@ describe('app.use()', function(){
   describe('with a node app', function(){
     it('should mount', function(done){
       var blog = http.createServer(function(req, res){
-        req.url.should.equal('/');
+        assert.equal(req.url, '/');
         res.end('blog');
       });
 
