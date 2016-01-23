@@ -1,5 +1,5 @@
-unreleased
-==========
+3.4.1 / 2016-01-23
+==================
 
   * deps: finalhandler@0.4.1
     - deps: escape-html@~1.0.3
