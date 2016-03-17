@@ -1,3 +1,13 @@
+4.0.0 / 2016-03-17
+==================
+
+  * constructor is no longer handler. Use app.handle or app.wrapper
+  * refactoring
+  * migrated to ES2015/ES6
+  * drop node.js < 4 support
+  * deps: mocha@2.4.5
+  * deps: supertest@1.2.0
+
 3.4.1 / 2016-01-23
 ==================
 

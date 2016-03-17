@@ -9,32 +9,30 @@
   Connect is an extensible HTTP server framework for [node](http://nodejs.org) using "plugins" known as _middleware_.
 
 ```js
-var connect = require('connect');
-var http = require('http');
+const Connect = require('connect');
+const http = require('http');
 
-var app = connect();
+const app = new Connect();
 
 // gzip/deflate outgoing responses
-var compression = require('compression');
+const compression = require('compression');
 app.use(compression());
 
 // store session state in browser cookie
-var cookieSession = require('cookie-session');
+const cookieSession = require('cookie-session');
 app.use(cookieSession({
     keys: ['secret1', 'secret2']
 }));
 
 // parse urlencoded request bodies into req.body
-var bodyParser = require('body-parser');
+const bodyParser = require('body-parser');
 app.use(bodyParser.urlencoded());
 
 // respond to all requests
-app.use(function(req, res){
-  res.end('Hello from Connect!\n');
-});
+app.use((req, res) => res.end('Hello from Connect!\n'));
 
 //create node.js http server and listen on port
-http.createServer(app).listen(3000);
+http.createServer(app.wrapper()).listen(3000);
 ```
 
 ## Getting Started
@@ -53,7 +51,7 @@ The main component is a Connect "app". This will store all the middleware
 added and is, itself, a function.
 
 ```js
-var app = connect();
+const app = new Connect();
 ```
 
 ### Use middleware
@@ -63,11 +61,11 @@ where incoming requests will execute each middleware one-by-one until a middlewa
 does not call `next()` within it.
 
 ```js
-app.use(function middleware1(req, res, next) {
+app.use((req, res, next) => {
   // middleware 1
   next();
 });
-app.use(function middleware2(req, res, next) {
+app.use((req, res, next) => {
   // middleware 2
   next();
 });
@@ -79,11 +77,11 @@ The `.use()` method also takes an optional path string that is matched against
 the beginning of the incoming request URL. This allows for basic routing.
 
 ```js
-app.use('/foo', function fooMiddleware(req, res, next) {
+app.use('/foo', (req, res, next) => {
   // req.url starts with "/foo"
   next();
 });
-app.use('/bar', function barMiddleware(req, res, next) {
+app.use('/bar', (req, res, next) => {
   // req.url starts with "/bar"
   next();
 });
@@ -96,7 +94,7 @@ where the function takes exactly 4 arguments. Errors that occur in the middlewar
 added before the error middleware will invoke this middleware when errors occur.
 
 ```js
-app.use(function onerror(err, req, res, next) {
+app.use((err, req, res, next) => {
   // an error occurred!
 });
 ```
@@ -107,14 +105,14 @@ The last step is to actually use the Connect app in a server. The `.listen()` me
 is a convenience to start a HTTP server.
 
 ```js
-var server = app.listen(port);
+const server = app.listen(port);
 ```
 
 The app itself is really just a function with three arguments, so it can also be handed
 to `.createServer()` in Node.js.
 
 ```js
-var server = http.createServer(app);
+const server = http.createServer(app.wrapper());
 ```
 
 ## Middleware
@@ -177,6 +175,7 @@ npm test
   - Connect `< 2.8` - node `0.6`
   - Connect `>= 2.8 < 3` - node `0.8`
   - Connect `>= 3` - node `0.10`, `0.12`; io.js `1.x`, `2.x`
+  - Connect `>= 4` - node `4`, `5`
 
 ## License
 

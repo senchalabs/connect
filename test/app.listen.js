@@ -2,16 +2,16 @@
 var connect = require('..');
 var request = require('supertest');
 
-describe('app.listen()', function(){
-  it('should wrap in an http.Server', function(done){
-    var app = connect();
+describe('app.listen()', () => {
+  it('should wrap in an http.Server', done => {
+    var app = new connect();
 
-    app.use(function(req, res){
+    app.use((req, res) => {
       res.end();
     });
 
-    app.listen(0, function(){
-      request(app)
+    app.listen(0, () => {
+      request(app.wrapper())
       .get('/')
       .expect(200, done);
     });
