@@ -1,9 +1,10 @@
 {
   "name": "connect",
   "description": "High performance middleware framework",
-  "version": "3.4.1",
+  "version": "4.0.0",
   "author": "TJ Holowaychuk <tj@vision-media.ca> (http://tjholowaychuk.com)",
   "contributors": [
+    "Maksim Chetverikov <ma.chetverikov@gmail.com",
     "Douglas Christopher Wilson <doug@somethingdoug.com>",
     "Jonathan Ong <me@jongleberry.com>",
     "Tim Caswell <tim@creationix.com>"
@@ -24,8 +25,8 @@
   },
   "devDependencies": {
     "istanbul": "0.4.2",
-    "mocha": "2.3.4",
-    "supertest": "1.1.0"
+    "mocha": "2.4.5",
+    "supertest": "1.2.0"
   },
   "license": "MIT",
   "files": [
@@ -35,7 +36,7 @@
     "index.js"
   ],
   "engines": {
-    "node": ">= 0.10.0"
+    "node": ">= 4"
   },
   "scripts": {
     "test": "mocha --require test/support/env --reporter spec --bail --check-leaks test/",
