@@ -53,6 +53,8 @@ function createServer() {
   merge(app, EventEmitter.prototype);
   app.route = '/';
   app.stack = [];
+  // store for error middleware
+  app.errware = [];
   return app;
 }
 
@@ -104,7 +106,11 @@ proto.use = function use(route, fn) {
 
   // add the middleware
   debug('use %s %s', path || '/', handle.name || 'anonymous');
-  this.stack.push({ route: path, handle: handle });
+  if (handle.length === 4) {
+    this.errware.push({ route: path, handle: handle, index:this.stack.length })
+  } else {
+    this.stack.push({ route: path, handle: handle });
+  }
 
   return this;
 };
@@ -118,10 +124,12 @@ proto.use = function use(route, fn) {
 
 proto.handle = function handle(req, res, out) {
   var index = 0;
+  var errIndex = 0;
   var protohost = getProtohost(req.url) || '';
   var removed = '';
   var slashAdded = false;
   var stack = this.stack;
+  var errware = this.errware;
 
   // final function handler
   var done = out || finalhandler(req, res, {
@@ -144,7 +152,15 @@ proto.handle = function handle(req, res, out) {
     }
 
     // next callback
-    var layer = stack[index++];
+    var layer;
+    if (err) {
+      layer = errware[errIndex++];
+      // move stack pointer
+      if (layer) index = layer.index;
+    } else {
+      layer = stack[index++];
+    }
+
 
     // all done
     if (!layer) {
