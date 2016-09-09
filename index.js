@@ -155,17 +155,21 @@ proto.handle = function handle(req, res, out) {
     var layer;
     if (err) {
       layer = errware[errIndex++];
-      // move stack pointer
-      if (layer) index = layer.index;
     } else {
       layer = stack[index++];
     }
-
 
     // all done
     if (!layer) {
       defer(done, err);
       return;
+    }
+
+    if (layer.index) {
+      // ignore prev error middleware
+      if (index > layer.index) return next(err);
+      // move to non-error index
+      index = layer.index;
     }
 
     // route data
