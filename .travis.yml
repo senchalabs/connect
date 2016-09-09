@@ -9,6 +9,12 @@ node_js:
   - "5.11"
   - "6.5"
 sudo: false
+cache:
+  directories:
+    - node_modules
+before_install:
+  - "test ! -d node_modules || npm prune"
+  - "test ! -d node_modules || npm rebuild"
 script:
   - "npm run-script test-travis"
 after_script:
