@@ -247,6 +247,24 @@ describe('app.use()', function(){
       .expect(200, 'msg', done);
     })
 
+    it('should start at error middleware declared after error', function(done){
+      var invoked = false;
+
+      app.use(function(err, req, res, next){
+        res.end('fail: ' + err.message);
+      });
+      app.use(function(req, res, next){
+        next(new Error('boom!'));
+      });
+      app.use(function(err, req, res, next){
+        res.end('pass: ' + err.message);
+      });
+
+      request(app)
+      .get('/')
+      .expect(200, 'pass: boom!', done);
+    })
+
     it('should stack error fns', function(done){
       app.use(function(req, res, next){
         next(new Error('msg'));
