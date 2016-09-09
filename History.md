@@ -1,5 +1,5 @@
-unreleased
-==========
+3.5.0 / 2016-09-09
+==================
 
   * deps: finalhandler@0.5.0
     - Change invalid or non-numeric status code to 500
