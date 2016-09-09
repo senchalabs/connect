@@ -165,7 +165,7 @@ proto.handle = function handle(req, res, out) {
       return;
     }
 
-    if (layer.index) {
+    if (layer.index !== undefined) {
       // ignore prev error middleware
       if (index > layer.index) return next(err);
       // move to non-error index
