@@ -24,7 +24,7 @@
   },
   "devDependencies": {
     "istanbul": "0.4.5",
-    "mocha": "2.3.4",
+    "mocha": "3.0.2",
     "supertest": "1.1.0"
   },
   "license": "MIT",
