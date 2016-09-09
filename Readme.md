@@ -92,10 +92,20 @@ app.use('/bar', function barMiddleware(req, res, next) {
 ### Error middleware
 
 There are special cases of "error-handling" middleware. There are middleware
-where the function takes exactly 4 arguments. Errors that occur in the middleware
-added before the error middleware will invoke this middleware when errors occur.
+where the function takes exactly 4 arguments. When a middleware passes an error
+to `next`, the app will proceed to look for the error middleware that was declared
+after that middleware and invoke it, skipping any error middleware above that
+middleware and any non-error middleware below.
 
 ```js
+// regular middleware
+app.use(function (req, res, next) {
+  // i had an error
+  next(new Error('boom!'));
+});
+
+// error middleware for errors that occurred in middleware
+// declared before this
 app.use(function onerror(err, req, res, next) {
   // an error occurred!
 });
