@@ -107,9 +107,9 @@ proto.use = function use(route, fn) {
   // add the middleware
   debug('use %s %s', path || '/', handle.name || 'anonymous');
   if (handle.length === 4) {
-    this.errware.push({ route: path, handle: handle, index:this.stack.length })
+    this.errware.push({ route: path, handle: handle, index:this.stack.length });
   } else {
-    this.stack.push({ route: path, handle: handle });
+    this.stack.push({ route: path, handle: handle, index:this.errware.length });
   }
 
   return this;
@@ -155,21 +155,16 @@ proto.handle = function handle(req, res, out) {
     var layer;
     if (err) {
       layer = errware[errIndex++];
+      if (layer) index = layer.index;
     } else {
       layer = stack[index++];
+      if (layer) errIndex = layer.index;
     }
 
     // all done
     if (!layer) {
       defer(done, err);
       return;
-    }
-
-    if (layer.index !== undefined) {
-      // ignore prev error middleware
-      if (index > layer.index) return next(err);
-      // move to non-error index
-      index = layer.index;
     }
 
     // route data
