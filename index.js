@@ -107,9 +107,9 @@ proto.use = function use(route, fn) {
   // add the middleware
   debug('use %s %s', path || '/', handle.name || 'anonymous');
   if (handle.length === 4) {
-    this.errware.push({ route: path, handle: handle, index:this.stack.length });
+    this.errware.push({ route: path, handle: handle, index: this.stack.length });
   } else {
-    this.stack.push({ route: path, handle: handle, index:this.errware.length });
+    this.stack.push({ route: path, handle: handle, index: this.errware.length });
   }
 
   return this;
