@@ -26,7 +26,7 @@ app.use(cookieSession({
 
 // parse urlencoded request bodies into req.body
 var bodyParser = require('body-parser');
-app.use(bodyParser.urlencoded());
+app.use(bodyParser.urlencoded({extended: true}));
 
 // respond to all requests
 app.use(function(req, res){
