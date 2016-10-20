@@ -114,7 +114,8 @@ app.use(function onerror(err, req, res, next) {
 ### Create a server from the app
 
 The last step is to actually use the Connect app in a server. The `.listen()` method
-is a convenience to start a HTTP server.
+is a convenience to start a HTTP server (and is identical to the `http.Server`'s `listen`
+method in the version of Node.js you are running).
 
 ```js
 var server = app.listen(port);
