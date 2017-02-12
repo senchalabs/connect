@@ -1,3 +1,12 @@
+unreleased
+==========
+
+  * deps: finalhandler@0.5.1
+    - Fix exception when `err.headers` is not an object
+    - deps: statuses@~1.3.1
+    - perf: hoist regular expressions
+    - perf: remove duplicate validation path
+
 3.5.0 / 2016-09-09
 ==================
 
