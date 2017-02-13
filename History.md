@@ -1,5 +1,5 @@
-unreleased
-==========
+3.5.1 / 2017-02-12
+==================
 
   * deps: finalhandler@0.5.1
     - Fix exception when `err.headers` is not an object
