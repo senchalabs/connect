@@ -170,6 +170,66 @@ Some middleware previously included with Connect are no longer supported by the 
 
 Checkout [http-framework](https://github.com/Raynos/http-framework/wiki/Modules) for many other compatible middleware! 
 
+## API
+
+The Connect API is very minimalist, enough to create an app and add a chain
+of middleware.
+
+When the `connect` module is required, a function is returned that will construct
+a new app when called.
+
+```js
+// require module
+var connect = require('connect')
+
+// create app
+var app = connect()
+```
+
+### app(req, res[, next])
+
+The `app` itself is a function. This is just an alias to `app.handle`.
+
+### app.handle(req, res[, out])
+
+Calling the function will run the middleware stack against the given Node.js
+http request (`req`) and response (`res`) objects. An optional function `out`
+can be provided that will be called if the request (or error) was not handled
+by the middleware stack.
+
+### app.use(fn)
+
+Use a function on the app, where the function represents a middleware. The function
+will be invoked for every request in the order that `app.use` is called. The function
+is called with three arguments:
+
+```js
+app.use(function (req, res, next) {
+  // req is the Node.js http request object
+  // res is the Node.js http response object
+  // next is a function to call to invoke the next middleware
+})
+```
+
+### app.use(route, fn)
+
+Use a function on the app, where the function represents a middleware. The function
+will be invoked for every request in which the URL (`req.url` property) starts with
+the given `route` string in the order that `app.use` is called. The function is
+called with three arguments:
+
+```js
+app.use('/foo', function (req, res, next) {
+  // req is the Node.js http request object
+  // res is the Node.js http response object
+  // next is a function to call to invoke the next middleware
+})
+```
+
+The `route` is always terminated at a path separator (`/`) character. This means the
+given routes `/foo/` and `/foo` are the same and both will match requests with the
+URLs `/foo`, `/foo/`, and `/foo/bar`, but not match a request with the URL `/foobar`.
+
 ## Running Tests
 
 ```bash
