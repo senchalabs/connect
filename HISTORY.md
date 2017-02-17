@@ -7,6 +7,13 @@ unreleased
     - Fix error when running under React Native
     - Use same color for same namespace
     - deps: ms@0.7.2
+  * deps: finalhandler@1.0.0
+    - Fix exception when `err` cannot be converted to a string
+    - Fully URL-encode the pathname in the 404
+    - Only include the pathname in the 404 message
+    - Send complete HTML document
+    - Set `Content-Security-Policy: default-src 'self'` header
+    - deps: debug@2.6.1
 
 3.5.1 / 2017-02-12
 ==================

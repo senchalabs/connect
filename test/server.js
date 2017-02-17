@@ -130,8 +130,8 @@ describe('app', function(){
   describe('404 handler', function(){
     it('should escape the 404 response body', function(done){
       rawrequest(app)
-      .get('/foo/<script>stuff</script>')
-      .expect(404, 'Cannot GET /foo/&lt;script&gt;stuff&lt;/script&gt;\n', done);
+      .get('/foo/<script>stuff\'n</script>')
+      .expect(404, />Cannot GET \/foo\/%3Cscript%3Estuff&#39;n%3C\/script%3E</, done)
     });
 
     it('shoud not fire after headers sent', function(done){
@@ -252,7 +252,12 @@ function rawrequest(app) {
 
           try {
             assert.equal(res.statusCode, status);
-            assert.equal(buf, body);
+
+            if (body instanceof RegExp) {
+              assert.ok(body.test(buf), 'expected body ' + buf + ' to match ' + body)
+            } else {
+              assert.equal(buf, body, 'expected ' + body + ' response body, got ' + buf)
+            }
           } catch (e) {
             err = e;
           }
