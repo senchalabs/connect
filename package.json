@@ -30,8 +30,8 @@
   "license": "MIT",
   "files": [
     "LICENSE",
-    "History.md",
-    "Readme.md",
+    "HISTORY.md",
+    "README.md",
     "index.js"
   ],
   "engines": {
