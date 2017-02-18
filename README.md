@@ -239,6 +239,12 @@ The `route` is always terminated at a path separator (`/`) character. This means
 given routes `/foo/` and `/foo` are the same and both will match requests with the
 URLs `/foo`, `/foo/`, and `/foo/bar`, but not match a request with the URL `/foobar`.
 
+In order to make middleware easier to write to be agnostic of the `route`, when the
+`fn` is invoked, the `req.url` will be altered to remove the `route` part (and the
+original will be available as `req.originalUrl`). For example, if `fn` is used at the
+route `/foo`, the request for `/foo/bar` will invoke `fn` with `req.url === '/foo'`
+and `req.originalUrl === '/foo/bar'`.
+
 ## Running Tests
 
 ```bash
