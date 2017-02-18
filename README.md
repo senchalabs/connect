@@ -235,9 +235,10 @@ app.use('/foo', function (req, res, next) {
 })
 ```
 
-The `route` is always terminated at a path separator (`/`) character. This means the
-given routes `/foo/` and `/foo` are the same and both will match requests with the
-URLs `/foo`, `/foo/`, and `/foo/bar`, but not match a request with the URL `/foobar`.
+The `route` is always terminated at a path separator (`/`) or a dot (`.`) character.
+This means the given routes `/foo/` and `/foo` are the same and both will match requests
+with the URLs `/foo`, `/foo/`, `/foo/bar`, and `/foo.bar`, but not match a request with
+the URL `/foobar`.
 
 The `route` is matched in a case-insensitive manor.
 
