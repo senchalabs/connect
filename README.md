@@ -197,6 +197,15 @@ http request (`req`) and response (`res`) objects. An optional function `out`
 can be provided that will be called if the request (or error) was not handled
 by the middleware stack.
 
+### app.listen([...])
+
+Start the app listening for requests. This method will internally create a Node.js
+HTTP server and call `.listen()` on it.
+
+This is an alias to the `server.listen()` method in the version of Node.js running,
+so consult the Node.js documentation for all the different variations. The most
+common signature is [`app.listen(port)`](https://nodejs.org/dist/latest-v6.x/docs/api/http.html#http_server_listen_port_hostname_backlog_callback).
+
 ### app.use(fn)
 
 Use a function on the app, where the function represents a middleware. The function
