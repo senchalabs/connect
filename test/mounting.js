@@ -41,6 +41,16 @@ describe('app.use()', function(){
     .expect(200, '/article/1', done);
   });
 
+  it('should match up to dot', function (done) {
+    app.use('/blog', function (req, res) {
+      res.end(req.url)
+    })
+
+    request(app)
+    .get('/blog.json')
+    .expect(200, done)
+  })
+
   it('should not match shorter path', function (done) {
     app.use('/blog-o-rama', function (req, res) {
       res.end(req.url);
