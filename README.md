@@ -220,6 +220,9 @@ app.use(function (req, res, next) {
 })
 ```
 
+In addition to a plan function, the `fn` argument can also be a Node.js HTTP server
+instance or another Connect app instance.
+
 ### app.use(route, fn)
 
 Use a function on the app, where the function represents a middleware. The function
@@ -234,6 +237,9 @@ app.use('/foo', function (req, res, next) {
   // next is a function to call to invoke the next middleware
 })
 ```
+
+In addition to a plan function, the `fn` argument can also be a Node.js HTTP server
+instance or another Connect app instance.
 
 The `route` is always terminated at a path separator (`/`) or a dot (`.`) character.
 This means the given routes `/foo/` and `/foo` are the same and both will match requests
