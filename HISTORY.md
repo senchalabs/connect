@@ -3,6 +3,8 @@ unreleased
 
   * deps: finalhandler@1.0.3
     - deps: debug@2.6.7
+  * deps: debug@2.6.7
+    - deps: ms@2.0.0
 
 3.6.1 / 2017-04-19
 ==================
