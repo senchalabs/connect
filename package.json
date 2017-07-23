@@ -23,8 +23,8 @@
     "utils-merge": "1.0.0"
   },
   "devDependencies": {
-    "istanbul": "0.4.5",
     "mocha": "3.4.2",
+    "nyc": "10.3.2",
     "supertest": "2.0.0"
   },
   "license": "MIT",
@@ -39,7 +39,7 @@
   },
   "scripts": {
     "test": "mocha --require test/support/env --reporter spec --bail --check-leaks test/",
-    "test-cov": "istanbul cover node_modules/mocha/bin/_mocha -- --require test/support/env --reporter dot --check-leaks test/",
-    "test-travis": "istanbul cover node_modules/mocha/bin/_mocha --report lcovonly -- --require test/support/env --reporter spec --check-leaks test/"
+    "test-cov": "nyc --reporter=text npm test",
+    "test-travis": "nyc --reporter=html --reporter=text npm test"
   }
 }

@@ -21,4 +21,4 @@ before_install:
 script:
   - "npm run-script test-travis"
 after_script:
-  - "npm install coveralls@2 && cat ./coverage/lcov.info | coveralls"
+  - "test -d .nyc_output && npm install coveralls@2 && nyc report --reporter=text-lcov | coveralls"
