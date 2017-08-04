@@ -1,5 +1,5 @@
-unreleased
-==========
+3.6.3 / 2017-08-03
+==================
 
   * deps: debug@2.6.8
   * deps: finalhandler@1.0.4
