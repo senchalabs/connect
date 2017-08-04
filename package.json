@@ -23,7 +23,7 @@
     "utils-merge": "1.0.0"
   },
   "devDependencies": {
-    "mocha": "3.4.2",
+    "mocha": "3.5.0",
     "nyc": "10.3.2",
     "supertest": "2.0.0"
   },
