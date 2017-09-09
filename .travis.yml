@@ -20,5 +20,6 @@ before_install:
   - "test ! -d node_modules || npm rebuild"
 script:
   - "npm run-script test-travis"
+  - "npm run-script lint"
 after_script:
   - "test -d .nyc_output && npm install coveralls@2 && nyc report --reporter=text-lcov | coveralls"

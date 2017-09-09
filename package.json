@@ -23,6 +23,7 @@
     "utils-merge": "1.0.0"
   },
   "devDependencies": {
+    "eslint": "2.13.1",
     "mocha": "3.5.0",
     "nyc": "10.3.2",
     "supertest": "2.0.0"
@@ -38,6 +39,7 @@
     "node": ">= 0.10.0"
   },
   "scripts": {
+    "lint": "eslint .",
     "test": "mocha --require test/support/env --reporter spec --bail --check-leaks test/",
     "test-cov": "nyc --reporter=text npm test",
     "test-travis": "nyc --reporter=html --reporter=text npm test"

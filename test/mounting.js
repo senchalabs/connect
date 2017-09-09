@@ -171,12 +171,12 @@ describe('app.use()', function(){
 
     it('should strip trailing slash', function(done){
       var blog = connect();
-    
+
       blog.use(function(req, res){
         assert.equal(req.url, '/');
         res.end('blog');
       });
-    
+
       app.use('/blog/', blog);
 
       request(app)
