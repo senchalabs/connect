@@ -261,9 +261,15 @@ npm install
 npm test
 ```
 
-## Contributors
+## People
 
- https://github.com/senchalabs/connect/graphs/contributors
+The Connect project would not be the same without all the people involved.
+
+The original author of Connect is [TJ Holowaychuk](https://github.com/tj) [![TJ's Gratipay][gratipay-image-visionmedia]][gratipay-url-visionmedia]
+
+The current lead maintainer is [Douglas Christopher Wilson](https://github.com/dougwilson) [![Doug's Gratipay][gratipay-image-dougwilson]][gratipay-url-dougwilson]
+
+[List of all contributors](https://github.comsenchalabs/connect/graphs/contributors)
 
 ## Node Compatibility
 
