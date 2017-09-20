@@ -6,6 +6,7 @@ unreleased
   * deps: parseurl@~1.3.2
     - perf: reduce overhead for full URLs
     - perf: unroll the "fast-path" `RegExp`
+  * deps: utils-merge@1.0.1
 
 3.6.3 / 2017-08-03
 ==================
