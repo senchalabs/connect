@@ -168,7 +168,7 @@ Some middleware previously included with Connect are no longer supported by the 
     - [st](https://www.npmjs.com/package/st)
     - [connect-static](https://www.npmjs.com/package/connect-static)
 
-Checkout [http-framework](https://github.com/Raynos/http-framework/wiki/Modules) for many other compatible middleware! 
+Checkout [http-framework](https://github.com/Raynos/http-framework/wiki/Modules) for many other compatible middleware!
 
 ## API
 
