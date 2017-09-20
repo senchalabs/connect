@@ -1,5 +1,5 @@
-unreleased
-==========
+3.6.4 / 2017-09-20
+==================
 
   * deps: finalhandler@1.0.5
     - deps: parseurl@~1.3.2
