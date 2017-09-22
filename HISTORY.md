@@ -2,6 +2,8 @@ unreleased
 ==========
 
   * deps: debug@2.6.9
+  * deps: finalhandler@1.0.6
+    - deps: debug@2.6.9
 
 3.6.4 / 2017-09-20
 ==================
