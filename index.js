@@ -162,8 +162,8 @@ proto.handle = function handle(req, res, out) {
     }
 
     // skip if route match does not border "/", ".", or end
-    var c = path[route.length];
-    if (c !== undefined && '/' !== c && '.' !== c) {
+    var c = path.length > route.length && path[route.length];
+    if (c && c !== '/' && c !== '.') {
       return next(err);
     }
 
