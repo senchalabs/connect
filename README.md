@@ -4,7 +4,7 @@
 [![NPM Downloads][downloads-image]][downloads-url]
 [![Build Status][travis-image]][travis-url]
 [![Test Coverage][coveralls-image]][coveralls-url]
-[![Gratipay][gratipay-image]][gratipay-url]
+[![Gratipay][gratipay-image-dougwilson]][gratipay-url-dougwilson]
 
   Connect is an extensible HTTP server framework for [node](http://nodejs.org) using "plugins" known as _middleware_.
 
@@ -291,5 +291,7 @@ The current lead maintainer is [Douglas Christopher Wilson](https://github.com/d
 [coveralls-url]: https://coveralls.io/r/senchalabs/connect
 [downloads-image]: https://img.shields.io/npm/dm/connect.svg
 [downloads-url]: https://npmjs.org/package/connect
-[gratipay-image]: https://img.shields.io/gratipay/dougwilson.svg
-[gratipay-url]: https://www.gratipay.com/dougwilson/
+[gratipay-image-dougwilson]: https://img.shields.io/gratipay/dougwilson.svg
+[gratipay-url-dougwilson]: https://www.gratipay.com/dougwilson/
+[gratipay-image-visionmedia]: https://img.shields.io/gratipay/visionmedia.svg
+[gratipay-url-visionmedia]: https://www.gratipay.com/visionmedia/
