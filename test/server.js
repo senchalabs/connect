@@ -2,6 +2,7 @@
 var assert = require('assert');
 var connect = require('..');
 var http = require('http');
+var rawrequest = require('./support/rawagent')
 var request = require('supertest');
 
 describe('app', function(){
@@ -226,57 +227,3 @@ describe('app', function(){
     });
   });
 });
-
-function rawrequest(app) {
-  var _path;
-  var server = http.createServer(app);
-
-  function expect(status, body, callback) {
-    server.listen(function(){
-      var addr = this.address();
-      var port = addr.port;
-
-      var req = http.get({
-        host: '127.0.0.1',
-        path: _path,
-        port: port
-      });
-      req.on('response', function(res){
-        var buf = '';
-
-        res.setEncoding('utf8');
-        res.on('data', function(s){ buf += s });
-        res.on('end', function(){
-          var err = null;
-
-          try {
-            assert.equal(res.statusCode, status);
-
-            if (body instanceof RegExp) {
-              assert.ok(body.test(buf), 'expected body ' + buf + ' to match ' + body)
-            } else {
-              assert.equal(buf, body, 'expected ' + body + ' response body, got ' + buf)
-            }
-          } catch (e) {
-            err = e;
-          }
-
-          server.close();
-          callback(err);
-        });
-      });
-    });
-  }
-
-  function get(path) {
-    _path = path;
-
-    return {
-      expect: expect
-    };
-  }
-
-  return {
-    get: get
-  };
-}
