@@ -268,7 +268,7 @@ The original author of Connect is [TJ Holowaychuk](https://github.com/tj) [![TJ'
 
 The current lead maintainer is [Douglas Christopher Wilson](https://github.com/dougwilson) [![Doug's Gratipay][gratipay-image-dougwilson]][gratipay-url-dougwilson]
 
-[List of all contributors](https://github.comsenchalabs/connect/graphs/contributors)
+[List of all contributors](https://github.com/senchalabs/connect/graphs/contributors)
 
 ## Node Compatibility
 
