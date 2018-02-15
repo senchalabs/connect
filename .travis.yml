@@ -9,7 +9,7 @@ node_js:
   - "5.12"
   - "6.12"
   - "7.10"
-  - "8.5"
+  - "8.9"
 sudo: false
 cache:
   directories:
