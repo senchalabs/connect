@@ -1,5 +1,5 @@
-unreleased
-==========
+3.6.6 / 2018-02-14
+==================
 
   * deps: finalhandler@1.1.0
     - Use `res.headersSent` when available
