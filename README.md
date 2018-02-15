@@ -264,9 +264,9 @@ npm test
 
 The Connect project would not be the same without all the people involved.
 
-The original author of Connect is [TJ Holowaychuk](https://github.com/tj) [![TJ's Gratipay][gratipay-image-visionmedia]][gratipay-url-visionmedia]
+The original author of Connect is [TJ Holowaychuk](https://github.com/tj)
 
-The current lead maintainer is [Douglas Christopher Wilson](https://github.com/dougwilson) [![Doug's Gratipay][gratipay-image-dougwilson]][gratipay-url-dougwilson]
+The current lead maintainer is [Douglas Christopher Wilson](https://github.com/dougwilson)
 
 [List of all contributors](https://github.com/senchalabs/connect/graphs/contributors)
 
@@ -290,7 +290,3 @@ The current lead maintainer is [Douglas Christopher Wilson](https://github.com/d
 [coveralls-url]: https://coveralls.io/r/senchalabs/connect
 [downloads-image]: https://img.shields.io/npm/dm/connect.svg
 [downloads-url]: https://npmjs.org/package/connect
-[gratipay-image-dougwilson]: https://img.shields.io/gratipay/dougwilson.svg
-[gratipay-url-dougwilson]: https://www.gratipay.com/dougwilson/
-[gratipay-image-visionmedia]: https://img.shields.io/gratipay/visionmedia.svg
-[gratipay-url-visionmedia]: https://www.gratipay.com/visionmedia/
