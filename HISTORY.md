@@ -1,5 +1,5 @@
-unreleased
-==========
+3.6.7 / 2018-03-06
+==================
 
   * deps: finalhandler@1.1.1
     - Fix 404 output for bad / missing pathnames
