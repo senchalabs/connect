@@ -23,10 +23,10 @@
     "utils-merge": "1.0.1"
   },
   "devDependencies": {
-    "eslint": "2.13.1",
-    "mocha": "3.5.3",
-    "nyc": "10.3.2",
-    "supertest": "2.0.0"
+    "eslint": "4.19.1",
+    "mocha": "5.1.1",
+    "nyc": "11.7.1",
+    "supertest": "3.0.0"
   },
   "license": "MIT",
   "files": [
