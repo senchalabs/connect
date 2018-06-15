@@ -31,6 +31,25 @@ describe('app', function(){
     .expect(200, 'hello, world!', done);
   })
 
+  it('should invoke all request listeners', function (done) {
+    var app = connect();
+    var router = http.createServer();
+
+    router.on('request', function (req, res) {
+      res.write('hello, ');
+    });
+    router.on('request', function (req, res) {
+      res.end('world!');
+    });
+    app.use(router);
+
+    var server = http.createServer(app);
+
+    request(server)
+    .get('/')
+    .expect(200, 'hello, world!', done);
+  })
+
   it('should be a callable function', function(done){
     var app = connect();
 
@@ -86,6 +105,25 @@ describe('app', function(){
     }
 
     var server = http.createServer(handler);
+
+    request(server)
+    .get('/')
+    .expect(200, 'oh, boom!', done);
+  })
+
+  it('should invoke callback on request listener error', function (done) {
+    var app = connect();
+    var router = http.createServer();
+
+    router.on('request', function (req, res) {
+      throw new Error('boom!');
+    });
+    app.use(router);
+    app.use(function (err, req, res, next) {
+      res.end('oh, ' + err.message);
+    });
+
+    var server = http.createServer(app);
 
     request(server)
     .get('/')
@@ -212,6 +250,28 @@ describe('app', function(){
       request(app)
       .get('/')
       .expect(200, done);
+    })
+
+    it('should not fire after headers sent in request listener', function (done) {
+      var app = connect();
+      var router = http.createServer();
+
+      router.on('request', function (req, res) {
+        res.end('hello');
+      });
+      router.on('request', function (req, res) {
+        res.write('world');
+      });
+      app.use(router);
+      app.use(function (req, res) {
+        res.end('body');
+      });
+
+      var server = http.createServer(app);
+
+      request(app)
+      .get('/')
+      .expect(200, 'hello', done);
     })
 
     it('shoud have no body for HEAD', function(done){
