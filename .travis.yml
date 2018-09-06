@@ -17,11 +17,28 @@ cache:
   directories:
     - node_modules
 before_install:
-  - "npm config set shrinkwrap false"
-  - "test ! -d node_modules || npm prune"
-  - "test ! -d node_modules || npm rebuild"
+  # Configure npm
+  - |
+    # Skip updating shrinkwrap / lock
+    npm config set shrinkwrap false
+  # Update Node.js modules
+  - |
+    # Prune & rebuild node_modules
+    if [[ -d node_modules ]]; then
+      npm prune
+      npm rebuild
+    fi
 script:
-  - "npm run-script test-travis"
-  - "npm run-script lint"
+  - |
+    # Run test script
+    npm run-script test-travis
+  - |
+    # Run linting
+    npm run-script lint
 after_script:
-  - "test -d .nyc_output && npm install coveralls@2 && nyc report --reporter=text-lcov | coveralls"
+  - |
+    # Upload coverage to coveralls, if exists
+    if [[ -d .nyc_output ]]; then
+      npm install --save-dev coveralls@2
+      nyc report --reporter=text-lcov | coveralls
+    fi
