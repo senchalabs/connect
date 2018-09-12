@@ -25,7 +25,7 @@
   "devDependencies": {
     "eslint": "2.13.1",
     "mocha": "5.2.0",
-    "nyc": "10.3.2",
+    "nyc": "11.9.0",
     "supertest": "2.0.0"
   },
   "license": "MIT",
