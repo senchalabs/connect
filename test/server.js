@@ -154,7 +154,9 @@ describe('app', function(){
 
       request(app)
       .head('/')
-      .expect(404, '', done);
+      .expect(404)
+      .expect(shouldHaveNoBody())
+      .end(done)
     })
   })
 
@@ -223,7 +225,15 @@ describe('app', function(){
 
       request(app)
       .head('/')
-      .expect(500, '', done);
+      .expect(500)
+      .expect(shouldHaveNoBody())
+      .end(done)
     });
   });
 });
+
+function shouldHaveNoBody () {
+  return function (res) {
+    assert.ok(res.text === '' || res.text === undefined)
+  }
+}
