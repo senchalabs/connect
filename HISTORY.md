@@ -415,7 +415,7 @@ unreleased
     - deps: depd@~1.0.1
     - deps: on-finished@~2.2.1
   * deps: qs@2.4.2
-   - Fix allowing parameters like `constructor`
+    - Fix allowing parameters like `constructor`
   * deps: response-time@~2.3.1
     - deps: depd@~1.0.1
   * deps: serve-favicon@~2.2.1
