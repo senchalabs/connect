@@ -31,8 +31,11 @@ before_install:
   - |
     # nyc for coverage
     # - use 10.x for Node.js < 4
+    # - use 11.x for Node.js < 6
     if [[ "$(cut -d. -f1 <<< "$TRAVIS_NODE_VERSION")" -lt 4 ]]; then
       npm install --save-dev nyc@10.3.2
+    elif [[ "$(cut -d. -f1 <<< "$TRAVIS_NODE_VERSION")" -lt 6 ]]; then
+      npm install --save-dev nyc@11.9.0
     fi
   - |
     # supertest for http calls
