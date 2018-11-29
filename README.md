@@ -276,7 +276,7 @@ The current lead maintainer is [Douglas Christopher Wilson](https://github.com/d
   - Connect `1.x` - node `0.4`
   - Connect `< 2.8` - node `0.6`
   - Connect `>= 2.8 < 3` - node `0.8`
-  - Connect `>= 3` - node `0.10`, `0.12`, `4.x`, `5.x`, `6.x`, `7.x`, `8.x`, `9.x`, `10.x`; io.js `1.x`, `2.x`, `3.x`
+  - Connect `>= 3` - node `0.10`, `0.12`, `4.x`, `5.x`, `6.x`, `7.x`, `8.x`, `9.x`, `10.x`, `11.x`; io.js `1.x`, `2.x`, `3.x`
 
 ## License
 
