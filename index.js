@@ -271,13 +271,9 @@ function getProtohost(url) {
     return undefined;
   }
 
-  var searchIndex = url.indexOf('?');
-  var pathLength = searchIndex !== -1
-    ? searchIndex
-    : url.length;
-  var fqdnIndex = url.substr(0, pathLength).indexOf('://');
+  var fqdnIndex = url.indexOf('://')
 
-  return fqdnIndex !== -1
+  return fqdnIndex !== -1 && url.lastIndexOf('?', fqdnIndex) === -1
     ? url.substr(0, url.indexOf('/', 3 + fqdnIndex))
     : undefined;
 }
