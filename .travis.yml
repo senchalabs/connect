@@ -18,37 +18,43 @@ cache:
   directories:
     - node_modules
 before_install:
+  - |
+    # Setup utility functions
+    function node_version_lt () {
+      [[ "$(v "$TRAVIS_NODE_VERSION")" -lt "$(v "${1}")" ]]
+    }
+    function npm_use_module () {
+      node -e '
+        fs = require("fs");
+        p = JSON.parse(fs.readFileSync("package.json", "utf8"));
+        p.devDependencies[process.argv[1]] = process.argv[2];
+        fs.writeFileSync("package.json", JSON.stringify(p, null, 2) + "\n");
+      ' "$@"
+    }
+    function v () {
+      tr '.' '\n' <<< "${1}" \
+        | awk '{ printf "%03d", $0 }' \
+        | sed 's/^0*//'
+    }
   # Configure npm
   - |
     # Skip updating shrinkwrap / lock
     npm config set shrinkwrap false
   # Setup Node.js version-specific dependencies
   - |
-    # mocha for testing
-    # - use 3.x for Node.js < 4
-    # - use 5.x for Node.js < 6
-    if [[ "$(cut -d. -f1 <<< "$TRAVIS_NODE_VERSION")" -lt 4 ]]; then
-      npm install --save-dev mocha@3.5.3
-    elif [[ "$(cut -d. -f1 <<< "$TRAVIS_NODE_VERSION")" -lt 6 ]]; then
-      npm install --save-dev mocha@5.2.0
+    # Configure mocha for testing
+    if   node_version_lt '4.0'; then npm_use_module 'mocha' '3.5.3'
+    elif node_version_lt '6.0'; then npm_use_module 'mocha' '5.2.0'
     fi
   - |
-    # nyc for coverage
-    # - use 10.x for Node.js < 4
-    # - use 11.x for Node.js < 6
-    if [[ "$(cut -d. -f1 <<< "$TRAVIS_NODE_VERSION")" -lt 4 ]]; then
-      npm install --save-dev nyc@10.3.2
-    elif [[ "$(cut -d. -f1 <<< "$TRAVIS_NODE_VERSION")" -lt 6 ]]; then
-      npm install --save-dev nyc@11.9.0
+    # Configure nyc for testing
+    if   node_version_lt '4.0'; then npm_use_module 'nyc' '10.3.2'
+    elif node_version_lt '6.0'; then npm_use_module 'nyc' '11.9.0'
     fi
   - |
-    # supertest for http calls
-    # - use 2.0.0 for Node.js < 4
-    # - use 3.4.2 for Node.js < 6
-    if [[ "$(cut -d. -f1 <<< "$TRAVIS_NODE_VERSION")" -lt 4 ]]; then
-      npm install --save-dev supertest@2.0.0
-    elif [[ "$(cut -d. -f1 <<< "$TRAVIS_NODE_VERSION")" -lt 6 ]]; then
-      npm install --save-dev supertest@3.4.2
+    # Configure supertest for http calls
+    if   node_version_lt '4.0'; then npm_use_module 'supertest' '2.0.0'
+    elif node_version_lt '6.0'; then npm_use_module 'supertest' '3.4.2'
     fi
   # Update Node.js modules
   - |
@@ -57,6 +63,10 @@ before_install:
       npm prune
       npm rebuild
     fi
+before_scrpt:
+  - |
+    # Contents of node_modules
+    npm -s ls ||:
 script:
   - |
     # Run test script
@@ -66,8 +76,6 @@ script:
     npm run-script lint
 after_script:
   - |
-    # Upload coverage to coveralls, if exists
-    if [[ -d .nyc_output ]]; then
-      npm install --save-dev coveralls@2
-      nyc report --reporter=text-lcov | coveralls
-    fi
+    # Upload coverage to coveralls
+    npm install coveralls@2
+    nyc report --reporter=text-lcov | coveralls
