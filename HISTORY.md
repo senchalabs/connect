@@ -5,6 +5,7 @@ unreleased
     - Fix 404 output for bad / missing pathnames
     - deps: encodeurl@~1.0.2
     - deps: statuses@~1.4.0
+  * deps: parseurl@~1.3.3
 
 3.6.6 / 2018-02-14
 ==================
