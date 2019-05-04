@@ -1,9 +1,13 @@
-# Connect
+<div align="center">
+
+<img src="logo/horizontal.png" alt="connect logo" width="450px">
 
 [![NPM Version][npm-version-image]][npm-url]
 [![NPM Downloads][npm-downloads-image]][npm-url]
 [![Build Status][travis-image]][travis-url]
 [![Test Coverage][coveralls-image]][coveralls-url]
+
+</div>
 
   Connect is an extensible HTTP server framework for [node](http://nodejs.org) using "plugins" known as _middleware_.
 
