@@ -17,8 +17,8 @@ describe('app.use()', function(){
     });
 
     rawrequest(app)
-    .get('http://example.com/foo')
-    .expect(200, 'http://example.com/foo', done);
+      .get('http://example.com/foo')
+      .expect(200, 'http://example.com/foo', done)
   });
 
   describe('with a connect app', function(){
@@ -28,8 +28,8 @@ describe('app.use()', function(){
       });
 
       rawrequest(app)
-      .get('/proxy?url=http://example.com/blog/post/1')
-      .expect(200, '/?url=http://example.com/blog/post/1', done);
+        .get('/proxy?url=http://example.com/blog/post/1')
+        .expect(200, '/?url=http://example.com/blog/post/1', done)
     });
 
     it('should ignore FQDN in path', function (done) {
@@ -38,8 +38,8 @@ describe('app.use()', function(){
       });
 
       rawrequest(app)
-      .get('/proxy/http://example.com/blog/post/1')
-      .expect(200, '/http://example.com/blog/post/1', done);
+        .get('/proxy/http://example.com/blog/post/1')
+        .expect(200, '/http://example.com/blog/post/1', done)
     });
 
     it('should adjust FQDN req.url', function(done){
@@ -48,8 +48,8 @@ describe('app.use()', function(){
       });
 
       rawrequest(app)
-      .get('http://example.com/blog/post/1')
-      .expect(200, 'http://example.com/post/1', done);
+        .get('http://example.com/blog/post/1')
+        .expect(200, 'http://example.com/post/1', done)
     });
 
     it('should adjust FQDN req.url with multiple handlers', function(done){
@@ -62,8 +62,8 @@ describe('app.use()', function(){
       });
 
       rawrequest(app)
-      .get('http://example.com/blog/post/1')
-      .expect(200, 'http://example.com/post/1', done);
+        .get('http://example.com/blog/post/1')
+        .expect(200, 'http://example.com/post/1', done)
     });
 
     it('should adjust FQDN req.url with multiple routed handlers', function(done) {
@@ -75,8 +75,8 @@ describe('app.use()', function(){
       });
 
       rawrequest(app)
-      .get('http://example.com/blog/post/1')
-      .expect(200, 'http://example.com/post/1', done);
+        .get('http://example.com/blog/post/1')
+        .expect(200, 'http://example.com/post/1', done)
     });
   });
 });

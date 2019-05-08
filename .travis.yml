@@ -24,6 +24,17 @@ before_install:
     function node_version_lt () {
       [[ "$(v "$TRAVIS_NODE_VERSION")" -lt "$(v "${1}")" ]]
     }
+    function npm_remove_module_re () {
+      node -e '
+        fs = require("fs");
+        p = JSON.parse(fs.readFileSync("package.json", "utf8"));
+        r = RegExp(process.argv[1]);
+        for (k in p.devDependencies) {
+          if (r.test(k)) delete p.devDependencies[k];
+        }
+        fs.writeFileSync("package.json", JSON.stringify(p, null, 2) + "\n");
+      ' "$@"
+    }
     function npm_use_module () {
       node -e '
         fs = require("fs");
@@ -42,6 +53,10 @@ before_install:
     # Skip updating shrinkwrap / lock
     npm config set shrinkwrap false
   # Setup Node.js version-specific dependencies
+  - |
+    # Configure eslint for linting
+    if node_version_lt '4.0'; then npm_remove_module_re '^eslint(-|$)'
+    fi
   - |
     # Configure mocha for testing
     if   node_version_lt '4.0'; then npm_use_module 'mocha' '3.5.3'
@@ -73,8 +88,9 @@ script:
     # Run test script
     npm run-script test-travis
   - |
-    # Run linting
-    npm run-script lint
+    # Run linting, depending on eslint install
+    if npm_module_installed 'eslint'; then npm run-script lint
+    fi
 after_script:
   - |
     # Upload coverage to coveralls

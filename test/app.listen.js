@@ -14,12 +14,12 @@ describe('app.listen()', function(){
     var server = app.listen(0, function () {
       assert.ok(server)
       request(server)
-      .get('/')
-      .expect(200, function (err) {
-        server.close(function () {
-          done(err)
+        .get('/')
+        .expect(200, function (err) {
+          server.close(function () {
+            done(err)
+          })
         })
-      })
     });
   });
 });
