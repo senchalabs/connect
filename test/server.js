@@ -27,8 +27,8 @@ describe('app', function(){
     var server = http.createServer(app);
 
     request(server)
-    .get('/')
-    .expect(200, 'hello, world!', done);
+      .get('/')
+      .expect(200, 'hello, world!', done)
   })
 
   it('should be a callable function', function(done){
@@ -46,8 +46,8 @@ describe('app', function(){
     var server = http.createServer(handler);
 
     request(server)
-    .get('/')
-    .expect(200, 'oh, hello, world!', done);
+      .get('/')
+      .expect(200, 'oh, hello, world!', done)
   })
 
   it('should invoke callback if request not handled', function(done){
@@ -67,8 +67,8 @@ describe('app', function(){
     var server = http.createServer(handler);
 
     request(server)
-    .get('/')
-    .expect(200, 'oh, no!', done);
+      .get('/')
+      .expect(200, 'oh, no!', done)
   })
 
   it('should invoke callback on error', function(done){
@@ -88,8 +88,8 @@ describe('app', function(){
     var server = http.createServer(handler);
 
     request(server)
-    .get('/')
-    .expect(200, 'oh, boom!', done);
+      .get('/')
+      .expect(200, 'oh, boom!', done)
   })
 
   it('should work as middleware', function(done){
@@ -113,8 +113,8 @@ describe('app', function(){
     var server = http.createServer(run);
 
     request(server)
-    .get('/')
-    .expect(200, 'Ok', done);
+      .get('/')
+      .expect(200, 'Ok', done)
   });
 
   it('should escape the 500 response body', function(done){
@@ -122,17 +122,17 @@ describe('app', function(){
       next(new Error('error!'));
     });
     request(app)
-    .get('/')
-    .expect(/Error: error!<br>/)
-    .expect(/<br> &nbsp; &nbsp;at/)
-    .expect(500, done);
+      .get('/')
+      .expect(/Error: error!<br>/)
+      .expect(/<br> &nbsp; &nbsp;at/)
+      .expect(500, done)
   })
 
   describe('404 handler', function(){
     it('should escape the 404 response body', function(done){
       rawrequest(app)
-      .get('/foo/<script>stuff\'n</script>')
-      .expect(404, />Cannot GET \/foo\/%3Cscript%3Estuff&#39;n%3C\/script%3E</, done)
+        .get('/foo/<script>stuff\'n</script>')
+        .expect(404, />Cannot GET \/foo\/%3Cscript%3Estuff&#39;n%3C\/script%3E</, done)
     });
 
     it('shoud not fire after headers sent', function(done){
@@ -145,18 +145,18 @@ describe('app', function(){
       })
 
       request(app)
-      .get('/')
-      .expect(200, done);
+        .get('/')
+        .expect(200, done)
     })
 
     it('shoud have no body for HEAD', function(done){
       var app = connect();
 
       request(app)
-      .head('/')
-      .expect(404)
-      .expect(shouldHaveNoBody())
-      .end(done)
+        .head('/')
+        .expect(404)
+        .expect(shouldHaveNoBody())
+        .end(done)
     })
   })
 
@@ -169,8 +169,8 @@ describe('app', function(){
       })
 
       request(app)
-      .get('/')
-      .expect(500, /&lt;script&gt;alert\(\)&lt;\/script&gt;/, done);
+        .get('/')
+        .expect(500, /&lt;script&gt;alert\(\)&lt;\/script&gt;/, done)
     })
 
     it('should use custom error code', function(done){
@@ -183,8 +183,8 @@ describe('app', function(){
       })
 
       request(app)
-      .get('/')
-      .expect(503, done);
+        .get('/')
+        .expect(503, done)
     })
 
     it('should keep error statusCode', function(done){
@@ -196,8 +196,8 @@ describe('app', function(){
       })
 
       request(app)
-      .get('/')
-      .expect(503, done);
+        .get('/')
+        .expect(503, done)
     })
 
     it('shoud not fire after headers sent', function(done){
@@ -212,8 +212,8 @@ describe('app', function(){
       })
 
       request(app)
-      .get('/')
-      .expect(200, done);
+        .get('/')
+        .expect(200, done)
     })
 
     it('shoud have no body for HEAD', function(done){
@@ -224,10 +224,10 @@ describe('app', function(){
       });
 
       request(app)
-      .head('/')
-      .expect(500)
-      .expect(shouldHaveNoBody())
-      .end(done)
+        .head('/')
+        .expect(500)
+        .expect(shouldHaveNoBody())
+        .end(done)
     });
   });
 });

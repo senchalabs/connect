@@ -17,8 +17,8 @@ describe('app.use()', function(){
     });
 
     request(app)
-    .get('/blog')
-    .expect(200, '/blog', done);
+      .get('/blog')
+      .expect(200, '/blog', done)
   });
 
   it('should match full path', function (done) {
@@ -27,8 +27,8 @@ describe('app.use()', function(){
     });
 
     request(app)
-    .get('/blog')
-    .expect(200, '/', done);
+      .get('/blog')
+      .expect(200, '/', done)
   });
 
   it('should match left-side of path', function (done) {
@@ -37,8 +37,8 @@ describe('app.use()', function(){
     });
 
     request(app)
-    .get('/blog/article/1')
-    .expect(200, '/article/1', done);
+      .get('/blog/article/1')
+      .expect(200, '/article/1', done)
   });
 
   it('should match up to dot', function (done) {
@@ -47,8 +47,8 @@ describe('app.use()', function(){
     })
 
     request(app)
-    .get('/blog.json')
-    .expect(200, done)
+      .get('/blog.json')
+      .expect(200, done)
   })
 
   it('should not match shorter path', function (done) {
@@ -57,8 +57,8 @@ describe('app.use()', function(){
     });
 
     request(app)
-    .get('/blog')
-    .expect(404, done);
+      .get('/blog')
+      .expect(404, done)
   });
 
   it('should not end match in middle of component', function (done) {
@@ -67,8 +67,8 @@ describe('app.use()', function(){
     });
 
     request(app)
-    .get('/blog-o-rama/article/1')
-    .expect(404, done);
+      .get('/blog-o-rama/article/1')
+      .expect(404, done)
   });
 
   it('should be case insensitive (lower-case route, mixed-case request)', function(done){
@@ -80,8 +80,8 @@ describe('app.use()', function(){
     app.use('/blog', blog);
 
     request(app)
-    .get('/BLog')
-    .expect('blog', done);
+      .get('/BLog')
+      .expect('blog', done)
   });
 
   it('should be case insensitive (mixed-case route, lower-case request)', function(done){
@@ -93,8 +93,8 @@ describe('app.use()', function(){
     app.use('/BLog', blog);
 
     request(app)
-    .get('/blog')
-    .expect('blog', done);
+      .get('/blog')
+      .expect('blog', done)
   });
 
   it('should be case insensitive (mixed-case route, mixed-case request)', function(done){
@@ -106,8 +106,8 @@ describe('app.use()', function(){
     app.use('/BLog', blog);
 
     request(app)
-    .get('/blOG')
-    .expect('blog', done);
+      .get('/blOG')
+      .expect('blog', done)
   });
 
   it('should ignore fn.arity > 4', function(done){
@@ -127,8 +127,8 @@ describe('app.use()', function(){
     });
 
     request(app)
-    .get('/')
-    .expect(200, '1,2', done);
+      .get('/')
+      .expect(200, '1,2', done)
   });
 
   describe('with a connect app', function(){
@@ -143,8 +143,8 @@ describe('app.use()', function(){
       app.use('/blog', blog);
 
       request(app)
-      .get('/blog')
-      .expect(200, 'blog', done);
+        .get('/blog')
+        .expect(200, 'blog', done)
     });
 
     it('should retain req.originalUrl', function(done){
@@ -155,8 +155,8 @@ describe('app.use()', function(){
       });
 
       request(app)
-      .get('/blog/post/1')
-      .expect(200, '/blog/post/1', done);
+        .get('/blog/post/1')
+        .expect(200, '/blog/post/1', done)
     });
 
     it('should adjust req.url', function(done){
@@ -165,8 +165,8 @@ describe('app.use()', function(){
       });
 
       request(app)
-      .get('/blog/post/1')
-      .expect(200, '/post/1', done);
+        .get('/blog/post/1')
+        .expect(200, '/post/1', done)
     });
 
     it('should strip trailing slash', function(done){
@@ -180,8 +180,8 @@ describe('app.use()', function(){
       app.use('/blog/', blog);
 
       request(app)
-      .get('/blog')
-      .expect('blog', done);
+        .get('/blog')
+        .expect('blog', done)
     });
 
     it('should set .route', function(){
@@ -204,8 +204,8 @@ describe('app.use()', function(){
       });
 
       request(app)
-      .get('/admin')
-      .expect('/admin', done);
+        .get('/admin')
+        .expect('/admin', done)
     })
   })
 
@@ -219,8 +219,8 @@ describe('app.use()', function(){
       app.use('/blog', blog);
 
       request(app)
-      .get('/blog')
-      .expect('blog', done);
+        .get('/blog')
+        .expect('blog', done)
     });
   });
 
@@ -234,8 +234,8 @@ describe('app.use()', function(){
       });
 
       request(app)
-      .get('/')
-      .expect('got error msg', done);
+        .get('/')
+        .expect('got error msg', done)
     })
 
     it('should skip to non-error middleware', function(done){
@@ -253,8 +253,8 @@ describe('app.use()', function(){
       });
 
       request(app)
-      .get('/')
-      .expect(200, 'msg', done);
+        .get('/')
+        .expect(200, 'msg', done)
     })
 
     it('should start at error middleware declared after error', function(done){
@@ -271,8 +271,8 @@ describe('app.use()', function(){
       });
 
       request(app)
-      .get('/')
-      .expect(200, 'pass: boom!', done);
+        .get('/')
+        .expect(200, 'pass: boom!', done)
     })
 
     it('should stack error fns', function(done){
@@ -288,9 +288,9 @@ describe('app.use()', function(){
       });
 
       request(app)
-      .get('/')
-      .expect('X-Error', 'msg')
-      .expect(200, 'got error msg', done);
+        .get('/')
+        .expect('X-Error', 'msg')
+        .expect(200, 'got error msg', done)
     })
 
     it('should invoke error stack even when headers sent', function(done){
@@ -303,8 +303,8 @@ describe('app.use()', function(){
       });
 
       request(app)
-      .get('/')
-      .end(function(){});
+        .get('/')
+        .end(function () {})
     })
   })
 });
