@@ -1,6 +1,10 @@
 unreleased
 ==========
 
+  * deps: finalhandler@1.1.2
+    - Set stricter `Content-Security-Policy` header
+    - deps: parseurl@~1.3.3
+    - deps: statuses@~1.5.0
   * deps: parseurl@~1.3.3
 
 3.6.7 / 2018-03-06
