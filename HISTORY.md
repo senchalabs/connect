@@ -1,9 +1,11 @@
 unreleased
 ==========
 
-  * deps: finalhandler@1.1.1
+  * deps: finalhandler@1.1.2
+    - Set stricter `Content-Security-Policy` header
     - Fix 404 output for bad / missing pathnames
     - deps: encodeurl@~1.0.2
+    - deps: parseurl@~1.3.3
     - deps: statuses@~1.4.0
   * deps: parseurl@~1.3.3
 
