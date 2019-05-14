@@ -1,7 +1,7 @@
 # Connect
 
-[![NPM Version][npm-image]][npm-url]
-[![NPM Downloads][downloads-image]][downloads-url]
+[![NPM Version][npm-version-image]][npm-url]
+[![NPM Downloads][npm-downloads-image]][npm-url]
 [![Build Status][travis-image]][travis-url]
 [![Test Coverage][coveralls-image]][coveralls-url]
 
@@ -282,11 +282,10 @@ The current lead maintainer is [Douglas Christopher Wilson](https://github.com/d
 
 [MIT](LICENSE)
 
-[npm-image]: https://img.shields.io/npm/v/connect.svg
+[coveralls-image]: https://badgen.net/coveralls/c/github/senchalabs/connect/master
+[coveralls-url]: https://coveralls.io/r/senchalabs/connect?branch=master
+[npm-downloads-image]: https://badgen.net/npm/dm/connect
 [npm-url]: https://npmjs.org/package/connect
-[travis-image]: https://img.shields.io/travis/senchalabs/connect/master.svg
+[npm-version-image]: https://badgen.net/npm/v/connect
+[travis-image]: https://badgen.net/travis/senchalabs/connect/master
 [travis-url]: https://travis-ci.org/senchalabs/connect
-[coveralls-image]: https://img.shields.io/coveralls/senchalabs/connect/master.svg
-[coveralls-url]: https://coveralls.io/r/senchalabs/connect
-[downloads-image]: https://img.shields.io/npm/dm/connect.svg
-[downloads-url]: https://npmjs.org/package/connect
