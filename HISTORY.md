@@ -1,5 +1,5 @@
-unreleased
-==========
+3.6.7 / 2018-03-06
+==================
 
   * deps: finalhandler@1.1.2
     - Set stricter `Content-Security-Policy` header
