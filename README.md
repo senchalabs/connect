@@ -249,7 +249,7 @@ This means the given routes `/foo/` and `/foo` are the same and both will match 
 with the URLs `/foo`, `/foo/`, `/foo/bar`, and `/foo.bar`, but not match a request with
 the URL `/foobar`.
 
-The `route` is matched in a case-insensitive manor.
+The `route` is matched in a case-insensitive manner.
 
 In order to make middleware easier to write to be agnostic of the `route`, when the
 `fn` is invoked, the `req.url` will be altered to remove the `route` part (and the
