@@ -98,7 +98,7 @@ proto.use = function use(route, fn) {
   }
 
   // strip trailing slash
-  if (path[path.length - 1] === '/') {
+  if (path.length > 1 && path[path.length - 1] === '/') {
     path = path.slice(0, -1);
   }
 
