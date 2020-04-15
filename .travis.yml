@@ -81,7 +81,7 @@ before_install:
       npm prune
       npm rebuild
     fi
-before_scrpt:
+before_script:
   - |
     # Contents of node_modules
     npm -s ls ||:
