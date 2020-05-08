@@ -274,14 +274,6 @@ The current lead maintainer is [Douglas Christopher Wilson](https://github.com/d
 
 [List of all contributors](https://github.com/senchalabs/connect/graphs/contributors)
 
-## Node Compatibility
-
-  - Connect `< 1.x` - node `0.2`
-  - Connect `1.x` - node `0.4`
-  - Connect `< 2.8` - node `0.6`
-  - Connect `>= 2.8 < 3` - node `0.8`
-  - Connect `>= 3` - node `0.10`, `0.12`, `4.x`, `5.x`, `6.x`, `7.x`, `8.x`, `9.x`, `10.x`, `11.x`, `12.x`, `13.x`; io.js `1.x`, `2.x`, `3.x`
-
 ## License
 
 [MIT](LICENSE)
