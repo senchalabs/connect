@@ -15,7 +15,7 @@ node_js:
   - "11.15"
   - "12.16"
   - "13.14"
-  - "14.2"
+  - "14.5"
 cache:
   directories:
     - node_modules
