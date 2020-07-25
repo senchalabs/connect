@@ -63,6 +63,7 @@ before_install:
     if   node_version_lt '4.0'; then npm_use_module 'mocha' '3.5.3'
     elif node_version_lt '6.0'; then npm_use_module 'mocha' '5.2.0'
     elif node_version_lt '8.0'; then npm_use_module 'mocha' '6.2.2'
+    elif node_version_lt '10.0'; then npm_use_module 'mocha' '7.2.0'
     fi
   - |
     # Configure nyc for testing
