@@ -42,7 +42,7 @@
   "scripts": {
     "lint": "eslint .",
     "test": "mocha --require test/support/env --reporter spec --bail --check-leaks test/",
-    "test-cov": "nyc --reporter=html --reporter=text npm test",
-    "test-travis": "nyc --reporter=text npm test"
+    "test-ci": "nyc --reporter=lcov --reporter=text npm test",
+    "test-cov": "nyc --reporter=html --reporter=text npm test"
   }
 }
