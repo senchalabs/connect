@@ -23,7 +23,7 @@
     "utils-merge": "1.0.1"
   },
   "devDependencies": {
-    "eslint": "7.10.0",
+    "eslint": "7.16.0",
     "mocha": "8.2.1",
     "nyc": "15.1.0",
     "supertest": "4.0.2"
