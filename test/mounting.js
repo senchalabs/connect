@@ -258,8 +258,6 @@ describe('app.use()', function(){
     })
 
     it('should start at error middleware declared after error', function(done){
-      var invoked = false;
-
       app.use(function(err, req, res, next){
         res.end('fail: ' + err.message);
       });
