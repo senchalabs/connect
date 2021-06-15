@@ -24,7 +24,7 @@
   },
   "devDependencies": {
     "eslint": "7.24.0",
-    "mocha": "8.3.2",
+    "mocha": "8.4.0",
     "nyc": "15.1.0",
     "supertest": "6.1.3"
   },
