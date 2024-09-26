@@ -103,7 +103,7 @@ jobs:
           node-version: "16.20"
 
         - name: Node.js 17.x
-          node-version: "17.5"
+          node-version: "17.9"
 
         - name: Node.js 18.x
           node-version: "18.18"
