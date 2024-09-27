@@ -79,31 +79,35 @@ jobs:
 
         - name: Node.js 10.x
           node-version: "10.24"
-          npm-i: mocha@8.4.0
+          npm-i: mocha@8.4.0 nyc@15.1.0
 
         - name: Node.js 11.x
           node-version: "11.15"
-          npm-i: mocha@8.4.0
+          npm-i: mocha@8.4.0 nyc@15.1.0
 
         - name: Node.js 12.x
           node-version: "12.22"
-          npm-i: mocha@9.2.2
+          npm-i: mocha@9.2.2 nyc@15.1.0
 
         - name: Node.js 13.x
           node-version: "13.14"
-          npm-i: mocha@9.2.2
+          npm-i: mocha@9.2.2 nyc@15.1.0
 
         - name: Node.js 14.x
           node-version: "14.21"
+          npm-i: nyc@15.1.0
 
         - name: Node.js 15.x
           node-version: "15.14"
+          npm-i: nyc@15.1.0
 
         - name: Node.js 16.x
           node-version: "16.20"
+          npm-i: nyc@15.1.0
 
         - name: Node.js 17.x
           node-version: "17.9"
+          npm-i: nyc@15.1.0
 
         - name: Node.js 18.x
           node-version: "18.18"
