@@ -111,7 +111,7 @@ jobs:
           npm-i: nyc@15.1.0
 
         - name: Node.js 18.x
-          node-version: "18.18"
+          node-version: "18.19"
 
         - name: Node.js 20.x
           node-version: "20.11"
