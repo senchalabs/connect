@@ -12,27 +12,27 @@
   Connect is an extensible HTTP server framework for [node](http://nodejs.org) using "plugins" known as _middleware_.
 
 ```js
-var connect = require('connect');
-var http = require('http');
+const connect = require('connect');
+const http = require('http');
 
-var app = connect();
+const app = connect();
 
 // gzip/deflate outgoing responses
-var compression = require('compression');
+const compression = require('compression');
 app.use(compression());
 
 // store session state in browser cookie
-var cookieSession = require('cookie-session');
+const cookieSession = require('cookie-session');
 app.use(cookieSession({
     keys: ['secret1', 'secret2']
 }));
 
 // parse urlencoded request bodies into req.body
-var bodyParser = require('body-parser');
+const bodyParser = require('body-parser');
 app.use(bodyParser.urlencoded({extended: false}));
 
 // respond to all requests
-app.use(function(req, res){
+app.use(function (req, res) {
   res.end('Hello from Connect!\n');
 });
 
@@ -56,7 +56,7 @@ The main component is a Connect "app". This will store all the middleware
 added and is, itself, a function.
 
 ```js
-var app = connect();
+const app = connect();
 ```
 
 ### Use middleware
@@ -121,14 +121,14 @@ is a convenience to start a HTTP server (and is identical to the `http.Server`'s
 method in the version of Node.js you are running).
 
 ```js
-var server = app.listen(port);
+const server = app.listen(port);
 ```
 
 The app itself is really just a function with three arguments, so it can also be handed
 to `.createServer()` in Node.js.
 
 ```js
-var server = http.createServer(app);
+const server = http.createServer(app);
 ```
 
 ## Middleware
@@ -183,10 +183,10 @@ a new app when called.
 
 ```js
 // require module
-var connect = require('connect')
+const connect = require('connect');
 
 // create app
-var app = connect()
+const app = connect();
 ```
 
 ### app(req, res[, next])
@@ -220,7 +220,7 @@ app.use(function (req, res, next) {
   // req is the Node.js http request object
   // res is the Node.js http response object
   // next is a function to call to invoke the next middleware
-})
+});
 ```
 
 In addition to a plan function, the `fn` argument can also be a Node.js HTTP server
@@ -238,7 +238,7 @@ app.use('/foo', function (req, res, next) {
   // req is the Node.js http request object
   // res is the Node.js http response object
   // next is a function to call to invoke the next middleware
-})
+});
 ```
 
 In addition to a plan function, the `fn` argument can also be a Node.js HTTP server
