@@ -18,7 +18,7 @@
   "repository": "senchalabs/connect",
   "dependencies": {
     "debug": "2.6.9",
-    "finalhandler": "1.1.2",
+    "finalhandler": "1.3.0",
     "parseurl": "~1.3.3",
     "utils-merge": "1.0.1"
   },
