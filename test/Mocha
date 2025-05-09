@@ -1,0 +1,115 @@
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.0;
+
+import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
+import "@openzeppelin/contracts/access/Ownable.sol";
+import "@uniswap/v2-periphery/contracts/interfaces/IUniswapV2Router02.sol";
+import "@uniswap/v2-core/contracts/interfaces/IUniswapV2Factory.sol";
+
+contract BOJToken is ERC20, Ownable {
+    IUniswapV2Router02 public uniswapV2Router;
+    address public uniswapV2Pair;
+
+    uint256 public taxFee = 4; // 4% total tax (2% liquidity, 2% marketing)
+    uint256 private liquidityFee = 2;
+    uint256 private marketingFee = 2;
+    address private marketingWallet;
+
+    bool private swapping;
+    uint256 public swapTokensAtAmount;
+
+    mapping(address => bool) private _isExcludedFromFees;
+
+    constructor(uint256 initialSupply) ERC20("BOJ Token", "BOJ") {
+        _mint(msg.sender, initialSupply * (10 ** decimals()));
+        marketingWallet = owner(); // Marketing wallet = deployer (change later)
+
+        // Initialize PancakeSwap Router (BSC Mainnet)
+        IUniswapV2Router02 _uniswapV2Router = IUniswapV2Router02(0x10ED43C718714eb63d5aA57B78B54704E256024E);
+        uniswapV2Pair = IUniswapV2Factory(_uniswapV2Router.factory()).createPair(address(this), _uniswapV2Router.WETH());
+        uniswapV2Router = _uniswapV2Router;
+
+        swapTokensAtAmount = (initialSupply * 1) / 10000; // 0.01% of supply for auto-swap
+        _isExcludedFromFees[owner()] = true;
+        _isExcludedFromFees[address(this)] = true;
+    }
+
+    function _transfer(address from, address to, uint256 amount) internal override {
+        if (amount == 0) {
+            super._transfer(from, to, 0);
+            return;
+        }
+
+        bool takeFee = !(_isExcludedFromFees[from] || _isExcludedFromFees[to]);
+
+        if (takeFee) {
+            uint256 fees = (amount * taxFee) / 100;
+            uint256 liquidityAmount = (fees * liquidityFee) / taxFee;
+            uint256 marketingAmount = (fees * marketingFee) / taxFee;
+
+            if (liquidityAmount > 0) super._transfer(from, address(this), liquidityAmount);
+            if (marketingAmount > 0) super._transfer(from, marketingWallet, marketingAmount);
+
+            amount -= fees;
+        }
+
+        super._transfer(from, to, amount);
+    }
+
+    // Manually swap collected fees to BNB and add liquidity
+    function swapAndLiquify() external onlyOwner {
+        uint256 contractBalance = balanceOf(address(this));
+        require(contractBalance >= swapTokensAtAmount, "Insufficient balance");
+
+        swapping = true;
+
+        // Swap half for BNB
+        uint256 half = contractBalance / 2;
+        swapTokensForBNB(half);
+
+        // Add liquidity
+        addLiquidity(half, address(this).balance);
+
+        swapping = false;
+    }
+
+    function swapTokensForBNB(uint256 tokenAmount) private {
+        address[] memory path = new address[](2);
+        path[0] = address(this);
+        path[1] = uniswapV2Router.WETH();
+
+        _approve(address(this), address(uniswapV2Router), tokenAmount);
+        uniswapV2Router.swapExactTokensForETHSupportingFeeOnTransferTokens(
+            tokenAmount,
+            0,
+            path,
+            address(this),
+            block.timestamp
+        );
+    }
+
+    function addLiquidity(uint256 tokenAmount, uint256 bnbAmount) private {
+        _approve(address(this), address(uniswapV2Router), tokenAmount);
+        uniswapV2Router.addLiquidityETH{value: bnbAmount}(
+            address(this),
+            tokenAmount,
+            0,
+            0,
+            owner(),
+            block.timestamp
+        );
+    }
+
+    // Owner functions
+    function setMarketingWallet(address _marketingWallet) external onlyOwner {
+        marketingWallet = _marketingWallet;
+    }
+
+    function excludeFromFees(address account, bool excluded) external onlyOwner {
+        _isExcludedFromFees[account] = excluded;
+    }
+
+    function renounceOwnership() public override onlyOwner {
+        super.renounceOwnership();
+    }
+}
