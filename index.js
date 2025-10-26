@@ -86,6 +86,7 @@ proto.use = function use(route, fn) {
   // wrap sub-apps
   if (typeof handle.handle === 'function') {
     var server = handle;
+
     server.route = path;
     handle = function (req, res, next) {
       server.handle(req, res, next);
@@ -94,7 +95,25 @@ proto.use = function use(route, fn) {
 
   // wrap vanilla http.Servers
   if (handle instanceof http.Server) {
-    handle = handle.listeners('request')[0];
+    var server = handle;
+
+    handle = function (req, res, next) {
+      var listeners = server.listeners('request');
+      var error;
+
+      try {
+        for (var i = 0; i < listeners.length; i++) {
+          if (!res.finished) {
+            listeners[i].call(server, req, res);
+          }
+        }
+      } catch (e) {
+        error = e;
+      }
+      if (!res.finished) {
+        next(error);
+      }
+    };
   }
 
   // strip trailing slash
